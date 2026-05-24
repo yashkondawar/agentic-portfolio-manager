@@ -185,6 +185,15 @@ def create_sidebar():
         help="For Parallel mode: Enter stock symbols separated by spaces. For Sequential mode: Enter any query.",
     )
 
+    # Input source selector (Manual vs Zerodha Portfolio)
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("### 📂 Stock Input Source")
+    input_source = st.sidebar.radio(
+        "Where to get stocks from?",
+        ["Manual (type above)", "Zerodha Portfolio"],
+        help="Select 'Zerodha Portfolio' to analyze all stocks in your Zerodha holdings.",
+    )
+
     st.sidebar.markdown("---")
 
     # Action buttons
@@ -236,7 +245,7 @@ def create_sidebar():
     """
     )
 
-    return analyze_button, bright_data_api, openai_api, analysis_type, custom_query, analysis_mode
+    return analyze_button, bright_data_api, openai_api, analysis_type, custom_query, analysis_mode, input_source
 
 
 def display_header():
@@ -457,7 +466,7 @@ def _display_parallel_results(results: Dict[str, Any]):
 
 async def run_analysis(
     bright_data_api: str, openai_api: str, analysis_type: str, custom_query: str,
-    analysis_mode: str = "Sequential (Classic)"
+    analysis_mode: str = "Sequential (Classic)", input_source: str = "Manual (type above)"
 ):
     """Run the stock analysis asynchronously"""
     try:
@@ -476,7 +485,7 @@ async def run_analysis(
 
         if "Parallel" in analysis_mode:
             # Use new parallel multi-analyst system
-            return await _run_parallel_mode(query, openai_api)
+            return await _run_parallel_mode(query, openai_api, input_source)
         else:
             # Use original sequential supervisor system
             system = StockResearchSystem(bright_data_api, openai_api)
@@ -488,28 +497,53 @@ async def run_analysis(
         return {"error": str(e), "status": "error"}
 
 
-async def _run_parallel_mode(query: str, openai_api: str):
+async def _run_parallel_mode(query: str, openai_api: str, input_source: str = "Manual (type above)"):
     """Run the parallel multi-analyst pipeline."""
     import re as _re
     from agents.workflow import run_parallel_analysis, format_analysis_report
 
-    # Extract stock symbols from query
-    symbols = _re.findall(r'\b([A-Z]{2,15})\b', query)
-    # Filter out common English words that look like tickers
-    stopwords = {"NSE", "BSE", "THE", "FOR", "AND", "NOT", "ARE", "FROM", "THIS",
-                 "THAT", "WITH", "HAVE", "WILL", "YOUR", "ALL", "CAN", "HAD",
-                 "HER", "WAS", "ONE", "OUR", "OUT", "BUY", "SELL", "HOLD",
-                 "PROVIDE", "ANALYSIS", "STOCK", "STOCKS", "MARKET", "TRADING",
-                 "CURRENT", "IDENTIFY", "PROMISING", "COMPREHENSIVE", "SUITABLE",
-                 "MEDIUM", "TERM", "INVESTMENT", "OPPORTUNITIES", "CONSIDERING",
-                 "UPCOMING", "EARNINGS", "SECTOR", "TRENDS", "TECHNICAL", "SETUPS",
-                 "CONDITIONS", "ACROSS", "DIFFERENT", "SECTORS", "GENERAL", "MOST",
-                 "SHORT", "DAYS", "WEEKS", "LISTED"}
-    symbols = [s for s in symbols if s not in stopwords and len(s) >= 3]
+    symbols = []
 
-    # If no explicit symbols, use defaults
-    if not symbols:
-        symbols = ["RELIANCE", "TCS", "INFY"]
+    # Determine stock list based on input source
+    if "Zerodha" in input_source:
+        # Fetch symbols from Zerodha portfolio
+        try:
+            from zerodha.client import ZerodhaClient
+            client = ZerodhaClient()
+            if not client.is_authenticated:
+                return {
+                    "status": "error",
+                    "error": "Zerodha not authenticated. Run 'python -m zerodha.auth_server' first to login.",
+                }
+            holdings = client.get_holdings()
+            symbols = [
+                h["tradingsymbol"] for h in holdings
+                if h.get("quantity", 0) > 0
+            ]
+            if not symbols:
+                return {"status": "error", "error": "No holdings found in Zerodha portfolio."}
+        except ValueError as e:
+            return {"status": "error", "error": f"Zerodha config error: {e}"}
+        except Exception as e:
+            return {"status": "error", "error": f"Zerodha fetch failed: {e}"}
+    else:
+        # Extract stock symbols from query text
+        symbols = _re.findall(r'\b([A-Z]{2,15})\b', query)
+        # Filter out common English words that look like tickers
+        stopwords = {"NSE", "BSE", "THE", "FOR", "AND", "NOT", "ARE", "FROM", "THIS",
+                     "THAT", "WITH", "HAVE", "WILL", "YOUR", "ALL", "CAN", "HAD",
+                     "HER", "WAS", "ONE", "OUR", "OUT", "BUY", "SELL", "HOLD",
+                     "PROVIDE", "ANALYSIS", "STOCK", "STOCKS", "MARKET", "TRADING",
+                     "CURRENT", "IDENTIFY", "PROMISING", "COMPREHENSIVE", "SUITABLE",
+                     "MEDIUM", "TERM", "INVESTMENT", "OPPORTUNITIES", "CONSIDERING",
+                     "UPCOMING", "EARNINGS", "SECTOR", "TRENDS", "TECHNICAL", "SETUPS",
+                     "CONDITIONS", "ACROSS", "DIFFERENT", "SECTORS", "GENERAL", "MOST",
+                     "SHORT", "DAYS", "WEEKS", "LISTED"}
+        symbols = [s for s in symbols if s not in stopwords and len(s) >= 3]
+
+        # If no explicit symbols, use defaults
+        if not symbols:
+            symbols = ["RELIANCE", "TCS", "INFY"]
 
     # Get LLM for portfolio manager (optional, works without it too)
     llm = None
@@ -569,7 +603,7 @@ def main():
     display_header()
 
     # Create sidebar and get inputs
-    analyze_button, bright_data_api, openai_api, analysis_type, custom_query, analysis_mode = (
+    analyze_button, bright_data_api, openai_api, analysis_type, custom_query, analysis_mode, input_source = (
         create_sidebar()
     )
 
@@ -598,7 +632,7 @@ def main():
                 results = asyncio.run(
                     run_analysis(
                         bright_data_api, openai_api, analysis_type, custom_query,
-                        analysis_mode
+                        analysis_mode, input_source
                     )
                 )
 
@@ -818,7 +852,7 @@ def enhanced_main():
     display_header()
 
     # Create sidebar and get inputs
-    analyze_button, bright_data_api, openai_api, analysis_type, custom_query, analysis_mode = (
+    analyze_button, bright_data_api, openai_api, analysis_type, custom_query, analysis_mode, input_source = (
         create_sidebar()
     )
 
@@ -854,7 +888,7 @@ def enhanced_main():
                 results = asyncio.run(
                     run_analysis(
                         bright_data_api, openai_api, analysis_type, custom_query,
-                        analysis_mode
+                        analysis_mode, input_source
                     )
                 )
 
