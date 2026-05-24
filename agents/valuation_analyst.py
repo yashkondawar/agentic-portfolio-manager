@@ -28,23 +28,42 @@ DEFAULT_BETA = 1.0
 
 
 def _get_valuation_data(symbol: str) -> Dict[str, Any]:
-    """Fetch valuation data from yfinance."""
-    import yfinance as yf
+    """Fetch valuation data via the unified data provider."""
+    from scraper.data_provider import get_stock_data
 
-    ticker_symbol = f"{symbol}.NS" if not symbol.endswith(".NS") else symbol
-    ticker = yf.Ticker(ticker_symbol)
-    info = ticker.info or {}
+    data = get_stock_data(symbol)
 
-    # Get financial statements for FCF calculation
-    cashflow = None
-    try:
-        cf = ticker.cashflow
-        if cf is not None and not cf.empty:
-            cashflow = cf
-    except Exception:
-        pass
+    # Build info dict compatible with existing scoring logic
+    info = {
+        "marketCap": data.market_cap,
+        "enterpriseValue": data.enterprise_value,
+        "freeCashflow": data.free_cashflow,
+        "enterpriseToEbitda": data.ev_to_ebitda,
+        "beta": data.beta or DEFAULT_BETA,
+        "earningsGrowth": data.earnings_growth,
+        "revenueGrowth": data.revenue_growth,
+        "debtToEquity": data.debt_to_equity,
+        "trailingPE": data.pe_ratio,
+        "priceToBook": data.price_to_book,
+        "bookValue": data.book_value,
+        "operatingMargins": data.operating_margins,
+        "totalRevenue": data.total_revenue,
+        "currentPrice": data.current_price,
+    }
 
-    return {"info": info, "cashflow": cashflow}
+    # Screener.in may have better ROCE/profit data
+    sr = data.screener_ratios
+    if sr:
+        # Try to get market cap from screener if yfinance missing
+        if not info["marketCap"]:
+            try:
+                mc_str = sr.get("Market Cap", "").replace(",", "").replace("Cr.", "").strip()
+                if mc_str:
+                    info["marketCap"] = float(mc_str) * 1e7  # Cr to absolute
+            except (ValueError, TypeError):
+                pass
+
+    return {"info": info, "cashflow": None}
 
 
 def _dcf_valuation(info: Dict, cashflow) -> Optional[float]:

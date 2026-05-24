@@ -19,16 +19,18 @@ logger = logging.getLogger(__name__)
 
 
 def _get_price_histories(symbols: List[str], period: str = "3mo") -> Dict[str, pd.Series]:
-    """Fetch close price series for multiple symbols."""
-    import yfinance as yf
+    """Fetch close price series for multiple symbols via the data provider."""
+    from scraper.data_provider import get_stock_data
 
     histories = {}
     for symbol in symbols:
-        ticker_symbol = f"{symbol}.NS" if not symbol.endswith(".NS") else symbol
         try:
-            ticker = yf.Ticker(ticker_symbol)
-            df = ticker.history(period=period, interval="1d")
-            if not df.empty:
+            data = get_stock_data(symbol)
+            if data.price_history is not None and not data.price_history.empty:
+                # Use last 3 months of the cached 1-year history
+                df = data.price_history
+                if period == "3mo":
+                    df = df.tail(63)  # ~3 months of trading days
                 histories[symbol] = df["Close"]
         except Exception as e:
             logger.warning(f"Could not fetch history for {symbol}: {e}")

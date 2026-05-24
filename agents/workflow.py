@@ -31,14 +31,12 @@ logger = logging.getLogger(__name__)
 
 
 def _get_current_price(symbol: str) -> float:
-    """Fetch current price for a symbol."""
-    import yfinance as yf
+    """Fetch current price via the unified data provider."""
+    from scraper.data_provider import get_stock_data
 
-    ticker_symbol = f"{symbol}.NS" if not symbol.endswith(".NS") else symbol
     try:
-        ticker = yf.Ticker(ticker_symbol)
-        info = ticker.info
-        price = info.get("currentPrice") or info.get("regularMarketPrice") or info.get("previousClose", 0)
+        data = get_stock_data(symbol)
+        price = data.current_price or 0
         logger.info(f"[PRICE] {symbol}: ₹{float(price):,.2f}")
         return float(price)
     except Exception as e:

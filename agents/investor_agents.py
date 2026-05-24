@@ -21,12 +21,45 @@ logger = logging.getLogger(__name__)
 
 
 def _get_stock_data(symbol: str) -> Dict[str, Any]:
-    """Fetch comprehensive stock data for persona analysis."""
-    import yfinance as yf
+    """Fetch comprehensive stock data via the unified data provider."""
+    from scraper.data_provider import get_stock_data
 
-    ticker_symbol = f"{symbol}.NS" if not symbol.endswith(".NS") else symbol
-    ticker = yf.Ticker(ticker_symbol)
-    info = ticker.info or {}
+    data = get_stock_data(symbol)
+
+    # Build info dict compatible with persona fact computation
+    info = {
+        "returnOnEquity": data.roe or 0,
+        "operatingMargins": data.operating_margins or 0,
+        "profitMargins": data.profit_margins or 0,
+        "debtToEquity": data.debt_to_equity or 0,
+        "currentRatio": data.current_ratio or 0,
+        "freeCashflow": data.free_cashflow or 0,
+        "trailingPE": data.pe_ratio or 0,
+        "priceToBook": data.price_to_book or 0,
+        "marketCap": data.market_cap or 0,
+        "netIncomeToCommon": 0,  # Not directly available, not critical
+        "revenueGrowth": data.revenue_growth or 0,
+        "earningsGrowth": data.earnings_growth or 0,
+        "currentPrice": data.current_price or 0,
+        "sector": data.sector or "",
+        "industry": data.industry or "",
+        "bookValue": data.book_value or 0,
+        # Screener.in extras
+        "_screener_ratios": data.screener_ratios,
+        "_quarterly_results": data.quarterly_results,
+        "_shareholding": data.shareholding,
+    }
+
+    # Enrich from screener.in if available
+    sr = data.screener_ratios
+    if sr:
+        try:
+            roce_str = sr.get("ROCE", "")
+            if roce_str and not info.get("_roce"):
+                info["_roce"] = float(roce_str.replace("%", "").replace(",", "")) / 100
+        except (ValueError, TypeError):
+            pass
+
     return info
 
 

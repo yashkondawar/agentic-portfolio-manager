@@ -19,12 +19,43 @@ logger = logging.getLogger(__name__)
 
 
 def _get_fundamentals_data(symbol: str) -> Dict[str, Any]:
-    """Fetch fundamental data using yfinance."""
-    import yfinance as yf
+    """Fetch fundamental data via the unified data provider (yfinance + screener.in)."""
+    from scraper.data_provider import get_stock_data
 
-    ticker_symbol = f"{symbol}.NS" if not symbol.endswith(".NS") else symbol
-    ticker = yf.Ticker(ticker_symbol)
-    return ticker.info or {}
+    data = get_stock_data(symbol)
+
+    # Build a dict compatible with the scoring functions (same keys as yfinance .info)
+    info = {
+        "returnOnEquity": data.roe or None,
+        "profitMargins": data.profit_margins or None,
+        "operatingMargins": data.operating_margins or None,
+        "revenueGrowth": data.revenue_growth or None,
+        "earningsGrowth": data.earnings_growth or None,
+        "trailingPE": data.pe_ratio or None,
+        "priceToBook": data.price_to_book or None,
+        "enterpriseToEbitda": data.ev_to_ebitda or None,
+        "debtToEquity": data.debt_to_equity or None,
+        "currentRatio": data.current_ratio or None,
+        "freeCashflow": data.free_cashflow or None,
+        "totalRevenue": data.total_revenue or None,
+        "regularMarketPrice": data.current_price or None,
+        # Screener.in extras (ROCE, sales growth trend, etc.)
+        "_screener_ratios": data.screener_ratios,
+        "_quarterly_results": data.quarterly_results,
+    }
+
+    # Enrich from screener.in ratios if yfinance missing data
+    sr = data.screener_ratios
+    if sr:
+        if not info["returnOnEquity"]:
+            try:
+                roe_str = sr.get("Return on Equity", sr.get("ROE", ""))
+                if roe_str:
+                    info["returnOnEquity"] = float(roe_str.replace("%", "").replace(",", "")) / 100
+            except (ValueError, TypeError):
+                pass
+
+    return info
 
 
 def _score_profitability(info: Dict) -> int:

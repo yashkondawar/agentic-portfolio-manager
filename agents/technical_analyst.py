@@ -30,21 +30,22 @@ STRATEGY_WEIGHTS = {
 
 
 def _get_price_history(symbol: str) -> pd.DataFrame:
-    """Fetch 1-year daily OHLCV data."""
-    import yfinance as yf
+    """Fetch 1-year daily OHLCV data via the unified data provider."""
+    from scraper.data_provider import get_stock_data
 
-    ticker_symbol = f"{symbol}.NS" if not symbol.endswith(".NS") else symbol
-    ticker = yf.Ticker(ticker_symbol)
-    df = ticker.history(period="1y", interval="1d")
-    if not df.empty:
+    data = get_stock_data(symbol)
+    df = data.price_history
+
+    if df is not None and not df.empty:
         logger.info(
             f"[TECHNICAL] {symbol}: Fetched {len(df)} days of price data | "
             f"Range: {df.index[0].strftime('%Y-%m-%d')} to {df.index[-1].strftime('%Y-%m-%d')} | "
             f"Last close=₹{df['Close'].iloc[-1]:,.2f}, Vol={df['Volume'].iloc[-1]:,.0f}"
         )
+        return df
     else:
-        logger.warning(f"[TECHNICAL] {symbol}: No price data returned from yfinance")
-    return df
+        logger.warning(f"[TECHNICAL] {symbol}: No price data available")
+        return pd.DataFrame()
 
 
 def _calculate_ema(series: pd.Series, span: int) -> pd.Series:

@@ -46,19 +46,15 @@ def _classify_sentiment(text: str) -> str:
 
 
 def _get_news(symbol: str) -> List[Dict[str, Any]]:
-    """Fetch recent news from yfinance."""
-    import yfinance as yf
+    """Fetch recent news via the unified data provider."""
+    from scraper.data_provider import get_stock_data
 
-    ticker_symbol = f"{symbol}.NS" if not symbol.endswith(".NS") else symbol
-    ticker = yf.Ticker(ticker_symbol)
-    news = ticker.news or []
+    data = get_stock_data(symbol)
 
     formatted = []
-    for item in news[:15]:
-        content = item.get("content", item)
-        title = content.get("title", item.get("title", ""))
-        summary = content.get("summary", "")
-
+    for item in data.news[:15]:
+        title = item.get("title", "")
+        summary = item.get("summary", "")
         formatted.append({
             "title": title,
             "summary": summary,
