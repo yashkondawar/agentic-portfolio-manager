@@ -9,11 +9,7 @@ from enum import Enum
 from datetime import datetime
 
 from dotenv import load_dotenv
-from langchain_mcp_adapters.client import MultiServerMCPClient
 from langgraph.prebuilt import create_react_agent
-
-# from langchain.chat_models import init_chat_model
-from langchain_groq import ChatGroq
 from langgraph_supervisor import create_supervisor
 
 from logging_config import (
@@ -78,9 +74,10 @@ class MarketData:
 
 
 class StockResearchSystem:
-    def __init__(self, bright_data_api_token: str, openai_api_key: str):
+    def __init__(self, bright_data_api_token: str = None, openai_api_key: str = None):
         self.bright_data_api_token = bright_data_api_token
         self.openai_api_key = openai_api_key
+        self.use_free_scraper = os.getenv("USE_FREE_SCRAPER", "true").lower() == "true"
         self.client = None
         self.supervisor = None
 
@@ -88,33 +85,15 @@ class StockResearchSystem:
         """Initialize the MCP client and supervisor"""
         logger.info("Initializing StockResearchSystem")
 
-        logger.info("Creating MCP client")
+        if self.use_free_scraper:
+            tools = self._get_free_tools()
+        else:
+            tools = await self._get_bright_data_tools()
 
-        self.client = MultiServerMCPClient(
-            {
-                "bright_data": {
-                    "command": "npx",
-                    "args": ["@brightdata/mcp"],
-                    "env": {
-                        "API_TOKEN": self.bright_data_api_token,
-                        "WEB_UNLOCKER_ZONE": os.getenv(
-                            "WEB_UNLOCKER_ZONE", "unblocker"
-                        ),
-                        "BROWSER_ZONE": os.getenv("BROWSER_ZONE", "scraping_browser"),
-                    },
-                    "transport": "stdio",
-                },
-            }
-        )
-
-        logger.info("Fetching MCP tools")
-        tools = await self.client.get_tools()
         logger.info("Tools loaded", extra={"tool_count": len(tools)})
 
         logger.info("Initializing LLM model")
-        model = ChatGroq(
-            model=os.getenv("MODEL_NAME"), api_key=os.getenv("GROQ_API_KEY")
-        )
+        model = self._get_llm()
 
         logger.info("Loading prompts")
         stock_finder_prompt = get_stock_finder_prompt()
@@ -147,9 +126,7 @@ class StockResearchSystem:
         # Create supervisor
         logger.info("Creating supervisor")
         self.supervisor = create_supervisor(
-            model=ChatGroq(
-                model=os.getenv("MODEL_NAME"), api_key=os.getenv("GROQ_API_KEY")
-            ),
+            model=self._get_llm(),
             agents=[
                 stock_finder_agent,
                 market_data_agent,
@@ -161,6 +138,71 @@ class StockResearchSystem:
             output_mode="full_history",
         ).compile()
         logger.info("StockResearchSystem initialized ✅")
+
+    def _get_llm(self):
+        """Get LLM based on MODEL_PROVIDER env var. Supports: groq, azure_openai, openai."""
+        provider = os.getenv("MODEL_PROVIDER", "groq").lower()
+
+        if provider == "azure_openai":
+            from langchain_openai import AzureChatOpenAI
+
+            logger.info("Using Azure OpenAI LLM")
+            return AzureChatOpenAI(
+                azure_deployment=os.getenv("AZURE_OPENAI_DEPLOYMENT", "gpt-4o"),
+                azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
+                api_key=os.getenv("AZURE_OPENAI_API_KEY"),
+                api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-08-01-preview"),
+                temperature=float(os.getenv("MODEL_TEMPERATURE", "0.1")),
+            )
+        elif provider == "openai":
+            from langchain_openai import ChatOpenAI
+
+            logger.info("Using OpenAI LLM")
+            return ChatOpenAI(
+                model=os.getenv("MODEL_NAME", "gpt-4o"),
+                api_key=os.getenv("OPENAI_API_KEY"),
+                temperature=float(os.getenv("MODEL_TEMPERATURE", "0.1")),
+            )
+        else:
+            from langchain_groq import ChatGroq
+
+            logger.info("Using Groq LLM")
+            return ChatGroq(
+                model=os.getenv("MODEL_NAME", "llama-3.3-70b-versatile"),
+                api_key=os.getenv("GROQ_API_KEY"),
+            )
+
+    def _get_free_tools(self):
+        """Get tools from the free scraper module (no API key needed)."""
+        logger.info("Using FREE scraper tools (yfinance + screener.in + ta)")
+        from scraper import get_all_scraper_tools
+
+        return get_all_scraper_tools()
+
+    async def _get_bright_data_tools(self):
+        """Get tools from Bright Data MCP (paid)."""
+        logger.info("Using Bright Data MCP tools (paid)")
+        from langchain_mcp_adapters.client import MultiServerMCPClient
+
+        self.client = MultiServerMCPClient(
+            {
+                "bright_data": {
+                    "command": "npx",
+                    "args": ["@brightdata/mcp"],
+                    "env": {
+                        "API_TOKEN": self.bright_data_api_token,
+                        "WEB_UNLOCKER_ZONE": os.getenv(
+                            "WEB_UNLOCKER_ZONE", "unblocker"
+                        ),
+                        "BROWSER_ZONE": os.getenv("BROWSER_ZONE", "scraping_browser"),
+                    },
+                    "transport": "stdio",
+                },
+            }
+        )
+
+        logger.info("Fetching MCP tools")
+        return await self.client.get_tools()
 
     def _get_tool_name(self, tool: Any) -> str:
         """Safely extract a tool's name for logging and prompts."""
@@ -372,7 +414,7 @@ if __name__ == "__main__":
     results = asyncio.run(system.analyze_stocks())
 
     print("*" * 80)
-    print("*" * 80)
+    print("STOCK ANALYSIS RESULTS")
     print("*" * 80)
 
     recommendations = extract_recommendations(results["messages"])

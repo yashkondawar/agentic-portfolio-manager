@@ -109,11 +109,13 @@ def validate_api_keys(bright_data_key: str, openai_key: str) -> tuple:
     """Validate API keys format"""
     errors = []
 
-    if not bright_data_key or len(bright_data_key.strip()) < 10:
+    use_free = os.getenv("USE_FREE_SCRAPER", "true").lower() == "true"
+
+    if not use_free and (not bright_data_key or len(bright_data_key.strip()) < 10):
         errors.append("Bright Data API token appears to be invalid (too short)")
 
     if not openai_key or len(openai_key.strip()) < 10:
-        errors.append("GROQ API key appears to be invalid (too short)")
+        errors.append("LLM API key appears to be invalid (too short)")
 
     return len(errors) == 0, errors
 
@@ -131,24 +133,41 @@ def create_sidebar():
     )
 
     # API Key inputs
-    bright_data_api = st.sidebar.text_input(
-        "🌐 Bright Data API Token",
-        type="password",
-        help="Get your API token from Bright Data dashboard",
-        placeholder="Enter your Bright Data API token...",
-    )
+    use_free = os.getenv("USE_FREE_SCRAPER", "true").lower() == "true"
+
+    if use_free:
+        st.sidebar.success("✅ Using FREE scraper (no Bright Data needed)")
+        bright_data_api = ""
+    else:
+        bright_data_api = st.sidebar.text_input(
+            "🌐 Bright Data API Token",
+            type="password",
+            help="Get your API token from Bright Data dashboard",
+            placeholder="Enter your Bright Data API token...",
+        )
 
     openai_api = st.sidebar.text_input(
-        "🤖 GROQ API Key",
+        "🤖 LLM API Key",
         type="password",
-        help="Get your API key from Groq platform",
-        placeholder="gsk_...",
+        help="Enter your GROQ or Azure OpenAI API key",
+        placeholder="Enter your API key...",
+        value=os.getenv("GROQ_API_KEY", "") or os.getenv("AZURE_OPENAI_API_KEY", ""),
     )
 
     st.sidebar.markdown("---")
 
     # Analysis parameters
     st.sidebar.markdown("### 📊 Analysis Parameters")
+
+    # Mode selector — Sequential (old) vs Parallel (new multi-analyst)
+    analysis_mode = st.sidebar.selectbox(
+        "🧠 Analysis Mode",
+        [
+            "Parallel (Multi-Analyst)",
+            "Sequential (Classic)",
+        ],
+        help="Parallel: 6 specialist agents analyze stocks with LLM-powered portfolio manager. Sequential: Original supervisor-based agent chain.",
+    )
 
     analysis_type = st.sidebar.selectbox(
         "Analysis Focus",
@@ -161,9 +180,9 @@ def create_sidebar():
     )
 
     custom_query = st.sidebar.text_area(
-        "Custom Query (Optional)",
-        placeholder="Enter specific requirements or stocks to analyze...",
-        help="Leave empty for general market analysis",
+        "Stock Symbols / Query",
+        placeholder="Enter NSE stock symbols (e.g., RELIANCE TCS INFY) or a custom query...",
+        help="For Parallel mode: Enter stock symbols separated by spaces. For Sequential mode: Enter any query.",
     )
 
     st.sidebar.markdown("---")
@@ -217,7 +236,7 @@ def create_sidebar():
     """
     )
 
-    return analyze_button, bright_data_api, openai_api, analysis_type, custom_query
+    return analyze_button, bright_data_api, openai_api, analysis_type, custom_query, analysis_mode
 
 
 def display_header():
@@ -235,11 +254,11 @@ def display_header():
 
 
 def parse_recommendations_from_text(text: str) -> List[Dict[str, Any]]:
-    """Parse recommendations from the text output"""
+    """Parse recommendations from the text output — handles multiple LLM formats."""
     recommendations = []
 
-    # Split text into sections for each stock
-    sections = re.split(r"([A-Z]{2,10})\s*-\s*([A-Za-z\s&]+)", text)
+    # Strategy 1: Split by stock symbol patterns (SYMBOL - Company Name)
+    sections = re.split(r"([A-Z]{2,15})\s*[-–—]\s*([A-Za-z\s&\.]+?)(?:\n|─|═)", text)
 
     for i in range(1, len(sections), 3):
         if i + 1 < len(sections):
@@ -247,7 +266,6 @@ def parse_recommendations_from_text(text: str) -> List[Dict[str, Any]]:
             company = sections[i + 1].strip()
             content = sections[i + 2] if i + 2 < len(sections) else ""
 
-            # Extract recommendation details
             rec = {
                 "symbol": symbol,
                 "company": company,
@@ -255,29 +273,62 @@ def parse_recommendations_from_text(text: str) -> List[Dict[str, Any]]:
                 "target_price": "N/A",
                 "current_price": "N/A",
                 "confidence": "MEDIUM",
-                "reasoning": "Analysis completed",
+                "reasoning": "",
             }
 
-            # Parse action
-            action_match = re.search(r"RECOMMENDATION:\s*([A-Z]+)", content)
+            # Parse action (multiple patterns)
+            action_match = re.search(
+                r"(?:RECOMMENDATION|Action|Signal|Verdict)[:\s]*\*?\*?\s*(BUY|SELL|HOLD)",
+                content, re.IGNORECASE
+            )
             if action_match:
-                rec["action"] = action_match.group(1)
+                rec["action"] = action_match.group(1).upper()
 
-            # Parse target price
-            target_match = re.search(r"TARGET PRICE:\s*₹?([0-9,]+\.?[0-9]*)", content)
+            # Parse target price (multiple patterns)
+            target_match = re.search(
+                r"(?:TARGET PRICE|Target|Price Target)[:\s]*₹?\s*([0-9,]+\.?[0-9]*)",
+                content, re.IGNORECASE
+            )
             if target_match:
                 rec["target_price"] = target_match.group(1)
 
             # Parse current price
-            current_match = re.search(r"Current Price:\s*₹?([0-9,]+\.?[0-9]*)", content)
+            current_match = re.search(
+                r"(?:Current Price|CMP|Entry)[:\s]*₹?\s*([0-9,]+\.?[0-9]*)",
+                content, re.IGNORECASE
+            )
             if current_match:
                 rec["current_price"] = current_match.group(1)
 
             # Parse confidence
-            conf_match = re.search(r"CONFIDENCE:\s*([A-Z]+)", content)
+            conf_match = re.search(
+                r"(?:CONFIDENCE|Confidence)[:\s]*\*?\*?\s*(HIGH|MEDIUM|LOW)",
+                content, re.IGNORECASE
+            )
             if conf_match:
-                rec["confidence"] = conf_match.group(1)
+                rec["confidence"] = conf_match.group(1).upper()
 
+            # Only include if we found a valid action
+            if action_match:
+                recommendations.append(rec)
+
+    # Strategy 2: If strategy 1 found nothing, try line-by-line BUY/SELL/HOLD detection
+    if not recommendations:
+        stock_blocks = re.findall(
+            r"(?:📋|🎯|•|\d+\.)\s*\**([A-Z]{2,15})\**[:\s]*.*?(BUY|SELL|HOLD).*?(?:₹\s*([0-9,]+\.?[0-9]*))?",
+            text, re.IGNORECASE
+        )
+        for match in stock_blocks:
+            symbol, action, price = match
+            rec = {
+                "symbol": symbol.strip(),
+                "company": symbol.strip(),
+                "action": action.upper(),
+                "target_price": price if price else "N/A",
+                "current_price": "N/A",
+                "confidence": "MEDIUM",
+                "reasoning": "",
+            }
             recommendations.append(rec)
 
     return recommendations
@@ -288,7 +339,7 @@ def display_recommendations(text_output: str):
     recommendations = parse_recommendations_from_text(text_output)
 
     if not recommendations:
-        st.warning("No structured recommendations found in the analysis output.")
+        st.info("📝 Showing full analysis output (structured parsing not available for this format)")
         return
 
     st.markdown("## 🎯 Trading Recommendations")
@@ -337,7 +388,12 @@ def display_analysis_results(results: Dict[str, Any]):
         st.info("No analysis results to display.")
         return
 
-    # Format and display the complete output
+    # Check if this is from parallel mode
+    if results.get("mode") == "parallel":
+        _display_parallel_results(results)
+        return
+
+    # Format and display the complete output (sequential mode)
     formatted_output = st.session_state.system.format_results_for_display(results)
 
     # Display timestamp
@@ -353,10 +409,46 @@ def display_analysis_results(results: Dict[str, Any]):
 
     st.markdown("---")
 
-    # Display full analysis in expandable section
-    with st.expander("📋 View Complete Analysis Report", expanded=False):
-        st.markdown("### Raw Analysis Output")
-        st.text(formatted_output)
+    # Display full analysis report
+    with st.expander("📋 View Complete Analysis Report", expanded=True):
+        st.markdown(formatted_output)
+
+
+def _display_parallel_results(results: Dict[str, Any]):
+    """Display results from the parallel multi-analyst system."""
+    col1, col2 = st.columns([3, 1])
+    with col1:
+        st.markdown("## 📊 Multi-Analyst Analysis Report")
+    with col2:
+        timestamp = results.get("timestamp", datetime.now().isoformat())
+        st.markdown(f"**Generated:** {timestamp[:19].replace('T', ' ')}")
+
+    # Summary cards
+    st.markdown("### 🎯 Trading Decisions")
+    symbols_data = results.get("results", {})
+    cols = st.columns(min(len(symbols_data), 4))
+
+    for i, (symbol, data) in enumerate(symbols_data.items()):
+        col_idx = i % len(cols)
+        with cols[col_idx]:
+            action = data.get("action", "HOLD")
+            emoji = {"BUY": "🟢", "SELL": "🔴", "HOLD": "🟡"}.get(action, "⚪")
+            confidence = data.get("confidence", 0)
+
+            st.markdown(f"#### {emoji} {symbol}")
+            st.metric("Action", f"{action}", delta=f"{confidence:.0f}% confidence")
+            if data.get("current_price"):
+                st.metric("Price", f"₹{data['current_price']:,.2f}")
+            if data.get("target_price"):
+                st.metric("Target", f"₹{data['target_price']:,.2f}")
+            if data.get("stop_loss"):
+                st.metric("Stop Loss", f"₹{data['stop_loss']:,.2f}")
+
+    st.markdown("---")
+
+    # Full markdown report
+    with st.expander("📋 View Full Analysis Report", expanded=True):
+        st.markdown(results.get("report", "No report available"))
 
         # Display raw data for debugging
         if st.checkbox("Show raw data (for debugging)"):
@@ -364,14 +456,11 @@ def display_analysis_results(results: Dict[str, Any]):
 
 
 async def run_analysis(
-    bright_data_api: str, openai_api: str, analysis_type: str, custom_query: str
+    bright_data_api: str, openai_api: str, analysis_type: str, custom_query: str,
+    analysis_mode: str = "Sequential (Classic)"
 ):
     """Run the stock analysis asynchronously"""
     try:
-        # Initialize the system
-        system = StockResearchSystem(bright_data_api, openai_api)
-        st.session_state.system = system
-
         # Create query based on analysis type
         if custom_query.strip():
             query = custom_query
@@ -385,12 +474,93 @@ async def run_analysis(
                 analysis_type, query_map["Short-term Trading (1-7 days)"]
             )
 
-        # Run analysis
-        results = await system.analyze_stocks(query)
-        return results
+        if "Parallel" in analysis_mode:
+            # Use new parallel multi-analyst system
+            return await _run_parallel_mode(query, openai_api)
+        else:
+            # Use original sequential supervisor system
+            system = StockResearchSystem(bright_data_api, openai_api)
+            st.session_state.system = system
+            results = await system.analyze_stocks(query)
+            return results
 
     except Exception as e:
         return {"error": str(e), "status": "error"}
+
+
+async def _run_parallel_mode(query: str, openai_api: str):
+    """Run the parallel multi-analyst pipeline."""
+    import re as _re
+    from agents.workflow import run_parallel_analysis, format_analysis_report
+
+    # Extract stock symbols from query
+    symbols = _re.findall(r'\b([A-Z]{2,15})\b', query)
+    # Filter out common English words that look like tickers
+    stopwords = {"NSE", "BSE", "THE", "FOR", "AND", "NOT", "ARE", "FROM", "THIS",
+                 "THAT", "WITH", "HAVE", "WILL", "YOUR", "ALL", "CAN", "HAD",
+                 "HER", "WAS", "ONE", "OUR", "OUT", "BUY", "SELL", "HOLD",
+                 "PROVIDE", "ANALYSIS", "STOCK", "STOCKS", "MARKET", "TRADING",
+                 "CURRENT", "IDENTIFY", "PROMISING", "COMPREHENSIVE", "SUITABLE",
+                 "MEDIUM", "TERM", "INVESTMENT", "OPPORTUNITIES", "CONSIDERING",
+                 "UPCOMING", "EARNINGS", "SECTOR", "TRENDS", "TECHNICAL", "SETUPS",
+                 "CONDITIONS", "ACROSS", "DIFFERENT", "SECTORS", "GENERAL", "MOST",
+                 "SHORT", "DAYS", "WEEKS", "LISTED"}
+    symbols = [s for s in symbols if s not in stopwords and len(s) >= 3]
+
+    # If no explicit symbols, use defaults
+    if not symbols:
+        symbols = ["RELIANCE", "TCS", "INFY"]
+
+    # Get LLM for portfolio manager (optional, works without it too)
+    llm = None
+    provider = os.getenv("MODEL_PROVIDER", "groq").lower()
+    try:
+        if provider == "azure_openai":
+            from langchain_openai import AzureChatOpenAI
+            llm = AzureChatOpenAI(
+                azure_deployment=os.getenv("AZURE_OPENAI_DEPLOYMENT", "gpt-4o"),
+                azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
+                api_key=os.getenv("AZURE_OPENAI_API_KEY"),
+                api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-08-01-preview"),
+                temperature=0.1,
+            )
+        elif provider == "openai":
+            from langchain_openai import ChatOpenAI
+            llm = ChatOpenAI(
+                model=os.getenv("MODEL_NAME", "gpt-4o"),
+                api_key=os.getenv("OPENAI_API_KEY"),
+                temperature=0.1,
+            )
+        elif provider == "groq":
+            from langchain_groq import ChatGroq
+            llm = ChatGroq(
+                model=os.getenv("MODEL_NAME", "llama-3.3-70b-versatile"),
+                api_key=os.getenv("GROQ_API_KEY"),
+            )
+    except Exception:
+        llm = None  # Fall back to quantitative-only mode
+
+    # Run parallel analysis
+    results = run_parallel_analysis(symbols, llm=llm)
+    report = format_analysis_report(results)
+
+    return {
+        "status": "success",
+        "timestamp": datetime.now().isoformat(),
+        "mode": "parallel",
+        "report": report,
+        "symbols": symbols,
+        "results": {
+            sym: {
+                "action": analysis.final_decision.action if analysis.final_decision else "HOLD",
+                "confidence": analysis.final_decision.confidence if analysis.final_decision else 0,
+                "current_price": analysis.current_price,
+                "target_price": analysis.final_decision.target_price if analysis.final_decision else None,
+                "stop_loss": analysis.final_decision.stop_loss if analysis.final_decision else None,
+            }
+            for sym, analysis in results.items()
+        },
+    }
 
 
 def main():
@@ -399,7 +569,7 @@ def main():
     display_header()
 
     # Create sidebar and get inputs
-    analyze_button, bright_data_api, openai_api, analysis_type, custom_query = (
+    analyze_button, bright_data_api, openai_api, analysis_type, custom_query, analysis_mode = (
         create_sidebar()
     )
 
@@ -427,7 +597,8 @@ def main():
                 # Run the analysis
                 results = asyncio.run(
                     run_analysis(
-                        bright_data_api, openai_api, analysis_type, custom_query
+                        bright_data_api, openai_api, analysis_type, custom_query,
+                        analysis_mode
                     )
                 )
 
@@ -647,7 +818,7 @@ def enhanced_main():
     display_header()
 
     # Create sidebar and get inputs
-    analyze_button, bright_data_api, openai_api, analysis_type, custom_query = (
+    analyze_button, bright_data_api, openai_api, analysis_type, custom_query, analysis_mode = (
         create_sidebar()
     )
 
@@ -668,17 +839,22 @@ def enhanced_main():
         # Start analysis
         st.session_state.analysis_running = True
 
+        mode_label = "Multi-Analyst Parallel" if "Parallel" in analysis_mode else "Sequential"
         with st.status(
-            "🔄 Running Multi-Agent Stock Analysis...", expanded=True
+            f"🔄 Running {mode_label} Stock Analysis...", expanded=True
         ) as status:
             st.write("🔍 Initializing AI agents...")
-            st.write("📊 Finding promising NSE stocks...")
+            if "Parallel" in analysis_mode:
+                st.write("🧠 Running 6 specialist analysts in parallel...")
+            else:
+                st.write("📊 Finding promising NSE stocks...")
 
             try:
                 # Run the analysis
                 results = asyncio.run(
                     run_analysis(
-                        bright_data_api, openai_api, analysis_type, custom_query
+                        bright_data_api, openai_api, analysis_type, custom_query,
+                        analysis_mode
                     )
                 )
 
@@ -709,17 +885,18 @@ def enhanced_main():
     if st.session_state.analysis_results:
         display_analysis_results(st.session_state.analysis_results)
 
-        # Add performance visualization
-        formatted_output = st.session_state.system.format_results_for_display(
-            st.session_state.analysis_results
-        )
-        recommendations = parse_recommendations_from_text(formatted_output)
+        # Add performance visualization (sequential mode only)
+        if st.session_state.analysis_results.get("mode") != "parallel" and st.session_state.system:
+            formatted_output = st.session_state.system.format_results_for_display(
+                st.session_state.analysis_results
+            )
+            recommendations = parse_recommendations_from_text(formatted_output)
 
-        if recommendations:
-            st.markdown("---")
-            chart = create_performance_chart(recommendations)
-            if chart:
-                st.plotly_chart(chart, use_container_width=True)
+            if recommendations:
+                st.markdown("---")
+                chart = create_performance_chart(recommendations)
+                if chart:
+                    st.plotly_chart(chart, use_container_width=True)
 
     elif not st.session_state.analysis_running:
         # Show welcome message and instructions

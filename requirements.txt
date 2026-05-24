@@ -2,12 +2,19 @@
 streamlit
 langchain
 langchain-openai
+langchain-groq
 langchain-mcp-adapters
 langgraph
 langgraph_supervisor
 plotly
 pandas
 python-dotenv
+
+# Free scraper module (replaces Bright Data)
+yfinance
+beautifulsoup4
+requests
+ta
 
 # For development
 black
