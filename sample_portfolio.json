@@ -1,0 +1,7 @@
+[
+    {"symbol": "RELIANCE", "quantity": 10, "buy_price": 2450.50, "last_price": 2890.00},
+    {"symbol": "TCS",      "quantity":  5, "buy_price": 3800.00, "last_price": 4100.20},
+    {"symbol": "HDFCBANK", "quantity": 12, "buy_price": 1520.00, "last_price": 1675.40},
+    {"symbol": "INFY",     "quantity": 15, "buy_price": 1450.00, "last_price": 1530.10},
+    {"symbol": "ITC",      "quantity": 50, "buy_price":  410.00, "last_price":  455.75}
+]
