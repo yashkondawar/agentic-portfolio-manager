@@ -1,0 +1,6 @@
+[
+    {"symbol": "TATAMOTORS", "quantity": 20, "buy_price": 920.00, "last_price": 985.40, "entry_date": "2026-06-02", "stop_loss": 880.00, "target_pct": 18},
+    {"symbol": "DIXON",      "quantity":  3, "buy_price": 14500.00, "last_price": 15820.00, "entry_date": "2026-06-10", "stop_loss": 13900.00},
+    {"symbol": "HUDCO",      "quantity": 150, "buy_price": 215.00, "last_price": 208.30, "entry_date": "2026-05-28", "stop_loss": 205.00},
+    {"symbol": "BSE",        "quantity": 10, "buy_price": 2650.00, "last_price": 3180.00, "entry_date": "2026-06-15", "stop_loss": 2520.00, "target_pct": 25}
+]

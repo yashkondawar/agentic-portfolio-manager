@@ -1,0 +1,18 @@
+# Swing-trading watchlist — curated 2026-06-25 from nifty500 universe by watchlist_curator.py
+# Format: SYMBOL  # sector | setup | quality | note
+# Consume with: swing_trading_copilot.py --watchlist-file <this file>
+
+NETWEB  # Information Technology | Breakout | High | Rev +87%/EPS +64%, bullish MACD coiling under 5244 high
+DATAPATTNS  # Capital Goods | Breakout | High | Defence, ROE 17% near-zero debt, strong MACD, 0.7% off high
+CAPLIPOINT  # Healthcare | Momentum | High | ROE 20%, D/E 0.13, EPS +19%, bullish MACD
+NUVAMA  # Financial Services | Momentum | High | ROE 27%, strong-buy, target 1840, bullish MACD
+APARINDS  # Capital Goods | Breakout | High | Quality franchise at ATH, strong RS; RSI 76 overbought-watch
+KPRMILL  # Textiles | Momentum | High | Well-run, bullish MACD, ~10x volume surge
+JSWINFRA  # Services | Breakout | High | JSW ports, rev +20%, 6.8x volume pressing 318 high
+OLECTRA  # Automobile and Auto Components | Pullback | Medium | Strong MACD histogram, order-led, 10% off high
+GABRIEL  # Automobile and Auto Components | Momentum | Medium | ROE 20%, low debt, SK Enmove JV catalyst
+WOCKPHARMA  # Healthcare | Pullback | Medium | Rev +26% turnaround, RS leader cooling to support
+NIACL  # Financial Services | Momentum | Medium | Bullish MACD rising histogram, strong RS off base
+TEJASNET  # Telecommunication | Pullback | Medium | Bullish MACD, order-driven, 13.7% off high R:R
+DEEPAKFERT  # Chemicals | Momentum | Medium | Bullish MACD, 3m RS +74%, building under 1617
+ENGINERSIN  # Construction | Momentum | Medium | MACD turning up, order-book tailwind, near 265 breakout

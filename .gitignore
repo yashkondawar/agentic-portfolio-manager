@@ -207,3 +207,6 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+# Backtesting artifacts
+backtesting/swing_trading/data_cache/
+backtesting/swing_trading/results/
