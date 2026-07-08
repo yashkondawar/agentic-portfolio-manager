@@ -25,6 +25,10 @@ from scraper.market_data import (
     get_financial_statements,
 )
 from scraper.screener import scrape_fundamentals, _rate_limited_get
+from scraper.nse_events import (
+    recent_declared_results,
+    upcoming_result_declarations,
+)
 
 logging.basicConfig(level=logging.INFO, stream=sys.stderr)
 logger = logging.getLogger(__name__)
@@ -171,6 +175,45 @@ async def list_tools() -> list[Tool]:
             },
         ),
         Tool(
+            name="fetch_nse_declared_results",
+            description=(
+                "Get NSE companies that have ACTUALLY declared/filed quarterly "
+                "results in the last N days, from the authoritative NSE "
+                "corporates-financial-results feed. Reliable first-party source of "
+                "'just declared results'. Returns symbol, company, result_date, "
+                "relating_to (which quarter)."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "lookback_days": {
+                        "type": "integer",
+                        "description": "How many days back (including today) to include. Default 2.",
+                    }
+                },
+                "required": [],
+            },
+        ),
+        Tool(
+            name="fetch_nse_upcoming_results",
+            description=(
+                "Get NSE companies with board meetings SCHEDULED to declare results "
+                "in the next N days, from the NSE corporate-filing events calendar. "
+                "Forward-looking watch list (results not out yet). Returns symbol, "
+                "company, event_date, purpose."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "days_ahead": {
+                        "type": "integer",
+                        "description": "How many days ahead to include. Default 14.",
+                    }
+                },
+                "required": [],
+            },
+        ),
+        Tool(
             name="scrape_url",
             description=(
                 "Scrape any URL and return its text content. "
@@ -218,6 +261,20 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[TextContent]:
 
         elif name == "search_nse_stocks":
             result = _search_stocks(arguments["query"])
+
+        elif name == "fetch_nse_declared_results":
+            result = {
+                "declared_results": recent_declared_results(
+                    lookback_days=int(arguments.get("lookback_days", 2))
+                )
+            }
+
+        elif name == "fetch_nse_upcoming_results":
+            result = {
+                "upcoming_results": upcoming_result_declarations(
+                    days_ahead=int(arguments.get("days_ahead", 14))
+                )
+            }
 
         elif name == "scrape_url":
             result = _scrape_url(arguments["url"])

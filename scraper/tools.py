@@ -17,6 +17,10 @@ from scraper.market_data import (
     get_financial_statements,
 )
 from scraper.screener import scrape_fundamentals
+from scraper.nse_events import (
+    recent_declared_results,
+    upcoming_result_declarations,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -143,6 +147,43 @@ def search_nse_stocks(query: str) -> str:
         return json.dumps({"error": "Failed to parse search results", "query": query})
 
 
+@tool
+def fetch_nse_declared_results(lookback_days: int = 2) -> str:
+    """
+    Get NSE-listed companies that have ACTUALLY declared/filed quarterly results
+    within the last `lookback_days` days, from the authoritative NSE
+    corporates-financial-results feed. Use this as a reliable, first-party source
+    of "just declared results" (complements web search).
+
+    Returns a JSON list of {symbol, company, result_date, relating_to}.
+
+    Args:
+        lookback_days: How many days back (including today) to include. Default 2.
+    """
+    result = recent_declared_results(lookback_days=lookback_days)
+    return json.dumps(
+        {"count": len(result), "declared_results": result}, indent=2, default=str
+    )
+
+
+@tool
+def fetch_nse_upcoming_results(days_ahead: int = 14) -> str:
+    """
+    Get NSE-listed companies with board meetings SCHEDULED to declare results in
+    the next `days_ahead` days, from the NSE corporate-filing events calendar.
+    Forward-looking watch list (results are not out yet).
+
+    Returns a JSON list of {symbol, company, event_date, purpose}.
+
+    Args:
+        days_ahead: How many days ahead to include. Default 14.
+    """
+    result = upcoming_result_declarations(days_ahead=days_ahead)
+    return json.dumps(
+        {"count": len(result), "upcoming_results": result}, indent=2, default=str
+    )
+
+
 def get_all_scraper_tools() -> List:
     """Return all scraper tools as a list for use with LangChain agents."""
     return [
@@ -153,4 +194,6 @@ def get_all_scraper_tools() -> List:
         fetch_financial_statements,
         fetch_screener_fundamentals,
         search_nse_stocks,
+        fetch_nse_declared_results,
+        fetch_nse_upcoming_results,
     ]

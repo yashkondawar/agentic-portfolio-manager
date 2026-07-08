@@ -210,3 +210,6 @@ __marimo__/
 # Backtesting artifacts
 backtesting/swing_trading/data_cache/
 backtesting/swing_trading/results/
+
+# Quarterly-results strategy persistent state (ledger + long-term memory)
+qtr_results/state/

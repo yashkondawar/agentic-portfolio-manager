@@ -2,6 +2,55 @@
 
 A sophisticated multi-agent AI system for analyzing Indian NSE-listed stocks using real-time data, technical indicators, news sentiment, and advanced AI reasoning.
 
+## 🧭 Unified Strategy Architecture
+
+Every "system" in this project pursues the same goal — turning market data into
+actionable stock research/trading decisions — via a different method. They are all
+exposed as interchangeable **strategies** behind one entry point, so any UI can list
+and run them uniformly.
+
+| Strategy id | System | Category |
+|-------------|--------|----------|
+| `sequential_agents` | LangGraph supervisor (agents run in sequence) | research |
+| `parallel_agents`   | Concurrent multi-analyst fan-out + risk/portfolio managers | research |
+| `swing_trading`     | Daily swing-trading copilot | swing |
+| `portfolio_analysis`| Holistic portfolio review + rebalancing | portfolio |
+| `watchlist_curation`| Universe screening + LLM curation | watchlist |
+
+**Layout**
+
+```
+core/            # shared backbone
+  strategy.py    # BaseStrategy contract, ParamSpec, StrategyResult
+  registry.py    # register / list / get / run strategies
+  llm.py         # shared LLM factory (Groq / OpenAI / Azure)
+  config.py      # env-backed defaults
+strategies/      # one self-registering module per system (wraps existing code)
+run.py           # single CLI + programmatic entry point
+```
+
+**Use it**
+
+```bash
+python run.py --list                 # discover all strategies + their params
+python run.py --list --json          # machine-readable specs (for a UI)
+python run.py parallel_agents --param symbols="RELIANCE,TCS" --param use_llm=true
+```
+
+**Integrate a UI** — everything a front end needs comes from the registry:
+
+```python
+from core import registry
+
+options = registry.list_specs()                       # render each as a UI option/form
+result  = registry.run_strategy(selected_id, params)  # uniform StrategyResult
+print(result.report)                                  # markdown/text to display
+```
+
+The concrete implementation modules (`agents/`, `scraper/`, `zerodha/`,
+`backtesting/`, `main.py`, `swing_trading_copilot.py`, …) remain separate and are
+wrapped — not replaced — by the strategy layer.
+
 ## 🌟 Features
 
 ### 🤖 Multi-Agent Architecture
