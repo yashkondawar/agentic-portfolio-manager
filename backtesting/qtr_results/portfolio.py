@@ -102,7 +102,9 @@ class Portfolio:
         notional = exit_price * qty
         cost = self._cost(notional)
         self.cash += notional - cost
-        pnl = (exit_price - pos.entry_price) * qty - cost
+        # Net PnL charges BOTH legs' commission (entry cost was paid at open).
+        entry_cost = self._cost(pos.entry_price * qty)
+        pnl = (exit_price - pos.entry_price) * qty - cost - entry_cost
         trade = ClosedTrade(
             symbol=symbol,
             quantity=qty,
