@@ -46,11 +46,16 @@ class BacktestConfig:
     benchmark: str = "^NSEI"                   # Nifty 50 (defines the calendar)
 
     # ── Result-event discovery / timing ───────────────────────────────────────
-    # A quarter that ends on `quarter_end` is treated as DECLARED `reporting_lag_days`
-    # later (Indian companies file Q results ~4-8 weeks after quarter-end). The
-    # entry is then priced at the first trading session's OPEN on/after that date,
-    # so every pick uses the historical price at that point in time — never today's.
-    reporting_lag_days: int = 45
+    # Indian companies file Q results anywhere between ~15 and ~45 days after
+    # quarter-end (large caps file first, mid/small caps later). Rather than
+    # collapse this month-long distribution onto a single day (which produces a
+    # correlated basket-buy every quarter), we assign each symbol a deterministic
+    # lag drawn from ``[reporting_lag_min, reporting_lag_max]`` and use that as
+    # its assumed filing date. The entry is then priced at the first trading
+    # session's OPEN on/after that date, so every pick uses the historical price
+    # at that point in time — never today's.
+    reporting_lag_min: int = 15
+    reporting_lag_max: int = 45
     max_new_per_day: int = 5                    # cap simultaneous fresh buys/day
 
     # ── Selection thresholds (mirror qtr_results.config) ──────────────────────
@@ -58,11 +63,29 @@ class BacktestConfig:
     min_qoq_profit_growth: float = live_config.MIN_QOQ_PROFIT_GROWTH   # 5%
     min_yoy_eps_growth: float = live_config.MIN_YOY_EPS_GROWTH         # 15%
 
-    # ── Target band + trailing stop + holding window (mirror qtr_results) ─────
+    # ── Target band + trailing stop + holding window ─────────────────────────
+    # Targets mirror the live playbook (10-20% PE-rerating band). The holding
+    # window and trailing-stop mechanics are the backtest's own — see below.
     target_min_pct: float = live_config.TARGET_MIN_PCT                 # 10%
     target_max_pct: float = live_config.TARGET_MAX_PCT                 # 20%
-    trailing_stop_ratio: float = live_config.TRAILING_STOP_RATIO       # target/2
-    max_holding_days: int = live_config.MAX_HOLDING_DAYS               # 21 (3 wks)
+
+    # Holding window: post-earnings-announcement drift (PEAD) in Indian equities
+    # is strongest over 30-90 days after declaration, not 15-21 (Sehgal & Bijoy
+    # 2015; NSE working papers). The live 21-day time-stop kills winners well
+    # before their fundamental thesis can play out, so the backtest extends it.
+    max_holding_days: int = 60
+
+    # ── Trailing stop (ATR-based, DECOUPLED from target) ─────────────────────
+    # The original stop was ``target_pct/2`` which gave tight 5-10% stops on
+    # positions targeting a 20% move — asymmetric noise-out risk, and penalised
+    # the highest-conviction picks with the tightest stops (bigger target ⇒
+    # bigger stop = the opposite of what you want). Instead we use an ATR-based
+    # stop measured in each stock's own volatility units, computed point-in-time
+    # from the OHLCV history BEFORE the entry day.
+    atr_period: int = 14                       # ATR lookback in sessions
+    atr_stop_multiplier: float = 2.5           # stop distance = 2.5 x ATR
+    # Safety fallbacks in case ATR can't be computed (insufficient history).
+    fallback_stop_pct: float = 8.0             # default 8% stop distance
 
     # ── Portfolio sizing (the capital overlay the live signal-tracker lacks) ──
     # The live strategy is a signal/ledger tracker with no position sizing; a

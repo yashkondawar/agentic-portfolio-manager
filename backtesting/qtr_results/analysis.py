@@ -16,6 +16,7 @@ guaranteeing the backtest reasons with the same playbook.
 
 from __future__ import annotations
 
+import hashlib
 import logging
 from dataclasses import dataclass
 from datetime import date
@@ -77,21 +78,50 @@ def parse_quarters(raw: dict):
     return _index_quarterly(raw.get("quarterly_results", []) or [])
 
 
+def _symbol_reporting_lag(symbol: str, lag_min: int, lag_max: int) -> int:
+    """Deterministic per-symbol reporting lag in ``[lag_min, lag_max]`` days.
+
+    Indian companies do NOT all declare quarterly results on the same day —
+    large caps report ~15-25 days after quarter-end, mid/small caps ~30-45 days.
+    A fixed lag collapses this month-long distribution onto a single Monday, so
+    every quarter's 100+ ideas fire simultaneously and the strategy's discovery
+    engine is never really tested.
+
+    We spread the declaration dates by hashing the symbol name into a stable
+    day within the ``[lag_min, lag_max]`` window. Deterministic (md5-based, not
+    Python's randomised ``hash``) so reruns are reproducible.
+    """
+    if lag_max < lag_min:
+        lag_min, lag_max = lag_max, lag_min
+    span = lag_max - lag_min + 1
+    if span <= 1:
+        return lag_min
+    h = int(hashlib.md5(symbol.encode("utf-8")).hexdigest()[:8], 16)
+    return lag_min + (h % span)
+
+
 def enumerate_events(
     symbol: str,
     raw: dict,
     quarters: List[str],
     *,
-    reporting_lag_days: int,
+    reporting_lag_min: int,
+    reporting_lag_max: int,
 ) -> List[ResultEvent]:
     """All declarable result events for a symbol (one per parseable quarter col).
 
     A quarter needs at least 4 prior quarters (index >= 4) so year-on-year and a
     trailing-EPS baseline can be computed — mirroring the live selection gate.
+
+    The declaration date is ``quarter_end + per-symbol lag`` where the lag is a
+    deterministic value in ``[reporting_lag_min, reporting_lag_max]`` — this
+    staggers the tape so different companies file on different days, as they do
+    in reality.
     """
     from datetime import timedelta
 
     company = raw.get("company_name", symbol)
+    lag = _symbol_reporting_lag(symbol, reporting_lag_min, reporting_lag_max)
     events: List[ResultEvent] = []
     for i, label in enumerate(quarters):
         if i < 4:
@@ -106,7 +136,7 @@ def enumerate_events(
                 q_idx=i,
                 quarter_label=label,
                 quarter_end=qend,
-                decl_date=qend + timedelta(days=reporting_lag_days),
+                decl_date=qend + timedelta(days=lag),
             )
         )
     return events

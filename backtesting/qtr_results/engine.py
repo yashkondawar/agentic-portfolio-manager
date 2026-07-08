@@ -81,15 +81,23 @@ class BacktestEngine:
                 continue
             self.parsed[sym] = (raw, quarters, metrics)
             for ev in an.enumerate_events(
-                sym, raw, quarters, reporting_lag_days=self.cfg.reporting_lag_days
+                sym,
+                raw,
+                quarters,
+                reporting_lag_min=self.cfg.reporting_lag_min,
+                reporting_lag_max=self.cfg.reporting_lag_max,
             ):
+                # Reject events whose declaration date is outside the backtest
+                # window. Without this guard, bisect_left returns 0 for any
+                # decl_date before `first`, silently piling every stale quarter
+                # from screener history onto Day 1.
+                if ev.decl_date < first or ev.decl_date > last:
+                    continue
                 # First trading session on/after the assumed filing date.
                 idx = bisect.bisect_left(calendar, ev.decl_date)
                 if idx >= len(calendar):
                     continue
                 signal_day = calendar[idx]
-                if not (first <= signal_day <= last):
-                    continue
                 self.events_by_day.setdefault(signal_day, []).append(ev)
         logger.info(
             "Prepared %d result events across %d signal days.",
@@ -140,20 +148,35 @@ class BacktestEngine:
             if plan is None:
                 continue
 
+            # ATR-based stop distance, computed strictly from bars BEFORE the
+            # entry day (point-in-time). We fetch (atr_period + 5) sessions up
+            # to and including ``day`` then drop today's bar, so the ATR uses
+            # only completed pre-entry sessions.
+            hist = self.prices.as_of(
+                ev.symbol, day, lookback_rows=self.cfg.atr_period + 5
+            )
+            if hist is not None and len(hist) > 1:
+                pre_entry = hist.iloc[:-1]
+            else:
+                pre_entry = None
+            atr = strategy.compute_atr(pre_entry, self.cfg.atr_period) if pre_entry is not None else None
+            stop_distance = strategy.resolve_stop_distance(fill, atr, self.cfg)
+
             equity = self.pf.total_equity(lookup)
             shares = strategy.size_position(
-                fill, plan.trailing_stop_pct, equity, self.pf.cash, self.cfg
+                fill, stop_distance, equity, self.pf.cash, self.cfg
             )
             if shares <= 0:
                 continue
             pos = strategy.make_position(
-                ev.symbol, fill, day, shares, plan, analysis, ev.decl_date.isoformat()
+                ev.symbol, fill, day, shares, plan, analysis, ev.decl_date.isoformat(),
+                stop_distance,
             )
             if self.pf.open_position(pos):
                 opened_today.add(ev.symbol)
-                logger.debug("%s OPEN %s x%d @%.2f tgt %.2f stop %.2f (%s)",
+                logger.debug("%s OPEN %s x%d @%.2f tgt %.2f stop %.2f dist %.2f (%s)",
                              day, ev.symbol, shares, fill, pos.target_price,
-                             pos.stop_price, plan.method)
+                             pos.stop_price, stop_distance, plan.method)
         self.pending = []
 
     # ── 2) exits ──────────────────────────────────────────────────────────────

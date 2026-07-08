@@ -27,7 +27,8 @@ class Position:
     entry_date: date
     target_price: float
     target_pct: float
-    trailing_stop_pct: float
+    trailing_stop_pct: float          # informational (approx. stop as % of entry)
+    stop_distance: float              # absolute ₹ trailing-stop distance (ATR-based)
     stop_price: float
     highest_price: float            # ratchets up; trailing stop measured off this
     result_quarter: str = ""

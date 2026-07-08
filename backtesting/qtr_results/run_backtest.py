@@ -54,12 +54,18 @@ def _parse_args() -> argparse.Namespace:
     p.add_argument("--universe-file", help="Custom universe file (one NSE symbol/line)")
     p.add_argument("--max-symbols", type=int, default=None,
                    help="Cap universe size (quick runs / lighter scraping)")
-    p.add_argument("--reporting-lag-days", type=int, default=45,
-                   help="Assumed days from quarter-end to result declaration")
+    p.add_argument("--reporting-lag-min", type=int, default=15,
+                   help="Min days from quarter-end to result declaration (stagger low)")
+    p.add_argument("--reporting-lag-max", type=int, default=45,
+                   help="Max days from quarter-end to result declaration (stagger high)")
     p.add_argument("--max-new-per-day", type=int, default=5)
     p.add_argument("--max-positions", type=int, default=10)
     p.add_argument("--max-holding-days", type=int, default=None,
-                   help="Override the holding window (default: live 21 days)")
+                   help="Override the holding window (default: 60)")
+    p.add_argument("--atr-period", type=int, default=14,
+                   help="ATR lookback period in sessions (default: 14)")
+    p.add_argument("--atr-stop-multiplier", type=float, default=2.5,
+                   help="Trailing-stop distance = ATR × this multiplier (default: 2.5)")
     p.add_argument("--risk-per-trade", type=float, default=2.0, help="2%% rule")
     p.add_argument("--min-yoy-profit-growth", type=float, default=None)
     p.add_argument("--no-cache", action="store_true", help="Force fresh downloads")
@@ -156,10 +162,13 @@ def main() -> int:
         universe_index=args.universe,
         universe_file=Path(args.universe_file) if args.universe_file else None,
         max_symbols=args.max_symbols,
-        reporting_lag_days=args.reporting_lag_days,
+        reporting_lag_min=args.reporting_lag_min,
+        reporting_lag_max=args.reporting_lag_max,
         max_new_per_day=args.max_new_per_day,
         max_positions=args.max_positions,
         risk_per_trade_pct=args.risk_per_trade,
+        atr_period=args.atr_period,
+        atr_stop_multiplier=args.atr_stop_multiplier,
         use_cache=not args.no_cache,
     )
     if args.max_holding_days is not None:
