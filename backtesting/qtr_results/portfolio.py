@@ -31,11 +31,17 @@ class Position:
     stop_distance: float              # absolute ₹ trailing-stop distance (ATR-based)
     stop_price: float
     highest_price: float            # ratchets up; trailing stop measured off this
+    sector: str = "UNKNOWN"          # yfinance-derived sector for concentration cap
     result_quarter: str = ""
     result_date: str = ""
     method: str = "static"
     strength_score: float = 0.0
     rationale: str = ""
+    # ── B10 anticipation-mode state ──────────────────────────────────────────
+    awaiting_result: bool = False          # entered pre-declaration, result pending
+    result_signal_date: Optional[date] = None  # day the result becomes known
+    result_q_idx: int = -1                 # quarter index to grade on that day
+    exit_at_open_reason: Optional[str] = None  # set to dump at next open (weak result)
 
     @property
     def invested(self) -> float:
@@ -65,6 +71,7 @@ class ClosedTrade:
     result_quarter: str
     method: str
     strength_score: float
+    sector: str = "UNKNOWN"
 
 
 @dataclass
@@ -120,6 +127,7 @@ class Portfolio:
             result_quarter=pos.result_quarter,
             method=pos.method,
             strength_score=pos.strength_score,
+            sector=pos.sector,
         )
         self.closed.append(trade)
         del self.positions[symbol]
@@ -135,6 +143,18 @@ class Portfolio:
 
     def total_equity(self, price_lookup: Callable[[str], Optional[float]]) -> float:
         return self.cash + self.deployed_value(price_lookup)
+
+    def sector_deployed(
+        self, sector: str, price_lookup: Callable[[str], Optional[float]]
+    ) -> float:
+        """Rupee notional currently deployed in ``sector`` (marked to market)."""
+        total = 0.0
+        for pos in self.positions.values():
+            if pos.sector != sector:
+                continue
+            px = price_lookup(pos.symbol)
+            total += pos.value(px if px is not None else pos.entry_price)
+        return total
 
     def record_equity(self, day: date, price_lookup: Callable[[str], Optional[float]]) -> dict:
         deployed = self.deployed_value(price_lookup)

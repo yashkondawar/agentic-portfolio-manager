@@ -36,7 +36,7 @@ from datetime import date, timedelta
 from pathlib import Path
 
 from .config import FUND_CACHE_DIR, PRICE_CACHE_DIR, RESULTS_DIR, BacktestConfig
-from .data import FundamentalsStore, PointInTimeData
+from .data import FundamentalsStore, PointInTimeData, ResultsCalendarStore, SectorStore
 from .engine import BacktestEngine
 from .metrics import compute_metrics, exit_reason_breakdown, render_summary
 
@@ -67,7 +67,56 @@ def _parse_args() -> argparse.Namespace:
     p.add_argument("--atr-stop-multiplier", type=float, default=2.5,
                    help="Trailing-stop distance = ATR × this multiplier (default: 2.5)")
     p.add_argument("--risk-per-trade", type=float, default=2.0, help="2%% rule")
+    p.add_argument("--max-position-pct", type=float, default=None,
+                   help="Per-name concentration cap %% of equity (default 20). Raising it "
+                        "deploys more of the idle cash into the few concurrent picks.")
     p.add_argument("--min-yoy-profit-growth", type=float, default=None)
+    p.add_argument("--target-max-pct", type=float, default=None,
+                   help="Upper bound of the PE-rerating target band %% (default 20). "
+                        "Raising it lets high-conviction winners run further.")
+    p.add_argument("--target-min-pct", type=float, default=None,
+                   help="Lower bound of the PE-rerating target band %% (default 10).")
+    p.add_argument("--commission-pct", type=float, default=None,
+                   help="Per-side commission %% (default 0.20 = ~40 bps rt)")
+    p.add_argument("--pe-pct-threshold", type=float, default=None,
+                   help="Percentile above which PE is deemed stretched (default 80)")
+    p.add_argument("--pe-pct-target-cap", type=float, default=None,
+                   help="Target cap when PE percentile is stretched (default 10%%)")
+    p.add_argument("--max-sector-pct", type=float, default=None,
+                   help="Per-sector concentration cap %% (default 30)")
+    p.add_argument("--min-liquidity-cr", type=float, default=None,
+                   help="Min 20-day median rupee turnover in ₹ crore (default 5)")
+    p.add_argument("--max-debt-to-equity", type=float, default=None,
+                   help="B8: reject names whose point-in-time debt/equity exceeds this "
+                        "(Borrowings ÷ (Equity+Reserves)); banks/NBFCs exempt. Off by default.")
+    p.add_argument("--min-roce", type=float, default=None,
+                   help="B8: reject names whose point-in-time ROCE %% is below this. Off by default.")
+    p.add_argument("--quality-on-financials", action="store_true",
+                   help="Also apply the debt/ROCE gate to banks/NBFCs (default: exempt).")
+    p.add_argument("--regime-filter", action="store_true",
+                   help="B9: only open new positions when the benchmark is above its "
+                        "regime SMA (correlated-drawdown guard).")
+    p.add_argument("--regime-ma-period", type=int, default=None,
+                   help="Benchmark SMA period for the regime filter (default 200).")
+    p.add_argument("--regime-require-slope", action="store_true",
+                   help="Also require the benchmark SMA to be non-declining.")
+    p.add_argument("--disable-confirmation", action="store_true",
+                   help="Disable signal-day confirmation filters (B4)")
+    p.add_argument("--no-real-dates", action="store_true",                   help="Disable real NSE declaration dates; use the estimated "
+                        "reporting-lag stagger for every event instead.")
+    p.add_argument("--real-dates-only", action="store_true",
+                   help="Trade ONLY events that have a real NSE declaration date "
+                        "(drops hash-lag fallbacks — a clean-timing window).")
+    p.add_argument("--anticipation-mode", action="store_true",
+                   help="B10: enter N sessions BEFORE the result on a pre-run-up "
+                        "signal; ride if the result is strong, dump next open if weak.")
+    p.add_argument("--anticipation-lead-days", type=int, default=None,
+                   help="Trading sessions before the declaration to enter (default 10).")
+    p.add_argument("--anticipation-min-rs", type=float, default=None,
+                   help="Min pre-declaration relative strength vs benchmark to enter "
+                        "(e.g. 0.06 = +6%% over the lookback). Default 0.06.")
+    p.add_argument("--anticipation-rs-lookback", type=int, default=None,
+                   help="Lookback (sessions) for the pre-declaration RS signal (default 20).")
     p.add_argument("--no-cache", action="store_true", help="Force fresh downloads")
     p.add_argument("--tag", default=None, help="Override output run-tag")
     p.add_argument("--log-level", default="INFO")
@@ -96,6 +145,7 @@ def _write_outputs(out_dir: Path, cfg: BacktestConfig, engine: BacktestEngine,
 
     metrics = dict(metrics)
     metrics["exit_reasons"] = exit_reason_breakdown(engine.pf.closed)
+    metrics["filter_stats"] = dict(sorted(engine.filter_stats.items()))
 
     (out_dir / "summary.txt").write_text(summary, encoding="utf-8")
     (out_dir / "summary.json").write_text(
@@ -105,11 +155,14 @@ def _write_outputs(out_dir: Path, cfg: BacktestConfig, engine: BacktestEngine,
 
     with open(out_dir / "trades.csv", "w", newline="", encoding="utf-8") as fh:
         w = csv.writer(fh)
-        w.writerow(["symbol", "result_quarter", "method", "strength", "quantity",
+        w.writerow(["symbol", "sector", "result_quarter", "method", "strength", "quantity",
                     "entry_date", "entry_price", "exit_date", "exit_price",
                     "pnl", "pnl_pct", "holding_days", "exit_reason"])
         for t in engine.pf.closed:
-            w.writerow([t.symbol, t.result_quarter, t.method, round(t.strength_score, 1),
+            # Sector is stored on the (now closed) Position — pull it from the
+            # ClosedTrade's parent position if we recorded it; else UNKNOWN.
+            sector = getattr(t, "sector", None) or "UNKNOWN"
+            w.writerow([t.symbol, sector, t.result_quarter, t.method, round(t.strength_score, 1),
                         t.quantity, t.entry_date.isoformat(), round(t.entry_price, 2),
                         t.exit_date.isoformat(), round(t.exit_price, 2), round(t.pnl, 2),
                         round(t.pnl_pct, 2), t.holding_days, t.exit_reason])
@@ -123,15 +176,21 @@ def _write_outputs(out_dir: Path, cfg: BacktestConfig, engine: BacktestEngine,
 
     with open(out_dir / "events.csv", "w", newline="", encoding="utf-8") as fh:
         w = csv.writer(fh)
-        w.writerow(["signal_date", "symbol", "quarter", "decl_date", "is_strong",
-                    "strength", "yoy_profit", "qoq_profit", "yoy_eps"])
+        w.writerow(["signal_date", "symbol", "quarter", "decl_date", "decl_date_real",
+                    "is_strong", "strength", "yoy_profit", "qoq_profit", "yoy_eps",
+                    "confirmed", "confirmed_reason", "liquid",
+                    "debt_to_equity", "roce", "pre_rs"])
         for e in engine.event_log:
             w.writerow([e["signal_date"], e["symbol"], e["quarter"], e["decl_date"],
+                        e.get("decl_date_real"),
                         e["is_strong"], e["strength"], e["yoy_profit"],
-                        e["qoq_profit"], e["yoy_eps"]])
+                        e["qoq_profit"], e["yoy_eps"],
+                        e.get("confirmed"), e.get("confirmed_reason"), e.get("liquid"),
+                        e.get("debt_to_equity"), e.get("roce"), e.get("pre_rs")])
 
     open_rows = [
-        {"symbol": p.symbol, "quantity": p.quantity, "entry_price": round(p.entry_price, 2),
+        {"symbol": p.symbol, "sector": p.sector, "quantity": p.quantity,
+         "entry_price": round(p.entry_price, 2),
          "entry_date": p.entry_date.isoformat(), "stop_price": round(p.stop_price, 2),
          "target_price": round(p.target_price, 2), "result_quarter": p.result_quarter,
          "method": p.method, "strength": round(p.strength_score, 1)}
@@ -175,6 +234,49 @@ def main() -> int:
         cfg.max_holding_days = args.max_holding_days
     if args.min_yoy_profit_growth is not None:
         cfg.min_yoy_profit_growth = args.min_yoy_profit_growth
+    if args.target_max_pct is not None:
+        cfg.target_max_pct = args.target_max_pct
+    if args.target_min_pct is not None:
+        cfg.target_min_pct = args.target_min_pct
+    if args.commission_pct is not None:
+        cfg.commission_pct = args.commission_pct
+    if args.pe_pct_threshold is not None:
+        cfg.pe_pct_cap_threshold = args.pe_pct_threshold
+    if args.pe_pct_target_cap is not None:
+        cfg.pe_pct_target_cap = args.pe_pct_target_cap
+    if args.max_sector_pct is not None:
+        cfg.max_sector_pct = args.max_sector_pct
+    if args.min_liquidity_cr is not None:
+        cfg.min_liquidity_median_20d = args.min_liquidity_cr * 1e7  # crore → rupees
+    if args.max_debt_to_equity is not None:
+        cfg.max_debt_to_equity = args.max_debt_to_equity
+    if args.min_roce is not None:
+        cfg.min_roce = args.min_roce
+    if args.quality_on_financials:
+        cfg.apply_quality_to_financials = True
+    if args.max_position_pct is not None:
+        cfg.max_position_pct = args.max_position_pct
+    if args.regime_filter:
+        cfg.regime_filter = True
+    if args.regime_ma_period is not None:
+        cfg.regime_ma_period = args.regime_ma_period
+    if args.regime_require_slope:
+        cfg.regime_require_slope = True
+    if args.disable_confirmation:
+        cfg.require_signal_day_green = False
+        cfg.require_uptrend = False
+    if args.no_real_dates:
+        cfg.use_real_decl_dates = False
+    if args.real_dates_only:
+        cfg.real_dates_only = True
+    if args.anticipation_mode:
+        cfg.anticipation_mode = True
+    if args.anticipation_lead_days is not None:
+        cfg.anticipation_lead_days = args.anticipation_lead_days
+    if args.anticipation_min_rs is not None:
+        cfg.anticipation_min_rs = args.anticipation_min_rs
+    if args.anticipation_rs_lookback is not None:
+        cfg.anticipation_rs_lookback = args.anticipation_rs_lookback
 
     # Universe (reuses the live curator's loaders — same as the swing backtest).
     from backtesting.swing_trading.watchlist import load_universe
@@ -199,7 +301,21 @@ def main() -> int:
     if not prices.frames:
         raise SystemExit("No price data downloaded — aborting.")
 
-    engine = BacktestEngine(cfg, prices, funds)
+    # Sectors (yfinance, cached once) — used for the per-sector concentration cap.
+    sectors = SectorStore(FUND_CACHE_DIR)
+    sectors.load_or_download(funds.symbols(), use_cache=cfg.use_cache)
+
+    # Real result-declaration dates (NSE, cached once). When enabled, each event
+    # is timed to the actual announcement instead of an estimated reporting lag;
+    # missing symbols/quarters transparently fall back to the lag estimate.
+    calendar = None
+    if cfg.use_real_decl_dates:
+        calendar = ResultsCalendarStore(FUND_CACHE_DIR)
+        calendar.load_or_download(funds.symbols(), use_cache=cfg.use_cache)
+        have, tot = calendar.coverage()
+        logger.info("Real result dates resolved for %d / %d symbols.", have, tot)
+
+    engine = BacktestEngine(cfg, prices, funds, sectors=sectors, calendar=calendar)
     engine.run(start, end)
 
     metrics = compute_metrics(

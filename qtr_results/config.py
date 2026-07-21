@@ -24,6 +24,18 @@ MIN_QOQ_PROFIT_GROWTH = 5.0
 MIN_YOY_EPS_GROWTH = 15.0
 MIN_YOY_SALES_GROWTH = 10.0
 
+# ── Balance-sheet quality gate (B8, validated in backtesting) ──────────────
+# A "strong result" in a debt-heavy business whipsaws out of the trailing stop
+# far more often than the same beat in a clean-balance-sheet compounder. Gating
+# on point-in-time debt/equity ≤ 0.05 (Borrowings ÷ (Equity Capital + Reserves)
+# from the latest annual balance sheet) lifted the 1-year Nifty-200 backtest from
+# +2.3% → +11.7% (PF 1.13 → 2.17) and validated out-of-sample on Nifty-500/3yr
+# (+4.2% → +12.5%). Banks/NBFCs are structurally levered, so they are exempt
+# unless APPLY_QUALITY_TO_FINANCIALS is enabled. Set MAX_DEBT_TO_EQUITY = None
+# to disable the gate; a missing value never rejects (data-gap safe).
+MAX_DEBT_TO_EQUITY = 0.05
+APPLY_QUALITY_TO_FINANCIALS = False
+
 # ── Target band (percent) ──────────────────────────────────────────────────
 # PE-rerating upside is floored/capped into this band; static fallback tiers
 # also live inside it.

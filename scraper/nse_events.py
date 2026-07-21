@@ -269,6 +269,65 @@ def new_declared_results(
     return out
 
 
+def historical_result_dates(
+    symbol: str,
+    *,
+    period: str = "Quarterly",
+) -> Dict[date, date]:
+    """Real quarterly-result *declaration* dates for a single symbol.
+
+    Backfills the actual announcement calendar for backtesting: hits the
+    per-symbol corporates-financial-results feed (full history, back to the
+    company's listing) and returns a mapping of
+
+        ``quarter_end (month-end date)  ->  earliest broadcast date``.
+
+    NSE returns two rows per quarter (Consolidated + Standalone) — we keep the
+    *earliest* ``broadCastDate`` for each quarter because that is the moment the
+    market first learned the result. Quarter-ends are normalised to the last day
+    of the ``toDate`` month so they line up with screener's quarter-column labels
+    (which are always calendar quarter-ends).
+
+    Degrades to ``{}`` on any NSE/parse failure so the caller can fall back to an
+    estimated reporting lag.
+    """
+    sym = (symbol or "").strip().upper().replace(".NS", "").replace(".BO", "")
+    if not sym:
+        return {}
+
+    data = _get_json(
+        _FINANCIAL_RESULTS_API,
+        params={"index": "equities", "symbol": sym, "period": period},
+    )
+    if not isinstance(data, list):
+        logger.info("NSE per-symbol results feed unavailable for %s.", sym)
+        return {}
+
+    out: Dict[date, date] = {}
+    for row in data:
+        if not isinstance(row, dict):
+            continue
+        qend = _month_end(_parse_nse_date(row.get("toDate")))
+        bcast = _parse_nse_date(row.get("broadCastDate") or row.get("filingDate"))
+        if qend is None or bcast is None:
+            continue
+        prev = out.get(qend)
+        if prev is None or bcast < prev:
+            out[qend] = bcast
+
+    logger.info("NSE: %d historical result date(s) for %s.", len(out), sym)
+    return out
+
+
+def _month_end(d: Optional[date]) -> Optional[date]:
+    """Normalise a date to the last day of its month (align to quarter-ends)."""
+    if d is None:
+        return None
+    if d.month == 12:
+        return date(d.year, 12, 31)
+    return date(d.year, d.month + 1, 1) - timedelta(days=1)
+
+
 def upcoming_result_declarations(
     *,
     days_ahead: int = 14,

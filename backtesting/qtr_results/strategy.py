@@ -44,6 +44,135 @@ class ExitOp:
     reason: str
 
 
+# ── Entry-side filters (B4 / B6 / B7) ────────────────────────────────────────
+
+def signal_day_confirmed(
+    bars: Optional[pd.DataFrame], cfg: BacktestConfig
+) -> tuple[bool, str]:
+    """Signal-day confirmation: green day + uptrend.
+
+    ``bars`` is the price frame ending on (and INCLUDING) the signal day. We
+    check:
+      * green close: ``close > open`` on the signal day
+      * uptrend: signal-day close is above the ``trend_ma_period``-SMA AND the
+        SMA has a non-negative slope (today's SMA >= SMA five sessions ago).
+
+    Either check can be disabled from config. Returns ``(ok, reason)`` where
+    ``reason`` is the first failing check (empty on success).
+    """
+    if bars is None or bars.empty:
+        return False, "no_bars"
+
+    last = bars.iloc[-1]
+    if cfg.require_signal_day_green and float(last["Close"]) <= float(last["Open"]):
+        return False, "red_signal_day"
+
+    if cfg.require_uptrend:
+        p = cfg.trend_ma_period
+        if len(bars) < p + 5:
+            return False, "insufficient_ma_history"
+        sma = bars["Close"].rolling(p).mean()
+        if pd.isna(sma.iloc[-1]) or pd.isna(sma.iloc[-6]):
+            return False, "insufficient_ma_history"
+        if float(last["Close"]) < float(sma.iloc[-1]):
+            return False, "below_ma"
+        if float(sma.iloc[-1]) < float(sma.iloc[-6]):
+            return False, "ma_slope_negative"
+
+    return True, ""
+
+
+def liquidity_ok(bars: Optional[pd.DataFrame], min_rupee_turnover: float) -> bool:
+    """Median 20-day rupee turnover ≥ threshold.
+
+    Uses close × volume (a reasonable proxy for delivery turnover; VWAP would be
+    marginally better but isn't available from yfinance daily bars).
+    """
+    if bars is None or bars.empty or "Volume" not in bars.columns:
+        return False
+    tail = bars.tail(20)
+    if len(tail) < 10:
+        return False
+    turnover = (tail["Close"].astype(float) * tail["Volume"].astype(float)).median()
+    return bool(turnover >= min_rupee_turnover)
+
+
+def market_regime_ok(
+    benchmark: Optional[pd.DataFrame], cfg: BacktestConfig
+) -> bool:
+    """Point-in-time market-regime gate for NEW entries.
+
+    ``benchmark`` is the benchmark (Nifty) OHLC frame ending on/including the
+    signal day (leak-free — the caller passes ``benchmark_as_of(day)``). Returns
+    ``True`` (allow new buys) when the market is in an uptrend:
+
+      * benchmark close is above its ``regime_ma_period``-SMA, and
+      * (optionally) that SMA is non-declining (today's SMA >= SMA five sessions
+        ago) when ``regime_require_slope`` is set.
+
+    The point of the gate is to stop opening fresh earnings-momentum longs into a
+    broad market downtrend, where they take correlated drawdowns regardless of how
+    good the individual result was. Disabled (always ``True``) when
+    ``regime_filter`` is off or there is insufficient history.
+    """
+    if not cfg.regime_filter:
+        return True
+    if benchmark is None or benchmark.empty or "Close" not in benchmark.columns:
+        return True  # data-gap safe: don't block when we can't judge
+    p = cfg.regime_ma_period
+    if len(benchmark) < p + 5:
+        return True
+    close = benchmark["Close"].astype(float)
+    sma = close.rolling(p).mean()
+    if pd.isna(sma.iloc[-1]):
+        return True
+    if float(close.iloc[-1]) < float(sma.iloc[-1]):
+        return False
+    if cfg.regime_require_slope and not pd.isna(sma.iloc[-6]):
+        if float(sma.iloc[-1]) < float(sma.iloc[-6]):
+            return False
+    return True
+
+
+def pre_declaration_rs(
+    stock_bars: Optional[pd.DataFrame],
+    bench_bars: Optional[pd.DataFrame],
+    lookback: int,
+) -> Optional[float]:
+    """Pre-declaration relative strength: stock return minus benchmark return
+    over the trailing ``lookback`` sessions, measured as-of the last row of each
+    frame (both must be sliced to bars ``<=`` the evaluation day — leak-free).
+
+    A positive value means the stock has been out-running the market into its
+    result — the "informed drift" the anticipation mode (B10) trades on. Returns
+    ``None`` when either series is too short to measure.
+    """
+    if stock_bars is None or len(stock_bars) < lookback + 1:
+        return None
+    if bench_bars is None or len(bench_bars) < lookback + 1:
+        return None
+    s = stock_bars["Close"].astype(float)
+    b = bench_bars["Close"].astype(float)
+    s0, s1 = float(s.iloc[-1 - lookback]), float(s.iloc[-1])
+    b0, b1 = float(b.iloc[-1 - lookback]), float(b.iloc[-1])
+    if s0 <= 0 or b0 <= 0:
+        return None
+    return (s1 / s0 - 1.0) - (b1 / b0 - 1.0)
+
+
+def clamp_static_target(strength_score: float, cfg: BacktestConfig) -> float:
+    """Override the live static-tier target using the backtest's tighter tiers.
+
+    The live tiers assign the full 20 % target to any strong result without a
+    valuation anchor (banks, PSUs, holding cos). We halve them because you have
+    no PE-rerating math to justify the aggressive target.
+    """
+    for threshold, pct in cfg.static_target_tiers:
+        if strength_score >= threshold:
+            return float(pct)
+    return cfg.target_min_pct
+
+
 def compute_atr(bars: pd.DataFrame, period: int) -> Optional[float]:
     """Wilder-style Average True Range over ``period`` sessions.
 
@@ -123,6 +252,7 @@ def make_position(
     analysis,
     result_date: str,
     stop_distance: float,
+    sector: str = "UNKNOWN",
 ) -> Position:
     """Build an open Position from the target plan + ATR-based stop distance."""
     stop_price = round(fill_price - stop_distance, 2)
@@ -140,6 +270,7 @@ def make_position(
         stop_distance=round(stop_distance, 4),
         stop_price=stop_price,
         highest_price=round(fill_price, 2),
+        sector=sector or "UNKNOWN",
         result_quarter=analysis.latest_quarter,
         result_date=result_date,
         method=plan.method,
@@ -162,6 +293,16 @@ def evaluate_exit(
     h = float(bar["High"])
     low = float(bar["Low"])
     c = float(bar["Close"])
+
+    # B10 — a pre-declaration ("awaiting result") position is HELD through to the
+    # result decision: the whole thesis is to sit through the pre-result window
+    # and let the announcement (graded in the engine) decide ride-or-dump, so we
+    # don't let the trailing stop / target / time-stop knock us out beforehand.
+    # We still ratchet the high so the stop is meaningful once the ride begins.
+    if pos.awaiting_result:
+        if h > pos.highest_price:
+            pos.highest_price = round(h, 2)
+        return None
 
     # 1) TRAILING STOP — gap-through fills at the open; else at the stop level.
     if o <= pos.stop_price:

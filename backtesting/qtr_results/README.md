@@ -117,8 +117,62 @@ python -m backtesting.qtr_results.run_backtest --universe nifty50 --max-symbols 
 
 Useful flags: `--capital`, `--goal-pct`, `--universe`, `--universe-file`,
 `--max-symbols`, `--reporting-lag-days`, `--max-new-per-day`, `--max-positions`,
-`--max-holding-days`, `--risk-per-trade`, `--min-yoy-profit-growth`, `--no-cache`,
-`--tag`.
+`--max-holding-days`, `--risk-per-trade`, `--min-yoy-profit-growth`,
+`--max-debt-to-equity`, `--min-roce`, `--quality-on-financials`,
+`--regime-filter`, `--regime-ma-period`, `--target-max-pct`, `--max-position-pct`,
+`--no-real-dates`, `--real-dates-only`, `--anticipation-mode`,
+`--anticipation-lead-days`, `--anticipation-min-rs`, `--anticipation-rs-lookback`,
+`--no-cache`, `--tag`.
+
+> **B8 — balance-sheet quality (leverage) filter.** The v3 backtest's losing
+> trades clustered in highly-levered companies: a "strong result" in a debt-heavy
+> business whipsawed out of the ATR trailing stop far more often than the same
+> beat in a clean-balance-sheet compounder (winners' median debt/equity ≈ 0.04 vs
+> ≈ 0.25 for losers). Gating on point-in-time **debt/equity ≤ 0.05**
+> (`Borrowings ÷ (Equity Capital + Reserves)` from the latest annual balance
+> sheet on/before the declared quarter; banks/NBFCs exempt) lifted the 1-year
+> Nifty-200 backtest from **+2.3% → +11.7%**, win rate **40% → 59%**, profit
+> factor **1.13 → 2.17**, and max drawdown **−6.5% → −3.3%** — cutting
+> trailing-stop losers from 40 to 16 while *growing* target wins. It is the new
+> default (`config.max_debt_to_equity = 0.05`); pass a large value to disable.
+> The edge **validated out-of-sample**: on an independent Nifty-500 / 3-year run
+> it ~3×'d the return (**+4.2% → +12.5%**, PF 1.05 → 1.24).
+
+> **B9 — market-regime throttle (opt-in).** B1–B8 fix pick *quality* but not
+> portfolio *drawdown*: earnings-momentum longs take correlated hits in a broad
+> correction (the Nifty-500 / 3-year run drew down **~19%** regardless of the debt
+> filter). `--regime-filter` stops *opening* new positions while the benchmark is
+> below its `--regime-ma-period` SMA (default **100**), only deploying fresh risk
+> in an up-market (existing positions keep running their stops/targets; point-in-
+> time on benchmark prices ≤ signal day). On Nifty-500 / 3-year it nearly **halved
+> max drawdown (−18.8% → −10.6%)** while slightly *raising* return
+> (**+12.5% → +12.9%**), Sharpe (0.46 → 0.55) and PF (1.24 → 1.33). It is
+> **insurance**, so it is **off by default**: in a benign uptrend (Nifty-200 /
+> 1-year) it costs return (+11.7% → +6.1%) by sitting out shallow dips. Enable it
+> for broad/volatile universes or when drawdown control is the priority.
+
+> **B10 — pre-declaration "anticipation" mode (opt-in, `--anticipation-mode`).**
+> Indian equities frequently front-run a good result (informed flow / leaks), so
+> instead of buying the *reaction* this mode buys the *anticipation*: it enters
+> `--anticipation-lead-days` (default **10**) trading sessions **before** the real
+> declaration when the stock shows a pre-result run-up — relative strength vs the
+> benchmark over `--anticipation-rs-lookback` (20) sessions ≥ `--anticipation-min-rs`
+> (default **0.12** = +12%). The pre-result position is *held through* the window
+> (no trailing-stop knock-out); on the declaration day the result is graded and a
+> **strong + low-debt** result rides on (target + trailing stop re-anchored to the
+> post-result price) while a **weak** result is dumped at the next open to dodge
+> the reversal — often still banking the run-up. It requires **real** declaration
+> dates (needs the exact day), so it is implicitly `--real-dates-only`; the only
+> real-dated window today is **calendar 2024** (NSE's per-symbol archive ends at
+> the Dec-2024 quarter). On that window — where every *non*-anticipation config
+> loses money (standard **−6.6%**, standard+regime **−11.8%**) — anticipation with
+> `--regime-filter` + the debt gate turned it **positive: +14.1%, win 57%, PF 1.87,
+> maxDD −9.2%** (47 trades; all entries verified to precede their declaration
+> date). The RS threshold shows a robust positive plateau across **0.11–0.14**
+> (PF 1.3–1.9, peak 0.12); it collapses if too loose (noise) or too tight (too few
+> names), and needs the regime + debt gates to work — so it is **off by default**.
+> Caveat: validated on a single ~1-year window (~47 trades); a longer test needs
+> an NSE-XBRL historical-financials backfill to extend fundamentals before 2023.
 
 The first run scrapes screener.in (rate-limited, ~2 s/symbol) and downloads
 prices; both are cached, so reruns are fast and offline.
@@ -160,10 +214,17 @@ run_backtest.py  CLI entrypoint
 - **No LLM qualitative layer.** News, forensics, promoter pledging and the
   liquidity/mainboard judgement the live Copilot applies are **not** modelled —
   only the mechanical numbers. Real results would differ where that matters.
-- **Approximate declaration dates.** Filing dates are estimated as
-  `quarter-end + reporting_lag_days`; the live feed's exact broadcast date is not
-  available point-in-time. Entries still fill at the historical open on/after that
-  estimate, so pricing is genuinely point-in-time — only the *day* is approximate.
+- **Declaration dates — now real (with fallback).** By default the backtest
+  times each event to the **actual NSE announcement date** (`broadCastDate` from
+  the corporates-financial-results feed, matched per quarter and cached to
+  disk). Where NSE can't resolve a symbol/quarter it falls back to the old
+  estimate `quarter-end + reporting_lag` (a deterministic per-symbol lag). Pass
+  `--no-real-dates` to force the estimate everywhere. Entries always fill at the
+  historical open on/after the declaration date, so a post-close announcement is
+  bought the next session — genuinely point-in-time either way. The engine log
+  and `events.csv` (`decl_date_real` column) report how many events used a real
+  date vs the fallback. Note: NSE's per-symbol archive currently returns history
+  through the **Dec-2024** quarter, so events after that fall back to the estimate.
 - **Position sizing is an overlay.** The live strategy tracks signals without
   sizing; the 2%-risk sizer here is the backtest's addition to turn it into a
   capital simulation.
