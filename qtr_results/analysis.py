@@ -42,6 +42,11 @@ class AnalysisResult:
     is_strong: bool = False
     rationale: str = ""
     error: Optional[str] = None
+    # ── Tier-2 LLM qualitative conviction (attached post-selection) ─────────
+    conviction: Optional[float] = None
+    conviction_verdict: str = ""
+    conviction_summary: str = ""
+    conviction_risks: List[str] = field(default_factory=list)
     raw_top_ratios: Dict[str, str] = field(default_factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:

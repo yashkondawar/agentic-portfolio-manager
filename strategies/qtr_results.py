@@ -140,6 +140,14 @@ class QuarterlyResultsStrategy(BaseStrategy):
                 group="Selection",
             ),
             ParamSpec(
+                name="use_conviction",
+                label="Tier-2 LLM conviction",
+                type=ParamType.BOOL,
+                required=False,
+                default=config.USE_CONVICTION_LLM,
+                help="On = an LLM reads each shortlisted name's actual filing (results PDF / concall / investor deck) plus recent news, order-book and sector sentiment, then gates/ranks the picks and shapes their exit (high conviction rides toward the target cap with a longer hold).",
+            ),
+            ParamSpec(
                 name="min_yoy_profit_growth",
                 label="Min YoY net-profit growth (%)",
                 type=ParamType.FLOAT,
