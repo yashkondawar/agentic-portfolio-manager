@@ -29,6 +29,7 @@ from __future__ import annotations
 import logging
 import pickle
 import sys
+from datetime import date
 from pathlib import Path
 from typing import Dict, List, Optional
 
@@ -167,6 +168,45 @@ class ResultsCalendarStore:
         with open(cache_path, "wb") as fh:
             pickle.dump(self.calendar, fh)
         logger.info("Cached result dates to %s", cache_path.name)
+
+    def load_from_event_calendar(
+        self,
+        symbols: List[str],
+        start: date,
+        end: date,
+        use_cache: bool = True,
+    ) -> None:
+        """Populate real declaration dates from NSE's bulk corporate event calendar.
+
+        Unlike :meth:`load_or_download` (one per-symbol financial-results call),
+        this pulls the *whole market's* board-meeting calendar over ``[start, end]``
+        in a handful of month-chunked requests, then keeps the rows for our
+        universe. It serves the freshest quarters (the per-symbol archive lags),
+        making it the source for a real "past N months" backtest.
+        """
+        tag = f"evcal_{len(symbols)}sym_{start.isoformat()}_{end.isoformat()}"
+        cache_path = self._cache_path(tag)
+
+        if use_cache and cache_path.exists():
+            logger.info("Loading cached event-calendar dates from %s", cache_path.name)
+            with open(cache_path, "rb") as fh:
+                self.calendar = pickle.load(fh)
+            logger.info("Event-calendar cache: %d symbols loaded.", len(self.calendar))
+            return
+
+        from scraper.nse_events import results_event_calendar
+
+        market = results_event_calendar(start, end)  # {SYMBOL -> {qend -> decl date}}
+        wanted = {_plain_symbol(s) for s in symbols}
+        self.calendar = {sym: market.get(sym, {}) for sym in wanted}
+        resolved = sum(1 for v in self.calendar.values() if v)
+        logger.info(
+            "Event calendar resolved %d / %d universe symbols (market had %d).",
+            resolved, len(wanted), len(market),
+        )
+        with open(cache_path, "wb") as fh:
+            pickle.dump(self.calendar, fh)
+        logger.info("Cached event-calendar dates to %s", cache_path.name)
 
     def dates_for(self, symbol: str) -> Dict:
         """Return ``{quarter_end -> declaration date}`` for a symbol (may be empty)."""

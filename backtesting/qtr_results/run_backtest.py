@@ -117,6 +117,11 @@ def _parse_args() -> argparse.Namespace:
                         "(e.g. 0.06 = +6%% over the lookback). Default 0.06.")
     p.add_argument("--anticipation-rs-lookback", type=int, default=None,
                    help="Lookback (sessions) for the pre-declaration RS signal (default 20).")
+    p.add_argument("--decl-source", choices=["financial-results", "event-calendar"],
+                   default="financial-results",
+                   help="Real declaration-date source: 'financial-results' (per-symbol "
+                        "NSE archive) or 'event-calendar' (bulk board-meeting calendar; "
+                        "freshest quarters, use for a real past-N-months backtest).")
     p.add_argument("--no-cache", action="store_true", help="Force fresh downloads")
     p.add_argument("--tag", default=None, help="Override output run-tag")
     p.add_argument("--log-level", default="INFO")
@@ -311,7 +316,14 @@ def main() -> int:
     calendar = None
     if cfg.use_real_decl_dates:
         calendar = ResultsCalendarStore(FUND_CACHE_DIR)
-        calendar.load_or_download(funds.symbols(), use_cache=cfg.use_cache)
+        if args.decl_source == "event-calendar":
+            # Bulk source: the whole market's board-meeting calendar over the
+            # backtest window (freshest quarters; a few month-chunked requests).
+            calendar.load_from_event_calendar(
+                funds.symbols(), start, end, use_cache=cfg.use_cache
+            )
+        else:
+            calendar.load_or_download(funds.symbols(), use_cache=cfg.use_cache)
         have, tot = calendar.coverage()
         logger.info("Real result dates resolved for %d / %d symbols.", have, tot)
 

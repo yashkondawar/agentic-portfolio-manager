@@ -120,7 +120,7 @@ Useful flags: `--capital`, `--goal-pct`, `--universe`, `--universe-file`,
 `--max-holding-days`, `--risk-per-trade`, `--min-yoy-profit-growth`,
 `--max-debt-to-equity`, `--min-roce`, `--quality-on-financials`,
 `--regime-filter`, `--regime-ma-period`, `--target-max-pct`, `--max-position-pct`,
-`--no-real-dates`, `--real-dates-only`, `--anticipation-mode`,
+`--no-real-dates`, `--real-dates-only`, `--decl-source`, `--anticipation-mode`,
 `--anticipation-lead-days`, `--anticipation-min-rs`, `--anticipation-rs-lookback`,
 `--no-cache`, `--tag`.
 
@@ -225,6 +225,24 @@ run_backtest.py  CLI entrypoint
   and `events.csv` (`decl_date_real` column) report how many events used a real
   date vs the fallback. Note: NSE's per-symbol archive currently returns history
   through the **Dec-2024** quarter, so events after that fall back to the estimate.
+- **Two real-date sources (`--decl-source`).** `financial-results` (default) is
+  the per-symbol NSE archive (deep history, but currently frozen ~Dec-2024).
+  `event-calendar` pulls the **whole market's board-meeting calendar** over the
+  backtest window in a few month-chunked requests (`scraper.nse_events.
+  results_event_calendar`), resolving the **freshest** quarters — e.g. **497/500**
+  Nifty-500 names across Jun-2025 → Jun-2026 — which is what makes a true "past
+  real year" backtest possible. The board-meeting date is the announcement day
+  (results are approved/published that session, usually post-close → next-open
+  fill), and the quarter-end is parsed from the meeting description. Pair it with
+  `--real-dates-only` to trade *only* the real-dated window.
+    - **Real past-year result (Nifty-500, 2025-07-08 → 2026-07-08, event-calendar
+      dates + real yfinance prices).** A genuinely hard tape — the Nifty itself
+      fell **−6.43%** (−12% intra-year trough). Against that: standard strategy
+      (debt gate) **−6.18%** (31% win, PF 0.77, DD −10.9%); +regime **−9.22%**;
+      **anticipation + regime + debt −2.75%** (50% win, PF 0.77, **DD −7.7%**) —
+      the anticipation overlay again delivered the best win rate + smallest
+      drawdown and **beat the index by ~3.7pp**, though no config was net-positive
+      in a down year. All entries verified to precede their real declaration date.
 - **Position sizing is an overlay.** The live strategy tracks signals without
   sizing; the 2%-risk sizer here is the backtest's addition to turn it into a
   capital simulation.

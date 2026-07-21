@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 import time
 from datetime import date, datetime, timedelta
 from pathlib import Path
@@ -326,6 +327,108 @@ def _month_end(d: Optional[date]) -> Optional[date]:
     if d.month == 12:
         return date(d.year, 12, 31)
     return date(d.year, d.month + 1, 1) - timedelta(days=1)
+
+
+_MONTHS = {m: i for i, m in enumerate(
+    ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"], 1)}
+
+
+def _quarter_end_from_desc(desc: str) -> Optional[date]:
+    """Parse the quarter-end from a board-meeting description.
+
+    NSE ``bm_desc`` reads e.g. "...financial results for the period ended
+    Jun 30, 2026" — we pull the "Mon DD, YYYY" and normalise to its month-end so
+    it lines up with screener's calendar quarter-end labels.
+    """
+    m = re.search(r"ended\s+([A-Za-z]{3})[a-z]*\.?\s+\d{1,2},?\s+(\d{4})", desc or "", re.I)
+    if not m:
+        return None
+    mon = _MONTHS.get(m.group(1).lower())
+    if not mon:
+        return None
+    return _month_end(date(int(m.group(2)), mon, 1))
+
+
+def _infer_quarter_end(edate: date) -> Optional[date]:
+    """Fallback: infer the reported quarter-end from the announcement month.
+
+    Indian quarterly results are declared ~1-2 months after quarter-end:
+    Jul-Sep → Jun, Oct-Dec → Sep, Jan-Mar → Dec, Apr-Jun → Mar (prev cal-year for
+    the Dec quarter announced Jan-Mar).
+    """
+    m, y = edate.month, edate.year
+    if 7 <= m <= 9:
+        return _month_end(date(y, 6, 1))
+    if 10 <= m <= 12:
+        return _month_end(date(y, 9, 1))
+    if 1 <= m <= 3:
+        return _month_end(date(y - 1, 12, 1))
+    return _month_end(date(y, 3, 1))  # Apr-Jun → Mar of the same year
+
+
+def _iter_month_ranges(start: date, end: date):
+    cur = start
+    while cur <= end:
+        nxt = date(cur.year + (cur.month // 12), (cur.month % 12) + 1, 1)
+        yield cur, min(nxt - timedelta(days=1), end)
+        cur = nxt
+
+
+def results_event_calendar(
+    start: date,
+    end: date,
+    *,
+    only_results: bool = True,
+) -> Dict[str, Dict[date, date]]:
+    """Bulk REAL result-declaration dates from NSE's corporate event calendar.
+
+    Hits ``/api/event-calendar`` over ``[start, end]`` (chunked by month to dodge
+    range caps) and returns ``{symbol -> {quarter_end (month-end) -> earliest
+    board-meeting date}}`` — the same shape as :func:`historical_result_dates`,
+    so it is a drop-in real-date source for the backtest. This is one call per
+    month for the WHOLE market, vs one call per symbol, so it is far cheaper and
+    also serves fresher quarters than the per-symbol financial-results archive.
+
+    The quarter-end is parsed from the board-meeting description ("period ended
+    <Mon DD, YYYY>"); if that is missing it is inferred from the announcement
+    month. Degrades to ``{}`` on any NSE/parse failure.
+    """
+    out: Dict[str, Dict[date, date]] = {}
+    for c_start, c_end in _iter_month_ranges(start, end):
+        params = {
+            "index": "equities",
+            "from_date": c_start.strftime("%d-%m-%Y"),
+            "to_date": c_end.strftime("%d-%m-%Y"),
+        }
+        data = _get_json(_EVENT_CALENDAR_API, params=params)
+        if not isinstance(data, list):
+            logger.warning("Event calendar unavailable for %s..%s.", params["from_date"], params["to_date"])
+            continue
+        for ev in data:
+            if not isinstance(ev, dict):
+                continue
+            purpose = ev.get("purpose", "")
+            bm = ev.get("bm_desc", "")
+            if only_results and not (_is_results_purpose(purpose) or _is_results_purpose(bm)):
+                continue
+            edate = _parse_nse_date(ev.get("date"))
+            if edate is None:
+                continue
+            sym = str(ev.get("symbol", "")).strip().upper()
+            if not sym:
+                continue
+            qend = _quarter_end_from_desc(bm) or _infer_quarter_end(edate)
+            if qend is None:
+                continue
+            bucket = out.setdefault(sym, {})
+            prev = bucket.get(qend)
+            if prev is None or edate < prev:
+                bucket[qend] = edate  # earliest announcement for the quarter
+    logger.info(
+        "NSE event calendar: %d symbols with result dates over %s..%s.",
+        len(out), start.isoformat(), end.isoformat(),
+    )
+    return out
 
 
 def upcoming_result_declarations(
