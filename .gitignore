@@ -138,6 +138,9 @@ celerybeat.pid
 
 # Environments
 .env
+.env.*
+!.env.example
+!example.env
 .envrc
 .venv
 env/
@@ -213,3 +216,7 @@ backtesting/swing_trading/results/
 
 # Quarterly-results strategy persistent state (ledger + long-term memory)
 qtr_results/state/
+
+# Local trader workbench history
+.trader_workbench/
+zerodha/.access_token.json

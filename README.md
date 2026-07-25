@@ -11,11 +11,13 @@ and run them uniformly.
 
 | Strategy id | System | Category |
 |-------------|--------|----------|
-| `sequential_agents` | LangGraph supervisor (agents run in sequence) | research |
+| `sequential_agents` | Copilot SDK agents run in four research stages | research |
 | `parallel_agents`   | Concurrent multi-analyst fan-out + risk/portfolio managers | research |
 | `swing_trading`     | Daily swing-trading copilot | swing |
 | `portfolio_analysis`| Holistic portfolio review + rebalancing | portfolio |
 | `watchlist_curation`| Universe screening + LLM curation | watchlist |
+| `qtr_results`       | Quarterly-results momentum + tracked exits | swing |
+| `swing_backtest`    | Point-in-time validation of the swing playbook | backtest |
 
 **Layout**
 
@@ -23,7 +25,7 @@ and run them uniformly.
 core/            # shared backbone
   strategy.py    # BaseStrategy contract, ParamSpec, StrategyResult
   registry.py    # register / list / get / run strategies
-  llm.py         # shared LLM factory (Groq / OpenAI / Azure)
+  llm.py         # GitHub Copilot SDK client, tools, and model adapter
   config.py      # env-backed defaults
 strategies/      # one self-registering module per system (wraps existing code)
 run.py           # single CLI + programmatic entry point
@@ -51,6 +53,40 @@ The concrete implementation modules (`agents/`, `scraper/`, `zerodha/`,
 `backtesting/`, `main.py`, `swing_trading_copilot.py`, …) remain separate and are
 wrapped — not replaced — by the strategy layer.
 
+## Trader Workbench
+
+Run the complete local interface with:
+
+```bash
+uv run streamlit run app.py
+```
+
+The workbench is organized around a trader's workflow rather than individual
+scripts:
+
+| Page | Purpose |
+|------|---------|
+| Dashboard | Shared idea basket, readiness, and recent persisted runs |
+| Discover Ideas | Watchlist screening and quarterly-results catalysts |
+| Stock Research | Parallel specialist agents or sequential supervisor |
+| Swing Desk | Manage open swing positions and evaluate new entries |
+| Portfolio Review | Concentration, risk, conviction, and rebalancing review |
+| Backtest Lab | Historical return/risk metrics, equity curve, and trade log |
+| Broker & Holdings | Read-only Zerodha holdings, positions, margins, and orders |
+| Settings & Catalog | Integration setup and every strategy parameter |
+
+Forms are generated from each strategy's `ParamSpec`, so new registered
+strategies and parameters become discoverable without adding another CLI-only
+workflow. Reports and structured data can be downloaded, and sanitized run
+history is stored locally under `.trader_workbench/`.
+
+**Trading safety:** the UI is decision-support only. Zerodha integration can
+authenticate and read account data, and research can show proposed orders, but
+the workbench has no order-placement control and only uses the read-only broker
+facade. Daily Zerodha authentication is launched from **Broker & Holdings**:
+click **Connect Zerodha in browser**, sign in on Kite, and the local callback
+completes the session without copying a request token into the UI.
+
 ## 🌟 Features
 
 ### 🤖 Multi-Agent Architecture
@@ -72,19 +108,19 @@ wrapped — not replaced — by the strategy layer.
 - Confidence scoring for each recommendation
 - Time horizon-based analysis (short-term to medium-term)
 
-### 🎨 Modern UI
-- Clean, responsive Streamlit interface
-- Interactive charts and visualizations
-- Real-time status updates
-- CSV export functionality
-- Mobile-friendly design
+### 🎨 Unified UI
+- Task-oriented navigation across every strategy
+- Forms generated from registered strategy contracts
+- Structured decisions, picks, portfolio tables, and backtest charts
+- Shared symbol basket, local run history, and report/data downloads
+- Read-only Zerodha portfolio integration
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Python 3.8+
-- Bright Data API account ([Sign up here](https://brightdata.com))
-- OpenAI API key ([Get one here](https://platform.openai.com))
+- Python 3.12+
+- GitHub Copilot subscription with Copilot CLI installed and signed in
+- Bright Data account only when the optional paid data source is enabled
 
 ### Installation
 
@@ -96,16 +132,23 @@ wrapped — not replaced — by the strategy layer.
 
 2. **Install dependencies**
    ```bash
-   pip install -r requirements.txt
+   uv sync
    ```
 
 3. **Set up environment variables**
    ```bash
-   cp .env.example .env
-   # Edit .env with your API keys
+   cp example.env .env
+   # Edit optional data-source and broker settings
    ```
 
-4. **Install Bright Data MCP**
+4. **Verify GitHub Copilot CLI**
+   ```bash
+   copilot --version
+   ```
+   Run `copilot` once and complete sign-in if prompted. The application uses
+   this existing login through the GitHub Copilot SDK.
+
+5. **Install Bright Data MCP (optional)**
    ```bash
    npm install -g @brightdata/mcp
    ```
@@ -114,30 +157,32 @@ wrapped — not replaced — by the strategy layer.
 
 1. **Start the Streamlit app**
    ```bash
-   streamlit run streamlit_app.py
+   uv run streamlit run app.py
    ```
 
 2. **Access the application**
    - Open your browser to `http://localhost:8501`
-   - Enter your API keys in the sidebar
-   - Select analysis parameters
-   - Click "Start Analysis" and wait for results!
+   - Review integration readiness on **Settings & Catalog**
+   - Pick a workflow from the navigation
+   - Configure the generated form and run the strategy
 
 ## 🔧 Configuration
 
-### API Keys Setup
+### Model Setup
 
-#### Bright Data API Token
+GitHub Copilot is the only model provider. No separate model API key is
+required. The default model is `claude-opus-4.7`; override it in `.env`:
+
+```bash
+COPILOT_MODEL=claude-opus-4.7
+COPILOT_TIMEOUT=300
+```
+
+#### Bright Data API Token (optional)
 1. Sign up at [Bright Data](https://brightdata.com)
 2. Navigate to your dashboard
 3. Go to "Zones" → "Web Unlocker" 
 4. Copy your API token
-
-#### OpenAI API Key
-1. Sign up at [OpenAI Platform](https://platform.openai.com)
-2. Go to "API Keys" section
-3. Create a new API key
-4. Copy the key (starts with 'sk-')
 
 ### Analysis Types
 
@@ -266,9 +311,11 @@ For support and questions:
 
 **Common Issues:**
 
-1. **API Key Errors**
-   - Ensure your Bright Data token is valid and has sufficient credits
-   - Verify OpenAI API key starts with 'sk-' and has available quota
+1. **Copilot Authentication or Model Errors**
+   - Run `copilot` and complete sign-in with a Copilot-enabled account
+   - Verify `COPILOT_MODEL` is available to your Copilot subscription
+   - On restricted Windows machines, set `COPILOT_CLI_PATH` to the signed
+     `copilot.exe` installation
 
 2. **MCP Installation Issues**
    ```bash

@@ -1,36 +1,58 @@
-# stock_research_system.py
+"""Sequential stock research powered by authenticated GitHub Copilot SDK."""
+
+from __future__ import annotations
+
+import asyncio
+import logging
 import os
 import uuid
-import logging
-import asyncio
-from typing import List, Dict, Any, Optional
 from dataclasses import dataclass
-from enum import Enum
 from datetime import datetime
+from enum import Enum
+from typing import Any, Dict, List, Optional
 
 from dotenv import load_dotenv
-from langgraph.prebuilt import create_react_agent
-from langgraph_supervisor import create_supervisor
 
-from logging_config import (
-    setup_logging,
-    session_id_ctx,
-    agent_id_ctx,
+from core.console import safe_print
+from core.llm import (
+    copilot_client,
+    run_copilot_prompt,
+    validate_copilot_configuration,
 )
+from logging_config import agent_id_ctx, session_id_ctx, setup_logging
 from prompts import (
-    get_supervisor_prompt,
-    get_stock_finder_prompt,
     get_market_data_prompt,
     get_news_analyst_prompt,
     get_recommendation_prompt,
+    get_stock_finder_prompt,
 )
 
-
 load_dotenv()
-
 setup_logging()
-
 logger = logging.getLogger(__name__)
+
+_DEFAULT_QUERY = (
+    "Provide comprehensive stock analysis and trading recommendations for "
+    "promising NSE-listed stocks suitable for short-term trading in the "
+    "current market conditions."
+)
+
+_STAGE_TOOLS = {
+    "stock_finder_agent": {
+        "search_nse_stocks",
+        "fetch_nse_declared_results",
+        "fetch_nse_upcoming_results",
+    },
+    "market_data_agent": {
+        "fetch_stock_price",
+        "fetch_fundamentals",
+        "fetch_technical_indicators",
+        "fetch_financial_statements",
+        "fetch_screener_fundamentals",
+    },
+    "news_analyst_agent": {"fetch_stock_news"},
+    "recommendation_agent": set(),
+}
 
 
 class StockAction(Enum):
@@ -74,114 +96,34 @@ class MarketData:
 
 
 class StockResearchSystem:
-    def __init__(self, bright_data_api_token: str = None, openai_api_key: str = None):
+    """Run discovery, data, news, and recommendation agents in sequence."""
+
+    def __init__(self, bright_data_api_token: str | None = None) -> None:
         self.bright_data_api_token = bright_data_api_token
-        self.openai_api_key = openai_api_key
         self.use_free_scraper = os.getenv("USE_FREE_SCRAPER", "true").lower() == "true"
         self.client = None
-        self.supervisor = None
+        self.tools: list[Any] = []
 
-    async def initialize(self):
-        """Initialize the MCP client and supervisor"""
-        logger.info("Initializing StockResearchSystem")
-
+    async def initialize(self) -> None:
+        """Load read-only research tools and validate Copilot readiness."""
+        validate_copilot_configuration()
         if self.use_free_scraper:
-            tools = self._get_free_tools()
+            self.tools = self._get_free_tools()
         else:
-            tools = await self._get_bright_data_tools()
-
-        logger.info("Tools loaded", extra={"tool_count": len(tools)})
-
-        logger.info("Initializing LLM model")
-        model = self._get_llm()
-
-        logger.info("Loading prompts")
-        stock_finder_prompt = get_stock_finder_prompt()
-        market_data_prompt = get_market_data_prompt()
-        news_analyst_prompt = get_news_analyst_prompt()
-        recommendation_prompt = get_recommendation_prompt()
-        supervisor_prompt = get_supervisor_prompt()
-
-        # Create specialized agents
-        logger.info("Creating stock_finder_agent")
-        stock_finder_agent = self._create_stock_finder_agent(
-            model, tools, stock_finder_prompt
+            self.tools = await self._get_bright_data_tools()
+        logger.info(
+            "Sequential Copilot research initialized",
+            extra={"tool_count": len(self.tools)},
         )
 
-        logger.info("Creating market_data_agent")
-        market_data_agent = self._create_market_data_agent(
-            model, tools, market_data_prompt
-        )
-
-        logger.info("Creating news_analyst_agent")
-        news_analyst_agent = self._create_news_analyst_agent(
-            model, tools, news_analyst_prompt
-        )
-
-        logger.info("Creating recommendation_agent")
-        recommendation_agent = self._create_recommendation_agent(
-            model, tools, recommendation_prompt
-        )
-
-        # Create supervisor
-        logger.info("Creating supervisor")
-        self.supervisor = create_supervisor(
-            model=self._get_llm(),
-            agents=[
-                stock_finder_agent,
-                market_data_agent,
-                news_analyst_agent,
-                recommendation_agent,
-            ],
-            prompt=supervisor_prompt,
-            add_handoff_back_messages=True,
-            output_mode="full_history",
-        ).compile()
-        logger.info("StockResearchSystem initialized ✅")
-
-    def _get_llm(self):
-        """Get LLM based on MODEL_PROVIDER env var. Supports: groq, azure_openai, openai."""
-        provider = os.getenv("MODEL_PROVIDER", "groq").lower()
-
-        if provider == "azure_openai":
-            from langchain_openai import AzureChatOpenAI
-
-            logger.info("Using Azure OpenAI LLM")
-            return AzureChatOpenAI(
-                azure_deployment=os.getenv("AZURE_OPENAI_DEPLOYMENT", "gpt-4o"),
-                azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
-                api_key=os.getenv("AZURE_OPENAI_API_KEY"),
-                api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-08-01-preview"),
-                temperature=float(os.getenv("MODEL_TEMPERATURE", "0.1")),
-            )
-        elif provider == "openai":
-            from langchain_openai import ChatOpenAI
-
-            logger.info("Using OpenAI LLM")
-            return ChatOpenAI(
-                model=os.getenv("MODEL_NAME", "gpt-4o"),
-                api_key=os.getenv("OPENAI_API_KEY"),
-                temperature=float(os.getenv("MODEL_TEMPERATURE", "0.1")),
-            )
-        else:
-            from langchain_groq import ChatGroq
-
-            logger.info("Using Groq LLM")
-            return ChatGroq(
-                model=os.getenv("MODEL_NAME", "llama-3.3-70b-versatile"),
-                api_key=os.getenv("GROQ_API_KEY"),
-            )
-
-    def _get_free_tools(self):
-        """Get tools from the free scraper module (no API key needed)."""
-        logger.info("Using FREE scraper tools (yfinance + screener.in + ta)")
+    def _get_free_tools(self) -> list[Any]:
+        logger.info("Using free scraper tools")
         from scraper import get_all_scraper_tools
 
         return get_all_scraper_tools()
 
-    async def _get_bright_data_tools(self):
-        """Get tools from Bright Data MCP (paid)."""
-        logger.info("Using Bright Data MCP tools (paid)")
+    async def _get_bright_data_tools(self) -> list[Any]:
+        logger.info("Using Bright Data MCP tools")
         from langchain_mcp_adapters.client import MultiServerMCPClient
 
         self.client = MultiServerMCPClient(
@@ -190,234 +132,188 @@ class StockResearchSystem:
                     "command": "npx",
                     "args": ["@brightdata/mcp"],
                     "env": {
-                        "API_TOKEN": self.bright_data_api_token,
+                        "API_TOKEN": self.bright_data_api_token or "",
                         "WEB_UNLOCKER_ZONE": os.getenv(
                             "WEB_UNLOCKER_ZONE", "unblocker"
                         ),
                         "BROWSER_ZONE": os.getenv("BROWSER_ZONE", "scraping_browser"),
                     },
                     "transport": "stdio",
-                },
+                }
             }
         )
-
-        logger.info("Fetching MCP tools")
         return await self.client.get_tools()
 
-    def _get_tool_name(self, tool: Any) -> str:
-        """Safely extract a tool's name for logging and prompts."""
-        return getattr(tool, "name", str(tool))
+    def _tools_for_stage(self, stage_name: str) -> list[Any]:
+        if not self.use_free_scraper:
+            return self.tools
+        allowed = _STAGE_TOOLS[stage_name]
+        return [tool for tool in self.tools if getattr(tool, "name", "") in allowed]
 
-    def _augment_prompt_with_tools(self, base_prompt: str, tools: Any) -> str:
-        """
-        Append available tool names with STRICT instructions to prevent hallucination.
-        """
-        if not tools:
-            return (
-                base_prompt + "\n\n" + "=" * 80 + "\n"
-                "⚠️  CRITICAL: NO EXTERNAL TOOLS AVAILABLE\n" + "=" * 80 + "\n"
-                "You MUST answer using ONLY your internal knowledge.\n"
-                "DO NOT attempt to call ANY tools or functions.\n"
-                "DO NOT use <function=...> syntax or tool_calls.\n"
-                "Provide direct answers based on your training data.\n" + "=" * 80
-            )
-
-        tool_names = sorted({self._get_tool_name(t) for t in tools})
-        tool_list_text = "\n".join(
-            f"  {i + 1}. {name}" for i, name in enumerate(tool_names)
+    @staticmethod
+    def _stage_prompt(
+        *,
+        stage_name: str,
+        instructions: str,
+        user_query: str,
+        context: str,
+        tools: list[Any],
+    ) -> str:
+        tool_names = ", ".join(getattr(tool, "name", str(tool)) for tool in tools)
+        tool_guidance = (
+            f"Available read-only research tools: {tool_names}."
+            if tool_names
+            else "No tools are available in this stage; use only the context."
         )
-
         return (
-            base_prompt + "\n\n" + "=" * 80 + "\n"
-            "🔧 AVAILABLE TOOLS (STRICTLY LIMITED)\n" + "=" * 80 + "\n"
-            f"{tool_list_text}\n\n"
-            "⚠️  CRITICAL TOOL USAGE RULES:\n"
-            "1. Use ONLY the exact tool names listed above\n"
-            "2. DO NOT invent, guess, or modify tool names\n"
-            "3. DO NOT use tools that are not in the list\n"
-            "4. If you need a capability not listed, answer directly WITHOUT tool calls\n"
-            "5. NEVER use <function=...> syntax for unlisted tools\n"
-            "6. When in doubt, provide direct answers instead of attempting tool calls\n\n"
-            "If you attempt to call a non-existent tool, your response will FAIL.\n"
-            + "="
-            * 80
+            f"{instructions}\n\n"
+            f"You are the {stage_name} stage in a sequential stock-research "
+            "workflow. Complete only this stage and return a self-contained "
+            "markdown result for the next agent. Never invent market data.\n\n"
+            f"{tool_guidance}\n\n"
+            f"ORIGINAL USER REQUEST:\n{user_query}\n\n"
+            f"PRIOR STAGE CONTEXT:\n{context or 'None'}"
         )
 
-    def _create_stock_finder_agent(self, model, tools, prompt):
-        agent_id_ctx.set("stock_finder_agent")
-        return create_react_agent(
-            model,
-            tools,
-            prompt=self._augment_prompt_with_tools(prompt, tools),
-            name="stock_finder_agent",
+    async def _run_stage(
+        self,
+        *,
+        client: Any,
+        stage_name: str,
+        instructions: str,
+        user_query: str,
+        context: str,
+    ) -> str:
+        agent_id_ctx.set(stage_name)
+        tools = self._tools_for_stage(stage_name)
+        logger.info("Starting sequential Copilot stage")
+        output = await run_copilot_prompt(
+            self._stage_prompt(
+                stage_name=stage_name,
+                instructions=instructions,
+                user_query=user_query,
+                context=context,
+                tools=tools,
+            ),
+            client=client,
+            tools=tools,
         )
+        logger.info("Completed sequential Copilot stage")
+        return output
 
-    def _create_market_data_agent(self, model, tools, prompt):
-        agent_id_ctx.set("market_data_agent")
-        return create_react_agent(
-            model,
-            tools,
-            prompt=self._augment_prompt_with_tools(prompt, tools),
-            name="market_data_agent",
-        )
-
-    def _create_news_analyst_agent(self, model, tools, prompt):
-        agent_id_ctx.set("news_analyst_agent")
-        return create_react_agent(
-            model,
-            tools,
-            prompt=self._augment_prompt_with_tools(prompt, tools),
-            name="news_analyst_agent",
-        )
-
-    def _create_recommendation_agent(self, model, tools, prompt):
-        agent_id_ctx.set("recommendation_agent")
-        return create_react_agent(
-            model,
-            tools,
-            prompt=self._augment_prompt_with_tools(prompt, tools),
-            name="recommendation_agent",
-        )
-
-    async def analyze_stocks(self, user_query: str = None) -> Dict[str, Any]:
-        """Main method to run the complete stock analysis workflow"""
-        # Session-level context
+    async def analyze_stocks(self, user_query: str | None = None) -> Dict[str, Any]:
+        """Run the complete four-stage Copilot research workflow."""
         session_id = str(uuid.uuid4())
         session_id_ctx.set(session_id)
         agent_id_ctx.set("supervisor")
+        query = user_query or _DEFAULT_QUERY
 
-        logger.info("Starting stock analysis session")
-
-        if not self.supervisor:
+        if not self.tools:
             await self.initialize()
 
-        if not user_query:
-            user_query = "Provide comprehensive stock analysis and trading recommendations for promising NSE-listed stocks suitable for short-term trading in the current market conditions."
+        stages = [
+            ("stock_finder_agent", get_stock_finder_prompt()),
+            ("market_data_agent", get_market_data_prompt()),
+            ("news_analyst_agent", get_news_analyst_prompt()),
+            ("recommendation_agent", get_recommendation_prompt()),
+        ]
+        messages: list[dict[str, str]] = []
+        context_parts: list[str] = []
 
-        try:
-            logger.info("Starting supervisor execution")
-            # Store all messages for processing
-            all_messages = []
+        async with copilot_client() as client:
+            for stage_name, instructions in stages:
+                output = await self._run_stage(
+                    client=client,
+                    stage_name=stage_name,
+                    instructions=instructions,
+                    user_query=query,
+                    context="\n\n".join(context_parts),
+                )
+                messages.append(
+                    {
+                        "role": "assistant",
+                        "name": stage_name,
+                        "content": output,
+                    }
+                )
+                context_parts.append(
+                    f"## {stage_name.replace('_', ' ').title()}\n{output}"
+                )
 
-            async for chunk in self.supervisor.astream(
-                {"messages": [{"role": "user", "content": user_query}]}
-            ):
-                all_messages.append(chunk)
-
-            logger.info(
-                "Supervisor execution completed ✅",
-                extra={"total_chunks": len(all_messages)},
-            )
-        except Exception:
-            logger.exception("Stock analysis failed")
-            raise
-
-        # Extract final results
-        final_chunk = all_messages[-1] if all_messages else {}
-        final_messages = final_chunk.get("supervisor", {}).get("messages", [])
-
-        logger.info(
-            "Stock analysis completed successfully ✅",
-            extra={"message_count": len(final_messages)},
-        )
-
+        agent_id_ctx.set("supervisor")
         return {
             "status": "completed",
             "timestamp": datetime.now().isoformat(),
-            "messages": final_messages,
-            "raw_output": all_messages,
+            "messages": messages,
+            "raw_output": messages,
         }
 
-    def format_results_for_display(self, results: Dict[str, Any]) -> str:
-        """Format the analysis results for better display"""
-        if not results.get("messages"):
+    @staticmethod
+    def format_results_for_display(results: Dict[str, Any]) -> str:
+        """Return the final recommendation-stage response."""
+        messages = results.get("messages") or []
+        if not messages:
             return "No analysis results available."
-
-        # Extract the final message content
-        final_messages = results["messages"]
-        if not final_messages:
-            return "Analysis completed but no recommendations generated."
-
-        # Get the last assistant message which should contain recommendations
-        for message in reversed(final_messages):
-            if hasattr(message, "content") and message.content:
-                return str(message.content)
-            elif isinstance(message, dict) and message.get("content"):
-                return str(message["content"])
-
-        return "Analysis completed. Please check the detailed output."
+        final_message = messages[-1]
+        if isinstance(final_message, dict):
+            return str(final_message.get("content") or "")
+        return str(getattr(final_message, "content", final_message))
 
 
-# Utility functions for the Streamlit app
-def pretty_print_message(message, indent=False):
-    """Pretty print a single message"""
+def pretty_print_message(message: Any, indent: bool = False) -> str:
+    """Pretty print a single message."""
     if hasattr(message, "pretty_repr"):
-        pretty_message = message.pretty_repr(html=True)
+        rendered = message.pretty_repr(html=True)
+    elif isinstance(message, dict):
+        rendered = str(message.get("content", message))
     else:
-        pretty_message = str(message)
-
+        rendered = str(message)
     if indent:
-        indented = "\n".join("\t" + line for line in pretty_message.split("\n"))
-        return indented
-    return pretty_message
+        return "\n".join("\t" + line for line in rendered.splitlines())
+    return rendered
 
 
-def extract_recommendations(final_messages) -> List[Dict[str, Any]]:
-    """Extract structured recommendations from the final messages"""
-    recommendations = []
-
-    # This is a simplified parser - you might want to enhance this
-    # based on the actual output format of your agents
-
+def extract_recommendations(
+    final_messages: List[Any],
+) -> List[Dict[str, Any]]:
+    """Extract basic recommendation fields from agent markdown."""
+    recommendations: list[dict[str, Any]] = []
     for message in final_messages:
-        content = ""
         if hasattr(message, "content"):
             content = str(message.content)
-        elif isinstance(message, dict) and message.get("content"):
-            content = str(message["content"])
+        elif isinstance(message, dict):
+            content = str(message.get("content", ""))
+        else:
+            content = ""
 
-        # Look for recommendation patterns in the content
-        if "RECOMMENDATION:" in content and "TARGET PRICE:" in content:
-            # Parse the recommendation (this is a basic example)
-            lines = content.split("\n")
-            rec = {}
+        if "RECOMMENDATION:" not in content or "TARGET PRICE:" not in content:
+            continue
 
-            for line in lines:
-                if "STOCK_SYMBOL" in line or "Symbol:" in line:
-                    rec["symbol"] = line.split(":")[-1].strip()
-                elif "RECOMMENDATION:" in line:
-                    rec["action"] = line.split(":")[-1].strip()
-                elif "TARGET PRICE:" in line:
-                    price_str = line.split(":")[-1].strip().replace("₹", "")
-                    try:
-                        rec["target_price"] = float(price_str)
-                    except:
-                        rec["target_price"] = price_str
-                elif "Current Price:" in line:
-                    price_str = line.split(":")[-1].strip().replace("₹", "")
-                    try:
-                        rec["current_price"] = float(price_str)
-                    except:
-                        rec["current_price"] = price_str
+        recommendation: dict[str, Any] = {}
+        for line in content.splitlines():
+            if "STOCK_SYMBOL" in line or "Symbol:" in line:
+                recommendation["symbol"] = line.split(":")[-1].strip()
+            elif "RECOMMENDATION:" in line:
+                recommendation["action"] = line.split(":")[-1].strip()
+            elif "TARGET PRICE:" in line:
+                value = line.split(":")[-1].strip().replace("₹", "")
+                try:
+                    recommendation["target_price"] = float(value)
+                except ValueError:
+                    recommendation["target_price"] = value
+            elif "Current Price:" in line:
+                value = line.split(":")[-1].strip().replace("₹", "")
+                try:
+                    recommendation["current_price"] = float(value)
+                except ValueError:
+                    recommendation["current_price"] = value
 
-            if rec:
-                recommendations.append(rec)
-
+        if recommendation:
+            recommendations.append(recommendation)
     return recommendations
 
 
 if __name__ == "__main__":
-    BRIGHTDATA_TOKEN = os.getenv("BRIGHT_DATA_API_TOKEN")
-    GROQ_TOKEN = os.getenv("GROQ_API_KEY")
-
-    system = StockResearchSystem(BRIGHTDATA_TOKEN, GROQ_TOKEN)
-    results = asyncio.run(system.analyze_stocks())
-
-    print("*" * 80)
-    print("STOCK ANALYSIS RESULTS")
-    print("*" * 80)
-
-    recommendations = extract_recommendations(results["messages"])
-    print(recommendations)
-
-    print(results)
+    research_system = StockResearchSystem(os.getenv("BRIGHT_DATA_API_TOKEN"))
+    analysis = asyncio.run(research_system.analyze_stocks())
+    safe_print(research_system.format_results_for_display(analysis))

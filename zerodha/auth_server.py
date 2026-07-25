@@ -21,7 +21,8 @@ import threading
 import webbrowser
 from typing import Optional
 
-from flask import Flask, request, redirect
+from flask import Flask, request
+from werkzeug.serving import make_server
 
 logger = logging.getLogger(__name__)
 
@@ -101,46 +102,38 @@ def run_auth_flow(
         logger.info("[AUTH] Already authenticated with saved token")
         return client
 
-    # Start Flask server in background thread
-    server_thread = threading.Thread(
-        target=lambda: app.run(
-            host="127.0.0.1",
-            port=CALLBACK_PORT,
-            debug=False,
-            use_reloader=False,
-        ),
-        daemon=True,
-    )
+    # Use a controllable server so the callback port is released after login.
+    server = make_server("127.0.0.1", CALLBACK_PORT, app)
+    server_thread = threading.Thread(target=server.serve_forever, daemon=True)
     server_thread.start()
     time.sleep(0.5)  # Let server start
 
-    # Build login URL with redirect
-    # Note: The redirect URL must be configured in your Kite Connect app settings
-    # Set it to: http://127.0.0.1:5678/callback
-    login_url = client.login_url
-    logger.info(f"[AUTH] Opening browser for Zerodha login...")
-    logger.info(f"[AUTH] Redirect URL (configure in Kite app): {CALLBACK_URL}")
-    webbrowser.open(login_url)
+    try:
+        # The redirect URL must match CALLBACK_URL in the Kite Connect app.
+        login_url = client.login_url
+        logger.info("[AUTH] Opening browser for Zerodha login...")
+        logger.info("[AUTH] Redirect URL (configure in Kite app): %s", CALLBACK_URL)
+        webbrowser.open(login_url)
 
-    # Wait for callback
-    print(f"\n⏳ Waiting for Zerodha login (timeout: {timeout}s)...")
-    print(f"   If browser didn't open, visit: {login_url}\n")
+        print(f"\nWaiting for Zerodha login (timeout: {timeout}s)...")
+        print(f"   If browser didn't open, visit: {login_url}\n")
 
-    success = _auth_complete.wait(timeout=timeout)
+        success = _auth_complete.wait(timeout=timeout)
+        if not success or not _captured_token:
+            raise TimeoutError(
+                f"Login timed out after {timeout}s. "
+                "Ensure your Kite app redirect URL is set to: " + CALLBACK_URL
+            )
 
-    if not success or not _captured_token:
-        raise TimeoutError(
-            f"Login timed out after {timeout}s. "
-            "Ensure your Kite app redirect URL is set to: " + CALLBACK_URL
-        )
-
-    # Exchange token
-    logger.info("[AUTH] Request token captured, exchanging for access token...")
-    if client.authenticate(_captured_token):
-        print("✅ Zerodha authentication successful!")
+        logger.info("[AUTH] Request token captured, exchanging for access token...")
+        if not client.authenticate(_captured_token):
+            raise RuntimeError("Failed to exchange request_token for access_token")
+        print("Zerodha authentication successful!")
         return client
-    else:
-        raise RuntimeError("Failed to exchange request_token for access_token")
+    finally:
+        server.shutdown()
+        server.server_close()
+        server_thread.join(timeout=5)
 
 
 def run_manual_auth(request_token: Optional[str] = None):
@@ -180,8 +173,8 @@ if __name__ == "__main__":
     try:
         client = run_auth_flow()
         profile = client.get_profile()
-        print(f"\n👤 Logged in as: {profile.get('user_name', 'N/A')}")
-        print(f"💰 Available cash: ₹{client.get_available_cash():,.2f}")
+        print(f"\nLogged in as: {profile.get('user_name', 'N/A')}")
+        print(f"Available cash: Rs {client.get_available_cash():,.2f}")
     except Exception as e:
-        print(f"\n❌ Error: {e}")
+        print(f"\nError: {e}")
         sys.exit(1)

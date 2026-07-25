@@ -56,6 +56,7 @@ class SwingTradingStrategy(BaseStrategy):
                 required=False,
                 default=[],
                 help='List of {"symbol","quantity","buy_price",...} open swing positions.',
+                group="Positions",
             ),
             ParamSpec(
                 name="watchlist",
@@ -64,6 +65,7 @@ class SwingTradingStrategy(BaseStrategy):
                 required=False,
                 default=[],
                 help="Candidate NSE tickers to evaluate for new entries.",
+                group="Watchlist",
             ),
             ParamSpec(
                 name="prompt",
@@ -72,6 +74,8 @@ class SwingTradingStrategy(BaseStrategy):
                 required=False,
                 default="",
                 help="Optional free-form instruction; defaults to the mode's directive.",
+                group="Advanced",
+                advanced=True,
             ),
             ParamSpec(
                 name="total_capital",
@@ -81,6 +85,16 @@ class SwingTradingStrategy(BaseStrategy):
                 default=None,
                 help="Capital allocated to swing trading.",
                 min=0,
+                group="Capital & risk",
+            ),
+            ParamSpec(
+                name="cash_available",
+                label="Cash available (₹)",
+                type=ParamType.FLOAT,
+                required=False,
+                default=None,
+                min=0,
+                group="Capital & risk",
             ),
             ParamSpec(
                 name="target_profit_pct",
@@ -89,6 +103,7 @@ class SwingTradingStrategy(BaseStrategy):
                 required=False,
                 default=DEFAULT_TARGET_PROFIT_PCT,
                 min=0,
+                group="Capital & risk",
             ),
             ParamSpec(
                 name="max_holding_days",
@@ -97,6 +112,71 @@ class SwingTradingStrategy(BaseStrategy):
                 required=False,
                 default=DEFAULT_MAX_HOLDING_DAYS,
                 min=1,
+                group="Capital & risk",
+            ),
+            ParamSpec(
+                name="risk_per_trade_pct",
+                label="Risk per trade (%)",
+                type=ParamType.FLOAT,
+                required=False,
+                default=2.0,
+                min=0,
+                max=100,
+                group="Capital & risk",
+            ),
+            ParamSpec(
+                name="min_rr",
+                label="Minimum reward:risk",
+                type=ParamType.FLOAT,
+                required=False,
+                default=2.0,
+                min=0,
+                group="Capital & risk",
+            ),
+            ParamSpec(
+                name="max_positions",
+                label="Maximum open positions",
+                type=ParamType.INT,
+                required=False,
+                default=None,
+                min=1,
+                group="Capital & risk",
+            ),
+            ParamSpec(
+                name="risk_appetite",
+                label="Risk appetite",
+                type=ParamType.ENUM,
+                required=False,
+                default=None,
+                choices=["Low", "Moderate", "High"],
+                group="Capital & risk",
+            ),
+            ParamSpec(
+                name="model",
+                label="Copilot model",
+                type=ParamType.STRING,
+                required=False,
+                default=None,
+                group="Advanced",
+                advanced=True,
+            ),
+            ParamSpec(
+                name="web_grounding",
+                label="Use live web grounding",
+                type=ParamType.BOOL,
+                required=False,
+                default=True,
+                group="Advanced",
+                advanced=True,
+            ),
+            ParamSpec(
+                name="scraper_tools",
+                label="Use local market-data tools",
+                type=ParamType.BOOL,
+                required=False,
+                default=True,
+                group="Advanced",
+                advanced=True,
             ),
         ]
 
@@ -111,12 +191,17 @@ class SwingTradingStrategy(BaseStrategy):
 
         cfg = swing.SwingConfig(
             total_capital=_opt_float(params.get("total_capital")),
+            cash_available=_opt_float(params.get("cash_available")),
             target_profit_pct=float(
-                params.get("target_profit_pct") or DEFAULT_TARGET_PROFIT_PCT
+                params.get("target_profit_pct", DEFAULT_TARGET_PROFIT_PCT)
             ),
             max_holding_days=int(
                 params.get("max_holding_days") or DEFAULT_MAX_HOLDING_DAYS
             ),
+            risk_per_trade_pct=float(params.get("risk_per_trade_pct", 2.0)),
+            min_rr=float(params.get("min_rr", 2.0)),
+            max_positions=_opt_int(params.get("max_positions")),
+            risk_appetite=params.get("risk_appetite") or None,
         )
 
         report = swing.run_analysis(
@@ -125,6 +210,9 @@ class SwingTradingStrategy(BaseStrategy):
             user_prompt=user_prompt,
             cfg=cfg,
             template=template,
+            model=params.get("model") or None,
+            web_grounding=bool(params.get("web_grounding", True)),
+            scraper_tools=bool(params.get("scraper_tools", True)),
         )
 
         return StrategyResult(
@@ -143,3 +231,9 @@ def _opt_float(value: Any) -> Optional[float]:
     if value is None or value == "":
         return None
     return float(value)
+
+
+def _opt_int(value: Any) -> Optional[int]:
+    if value is None or value == "":
+        return None
+    return int(value)

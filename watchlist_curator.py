@@ -437,10 +437,13 @@ def score_and_rank(metrics: List[StockMetrics], c: ScreenConfig) -> List[StockMe
     per_industry: Dict[str, int] = {}
     for m in passed:
         cap = c.max_per_industry
-        if cap > 0 and per_industry.get(m.industry, 0) >= cap:
+        industry = (m.industry or "").strip()
+        is_unknown = not industry or industry.lower() == "unknown"
+        if cap > 0 and not is_unknown and per_industry.get(industry, 0) >= cap:
             continue
         shortlisted.append(m)
-        per_industry[m.industry] = per_industry.get(m.industry, 0) + 1
+        if not is_unknown:
+            per_industry[industry] = per_industry.get(industry, 0) + 1
         if len(shortlisted) >= c.shortlist_size:
             break
 

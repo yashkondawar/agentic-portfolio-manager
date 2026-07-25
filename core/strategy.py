@@ -20,6 +20,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from dataclasses import asdict, dataclass, field
+from datetime import date, datetime
 from enum import Enum
 from typing import Any, Dict, List, Optional
 
@@ -32,6 +33,7 @@ class ParamType(str, Enum):
     INT = "int"
     FLOAT = "float"
     BOOL = "bool"
+    DATE = "date"
     ENUM = "enum"  # one of ``choices``
     SYMBOLS = "symbols"  # comma/space separated tickers -> List[str]
     JSON = "json"  # structured payload (e.g. portfolio / positions)
@@ -44,6 +46,7 @@ class StrategyCategory(str, Enum):
     SWING = "swing"  # short-term swing trading
     PORTFOLIO = "portfolio"  # portfolio-level analysis / rebalance
     WATCHLIST = "watchlist"  # universe screening / curation
+    BACKTEST = "backtest"  # historical strategy validation
 
 
 @dataclass
@@ -63,6 +66,8 @@ class ParamSpec:
     choices: Optional[List[str]] = None  # only for ParamType.ENUM
     min: Optional[float] = None
     max: Optional[float] = None
+    group: str = "Basic"
+    advanced: bool = False
 
     def to_dict(self) -> Dict[str, Any]:
         d = asdict(self)
@@ -160,19 +165,39 @@ def _coerce_value(spec: ParamSpec, value: Any) -> Any:
             items = value
         else:
             items = [s for s in str(value).replace(",", " ").split()]
-        return [str(s).strip().upper() for s in items if str(s).strip()]
-    if t == ParamType.INT:
-        return int(value)
-    if t == ParamType.FLOAT:
-        return float(value)
-    if t == ParamType.BOOL:
+        coerced = [str(s).strip().upper() for s in items if str(s).strip()]
+    elif t == ParamType.INT:
+        coerced = int(value)
+    elif t == ParamType.FLOAT:
+        coerced = float(value)
+    elif t == ParamType.BOOL:
         if isinstance(value, bool):
-            return value
-        return str(value).strip().lower() in ("1", "true", "yes", "y", "on")
-    if t == ParamType.JSON:
+            coerced = value
+        else:
+            coerced = str(value).strip().lower() in ("1", "true", "yes", "y", "on")
+    elif t == ParamType.DATE:
+        if isinstance(value, datetime):
+            value = value.date()
+        if isinstance(value, date):
+            coerced = value.isoformat()
+        else:
+            coerced = date.fromisoformat(str(value).strip()).isoformat()
+    elif t == ParamType.JSON:
         if isinstance(value, str):
             import json
 
-            return json.loads(value)
-        return value
-    return value
+            coerced = json.loads(value)
+        else:
+            coerced = value
+    else:
+        coerced = value
+
+    if spec.choices is not None and coerced not in spec.choices:
+        choices = ", ".join(map(str, spec.choices))
+        raise ValueError(f"Parameter '{spec.name}' must be one of: {choices}")
+    if isinstance(coerced, (int, float)) and not isinstance(coerced, bool):
+        if spec.min is not None and coerced < spec.min:
+            raise ValueError(f"Parameter '{spec.name}' must be at least {spec.min}")
+        if spec.max is not None and coerced > spec.max:
+            raise ValueError(f"Parameter '{spec.name}' must be at most {spec.max}")
+    return coerced

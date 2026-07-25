@@ -51,7 +51,11 @@ class QuarterlyResultsStrategy(BaseStrategy):
                 type=ParamType.BOOL,
                 required=False,
                 default=True,
-                help="On = Copilot CLI finds the day's result-declarers; Off = use the watchlist as declarers.",
+                help=(
+                    "On = Copilot CLI finds the day's result-declarers; "
+                    "Off = use the watchlist as declarers."
+                ),
+                group="Discovery",
             ),
             ParamSpec(
                 name="use_nse",
@@ -59,7 +63,11 @@ class QuarterlyResultsStrategy(BaseStrategy):
                 type=ParamType.BOOL,
                 required=False,
                 default=True,
-                help="Use the NSE corporate-filings feed (authoritative just-declared results) alongside web search.",
+                help=(
+                    "Use the NSE corporate-filings feed (authoritative just-declared "
+                    "results) alongside web search."
+                ),
+                group="Discovery",
             ),
             ParamSpec(
                 name="nse_delta",
@@ -67,7 +75,12 @@ class QuarterlyResultsStrategy(BaseStrategy):
                 type=ParamType.BOOL,
                 required=False,
                 default=True,
-                help="On = fetch the full NSE results table once/day and act only on newly-filed results (via a persistent seen-cache). Off = use a fixed lookback_days window.",
+                help=(
+                    "On = fetch the full NSE results table once/day and act only on "
+                    "newly-filed results (via a persistent seen-cache). Off = use a "
+                    "fixed lookback_days window."
+                ),
+                group="Discovery",
             ),
             ParamSpec(
                 name="upcoming_days",
@@ -76,7 +89,11 @@ class QuarterlyResultsStrategy(BaseStrategy):
                 required=False,
                 default=14,
                 min=0,
-                help="Show companies scheduled to declare results in the next N days (NSE events calendar). 0 = off.",
+                help=(
+                    "Show companies scheduled to declare results in the next N days "
+                    "(NSE events calendar). 0 = off."
+                ),
+                group="Discovery",
             ),
             ParamSpec(
                 name="watchlist",
@@ -84,7 +101,11 @@ class QuarterlyResultsStrategy(BaseStrategy):
                 type=ParamType.SYMBOLS,
                 required=False,
                 default=[],
-                help="Optional NSE tickers to seed/limit discovery (or use directly when web-grounding is off).",
+                help=(
+                    "Optional NSE tickers to seed/limit discovery (or use directly "
+                    "when web-grounding is off)."
+                ),
+                group="Discovery",
             ),
             ParamSpec(
                 name="lookback_days",
@@ -93,7 +114,11 @@ class QuarterlyResultsStrategy(BaseStrategy):
                 required=False,
                 default=config.DEFAULT_LOOKBACK_DAYS,
                 min=1,
-                help="Treat results declared within this many days (incl. today) as 'just declared'.",
+                help=(
+                    "Treat results declared within this many days (incl. today) as "
+                    "'just declared'."
+                ),
+                group="Discovery",
             ),
             ParamSpec(
                 name="max_new",
@@ -102,6 +127,7 @@ class QuarterlyResultsStrategy(BaseStrategy):
                 required=False,
                 default=10,
                 min=1,
+                group="Selection",
             ),
             ParamSpec(
                 name="max_analyze",
@@ -111,6 +137,7 @@ class QuarterlyResultsStrategy(BaseStrategy):
                 default=40,
                 min=1,
                 help="Cap on how many discovered names to scrape/verify on screener.in.",
+                group="Selection",
             ),
             ParamSpec(
                 name="min_yoy_profit_growth",
@@ -119,6 +146,7 @@ class QuarterlyResultsStrategy(BaseStrategy):
                 required=False,
                 default=config.MIN_YOY_PROFIT_GROWTH,
                 min=0,
+                group="Selection",
             ),
             ParamSpec(
                 name="target_min_pct",
@@ -127,6 +155,7 @@ class QuarterlyResultsStrategy(BaseStrategy):
                 required=False,
                 default=config.TARGET_MIN_PCT,
                 min=0,
+                group="Risk & exits",
             ),
             ParamSpec(
                 name="target_max_pct",
@@ -135,6 +164,25 @@ class QuarterlyResultsStrategy(BaseStrategy):
                 required=False,
                 default=config.TARGET_MAX_PCT,
                 min=0,
+                group="Risk & exits",
+            ),
+            ParamSpec(
+                name="trailing_stop_ratio",
+                label="Trailing-stop ratio",
+                type=ParamType.FLOAT,
+                default=config.TRAILING_STOP_RATIO,
+                min=0,
+                max=1,
+                help="Trailing-stop distance as a fraction of the target return.",
+                group="Risk & exits",
+            ),
+            ParamSpec(
+                name="max_holding_days",
+                label="Maximum holding period (days)",
+                type=ParamType.INT,
+                default=config.MAX_HOLDING_DAYS,
+                min=1,
+                group="Risk & exits",
             ),
             ParamSpec(
                 name="model",
@@ -143,6 +191,8 @@ class QuarterlyResultsStrategy(BaseStrategy):
                 required=False,
                 default=None,
                 help="Optional model id for the discovery LLM run.",
+                group="Advanced",
+                advanced=True,
             ),
             ParamSpec(
                 name="dry_run",
@@ -151,6 +201,8 @@ class QuarterlyResultsStrategy(BaseStrategy):
                 required=False,
                 default=False,
                 help="Compute and report without writing to the ledger or memory.",
+                group="Advanced",
+                advanced=True,
             ),
         ]
 
