@@ -71,6 +71,7 @@ def add_pick(picks, analysis, plan, *, result_date: str, entry_date: Optional[st
         "target_pct": plan.target_pct,
         "target_price": plan.target_price,
         "trailing_stop_pct": plan.trailing_stop_pct,
+        "max_holding_days": plan.max_holding_days,
         "highest_price": plan.entry_price,
         "stop_price": round(
             plan.entry_price * (1 - plan.trailing_stop_pct / 100.0), 2
@@ -78,6 +79,9 @@ def add_pick(picks, analysis, plan, *, result_date: str, entry_date: Optional[st
         "status": "open",
         "method": plan.method,
         "strength_score": analysis.strength_score,
+        "conviction": getattr(analysis, "conviction", None),
+        "conviction_verdict": getattr(analysis, "conviction_verdict", ""),
+        "conviction_summary": getattr(analysis, "conviction_summary", ""),
         "rationale": analysis.rationale,
         "target_notes": plan.notes,
         "exit_date": None,
@@ -128,6 +132,7 @@ def update_open_positions(
 
         entry_dt = _parse_date(p.get("entry_date"))
         days_held = (as_of - entry_dt).days if entry_dt else 0
+        max_hold = p.get("max_holding_days") or config.MAX_HOLDING_DAYS
 
         reason: Optional[str] = None
         status: Optional[str] = None
@@ -135,7 +140,7 @@ def update_open_positions(
             reason, status = "target", "booked"
         elif price <= p["stop_price"]:
             reason, status = "trailing_stop", "exited"
-        elif days_held >= config.MAX_HOLDING_DAYS:
+        elif days_held >= max_hold:
             reason, status = "time_stop", "exited"
 
         if reason:

@@ -23,6 +23,26 @@ from swing_trading_copilot import (  # verified plumbing
 logger = logging.getLogger("qtr_results.copilot")
 
 
+def _safe_write(stream, text: str) -> None:
+    """Write ``text`` to a console stream without ever raising on encoding.
+
+    The Copilot output routinely contains characters (e.g. the ₹ rupee sign) that
+    the default Windows console code page (cp1252) cannot encode; a naive
+    ``print`` then raises ``UnicodeEncodeError`` and aborts output capture. We
+    round-trip through the stream's own encoding with ``errors="replace"`` so the
+    echo degrades gracefully instead of breaking the run.
+    """
+    try:
+        stream.write(text)
+    except UnicodeEncodeError:
+        enc = getattr(stream, "encoding", None) or "utf-8"
+        stream.write(text.encode(enc, errors="replace").decode(enc, errors="replace"))
+    try:
+        stream.flush()
+    except Exception:  # noqa: BLE001
+        pass
+
+
 def run_copilot(
     prompt_text: str,
     *,
@@ -80,8 +100,7 @@ def run_copilot(
             for raw in iter(pipe.readline, ""):
                 if not raw:
                     break
-                sys.stderr.write(f"[copilot] {raw}")
-                sys.stderr.flush()
+                _safe_write(sys.stderr, f"[copilot] {raw}")
         finally:
             try:
                 pipe.close()
@@ -100,7 +119,7 @@ def run_copilot(
         assert proc.stdout is not None
         for line in proc.stdout:
             captured.append(line)
-            print(line, end="", flush=True)
+            _safe_write(sys.stdout, line)
 
         rc = proc.wait()
         stderr_thread.join(timeout=5.0)

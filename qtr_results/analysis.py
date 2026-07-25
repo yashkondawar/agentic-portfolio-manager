@@ -35,10 +35,18 @@ class AnalysisResult:
     qoq_sales_growth: Optional[float] = None
     yoy_eps_growth: Optional[float] = None
     margin_delta_pp: Optional[float] = None
+    debt_to_equity: Optional[float] = None
+    roce: Optional[float] = None
+    is_financial: bool = False
     strength_score: float = 0.0
     is_strong: bool = False
     rationale: str = ""
     error: Optional[str] = None
+    # ── Tier-2 LLM qualitative conviction (attached post-selection) ─────────
+    conviction: Optional[float] = None
+    conviction_verdict: str = ""
+    conviction_summary: str = ""
+    conviction_risks: List[str] = field(default_factory=list)
     raw_top_ratios: Dict[str, str] = field(default_factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -102,6 +110,66 @@ def _ttm_eps(eps_series: Dict[str, Optional[float]], quarters: List[str]) -> Opt
     if len(last4) < 4 or any(v is None for v in last4):
         return None
     return sum(v for v in last4 if v is not None)
+
+
+def _index_section(rows: List[Dict[str, str]]) -> Tuple[Dict[str, Dict[str, Optional[float]]], List[str]]:
+    """Generic screener section → ``({row_label: {col: value}}, ordered_cols)``."""
+    out: Dict[str, Dict[str, Optional[float]]] = {}
+    cols: List[str] = []
+    for row in rows or []:
+        if "data" in row and len(row) == 1:
+            continue
+        label = row.get("", "")
+        if not label:
+            first_key = next(iter(row), None)
+            label = row.get(first_key, "") if first_key else ""
+        if not label:
+            continue
+        vals: Dict[str, Optional[float]] = {}
+        for k, v in row.items():
+            if k in ("", None):
+                continue
+            vals[k] = parse_number(v)
+        out.setdefault(label, vals)
+        if not cols:
+            cols = [k for k in row.keys() if k not in ("", None)]
+    return out, cols
+
+
+def _quality_metrics(data: Dict[str, Any]) -> Tuple[Optional[float], Optional[float], bool]:
+    """Balance-sheet quality from the LATEST screener columns.
+
+    Returns ``(debt_to_equity, roce, is_financial)``:
+    * ``debt_to_equity`` = Borrowings ÷ (Equity Capital + Reserves) from the most
+      recent annual balance-sheet column.
+    * ``roce`` = the latest annual ROCE %.
+    * ``is_financial`` flags banks/NBFCs (they report Financing Profit and carry
+      structurally high leverage, so the debt gate is not meaningful for them).
+
+    Any missing input yields ``None`` (callers treat that as "don't reject").
+    """
+    qsec, _ = _index_section(data.get("quarterly_results", []) or [])
+    is_financial = "Financing Profit" in qsec or (
+        "OPM %" not in qsec and "Financing Margin %" in qsec
+    )
+
+    de: Optional[float] = None
+    bs, bsc = _index_section(data.get("balance_sheet", []) or [])
+    if bsc:
+        bcol = bsc[-1]  # most recent balance-sheet column
+        borrow = bs.get("Borrowings+", {}).get(bcol)
+        eq_cap = bs.get("Equity Capital", {}).get(bcol) or 0.0
+        reserves = bs.get("Reserves", {}).get(bcol) or 0.0
+        equity = eq_cap + reserves
+        if borrow is not None and equity:
+            de = borrow / equity
+
+    roce: Optional[float] = None
+    fr, frc = _index_section(data.get("financial_ratios", []) or [])
+    if frc:
+        roce = fr.get("ROCE %", {}).get(frc[-1])
+
+    return de, roce, is_financial
 
 
 def _strength_score(
@@ -173,12 +241,30 @@ def analyze_symbol(symbol: str) -> AnalysisResult:
 
     score = _strength_score(yoy_profit, qoq_profit, yoy_eps, yoy_sales, margin_delta)
 
+    debt_to_equity, roce, is_financial = _quality_metrics(data)
+
     is_strong = (
         yoy_profit is not None
         and yoy_profit >= config.MIN_YOY_PROFIT_GROWTH
         and (yoy_eps is None or yoy_eps >= config.MIN_YOY_EPS_GROWTH)
         and (qoq_profit is None or qoq_profit >= config.MIN_QOQ_PROFIT_GROWTH)
     )
+
+    # B8 — reject over-levered balance sheets (validated in backtesting). Banks/
+    # NBFCs are exempt unless explicitly enabled; a missing value never rejects.
+    apply_debt = config.APPLY_QUALITY_TO_FINANCIALS or not is_financial
+    if (
+        is_strong
+        and config.MAX_DEBT_TO_EQUITY is not None
+        and apply_debt
+        and debt_to_equity is not None
+        and debt_to_equity > config.MAX_DEBT_TO_EQUITY
+    ):
+        is_strong = False
+        logger.info(
+            "%s rejected by debt gate: debt/equity %.2f > %.2f",
+            symbol, debt_to_equity, config.MAX_DEBT_TO_EQUITY,
+        )
 
     result = AnalysisResult(
         symbol=symbol,
@@ -193,6 +279,9 @@ def analyze_symbol(symbol: str) -> AnalysisResult:
         qoq_sales_growth=qoq_sales,
         yoy_eps_growth=yoy_eps,
         margin_delta_pp=margin_delta,
+        debt_to_equity=debt_to_equity,
+        roce=roce,
+        is_financial=is_financial,
         strength_score=score,
         is_strong=bool(is_strong),
         raw_top_ratios=top,
@@ -212,4 +301,6 @@ def _build_rationale(r: AnalysisResult) -> str:
     ]
     if r.margin_delta_pp is not None:
         parts.append(f"OPM d {r.margin_delta_pp:+.1f}pp")
+    if r.debt_to_equity is not None:
+        parts.append(f"D/E {r.debt_to_equity:.2f}")
     return "; ".join(parts)
