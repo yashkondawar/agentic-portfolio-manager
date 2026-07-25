@@ -14,6 +14,8 @@ from . import portfolio_analysis  # noqa: F401
 from . import watchlist_curation  # noqa: F401
 from . import qtr_results  # noqa: F401
 from . import swing_backtest  # noqa: F401
+from . import breakout_52w  # noqa: F401
+from . import breakout_52w_daily  # noqa: F401
 
 __all__ = [
     "sequential_agents",
@@ -23,4 +25,6 @@ __all__ = [
     "watchlist_curation",
     "qtr_results",
     "swing_backtest",
+    "breakout_52w",
+    "breakout_52w_daily",
 ]

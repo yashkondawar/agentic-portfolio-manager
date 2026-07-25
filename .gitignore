@@ -216,6 +216,8 @@ backtesting/swing_trading/results/
 backtesting/qtr_results/data_cache/
 backtesting/qtr_results/fundamentals_cache/
 backtesting/qtr_results/results/
+backtesting/breakout_52w/data_cache/
+backtesting/breakout_52w/results/
 
 # Quarterly-results strategy persistent state (ledger + long-term memory)
 qtr_results/state/

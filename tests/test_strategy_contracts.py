@@ -53,4 +53,6 @@ def test_registry_exposes_every_workbench_strategy():
         "watchlist_curation",
         "qtr_results",
         "swing_backtest",
+        "breakout_52w_backtest",
+        "breakout_52w_daily",
     }

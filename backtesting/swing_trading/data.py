@@ -70,7 +70,9 @@ class PointInTimeData:
     def __init__(self, cache_dir: Path):
         self.cache_dir = Path(cache_dir)
         self.cache_dir.mkdir(parents=True, exist_ok=True)
-        self.frames: Dict[str, pd.DataFrame] = {}   # plain symbol -> OHLCV df (tz-naive index)
+        self.frames: Dict[str, pd.DataFrame] = (
+            {}
+        )  # plain symbol -> OHLCV df (tz-naive index)
         self.benchmark: Optional[pd.DataFrame] = None
         self._trading_days: Optional[List[date]] = None
 
@@ -88,9 +90,10 @@ class PointInTimeData:
         warmup_days: int,
         use_cache: bool = True,
         chunk_size: int = 40,
+        forward_days: int = 2,
     ) -> None:
         dl_start = start - timedelta(days=warmup_days)
-        dl_end = end + timedelta(days=2)
+        dl_end = end + timedelta(days=forward_days)
         requested_symbols = sorted({_cache_symbol(symbol) for symbol in symbols})
         tag = _cache_tag(symbols, benchmark, dl_start, dl_end)
         cache_path = self._cache_path(tag)
@@ -113,21 +116,39 @@ class PointInTimeData:
 
         # Benchmark first (also defines the trading calendar).
         logger.info("Downloading benchmark %s ...", benchmark)
-        bench = yf.download(benchmark, start=dl_start, end=dl_end, interval="1d",
-                            auto_adjust=True, progress=False, threads=True)
+        bench = yf.download(
+            benchmark,
+            start=dl_start,
+            end=dl_end,
+            interval="1d",
+            auto_adjust=True,
+            progress=False,
+            threads=True,
+        )
         self.benchmark = self._normalise(bench)
 
         yf_map = {_yf_symbol(s): _plain_symbol(s) for s in symbols}
         all_yf = list(yf_map.keys())
         total = len(all_yf)
         for i in range(0, total, chunk_size):
-            chunk = all_yf[i:i + chunk_size]
-            logger.info("Downloading prices %d-%d of %d ...",
-                        i + 1, min(i + chunk_size, total), total)
+            chunk = all_yf[i : i + chunk_size]  # noqa: E203
+            logger.info(
+                "Downloading prices %d-%d of %d ...",
+                i + 1,
+                min(i + chunk_size, total),
+                total,
+            )
             try:
-                data = yf.download(chunk, start=dl_start, end=dl_end, interval="1d",
-                                   auto_adjust=True, progress=False,
-                                   group_by="ticker", threads=True)
+                data = yf.download(
+                    chunk,
+                    start=dl_start,
+                    end=dl_end,
+                    interval="1d",
+                    auto_adjust=True,
+                    progress=False,
+                    group_by="ticker",
+                    threads=True,
+                )
             except Exception as e:  # noqa: BLE001
                 logger.warning("Chunk download failed (%s); skipping.", e)
                 continue
@@ -141,8 +162,9 @@ class PointInTimeData:
                 if df is not None and not df.empty and len(df) >= 60:
                     self.frames[plain] = df
 
-        logger.info("Downloaded %d / %d symbols with usable history.",
-                    len(self.frames), total)
+        logger.info(
+            "Downloaded %d / %d symbols with usable history.", len(self.frames), total
+        )
 
         with open(cache_path, "wb") as fh:
             pickle.dump(
@@ -161,10 +183,24 @@ class PointInTimeData:
         if df is None or df.empty:
             return None
         df = df.copy()
-        # Flatten potential MultiIndex columns (single-ticker downloads).
+        # yfinance may return either (Price, Ticker) or (Ticker, Price).
         if isinstance(df.columns, pd.MultiIndex):
-            df.columns = df.columns.get_level_values(0)
-        keep = [c for c in ["Open", "High", "Low", "Close", "Volume"] if c in df.columns]
+            price_level = next(
+                (
+                    level
+                    for level in range(df.columns.nlevels)
+                    if "Close" in set(df.columns.get_level_values(level))
+                ),
+                None,
+            )
+            if price_level is None:
+                return None
+            df.columns = df.columns.get_level_values(price_level)
+        keep = [
+            c for c in ["Open", "High", "Low", "Close", "Volume"] if c in df.columns
+        ]
+        if "Close" not in keep:
+            return None
         df = df[keep].dropna(subset=["Close"])
         # Make the index tz-naive python dates for clean comparison.
         idx = pd.to_datetime(df.index)
@@ -226,7 +262,7 @@ class PointInTimeData:
     def benchmark_as_of(self, day: date) -> Optional[pd.DataFrame]:
         if self.benchmark is None:
             return None
-        return self.benchmark.loc[:pd.Timestamp(day).normalize()]
+        return self.benchmark.loc[: pd.Timestamp(day).normalize()]
 
     # ── Trading calendar (from benchmark, falls back to union of symbols) ─────
 

@@ -150,6 +150,19 @@ def swing_page() -> None:
         "Swing Desk",
         "Review open trades, evaluate the shared watchlist, and rotate capital.",
     )
+    workflow = st.selectbox(
+        "Workflow",
+        ["breakout_52w_daily", "swing_trading"],
+        format_func=lambda item: registry.get_strategy(item).name,
+    )
+    if workflow == "breakout_52w_daily":
+        st.info(
+            "This workflow uses its own persisted paper portfolio and does not "
+            "read Zerodha holdings."
+        )
+        _registry_runner(workflow, "breakout_52w_daily")
+        return
+
     source = st.radio(
         "Position source",
         ["Manual editor", "Zerodha snapshot", "Upload JSON/CSV"],
@@ -249,12 +262,17 @@ def portfolio_page() -> None:
 def backtest_page() -> None:
     page_header(
         "Backtest Lab",
-        "Validate the swing playbook with point-in-time data and next-session fills.",
+        "Validate deterministic trading systems with point-in-time data and next-session fills.",
     )
     st.warning(
         "Historical results include modeled costs but do not guarantee future returns."
     )
-    _registry_runner("swing_backtest", "backtest")
+    strategy_id = st.selectbox(
+        "Strategy",
+        ["swing_backtest", "breakout_52w_backtest"],
+        format_func=lambda item: registry.get_strategy(item).name,
+    )
+    _registry_runner(strategy_id, f"backtest_{strategy_id}")
 
 
 def broker_page() -> None:
@@ -444,7 +462,11 @@ def _registry_runner(strategy_id: str, key_prefix: str) -> None:
             key_prefix=key_prefix,
             defaults=(
                 {"symbols": st.session_state.get("symbol_basket", [])}
-                if strategy_id == "swing_backtest"
+                if strategy_id
+                in {
+                    "swing_backtest",
+                    "breakout_52w_backtest",
+                }
                 else None
             ),
         )

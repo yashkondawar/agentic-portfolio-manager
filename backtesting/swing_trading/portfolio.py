@@ -26,7 +26,13 @@ class Position:
     atr_at_entry: float
     setup: str = "Momentum"
     partial_booked: bool = False
-    highest_close: float = 0.0     # for trailing-stop logic
+    highest_close: float = 0.0  # for trailing-stop logic
+    breakout_level: float = 0.0
+    breakout_signal_date: Optional[date] = None
+    highest_high: float = 0.0
+    below_breakout_closes: int = 0
+    bars_held: int = 0
+    trailing_active: bool = False
 
     @property
     def invested(self) -> float:
@@ -102,7 +108,8 @@ class Portfolio:
         notional = exit_price * qty
         cost = self._cost(notional)
         self.cash += notional - cost
-        pnl = (exit_price - pos.entry_price) * qty - cost
+        entry_cost = self._cost(pos.entry_price * qty)
+        pnl = (exit_price - pos.entry_price) * qty - entry_cost - cost
         trade = ClosedTrade(
             symbol=symbol,
             quantity=qty,
@@ -137,7 +144,9 @@ class Portfolio:
     def total_equity(self, price_lookup: Callable[[str], Optional[float]]) -> float:
         return self.cash + self.deployed_value(price_lookup)
 
-    def record_equity(self, day: date, price_lookup: Callable[[str], Optional[float]]) -> dict:
+    def record_equity(
+        self, day: date, price_lookup: Callable[[str], Optional[float]]
+    ) -> dict:
         deployed = self.deployed_value(price_lookup)
         equity = self.cash + deployed
         snap = {

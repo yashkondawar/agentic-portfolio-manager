@@ -50,8 +50,10 @@ def render_result(result: StrategyResult, *, heading: bool = True) -> None:
         st.error(result.error or result.report or "Strategy failed")
         return
 
-    if result.strategy_id == "swing_backtest":
+    if result.strategy_id in {"swing_backtest", "breakout_52w_backtest"}:
         _render_backtest(result.data)
+    elif result.strategy_id == "breakout_52w_daily":
+        _render_breakout_daily(result.data)
     elif result.strategy_id == "parallel_agents":
         _render_decisions(result.data.get("decisions", {}))
     elif result.strategy_id == "watchlist_curation":
@@ -66,6 +68,7 @@ def render_result(result: StrategyResult, *, heading: bool = True) -> None:
         expanded=result.strategy_id
         not in {
             "swing_backtest",
+            "breakout_52w_backtest",
             "parallel_agents",
             "watchlist_curation",
             "qtr_results",
@@ -91,6 +94,12 @@ def result_symbols(result: StrategyResult) -> list[str]:
         ]
     if result.strategy_id == "parallel_agents":
         return list(data.get("decisions", {}))
+    if result.strategy_id == "breakout_52w_daily":
+        return [
+            str(item["symbol"])
+            for item in data.get("new_entries", [])
+            if item.get("symbol")
+        ]
     return list(data.get("symbols", []))
 
 
@@ -137,6 +146,33 @@ def _render_quarterly_results(data: dict) -> None:
         ("New picks", "new_picks"),
         ("Closed this run", "closed"),
         ("Upcoming results", "upcoming"),
+    ):
+        rows = data.get(key) or []
+        if rows:
+            st.markdown(f"#### {title}")
+            st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+
+
+def _render_breakout_daily(data: dict) -> None:
+    first = st.columns(4)
+    first[0].metric("As of", data.get("as_of", "-"))
+    first[1].metric(
+        "Market regime",
+        "Longs enabled" if data.get("regime_allows_entries") else "No new longs",
+    )
+    first[2].metric("Portfolio equity", f"₹{data.get('portfolio_equity', 0):,.0f}")
+    first[3].metric("Open risk", _pct(data.get("open_risk_pct")))
+    second = st.columns(3)
+    second[0].metric("Open positions", data.get("open_positions", 0))
+    second[1].metric("Pending entries", data.get("pending_entries_count", 0))
+    second[2].metric("Universe scanned", data.get("universe_size", 0))
+
+    for title, key in (
+        ("Position actions", "position_actions"),
+        ("New entries for next open", "new_entries"),
+        ("Pending for next open", "pending_entries"),
+        ("Filled from prior signals", "filled_entries"),
+        ("Lapsed or rejected entries", "rejected_entries"),
     ):
         rows = data.get(key) or []
         if rows:

@@ -14,10 +14,12 @@ and run them uniformly.
 | `sequential_agents` | Copilot SDK agents run in four research stages | research |
 | `parallel_agents`   | Concurrent multi-analyst fan-out + risk/portfolio managers | research |
 | `swing_trading`     | Daily swing-trading copilot | swing |
+| `breakout_52w_daily`| Daily Nifty 500 breakout scanner + paper portfolio | swing |
 | `portfolio_analysis`| Holistic portfolio review + rebalancing | portfolio |
 | `watchlist_curation`| Universe screening + LLM curation | watchlist |
 | `qtr_results`       | Quarterly-results momentum + tracked exits | swing |
 | `swing_backtest`    | Point-in-time validation of the swing playbook | backtest |
+| `breakout_52w_backtest` | Deterministic 52-week-high breakout system | backtest |
 
 **Layout**
 
@@ -37,7 +39,31 @@ run.py           # single CLI + programmatic entry point
 python run.py --list                 # discover all strategies + their params
 python run.py --list --json          # machine-readable specs (for a UI)
 python run.py parallel_agents --param symbols="RELIANCE,TCS" --param use_llm=true
+python run.py breakout_52w_backtest --param symbols="RELIANCE,TCS,INFY"
+python run.py breakout_52w_daily
 ```
+
+`breakout_52w_daily` scans the selected NSE index (Nifty 500 by default), so
+`symbols` is only a focused-universe override. It keeps its paper portfolio at
+`.trader_workbench/breakout_52w_portfolio.json`: close-of-day signals are queued,
+validated at the next session's open, and then managed on later daily runs.
+Every result also includes the complete `portfolio_state` JSON for backup,
+inspection, or use as an explicit state override.
+
+The optimized defaults require a close at least 0.1% above the prior high and
+2.0x relative volume, risk 1% of equity to a 1 ATR initial stop, and use a
+standing 3 ATR profit target. Backtests model the stop before the target when
+both prices occur in one daily candle. For live use, place both exit orders
+after entry; the daily workflow reports and persists their exact levels but
+does not submit broker orders.
+
+Five-year point-in-time simulation (2021-07-24 through 2026-07-24, ₹500,000
+initial cash) improved from 0.46% to 22.10% CAGR, while maximum drawdown fell
+from 32.81% to 12.48% and average losing-trade return improved from -4.20% to
+-3.33%. The untouched 2024-07-24 through 2026-07-24 holdout produced 16.56%
+CAGR with 7.34% maximum drawdown. These figures include 0.05% commission per
+side, but use today's Nifty 500 membership and therefore retain survivorship
+bias; they are validation results, not a return guarantee.
 
 **Integrate a UI** — everything a front end needs comes from the registry:
 
