@@ -50,20 +50,24 @@ validated at the next session's open, and then managed on later daily runs.
 Every result also includes the complete `portfolio_state` JSON for backup,
 inspection, or use as an explicit state override.
 
-The optimized defaults require a close at least 0.1% above the prior high and
-2.0x relative volume, risk 1% of equity to a 1 ATR initial stop, and use a
-standing 3 ATR profit target. Backtests model the stop before the target when
-both prices occur in one daily candle. For live use, place both exit orders
-after entry; the daily workflow reports and persists their exact levels but
-does not submit broker orders.
+The cross-regime defaults require a close at least 0.5% above the prior high,
+2.0x relative volume, three-month return at least 15 percentage points above
+the Nifty, and a 50-day SMA that has risen at least 2% over 20 sessions. Each
+trade risks 1% of equity to a 1 ATR initial stop and uses a standing 4 ATR
+profit target. Backtests model the stop before the target when both prices
+occur in one daily candle. For live use, place both exit orders after entry;
+the daily workflow reports and persists their exact levels but does not submit
+broker orders.
 
-Five-year point-in-time simulation (2021-07-24 through 2026-07-24, ₹500,000
-initial cash) improved from 0.46% to 22.10% CAGR, while maximum drawdown fell
-from 32.81% to 12.48% and average losing-trade return improved from -4.20% to
--3.33%. The untouched 2024-07-24 through 2026-07-24 holdout produced 16.56%
-CAGR with 7.34% maximum drawdown. These figures include 0.05% commission per
-side, but use today's Nifty 500 membership and therefore retain survivorship
-bias; they are validation results, not a return guarantee.
+The current five-year simulation (2021-07-24 through 2026-07-24, ₹500,000
+initial cash) produced 16.56% CAGR, -18.35% maximum drawdown, and 1.07 Sharpe.
+It intentionally gives back some of the prior version's exceptional 2023-2024
+returns in exchange for better cross-regime behavior: CAGR improved from
+3.73% to 5.66% in 2015-2018, -10.44% to 0.17% in 2019, 6.22% to 15.75% in
+2025-2026, and -4.67% to 2.99% in the untouched 2012-2014 holdout. These
+figures include 0.05% commission per side, but use today's Nifty 500 membership
+and therefore retain survivorship bias; they are validation results, not a
+return guarantee.
 
 **Integrate a UI** — everything a front end needs comes from the registry:
 

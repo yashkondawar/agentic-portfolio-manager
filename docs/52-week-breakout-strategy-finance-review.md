@@ -3,7 +3,7 @@
 ## Implementation and backtest review package
 
 **Purpose:** External finance and quantitative-methodology review  
-**Implementation commit:** `60d1303`  
+**Initial implementation commit:** `60d1303`
 **Document date:** 2026-07-26  
 **Market:** Indian listed equities  
 **Default universe:** Current Nifty 500 constituents  
@@ -21,11 +21,14 @@
 ## 1. Executive summary
 
 The strategy scans a broad Indian equity universe after each completed market
-session and looks for stocks closing at least 0.1% above their prior 252-session
+session and looks for stocks closing at least 0.5% above their prior 252-session
 high. A signal is accepted only when:
 
 - relative volume is at least 2.0 times the prior 20-session average;
 - `SMA20 > SMA50 > SMA200`;
+- the stock's 63-session return exceeds the Nifty's return by at least 15
+  percentage points;
+- the stock's SMA50 has risen at least 2% over the prior 20 sessions;
 - the close is no more than 1 ATR above the breakout level;
 - prior 50-session average volume is at least 500,000 shares;
 - prior 50-session average turnover is at least INR 5 crore;
@@ -36,28 +39,28 @@ high. A signal is accepted only when:
 Signals are generated after the close and may be filled at the next session's
 open. Each accepted position risks at most 1% of current equity to an initial
 1 ATR stop, is capped at 25% of equity by notional value, and has a standing
-3 ATR profit target. The portfolio holds at most five positions and caps total
+4 ATR profit target. The portfolio holds at most five positions and caps total
 initial open risk at 5% of equity.
 
-The official five-year simulation produced:
+The original baseline, first optimized version, and current cross-regime
+version produced:
 
-| Metric | Original baseline | Optimized implementation |
-|---|---:|---:|
-| Period | 2021-07-24 to 2026-07-24 | 2021-07-24 to 2026-07-24 |
-| Start equity | INR 500,000 | INR 500,000 |
-| End equity | INR 511,694 | INR 1,355,150 |
-| Total return | 2.34% | 171.03% |
-| CAGR | 0.46% | **22.10%** |
-| Maximum drawdown | -32.81% | **-12.48%** |
-| Sharpe ratio, risk-free rate 0 | 0.11 | **1.36** |
-| Profit factor | 1.01 | **1.42** |
-| Win rate | 36.87% | 36.91% |
-| Average losing-trade return | -4.20% | **-3.33%** |
+| Metric | Original baseline | First optimized | Current cross-regime |
+|---|---:|---:|---:|
+| Period | 2021-07-24 to 2026-07-24 | Same | Same |
+| Start equity | INR 500,000 | INR 500,000 | INR 500,000 |
+| End equity | INR 511,694 | INR 1,355,150 | INR 1,074,951 |
+| Total return | 2.34% | 171.03% | 114.99% |
+| CAGR | 0.46% | 22.10% | **16.56%** |
+| Maximum drawdown | -32.81% | -12.48% | **-18.35%** |
+| Sharpe ratio, risk-free rate 0 | 0.11 | 1.36 | **1.07** |
+| Profit factor | 1.01 | 1.42 | **1.37** |
+| Win rate | 36.87% | 36.91% | **36.36%** |
 
-The 2024-07-24 to 2026-07-24 validation period produced 16.56% CAGR and
--7.34% maximum drawdown. However, that period was inspected during parameter
-selection. It is therefore a **validation set, not a pristine untouched
-out-of-sample test**.
+The current rules produced 15.89% CAGR and -8.84% drawdown from 2024-07-24 to
+2026-07-24. The second optimization also reserved 2012-2014 until after final
+selection; that holdout improved from -4.67% to 2.99% CAGR. Survivorship bias
+still prevents treating it as pristine institutional-grade evidence.
 
 The improvement did not come from a materially higher full-period win rate.
 It came from smaller percentage losses, larger average percentage wins, faster
@@ -178,11 +181,11 @@ Required:
 
 ```text
 Close[t] > H252(t-1)
-BreakoutPct >= 0.10%
+BreakoutPct >= 0.50%
 ```
 
-The 0.10% clearance was added partly to avoid signals caused by adjusted-price
-rounding differences of only a few paise.
+The 0.50% clearance rejects marginal new highs and reduces signals caused by
+adjusted-price rounding differences of only a few paise.
 
 ### 4.3 Relative volume
 
@@ -207,7 +210,33 @@ Simple moving averages include the completed signal-day close:
 SMA20 > SMA50 > SMA200
 ```
 
-### 4.5 Average True Range
+### 4.5 Three-month relative strength
+
+```text
+StockReturn63 = (StockClose[t] / StockClose[t-63] - 1) * 100
+NiftyReturn63 = (NiftyClose[t] / NiftyClose[t-63] - 1) * 100
+RelativeStrength63 = StockReturn63 - NiftyReturn63
+```
+
+Required:
+
+```text
+RelativeStrength63 >= 15 percentage points
+```
+
+### 4.6 SMA50 slope
+
+```text
+SMA50Slope20 = (SMA50[t] / SMA50[t-20] - 1) * 100
+```
+
+Required:
+
+```text
+SMA50Slope20 >= 2%
+```
+
+### 4.7 Average True Range
 
 True range is:
 
@@ -227,7 +256,7 @@ adjust = False
 minimum observations = 14
 ```
 
-### 4.6 Breakout extension
+### 4.8 Breakout extension
 
 ```text
 ExtensionATR = (Close[t] - H252(t-1)) / ATR14[t]
@@ -239,7 +268,7 @@ Required:
 ExtensionATR <= 1.0
 ```
 
-### 4.7 Liquidity
+### 4.9 Liquidity
 
 Both liquidity tests exclude the signal day:
 
@@ -256,7 +285,7 @@ AverageTurnover50 >= INR 5 crore
 Signal-day Close >= INR 20
 ```
 
-### 4.8 Market regime
+### 4.10 Market regime
 
 New entries are allowed only when:
 
@@ -267,7 +296,7 @@ Nifty Close > Nifty SMA200
 
 The implementation does not require `SMA50 > SMA200`.
 
-### 4.9 Candidate ranking
+### 4.11 Candidate ranking
 
 When more candidates exist than portfolio capacity, candidates are sorted by:
 
@@ -309,7 +338,7 @@ Immediately after a modeled fill:
 
 ```text
 InitialStop = EntryPrice - 1 * SignalATR
-ProfitTarget = EntryPrice + 3 * SignalATR
+ProfitTarget = EntryPrice + 4 * SignalATR
 ```
 
 The model assumes these are standing orders on the entry day.
@@ -396,7 +425,7 @@ ambiguous daily candle.
 ### 7.1 Fixed target
 
 ```text
-Target = EntryPrice + 3 * ATR_at_entry
+Target = EntryPrice + 4 * ATR_at_entry
 ```
 
 This differs from a pure open-ended momentum strategy. The fixed target was
@@ -586,7 +615,7 @@ uv run python run.py breakout_52w_daily
 
 ---
 
-## 10. Optimization process
+## 10. First optimization process (superseded defaults)
 
 ### 10.1 Initial baseline
 
@@ -709,14 +738,66 @@ The optimized validation win rate was 0.73 percentage points lower than the
 baseline. The improvement came from payoff quality and lower loss severity,
 not from a higher percentage of winning trades.
 
-### 11.3 Benchmark comparison
+### 11.3 Cross-regime reoptimization and current defaults
+
+A second optimization round was requested after the first optimized rules
+performed poorly in 2015-2018 and 2025-2026. It deliberately excluded
+2008-2009 and 2020-2021 from selection because crash-and-rebound behavior can
+make long momentum systems look unusually favorable.
+
+The selection windows were:
+
+- primary: 2015-01-01 to 2019-01-01;
+- primary: 2025-06-01 to 2026-06-01;
+- robustness: calendar years 2019, 2022, 2023, and 2024; and
+- final holdout, not inspected until the candidate was frozen: 2012-01-01 to
+  2015-01-01.
+
+The current rules add or change four requirements:
+
+```text
+Minimum breakout clearance = 0.50%
+Minimum 63-session relative strength versus Nifty = 15 percentage points
+Minimum SMA50 rise over 20 sessions = 2%
+Standing profit target = 4 entry ATR
+```
+
+All other portfolio-risk and execution rules remain unchanged. Official-engine
+comparisons using INR 500,000 starting cash were:
+
+| Window | Prior CAGR | Current CAGR | Prior max DD | Current max DD |
+|---|---:|---:|---:|---:|
+| 2012-01-01 to 2015-01-01, final holdout | -4.67% | **2.99%** | -25.53% | **-12.52%** |
+| 2015-01-01 to 2019-01-01, primary | 3.73% | **5.66%** | **-18.61%** | -20.93% |
+| 2019-01-01 to 2020-01-01 | -10.44% | **0.17%** | -16.82% | **-7.01%** |
+| 2022-01-01 to 2023-01-01 | **2.78%** | 0.28% | **-12.06%** | -13.73% |
+| 2023-01-01 to 2024-01-01 | **41.19%** | 33.99% | -9.61% | **-8.19%** |
+| 2024-01-01 to 2025-01-01 | **67.68%** | 24.05% | **-10.47%** | -18.33% |
+| 2025-06-01 to 2026-06-01, primary | 6.22% | **15.75%** | **-7.34%** | -8.61% |
+
+The current rules make every reported non-crash window non-negative and improve
+the untouched holdout. They do not dominate the prior rules: 2022, 2023, and
+2024 returns declined, and drawdown worsened in several windows. The change is
+therefore a trade from peak bull-market performance toward broader regime
+stability, not a free improvement.
+
+On the original five-year period, the current version produced INR
+1,074,950.98, 16.56% CAGR, -18.35% drawdown, 1.07 Sharpe, and 1.37 profit
+factor. The first optimized version produced higher 22.10% CAGR and lower
+-12.48% drawdown on that same selected period.
+
+More than 300 additional single-factor, combination, and neighborhood variants
+were examined in the second round. The holdout was protected from that search,
+but all selection-window metrics remain exposed to multiple-testing bias.
+
+### 11.4 Benchmark comparison
 
 The benchmark is adjusted `^NSEI` data from the same yfinance cache.
 
 | Period | Strategy CAGR | Nifty CAGR | Strategy max DD | Nifty max DD | Average strategy exposure |
 |---|---:|---:|---:|---:|---:|
-| 2021-07-26 to 2026-07-24 | **22.10%** | 8.49% | **-12.48%** | -17.23% | 38.8% |
-| 2024-07-24 to 2026-07-24 | **16.56%** | -1.33% | **-7.34%** | -15.77% | 27.7% |
+| 2021-07-26 to 2026-07-24 | **16.56%** | 8.49% | -18.35% | **-17.23%** | 34.0% |
+| 2024-07-24 to 2026-07-24 | **15.89%** | -1.33% | **-8.84%** | -15.77% | 23.3% |
 
 This is not a fully apples-to-apples comparison:
 
@@ -728,79 +809,77 @@ This is not a fully apples-to-apples comparison:
 - adjusted price data is not the same as an investable Nifty total-return index
   with explicit implementation costs.
 
-### 11.4 Calendar-year equity returns
+### 11.5 Calendar-year equity returns
 
 | Year | Strategy return | Nifty adjusted-price return | Note |
 |---|---:|---:|---|
-| 2021 | 8.98% | 9.67% | Partial from 2021-07-26 |
-| 2022 | 2.74% | 4.33% | Full year |
-| 2023 | **39.72%** | 20.03% | Full year |
-| 2024 | **59.07%** | 8.80% | Full year |
-| 2025 | 11.19% | 10.51% | Full year |
-| 2026 | -2.05% | -9.04% | Partial through 2026-07-24 |
+| 2021 | 0.91% | 9.67% | Partial from 2021-07-26 |
+| 2022 | 0.29% | 4.33% | Full year |
+| 2023 | **32.20%** | 20.03% | Full year |
+| 2024 | **31.27%** | 8.80% | Full year |
+| 2025 | **19.14%** | 10.51% | Full year |
+| 2026 | **2.76%** | -9.04% | Partial through 2026-07-24 |
 
 Returns were highly concentrated in 2023 and 2024. This concentration is a key
 robustness concern; the strategy did not produce uniformly high returns in
 every year.
 
-### 11.5 Trade distribution
+### 11.6 Trade distribution
 
-| Statistic | Five-year optimized result |
+| Statistic | Five-year current result |
 |---|---:|
-| Closed trades | 569 |
-| Unique symbols traded | 254 |
-| Win rate | 36.91% |
-| Average win | 8.27% |
-| Average loss | -3.33% |
-| Average win / absolute average loss | 2.48x |
-| Median trade | -2.49% |
-| 5th percentile trade | -4.85% |
-| 25th percentile trade | -3.63% |
-| 75th percentile trade | 5.56% |
-| 95th percentile trade | 13.94% |
-| Best trade | 25.58% |
-| Worst trade | -6.43% |
+| Closed trades | 473 |
+| Unique symbols traded | 229 |
+| Win rate | 36.36% |
+| Average win | 9.33% |
+| Average loss | -3.65% |
+| Average win / absolute average loss | 2.56x |
+| Median trade | -2.75% |
+| 5th percentile trade | -5.22% |
+| 95th percentile trade | 17.60% |
+| Best trade | 26.47% |
+| Worst trade | -8.72% |
 | Median holding period | 4 calendar days |
-| Estimated modeled commissions | INR 97,015 |
+| Estimated modeled commissions | INR 67,134 |
 | Maximum observed positions | 5 |
 | Market regime enabled | 691 of 1,235 sessions (55.95%) |
-| Median deployed capital | 25.74% of equity |
+| Median deployed capital | 24.63% of equity |
 
 The median trade is negative. The strategy depends on positive payoff
 asymmetry: relatively frequent small losses offset by less frequent, larger
 wins.
 
-### 11.6 Exit attribution
+### 11.7 Exit attribution
 
 | Exit reason | Trades | Share | Win rate within reason | Average trade return |
 |---|---:|---:|---:|---:|
-| Entry-day stop | 106 | 18.63% | 0.00% | -3.40% |
-| Entry-day target | 17 | 2.99% | 100.00% | 11.47% |
-| False breakout | 24 | 4.22% | 0.00% | -2.23% |
-| Stop | 264 | 46.40% | 17.42% | -2.58% |
-| Stop gap | 6 | 1.05% | 16.67% | -3.53% |
-| Target | 128 | 22.50% | 100.00% | 11.20% |
-| Time exit | 24 | 4.22% | 75.00% | 1.17% |
+| Entry-day stop | 92 | 19.45% | 0.00% | -3.69% |
+| Entry-day target | 10 | 2.11% | 100.00% | 15.67% |
+| False breakout | 18 | 3.81% | 0.00% | -2.28% |
+| Stop | 255 | 53.91% | 29.80% | -1.56% |
+| Stop gap | 10 | 2.11% | 20.00% | -3.63% |
+| Target | 74 | 15.64% | 100.00% | 15.53% |
+| Time exit | 14 | 2.96% | 71.43% | 1.18% |
 
 `STOP` includes exits at stops that were raised by the Chandelier logic. It can
 therefore contain profitable trades. Target returns vary because ATR as a
 percentage of price varies, and a gap above the target can receive the higher
 opening fill.
 
-### 11.7 Local result artifacts
+### 11.8 Local result artifacts
 
-Official optimized five-year artifacts:
+Official current five-year artifacts:
 
 ```text
 backtesting\breakout_52w\results\
-  nifty500_2021-07-24_2026-07-24_20260726T011521_53695d25\
+  nifty500_2021-07-24_2026-07-24_20260726T021253_c5715722\
 ```
 
-Official optimized validation-period artifacts:
+Official current validation-period artifacts:
 
 ```text
 backtesting\breakout_52w\results\
-  nifty500_2024-07-24_2026-07-24_20260726T011800_f2a448a3\
+  nifty500_2024-07-24_2026-07-24_20260726T021309_92ed6466\
 ```
 
 Each directory contains:
@@ -819,13 +898,13 @@ control.
 
 ## 12. Interpretation of the observed edge
 
-The reported improvement appears to come from four mechanisms:
+The first optimization-round improvement appears to come from four mechanisms:
 
 1. **Higher signal participation threshold.** Raising RVOL from 1.5 to 2.0
    removes lower-volume breakouts.
 2. **Faster loss recognition.** The 1 ATR stop and entry-day stop reduce the
    lower tail. Average losing-trade return improved from -4.20% to -3.33%.
-3. **Systematic profit realization.** The 3 ATR target captures a repeatable
+3. **Systematic profit realization.** The original 3 ATR target captured a repeatable
    payoff and releases capital rather than waiting for every trade to become a
    long-duration trend.
 4. **Capital turnover with lower exposure.** Average holding period fell from
@@ -840,6 +919,12 @@ The full-period win rate barely changed. The economic claim is therefore not
 This claim still requires independent testing because parameter selection,
 survivorship bias, and execution assumptions can materially inflate the
 observed edge.
+
+The current cross-regime version adds a different claim: relative leadership
+and a rising intermediate trend reject many marginal breakouts, while the
+wider 4 ATR target preserves more upside per accepted trade. It trades less
+often and avoids a large portion of the 2012-2014 and 2019 losses, but it also
+misses substantial upside during the exceptional 2023-2024 momentum regime.
 
 ---
 
@@ -867,9 +952,9 @@ untouched final test segment.
 
 ### 13.3 Multiple testing and overfitting
 
-More than 100 individual and combination variants were examined across the
-experiment stages. Selecting the best robust-looking region inflates expected
-performance even when train/validation discipline is used.
+More than 400 individual and combination variants were examined across both
+optimization rounds. Selecting the best robust-looking region inflates
+expected performance even when train/validation discipline is used.
 
 **Required remediation:** calculate deflated Sharpe, probability of backtest
 overfitting, and bootstrap confidence intervals; use nested or rolling
@@ -889,7 +974,7 @@ blackout when the scheduled date was publicly known as of the signal date.
 
 yfinance `auto_adjust=True` rewrites historical OHLC values for later corporate
 actions. Re-downloading after a dividend, split, symbol change, or source
-correction can alter old breakout boundaries. The 0.10% clearance reduces tiny
+correction can alter old breakout boundaries. The current 0.50% clearance reduces tiny
 rounding artifacts but does not create true vintage data.
 
 **Required remediation:** archive immutable daily raw and adjusted datasets,
@@ -989,7 +1074,7 @@ actual fills.
 
 ## 14. Questions for an external finance reviewer
 
-1. Is a fixed 3 ATR target economically appropriate for a 52-week momentum
+1. Is a fixed 4 ATR target economically appropriate for a 52-week momentum
    strategy, or does it sacrifice the rare long-tail winners that normally
    drive momentum returns?
 2. Is the 1 ATR initial stop too sensitive to Indian single-stock gap and
@@ -1067,16 +1152,17 @@ Before live capital is used:
 
 ## 17. Bottom line
 
-The implementation is deterministic, internally consistent on its main rules,
-and materially better than its original baseline under the available data and
-execution assumptions. It met the requested 15% CAGR objective in both the
-full five-year result and the reviewed validation segment, while reducing
-drawdown and average percentage loss.
+The implementation is deterministic and internally consistent on its main
+rules. The current cross-regime defaults produced 16.56% CAGR over the original
+five-year period and 15.75% over the requested 2025-2026 period. They improved
+the requested 2015-2018 period to 5.66% CAGR and made the untouched 2012-2014
+holdout positive, but did not reach 15% CAGR in older or sideways regimes.
 
 It is **not yet institutionally validated**. Current-constituent survivorship,
 validation reuse, historical earnings-calendar availability, multiple testing,
-and simplified execution costs are large enough that the 22.10% CAGR should
-not be treated as an unbiased forecast.
+and simplified execution costs are large enough that neither the current
+16.56% CAGR nor the earlier 22.10% result should be treated as an unbiased
+forecast.
 
 The appropriate next conclusion is:
 

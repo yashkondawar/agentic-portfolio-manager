@@ -49,6 +49,17 @@ def test_empty_and_normalized_state_support_strategy_owned_portfolio():
     assert normalized == state
 
 
+def test_state_upgrade_discards_pending_signals_from_superseded_rules():
+    state = empty_state(500_000)
+    state["version"] = 2
+    state["pending_entries"] = [{"symbol": "OLD-RULE-SIGNAL"}]
+
+    normalized = normalize_state(state, 1)
+
+    assert normalized["version"] == 3
+    assert normalized["pending_entries"] == []
+
+
 def test_state_rejects_positions_without_strategy_risk_metadata():
     with pytest.raises(ValueError, match="missing required fields"):
         normalize_state(
@@ -106,7 +117,7 @@ def test_pending_signal_fills_next_session_and_creates_managed_position():
     assert pending == []
     assert filled[0]["action"] == "ENTERED"
     assert portfolio.positions["TEST"].stop_loss == 99.0
-    assert portfolio.positions["TEST"].target_price == 107.0
+    assert portfolio.positions["TEST"].target_price == 109.0
     assert rejected == []
     assert exits == []
 
@@ -160,9 +171,9 @@ def test_entry_day_target_is_recorded_when_stop_is_not_touched():
             ): pd.Series(
                 {
                     "Open": 101.0,
-                    "High": 108.0,
+                    "High": 110.0,
                     "Low": 100.0,
-                    "Close": 107.0,
+                    "Close": 109.0,
                     "Volume": 1_000_000,
                 }
             )
@@ -186,8 +197,8 @@ def test_entry_day_target_is_recorded_when_stop_is_not_touched():
     assert opened == set()
     assert "TEST" not in portfolio.positions
     assert exits[0]["reason"] == "ENTRY-DAY-TARGET"
-    assert exits[0]["exit_price"] == 107.0
-    assert exits[0]["pnl_pct"] == 5.94
+    assert exits[0]["exit_price"] == 109.0
+    assert exits[0]["pnl_pct"] == 7.92
 
 
 def test_earnings_window_counts_weekdays_from_next_session():
@@ -218,14 +229,19 @@ def test_daily_run_scans_custom_universe_and_persists_pending_state(monkeypatch)
     rows.append(
         {
             "Open": 150.5,
-            "High": 151.2,
+            "High": 151.8,
             "Low": 150.2,
-            "Close": 151.0,
+            "Close": 151.6,
             "Volume": 2_000_000,
         }
     )
     stock = pd.DataFrame(rows, index=index)
+    price_columns = ["Open", "High", "Low", "Close"]
     benchmark = stock.copy()
+    benchmark[price_columns] = 80.0
+    benchmark.loc[index[-64], price_columns] = 140.0
+    benchmark.loc[index[-63:-1], price_columns] = 100.0
+    benchmark.loc[index[-1], price_columns] = 121.0
 
     class FakePointInTimeData:
         def __init__(self, _cache_dir):

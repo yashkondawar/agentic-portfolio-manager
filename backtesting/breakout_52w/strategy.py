@@ -49,6 +49,7 @@ def market_regime_allows_entries(
 
 def compute_entry_signal(
     df: pd.DataFrame,
+    benchmark: Optional[pd.DataFrame],
     symbol: str,
     signal_date: date,
     cfg: BreakoutConfig,
@@ -58,8 +59,12 @@ def compute_entry_signal(
         200,
         cfg.liquidity_average_days + 1,
         cfg.volume_average_days + 1,
+        cfg.relative_strength_days + 1,
+        50 + cfg.sma50_slope_days,
     )
     if df is None or len(df) < required:
+        return None
+    if benchmark is None or len(benchmark) < cfg.relative_strength_days + 1:
         return None
 
     close = df["Close"]
@@ -88,6 +93,20 @@ def compute_entry_signal(
     volume_ratio = float(volume.iloc[-1]) / avg_volume_20 if avg_volume_20 > 0 else 0.0
     extension = price - breakout_level
     breakout_pct = (price / breakout_level - 1.0) * 100.0
+    stock_return_3m_pct = (
+        price / float(close.iloc[-(cfg.relative_strength_days + 1)]) - 1.0
+    ) * 100.0
+    benchmark_close = benchmark["Close"].dropna()
+    if len(benchmark_close) < cfg.relative_strength_days + 1:
+        return None
+    benchmark_return_3m_pct = (
+        float(benchmark_close.iloc[-1])
+        / float(benchmark_close.iloc[-(cfg.relative_strength_days + 1)])
+        - 1.0
+    ) * 100.0
+    relative_strength_3m_pct = stock_return_3m_pct - benchmark_return_3m_pct
+    prior_sma50 = float(close.iloc[: -cfg.sma50_slope_days].tail(50).mean())
+    sma50_slope_pct = (sma50 / prior_sma50 - 1.0) * 100.0
 
     if not price > breakout_level:
         return None
@@ -96,6 +115,10 @@ def compute_entry_signal(
     if volume_ratio < cfg.min_volume_ratio:
         return None
     if not sma20 > sma50 > sma200:
+        return None
+    if relative_strength_3m_pct < cfg.min_relative_strength_3m_pct:
+        return None
+    if sma50_slope_pct < cfg.min_sma50_slope_pct:
         return None
     if extension > cfg.max_extension_atr * atr:
         return None

@@ -215,7 +215,13 @@ class BreakoutEngine:
             ):
                 continue
             history = self.data.as_of(symbol, day, lookback_rows=400)
-            signal = strategy.compute_entry_signal(history, symbol, day, self.cfg)
+            signal = strategy.compute_entry_signal(
+                history,
+                self.data.benchmark_as_of(day),
+                symbol,
+                day,
+                self.cfg,
+            )
             if signal is not None:
                 candidates.append(signal)
 

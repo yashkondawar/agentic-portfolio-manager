@@ -28,7 +28,7 @@ class Breakout52WeekDailyStrategy(BaseStrategy):
     long_description = (
         "A deterministic daily state machine. Qualifying close-of-day breakouts "
         "are queued for the next session, validated and sized at that session's "
-        "open, then tracked through a 1 ATR hard stop, 3 ATR standing target, "
+        "open, then tracked through a 1 ATR hard stop, 4 ATR standing target, "
         "false-breakout exits, trailing exits, and dead-money exits. State persists locally "
         "and can also be supplied or exported as JSON; Zerodha is not used."
     )
@@ -142,8 +142,23 @@ class Breakout52WeekDailyStrategy(BaseStrategy):
                 "min_breakout_pct",
                 "Minimum close above breakout (%)",
                 ParamType.FLOAT,
-                default=0.1,
+                default=0.5,
                 min=0,
+                group="Entry filters",
+            ),
+            ParamSpec(
+                "min_relative_strength_3m_pct",
+                "Minimum 3-month relative strength (pp)",
+                ParamType.FLOAT,
+                default=15.0,
+                help="Stock return minus Nifty return over 63 trading sessions.",
+                group="Entry filters",
+            ),
+            ParamSpec(
+                "min_sma50_slope_pct",
+                "Minimum 50-day SMA rise over 20 sessions (%)",
+                ParamType.FLOAT,
+                default=2.0,
                 group="Entry filters",
             ),
             ParamSpec(
@@ -200,7 +215,7 @@ class Breakout52WeekDailyStrategy(BaseStrategy):
                 "profit_target_atr",
                 "Profit target (ATR)",
                 ParamType.FLOAT,
-                default=3.0,
+                default=4.0,
                 min=0.1,
                 group="Trade management",
             ),
@@ -251,6 +266,8 @@ class Breakout52WeekDailyStrategy(BaseStrategy):
             universe_index=params["universe_index"],
             min_volume_ratio=float(params["min_volume_ratio"]),
             min_breakout_pct=float(params["min_breakout_pct"]),
+            min_relative_strength_3m_pct=float(params["min_relative_strength_3m_pct"]),
+            min_sma50_slope_pct=float(params["min_sma50_slope_pct"]),
             min_average_volume=float(params["min_average_volume"]),
             min_turnover_cr=float(params["min_turnover_cr"]),
             risk_per_trade_pct=float(params["risk_per_trade_pct"]),

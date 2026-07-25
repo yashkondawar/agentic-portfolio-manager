@@ -22,7 +22,7 @@ DEFAULT_STATE_PATH = (
     / ".trader_workbench"
     / "breakout_52w_portfolio.json"
 )
-STATE_VERSION = 2
+STATE_VERSION = 3
 
 
 def empty_state(capital: float) -> dict:
@@ -52,7 +52,10 @@ def normalize_state(payload: Any, capital: float) -> dict:
         raise ValueError("portfolio_state must be a JSON object")
 
     positions = payload.get("positions", [])
-    pending = payload.get("pending_entries", [])
+    source_version = int(payload.get("version", 1))
+    pending = (
+        payload.get("pending_entries", []) if source_version >= STATE_VERSION else []
+    )
     if not isinstance(positions, list) or not isinstance(pending, list):
         raise ValueError("portfolio_state positions and pending_entries must be lists")
 
@@ -567,7 +570,13 @@ def _scan_new_entries(
         ):
             continue
         history = data.as_of(item.symbol, day, lookback_rows=400)
-        signal = strategy.compute_entry_signal(history, item.symbol, day, cfg)
+        signal = strategy.compute_entry_signal(
+            history,
+            data.benchmark_as_of(day),
+            item.symbol,
+            day,
+            cfg,
+        )
         if signal is not None:
             candidates.append(signal)
 

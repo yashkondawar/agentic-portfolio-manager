@@ -26,10 +26,11 @@ class Breakout52WeekStrategy(BaseStrategy):
     )
     long_description = (
         "Scans the selected NSE universe daily using point-in-time yfinance "
-        "OHLCV. Signals require a close at least 0.1% above the prior 252-session high, "
-        "20/50/200 SMA alignment, relative volume, liquidity, and limited ATR "
+        "OHLCV. Signals require a close at least 0.5% above the prior 252-session high, "
+        "20/50/200 SMA alignment, relative strength, a rising 50-day average, "
+        "relative volume, liquidity, and limited ATR "
         "extension. Entries fill next session and use volatility-aware sizing, "
-        "a 1 ATR hard stop, 3 ATR target, false-breakout exits, trailing stops, "
+        "a 1 ATR hard stop, 4 ATR target, false-breakout exits, trailing stops, "
         "and a dead-money exit."
     )
     category = StrategyCategory.BACKTEST
@@ -120,8 +121,23 @@ class Breakout52WeekStrategy(BaseStrategy):
                 "min_breakout_pct",
                 "Minimum close above breakout (%)",
                 ParamType.FLOAT,
-                default=0.1,
+                default=0.5,
                 min=0,
+                group="Entry filters",
+            ),
+            ParamSpec(
+                "min_relative_strength_3m_pct",
+                "Minimum 3-month relative strength (pp)",
+                ParamType.FLOAT,
+                default=15.0,
+                help="Stock return minus Nifty return over 63 trading sessions.",
+                group="Entry filters",
+            ),
+            ParamSpec(
+                "min_sma50_slope_pct",
+                "Minimum 50-day SMA rise over 20 sessions (%)",
+                ParamType.FLOAT,
+                default=2.0,
                 group="Entry filters",
             ),
             ParamSpec(
@@ -178,7 +194,7 @@ class Breakout52WeekStrategy(BaseStrategy):
                 "profit_target_atr",
                 "Profit target (ATR)",
                 ParamType.FLOAT,
-                default=3.0,
+                default=4.0,
                 min=0.1,
                 group="Trade management",
             ),
@@ -251,6 +267,8 @@ class Breakout52WeekStrategy(BaseStrategy):
             min_average_volume=float(params["min_average_volume"]),
             min_turnover_cr=float(params["min_turnover_cr"]),
             min_breakout_pct=float(params["min_breakout_pct"]),
+            min_relative_strength_3m_pct=float(params["min_relative_strength_3m_pct"]),
+            min_sma50_slope_pct=float(params["min_sma50_slope_pct"]),
             max_extension_atr=float(params["max_extension_atr"]),
             risk_per_trade_pct=float(params["risk_per_trade_pct"]),
             max_open_risk_pct=float(params["max_open_risk_pct"]),

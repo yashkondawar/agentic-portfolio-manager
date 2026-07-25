@@ -34,9 +34,9 @@ def _breakout_history() -> pd.DataFrame:
     rows.append(
         {
             "Open": 150.5,
-            "High": 151.2,
+            "High": 151.8,
             "Low": 150.2,
-            "Close": 151.0,
+            "Close": 151.6,
             "Volume": 2_000_000,
         }
     )
@@ -46,6 +46,16 @@ def _breakout_history() -> pd.DataFrame:
             [start + timedelta(days=index) for index in range(len(rows))]
         ),
     )
+
+
+def _benchmark_history() -> pd.DataFrame:
+    history = _breakout_history().copy()
+    price_columns = ["Open", "High", "Low", "Close"]
+    history[price_columns] = 80.0
+    history.loc[history.index[-64], price_columns] = 140.0
+    history.loc[history.index[-63:-1], price_columns] = 100.0
+    history.loc[history.index[-1], price_columns] = 121.0
+    return history
 
 
 def _signal() -> EntrySignal:
@@ -98,7 +108,8 @@ def test_entry_requires_strict_breakout_confirmation_and_liquidity():
     history = _breakout_history()
     cfg = BreakoutConfig()
 
-    signal = compute_entry_signal(history, "TEST", date(2026, 1, 2), cfg)
+    benchmark = _benchmark_history()
+    signal = compute_entry_signal(history, benchmark, "TEST", date(2026, 1, 2), cfg)
 
     assert signal is not None
     assert signal.breakout_level == 150.7
@@ -106,24 +117,49 @@ def test_entry_requires_strict_breakout_confirmation_and_liquidity():
 
     low_volume = history.copy()
     low_volume.loc[low_volume.index[-1], "Volume"] = 1_400_000
-    assert compute_entry_signal(low_volume, "TEST", date(2026, 1, 2), cfg) is None
+    assert (
+        compute_entry_signal(low_volume, benchmark, "TEST", date(2026, 1, 2), cfg)
+        is None
+    )
 
     marginal = history.copy()
     marginal.loc[marginal.index[-1], ["High", "Close"]] = [150.8, 150.75]
-    assert compute_entry_signal(marginal, "TEST", date(2026, 1, 2), cfg) is None
+    assert (
+        compute_entry_signal(marginal, benchmark, "TEST", date(2026, 1, 2), cfg) is None
+    )
 
     extended = history.copy()
     extended.loc[extended.index[-1], ["High", "Close"]] = [155.5, 155.0]
-    assert compute_entry_signal(extended, "TEST", date(2026, 1, 2), cfg) is None
+    assert (
+        compute_entry_signal(extended, benchmark, "TEST", date(2026, 1, 2), cfg) is None
+    )
+
+    strong_benchmark = history.copy()
+    assert (
+        compute_entry_signal(history, strong_benchmark, "TEST", date(2026, 1, 2), cfg)
+        is None
+    )
+    assert (
+        compute_entry_signal(
+            history,
+            benchmark,
+            "TEST",
+            date(2026, 1, 2),
+            BreakoutConfig(min_sma50_slope_pct=100.0),
+        )
+        is None
+    )
 
 
-def test_optimized_defaults_use_confirmed_volume_and_bounded_reward():
+def test_cross_regime_defaults_use_leadership_and_bounded_reward():
     cfg = BreakoutConfig()
 
     assert cfg.min_volume_ratio == 2.0
-    assert cfg.min_breakout_pct == 0.1
+    assert cfg.min_breakout_pct == 0.5
+    assert cfg.min_relative_strength_3m_pct == 15.0
+    assert cfg.min_sma50_slope_pct == 2.0
     assert cfg.atr_stop_mult == 1.0
-    assert cfg.profit_target_atr == 3.0
+    assert cfg.profit_target_atr == 4.0
 
     with pytest.raises(ValueError, match="profit_target_atr"):
         BreakoutConfig(profit_target_atr=0)

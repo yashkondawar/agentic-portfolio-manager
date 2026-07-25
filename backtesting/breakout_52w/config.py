@@ -30,7 +30,11 @@ class BreakoutConfig:
     liquidity_average_days: int = 50
     min_average_volume: float = 500_000.0
     min_turnover_cr: float = 5.0
-    min_breakout_pct: float = 0.1
+    min_breakout_pct: float = 0.5
+    relative_strength_days: int = 63
+    min_relative_strength_3m_pct: float = 15.0
+    sma50_slope_days: int = 20
+    min_sma50_slope_pct: float = 2.0
     max_extension_atr: float = 1.0
     min_price: float = 20.0
 
@@ -41,7 +45,7 @@ class BreakoutConfig:
     stop_method: str = "atr"
     atr_stop_mult: float = 1.0
     technical_stop_buffer_atr: float = 0.1
-    profit_target_atr: float = 3.0
+    profit_target_atr: float = 4.0
 
     regime_sma_fast: int = 50
     regime_sma_slow: int = 200
@@ -65,6 +69,10 @@ class BreakoutConfig:
             raise ValueError("trail_method must be chandelier or sma20")
         if self.profit_target_atr <= 0:
             raise ValueError("profit_target_atr must be positive")
+        if self.relative_strength_days <= 0:
+            raise ValueError("relative_strength_days must be positive")
+        if self.sma50_slope_days <= 0:
+            raise ValueError("sma50_slope_days must be positive")
         if self.start_date and self.end_date and self.start_date >= self.end_date:
             raise ValueError("start_date must be before end_date")
 
