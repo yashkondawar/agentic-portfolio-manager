@@ -1,0 +1,1084 @@
+# 52-Week High Breakout Strategy
+
+## Implementation and backtest review package
+
+**Purpose:** External finance and quantitative-methodology review  
+**Implementation commit:** `60d1303`  
+**Document date:** 2026-07-26  
+**Market:** Indian listed equities  
+**Default universe:** Current Nifty 500 constituents  
+**Strategy type:** Long-only, end-of-day momentum breakout  
+**Starting capital used in reported tests:** INR 500,000
+
+> This document describes the implemented algorithm and the evidence produced by
+> its historical simulation. It is not an investment recommendation or a claim
+> that the reported returns will persist. The limitations in
+> [Section 13](#13-material-limitations-and-sources-of-bias) are essential to any
+> assessment of the results.
+
+---
+
+## 1. Executive summary
+
+The strategy scans a broad Indian equity universe after each completed market
+session and looks for stocks closing at least 0.1% above their prior 252-session
+high. A signal is accepted only when:
+
+- relative volume is at least 2.0 times the prior 20-session average;
+- `SMA20 > SMA50 > SMA200`;
+- the close is no more than 1 ATR above the breakout level;
+- prior 50-session average volume is at least 500,000 shares;
+- prior 50-session average turnover is at least INR 5 crore;
+- the Nifty 50 proxy (`^NSEI` in yfinance) is above both its 50-day and
+  200-day simple moving averages; and
+- no result declaration is recorded in the next five trading sessions.
+
+Signals are generated after the close and may be filled at the next session's
+open. Each accepted position risks at most 1% of current equity to an initial
+1 ATR stop, is capped at 25% of equity by notional value, and has a standing
+3 ATR profit target. The portfolio holds at most five positions and caps total
+initial open risk at 5% of equity.
+
+The official five-year simulation produced:
+
+| Metric | Original baseline | Optimized implementation |
+|---|---:|---:|
+| Period | 2021-07-24 to 2026-07-24 | 2021-07-24 to 2026-07-24 |
+| Start equity | INR 500,000 | INR 500,000 |
+| End equity | INR 511,694 | INR 1,355,150 |
+| Total return | 2.34% | 171.03% |
+| CAGR | 0.46% | **22.10%** |
+| Maximum drawdown | -32.81% | **-12.48%** |
+| Sharpe ratio, risk-free rate 0 | 0.11 | **1.36** |
+| Profit factor | 1.01 | **1.42** |
+| Win rate | 36.87% | 36.91% |
+| Average losing-trade return | -4.20% | **-3.33%** |
+
+The 2024-07-24 to 2026-07-24 validation period produced 16.56% CAGR and
+-7.34% maximum drawdown. However, that period was inspected during parameter
+selection. It is therefore a **validation set, not a pristine untouched
+out-of-sample test**.
+
+The improvement did not come from a materially higher full-period win rate.
+It came from smaller percentage losses, larger average percentage wins, faster
+capital recycling, a fixed profit-taking rule, and lower average exposure.
+
+---
+
+## 2. Investment hypothesis
+
+The strategy is based on the following momentum thesis:
+
+1. A close above the highest high of the prior 252 trading sessions indicates
+   strong price leadership and removes recent overhead supply.
+2. High relative volume indicates broader participation and makes a marginal,
+   low-conviction price print less likely.
+3. Moving-average alignment filters for an already established uptrend.
+4. A broad-market regime filter reduces new long exposure during weak index
+   conditions.
+5. Volatility-based sizing gives each position a comparable initial risk budget.
+6. Tight initial loss control and systematic exits aim to keep the loss
+   distribution bounded.
+
+This is a price-and-volume strategy. It does not currently use valuation,
+balance-sheet quality, earnings growth, analyst forecasts, news sentiment, or
+LLM judgment as entry gates.
+
+### What the strategy is designed to do
+
+- Discover new long opportunities from a broad universe.
+- Produce deterministic entry, stop, target, hold, and exit instructions.
+- Maintain its own paper-portfolio state independently of a broker.
+- Run once per day after the market close.
+- Make backtest and daily rules use the same shared configuration and strategy
+  functions.
+
+### What the strategy is not designed to do
+
+- Place or manage broker orders.
+- Trade intraday signals that were not known at the prior close.
+- Short stocks or hedge market beta.
+- Optimize taxes or account-specific constraints.
+- Replace fundamental due diligence.
+- Guarantee a 15% or higher future CAGR.
+
+---
+
+## 3. Data and universe
+
+### 3.1 Equity universe
+
+The default universe is loaded from the NSE Nifty 500 constituent list. Custom
+symbols can replace the index universe for focused tests or daily runs.
+
+**Important:** Historical simulations use today's Nifty 500 membership across
+the entire historical period. Historical additions, removals, mergers,
+delistings, and failed firms are not reconstructed. This creates survivorship
+and constituent-selection bias.
+
+### 3.2 Price and volume data
+
+- Source: `yfinance`
+- Frequency: daily
+- Fields: adjusted Open, High, Low, Close, and Volume
+- Download option: `auto_adjust=True`
+- NSE symbols are mapped to the `.NS` suffix.
+- Data is normalized to a timezone-naive daily index.
+- Duplicate dates are removed, keeping the latest row.
+- The downloaded data is cached locally for reproducible reruns.
+
+The reported five-year run loaded usable history for 500 of 500 requested
+symbols.
+
+### 3.3 Benchmark and trading calendar
+
+- Benchmark symbol: `^NSEI`
+- The benchmark's daily index defines the simulation trading calendar.
+- The benchmark is also used for the market-regime filter.
+
+### 3.4 Warmup
+
+The system downloads 500 calendar days before the requested start date. This
+warms the 200-session moving average and 252-session breakout calculation before
+the first simulated decision.
+
+### 3.5 Earnings calendar
+
+The blackout calendar is built from the NSE corporate event calendar. It stores
+result-related board-meeting dates and blocks entries when an event date falls
+within the next five sessions.
+
+If the earnings calendar is configured as mandatory and cannot be loaded, the
+strategy refuses to run rather than silently bypassing the guardrail.
+
+---
+
+## 4. Indicator definitions
+
+All entry indicators use data available through the signal day's completed
+close.
+
+### 4.1 Prior 252-session high
+
+For session \(t\):
+
+```text
+H252(t-1) = max(High[t-252], ..., High[t-1])
+```
+
+The current day's high is excluded.
+
+### 4.2 Breakout clearance
+
+```text
+BreakoutPct = (Close[t] / H252(t-1) - 1) * 100
+```
+
+Required:
+
+```text
+Close[t] > H252(t-1)
+BreakoutPct >= 0.10%
+```
+
+The 0.10% clearance was added partly to avoid signals caused by adjusted-price
+rounding differences of only a few paise.
+
+### 4.3 Relative volume
+
+```text
+ADV20_prior = mean(Volume[t-20], ..., Volume[t-1])
+RVOL = Volume[t] / ADV20_prior
+```
+
+Required:
+
+```text
+RVOL >= 2.0
+```
+
+The current day's volume is not included in its own denominator.
+
+### 4.4 Trend alignment
+
+Simple moving averages include the completed signal-day close:
+
+```text
+SMA20 > SMA50 > SMA200
+```
+
+### 4.5 Average True Range
+
+True range is:
+
+```text
+TR[t] = max(
+    abs(High[t] - Low[t]),
+    abs(High[t] - Close[t-1]),
+    abs(Low[t] - Close[t-1])
+)
+```
+
+ATR14 is an exponentially weighted average with:
+
+```text
+alpha = 1 / 14
+adjust = False
+minimum observations = 14
+```
+
+### 4.6 Breakout extension
+
+```text
+ExtensionATR = (Close[t] - H252(t-1)) / ATR14[t]
+```
+
+Required:
+
+```text
+ExtensionATR <= 1.0
+```
+
+### 4.7 Liquidity
+
+Both liquidity tests exclude the signal day:
+
+```text
+ADV50_prior = mean(Volume[t-50], ..., Volume[t-1])
+AverageTurnover50 = mean(Close * Volume over prior 50 sessions) / 10,000,000
+```
+
+Required:
+
+```text
+ADV50_prior >= 500,000 shares
+AverageTurnover50 >= INR 5 crore
+Signal-day Close >= INR 20
+```
+
+### 4.8 Market regime
+
+New entries are allowed only when:
+
+```text
+Nifty Close > Nifty SMA50
+Nifty Close > Nifty SMA200
+```
+
+The implementation does not require `SMA50 > SMA200`.
+
+### 4.9 Candidate ranking
+
+When more candidates exist than portfolio capacity, candidates are sorted by:
+
+```text
+Score = RVOL + max(0, 1 - ExtensionATR)
+```
+
+This favors stronger relative volume and breakouts closer to the prior high.
+The engine retains the best `available capacity + 2` candidates for next-open
+attempts, allowing some room for open-price rejections.
+
+---
+
+## 5. Entry and execution sequence
+
+### 5.1 Signal timing
+
+1. Session \(t\) closes.
+2. The system evaluates all entry conditions using data through that close.
+3. Qualified candidates become pending signals.
+4. The earliest possible fill is session \(t+1\)'s open.
+
+There is no same-close fill.
+
+### 5.2 Next-open entry zone
+
+A pending signal is filled only when the next open satisfies:
+
+```text
+BreakoutLevel < NextOpen <= BreakoutLevel + 1 * SignalATR
+```
+
+An open below or equal to the breakout level is treated as failed confirmation.
+An open more than 1 ATR above the breakout level is treated as too extended.
+
+### 5.3 Entry-day bracket assumptions
+
+Immediately after a modeled fill:
+
+```text
+InitialStop = EntryPrice - 1 * SignalATR
+ProfitTarget = EntryPrice + 3 * SignalATR
+```
+
+The model assumes these are standing orders on the entry day.
+
+If the daily candle touches both stop and target and intraday ordering is
+unknown, the simulation assumes the stop occurred first. This is deliberately
+conservative.
+
+### 5.4 Fill assumptions
+
+- Entry fills at the exact reported open.
+- A non-gap stop fills at the exact stop.
+- A gap below the stop fills at the open.
+- A target fills at the target, or at the open when the market gaps above it.
+- Whole shares only are used.
+- No partial fills are modeled.
+- No participation-rate or order-size slippage is modeled.
+
+---
+
+## 6. Position sizing and portfolio controls
+
+### 6.1 Per-trade risk
+
+```text
+RiskBudget = CurrentEquity * 1%
+RiskPerShare = EntryPrice - InitialStop
+RawShares = floor(RiskBudget / RiskPerShare)
+```
+
+### 6.2 Portfolio heat
+
+Open risk is:
+
+```text
+OpenRisk = sum(max(EntryPrice - CurrentStop, 0) * Shares)
+```
+
+Remaining heat is:
+
+```text
+HeatRemaining = max(CurrentEquity * 5% - OpenRisk, 0)
+```
+
+The actual share count is the minimum allowed by:
+
+```text
+floor(min(RiskBudget, HeatRemaining) / RiskPerShare)
+floor(CurrentEquity * 25% / EntryPrice)
+floor(AvailableCash * 99.9% / EntryPrice)
+```
+
+### 6.3 Portfolio-level limits
+
+| Control | Default |
+|---|---:|
+| Risk per trade | 1% of current equity |
+| Maximum open risk | 5% of current equity |
+| Maximum positions | 5 |
+| Maximum notional per position | 25% of current equity |
+| Cash buffer in affordability calculation | 0.1% |
+
+Trailing a stop upward reduces measured open risk and may restore capacity for
+new positions.
+
+---
+
+## 7. Exit logic and precedence
+
+For positions held from a prior session, each daily bar is evaluated in this
+order:
+
+1. **Gap stop:** if `Open <= Stop`, exit at the open.
+2. **Intraday stop:** if `Low <= Stop`, exit at the stop.
+3. **Profit target:** if `High >= Target`, exit at `max(Open, Target)`.
+4. **False breakout:** exit at the close after two consecutive closes below the
+   original breakout level.
+5. **Trailing-stop activation/update.**
+6. **Time exit:** exit at the close when progress is insufficient.
+
+The ordering makes stop execution take precedence over target execution on an
+ambiguous daily candle.
+
+### 7.1 Fixed target
+
+```text
+Target = EntryPrice + 3 * ATR_at_entry
+```
+
+This differs from a pure open-ended momentum strategy. The fixed target was
+introduced because it materially improved profit factor, drawdown, and capital
+turnover during the tested periods. It also truncates some potential long-tail
+winners.
+
+### 7.2 False-breakout exit
+
+The position tracks consecutive closes below the original breakout level. Two
+consecutive closes trigger an exit at the second close.
+
+### 7.3 Chandelier trailing stop
+
+Trailing becomes active after:
+
+```text
+HighestHighSinceEntry >= EntryPrice + 2 * ATR_at_entry
+```
+
+Once active:
+
+```text
+ChandelierStop = HighestHighSinceEntry - 2 * CurrentATR14
+Stop = max(ExistingStop, ChandelierStop)
+```
+
+The newly calculated stop applies prospectively. The simulation checks the
+day's low against the old stop before using that day's high to raise the stop.
+
+The alternative configured trail method is an SMA20 close exit, but the
+reported optimized tests use the Chandelier method.
+
+### 7.4 Time exit
+
+After 10 managed trading sessions:
+
+```text
+Progress = HighestHighSinceEntry / EntryPrice - 1
+```
+
+If progress is below 5%, the position exits at the close.
+
+---
+
+## 8. Daily live/paper workflow
+
+The registered daily strategy is `breakout_52w_daily`.
+
+### 8.1 Persistent state
+
+The strategy owns a local paper portfolio at:
+
+```text
+.trader_workbench/breakout_52w_portfolio.json
+```
+
+The state includes:
+
+- cash;
+- open positions;
+- pending entry signals;
+- entry date and price;
+- initial and current stop;
+- target price;
+- ATR at entry;
+- breakout level and signal date;
+- highest high;
+- consecutive closes below breakout;
+- managed bars held;
+- trailing-stop status; and
+- last processed session.
+
+The state can also be supplied and exported as JSON.
+
+### 8.2 One daily run
+
+1. Resolve the latest completed market session.
+2. Load existing state or initialize a scratch portfolio.
+3. Add any tracked symbols that are no longer in the current scan universe.
+4. Download or load price history and the earnings calendar.
+5. Replay any sessions missed since the last run.
+6. Attempt fills for earlier pending signals.
+7. Apply stop, target, false-breakout, trail, and time-exit logic.
+8. Scan the selected universe for new close-of-day signals.
+9. Save the next state.
+10. Return:
+    - position HOLD/EXIT actions;
+    - newly qualified next-open entries;
+    - pending entries;
+    - filled entries;
+    - rejected entries;
+    - cash, equity, open risk, and position count.
+
+### 8.3 Cutoff behavior
+
+- Before 4:00 PM India time, the current date is excluded.
+- Weekends resolve to the latest completed benchmark session.
+- State cannot be processed backward to an earlier date.
+
+### 8.4 Operational requirement
+
+The software does not submit broker orders. For the modeled intraday stop and
+target behavior to be executable, the user must place standing stop and target
+orders after an entry, ideally as an OCO/bracket arrangement where supported.
+
+---
+
+## 9. Backtest design
+
+### 9.1 Official periods
+
+| Run | Period | Role |
+|---|---|---|
+| Full history | 2021-07-24 to 2026-07-24 | Final descriptive result |
+| Development segment | 2021-07-24 to 2024-07-23 | Parameter development |
+| Validation segment | 2024-07-24 to 2026-07-24 | Robustness comparison |
+
+The validation segment was reviewed while selecting the final parameter set.
+It must not be described as a fully untouched test set.
+
+### 9.2 Point-in-time mechanics
+
+- Entry signals use only rows dated on or before the signal date.
+- The 252-session high excludes the current session.
+- RVOL and liquidity averages exclude the current session.
+- Signals are filled no earlier than the next session's open.
+- Stops raised using a session's high become effective after that session's
+  earlier stop check.
+- The benchmark calendar controls simulated sessions.
+
+The engine pre-indexes dates satisfying the primary breakout condition for
+speed, then applies the canonical signal function on each candidate date. This
+index is an optimization only; it does not add future data to signal decisions.
+
+### 9.3 Accounting
+
+- Starting cash: INR 500,000.
+- Commission: 0.05% on entry and 0.05% on exit.
+- Entry and exit commissions are both included in realized P&L.
+- Open positions are marked to the daily close.
+- Cash earns 0%.
+- Dividends are not booked as cash; yfinance adjusted prices are used.
+
+### 9.4 Metric definitions
+
+- **CAGR:** annualized from first to last equity date using 365.25 days/year.
+- **Maximum drawdown:** worst peak-to-trough daily close-equity decline.
+- **Sharpe:** mean daily equity return divided by sample daily standard
+  deviation, annualized by `sqrt(252)`, with risk-free rate 0.
+- **Win rate:** trades with commission-adjusted realized P&L greater than 0.
+- **Profit factor:** gross realized profit divided by absolute gross realized
+  loss.
+- **Average exposure:** daily deployed market value divided by daily equity.
+- **Holding period in reports:** calendar days between entry and exit; the
+  time-exit rule itself counts managed trading sessions.
+
+### 9.5 Reproduction commands
+
+Five-year run:
+
+```powershell
+uv run python run.py breakout_52w_backtest `
+  --param "start=2021-07-24" `
+  --param "end=2026-07-24" `
+  --param "capital=500000" `
+  --param "universe_index=nifty500" `
+  --param "use_cache=true"
+```
+
+Validation-period run:
+
+```powershell
+uv run python run.py breakout_52w_backtest `
+  --param "start=2024-07-24" `
+  --param "end=2026-07-24" `
+  --param "capital=500000" `
+  --param "universe_index=nifty500" `
+  --param "use_cache=true"
+```
+
+Daily run:
+
+```powershell
+uv run python run.py breakout_52w_daily
+```
+
+---
+
+## 10. Optimization process
+
+### 10.1 Initial baseline
+
+The initial implementation used:
+
+- no minimum breakout clearance beyond `Close > prior high`;
+- RVOL threshold 1.5;
+- 1.5 ATR initial stop;
+- no entry-day hard-stop evaluation in the historical engine;
+- no fixed profit target;
+- the same trend, regime, liquidity, earnings, portfolio-heat, trailing, false
+  breakout, and time-exit framework.
+
+Its official five-year CAGR was 0.46%, with -32.81% maximum drawdown.
+The baseline-to-optimized table is therefore a before/after system comparison,
+not a controlled estimate of the causal contribution of any one rule.
+
+### 10.2 Variant families evaluated
+
+The experiment harness tested train, validation, and full-period results for:
+
+- Nifty 50, 100, 200, and 500 universes;
+- RVOL thresholds;
+- breakout-candle close location;
+- 3-month momentum and benchmark-relative strength;
+- SMA slope;
+- pre-breakout range tightness;
+- ATR/volatility filters;
+- stronger benchmark regimes;
+- candidate ranking;
+- initial stop widths;
+- one- versus two-close false-breakout exits;
+- Chandelier and SMA20 trails;
+- trail activation and width;
+- time-exit parameters;
+- entry-day stop handling;
+- fixed ATR targets;
+- breakeven stops;
+- risk per trade, heat, and maximum positions; and
+- higher transaction-cost stress.
+
+The first broad sweep tested 44 variants. A second combination sweep tested 57
+variants with entry-day hard-stop behavior enabled. A final neighborhood and
+cost-sensitivity pass tested the selected region.
+
+### 10.3 Selection discipline
+
+The final configuration was not selected solely by the highest full-period
+CAGR. The selection favored:
+
+- positive development and validation performance;
+- at least approximately 15% CAGR in the validation period;
+- lower drawdown;
+- no increase above 1% risk per trade;
+- stable behavior around nearby stop and target values;
+- a minimum breakout buffer to reduce adjusted-price precision artifacts; and
+- exact consistency between daily and backtest execution.
+
+### 10.4 Nearby parameter behavior
+
+Fast point-in-time neighborhood results for the final signal family were:
+
+| Variant | Full CAGR | Validation CAGR | Full max DD | Validation max DD | Full win rate |
+|---|---:|---:|---:|---:|---:|
+| 1.0 ATR stop, 3.0 ATR target, 0.10% clearance | **22.10%** | **16.56%** | **-12.48%** | -7.34% | 36.91% |
+| 1.05 ATR stop, 3.0 ATR target, 0.10% clearance | 21.93% | 15.52% | -14.71% | **-6.74%** | 38.43% |
+| 1.10 ATR stop, 3.0 ATR target, 0.10% clearance | 21.68% | 16.87% | -17.06% | -6.79% | 39.67% |
+| 1.0 ATR stop, 3.5 ATR target, 0.10% clearance | 17.97% | 15.46% | -13.02% | -9.17% | 36.36% |
+
+The 1.0 ATR stop was retained because it gave the best full-period drawdown
+among these high-CAGR candidates. A wider stop increased the win rate but also
+materially increased full-period drawdown.
+
+### 10.5 Multiple-testing warning
+
+The optimization process inspected many alternatives and used the validation
+period for model selection. Reported Sharpe and CAGR therefore have selection
+bias. No deflated Sharpe ratio, probability of backtest overfitting, or formal
+multiple-hypothesis correction has yet been applied.
+
+---
+
+## 11. Official results
+
+### 11.1 Full five-year comparison
+
+| Metric | Baseline | Optimized | Change |
+|---|---:|---:|---:|
+| Start equity | INR 500,000 | INR 500,000 | - |
+| End equity | INR 511,694 | INR 1,355,150 | +INR 843,455 |
+| Total return | 2.34% | 171.03% | +168.69 pp |
+| CAGR | 0.46% | 22.10% | +21.64 pp |
+| Maximum drawdown | -32.81% | -12.48% | +20.33 pp |
+| Sharpe, rf=0 | 0.11 | 1.36 | +1.25 |
+| Closed trades | 434 | 569 | +135 |
+| Win rate | 36.87% | 36.91% | +0.04 pp |
+| Profit factor | 1.01 | 1.42 | +0.41 |
+| Average holding period | 10.1 days | 5.9 days | -4.2 days |
+| Average exposure | 45.6% | 38.8% | -6.8 pp |
+| Average winning-trade return | 7.80% | 8.27% | +0.47 pp |
+| Average losing-trade return | -4.20% | -3.33% | +0.87 pp |
+
+### 11.2 Validation-period comparison
+
+| Metric | Baseline | Optimized |
+|---|---:|---:|
+| Period | 2024-07-24 to 2026-07-24 | 2024-07-24 to 2026-07-24 |
+| End equity | INR 556,668 | INR 679,160 |
+| Total return | 11.33% | 35.83% |
+| CAGR | 5.52% | **16.56%** |
+| Maximum drawdown | -11.60% | **-7.34%** |
+| Sharpe, rf=0 | 0.55 | **1.32** |
+| Closed trades | 115 | 139 |
+| Win rate | **41.74%** | 41.01% |
+| Profit factor | 1.24 | **1.49** |
+| Average winning-trade return | 6.29% | **7.54%** |
+| Average losing-trade return | -3.60% | **-3.09%** |
+
+The optimized validation win rate was 0.73 percentage points lower than the
+baseline. The improvement came from payoff quality and lower loss severity,
+not from a higher percentage of winning trades.
+
+### 11.3 Benchmark comparison
+
+The benchmark is adjusted `^NSEI` data from the same yfinance cache.
+
+| Period | Strategy CAGR | Nifty CAGR | Strategy max DD | Nifty max DD | Average strategy exposure |
+|---|---:|---:|---:|---:|---:|
+| 2021-07-26 to 2026-07-24 | **22.10%** | 8.49% | **-12.48%** | -17.23% | 38.8% |
+| 2024-07-24 to 2026-07-24 | **16.56%** | -1.33% | **-7.34%** | -15.77% | 27.7% |
+
+This is not a fully apples-to-apples comparison:
+
+- the benchmark is continuously invested;
+- the strategy often holds cash;
+- cash earns 0% in the simulation;
+- the strategy incurs modeled commissions;
+- neither side includes investor-specific taxes; and
+- adjusted price data is not the same as an investable Nifty total-return index
+  with explicit implementation costs.
+
+### 11.4 Calendar-year equity returns
+
+| Year | Strategy return | Nifty adjusted-price return | Note |
+|---|---:|---:|---|
+| 2021 | 8.98% | 9.67% | Partial from 2021-07-26 |
+| 2022 | 2.74% | 4.33% | Full year |
+| 2023 | **39.72%** | 20.03% | Full year |
+| 2024 | **59.07%** | 8.80% | Full year |
+| 2025 | 11.19% | 10.51% | Full year |
+| 2026 | -2.05% | -9.04% | Partial through 2026-07-24 |
+
+Returns were highly concentrated in 2023 and 2024. This concentration is a key
+robustness concern; the strategy did not produce uniformly high returns in
+every year.
+
+### 11.5 Trade distribution
+
+| Statistic | Five-year optimized result |
+|---|---:|
+| Closed trades | 569 |
+| Unique symbols traded | 254 |
+| Win rate | 36.91% |
+| Average win | 8.27% |
+| Average loss | -3.33% |
+| Average win / absolute average loss | 2.48x |
+| Median trade | -2.49% |
+| 5th percentile trade | -4.85% |
+| 25th percentile trade | -3.63% |
+| 75th percentile trade | 5.56% |
+| 95th percentile trade | 13.94% |
+| Best trade | 25.58% |
+| Worst trade | -6.43% |
+| Median holding period | 4 calendar days |
+| Estimated modeled commissions | INR 97,015 |
+| Maximum observed positions | 5 |
+| Market regime enabled | 691 of 1,235 sessions (55.95%) |
+| Median deployed capital | 25.74% of equity |
+
+The median trade is negative. The strategy depends on positive payoff
+asymmetry: relatively frequent small losses offset by less frequent, larger
+wins.
+
+### 11.6 Exit attribution
+
+| Exit reason | Trades | Share | Win rate within reason | Average trade return |
+|---|---:|---:|---:|---:|
+| Entry-day stop | 106 | 18.63% | 0.00% | -3.40% |
+| Entry-day target | 17 | 2.99% | 100.00% | 11.47% |
+| False breakout | 24 | 4.22% | 0.00% | -2.23% |
+| Stop | 264 | 46.40% | 17.42% | -2.58% |
+| Stop gap | 6 | 1.05% | 16.67% | -3.53% |
+| Target | 128 | 22.50% | 100.00% | 11.20% |
+| Time exit | 24 | 4.22% | 75.00% | 1.17% |
+
+`STOP` includes exits at stops that were raised by the Chandelier logic. It can
+therefore contain profitable trades. Target returns vary because ATR as a
+percentage of price varies, and a gap above the target can receive the higher
+opening fill.
+
+### 11.7 Local result artifacts
+
+Official optimized five-year artifacts:
+
+```text
+backtesting\breakout_52w\results\
+  nifty500_2021-07-24_2026-07-24_20260726T011521_53695d25\
+```
+
+Official optimized validation-period artifacts:
+
+```text
+backtesting\breakout_52w\results\
+  nifty500_2024-07-24_2026-07-24_20260726T011800_f2a448a3\
+```
+
+Each directory contains:
+
+- `summary.json`
+- `summary.txt`
+- `trades.csv`
+- `equity_curve.csv`
+- `signals.csv`
+- `open_positions.json`
+
+These generated directories are local artifacts and are excluded from version
+control.
+
+---
+
+## 12. Interpretation of the observed edge
+
+The reported improvement appears to come from four mechanisms:
+
+1. **Higher signal participation threshold.** Raising RVOL from 1.5 to 2.0
+   removes lower-volume breakouts.
+2. **Faster loss recognition.** The 1 ATR stop and entry-day stop reduce the
+   lower tail. Average losing-trade return improved from -4.20% to -3.33%.
+3. **Systematic profit realization.** The 3 ATR target captures a repeatable
+   payoff and releases capital rather than waiting for every trade to become a
+   long-duration trend.
+4. **Capital turnover with lower exposure.** Average holding period fell from
+   10.1 to 5.9 calendar days while average exposure fell from 45.6% to 38.8%.
+
+The full-period win rate barely changed. The economic claim is therefore not
+"the model predicts winners more often." It is:
+
+> Under the tested data and assumptions, the model produced a better ratio of
+> average win to average loss, reduced drawdown, and recycled capital faster.
+
+This claim still requires independent testing because parameter selection,
+survivorship bias, and execution assumptions can materially inflate the
+observed edge.
+
+---
+
+## 13. Material limitations and sources of bias
+
+### 13.1 Current-constituent survivorship bias
+
+The largest issue is that today's Nifty 500 list is projected backward.
+Historical losers removed from the index and delisted firms may be absent,
+while later successful additions are included before they actually joined.
+This can overstate both signal quality and liquidity.
+
+**Required remediation:** obtain dated constituent files and construct the
+eligible universe separately for every historical session.
+
+### 13.2 Validation-period reuse
+
+The 2024-2026 period was reviewed while selecting parameters. It is not an
+independent final test. The 16.56% CAGR should be treated as model-selection
+evidence, not unbiased expected performance.
+
+**Required remediation:** freeze the strategy now and evaluate it on future
+unseen data, or acquire an earlier and longer history that allows a new,
+untouched final test segment.
+
+### 13.3 Multiple testing and overfitting
+
+More than 100 individual and combination variants were examined across the
+experiment stages. Selecting the best robust-looking region inflates expected
+performance even when train/validation discipline is used.
+
+**Required remediation:** calculate deflated Sharpe, probability of backtest
+overfitting, and bootstrap confidence intervals; use nested or rolling
+walk-forward selection.
+
+### 13.4 Historical earnings-calendar look-ahead risk
+
+The backtest uses the realized NSE board-meeting date and assumes it was known
+five sessions in advance. The dataset does not preserve the date on which each
+meeting was first announced to the market. An event may therefore be excluded
+historically using information that was not yet public.
+
+**Required remediation:** store event publication timestamps and only apply a
+blackout when the scheduled date was publicly known as of the signal date.
+
+### 13.5 Adjusted data is not vintage point-in-time data
+
+yfinance `auto_adjust=True` rewrites historical OHLC values for later corporate
+actions. Re-downloading after a dividend, split, symbol change, or source
+correction can alter old breakout boundaries. The 0.10% clearance reduces tiny
+rounding artifacts but does not create true vintage data.
+
+**Required remediation:** archive immutable daily raw and adjusted datasets,
+corporate actions, and adjustment factors as they become available.
+
+### 13.6 Transaction-cost model is incomplete
+
+The simulation charges only 0.05% commission on each side. It omits or
+simplifies:
+
+- bid-ask spread;
+- market impact and slippage;
+- securities transaction tax;
+- exchange and clearing charges;
+- GST;
+- stamp duty;
+- DP charges where applicable;
+- broker-specific pricing;
+- order rejection and partial fill risk; and
+- taxes on realized gains.
+
+The strategy trades 569 times over five years, so cost misspecification is
+material.
+
+### 13.7 Daily OHLC path ambiguity
+
+When a candle contains both stop and target, intraday ordering is unknown. The
+model assumes stop first, which is conservative, but exact fill quality still
+cannot be established from daily bars.
+
+**Required remediation:** repeat the simulation with intraday data for all
+entry and exit sessions.
+
+### 13.8 Perfect liquidity at the open
+
+All shares fill at the official open with no volume participation cap. The
+liquidity filters reduce but do not eliminate this problem. Opening auctions,
+price bands, circuits, and gaps can make the assumed fill unavailable.
+
+**Required remediation:** add spread/slippage by turnover bucket, maximum
+percentage of ADV, circuit checks, and delayed/partial fills.
+
+### 13.9 Universe and sector concentration
+
+The current report does not measure:
+
+- sector weights;
+- factor exposures;
+- market beta;
+- clustering of simultaneous positions;
+- single-industry drawdowns; or
+- capacity by liquidity tier.
+
+The five-position cap can still produce concentrated sector or factor risk.
+
+### 13.10 Short sample and regime concentration
+
+Five years is short for a momentum strategy and includes unusually strong
+2023-2024 performance. Results were modest in 2022 and 2025 and negative in the
+2026 partial period.
+
+**Required remediation:** test multiple bull, bear, sideways, high-volatility,
+and low-volatility regimes over at least 10-15 years if reliable constituent
+and event data can be obtained.
+
+### 13.11 Benchmark comparison limitations
+
+The strategy is partially invested while the benchmark is continuously
+invested. No explicit cash yield is credited. Adjusted `^NSEI` is not a
+tradeable implementation with fees and tracking error.
+
+**Required remediation:** compare against:
+
+- a Nifty total-return index;
+- an investable ETF after costs;
+- a cash-plus-index blended benchmark matched to strategy exposure; and
+- other Indian momentum factors or indices.
+
+### 13.12 Daily versus backtest calendar edge cases
+
+The backtest earnings window uses benchmark trading sessions. The daily
+scanner's prospective helper counts weekdays, which can miscount exchange
+holidays. The backtest also expires a pending signal after its next benchmark
+session when the stock has no exact bar, while the daily state machine can
+retain a pending signal until data becomes available.
+
+These differences should be reconciled before production deployment.
+
+### 13.13 Operational dependency on standing orders
+
+The daily script runs once after the close and does not place orders. The
+entry-day and intraday stop/target assumptions are only achievable if the user
+places standing orders promptly and keeps the paper state synchronized with
+actual fills.
+
+---
+
+## 14. Questions for an external finance reviewer
+
+1. Is a fixed 3 ATR target economically appropriate for a 52-week momentum
+   strategy, or does it sacrifice the rare long-tail winners that normally
+   drive momentum returns?
+2. Is the 1 ATR initial stop too sensitive to Indian single-stock gap and
+   opening-auction behavior?
+3. Are the 500,000-share and INR 5 crore liquidity thresholds sufficient for
+   the intended capital scale and order type?
+4. Should turnover, free float, or maximum ADV participation replace the simple
+   liquidity thresholds?
+5. Should the regime filter use the Nifty 500, Nifty total-return index,
+   advance-decline breadth, or sector-specific regimes instead of `^NSEI`?
+6. Is the five-session earnings blackout long enough, and should post-result
+   blackout days also be included?
+7. Should risk be reduced when several positions are highly correlated or in
+   the same sector?
+8. Should the target be partial rather than full, leaving a residual position
+   for a Chandelier trend exit?
+9. Is 1% risk per trade appropriate given overnight gap risk can exceed the
+   stop-defined loss?
+10. Which Indian transaction-cost and tax schedule should be used for the
+    intended broker and holding period?
+11. What benchmark best reflects the strategy's low average exposure and
+    long-only mandate?
+12. What minimum forward paper-trading sample would be sufficient before
+    committing real capital?
+
+---
+
+## 15. Recommended independent validation plan
+
+Before live capital is used:
+
+1. **Freeze this exact specification.** Do not tune parameters on the next test.
+2. **Rebuild historical membership.** Use point-in-time Nifty 500 constituents.
+3. **Correct event availability.** Apply earnings blackouts only after meeting
+   dates were publicly announced.
+4. **Extend history.** Include at least one additional full market cycle.
+5. **Use realistic costs.** Model Indian taxes, spread, slippage, impact, and
+   partial fills by liquidity bucket.
+6. **Use intraday execution data.** Resolve same-day stop/target sequencing and
+   opening-fill feasibility.
+7. **Run rolling walk-forward tests.** Re-estimate nothing, or define a formal
+   training window and locked selection procedure.
+8. **Run parameter stability tests.** Confirm that nearby RVOL, stop, target,
+   and breakout-clearance values remain profitable.
+9. **Bootstrap trades and years.** Estimate confidence intervals for CAGR,
+   drawdown, Sharpe, and probability of loss.
+10. **Measure exposures.** Report sector concentration, beta, momentum factor
+    exposure, and capacity.
+11. **Forward paper trade.** Run the daily process without rule changes for at
+    least 6-12 months and reconcile every assumed fill with executable market
+    prices.
+12. **Stage capital gradually.** Begin below modeled capacity with hard
+    portfolio-level loss limits.
+
+---
+
+## 16. Implementation map
+
+| File | Responsibility |
+|---|---|
+| `backtesting/breakout_52w/config.py` | All thresholds and risk parameters |
+| `backtesting/breakout_52w/strategy.py` | Entry, sizing, target, regime, and exit rules |
+| `backtesting/breakout_52w/engine.py` | Historical event loop and next-open execution |
+| `backtesting/breakout_52w/daily.py` | Daily scanner and persisted paper portfolio |
+| `backtesting/breakout_52w/calendar.py` | Cached NSE result-event calendar |
+| `backtesting/breakout_52w/service.py` | Data loading, run orchestration, metrics, artifacts |
+| `backtesting/swing_trading/data.py` | Cached yfinance point-in-time slices |
+| `backtesting/swing_trading/portfolio.py` | Cash, positions, commissions, realized trades |
+| `strategies/breakout_52w.py` | CLI/UI backtest registration |
+| `strategies/breakout_52w_daily.py` | CLI/UI daily workflow registration |
+| `tests/test_breakout_52w.py` | Deterministic rule and accounting tests |
+| `tests/test_breakout_52w_daily.py` | Daily state-machine and entry-day tests |
+
+---
+
+## 17. Bottom line
+
+The implementation is deterministic, internally consistent on its main rules,
+and materially better than its original baseline under the available data and
+execution assumptions. It met the requested 15% CAGR objective in both the
+full five-year result and the reviewed validation segment, while reducing
+drawdown and average percentage loss.
+
+It is **not yet institutionally validated**. Current-constituent survivorship,
+validation reuse, historical earnings-calendar availability, multiple testing,
+and simplified execution costs are large enough that the 22.10% CAGR should
+not be treated as an unbiased forecast.
+
+The appropriate next conclusion is:
+
+> The strategy is promising enough to justify a rigorous independent rebuild
+> and forward paper test, but not strong enough to skip those steps.
