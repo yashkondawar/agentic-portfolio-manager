@@ -15,7 +15,6 @@ Usage:
 
 import os
 import json
-import time
 import logging
 import webbrowser
 from pathlib import Path
@@ -26,8 +25,11 @@ from kiteconnect import KiteConnect
 
 logger = logging.getLogger(__name__)
 
-# Token persistence file (so we don't re-login within same day)
-TOKEN_FILE = Path(__file__).parent / ".access_token.json"
+# Token persistence lives outside the repository to prevent accidental commits.
+TOKEN_FILE = Path(
+    os.getenv("ZERODHA_TOKEN_FILE", "").strip()
+    or str(Path.home() / ".agentic-portfolio-manager" / "zerodha_access_token.json")
+).expanduser()
 
 
 class ZerodhaClient:
@@ -54,7 +56,7 @@ class ZerodhaClient:
         """Load previously saved access token if still valid (same day)."""
         if TOKEN_FILE.exists():
             try:
-                data = json.loads(TOKEN_FILE.read_text())
+                data = json.loads(TOKEN_FILE.read_text(encoding="utf-8"))
                 saved_date = data.get("date", "")
                 token = data.get("access_token", "")
                 if saved_date == date.today().isoformat() and token:
@@ -67,11 +69,17 @@ class ZerodhaClient:
 
     def _save_token(self, access_token: str):
         """Save access token for reuse within the same trading day."""
-        TOKEN_FILE.write_text(json.dumps({
-            "access_token": access_token,
-            "date": date.today().isoformat(),
-            "saved_at": datetime.now().isoformat(),
-        }))
+        TOKEN_FILE.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
+        os.chmod(TOKEN_FILE.parent, 0o700)
+        TOKEN_FILE.write_text(
+            json.dumps({
+                "access_token": access_token,
+                "date": date.today().isoformat(),
+                "saved_at": datetime.now().isoformat(),
+            }),
+            encoding="utf-8",
+        )
+        os.chmod(TOKEN_FILE, 0o600)
         logger.info("[ZERODHA] Access token saved for today")
 
     @property
@@ -96,7 +104,10 @@ class ZerodhaClient:
             self._access_token = access_token
             self._is_authenticated = True
             self._save_token(access_token)
-            logger.info(f"[ZERODHA] Authentication successful. User: {data.get('user_name', 'N/A')}")
+            logger.info(
+                "[ZERODHA] Authentication successful. User: %s",
+                data.get("user_name", "N/A"),
+            )
             return True
         except Exception as e:
             logger.error(f"[ZERODHA] Authentication failed: {e}")
@@ -305,7 +316,11 @@ class ZerodhaClient:
         self._ensure_auth()
 
         symbol = symbol.strip().upper().replace(".NS", "").replace(".BO", "")
-        kite_exchange = self.kite.EXCHANGE_NSE if exchange.upper() == "NSE" else self.kite.EXCHANGE_BSE
+        kite_exchange = (
+            self.kite.EXCHANGE_NSE
+            if exchange.upper() == "NSE"
+            else self.kite.EXCHANGE_BSE
+        )
         kite_txn = (
             self.kite.TRANSACTION_TYPE_BUY
             if transaction_type.upper() == "BUY"
@@ -318,7 +333,8 @@ class ZerodhaClient:
         try:
             logger.info(
                 f"[ZERODHA] Bracket order: {transaction_type} {quantity}x {symbol} "
-                f"@ ₹{price} | SL=₹{stoploss} (offset={sl_offset}) | Target=₹{target} (offset={target_offset})"
+                f"@ ₹{price} | SL=₹{stoploss} (offset={sl_offset}) | "
+                f"Target=₹{target} (offset={target_offset})"
             )
             order_id = self.kite.place_order(
                 variety=self.kite.VARIETY_BO,

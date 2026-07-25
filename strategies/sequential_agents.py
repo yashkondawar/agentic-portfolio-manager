@@ -1,9 +1,4 @@
-"""Sequential multi-agent research strategy.
-
-Wraps the LangGraph *supervisor* pipeline (``main.StockResearchSystem``),
-in which specialized agents (stock finder -> market data -> news analyst ->
-recommendation) are orchestrated sequentially by a supervisor agent.
-"""
+"""Sequential multi-agent research strategy powered by GitHub Copilot SDK."""
 
 from __future__ import annotations
 
@@ -32,14 +27,14 @@ class SequentialAgentsStrategy(BaseStrategy):
     id = "sequential_agents"
     name = "Sequential Agent System"
     description = (
-        "Supervisor-orchestrated agents that run in sequence "
+        "Copilot SDK agents that run in sequence "
         "(stock finder -> market data -> news -> recommendation)."
     )
     long_description = (
-        "Uses LangGraph's supervisor pattern. A supervisor LLM hands off to "
-        "specialized agents one after another and synthesizes their outputs "
-        "into BUY/SELL/HOLD recommendations. Works with the free scraper "
-        "tools by default, or Bright Data MCP when configured."
+        "Uses authenticated GitHub Copilot SDK sessions with Claude Opus 4.7 "
+        "by default. Specialized agents run one after another and synthesize "
+        "their outputs into BUY/SELL/HOLD recommendations. Works with the "
+        "free scraper tools by default, or Bright Data MCP when configured."
     )
     category = StrategyCategory.RESEARCH
 
@@ -61,10 +56,16 @@ class SequentialAgentsStrategy(BaseStrategy):
                 required=False,
                 default=True,
                 help="Prefer free yfinance/screener.in tools over paid Bright Data.",
+                group="Data",
+                advanced=True,
             ),
         ]
 
     def run(self, params: Dict[str, Any]) -> StrategyResult:
+        from core.llm import validate_copilot_configuration
+
+        validate_copilot_configuration()
+
         from main import StockResearchSystem, extract_recommendations
 
         # Honour the toggle by setting the env var the system reads on init.
@@ -75,7 +76,6 @@ class SequentialAgentsStrategy(BaseStrategy):
         query = params.get("query") or _DEFAULT_QUERY
         system = StockResearchSystem(
             bright_data_api_token=os.getenv("BRIGHT_DATA_API_TOKEN"),
-            openai_api_key=os.getenv("OPENAI_API_KEY"),
         )
 
         results = asyncio.run(system.analyze_stocks(query))

@@ -34,7 +34,8 @@ class ParallelAgentsStrategy(BaseStrategy):
         "valuation, sentiment, Buffett and Jhunjhunwala analysts in parallel "
         "for each ticker. Signals are aggregated by a risk manager (position "
         "sizing) and a portfolio manager into BUY/SELL/HOLD calls with "
-        "targets and stop losses."
+        "targets and stop losses. GitHub Copilot SDK with Claude Opus 4.7 "
+        "provides persona and portfolio reasoning by default."
     )
     category = StrategyCategory.RESEARCH
 
@@ -55,15 +56,21 @@ class ParallelAgentsStrategy(BaseStrategy):
                 required=False,
                 default=DEFAULT_PORTFOLIO_VALUE,
                 help="Total capital used for position-sizing.",
-                min=0,
+                min=1,
+                group="Capital & risk",
             ),
             ParamSpec(
                 name="use_llm",
-                label="Use LLM for persona agents",
+                label="Use GitHub Copilot for persona agents",
                 type=ParamType.BOOL,
                 required=False,
-                default=False,
-                help="Enable LLM reasoning for Buffett/Jhunjhunwala + portfolio manager.",
+                default=True,
+                help=(
+                    "Use Copilot SDK reasoning for Buffett/Jhunjhunwala and "
+                    "the portfolio manager. Disable for quantitative-only mode."
+                ),
+                group="Advanced",
+                advanced=True,
             ),
         ]
 
@@ -74,9 +81,7 @@ class ParallelAgentsStrategy(BaseStrategy):
         if not symbols:
             raise ValueError("At least one symbol is required.")
 
-        portfolio_value = float(
-            params.get("portfolio_value") or DEFAULT_PORTFOLIO_VALUE
-        )
+        portfolio_value = float(params.get("portfolio_value", DEFAULT_PORTFOLIO_VALUE))
 
         llm = None
         if params.get("use_llm"):
@@ -93,10 +98,21 @@ class ParallelAgentsStrategy(BaseStrategy):
             symbol: {
                 "action": a.final_decision.action if a.final_decision else None,
                 "confidence": a.final_decision.confidence if a.final_decision else None,
+                "current_price": a.current_price,
+                "entry_price": (
+                    a.final_decision.entry_price if a.final_decision else None
+                ),
                 "target_price": (
                     a.final_decision.target_price if a.final_decision else None
                 ),
                 "stop_loss": a.final_decision.stop_loss if a.final_decision else None,
+                "position_size_pct": (
+                    a.final_decision.position_size_pct if a.final_decision else None
+                ),
+                "time_horizon": (
+                    a.final_decision.time_horizon if a.final_decision else None
+                ),
+                "reasoning": (a.final_decision.reasoning if a.final_decision else None),
             }
             for symbol, a in results.items()
         }

@@ -21,7 +21,8 @@ from __future__ import annotations
 
 import logging
 import pickle
-from datetime import date, datetime, timedelta
+from hashlib import sha256
+from datetime import date, timedelta
 from pathlib import Path
 from typing import Dict, List, Optional
 
@@ -39,6 +40,28 @@ def _yf_symbol(symbol: str) -> str:
 
 def _plain_symbol(symbol: str) -> str:
     return symbol.strip().upper().replace(".NS", "").replace(".BO", "")
+
+
+def _cache_symbol(symbol: str) -> str:
+    normalized = symbol.strip().upper()
+    if normalized.endswith((".NS", ".BO")):
+        return normalized
+    return f"{normalized}.NS"
+
+
+def _cache_tag(
+    symbols: List[str],
+    benchmark: str,
+    download_start: date,
+    download_end: date,
+) -> str:
+    requested_symbols = sorted({_cache_symbol(symbol) for symbol in symbols})
+    cache_identity = "|".join([benchmark, *requested_symbols])
+    identity_hash = sha256(cache_identity.encode("utf-8")).hexdigest()[:12]
+    return (
+        f"{len(requested_symbols)}sym_{identity_hash}_"
+        f"{download_start.isoformat()}_{download_end.isoformat()}"
+    )
 
 
 class PointInTimeData:
@@ -68,17 +91,23 @@ class PointInTimeData:
     ) -> None:
         dl_start = start - timedelta(days=warmup_days)
         dl_end = end + timedelta(days=2)
-        tag = f"{len(symbols)}sym_{dl_start.isoformat()}_{dl_end.isoformat()}"
+        requested_symbols = sorted({_cache_symbol(symbol) for symbol in symbols})
+        tag = _cache_tag(symbols, benchmark, dl_start, dl_end)
         cache_path = self._cache_path(tag)
 
         if use_cache and cache_path.exists():
             logger.info("Loading cached prices from %s", cache_path.name)
             with open(cache_path, "rb") as fh:
                 blob = pickle.load(fh)
-            self.frames = blob["frames"]
-            self.benchmark = blob["benchmark"]
-            logger.info("Cache: %d symbols + benchmark loaded.", len(self.frames))
-            return
+            if (
+                blob.get("requested_symbols") == requested_symbols
+                and blob.get("benchmark_symbol") == benchmark
+            ):
+                self.frames = blob["frames"]
+                self.benchmark = blob["benchmark"]
+                logger.info("Cache: %d symbols + benchmark loaded.", len(self.frames))
+                return
+            logger.warning("Ignoring cache with mismatched universe metadata.")
 
         import yfinance as yf
 
@@ -116,7 +145,15 @@ class PointInTimeData:
                     len(self.frames), total)
 
         with open(cache_path, "wb") as fh:
-            pickle.dump({"frames": self.frames, "benchmark": self.benchmark}, fh)
+            pickle.dump(
+                {
+                    "frames": self.frames,
+                    "benchmark": self.benchmark,
+                    "requested_symbols": requested_symbols,
+                    "benchmark_symbol": benchmark,
+                },
+                fh,
+            )
         logger.info("Cached prices to %s", cache_path.name)
 
     @staticmethod
@@ -150,7 +187,9 @@ class PointInTimeData:
     def full(self, symbol: str) -> Optional[pd.DataFrame]:
         return self.frames.get(_plain_symbol(symbol))
 
-    def as_of(self, symbol: str, day: date, lookback_rows: Optional[int] = None) -> Optional[pd.DataFrame]:
+    def as_of(
+        self, symbol: str, day: date, lookback_rows: Optional[int] = None
+    ) -> Optional[pd.DataFrame]:
         """Rows dated <= `day`. Optionally limited to the last `lookback_rows`."""
         df = self.frames.get(_plain_symbol(symbol))
         if df is None:

@@ -29,8 +29,9 @@ import json
 import sys
 from typing import Any, Dict
 
-from logging_config import setup_logging
 from core import registry
+from core.console import safe_print
+from logging_config import setup_logging
 
 
 def _print_strategy_list(as_json: bool) -> None:
@@ -116,9 +117,9 @@ def main(argv: list[str] | None = None) -> int:
     print("=" * 80)
     print(f"STRATEGY: {result.strategy_id}  |  STATUS: {result.status}")
     print("=" * 80)
-    print(result.report)
+    safe_print(result.report)
     if result.error:
-        print("\n[error]", result.error, file=sys.stderr)
+        safe_print(f"\n[error] {result.error}", file=sys.stderr)
 
     return 0 if result.ok else 1
 

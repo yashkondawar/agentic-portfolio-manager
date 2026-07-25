@@ -2,7 +2,6 @@
 Parallel Multi-Analyst Workflow — orchestrates all agents.
 
 Uses concurrent execution (ThreadPoolExecutor) for analyst fan-out.
-No LangGraph dependency — keeps it simple and robust.
 
 Flow:
 1. Parse tickers from user query

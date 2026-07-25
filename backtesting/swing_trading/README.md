@@ -1,5 +1,9 @@
 # Swing-Trading Backtest (point-in-time)
 
+This backtest is also available in the Streamlit **Backtest Lab**
+(`streamlit run app.py`). The UI uses this same point-in-time engine and shows
+metrics, an equity curve, trades, open positions, and downloadable artifacts.
+
 Bulk-simulates this repo's swing-trading setup over history **without letting the
 model see the future**. It reproduces the monthly watchlist refresh (~12×) and
 the daily trade loop (~250 trading days/year) using only the data that existed on

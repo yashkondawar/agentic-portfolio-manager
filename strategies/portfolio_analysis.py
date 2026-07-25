@@ -51,6 +51,7 @@ class PortfolioAnalysisStrategy(BaseStrategy):
                 type=ParamType.JSON,
                 required=True,
                 help='List of {"symbol","quantity","buy_price","last_price"?}.',
+                group="Holdings",
             ),
             ParamSpec(
                 name="prompt",
@@ -59,6 +60,8 @@ class PortfolioAnalysisStrategy(BaseStrategy):
                 required=False,
                 default=_DEFAULT_PROMPT,
                 help="What you want the analysis to focus on.",
+                group="Advanced",
+                advanced=True,
             ),
             ParamSpec(
                 name="template",
@@ -68,6 +71,7 @@ class PortfolioAnalysisStrategy(BaseStrategy):
                 default="forensic",
                 choices=["forensic", "concise"],
                 help="forensic=10-part institutional review, concise=5-section brief.",
+                group="Report",
             ),
             ParamSpec(
                 name="cash_available",
@@ -76,6 +80,7 @@ class PortfolioAnalysisStrategy(BaseStrategy):
                 required=False,
                 default=None,
                 min=0,
+                group="Investor profile",
             ),
             ParamSpec(
                 name="horizon_years",
@@ -84,6 +89,24 @@ class PortfolioAnalysisStrategy(BaseStrategy):
                 required=False,
                 default=None,
                 min=0,
+                group="Investor profile",
+            ),
+            ParamSpec(
+                name="monthly_sip",
+                label="Monthly SIP (₹)",
+                type=ParamType.FLOAT,
+                required=False,
+                default=None,
+                min=0,
+                group="Investor profile",
+            ),
+            ParamSpec(
+                name="target_cagr_pct",
+                label="Target CAGR (%)",
+                type=ParamType.FLOAT,
+                required=False,
+                default=None,
+                group="Investor profile",
             ),
             ParamSpec(
                 name="risk_appetite",
@@ -92,6 +115,34 @@ class PortfolioAnalysisStrategy(BaseStrategy):
                 required=False,
                 default=None,
                 choices=["Low", "Moderate", "High"],
+                group="Investor profile",
+            ),
+            ParamSpec(
+                name="model",
+                label="Copilot model",
+                type=ParamType.STRING,
+                required=False,
+                default=None,
+                group="Advanced",
+                advanced=True,
+            ),
+            ParamSpec(
+                name="web_grounding",
+                label="Use live web grounding",
+                type=ParamType.BOOL,
+                required=False,
+                default=True,
+                group="Advanced",
+                advanced=True,
+            ),
+            ParamSpec(
+                name="scraper_tools",
+                label="Use local market-data tools",
+                type=ParamType.BOOL,
+                required=False,
+                default=True,
+                group="Advanced",
+                advanced=True,
             ),
         ]
 
@@ -108,6 +159,8 @@ class PortfolioAnalysisStrategy(BaseStrategy):
         context = pca.PortfolioContext(
             cash_available=_opt_float(params.get("cash_available")),
             horizon_years=_opt_float(params.get("horizon_years")),
+            monthly_sip=_opt_float(params.get("monthly_sip")),
+            target_cagr_pct=_opt_float(params.get("target_cagr_pct")),
             risk_appetite=params.get("risk_appetite") or None,
         )
 
@@ -116,6 +169,9 @@ class PortfolioAnalysisStrategy(BaseStrategy):
             user_prompt=user_prompt,
             context=context,
             template=template,
+            model=params.get("model") or None,
+            web_grounding=bool(params.get("web_grounding", True)),
+            scraper_tools=bool(params.get("scraper_tools", True)),
         )
 
         return StrategyResult(

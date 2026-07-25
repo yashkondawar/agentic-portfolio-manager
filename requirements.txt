@@ -1,11 +1,8 @@
 # requirements.txt
 streamlit
 langchain
-langchain-openai
-langchain-groq
 langchain-mcp-adapters
-langgraph
-langgraph_supervisor
+github-copilot-sdk
 plotly
 pandas
 python-dotenv
