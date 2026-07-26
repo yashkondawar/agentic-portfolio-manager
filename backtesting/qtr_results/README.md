@@ -174,6 +174,52 @@ Useful flags: `--capital`, `--goal-pct`, `--universe`, `--universe-file`,
 > Caveat: validated on a single ~1-year window (~47 trades); a longer test needs
 > an NSE-XBRL historical-financials backfill to extend fundamentals before 2023.
 
+### Ideal-state redesign — surprise, ranking, hedge, honest stats (opt-in)
+
+The B1–B10 work above optimized a **long-only, absolute-threshold** book toward a
+CAGR target — powerful in-sample, but the one honest out-of-sample test (a real
+Nifty-500 year) was net negative because the book is naked-long market beta and the
+signal gates on *absolute* growth rather than growth *vs. expectations*. The redesign
+adds four economically-motivated, **opt-in** capabilities that re-frame the strategy
+around risk-adjusted, selection-bias-aware alpha. All default behavior is unchanged.
+
+> **Earnings *surprise* (SUE), not absolute growth (`--use-sue`).** PEAD is driven by
+> the surprise vs. expectation, not the level of growth: +20% YoY when the trend
+> implied +40% is a *negative* surprise. `signals.compute_sue` builds **Standardized
+> Unexpected Earnings** (Foster-Olsen-Shevlin seasonal-random-walk-with-drift) from
+> the EPS the backtest already has — no consensus vendor — and standardizes it by the
+> company's own earnings volatility so it is comparable across names. A second leg,
+> the **declaration-day abnormal return** (`announcement_reaction`), confirms the
+> print with price. Both are point-in-time (quarters ≤ q_idx; prices ≤ signal day) and
+> return `None` on thin history. Surfaced as `sue` / `reaction` columns on `events.csv`.
+
+> **Cross-sectional ranking (`--cross-sectional`, implies `--use-sue`).** Instead of
+> buying *every* name over a fixed bar (basket size drifts with the tape), rank the
+> day's declarers against each other by a composite z-score — `w_sue·SUE +
+> w_reaction·reaction + w_quality·(leverage tilt)` (defaults 0.5 / 0.3 / 0.2) — and buy
+> the top `--top-quantile` (default 0.20). Leverage is **demoted from a knife-edge
+> hard gate to a graded tilt** (`-log1p(debt/equity)`), so it shapes weight instead of
+> binary-rejecting on one fitted threshold. `--min-composite-score` adds an optional
+> floor so a weak season deploys *less*. Falls back to the legacy strength score when
+> SUE is unavailable, so it degrades gracefully.
+
+> **Beta hedge (`--hedge` / `--market-neutral`).** The honest test of an earnings-alpha
+> book is its return *with market direction removed*. `hedge.apply_beta_hedge` overlays
+> a short-index position sized to `hedge_ratio × book_beta ×` deployed exposure onto the
+> equity curve (charging carry + commission on the short), leaving the long-only path
+> byte-for-byte unchanged. `--hedge` uses the assumed/measured book beta;
+> `--market-neutral` is the fully beta-neutral variant. The book beta can be **measured**
+> from realized returns (`realized_book_beta`, OLS) rather than assumed. A hedged block
+> is added to the summary and hedged columns to `equity_curve.csv`.
+
+> **Honest statistics (deflated Sharpe + walk-forward).** The summary now **leads with
+> Sharpe / deflated Sharpe**, not CAGR-vs-goal. `validation.deflated_sharpe_ratio`
+> (Bailey & López de Prado) discounts the Sharpe for the number of configs tried
+> (`--num-trials`), the sample length, and return skew/kurtosis — the antidote to a
+> curve-fit result masquerading as an edge. `validation.walk_forward_windows` provides
+> a rolling train→test splitter with a **purge/embargo** gap so no holding window bridges
+> a split. Set `--num-trials` to the honest count of configurations explored.
+
 The first run scrapes screener.in (rate-limited, ~2 s/symbol) and downloads
 prices; both are cached, so reruns are fast and offline.
 
@@ -185,12 +231,13 @@ prices; both are cached, so reruns are fast and offline.
 |------|----------|
 | `summary.txt` / `summary.json` | headline metrics vs the goal (+ full config, exit-reason mix) |
 | `trades.csv` | every closed trade: quarter, method, strength, entry/exit, P&L, holding days, exit reason |
-| `equity_curve.csv` | daily equity / cash / deployed / open positions |
-| `events.csv` | every discovered result event and its point-in-time verdict (strong?, growth numbers) |
+| `equity_curve.csv` | daily equity / cash / deployed / open positions (+ `hedge_notional` / `hedge_pnl` / `hedged_equity` when `--hedge`) |
+| `events.csv` | every discovered result event and its point-in-time verdict (strong?, growth numbers, `sue`, `reaction`) |
 | `open_positions.json` | positions still open at the end of the window |
 
-Metrics: total return, CAGR, max drawdown, Sharpe (rf=0), win rate, profit factor,
-avg win/loss, avg holding, avg exposure, and `goal_reached`.
+Metrics: total return, CAGR, max drawdown, Sharpe (rf=0), **deflated Sharpe**, win
+rate, profit factor, avg win/loss, avg holding, avg exposure, `goal_reached`, and —
+when hedged — a `hedged_metrics` block (market-neutral alpha).
 
 ---
 
@@ -203,7 +250,11 @@ analysis.py      point-in-time per-quarter verification (reuses qtr_results.anal
 strategy.py      2%-risk sizing + OHLC-aware exits (ledger semantics)
 portfolio.py     cash, positions, trade log, equity curve, costs
 engine.py        the daily loop (fill → manage → mark → discover → queue)
-metrics.py       performance stats (reused) + summary rendering
+signals.py       SUE (surprise) + declaration-day reaction + cross-sectional z-scoring
+ranking.py       cross-sectional composite scoring + top-quantile selection
+hedge.py         beta-hedge overlay (short-index) → market-neutral alpha
+validation.py    walk-forward splitter (purge/embargo) + deflated Sharpe
+metrics.py       performance stats (reused) + deflated Sharpe + hedged block + summary
 run_backtest.py  CLI entrypoint
 ```
 

@@ -188,6 +188,49 @@ class BacktestConfig:
     regime_ma_period: int = 100                  # benchmark SMA period (sessions)
     regime_require_slope: bool = False           # also require non-declining SMA
 
+    # ── Earnings-SURPRISE signal (SUE) — ideal-state redesign ────────────────
+    # The legacy gate is ABSOLUTE growth (yoy_profit >= 20%), which is the wrong
+    # economic object: +20% YoY when the market expected +40% is a negative
+    # surprise and the stock falls. PEAD is driven by the surprise vs EXPECTATION.
+    # When enabled, we compute Standardized Unexpected Earnings (Foster-Olsen-
+    # Shevlin) from the company's own EPS history — no consensus vendor needed —
+    # and surface it on the event log; under `cross_sectional` it becomes the
+    # primary ranking signal. Off by default so the legacy path is unchanged.
+    use_sue: bool = False
+    sue_window: int = 8                          # trailing quarters for SUE drift/vol
+    reaction_lookback: int = 1                   # sessions for the declaration reaction
+
+    # ── Cross-sectional construction (top-quantile) ──────────────────────────
+    # The legacy engine buys EVERY name clearing fixed thresholds (basket size
+    # drifts with the tape). When enabled, the day's candidates are ranked against
+    # each other by a composite z-score (SUE + declaration reaction + a graded
+    # leverage tilt) and only the top slice is bought — self-normalizing to how
+    # strong the season is. Off by default (opt-in).
+    cross_sectional: bool = False
+    top_quantile: Optional[float] = 0.20         # keep the top fraction of the field
+    min_composite_score: Optional[float] = None  # optional absolute floor on the z-score
+    w_sue: float = 0.5                           # composite weight — surprise leads
+    w_reaction: float = 0.3                      # composite weight — price confirmation
+    w_quality: float = 0.2                       # composite weight — leverage tilt (soft)
+
+    # ── Beta-hedge overlay (isolate the alpha) ───────────────────────────────
+    # A long-only earnings book is dominated by market direction; hedging its net
+    # beta with a short index overlay isolates the PEAD alpha — and is the honest
+    # out-of-sample test (if the hedged alpha isn't positive, there is no edge).
+    # Applied as a post-hoc overlay on the equity curve, so the long-only path is
+    # byte-for-byte unchanged. Off by default.
+    hedge_enabled: bool = False
+    hedge_ratio: float = 1.0                     # fraction of beta to short (1 = neutral)
+    hedge_book_beta: float = 1.0                 # assumed beta (replaced by measured one)
+    hedge_use_measured_beta: bool = True         # estimate book beta via OLS when possible
+    hedge_annual_carry_pct: float = 1.0          # roll/borrow carry on the short (%/yr)
+    hedge_commission_pct: float = 0.02           # per-side cost on hedge rebalancing (%)
+
+    # ── Validation / honesty ─────────────────────────────────────────────────
+    # Number of configurations explored to arrive at this run. Feeds the DEFLATED
+    # Sharpe so a curve-fit result can't masquerade as an edge. Set it honestly.
+    num_trials: int = 1
+
     # ── Portfolio sizing (the capital overlay the live signal-tracker lacks) ──
     # The live strategy is a signal/ledger tracker with no position sizing; a
     # backtest needs one. We reuse the swing setup's risk model: risk a fixed %

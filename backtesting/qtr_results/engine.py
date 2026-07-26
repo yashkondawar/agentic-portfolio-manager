@@ -29,6 +29,7 @@ from typing import Dict, List, Optional, Tuple
 from qtr_results.targets import build_target_plan
 
 from . import analysis as an
+from . import ranking, signals
 from . import strategy
 from .config import BacktestConfig
 from .data import FundamentalsStore, PointInTimeData, ResultsCalendarStore, SectorStore
@@ -189,10 +190,26 @@ class BacktestEngine:
 
             raw, quarters, metrics = self.parsed[ev.symbol]
             analysis = an.analyze_event(raw, quarters, metrics, ev.q_idx, fill, cfg=self.cfg)
-            if not analysis.is_strong:
+            # Legacy path gates the fill on the absolute "strong" threshold. The
+            # cross-sectional path already selected on relative rank, so it does
+            # not re-impose that absolute gate here.
+            if not self.cfg.cross_sectional and not analysis.is_strong:
                 self._bump("weak_at_fill")
                 continue
             plan = build_target_plan(analysis, fill)
+            if plan is None and self.cfg.cross_sectional:
+                # No PE anchor (banks/PSUs/holding cos): fall back to a static
+                # target so a ranked pick is still takeable. The time-stop is the
+                # primary exit in the cross-sectional design; the target is a cap.
+                from qtr_results.targets import TargetPlan
+                plan = TargetPlan(
+                    method="static",
+                    entry_price=fill,
+                    target_pct=self.cfg.target_max_pct,
+                    target_price=round(fill * (1 + self.cfg.target_max_pct / 100.0), 2),
+                    trailing_stop_pct=0.0,  # informational; ATR stop set in make_position
+                    raw_upside_pct=None,
+                )
             if plan is None:
                 continue
 
@@ -478,6 +495,8 @@ class BacktestEngine:
             return
 
         scored: List[Tuple[float, an.ResultEvent, object]] = []
+        candidates: List[ranking.Candidate] = []
+        bench_bars = self.prices.benchmark_as_of(day) if self.cfg.use_sue else None
         for ev in events:
             if self.pf.has_open(ev.symbol):
                 continue
@@ -499,6 +518,19 @@ class BacktestEngine:
             # B8 — point-in-time balance-sheet quality (leverage + ROCE).
             qm = an.quality_metrics(raw, ev.quarter_label)
 
+            # Earnings-SURPRISE signals (ideal-state redesign): SUE from the EPS
+            # history, plus the declaration-day abnormal return. Point-in-time —
+            # SUE uses quarters <= q_idx, the reaction uses bars <= signal day.
+            sue = reaction = None
+            if self.cfg.use_sue:
+                eps_series = an._series(metrics, "eps")
+                sue = signals.compute_sue(
+                    eps_series, quarters, ev.q_idx, window=self.cfg.sue_window
+                )
+                reaction = signals.announcement_reaction(
+                    bars, bench_bars, lookback=self.cfg.reaction_lookback
+                )
+
             self.event_log.append({
                 "signal_date": day.isoformat(),
                 "symbol": ev.symbol,
@@ -515,8 +547,38 @@ class BacktestEngine:
                 "liquid": liquid,
                 "debt_to_equity": qm.debt_to_equity,
                 "roce": qm.roce,
+                "sue": sue,
+                "reaction": reaction,
             })
 
+            # ── Cross-sectional path (opt-in) ─────────────────────────────────
+            # Rank the day's field against itself instead of gating on absolute
+            # thresholds. Leverage is a graded tilt here, NOT a hard reject, so the
+            # only hard gates that remain are the market-microstructure ones
+            # (liquidity + trend confirmation) plus a computable signal.
+            if self.cfg.cross_sectional:
+                if not liquid:
+                    self._bump("illiquid")
+                    continue
+                if not confirmed:
+                    self._bump(f"unconfirmed_{reason or 'na'}")
+                    continue
+                signal_val = sue if sue is not None else analysis.strength_score
+                if signal_val is None:
+                    self._bump("no_signal")
+                    continue
+                candidates.append(ranking.Candidate(
+                    symbol=ev.symbol,
+                    sue=sue,
+                    reaction=reaction,
+                    strength_score=analysis.strength_score,
+                    debt_to_equity=qm.debt_to_equity,
+                    is_financial=qm.is_financial,
+                    payload=ev,
+                ))
+                continue
+
+            # ── Legacy absolute-threshold path (default, unchanged) ───────────
             if not analysis.is_strong:
                 self._bump("weak_result")
                 continue
@@ -550,6 +612,24 @@ class BacktestEngine:
 
             scored.append((analysis.strength_score, ev, analysis))
 
-        scored.sort(key=lambda t: t[0], reverse=True)
         take = min(capacity, self.cfg.max_new_per_day)
+        if self.cfg.cross_sectional:
+            ranked = ranking.composite_scores(
+                candidates,
+                w_sue=self.cfg.w_sue,
+                w_reaction=self.cfg.w_reaction,
+                w_quality=self.cfg.w_quality,
+            )
+            picks = ranking.select_top(
+                ranked,
+                top_quantile=self.cfg.top_quantile,
+                cap=take,
+                min_score=self.cfg.min_composite_score,
+            )
+            if picks:
+                self._bump("xsection_selected")
+            self.pending = [p.payload for p in picks]
+            return
+
+        scored.sort(key=lambda t: t[0], reverse=True)
         self.pending = [ev for _, ev, _ in scored[:take]]
