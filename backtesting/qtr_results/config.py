@@ -97,6 +97,14 @@ class BacktestConfig:
     target_min_pct: float = live_config.TARGET_MIN_PCT                 # 10%
     target_max_pct: float = live_config.TARGET_MAX_PCT                 # 20%
 
+    # "Ride-the-wave" exit: when True the fixed PE-rerating profit target is
+    # DISABLED and a position is only closed by the ATR trailing stop or the
+    # time-stop. This lets a genuine earnings-momentum winner run the full swing
+    # (e.g. a +50% PEAD move) instead of being clipped at +20% — at the cost of
+    # giving back the last ATR-band of every runner. Pair with a wider
+    # ``max_holding_days`` so the time-stop doesn't cut the drift short.
+    disable_profit_target: bool = False
+
     # Holding window: post-earnings-announcement drift (PEAD) in Indian equities
     # is strongest over 30-90 days after declaration, not 15-21 (Sehgal & Bijoy
     # 2015; NSE working papers). The live 21-day time-stop kills winners well

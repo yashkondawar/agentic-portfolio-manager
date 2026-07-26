@@ -57,7 +57,9 @@ def _parse_args() -> argparse.Namespace:
     p.add_argument("--capital", type=float, default=500_000.0, help="Starting capital ₹")
     p.add_argument("--goal-pct", type=float, default=20.0, help="Goal return %%")
     p.add_argument("--universe", default="nifty200",
-                   help="nifty50/100/200/500/midcap150/... (default nifty200)")
+                   help="nifty50/100/200/500/midcap150/smallcap250/... (default nifty200). "
+                        "Comma-separate to scan a UNION, e.g. 'nifty500,niftysmallcap250' "
+                        "to reach the mid/small-cap earnings-drift zone.")
     p.add_argument("--universe-file", help="Custom universe file (one NSE symbol/line)")
     p.add_argument("--max-symbols", type=int, default=None,
                    help="Cap universe size (quick runs / lighter scraping)")
@@ -83,6 +85,11 @@ def _parse_args() -> argparse.Namespace:
                         "Raising it lets high-conviction winners run further.")
     p.add_argument("--target-min-pct", type=float, default=None,
                    help="Lower bound of the PE-rerating target band %% (default 10).")
+    p.add_argument("--trail-only", action="store_true",
+                   help="Ride-the-wave exit: DISABLE the fixed profit target and let "
+                        "winners run until the ATR trailing stop (or time-stop) fires. "
+                        "Captures the full PEAD swing instead of clipping it at the "
+                        "target band. Pair with a wider --max-holding-days.")
     p.add_argument("--commission-pct", type=float, default=None,
                    help="Per-side commission %% (default 0.20 = ~40 bps rt)")
     p.add_argument("--pe-pct-threshold", type=float, default=None,
@@ -300,6 +307,8 @@ def main() -> int:
         cfg.target_max_pct = args.target_max_pct
     if args.target_min_pct is not None:
         cfg.target_min_pct = args.target_min_pct
+    if args.trail_only:
+        cfg.disable_profit_target = True
     if args.commission_pct is not None:
         cfg.commission_pct = args.commission_pct
     if args.pe_pct_threshold is not None:
@@ -446,6 +455,7 @@ def main() -> int:
     summary = render_summary(metrics, cfg.goal_return_pct, hedged=hedged)
 
     tag = args.tag or f"{cfg.universe_index}_{start.isoformat()}_{end.isoformat()}"
+    tag = tag.replace(",", "+").replace(" ", "")
     out_dir = RESULTS_DIR / tag
     _write_outputs(out_dir, cfg, engine, metrics, summary, hedged=hedged)
 
