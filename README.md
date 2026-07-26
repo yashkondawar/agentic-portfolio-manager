@@ -53,21 +53,29 @@ inspection, or use as an explicit state override.
 The cross-regime defaults require a close at least 0.5% above the prior high,
 2.0x relative volume, three-month return at least 15 percentage points above
 the Nifty, and a 50-day SMA that has risen at least 2% over 20 sessions. Each
-trade risks 1% of equity to a 1 ATR initial stop and uses a standing 4 ATR
-profit target. Backtests model the stop before the target when both prices
-occur in one daily candle. For live use, place both exit orders after entry;
-the daily workflow reports and persists their exact levels but does not submit
-broker orders.
+trade risks 1% of equity to a 1 ATR initial stop. Backtests model the stop
+before the target when both prices occur in one daily candle. For live use,
+place both exit orders after entry; the daily workflow reports and persists
+their exact levels but does not submit broker orders.
 
-The current five-year simulation (2021-07-24 through 2026-07-24, ₹500,000
-initial cash) produced 16.56% CAGR, -18.35% maximum drawdown, and 1.07 Sharpe.
-It intentionally gives back some of the prior version's exceptional 2023-2024
-returns in exchange for better cross-regime behavior: CAGR improved from
-3.73% to 5.66% in 2015-2018, -10.44% to 0.17% in 2019, 6.22% to 15.75% in
-2025-2026, and -4.67% to 2.99% in the untouched 2012-2014 holdout. These
-figures include 0.05% commission per side, but use today's Nifty 500 membership
-and therefore retain survivorship bias; they are validation results, not a
-return guarantee.
+An institutional hardening pass (see
+`docs/52-week-breakout-strategy-finance-review.md`, section 18) adds a realistic
+Indian delivery-cost model (~0.33% round-trip), a diversification framework (up
+to 12 positions with per-sector and pairwise-correlation caps and a 15%
+per-name notional cap), and partial-profit booking (half off at 2.5 ATR, stop to
+breakeven, uncapped Chandelier trail on the remainder). Continuous regime
+scaling is implemented but **disabled by default** because the simple binary
+market gate produced better drawdowns and Sharpe across every test window.
+
+Under these realistic-cost defaults, the five-year simulation
+(2021-07-24 through 2026-07-24, ₹500,000 initial cash) produces roughly
+5.4% CAGR, -14% maximum drawdown, 0.51 Sharpe, and a ~47% win rate. The lower
+headline return versus the earlier flat-cost figures (16.56% CAGR) is almost
+entirely the honest transaction-cost model; drawdown and win rate both improve.
+The strategy is signal-scarce (≈28% average exposure), so its edge comes from
+selectivity — relaxing filters to deploy more capital was tested and degraded
+every window. All figures use today's Nifty 500 membership and therefore retain
+survivorship bias; they are validation results, not a return guarantee.
 
 **Integrate a UI** — everything a front end needs comes from the registry:
 

@@ -40,8 +40,13 @@ class BreakoutConfig:
 
     risk_per_trade_pct: float = 1.0
     max_open_risk_pct: float = 5.0
-    max_positions: int = 5
-    max_position_pct: float = 25.0
+    max_positions: int = 12
+    max_position_pct: float = 15.0
+    max_positions_per_sector: int = 3
+    enable_sector_cap: bool = True
+    enable_correlation_cap: bool = True
+    max_correlation: float = 0.85
+    correlation_lookback: int = 63
     stop_method: str = "atr"
     atr_stop_mult: float = 1.0
     technical_stop_buffer_atr: float = 0.1
@@ -49,17 +54,31 @@ class BreakoutConfig:
 
     regime_sma_fast: int = 50
     regime_sma_slow: int = 200
+    regime_scaling: bool = False
+    regime_use_breadth: bool = True
     enforce_earnings_blackout: bool = True
     earnings_blackout_sessions: int = 5
 
     trail_method: str = "chandelier"
     trail_activation_atr: float = 2.0
     chandelier_atr_mult: float = 2.0
+    enable_partial_profit: bool = True
+    partial_profit_atr: float = 2.5
+    partial_profit_fraction: float = 0.5
     false_breakout_closes: int = 2
     time_exit_sessions: int = 10
     time_exit_progress_pct: float = 5.0
 
     commission_pct: float = 0.05
+    use_realistic_costs: bool = True
+    brokerage_pct: float = 0.0
+    stt_pct: float = 0.1
+    exchange_txn_pct: float = 0.00297
+    sebi_pct: float = 0.0001
+    gst_pct: float = 18.0
+    stamp_duty_pct: float = 0.015
+    slippage_bps: float = 5.0
+    adv_participation_pct: float = 5.0
     use_cache: bool = True
 
     def __post_init__(self) -> None:
@@ -69,6 +88,8 @@ class BreakoutConfig:
             raise ValueError("trail_method must be chandelier or sma20")
         if self.profit_target_atr <= 0:
             raise ValueError("profit_target_atr must be positive")
+        if not 0.0 < self.partial_profit_fraction < 1.0:
+            raise ValueError("partial_profit_fraction must be between 0 and 1")
         if self.relative_strength_days <= 0:
             raise ValueError("relative_strength_days must be positive")
         if self.sma50_slope_days <= 0:
@@ -78,3 +99,19 @@ class BreakoutConfig:
 
     def goal_capital(self) -> float:
         return self.starting_capital * (1 + self.goal_return_pct / 100.0)
+
+    def build_cost_model(self):
+        """Return a realistic Indian delivery CostModel, or None for the flat model."""
+        if not self.use_realistic_costs:
+            return None
+        from backtesting.swing_trading.portfolio import CostModel
+
+        return CostModel(
+            brokerage_pct=self.brokerage_pct,
+            stt_pct=self.stt_pct,
+            exchange_txn_pct=self.exchange_txn_pct,
+            sebi_pct=self.sebi_pct,
+            gst_pct=self.gst_pct,
+            stamp_duty_pct=self.stamp_duty_pct,
+            slippage_bps=self.slippage_bps,
+        )

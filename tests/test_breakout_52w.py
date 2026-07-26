@@ -196,6 +196,7 @@ def test_position_size_respects_per_trade_risk_and_remaining_heat():
         risk_per_trade_pct=1.0,
         max_open_risk_pct=5.0,
         atr_stop_mult=1.5,
+        max_position_pct=25.0,
     )
 
     shares, stop = size_position(101.0, _signal(), 100_000.0, 100_000.0, 4_500.0, cfg)
@@ -234,7 +235,7 @@ def test_chandelier_activates_after_two_atr_and_only_moves_stop_up():
 
 
 def test_profit_target_executes_after_stop_guardrail():
-    cfg = BreakoutConfig(profit_target_atr=3.0)
+    cfg = BreakoutConfig(profit_target_atr=3.0, enable_partial_profit=False)
     history = _breakout_history()
     pos = _position(target_price=106.0)
 
@@ -246,6 +247,22 @@ def test_profit_target_executes_after_stop_guardrail():
     stopped = _position(stop_loss=99.0, target_price=106.0)
     stop = evaluate_exit(stopped, _bar(100, 107, 98, 106), history, cfg)
     assert stop[0].reason == "STOP"
+
+
+def test_partial_profit_books_fraction_and_moves_stop_to_breakeven():
+    cfg = BreakoutConfig(
+        enable_partial_profit=True,
+        partial_profit_fraction=0.5,
+    )
+    history = _breakout_history()
+    pos = _position(entry_price=100.0, stop_loss=98.0, target_price=105.0)
+
+    ops = evaluate_exit(pos, _bar(104, 106, 103, 105.5), history, cfg)
+
+    partials = [op for op in ops if op.reason == "PARTIAL-TARGET"]
+    assert partials and partials[0].fraction == 0.5
+    assert pos.partial_booked is True
+    assert pos.stop_loss >= pos.entry_price
 
 
 def test_time_exit_counts_sessions_and_requires_five_percent_progress():

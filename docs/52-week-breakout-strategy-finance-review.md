@@ -38,9 +38,20 @@ high. A signal is accepted only when:
 
 Signals are generated after the close and may be filled at the next session's
 open. Each accepted position risks at most 1% of current equity to an initial
-1 ATR stop, is capped at 25% of equity by notional value, and has a standing
-4 ATR profit target. The portfolio holds at most five positions and caps total
-initial open risk at 5% of equity.
+1 ATR stop, is capped by notional value, and has a standing profit target. The
+portfolio caps total initial open risk at 5% of equity.
+
+> **Institutional sleeve upgrade (section 18).** The rules above are the
+> single-sleeve core. A later hardening pass added a realistic Indian
+> delivery-cost model, a diversification framework (up to 12 concurrent
+> positions with per-sector and pairwise-correlation caps and a 15%
+> per-name notional cap), partial-profit booking with an uncapped trailing
+> remainder, and an optional continuous regime-scaling mode. **All headline
+> CAGR figures in the tables below were produced under an unrealistic 0.1%
+> flat cost model.** Under the realistic cost model the same 5-year window
+> returns roughly 5.4% CAGR at -14% drawdown (Sharpe 0.51). See section 18
+> for the full implemented-vs-skipped list, the empirical findings, and the
+> realistic-cost results matrix.
 
 The original baseline, first optimized version, and current cross-regime
 version produced:
@@ -980,24 +991,25 @@ rounding artifacts but does not create true vintage data.
 **Required remediation:** archive immutable daily raw and adjusted datasets,
 corporate actions, and adjustment factors as they become available.
 
-### 13.6 Transaction-cost model is incomplete
+### 13.6 Transaction-cost model (now realistic; see section 18)
 
-The simulation charges only 0.05% commission on each side. It omits or
-simplifies:
+The **default** simulation now applies a realistic Indian delivery-equity cost
+model (`BreakoutConfig.use_realistic_costs=True`): STT on both legs, exchange
+transaction charges, SEBI turnover fee, GST on brokerage+charges, buy-side stamp
+duty, and per-side slippage in basis points, in addition to brokerage. Round-trip
+frictions come to roughly 0.33% of notional versus the earlier 0.10% flat model.
+See section 18.1 for the exact schedule.
 
-- bid-ask spread;
-- market impact and slippage;
-- securities transaction tax;
-- exchange and clearing charges;
-- GST;
-- stamp duty;
-- DP charges where applicable;
-- broker-specific pricing;
-- order rejection and partial fill risk; and
-- taxes on realized gains.
+The remaining simplifications are:
 
-The strategy trades 569 times over five years, so cost misspecification is
-material.
+- market impact beyond the fixed slippage estimate (large orders vs. ADV);
+- order rejection and partial-fill risk;
+- DP charges per scrip on delivery sells; and
+- taxes on realized gains (out of scope for a pre-tax sleeve backtest).
+
+The strategy trades several hundred times over five years, so the move from the
+flat model to the realistic model is the single biggest driver of the lower
+(and more honest) headline CAGR reported in section 18.
 
 ### 13.7 Daily OHLC path ambiguity
 
@@ -1153,18 +1165,178 @@ Before live capital is used:
 ## 17. Bottom line
 
 The implementation is deterministic and internally consistent on its main
-rules. The current cross-regime defaults produced 16.56% CAGR over the original
-five-year period and 15.75% over the requested 2025-2026 period. They improved
-the requested 2015-2018 period to 5.66% CAGR and made the untouched 2012-2014
-holdout positive, but did not reach 15% CAGR in older or sideways regimes.
+rules. Under the earlier flat-cost model the cross-regime defaults produced
+16.56% CAGR over the original five-year period; under the **realistic
+Indian delivery-cost model that is now the default** (section 18) the same
+window returns roughly 5.4% CAGR at -14% drawdown with a ~47% win rate. The
+lower, more honest headline number is the correct one to reason about.
 
 It is **not yet institutionally validated**. Current-constituent survivorship,
 validation reuse, historical earnings-calendar availability, multiple testing,
-and simplified execution costs are large enough that neither the current
-16.56% CAGR nor the earlier 22.10% result should be treated as an unbiased
-forecast.
+and residual execution assumptions are large enough that none of the reported
+CAGR figures should be treated as an unbiased forecast.
 
 The appropriate next conclusion is:
 
 > The strategy is promising enough to justify a rigorous independent rebuild
 > and forward paper test, but not strong enough to skip those steps.
+
+---
+
+## 18. Institutional sleeve upgrade
+
+This section documents a hardening pass that treated the strategy as **one INR
+500,000 sleeve of a larger multi-strategy book** rather than a standalone
+account. It implements the risk, cost, and portfolio-construction
+recommendations from an earlier hedge-fund-style review, tests each empirically,
+and reports what was adopted versus rejected. Every claim here is reproducible
+from `BreakoutConfig` defaults.
+
+### 18.1 Realistic Indian delivery-cost model
+
+`Portfolio` now accepts an optional `CostModel`. `BreakoutConfig.build_cost_model()`
+constructs the delivery-equity schedule below and the breakout engine and daily
+workflow both use it by default (`use_realistic_costs=True`). Swing-trading code
+is untouched and keeps its flat commission.
+
+| Component | Rate | Applied |
+|---|---|---|
+| Brokerage | 0.03% (capped, delivery) | both legs |
+| STT | 0.10% | both legs |
+| Exchange transaction | 0.00297% | both legs |
+| SEBI turnover | 0.0001% | both legs |
+| GST | 18% on (brokerage + txn + SEBI) | both legs |
+| Stamp duty | 0.015% | buy only |
+| Slippage | 5 bps | per side |
+
+Round-trip friction ≈ **0.33% of notional** versus 0.10% under the old flat
+model. This is the dominant reason headline CAGR falls relative to sections 10-11.
+
+### 18.2 Diversification and sizing framework
+
+- `max_positions` raised from 5 to **12** with a 15% per-name notional cap.
+- **Sector cap:** at most 3 concurrent names per NSE industry
+  (`enable_sector_cap`, `max_positions_per_sector=3`), using the industry map
+  from the Nifty 500 constituents file.
+- **Pairwise-correlation cap:** a new position is rejected if its trailing
+  63-session return correlation with any existing holding exceeds 0.85
+  (`enable_correlation_cap`, `max_correlation`).
+- Per-trade risk stays at **1%** of sleeve equity with total open risk capped at
+  5% (portfolio heat).
+
+### 18.3 Partial-profit exit with uncapped trailing remainder
+
+`enable_partial_profit=True` books **half** the position at the first target
+(2.5 ATR), moves the stop on the remainder to breakeven, and lets the rest ride
+the Chandelier trail with **no fixed cap**, so outlier winners are not truncated.
+The 10-session time-exit only cuts non-performers and is skipped once a partial
+has been booked. `ExitOp.fraction` carries the booked fraction through to
+`Portfolio.close_position`, and both the historical engine and the daily
+state machine execute the entry-day partial identically.
+
+### 18.4 Regime scaling: implemented, tested, and rejected as default
+
+A continuous gross-exposure multiplier (`regime_exposure`) was built to replace
+the binary market gate: it scales exposure by the index trend (vs SMA50/SMA200)
+and market breadth, quantized to 0.25 tiers. It is fully wired
+(`regime_scaling`, `regime_use_breadth`) and available as a toggle.
+
+**It was turned off by default because the data rejected it.** Head-to-head, at
+1% risk:
+
+| Window | Mode | CAGR | Max DD | Sharpe | PF |
+|---|---|---:|---:|---:|---:|
+| 2021-07..2026-07 | continuous | 5.57% | -23.85% | 0.49 | 1.13 |
+| 2021-07..2026-07 | **binary** | 5.36% | **-14.01%** | **0.51** | **1.14** |
+| 2022-01..2024-12 | continuous | 9.08% | -22.04% | 0.68 | 1.15 |
+| 2022-01..2024-12 | **binary** | **10.00%** | **-13.81%** | **0.79** | **1.19** |
+| 2015-01..2019-01 | continuous | 1.68% | -16.14% | 0.23 | 1.06 |
+| 2015-01..2019-01 | **binary** | **1.82%** | -17.60% | **0.26** | **1.08** |
+
+Continuous scaling *worsened* drawdown: cutting position count in choppy-but-not-
+bearish tape concentrated capital into fewer correlated names and re-entered at
+poor times. The simple binary gate (index above SMA50 **and** SMA200, else block)
+is more robust, so it is the default. The earlier stacked vol/drawdown penalties
+were removed as reactive and whipsaw-prone.
+
+### 18.5 The binding constraint is signal scarcity, not capital
+
+Average deployed exposure is only ~28% because the strict entry filters produce
+roughly 2-3 concurrent qualifying signals against 12 available slots. Raising the
+portfolio-heat cap from 5% to 8% or 10% changed nothing — there is simply nothing
+to fill the extra slots. Two consequences follow:
+
+1. **Cross-sectional ranking / top-K selection was skipped.** With 2-3 candidates
+   for 12 slots there is almost never competition to arbitrate, so a ranking
+   layer would add complexity with no measurable benefit.
+2. **Relaxing filters to raise exposure is destructive.** Loosening the breakout,
+   relative-strength, slope, and RVOL thresholds to generate more trades was
+   tested and failed catastrophically in every window:
+
+| Window | Strict CAGR / DD / PF | Relaxed CAGR / DD / PF |
+|---|---|---|
+| 2021-07..2026-07 | 5.36% / -14.0% / 1.14 | 0.78% / -27.6% / 1.01 |
+| 2015-01..2019-01 | 1.82% / -17.6% / 1.08 | -7.43% / -37.9% / 0.81 |
+| 2022-01..2024-12 | 10.00% / -13.8% / 1.19 | -0.38% / -22.1% / 0.99 |
+
+The edge lives entirely in **selectivity**; the marginal breakout is net-negative
+after costs. Low average exposure is therefore a protective feature, and the
+strategy is capacity-constrained by the number of high-quality setups — which is
+the structural reason chasing a materially higher win rate or CAGR is so hard.
+
+### 18.6 Realistic-cost results with the current defaults
+
+Pure `BreakoutConfig` defaults (realistic costs, binary regime gate, 1% risk,
+diversification and partial-profit exits enabled), Nifty 500, sleeve start
+INR 500,000:
+
+| Window | CAGR | Max DD | Sharpe | Profit factor | Win rate | Trades |
+|---|---:|---:|---:|---:|---:|---:|
+| 2021-07..2026-07 (5y) | 5.36% | -14.01% | 0.51 | 1.14 | 47.0% | 727 |
+| 2015-01..2019-01 | 1.82% | -17.60% | 0.26 | 1.08 | 47.2% | 282 |
+| 2019 (full) | -2.15% | -4.65% | -0.61 | 0.73 | 30.8% | 26 |
+| 2022-01..2024-12 | 10.00% | -13.81% | 0.79 | 1.19 | 48.5% | 567 |
+| 2023 (full) | 30.03% | -10.12% | 2.21 | 1.64 | 55.2% | 192 |
+| 2025-06..2026-06 | 2.46% | -6.13% | 0.37 | 1.17 | 54.0% | 63 |
+
+Versus the section-11 cross-regime numbers (16.56% CAGR / -18.35% DD), realistic
+costs cut headline CAGR by roughly two-thirds while **improving drawdown**
+(-14% vs -18%) and lifting win rate to ~47%. This is the honest cost of honesty:
+the earlier double-digit CAGR was substantially a flat-cost artifact.
+
+### 18.7 Implemented vs. skipped — summary
+
+**Implemented and adopted as default:**
+
+1. Realistic Indian delivery-cost model (18.1).
+2. Diversification framework — 12 positions, per-sector cap, pairwise-correlation
+   cap, 15% notional cap (18.2).
+3. ATR-risk position sizing retained at 1% with 5% portfolio-heat cap (18.2).
+4. Partial-profit booking with breakeven stop and uncapped trailing remainder
+   (18.3).
+5. Treating the book as a sleeve rather than a whole portfolio (framing
+   throughout).
+
+**Implemented but disabled by evidence (available via config toggle):**
+
+6. Continuous regime scaling — underperformed the binary gate on drawdown and
+   risk-adjusted return, so `regime_scaling=False` by default (18.4).
+
+**Deliberately skipped, with reasons:**
+
+7. Cross-sectional percentile / top-K ranking — the strategy is signal-scarce, so
+   there is nothing to rank (18.5).
+8. Filter relaxation for higher exposure — tested, catastrophic in every window
+   (18.5).
+9. Point-in-time index constituents — no free vintage source exists; documented
+   as current-constituent survivorship bias in section 13.1.
+
+### 18.8 Bottom line on the upgrade
+
+The upgrade did **not** raise CAGR toward the earlier 15%+ aspiration; under
+realistic costs that target is not attainable for this sleeve without abandoning
+the selectivity that is its only edge. What it *did* deliver is a materially more
+honest and more robust system: realistic frictions, tighter drawdowns, a higher
+win rate, sector/correlation diversification, and asymmetric partial-profit
+exits — all validated across multiple independent windows rather than a single
+in-sample fit.

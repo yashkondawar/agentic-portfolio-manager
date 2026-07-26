@@ -117,7 +117,7 @@ def test_pending_signal_fills_next_session_and_creates_managed_position():
     assert pending == []
     assert filled[0]["action"] == "ENTERED"
     assert portfolio.positions["TEST"].stop_loss == 99.0
-    assert portfolio.positions["TEST"].target_price == 109.0
+    assert portfolio.positions["TEST"].target_price == 106.0
     assert rejected == []
     assert exits == []
 
@@ -188,7 +188,7 @@ def test_entry_day_target_is_recorded_when_stop_is_not_touched():
         pending,
         portfolio,
         data,
-        BreakoutConfig(),
+        BreakoutConfig(enable_partial_profit=False),
         [],
         [],
         exits,
@@ -199,6 +199,47 @@ def test_entry_day_target_is_recorded_when_stop_is_not_touched():
     assert exits[0]["reason"] == "ENTRY-DAY-TARGET"
     assert exits[0]["exit_price"] == 109.0
     assert exits[0]["pnl_pct"] == 7.92
+
+
+def test_entry_day_partial_books_half_and_keeps_trailing_remainder():
+    day = date(2026, 7, 27)
+    data = FakeData(
+        {
+            (
+                "TEST",
+                day,
+            ): pd.Series(
+                {
+                    "Open": 101.0,
+                    "High": 110.0,
+                    "Low": 100.0,
+                    "Close": 109.0,
+                    "Volume": 1_000_000,
+                }
+            )
+        }
+    )
+    portfolio = Portfolio(cash=100_000, commission_pct=0)
+    pending = [_signal()]
+    exits = []
+
+    opened = _fill_pending(
+        day,
+        pending,
+        portfolio,
+        data,
+        BreakoutConfig(enable_partial_profit=True),
+        [],
+        [],
+        exits,
+    )
+
+    assert opened == {"TEST"}
+    assert "TEST" in portfolio.positions
+    position = portfolio.positions["TEST"]
+    assert position.partial_booked is True
+    assert position.stop_loss >= position.entry_price
+    assert exits[0]["reason"] == "ENTRY-DAY-PARTIAL"
 
 
 def test_earnings_window_counts_weekdays_from_next_session():

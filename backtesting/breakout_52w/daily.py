@@ -12,6 +12,7 @@ from zoneinfo import ZoneInfo
 from backtesting.swing_trading.data import PointInTimeData
 from backtesting.swing_trading.portfolio import Portfolio, Position
 from backtesting.swing_trading.watchlist import UniverseStock, load_universe
+from backtesting.swing_trading import indicators as ind
 
 from . import strategy
 from .calendar import EarningsCalendar
@@ -192,8 +193,13 @@ def run_daily(
             exits,
         )
 
-    regime_allows_entries = strategy.market_regime_allows_entries(
-        market_data.benchmark_as_of(session_day), cfg
+    breadth_pct = _breadth_pct(universe, market_data, session_day, cfg)
+    regime_scale = strategy.regime_exposure(
+        market_data.benchmark_as_of(session_day), breadth_pct, cfg
+    )
+    regime_allows_entries = regime_scale > 0.0
+    effective_max_positions = (
+        0 if regime_scale <= 0.0 else max(1, round(cfg.max_positions * regime_scale))
     )
     new_candidates: list[dict] = []
     if sessions and regime_allows_entries:
@@ -206,6 +212,7 @@ def run_daily(
             earnings,
             cfg,
             max_new_entries,
+            effective_max_positions,
         )
         pending.extend(
             strategy.EntrySignal(**_signal_kwargs(item)) for item in new_candidates
@@ -236,6 +243,8 @@ def run_daily(
         "universe": cfg.universe_index if not custom_symbols else "custom",
         "universe_size": len(universe),
         "regime_allows_entries": regime_allows_entries,
+        "regime_scale": regime_scale,
+        "breadth_pct": round(breadth_pct, 1) if breadth_pct is not None else None,
         "portfolio_equity": round(equity, 2),
         "cash": round(portfolio.cash, 2),
         "open_positions": len(portfolio.positions),
@@ -327,7 +336,11 @@ def _normalize_signal(item: Any) -> dict:
 
 
 def _portfolio_from_state(state: dict, cfg: BreakoutConfig) -> Portfolio:
-    portfolio = Portfolio(cash=float(state["cash"]), commission_pct=cfg.commission_pct)
+    portfolio = Portfolio(
+        cash=float(state["cash"]),
+        commission_pct=cfg.commission_pct,
+        cost_model=cfg.build_cost_model(),
+    )
     for item in state["positions"]:
         position = Position(
             symbol=item["symbol"],
@@ -491,19 +504,29 @@ def _fill_pending(
                     }
                 )
         elif float(bar["High"]) >= position.target_price:
+            reason = (
+                "ENTRY-DAY-PARTIAL" if cfg.enable_partial_profit else "ENTRY-DAY-TARGET"
+            )
+            fraction = cfg.partial_profit_fraction if cfg.enable_partial_profit else 1.0
             trade = portfolio.close_position(
                 signal.symbol,
                 position.target_price,
                 day,
-                "ENTRY-DAY-TARGET",
+                reason,
+                fraction,
             )
-            opened.discard(signal.symbol)
+            if cfg.enable_partial_profit and signal.symbol in portfolio.positions:
+                held = portfolio.positions[signal.symbol]
+                held.partial_booked = True
+                held.stop_loss = max(held.stop_loss, held.entry_price)
+            else:
+                opened.discard(signal.symbol)
             if trade is not None:
                 exits.append(
                     {
                         "symbol": signal.symbol,
                         "action": "EXIT",
-                        "reason": "ENTRY-DAY-TARGET",
+                        "reason": reason,
                         "date": day.isoformat(),
                         "exit_price": round(position.target_price, 2),
                         "pnl": round(trade.pnl, 2),
@@ -532,7 +555,7 @@ def _manage_positions(
         position = portfolio.positions[symbol]
         for operation in strategy.evaluate_exit(position, bar, history, cfg):
             trade = portfolio.close_position(
-                symbol, operation.price, day, operation.reason
+                symbol, operation.price, day, operation.reason, operation.fraction
             )
             if trade is not None:
                 exits.append(
@@ -546,6 +569,63 @@ def _manage_positions(
                         "pnl_pct": round(trade.pnl_pct, 2),
                     }
                 )
+            if symbol not in portfolio.positions:
+                break
+
+
+def _breadth_pct(
+    universe: list[UniverseStock],
+    data: PointInTimeData,
+    day: date,
+    cfg: BreakoutConfig,
+) -> Optional[float]:
+    """% of the universe trading above its own SMA200 as of `day`."""
+    above = 0
+    total = 0
+    for item in universe:
+        sub = data.as_of(item.symbol, day, lookback_rows=cfg.regime_sma_slow + 5)
+        if sub is None or len(sub) < cfg.regime_sma_slow:
+            continue
+        sma200 = ind.sma(sub["Close"], cfg.regime_sma_slow)
+        if sma200 is None:
+            continue
+        total += 1
+        if float(sub["Close"].iloc[-1]) > sma200:
+            above += 1
+    return (above / total * 100.0) if total else None
+
+
+def _returns_tail_daily(data: PointInTimeData, symbol: str, day: date, lookback: int):
+    sub = data.as_of(symbol, day, lookback_rows=lookback + 1)
+    if sub is None or len(sub) < lookback + 1:
+        return None
+    return sub["Close"].pct_change().dropna().tail(lookback)
+
+
+def _daily_too_correlated(
+    symbol: str,
+    portfolio: Portfolio,
+    data: PointInTimeData,
+    day: date,
+    cfg: BreakoutConfig,
+) -> bool:
+    if not cfg.enable_correlation_cap or not portfolio.positions:
+        return False
+    candidate = _returns_tail_daily(data, symbol, day, cfg.correlation_lookback)
+    if candidate is None:
+        return False
+    min_overlap = int(cfg.correlation_lookback * 0.6)
+    for held in portfolio.positions:
+        other = _returns_tail_daily(data, held, day, cfg.correlation_lookback)
+        if other is None:
+            continue
+        joined = candidate.index.intersection(other.index)
+        if len(joined) < min_overlap:
+            continue
+        corr = candidate.loc[joined].corr(other.loc[joined])
+        if corr is not None and corr > cfg.max_correlation:
+            return True
+    return False
 
 
 def _scan_new_entries(
@@ -557,6 +637,7 @@ def _scan_new_entries(
     earnings: EarningsCalendar,
     cfg: BreakoutConfig,
     max_new_entries: int,
+    effective_max_positions: int,
 ) -> list[dict]:
     trading_days = _future_business_sessions(day, cfg.earnings_blackout_sessions)
     unavailable = set(portfolio.positions) | {signal.symbol for signal in pending}
@@ -581,13 +662,25 @@ def _scan_new_entries(
             candidates.append(signal)
 
     candidates.sort(key=lambda item: item.score, reverse=True)
-    capacity = max(0, cfg.max_positions - len(portfolio.positions) - len(pending))
+    capacity = max(0, effective_max_positions - len(portfolio.positions) - len(pending))
     equity = portfolio.total_equity(_close_lookup(data, day))
     open_risk = _open_risk(portfolio)
+    sector_counts: dict[str, int] = {}
+    for held in portfolio.positions:
+        sector = metadata[held].industry if held in metadata else "Unknown"
+        sector_counts[sector] = sector_counts.get(sector, 0) + 1
     output = []
     for signal in candidates:
         if len(output) >= min(max_new_entries, capacity):
             break
+        item = metadata[signal.symbol]
+        if (
+            cfg.enable_sector_cap
+            and sector_counts.get(item.industry, 0) >= cfg.max_positions_per_sector
+        ):
+            continue
+        if _daily_too_correlated(signal.symbol, portfolio, data, day, cfg):
+            continue
         quantity, stop = strategy.size_position(
             signal.signal_close,
             signal,
@@ -598,7 +691,7 @@ def _scan_new_entries(
         )
         if quantity <= 0:
             continue
-        item = metadata[signal.symbol]
+        sector_counts[item.industry] = sector_counts.get(item.industry, 0) + 1
         output.append(
             {
                 **_serialize_signal(signal),

@@ -33,6 +33,7 @@ class EntrySignal:
 class ExitOp:
     price: float
     reason: str
+    fraction: float = 1.0
 
 
 def market_regime_allows_entries(
@@ -45,6 +46,61 @@ def market_regime_allows_entries(
     fast = ind.sma(close, cfg.regime_sma_fast)
     slow = ind.sma(close, cfg.regime_sma_slow)
     return bool(fast is not None and slow is not None and price > fast and price > slow)
+
+
+def _quantize(value: float, step: float = 0.25) -> float:
+    return max(0.0, min(1.0, round(value / step) * step))
+
+
+def regime_exposure(
+    benchmark: Optional[pd.DataFrame],
+    breadth_pct: Optional[float],
+    cfg: BreakoutConfig,
+) -> float:
+    """Continuous gross-exposure multiplier in [0, 1] for the current regime.
+
+    Combines the index trend (vs SMA200/SMA50) and market breadth (% of the
+    universe above its SMA200) into a single multiplier, quantized to 0.25 tiers
+    to limit whipsaw. A value of 0 blocks all new entries (index below its
+    long-term average); 1.0 is full risk-on.
+
+    NOTE: empirically the simple binary gate (``regime_scaling=False``) delivered
+    better drawdown and risk-adjusted returns than continuous scaling on this
+    universe, so scaling is off by default and kept as an optional toggle.
+    """
+    if not cfg.regime_scaling:
+        return 1.0 if market_regime_allows_entries(benchmark, cfg) else 0.0
+    if benchmark is None or len(benchmark) < cfg.regime_sma_slow:
+        return 0.0
+
+    close = benchmark["Close"].dropna()
+    price = float(close.iloc[-1])
+    sma50 = ind.sma(close, cfg.regime_sma_fast)
+    sma200 = ind.sma(close, cfg.regime_sma_slow)
+    if sma50 is None or sma200 is None:
+        return 0.0
+
+    # Primary trend gate: below the long-term average is a hard risk-off.
+    if price <= sma200:
+        return 0.0
+
+    # Above the long-term trend we stay meaningfully invested. Exposure is
+    # modulated by two forward-looking, slow-moving signals only: whether the
+    # index also holds its intermediate (SMA50) trend, and how broadly the
+    # universe participates (breadth). Reactive vol/drawdown penalties were
+    # removed because they fire only after a decline and whipsaw exposure,
+    # locking in losses and missing the recovery.
+    score = 1.0
+    if price <= sma50:
+        score *= 0.75
+
+    if cfg.regime_use_breadth and breadth_pct is not None:
+        if breadth_pct < 30.0:
+            score *= 0.5
+        elif breadth_pct < 45.0:
+            score *= 0.75
+
+    return _quantize(score)
 
 
 def compute_entry_signal(
@@ -154,7 +210,12 @@ def initial_stop(fill_price: float, signal: EntrySignal, cfg: BreakoutConfig) ->
 
 
 def profit_target(fill_price: float, atr: float, cfg: BreakoutConfig) -> float:
-    return fill_price + cfg.profit_target_atr * atr
+    """First profit target: the partial-booking level when partial profit is on,
+    otherwise the single full-exit target."""
+    mult = (
+        cfg.partial_profit_atr if cfg.enable_partial_profit else cfg.profit_target_atr
+    )
+    return fill_price + mult * atr
 
 
 def size_position(
@@ -196,7 +257,22 @@ def evaluate_exit(
         return [ExitOp(open_price, "STOP-GAP")]
     if low <= pos.stop_loss:
         return [ExitOp(pos.stop_loss, "STOP")]
-    if high >= pos.target_price:
+
+    ops: List[ExitOp] = []
+    if cfg.enable_partial_profit:
+        # Book a slice at the first target, move the remainder's stop to breakeven,
+        # then let it ride an uncapped trailing stop (no hard full target).
+        if not pos.partial_booked and high >= pos.target_price:
+            pos.partial_booked = True
+            pos.stop_loss = max(pos.stop_loss, pos.entry_price)
+            ops.append(
+                ExitOp(
+                    max(open_price, pos.target_price),
+                    "PARTIAL-TARGET",
+                    cfg.partial_profit_fraction,
+                )
+            )
+    elif high >= pos.target_price:
         return [ExitOp(max(open_price, pos.target_price), "TARGET")]
 
     pos.bars_held += 1
@@ -206,18 +282,20 @@ def evaluate_exit(
     else:
         pos.below_breakout_closes = 0
     if pos.below_breakout_closes >= cfg.false_breakout_closes:
-        return [ExitOp(close_price, "FALSE-BREAKOUT")]
+        return ops + [ExitOp(close_price, "FALSE-BREAKOUT")]
 
     if pos.highest_high >= (
         pos.entry_price + cfg.trail_activation_atr * pos.atr_at_entry
     ):
+        pos.trailing_active = True
+    if pos.partial_booked:
         pos.trailing_active = True
 
     if pos.trailing_active:
         if cfg.trail_method == "sma20":
             sma20 = ind.sma(df_asof["Close"], 20)
             if sma20 is not None and close_price < sma20:
-                return [ExitOp(close_price, "TRAIL-SMA20")]
+                return ops + [ExitOp(close_price, "TRAIL-SMA20")]
         else:
             atr = (
                 ind.atr(df_asof["High"], df_asof["Low"], df_asof["Close"], 14)
@@ -230,8 +308,9 @@ def evaluate_exit(
         (pos.highest_high / pos.entry_price - 1.0) * 100.0 if pos.entry_price else 0.0
     )
     if (
-        pos.bars_held >= cfg.time_exit_sessions
+        not pos.partial_booked
+        and pos.bars_held >= cfg.time_exit_sessions
         and progress_pct < cfg.time_exit_progress_pct
     ):
-        return [ExitOp(close_price, "TIME-EXIT")]
-    return []
+        return ops + [ExitOp(close_price, "TIME-EXIT")]
+    return ops
