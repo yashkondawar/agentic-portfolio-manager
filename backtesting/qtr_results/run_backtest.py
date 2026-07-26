@@ -70,11 +70,13 @@ def _parse_args() -> argparse.Namespace:
     p.add_argument("--max-new-per-day", type=int, default=5)
     p.add_argument("--max-positions", type=int, default=10)
     p.add_argument("--max-holding-days", type=int, default=None,
-                   help="Override the holding window (default: 60)")
+                   help="Override the holding window (default: 90)")
     p.add_argument("--atr-period", type=int, default=14,
                    help="ATR lookback period in sessions (default: 14)")
-    p.add_argument("--atr-stop-multiplier", type=float, default=2.5,
-                   help="Trailing-stop distance = ATR × this multiplier (default: 2.5)")
+    p.add_argument("--atr-stop-multiplier", type=float, default=6.0,
+                   help="Trailing-stop distance = ATR × this multiplier (default: 6.0 — "
+                        "the regime-stable ride-the-wave setting; use 2.5-3 for a tighter, "
+                        "shorter-horizon swing).")
     p.add_argument("--risk-per-trade", type=float, default=2.0, help="2%% rule")
     p.add_argument("--max-position-pct", type=float, default=None,
                    help="Per-name concentration cap %% of equity (default 20). Raising it "
@@ -88,8 +90,12 @@ def _parse_args() -> argparse.Namespace:
     p.add_argument("--trail-only", action="store_true",
                    help="Ride-the-wave exit: DISABLE the fixed profit target and let "
                         "winners run until the ATR trailing stop (or time-stop) fires. "
-                        "Captures the full PEAD swing instead of clipping it at the "
-                        "target band. Pair with a wider --max-holding-days.")
+                        "NOW ON BY DEFAULT (the fixed +20%% cap clipped the few real "
+                        "runners); this flag is retained for explicitness. Use "
+                        "--keep-target to restore the capped behavior.")
+    p.add_argument("--keep-target", action="store_true",
+                   help="Restore the fixed PE-rerating profit target (the pre-redesign "
+                        "capped exit), overriding the default ride-the-wave behavior.")
     p.add_argument("--commission-pct", type=float, default=None,
                    help="Per-side commission %% (default 0.20 = ~40 bps rt)")
     p.add_argument("--pe-pct-threshold", type=float, default=None,
@@ -309,6 +315,8 @@ def main() -> int:
         cfg.target_min_pct = args.target_min_pct
     if args.trail_only:
         cfg.disable_profit_target = True
+    if args.keep_target:
+        cfg.disable_profit_target = False
     if args.commission_pct is not None:
         cfg.commission_pct = args.commission_pct
     if args.pe_pct_threshold is not None:

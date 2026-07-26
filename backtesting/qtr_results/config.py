@@ -103,13 +103,19 @@ class BacktestConfig:
     # (e.g. a +50% PEAD move) instead of being clipped at +20% — at the cost of
     # giving back the last ATR-band of every runner. Pair with a wider
     # ``max_holding_days`` so the time-stop doesn't cut the drift short.
-    disable_profit_target: bool = False
+    #
+    # DEFAULT True: on the Nifty-500 union / 2023-2026 study the fixed +20% cap
+    # was almost never the binding exit (only 11 of 70 winners ever exceeded it)
+    # and clipped the few real runners, so ride-the-wave dominated the capped
+    # variant on every axis (hedged Sharpe 0.42 → higher, avg win +20%).
+    disable_profit_target: bool = True
 
     # Holding window: post-earnings-announcement drift (PEAD) in Indian equities
     # is strongest over 30-90 days after declaration, not 15-21 (Sehgal & Bijoy
     # 2015; NSE working papers). The live 21-day time-stop kills winners well
     # before their fundamental thesis can play out, so the backtest extends it.
-    max_holding_days: int = 60
+    # The wide ATR trail (below) needs room to ride, so 90 not 60.
+    max_holding_days: int = 90
 
     # ── Trailing stop (ATR-based, DECOUPLED from target) ─────────────────────
     # The original stop was ``target_pct/2`` which gave tight 5-10% stops on
@@ -119,7 +125,16 @@ class BacktestConfig:
     # stop measured in each stock's own volatility units, computed point-in-time
     # from the OHLCV history BEFORE the entry day.
     atr_period: int = 14                       # ATR lookback in sessions
-    atr_stop_multiplier: float = 2.5           # stop distance = 2.5 x ATR
+    # Stop distance = atr_stop_multiplier x ATR. A multiplier sweep (2.5/3/3.5/4/
+    # 5/6) on the Nifty-500 / 2023-2026 study showed 2.5 was far too tight for
+    # volatile mid/small-caps (4-5%/day ATR ⇒ a ~10% trail that whipsaws winners
+    # out on the FIRST normal pullback). Widening to 6x was the most REGIME-STABLE
+    # setting in a split-half test (H1 17.6% / H2 18.6% CAGR — the only value that
+    # repeated across both halves; 3.5/4x were front-loaded to the 2023-24 bull).
+    # Trade-off: a 6x trail ≈ ~27% giveback from the peak and a ~70-day hold, so it
+    # is a position-trade horizon and is UNTESTED against a sustained bear — pair
+    # with ``regime_filter`` for the downside tail the wide stop cannot handle.
+    atr_stop_multiplier: float = 6.0           # stop distance = 6 x ATR
     # Safety fallbacks in case ATR can't be computed (insufficient history).
     fallback_stop_pct: float = 8.0             # default 8% stop distance
 
