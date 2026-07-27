@@ -22,3 +22,13 @@ dependencies = [
     "ta>=0.11.0",
     "yfinance>=1.5.2",
 ]
+
+[project.optional-dependencies]
+# Kronos price-forecasting integration (CPU-friendly, no GPU required).
+# Kronos itself is NOT on PyPI: clone https://github.com/shiyu-coder/Kronos and
+# set KRONOS_REPO_PATH to the checkout. See kronos/README.md.
+kronos = [
+    "torch>=2.2.0",
+    "huggingface_hub>=0.24.0",
+    "einops>=0.8.0",
+]

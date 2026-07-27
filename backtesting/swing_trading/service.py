@@ -20,14 +20,14 @@ from .watchlist import UniverseStock, load_universe
 logger = logging.getLogger("backtest.service")
 
 
-def run_backtest(
-    cfg: BacktestConfig,
-    *,
-    symbols: Optional[Iterable[str]] = None,
-    tag: Optional[str] = None,
-    write_outputs: bool = True,
-) -> Dict[str, Any]:
-    """Run a backtest and return UI/CLI-friendly structured results."""
+def _build_universe_and_data(
+    cfg: BacktestConfig, symbols: Optional[Iterable[str]] = None
+) -> tuple[list[UniverseStock], PointInTimeData]:
+    """Resolve the universe and load (or reuse cached) point-in-time price data.
+
+    Shared by :func:`run_backtest` and the Kronos A/B service so an A/B run
+    downloads prices ONCE and feeds the identical data to both engines.
+    """
     if cfg.start_date is None or cfg.end_date is None:
         raise ValueError("Backtest start_date and end_date are required")
     if cfg.start_date >= cfg.end_date:
@@ -54,6 +54,25 @@ def run_backtest(
     )
     if not market_data.frames:
         raise RuntimeError("No price data downloaded")
+    return universe, market_data
+
+
+def run_backtest(
+    cfg: BacktestConfig,
+    *,
+    symbols: Optional[Iterable[str]] = None,
+    tag: Optional[str] = None,
+    write_outputs: bool = True,
+    market_data: Optional[PointInTimeData] = None,
+    universe: Optional[list[UniverseStock]] = None,
+) -> Dict[str, Any]:
+    """Run a backtest and return UI/CLI-friendly structured results.
+
+    ``market_data`` / ``universe`` may be supplied to reuse an already-loaded
+    dataset (e.g. from the A/B service) instead of downloading again.
+    """
+    if market_data is None or universe is None:
+        universe, market_data = _build_universe_and_data(cfg, symbols)
 
     engine = BacktestEngine(cfg, market_data, universe)
     try:
@@ -123,6 +142,7 @@ def run_backtest(
         "open_positions": open_positions,
         "universe_size": len(universe),
         "artifacts": artifacts,
+        "gate_log": getattr(engine, "gate_log", []),
     }
 
 
