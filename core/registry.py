@@ -8,7 +8,9 @@ needs to know about individual strategy modules.
 
 from __future__ import annotations
 
+import importlib
 import logging
+import sys
 from typing import Dict, List, Optional, Type
 
 from core.strategy import BaseStrategy, StrategyResult
@@ -31,27 +33,63 @@ def register(cls: Type[BaseStrategy]) -> Type[BaseStrategy]:
 
 
 def _ensure_loaded() -> None:
-    """Import the strategies package once so every strategy self-registers.
+    """Import the strategies package so every strategy self-registers.
 
     The :mod:`strategies` package imports each strategy independently, so one
-    broken strategy no longer aborts the rest. We only latch ``_LOADED`` after a
-    successful import so that a hard failure of the package itself can still be
-    retried on the next call instead of permanently pinning an empty registry.
+    broken strategy no longer aborts the rest.
+
+    Hot-reload safety: Streamlit (and other dev reloaders) re-execute this
+    module when its source changes, which resets ``_REGISTRY`` to empty and
+    ``_LOADED`` to ``False``. The strategy submodules, however, remain cached in
+    :data:`sys.modules`, so a plain ``import strategies`` is a no-op and their
+    ``@register`` side effects never re-run against the fresh registry — leaving
+    it permanently empty and surfacing the misleading ``Unknown strategy '...'.
+    Available: (none)``. We therefore key the "already loaded" check on the
+    registry actually being populated, and force-reload the cached strategy
+    submodules when we detect that desync so every strategy re-registers.
     """
     global _LOADED
-    if _LOADED:
+    if _LOADED and _REGISTRY:
         return
     try:
         import strategies  # noqa: F401  (imported for registration side effects)
     except Exception:  # pragma: no cover - defensive; allow a later retry
         logger.exception("Failed to import strategies package")
         return
+    if not _REGISTRY:
+        _reregister_cached_strategies(strategies)
     _LOADED = True
     if getattr(strategies, "failed_imports", None):
         logger.warning(
             "Some strategies failed to load and are unavailable: %s",
             ", ".join(sorted(strategies.failed_imports)),
         )
+
+
+def _reregister_cached_strategies(strategies_pkg) -> None:
+    """Reload cached ``strategies.*`` submodules so their decorators re-fire.
+
+    Called only when ``import strategies`` left the registry empty, which means
+    the submodules were already imported (cached) under a previous incarnation
+    of this registry module. Reloading each re-runs its top-level ``@register``
+    against the current ``_REGISTRY``.
+    """
+    prefix = f"{strategies_pkg.__name__}."
+    names = getattr(strategies_pkg, "_STRATEGY_MODULES", None) or tuple(
+        mod_name[len(prefix):]
+        for mod_name in list(sys.modules)
+        if mod_name.startswith(prefix)
+    )
+    for name in names:
+        module = sys.modules.get(f"{prefix}{name}")
+        if module is None:
+            continue
+        try:
+            importlib.reload(module)
+        except Exception:  # noqa: BLE001 - isolate one bad strategy
+            logger.exception(
+                "Failed to reload cached strategy module '%s'", name
+            )
 
 
 def list_strategies() -> List[Type[BaseStrategy]]:
