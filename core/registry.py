@@ -31,17 +31,27 @@ def register(cls: Type[BaseStrategy]) -> Type[BaseStrategy]:
 
 
 def _ensure_loaded() -> None:
-    """Import the strategies package once so every strategy self-registers."""
+    """Import the strategies package once so every strategy self-registers.
+
+    The :mod:`strategies` package imports each strategy independently, so one
+    broken strategy no longer aborts the rest. We only latch ``_LOADED`` after a
+    successful import so that a hard failure of the package itself can still be
+    retried on the next call instead of permanently pinning an empty registry.
+    """
     global _LOADED
     if _LOADED:
         return
-    _LOADED = True
-    # Imported for its import side effects (registration). Guarded so a single
-    # broken strategy doesn't take down the whole registry.
     try:
-        import strategies  # noqa: F401
-    except Exception:  # pragma: no cover - defensive
+        import strategies  # noqa: F401  (imported for registration side effects)
+    except Exception:  # pragma: no cover - defensive; allow a later retry
         logger.exception("Failed to import strategies package")
+        return
+    _LOADED = True
+    if getattr(strategies, "failed_imports", None):
+        logger.warning(
+            "Some strategies failed to load and are unavailable: %s",
+            ", ".join(sorted(strategies.failed_imports)),
+        )
 
 
 def list_strategies() -> List[Type[BaseStrategy]]:
