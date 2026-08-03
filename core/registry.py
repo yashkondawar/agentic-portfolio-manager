@@ -8,7 +8,7 @@ needs to know about individual strategy modules.
 
 from __future__ import annotations
 
-import importlib
+import inspect
 import logging
 import sys
 from typing import Dict, List, Optional, Type
@@ -70,8 +70,12 @@ def _ensure_loaded() -> None:
       re-register, surfacing e.g. ``Available: swing_backtest``.
 
     We therefore treat "loaded" as *the registry holding every successfully
-    imported strategy* (not merely non-empty), and force-reload the cached
-    strategy submodules whenever it falls short so every strategy re-registers.
+    imported strategy* (not merely non-empty), and recover the missing ones by
+    scanning the already-cached strategy submodules for their strategy classes
+    and re-registering them directly -- no module reload, so a strategy with a
+    heavy transitive import chain (e.g. ``swing_backtest`` ->
+    ``backtesting.swing_trading.*``) can't fail to re-register just because its
+    dependencies are momentarily in a half-reloaded state.
     """
     global _LOADED
     if _LOADED and _registry_is_complete():
@@ -82,8 +86,8 @@ def _ensure_loaded() -> None:
         logger.exception("Failed to import strategies package")
         return
     if not _registry_is_complete(strategies):
-        _reregister_cached_strategies(strategies)
-    _LOADED = True
+        _recover_from_cached_modules(strategies)
+    _LOADED = _registry_is_complete(strategies)
     if getattr(strategies, "failed_imports", None):
         logger.warning(
             "Some strategies failed to load and are unavailable: %s",
@@ -108,15 +112,17 @@ def _registry_is_complete(strategies_pkg=None) -> bool:
     return len(_REGISTRY) >= expected
 
 
-def _reregister_cached_strategies(strategies_pkg) -> None:
-    """Reload cached ``strategies.*`` submodules so their decorators re-fire.
+def _recover_from_cached_modules(strategies_pkg) -> None:
+    """Rebuild the registry by scanning cached ``strategies.*`` namespaces.
 
     Called when the registry is missing strategies that were already imported
-    (cached) under a previous incarnation of this registry module -- either
-    fully empty or partially populated. Reloading each re-runs its top-level
-    ``@register`` against the current ``_REGISTRY``; :func:`register` is
-    reload-safe, so re-registering an already-present strategy just refreshes
-    it rather than raising a duplicate error.
+    (cached) under a previous incarnation of this registry module -- the
+    Streamlit hot-reload desync, in either its empty or partial shape. Rather
+    than ``importlib.reload`` each submodule (which re-executes its full import
+    chain and can fail for a strategy with heavy transitive dependencies), we
+    find the already-constructed strategy class sitting in each cached module's
+    namespace and register it directly. Nothing is re-executed, so recovery
+    cannot be broken by a dependency module being momentarily half-reloaded.
     """
     prefix = f"{strategies_pkg.__name__}."
     names = getattr(strategies_pkg, "_STRATEGY_MODULES", None) or tuple(
@@ -128,12 +134,21 @@ def _reregister_cached_strategies(strategies_pkg) -> None:
         module = sys.modules.get(f"{prefix}{name}")
         if module is None:
             continue
-        try:
-            importlib.reload(module)
-        except Exception:  # noqa: BLE001 - isolate one bad strategy
-            logger.exception(
-                "Failed to reload cached strategy module '%s'", name
-            )
+        for obj in vars(module).values():
+            if (
+                inspect.isclass(obj)
+                and issubclass(obj, BaseStrategy)
+                and obj is not BaseStrategy
+                and getattr(obj, "id", "")
+            ):
+                try:
+                    register(obj)
+                except Exception:  # noqa: BLE001 - isolate one bad strategy
+                    logger.exception(
+                        "Failed to re-register strategy '%s' from module '%s'",
+                        getattr(obj, "id", "?"),
+                        name,
+                    )
 
 
 def list_strategies() -> List[Type[BaseStrategy]]:
