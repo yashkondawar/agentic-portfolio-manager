@@ -19,9 +19,33 @@ from qtr_results.analysis import AnalysisResult, analyze_symbol
 from qtr_results.conviction import evaluate_conviction
 from qtr_results.discovery import discover_result_declarers
 from qtr_results.targets import build_target_plan
+from qtr_results.universe import is_liquid
 from qtr_results.util import fmt_pct, fmt_price
 
 logger = logging.getLogger("qtr_results.engine")
+
+
+def _prioritize_declarers(declarers: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """Order declarers so the ones worth the (capped) verification budget win.
+
+    On a busy earnings day NSE returns 100+ declarers, mostly illiquid micro-caps,
+    but only ``max_analyze`` of them get verified on screener.in. Ranking them so
+    explicitly-requested (watchlist) and liquid index names come first ensures a
+    notable large/mid-cap (e.g. GESHIP) is never truncated behind a wall of
+    micro-caps declared the same day. The sort is stable, so within a priority
+    tier the original recency order is preserved. Nothing is dropped -- only
+    reordered -- so off-index names are still verified if budget remains.
+    """
+    def rank(entry: Dict[str, Any]) -> tuple:
+        sources = entry.get("sources") or []
+        symbol = str(entry.get("symbol", ""))
+        return (
+            "watchlist" in sources,   # explicit user request first
+            "web_search" in sources,  # LLM-surfaced (already liquidity-biased)
+            is_liquid(symbol),        # in the broad liquid universe
+        )
+
+    return sorted(declarers, key=rank, reverse=True)
 
 
 def _default_price_fn(symbol: str) -> Optional[float]:
@@ -72,6 +96,11 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
 
     # Forward-looking heads-up: companies scheduled to declare soon (NSE).
     upcoming = _fetch_upcoming(upcoming_days) if (use_nse and upcoming_days > 0) else []
+
+    # Prioritise the capped verification budget: watchlist + liquid index names
+    # first, so a notable large/mid-cap is never truncated behind same-day
+    # micro-caps. Stable, so recency order is preserved within each tier.
+    declarers = _prioritize_declarers(declarers)
 
     # 3) Verify + select strong results.
     strong: List[AnalysisResult] = []
