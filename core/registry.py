@@ -112,6 +112,30 @@ def _registry_is_complete(strategies_pkg=None) -> bool:
     return len(_REGISTRY) >= expected
 
 
+def _looks_like_strategy(obj, module_name: str) -> bool:
+    """Duck-typed test for "this is the strategy class defined in *module_name*".
+
+    Deliberately does **not** use ``issubclass(obj, BaseStrategy)``. When a dev
+    reloader (Streamlit's watcher) re-executes ``core.strategy``, ``BaseStrategy``
+    becomes a *new* class object while the strategy modules cached in
+    ``sys.modules`` still subclass the *old* one. An identity-based
+    ``issubclass`` check then returns ``False`` for every real strategy, recovery
+    finds nothing, and the registry surfaces the misleading
+    ``Available: (none)``. Matching on structure instead (a class defined in this
+    module that carries a non-empty string ``id`` and callable ``run``/``spec``)
+    is immune to ``BaseStrategy`` identity changes, since every consumer uses the
+    strategy purely by that same duck-typed shape anyway.
+    """
+    return (
+        inspect.isclass(obj)
+        and getattr(obj, "__module__", None) == module_name
+        and isinstance(getattr(obj, "id", None), str)
+        and bool(getattr(obj, "id", ""))
+        and callable(getattr(obj, "run", None))
+        and callable(getattr(obj, "spec", None))
+    )
+
+
 def _recover_from_cached_modules(strategies_pkg) -> None:
     """Rebuild the registry by scanning cached ``strategies.*`` namespaces.
 
@@ -123,6 +147,10 @@ def _recover_from_cached_modules(strategies_pkg) -> None:
     find the already-constructed strategy class sitting in each cached module's
     namespace and register it directly. Nothing is re-executed, so recovery
     cannot be broken by a dependency module being momentarily half-reloaded.
+
+    Strategy classes are matched by :func:`_looks_like_strategy` (structural
+    duck-typing), **not** ``issubclass``, so a reload of ``core.strategy`` that
+    swaps out the ``BaseStrategy`` identity can no longer hide them.
     """
     prefix = f"{strategies_pkg.__name__}."
     names = getattr(strategies_pkg, "_STRATEGY_MODULES", None) or tuple(
@@ -131,16 +159,12 @@ def _recover_from_cached_modules(strategies_pkg) -> None:
         if mod_name.startswith(prefix)
     )
     for name in names:
-        module = sys.modules.get(f"{prefix}{name}")
+        full_name = f"{prefix}{name}"
+        module = sys.modules.get(full_name)
         if module is None:
             continue
         for obj in vars(module).values():
-            if (
-                inspect.isclass(obj)
-                and issubclass(obj, BaseStrategy)
-                and obj is not BaseStrategy
-                and getattr(obj, "id", "")
-            ):
+            if _looks_like_strategy(obj, full_name):
                 try:
                     register(obj)
                 except Exception:  # noqa: BLE001 - isolate one bad strategy
