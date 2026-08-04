@@ -8,6 +8,7 @@ free of magic numbers.
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Optional
 
 # ── Paths ──────────────────────────────────────────────────────────────────
 PACKAGE_DIR = Path(__file__).resolve().parent
@@ -35,6 +36,57 @@ MIN_YOY_SALES_GROWTH = 10.0
 # to disable the gate; a missing value never rejects (data-gap safe).
 MAX_DEBT_TO_EQUITY = 0.05
 APPLY_QUALITY_TO_FINANCIALS = False
+
+# ── B8b: sector-relative debt gate (validated in backtesting, now live) ─────
+# The flat MAX_DEBT_TO_EQUITY judges every business against the same near-zero
+# bar, so structurally capital-intensive winners (shippers, cement, capital
+# goods, utilities) are rejected on leverage that is normal — even exemplary —
+# FOR THEIR SECTOR. Live miss that motivated this: GESHIP posted +155% YoY
+# profit (strength 92/100) but the daily run dropped it purely because its
+# D/E 0.064 > the 0.05 cap. In "sector_relative" mode the cap becomes
+#     max(MAX_DEBT_TO_EQUITY, SECTOR_DEBT_FACTOR × sector-median D/E)
+# so an asset-light sector collapses to the tight floor while a capital-
+# intensive one earns a proportional allowance. A name is judged against its
+# OWN sector's balance-sheet norm, not an IT company's. The backtest (nifty500,
+# 2023-2026) lifted hedged alpha +6.9% → +63.4% (Sharpe 0.24 → 1.40, PF 1.24 →
+# 2.11) and rescued the H2 correction regime from a LOSING book to +36% — the
+# improvement concentrated in the HARD regime, not a bull. Set
+# DEBT_GATE_MODE = "absolute" to restore the flat-cap behaviour.
+DEBT_GATE_MODE = "sector_relative"   # "sector_relative" | "absolute"
+SECTOR_DEBT_FACTOR = 2.0             # cap = factor × sector-median D/E (floor'd)
+
+# Structural per-sector median point-in-time debt/equity, precomputed ONCE from
+# the Nifty-500 backtest universe (financials excluded; sectors with < 4 peers
+# omitted → they fall back to the flat floor). Sector capital-intensity is
+# structurally stable, so a single baked median per sector is a fair, low-
+# variance threshold that needs no per-run computation. yfinance sector labels.
+SECTOR_MEDIAN_DE = {
+    "Basic Materials": 0.2911,
+    "Communication Services": 0.0252,
+    "Consumer Cyclical": 0.3106,
+    "Consumer Defensive": 0.1412,
+    "Energy": 0.5719,
+    "Healthcare": 0.2579,
+    "Industrials": 0.1258,
+    "Real Estate": 0.4844,
+    "Technology": 0.0988,
+    "Utilities": 1.3148,
+}
+
+
+def sector_debt_cap(sector: Optional[str]) -> float:
+    """Leverage cap for ``sector`` = max(floor, factor × sector-median D/E).
+
+    An unknown sector, or one absent from the baked baseline (too few peers),
+    falls back to the flat ``MAX_DEBT_TO_EQUITY`` floor — a data-thin sector is
+    never handed a looser gate by accident.
+    """
+    floor = MAX_DEBT_TO_EQUITY if MAX_DEBT_TO_EQUITY is not None else float("inf")
+    med = SECTOR_MEDIAN_DE.get(sector) if sector else None
+    if med is None:
+        return floor
+    return max(floor, SECTOR_DEBT_FACTOR * med)
+
 
 # ── Tier-2 LLM qualitative conviction layer ────────────────────────────────
 # After the cheap mechanical gates (`is_strong` + debt) have selected a shortlist,

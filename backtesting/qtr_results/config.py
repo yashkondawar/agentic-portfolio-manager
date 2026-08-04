@@ -213,9 +213,14 @@ class BacktestConfig:
     # is a structural baseline (each name's latest point-in-time D/E, financials
     # excluded); sector capital-intensity is structurally stable (see data.py), so
     # a single median is a fair, low-variance threshold. ``"absolute"`` = legacy
-    # flat cap (unchanged default → existing runs are byte-for-byte identical).
-    debt_gate_mode: str = "absolute"             # "absolute" | "sector_relative"
-    sector_debt_factor: float = 3.0              # cap = factor × sector-median D/E
+    # flat cap. Validated in backtesting (nifty500, 2023-2026): vs the flat 0.05
+    # floor it lifted hedged alpha +6.9% → +63.4%, Sharpe 0.24 → 1.40, PF 1.24 →
+    # 2.11, and — the decisive evidence — rescued the H2 correction regime from a
+    # LOSING book (hedged -2.6%, PF 0.91) to +36.3% (PF 1.72). Robust across a
+    # ×1.5-5.0 factor plateau. Now the DEFAULT; pass ``--debt-gate-mode absolute``
+    # to reproduce the legacy flat-cap behaviour.
+    debt_gate_mode: str = "sector_relative"      # "sector_relative" | "absolute"
+    sector_debt_factor: float = 2.0              # cap = factor × sector-median D/E
     sector_debt_min_peers: int = 4               # need >= N peers, else use the floor
 
     # ── Market-regime throttle (B9) ───────────────────────────────────────────
