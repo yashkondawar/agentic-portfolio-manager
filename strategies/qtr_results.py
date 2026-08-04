@@ -134,9 +134,14 @@ class QuarterlyResultsStrategy(BaseStrategy):
                 label="Max symbols to verify",
                 type=ParamType.INT,
                 required=False,
-                default=40,
-                min=1,
-                help="Cap on how many discovered names to scrape/verify on screener.in.",
+                default=0,
+                min=0,
+                help=(
+                    "Cap on how many discovered names to scrape/verify on "
+                    "screener.in. 0 = verify ALL declarers (no index bias; "
+                    "~2.5s each). Set a number only for a faster, capped run -- "
+                    "watchlist and liquid names are then verified first."
+                ),
                 group="Selection",
             ),
             ParamSpec(

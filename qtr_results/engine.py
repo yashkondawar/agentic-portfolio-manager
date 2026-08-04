@@ -26,15 +26,17 @@ logger = logging.getLogger("qtr_results.engine")
 
 
 def _prioritize_declarers(declarers: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    """Order declarers so the ones worth the (capped) verification budget win.
+    """Order declarers so the most notable names are verified FIRST.
 
-    On a busy earnings day NSE returns 100+ declarers, mostly illiquid micro-caps,
-    but only ``max_analyze`` of them get verified on screener.in. Ranking them so
-    explicitly-requested (watchlist) and liquid index names come first ensures a
-    notable large/mid-cap (e.g. GESHIP) is never truncated behind a wall of
-    micro-caps declared the same day. The sort is stable, so within a priority
-    tier the original recency order is preserved. Nothing is dropped -- only
-    reordered -- so off-index names are still verified if budget remains.
+    The strategy verifies every discovered declarer by default (``max_analyze=0``),
+    so this is not a filter and never drops anyone -- off-index names are still
+    analysed, because a genuine multibagger can sit outside the big indices. It is
+    purely a resilience ordering: watchlist and liquid index names are scraped
+    first, so if a run is interrupted or screener.in starts throttling part-way
+    through a busy 100+ declarer day, the names most likely to be traded are
+    already done. It also matters if the user sets an explicit ``max_analyze``
+    cap for a faster run -- then the cap keeps the notable names. The sort is
+    stable, so within a tier the original recency order is preserved.
     """
     def rank(entry: Dict[str, Any]) -> tuple:
         sources = entry.get("sources") or []
@@ -72,7 +74,7 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
     model: Optional[str] = params.get("model") or None
     dry_run: bool = bool(params.get("dry_run", False))
     max_new: int = int(params.get("max_new") or 10)
-    max_analyze: int = int(params.get("max_analyze") or 40)
+    max_analyze: int = int(params.get("max_analyze") or 0)  # 0 = analyze all
     use_conviction: bool = bool(params.get("use_conviction", config.USE_CONVICTION_LLM))
     today = date.today()
 
@@ -97,16 +99,27 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
     # Forward-looking heads-up: companies scheduled to declare soon (NSE).
     upcoming = _fetch_upcoming(upcoming_days) if (use_nse and upcoming_days > 0) else []
 
-    # Prioritise the capped verification budget: watchlist + liquid index names
-    # first, so a notable large/mid-cap is never truncated behind same-day
-    # micro-caps. Stable, so recency order is preserved within each tier.
+    # Order declarers so the most notable names (watchlist + liquid index) are
+    # verified FIRST. This is resilience ordering, not a filter: by default every
+    # declarer is analysed (max_analyze=0), so off-index multibaggers are never
+    # gated out by index membership -- mechanical strength + the debt gate + the
+    # Tier-2 LLM are what actually decide. If the run is interrupted or screener
+    # throttles mid-way, the names most likely to be traded are already done.
     declarers = _prioritize_declarers(declarers)
+    candidates = declarers if max_analyze <= 0 else declarers[:max_analyze]
+    if len(candidates) > 150:
+        logger.warning(
+            "Verifying %d declarers on screener.in (~%d min at the 2s/req "
+            "throttle); set max_analyze to cap this for a faster run.",
+            len(candidates),
+            round(len(candidates) * 2.5 / 60),
+        )
 
     # 3) Verify + select strong results.
     strong: List[AnalysisResult] = []
     rejected = 0
     errored = 0
-    for d in declarers[:max_analyze]:
+    for d in candidates:
         analysis = analyze_symbol(d["symbol"])
         analysis._result_date = d.get("result_date", today.isoformat())  # type: ignore[attr-defined]
         analysis._sources = d.get("sources", [])  # type: ignore[attr-defined]
