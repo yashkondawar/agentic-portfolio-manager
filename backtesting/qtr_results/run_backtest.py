@@ -113,6 +113,14 @@ def _parse_args() -> argparse.Namespace:
                    help="B8: reject names whose point-in-time ROCE %% is below this. Off by default.")
     p.add_argument("--quality-on-financials", action="store_true",
                    help="Also apply the debt/ROCE gate to banks/NBFCs (default: exempt).")
+    p.add_argument("--debt-gate-mode", choices=("absolute", "sector_relative"), default=None,
+                   help="B8b: 'absolute' (default) uses the flat --max-debt-to-equity cap; "
+                        "'sector_relative' caps each name at max(floor, factor × its sector's "
+                        "median D/E) so capital-intensive sectors (shipping, cement, power) are "
+                        "judged against their own leverage norm instead of an IT company's.")
+    p.add_argument("--sector-debt-factor", type=float, default=None,
+                   help="Multiplier on the sector-median D/E for the sector_relative cap "
+                        "(default 3.0). Lower = stricter.")
     p.add_argument("--regime-filter", action="store_true",
                    help="B9: only open new positions when the benchmark is above its "
                         "regime SMA (correlated-drawdown guard).")
@@ -333,6 +341,10 @@ def main() -> int:
         cfg.min_roce = args.min_roce
     if args.quality_on_financials:
         cfg.apply_quality_to_financials = True
+    if args.debt_gate_mode is not None:
+        cfg.debt_gate_mode = args.debt_gate_mode
+    if args.sector_debt_factor is not None:
+        cfg.sector_debt_factor = args.sector_debt_factor
     if args.max_position_pct is not None:
         cfg.max_position_pct = args.max_position_pct
     if args.regime_filter:

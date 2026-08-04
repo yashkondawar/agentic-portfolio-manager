@@ -64,12 +64,76 @@ class BacktestEngine:
         self.event_log: List[dict] = []
         # Per-event filter tallies for the summary output.
         self.filter_stats: Dict[str, int] = {}
+        # B8b: sector -> structural median point-in-time D/E (sector_relative mode).
+        self._sector_de_median: Dict[str, float] = {}
 
     def _bump(self, reason: str) -> None:
         self.filter_stats[reason] = self.filter_stats.get(reason, 0) + 1
 
     def _sector_of(self, sym: str) -> str:
         return self.sectors.get(sym) if self.sectors else "UNKNOWN"
+
+    # ── B8b: sector-relative leverage gate ─────────────────────────────────────
+    def _build_sector_debt_baseline(self) -> None:
+        """Compute a structural per-sector median debt/equity (sector_relative mode).
+
+        For every parsed name we take its LATEST point-in-time D/E (latest annual
+        balance sheet in the data) and group by yfinance sector, excluding
+        financials (structurally levered — never in the baseline). A sector needs
+        ``sector_debt_min_peers`` names or it is left out (candidates there fall
+        back to the absolute floor). Sector capital-intensity is structurally
+        stable (see data.py), so one median per sector is a fair, low-variance
+        threshold; it is a THRESHOLD baseline only (never used to pick names), so
+        the aggregate look-ahead it carries does not leak into per-name selection.
+        """
+        buckets: Dict[str, List[float]] = {}
+        for sym, (raw, quarters, _m) in self.parsed.items():
+            if not quarters:
+                continue
+            qm = an.quality_metrics(raw, quarters[-1])
+            if qm.is_financial or qm.debt_to_equity is None:
+                continue
+            buckets.setdefault(self._sector_of(sym), []).append(qm.debt_to_equity)
+        self._sector_de_median = {}
+        for sec, vals in buckets.items():
+            if len(vals) < self.cfg.sector_debt_min_peers:
+                continue
+            vals.sort()
+            n = len(vals)
+            med = vals[n // 2] if n % 2 else 0.5 * (vals[n // 2 - 1] + vals[n // 2])
+            self._sector_de_median[sec] = med
+        logger.info(
+            "Sector-relative debt gate: baseline for %d sectors "
+            "(factor %.1f, floor %s).",
+            len(self._sector_de_median), self.cfg.sector_debt_factor,
+            self.cfg.max_debt_to_equity,
+        )
+
+    def _sector_debt_cap(self, sector: str) -> float:
+        """Leverage cap for ``sector`` = max(floor, factor × sector-median D/E).
+
+        A sector with too few peers (or an unknown one) falls back to the flat
+        floor, so a data-thin sector is never handed a looser gate by accident.
+        """
+        floor = self.cfg.max_debt_to_equity
+        med = self._sector_de_median.get(sector)
+        if med is None:
+            return floor
+        return max(floor, self.cfg.sector_debt_factor * med)
+
+    def _debt_ok(self, qm: "an.QualityMetrics", sector: str) -> bool:
+        """True if ``qm`` clears the leverage gate under the active mode.
+
+        Callers apply the banks/NBFC exemption before calling; a missing D/E or a
+        disabled cap never rejects (data-gap safe), matching the legacy gate.
+        """
+        if self.cfg.max_debt_to_equity is None or qm.debt_to_equity is None:
+            return True
+        if self.cfg.debt_gate_mode == "sector_relative":
+            cap = self._sector_debt_cap(sector)
+        else:
+            cap = self.cfg.max_debt_to_equity
+        return qm.debt_to_equity <= cap
 
     # ── price helpers ─────────────────────────────────────────────────────────
     def _price_lookup(self, day: date):
@@ -149,6 +213,8 @@ class BacktestEngine:
         if not calendar:
             raise SystemExit("No trading days in range — check dates / data.")
         self._prepare_events(calendar)
+        if self.cfg.debt_gate_mode == "sector_relative":
+            self._build_sector_debt_baseline()
         logger.info("Backtest %s → %s | %d trading days", calendar[0], calendar[-1], len(calendar))
 
         for d in calendar:
@@ -403,11 +469,7 @@ class BacktestEngine:
             # over-levered balance sheet is not a "good" result we want to ride.
             qm = an.quality_metrics(raw, quarters[pos.result_q_idx])
             apply_debt = self.cfg.apply_quality_to_financials or not qm.is_financial
-            debt_ok = not (
-                self.cfg.max_debt_to_equity is not None and apply_debt
-                and qm.debt_to_equity is not None
-                and qm.debt_to_equity > self.cfg.max_debt_to_equity
-            )
+            debt_ok = (not apply_debt) or self._debt_ok(qm, self._sector_of(sym))
             if analysis.is_strong and debt_ok:
                 plan = build_target_plan(analysis, px)
                 if plan is not None:
@@ -591,14 +653,10 @@ class BacktestEngine:
 
             # B8 — reject over-levered / low-quality balance sheets. Banks/NBFCs
             # are exempt from the debt gate unless explicitly enabled; a missing
-            # value never rejects (data-gap safe).
+            # value never rejects (data-gap safe). Under sector_relative mode the
+            # cap is the name's own-sector norm (see _debt_ok).
             apply_debt = self.cfg.apply_quality_to_financials or not qm.is_financial
-            if (
-                self.cfg.max_debt_to_equity is not None
-                and apply_debt
-                and qm.debt_to_equity is not None
-                and qm.debt_to_equity > self.cfg.max_debt_to_equity
-            ):
+            if apply_debt and not self._debt_ok(qm, self._sector_of(ev.symbol)):
                 self._bump("high_debt")
                 continue
             if (

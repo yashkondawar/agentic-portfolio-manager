@@ -199,6 +199,25 @@ class BacktestConfig:
     min_roce: Optional[float] = None             # e.g. 15 (%) quality floor
     apply_quality_to_financials: bool = False    # exempt banks/NBFCs from debt gate
 
+    # ── B8b: sector-relative debt gate (option 2) ────────────────────────────
+    # The flat ``max_debt_to_equity`` cap judges every business against the same
+    # near-zero-debt bar, so structurally capital-intensive winners (shippers,
+    # cement, capital goods, power) get rejected on leverage that is normal — even
+    # exemplary — FOR THEIR SECTOR. Concrete miss: GESHIP posted +155% YoY profit
+    # (strength 92/100) but was dropped purely because D/E 0.064 > the 0.05 cap.
+    # In ``"sector_relative"`` mode the cap becomes
+    #     max(max_debt_to_equity, sector_debt_factor × sector-median D/E)
+    # so an asset-light sector collapses to the tight floor while a capital-
+    # intensive sector earns a proportional allowance — a name is judged against
+    # its OWN sector's balance-sheet norm, not an IT company's. The sector median
+    # is a structural baseline (each name's latest point-in-time D/E, financials
+    # excluded); sector capital-intensity is structurally stable (see data.py), so
+    # a single median is a fair, low-variance threshold. ``"absolute"`` = legacy
+    # flat cap (unchanged default → existing runs are byte-for-byte identical).
+    debt_gate_mode: str = "absolute"             # "absolute" | "sector_relative"
+    sector_debt_factor: float = 3.0              # cap = factor × sector-median D/E
+    sector_debt_min_peers: int = 4               # need >= N peers, else use the floor
+
     # ── Market-regime throttle (B9) ───────────────────────────────────────────
     # The stock-selection filters (B1-B8) fix pick QUALITY but not portfolio
     # DRAWDOWN: earnings-momentum longs take correlated hits in a broad market
