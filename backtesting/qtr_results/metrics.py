@@ -95,16 +95,27 @@ def render_summary(
     )
     dsr = m.get("deflated_sharpe")
     dsr_str = f"{dsr:.3f}" if isinstance(dsr, (int, float)) else "n/a"
+    beta = m.get("beta")
+    beta_str = f"{beta:+.2f}" if isinstance(beta, (int, float)) else "n/a"
+    sortino = m.get("sortino")
+    sortino_str = f"{sortino:.2f}" if isinstance(sortino, (int, float)) else "n/a"
     lines = [
         "════════════════════════════════════════════════════════",
         " QUARTERLY-RESULTS BACKTEST — SUMMARY",
         "════════════════════════════════════════════════════════",
         "  RISK-ADJUSTED (primary objective)",
         f" Sharpe (rf=0)       : {m['sharpe']:.2f}",
+        f" Sortino (rf=0)      : {sortino_str}",
         f" Deflated Sharpe     : {dsr_str}   (trials={m.get('num_trials', 1)})",
         f" Max drawdown        : {m['max_drawdown_pct']:.2f}%",
         f" Profit factor       : {pf}",
         f" Win rate            : {m['win_rate_pct']:.2f}%",
+        "────────────────────────────────────────────────────────",
+        "  DISPERSION / MARKET RISK",
+        f" Annual volatility   : {m.get('annual_vol_pct', 0.0):.2f}%",
+        f" Daily std dev       : {m.get('daily_vol_pct', 0.0):.3f}%",
+        f" Downside deviation  : {m.get('downside_dev_pct', 0.0):.3f}% (daily)",
+        f" Portfolio beta      : {beta_str}   (vs {m.get('benchmark', 'benchmark')})",
         "────────────────────────────────────────────────────────",
         "  RETURN (context, not the target)",
         f" Start equity        : ₹{m['start_equity']:,.2f}",

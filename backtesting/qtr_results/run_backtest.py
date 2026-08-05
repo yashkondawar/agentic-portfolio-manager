@@ -449,6 +449,11 @@ def main() -> int:
     )
     metrics = enrich_metrics(metrics, engine.daily_log, num_trials=cfg.num_trials)
 
+    # Portfolio beta vs the benchmark (always measured, independent of the hedge).
+    port_beta = realized_book_beta(engine.daily_log, prices.benchmark)
+    metrics["beta"] = round(port_beta, 3) if port_beta is not None else None
+    metrics["benchmark"] = cfg.universe_index
+
     # ── Beta-hedge overlay (opt-in): isolate the PEAD alpha from market direction.
     hedged = None
     if cfg.hedge_enabled:
