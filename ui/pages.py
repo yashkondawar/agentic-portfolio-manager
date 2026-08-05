@@ -19,6 +19,7 @@ from ui.components import (
     clean_editor_rows,
     latest_result,
     page_header,
+    render_qtr_ledger_snapshot,
     render_result,
     result_symbols,
     run_strategy,
@@ -103,6 +104,8 @@ def discover_page() -> None:
         _registry_runner("watchlist_curation", "discover_watchlist")
         _basket_action(latest_result("watchlist_curation"), "watchlist")
     with results_tab:
+        render_qtr_ledger_snapshot()
+        st.divider()
         _registry_runner("qtr_results", "discover_results")
         _basket_action(latest_result("qtr_results"), "quarterly")
 

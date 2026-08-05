@@ -158,22 +158,43 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
         )
 
     # 3) Verify + select strong results.
+    # ``outcomes`` records where every analysed name lands in the funnel (keyed by
+    # symbol, insertion-ordered) so the UI can show the full "analysed -> where it
+    # dropped" trail, not just the survivors.
     strong: List[AnalysisResult] = []
     rejected = 0
     errored = 0
+    outcomes: Dict[str, Dict[str, Any]] = {}
     for d in candidates:
         analysis = analyze_symbol(d["symbol"])
         analysis._result_date = d.get("result_date", today.isoformat())  # type: ignore[attr-defined]
         analysis._sources = d.get("sources", [])  # type: ignore[attr-defined]
+        rec = {
+            "symbol": analysis.symbol,
+            "company": analysis.company_name or d["symbol"],
+            "result_date": analysis._result_date,
+            "strength": round(analysis.strength_score, 1),
+            "stage": "analysed",
+            "status": "",
+            "reason": "",
+        }
+        outcomes[analysis.symbol] = rec
         if analysis.error:
             errored += 1
+            rec["status"] = "data_error"
+            rec["reason"] = analysis.error
             continue
         if analysis.is_strong:
+            rec["stage"] = "strong"
+            rec["status"] = "strong_fundamentals"
             strong.append(analysis)
         else:
             rejected += 1
+            rec["status"] = "weak_fundamentals"
+            rec["reason"] = analysis.rationale or "below growth/quality thresholds"
 
     strong.sort(key=lambda a: a.strength_score, reverse=True)
+    n_fund_strong = len(strong)
 
     # 3a) Mechanical entry-quality gate -- applied BEFORE the LLM so the live
     # funnel matches the backtest that was validated WITHOUT any LLM. Names that
@@ -188,12 +209,20 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
         reason = _entry_filter_reason(
             tech, require_uptrend=require_uptrend, min_liquidity=min_liquidity
         )
+        rec = outcomes.get(analysis.symbol)
         if reason:
             skipped_filter += 1
+            if rec:
+                rec["status"] = "filtered_pre_llm"
+                rec["reason"] = reason
             logger.info("Filtered %s pre-LLM: %s.", analysis.symbol, reason)
         else:
+            if rec:
+                rec["stage"] = "qualified"
+                rec["status"] = "qualified"
             qualified.append(analysis)
     strong = qualified
+    n_qualified = len(strong)
 
     # 3b) Tier-2 LLM qualitative conviction -- the FINAL check. A point-in-time read
     # of the actual filing (results PDF / investor presentation / concall) + recent
@@ -224,6 +253,22 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
         # rank below any positively-scored name via the conviction-weighted key.
         kept = [a for a in strong if getattr(a, "_conviction_gate", True)]
         conviction_rejected = len(strong) - len(kept)
+        kept_syms = {a.symbol for a in kept}
+        for a in strong:
+            rec = outcomes.get(a.symbol)
+            if not rec:
+                continue
+            verdict = a.conviction_verdict or "reject"
+            conv = a.conviction
+            conv_txt = f" (conv {conv:.2f})" if conv is not None else ""
+            if a.symbol in kept_syms:
+                rec["stage"] = "conviction_pass"
+                rec["status"] = f"llm_{verdict}" if a.conviction is not None else "qualified"
+                if conv is not None:
+                    rec["reason"] = f"LLM '{verdict}'{conv_txt}"
+            else:
+                rec["status"] = "llm_rejected"
+                rec["reason"] = f"LLM '{verdict}'{conv_txt}"
         strong = kept
         # Re-rank by conviction × strength (unscored names use a neutral 0.5).
         strong.sort(
@@ -236,17 +281,25 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
     open_count = len(ledger_mod.open_positions(picks))
     new_picks: List[Dict[str, Any]] = []
     skipped_nocash = 0
+    n_conviction_pass = len(strong)
     for analysis in strong:
-        if len(new_picks) >= max_new:
-            break
-        if open_count >= max_positions:
-            logger.info("Portfolio at max_positions=%d; no more new buys.", max_positions)
-            break
+        rec = outcomes.get(analysis.symbol)
+        if len(new_picks) >= max_new or open_count >= max_positions:
+            if rec and rec.get("status") not in ("already_held",):
+                rec["status"] = "deferred_cap"
+                rec["reason"] = "max positions / new-pick cap reached this run"
+            continue
         if ledger_mod.has_open(picks, analysis.symbol):
+            if rec:
+                rec["status"] = "already_held"
+                rec["reason"] = "position already open for this quarter"
             continue
         entry_price = analysis.current_price or price_fn(analysis.symbol)
         if not entry_price or entry_price <= 0:
             logger.warning("No entry price for %s; skipping.", analysis.symbol)
+            if rec:
+                rec["status"] = "no_price"
+                rec["reason"] = "no tradable price available"
             continue
 
         # Liquidity + uptrend already gated pre-LLM (step 3a); here we only need the
@@ -258,6 +311,9 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
             atr=tech.atr,
         )
         if plan is None:
+            if rec:
+                rec["status"] = "no_plan"
+                rec["reason"] = "could not build a target/stop plan"
             continue
 
         # Risk-based sizing (shares = risk budget / ATR-stop distance), capped by
@@ -271,6 +327,9 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
         if qty <= 0:
             skipped_nocash += 1
             logger.info("Skip %s: no cash/room to size a position.", analysis.symbol)
+            if rec:
+                rec["status"] = "no_cash"
+                rec["reason"] = "insufficient cash to size a position"
             continue
 
         result_date = getattr(analysis, "_result_date", today.isoformat())
@@ -284,6 +343,10 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
             pick["rupee_risk"] = round(qty * stop_dist, 2)
             new_picks.append(pick)
             open_count += 1
+            if rec:
+                rec["stage"] = "bought"
+                rec["status"] = "BUY"
+                rec["reason"] = f"{qty} sh @ Rs {entry_price:,.2f} (Rs {invested:,.0f})"
 
     # 5) Persist (unless dry-run) + report.
     if not dry_run:
@@ -296,6 +359,23 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
         portfolio_mod.save_portfolio(pf)
 
     equity_after = portfolio_mod.marked_equity(pf, ledger_mod.open_positions(picks))
+    open_after = ledger_mod.open_positions(picks)
+    holdings = _holdings_view(open_after, as_of=today)
+    tradebook = _tradebook_view(ledger_mod.closed_positions(picks))
+    funnel = [
+        {"stage": "Result declarers discovered", "count": len(declarers), "dropped": 0},
+        {"stage": "Analysed on screener", "count": len(candidates),
+         "dropped": max(0, len(declarers) - len(candidates))},
+        {"stage": "Strong fundamentals", "count": n_fund_strong,
+         "dropped": rejected + errored},
+        {"stage": "Passed mechanical gate (liquidity + uptrend)", "count": n_qualified,
+         "dropped": skipped_filter},
+        {"stage": "Passed LLM conviction", "count": n_conviction_pass,
+         "dropped": conviction_rejected},
+        {"stage": "Bought (new positions)", "count": len(new_picks),
+         "dropped": skipped_nocash},
+    ]
+    actions = _build_actions(new_picks, closed_now, holdings)
     report = _render_report(
         today=today,
         declarers=declarers,
@@ -318,14 +398,21 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
         "num_strong": len(strong),
         "num_new_picks": len(new_picks),
         "num_closed": len(closed_now),
-        "num_open": len(ledger_mod.open_positions(picks)),
+        "num_open": len(open_after),
         "num_conviction_evaluated": conviction_evaluated,
         "num_conviction_rejected": conviction_rejected,
         "num_skipped_filter": skipped_filter,
         "num_skipped_nocash": skipped_nocash,
         "cash": round(pf.cash, 2),
         "equity": round(equity_after, 2),
+        "invested": round(sum(h["invested"] for h in holdings), 2),
+        "unrealized_pnl": round(sum(h["unrealized_pnl"] for h in holdings), 2),
         "realized_pnl": round(pf.realized_pnl, 2),
+        "funnel": funnel,
+        "analysed": list(outcomes.values()),
+        "actions": actions,
+        "holdings": holdings,
+        "tradebook": tradebook,
         "new_picks": new_picks,
         "closed": closed_now,
         "declarers": declarers,
@@ -333,6 +420,127 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
         "dry_run": dry_run,
     }
     return {"report": report, "data": data}
+
+
+def _holdings_view(
+    open_positions: List[Dict[str, Any]], *, as_of: date
+) -> List[Dict[str, Any]]:
+    """Marked snapshot of open positions with unrealized P&L (₹ and %)."""
+    rows: List[Dict[str, Any]] = []
+    for p in open_positions:
+        qty = p.get("quantity") or 0
+        entry = p.get("entry_price") or 0.0
+        invested = p.get("invested") or round(entry * qty, 2)
+        last = p.get("last_price") or entry
+        market_value = round(last * qty, 2)
+        upnl = round(market_value - invested, 2)
+        upnl_pct = round((upnl / invested * 100.0), 2) if invested else 0.0
+        entry_dt = ledger_mod._parse_date(p.get("entry_date"))
+        days_held = (as_of - entry_dt).days if entry_dt else 0
+        rows.append({
+            "symbol": p.get("symbol"),
+            "company": p.get("company", ""),
+            "quarter": p.get("result_quarter", ""),
+            "entry_date": p.get("entry_date"),
+            "days_held": days_held,
+            "quantity": qty,
+            "entry_price": entry,
+            "last_price": last,
+            "invested": invested,
+            "market_value": market_value,
+            "unrealized_pnl": upnl,
+            "unrealized_pct": upnl_pct,
+            "stop_price": p.get("stop_price"),
+            "target_price": p.get("target_price"),
+            "max_holding_days": p.get("max_holding_days"),
+            "conviction": p.get("conviction"),
+        })
+    return rows
+
+
+def _tradebook_view(closed: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """Closed-trade history with realized P&L in ₹ and % — the analysis tradebook."""
+    rows: List[Dict[str, Any]] = []
+    for p in closed:
+        qty = p.get("quantity") or 0
+        entry = p.get("entry_price") or 0.0
+        exit_price = p.get("exit_price") or 0.0
+        realized_pct = p.get("realized_pct")
+        if realized_pct is None and entry:
+            realized_pct = round((exit_price - entry) / entry * 100.0, 2)
+        realized_rupees = round((exit_price - entry) * qty, 2)
+        entry_dt = ledger_mod._parse_date(p.get("entry_date"))
+        exit_dt = ledger_mod._parse_date(p.get("exit_date"))
+        held = (exit_dt - entry_dt).days if entry_dt and exit_dt else None
+        rows.append({
+            "symbol": p.get("symbol"),
+            "company": p.get("company", ""),
+            "quarter": p.get("result_quarter", ""),
+            "entry_date": p.get("entry_date"),
+            "exit_date": p.get("exit_date"),
+            "days_held": held,
+            "quantity": qty,
+            "entry_price": entry,
+            "exit_price": exit_price,
+            "invested": p.get("invested"),
+            "realized_pnl": realized_rupees,
+            "realized_pct": realized_pct,
+            "exit_reason": p.get("exit_reason"),
+        })
+    # Newest exits first.
+    rows.sort(key=lambda r: str(r.get("exit_date") or ""), reverse=True)
+    return rows
+
+
+def _build_actions(
+    new_picks: List[Dict[str, Any]],
+    closed_now: List[Dict[str, Any]],
+    holdings: List[Dict[str, Any]],
+) -> List[Dict[str, Any]]:
+    """Today's actionable trade list: BUY (new), SELL (exited this run), HOLD."""
+    actions: List[Dict[str, Any]] = []
+    new_syms = {p.get("symbol") for p in new_picks}
+    for p in new_picks:
+        actions.append({
+            "action": "BUY",
+            "symbol": p.get("symbol"),
+            "company": p.get("company", ""),
+            "quantity": p.get("quantity"),
+            "price": p.get("entry_price"),
+            "value": p.get("invested"),
+            "stop_price": p.get("stop_price"),
+            "target_price": p.get("target_price"),
+            "detail": p.get("target_notes", ""),
+        })
+    for p in closed_now:
+        qty = p.get("quantity") or 0
+        exit_price = p.get("exit_price") or 0.0
+        actions.append({
+            "action": "SELL",
+            "symbol": p.get("symbol"),
+            "company": p.get("company", ""),
+            "quantity": qty,
+            "price": exit_price,
+            "value": round(exit_price * qty, 2),
+            "stop_price": p.get("stop_price"),
+            "target_price": p.get("target_price"),
+            "detail": f"{p.get('exit_reason', 'exit')} @ {p.get('realized_pct', 0)}%",
+        })
+    for h in holdings:
+        if h["symbol"] in new_syms:
+            continue
+        actions.append({
+            "action": "HOLD",
+            "symbol": h["symbol"],
+            "company": h.get("company", ""),
+            "quantity": h["quantity"],
+            "price": h["last_price"],
+            "value": h["market_value"],
+            "stop_price": h.get("stop_price"),
+            "target_price": h.get("target_price"),
+            "detail": f"unrealized {h['unrealized_pct']}% | {h['days_held']}d held",
+        })
+    return actions
 
 
 def _fetch_upcoming(days_ahead: int) -> List[Dict[str, Any]]:
@@ -343,6 +551,33 @@ def _fetch_upcoming(days_ahead: int) -> List[Dict[str, Any]]:
     except Exception as e:  # noqa: BLE001 - never let the heads-up break a run
         logger.warning("NSE upcoming-declarations fetch failed (%s).", e)
         return []
+
+
+def ledger_snapshot() -> Dict[str, Any]:
+    """Read-only portfolio + tradebook straight from disk — no run, no network.
+
+    Used by the UI to always show the current ledger state on page load. Uses the
+    stored ``last_price`` from the previous run to mark holdings (no live fetch),
+    so it is instant and side-effect free.
+    """
+    config.ensure_state_dir()
+    picks = ledger_mod.load_ledger()
+    pf = portfolio_mod.load_portfolio()
+    holdings = _holdings_view(ledger_mod.open_positions(picks), as_of=date.today())
+    tradebook = _tradebook_view(ledger_mod.closed_positions(picks))
+    invested = round(sum(h["invested"] for h in holdings), 2)
+    unrealized = round(sum(h["unrealized_pnl"] for h in holdings), 2)
+    return {
+        "holdings": holdings,
+        "tradebook": tradebook,
+        "num_open": len(holdings),
+        "num_closed": len(tradebook),
+        "cash": round(pf.cash, 2),
+        "invested": invested,
+        "unrealized_pnl": unrealized,
+        "realized_pnl": round(pf.realized_pnl, 2),
+        "starting_capital": round(pf.starting_capital, 2),
+    }
 
 
 def _apply_overrides(params: Dict[str, Any]) -> None:
