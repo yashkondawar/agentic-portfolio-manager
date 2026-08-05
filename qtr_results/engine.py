@@ -61,6 +61,27 @@ def _default_price_fn(symbol: str) -> Optional[float]:
     return None
 
 
+def _entry_filter_reason(
+    tech, *, require_uptrend: bool, min_liquidity: float
+) -> Optional[str]:
+    """Return why a name fails the mechanical entry gate, or ``None`` if it passes.
+
+    Mirrors the backtest's non-LLM entry conditions -- a liquidity floor on median
+    20-day rupee turnover and an "uptrend not broken" check (close above SMA with a
+    non-declining slope). DATA-GAP-SAFE: when the underlying technical is missing
+    (``None``) the name is NEVER rejected here, so a thin-history winner still
+    reaches the shortlist (the GESHIP lesson).
+    """
+    if tech.median_turnover_20d is not None and tech.median_turnover_20d < min_liquidity:
+        return (
+            f"20d turnover Rs {tech.median_turnover_20d / 1e7:.1f}cr "
+            f"< Rs {min_liquidity / 1e7:.1f}cr floor"
+        )
+    if require_uptrend and tech.in_uptrend is False:
+        return f"below SMA{config.TREND_MA_PERIOD} / uptrend broken"
+    return None
+
+
 def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = None) -> Dict[str, Any]:
     """Execute one strategy run and return ``{"report": str, "data": dict}``."""
     params = dict(params or {})
@@ -154,10 +175,30 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
 
     strong.sort(key=lambda a: a.strength_score, reverse=True)
 
-    # 3b) Tier-2 LLM qualitative conviction — a point-in-time read of the actual
-    # filing (results PDF / investor presentation / concall) + recent news /
-    # order-book / sector sentiment. Only the mechanically-qualified shortlist is
-    # scored, so the LLM can only REMOVE or SIZE picks, never add un-vetted names.
+    # 3a) Mechanical entry-quality gate -- applied BEFORE the LLM so the live
+    # funnel matches the backtest that was validated WITHOUT any LLM. Names that
+    # fail the liquidity floor or the "uptrend not broken" check are dropped here,
+    # so the qualitative conviction call downstream is a FINAL veto on an already
+    # tradeable shortlist, not an intermediate step. Data-gap-safe: a name with no
+    # price history is never rejected (see _entry_filter_reason).
+    skipped_filter = 0
+    qualified: List[AnalysisResult] = []
+    for analysis in strong:
+        tech = technicals_mod.get_technicals(analysis.symbol)
+        reason = _entry_filter_reason(
+            tech, require_uptrend=require_uptrend, min_liquidity=min_liquidity
+        )
+        if reason:
+            skipped_filter += 1
+            logger.info("Filtered %s pre-LLM: %s.", analysis.symbol, reason)
+        else:
+            qualified.append(analysis)
+    strong = qualified
+
+    # 3b) Tier-2 LLM qualitative conviction -- the FINAL check. A point-in-time read
+    # of the actual filing (results PDF / investor presentation / concall) + recent
+    # news / order-book / sector sentiment. Only the mechanically-qualified shortlist
+    # is scored, so the LLM can only REMOVE or SIZE picks, never add un-vetted names.
     conviction_rejected = 0
     conviction_evaluated = 0
     if use_conviction and strong:
@@ -194,7 +235,6 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
     equity = portfolio_mod.marked_equity(pf, ledger_mod.open_positions(picks))
     open_count = len(ledger_mod.open_positions(picks))
     new_picks: List[Dict[str, Any]] = []
-    skipped_filter = 0
     skipped_nocash = 0
     for analysis in strong:
         if len(new_picks) >= max_new:
@@ -209,26 +249,9 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
             logger.warning("No entry price for %s; skipping.", analysis.symbol)
             continue
 
-        # Entry-quality filters + ATR sizing share ONE trailing-window fetch.
+        # Liquidity + uptrend already gated pre-LLM (step 3a); here we only need the
+        # cached ATR for the volatility stop / risk sizing.
         tech = technicals_mod.get_technicals(analysis.symbol)
-        # Liquidity floor (data-gap-safe: unknown turnover never rejects).
-        if (
-            tech.median_turnover_20d is not None
-            and tech.median_turnover_20d < min_liquidity
-        ):
-            skipped_filter += 1
-            logger.info(
-                "Skip %s: 20d turnover Rs %.1fcr < Rs %.1fcr floor.",
-                analysis.symbol, tech.median_turnover_20d / 1e7, min_liquidity / 1e7,
-            )
-            continue
-        # Uptrend "not broken" filter (data-gap-safe: unknown trend never rejects).
-        if require_uptrend and tech.in_uptrend is False:
-            skipped_filter += 1
-            logger.info("Skip %s: below SMA%d / not in uptrend.", analysis.symbol,
-                        config.TREND_MA_PERIOD)
-            continue
-
         plan = build_target_plan(
             analysis, entry_price,
             conviction=getattr(analysis, "conviction", None),
