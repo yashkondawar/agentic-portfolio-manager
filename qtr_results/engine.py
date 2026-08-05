@@ -15,6 +15,8 @@ from typing import Any, Callable, Dict, List, Optional
 from qtr_results import config
 from qtr_results import ledger as ledger_mod
 from qtr_results import memory as memory_mod
+from qtr_results import portfolio as portfolio_mod
+from qtr_results import technicals as technicals_mod
 from qtr_results.analysis import AnalysisResult, analyze_symbol
 from qtr_results.conviction import evaluate_conviction
 from qtr_results.discovery import discover_result_declarers
@@ -76,14 +78,33 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
     max_new: int = int(params.get("max_new") or 10)
     max_analyze: int = int(params.get("max_analyze") or 0)  # 0 = analyze all
     use_conviction: bool = bool(params.get("use_conviction", config.USE_CONVICTION_LLM))
+    # Portfolio sizing knobs (best-experiment defaults; overridable per run).
+    capital: Optional[float] = params.get("capital")
+    risk_per_trade_pct: float = float(
+        params.get("risk_per_trade_pct") or config.RISK_PER_TRADE_PCT
+    )
+    max_positions: int = int(params.get("max_positions") or config.MAX_POSITIONS)
+    max_position_pct: float = float(
+        params.get("max_position_pct") or config.MAX_POSITION_PCT
+    )
+    require_uptrend: bool = bool(params.get("require_uptrend", config.REQUIRE_UPTREND))
+    min_liquidity: float = float(
+        params.get("min_liquidity") or config.MIN_LIQUIDITY_MEDIAN_20D
+    )
     today = date.today()
 
     config.ensure_state_dir()
     mem = memory_mod.load_memory()
     picks = ledger_mod.load_ledger()
+    pf = portfolio_mod.load_portfolio(capital)
 
-    # 1) Manage existing open positions.
+    # 1) Manage existing open positions, crediting cash back on every close.
     closed_now = ledger_mod.update_open_positions(picks, price_fn, as_of=today)
+    for c in closed_now:
+        qty = c.get("quantity") or 0
+        if qty and c.get("exit_price"):
+            portfolio_mod.apply_close(pf, c["exit_price"], qty)
+            portfolio_mod.record_realized(pf, c["entry_price"], c["exit_price"], qty)
 
     # 2) Discover result-declarers (assured NSE feed + web search + watchlist).
     declarers = discover_result_declarers(
@@ -169,10 +190,17 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
             reverse=True,
         )
 
-    # 4) Build targets + add new picks.
+    # 4) Build targets + size + add new picks under the portfolio caps.
+    equity = portfolio_mod.marked_equity(pf, ledger_mod.open_positions(picks))
+    open_count = len(ledger_mod.open_positions(picks))
     new_picks: List[Dict[str, Any]] = []
+    skipped_filter = 0
+    skipped_nocash = 0
     for analysis in strong:
         if len(new_picks) >= max_new:
+            break
+        if open_count >= max_positions:
+            logger.info("Portfolio at max_positions=%d; no more new buys.", max_positions)
             break
         if ledger_mod.has_open(picks, analysis.symbol):
             continue
@@ -180,16 +208,59 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
         if not entry_price or entry_price <= 0:
             logger.warning("No entry price for %s; skipping.", analysis.symbol)
             continue
+
+        # Entry-quality filters + ATR sizing share ONE trailing-window fetch.
+        tech = technicals_mod.get_technicals(analysis.symbol)
+        # Liquidity floor (data-gap-safe: unknown turnover never rejects).
+        if (
+            tech.median_turnover_20d is not None
+            and tech.median_turnover_20d < min_liquidity
+        ):
+            skipped_filter += 1
+            logger.info(
+                "Skip %s: 20d turnover Rs %.1fcr < Rs %.1fcr floor.",
+                analysis.symbol, tech.median_turnover_20d / 1e7, min_liquidity / 1e7,
+            )
+            continue
+        # Uptrend "not broken" filter (data-gap-safe: unknown trend never rejects).
+        if require_uptrend and tech.in_uptrend is False:
+            skipped_filter += 1
+            logger.info("Skip %s: below SMA%d / not in uptrend.", analysis.symbol,
+                        config.TREND_MA_PERIOD)
+            continue
+
         plan = build_target_plan(
-            analysis, entry_price, conviction=getattr(analysis, "conviction", None)
+            analysis, entry_price,
+            conviction=getattr(analysis, "conviction", None),
+            atr=tech.atr,
         )
         if plan is None:
             continue
+
+        # Risk-based sizing (shares = risk budget / ATR-stop distance), capped by
+        # concentration + available cash. 0 = not takeable with current capital.
+        stop_dist = plan.stop_distance_abs or (entry_price * config.FALLBACK_STOP_PCT / 100.0)
+        qty = portfolio_mod.size_position(
+            entry_price, stop_dist, equity, pf.cash,
+            risk_per_trade_pct=risk_per_trade_pct,
+            max_position_pct=max_position_pct,
+        )
+        if qty <= 0:
+            skipped_nocash += 1
+            logger.info("Skip %s: no cash/room to size a position.", analysis.symbol)
+            continue
+
         result_date = getattr(analysis, "_result_date", today.isoformat())
-        pick = ledger_mod.add_pick(picks, analysis, plan, result_date=result_date)
+        invested = portfolio_mod.apply_buy(pf, entry_price, qty)
+        pick = ledger_mod.add_pick(
+            picks, analysis, plan, result_date=result_date,
+            quantity=qty, invested=invested,
+        )
         if pick:
             pick["sources"] = getattr(analysis, "_sources", [])
+            pick["rupee_risk"] = round(qty * stop_dist, 2)
             new_picks.append(pick)
+            open_count += 1
 
     # 5) Persist (unless dry-run) + report.
     if not dry_run:
@@ -199,7 +270,9 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
         )
         ledger_mod.save_ledger(picks)
         memory_mod.save_memory(mem)
+        portfolio_mod.save_portfolio(pf)
 
+    equity_after = portfolio_mod.marked_equity(pf, ledger_mod.open_positions(picks))
     report = _render_report(
         today=today,
         declarers=declarers,
@@ -214,6 +287,8 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
         upcoming=upcoming,
         conviction_evaluated=conviction_evaluated,
         conviction_rejected=conviction_rejected,
+        portfolio=pf,
+        equity=equity_after,
     )
     data = {
         "num_declarers": len(declarers),
@@ -223,6 +298,11 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
         "num_open": len(ledger_mod.open_positions(picks)),
         "num_conviction_evaluated": conviction_evaluated,
         "num_conviction_rejected": conviction_rejected,
+        "num_skipped_filter": skipped_filter,
+        "num_skipped_nocash": skipped_nocash,
+        "cash": round(pf.cash, 2),
+        "equity": round(equity_after, 2),
+        "realized_pnl": round(pf.realized_pnl, 2),
         "new_picks": new_picks,
         "closed": closed_now,
         "declarers": declarers,
@@ -250,14 +330,29 @@ def _apply_overrides(params: Dict[str, Any]) -> None:
         "target_max_pct": "TARGET_MAX_PCT",
         "trailing_stop_ratio": "TRAILING_STOP_RATIO",
         "max_holding_days": "MAX_HOLDING_DAYS",
+        "risk_per_trade_pct": "RISK_PER_TRADE_PCT",
+        "max_positions": "MAX_POSITIONS",
+        "max_position_pct": "MAX_POSITION_PCT",
+        "atr_stop_multiplier": "ATR_STOP_MULTIPLIER",
+        "disable_profit_target": "DISABLE_PROFIT_TARGET",
+        "require_uptrend": "REQUIRE_UPTREND",
     }
+    int_keys = {"max_holding_days", "max_positions"}
+    bool_keys = {"disable_profit_target", "require_uptrend"}
     for pkey, cattr in overrides.items():
         val = params.get(pkey)
-        if val is not None and val != "":
-            try:
-                setattr(config, cattr, float(val) if "days" not in pkey else int(val))
-            except (TypeError, ValueError):
-                pass
+        if val is None or val == "":
+            continue
+        try:
+            if pkey in bool_keys:
+                setattr(config, cattr, bool(val) if isinstance(val, bool)
+                        else str(val).lower() in ("1", "true", "yes"))
+            elif pkey in int_keys:
+                setattr(config, cattr, int(val))
+            else:
+                setattr(config, cattr, float(val))
+        except (TypeError, ValueError):
+            pass
 
 
 # ── report rendering ───────────────────────────────────────────────────────
@@ -282,10 +377,27 @@ def _render_report(**kw) -> str:
     if kw["dry_run"]:
         lines.append("\n> _Dry run - ledger and memory were NOT persisted._")
 
+    pf = kw.get("portfolio")
+    if pf is not None:
+        equity = kw.get("equity", pf.cash)
+        deployed = max(equity - pf.cash, 0.0)
+        util = (deployed / equity * 100.0) if equity > 0 else 0.0
+        lines += [
+            "",
+            (
+                f"**Portfolio** — equity Rs {equity:,.0f} | cash Rs {pf.cash:,.0f} "
+                f"({util:.0f}% deployed) | realized P&L Rs {pf.realized_pnl:,.0f} | "
+                f"risk/trade {config.RISK_PER_TRADE_PCT:.0f}% | max positions "
+                f"{config.MAX_POSITIONS} | ATR stop {config.ATR_STOP_MULTIPLIER:.0f}x | "
+                f"hold {config.MAX_HOLDING_DAYS}d | "
+                f"{'ride-the-wave' if config.DISABLE_PROFIT_TARGET else 'capped-target'}."
+            ),
+        ]
+
     lines += ["", "## New buys", ""]
     if kw["new_picks"]:
-        lines.append("| Symbol | Entry | Target % | Target Rs | Trail stop % | Conv | Method | Strength | Source | Rationale |")
-        lines.append("|---|---|---|---|---|---|---|---|---|---|")
+        lines.append("| Symbol | Entry | Qty | Invested Rs | Rs Risk | Target Rs | Stop Rs | Conv | Method | Strength | Source | Rationale |")
+        lines.append("|---|---|---|---|---|---|---|---|---|---|---|---|")
         for p in kw["new_picks"]:
             src = ", ".join(p.get("sources", [])) or "-"
             conv = p.get("conviction")
@@ -294,9 +406,10 @@ def _render_report(**kw) -> str:
             if p.get("conviction_summary"):
                 rationale = f"{rationale} — {p['conviction_summary']}"
             lines.append(
-                f"| {p['symbol']} | {fmt_price(p['entry_price'])} | {p['target_pct']:.1f}% | "
-                f"{fmt_price(p['target_price'])} | {p['trailing_stop_pct']:.1f}% | {conv_s} | {p['method']} | "
-                f"{p['strength_score']:.0f} | {src} | {rationale} |"
+                f"| {p['symbol']} | {fmt_price(p['entry_price'])} | {p.get('quantity', 0)} | "
+                f"{p.get('invested', 0):,.0f} | {p.get('rupee_risk', 0):,.0f} | "
+                f"{fmt_price(p['target_price'])} | {fmt_price(p.get('stop_price'))} | {conv_s} | "
+                f"{p['method']} | {p['strength_score']:.0f} | {src} | {rationale} |"
             )
     else:
         lines.append("_No new qualifying result-based buys this run._")

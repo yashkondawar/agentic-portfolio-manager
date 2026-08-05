@@ -27,18 +27,21 @@ class QuarterlyResultsStrategy(BaseStrategy):
     id = "qtr_results"
     name = "Quarterly Results Momentum"
     description = (
-        "Buy stocks that just posted strong QoQ/YoY results for a short-term "
-        "10-20% move, with a trailing stop and full pick-to-exit tracking."
+        "Buy stocks that just posted strong QoQ/YoY results, size each position by "
+        "ATR risk against a fixed capital base, ride the winners with an ATR "
+        "trailing stop, and track every pick to exit."
     )
     long_description = (
         "Each run it discovers NSE companies that have just declared quarterly "
         "results (GitHub Copilot CLI + web grounding), verifies the numbers on "
         "screener.in (QoQ/YoY sales, net profit, EPS, margins), and selects the "
-        "strong results. Targets are set by PE re-rating (fair price = P/E × new "
-        "TTM EPS) capped to the 10-20% band, with a static fallback and a dynamic "
-        "trailing stop at target/2 over a ~3-week window. A persistent ledger "
-        "tracks each pick to its exit and a long-term memory accumulates realized "
-        "outcomes and learnings across the year."
+        "strong results. Positions are sized by the backtest's risk rule (risk % "
+        "of equity / ATR-stop distance) against a persisted cash book, capped by a "
+        "per-name concentration limit and a max open-position count. Targets are "
+        "set by PE re-rating (fair price = P/E x new TTM EPS) but, with "
+        "ride-the-wave enabled, act only as a reference — winners exit on a 6x-ATR "
+        "trailing stop or the 90-day time-stop. A persistent ledger tracks each "
+        "pick to its exit and a long-term memory accumulates realized outcomes."
     )
     category = StrategyCategory.SWING
 
@@ -181,13 +184,17 @@ class QuarterlyResultsStrategy(BaseStrategy):
             ),
             ParamSpec(
                 name="trailing_stop_ratio",
-                label="Trailing-stop ratio",
+                label="Trailing-stop ratio (legacy)",
                 type=ParamType.FLOAT,
                 default=config.TRAILING_STOP_RATIO,
                 min=0,
                 max=1,
-                help="Trailing-stop distance as a fraction of the target return.",
-                group="Risk & exits",
+                help=(
+                    "Legacy percent-based stop (target x ratio), used only for "
+                    "positions opened before ATR sizing / when ATR is unavailable."
+                ),
+                group="Advanced",
+                advanced=True,
             ),
             ParamSpec(
                 name="max_holding_days",
@@ -195,6 +202,112 @@ class QuarterlyResultsStrategy(BaseStrategy):
                 type=ParamType.INT,
                 default=config.MAX_HOLDING_DAYS,
                 min=1,
+                help=(
+                    "Time-stop: exit any position still open after this many days. "
+                    "PEAD drift typically plays out over 30-90 days."
+                ),
+                group="Risk & exits",
+            ),
+            ParamSpec(
+                name="capital",
+                label="Capital base (Rs)",
+                type=ParamType.FLOAT,
+                required=False,
+                default=config.STARTING_CAPITAL,
+                min=0,
+                help=(
+                    "Starting cash for the position-sizing book. Seeds a fresh "
+                    "state/portfolio.json; an existing book keeps its own balance "
+                    "across runs."
+                ),
+                group="Risk & exits",
+            ),
+            ParamSpec(
+                name="risk_per_trade_pct",
+                label="Risk per trade (%)",
+                type=ParamType.FLOAT,
+                required=False,
+                default=config.RISK_PER_TRADE_PCT,
+                min=0,
+                max=100,
+                help=(
+                    "Fraction of equity risked to the stop on each trade; shares = "
+                    "(equity x risk%) / ATR-stop distance. 4% is the validated "
+                    "free-lunch sweet spot from the sizing sweep."
+                ),
+                group="Risk & exits",
+            ),
+            ParamSpec(
+                name="max_positions",
+                label="Max open positions",
+                type=ParamType.INT,
+                required=False,
+                default=config.MAX_POSITIONS,
+                min=1,
+                help="Portfolio cap on concurrent open positions.",
+                group="Risk & exits",
+            ),
+            ParamSpec(
+                name="max_position_pct",
+                label="Per-name concentration cap (%)",
+                type=ParamType.FLOAT,
+                required=False,
+                default=config.MAX_POSITION_PCT,
+                min=0,
+                max=100,
+                help="Ceiling on any single position as a % of equity.",
+                group="Risk & exits",
+            ),
+            ParamSpec(
+                name="atr_stop_multiplier",
+                label="ATR stop multiplier",
+                type=ParamType.FLOAT,
+                required=False,
+                default=config.ATR_STOP_MULTIPLIER,
+                min=0,
+                help=(
+                    "Trailing-stop distance = multiplier x ATR(14). 6x was the most "
+                    "regime-stable setting in the backtest split-half test."
+                ),
+                group="Risk & exits",
+            ),
+            ParamSpec(
+                name="disable_profit_target",
+                label="Ride the wave (no profit cap)",
+                type=ParamType.BOOL,
+                required=False,
+                default=config.DISABLE_PROFIT_TARGET,
+                help=(
+                    "On = ignore the PE-rerating target as a hard exit and let "
+                    "winners run until the ATR trailing stop or time-stop. The "
+                    "+20% cap bound only 11/70 winners in the backtest."
+                ),
+                group="Risk & exits",
+            ),
+            ParamSpec(
+                name="require_uptrend",
+                label="Require intact uptrend",
+                type=ParamType.BOOL,
+                required=False,
+                default=config.REQUIRE_UPTREND,
+                help=(
+                    "On = only buy when the close is above SMA(20) with a "
+                    "non-declining slope. Data-gap-safe: names with no price "
+                    "history are never rejected on this filter."
+                ),
+                group="Risk & exits",
+            ),
+            ParamSpec(
+                name="min_liquidity",
+                label="Min 20d median turnover (Rs)",
+                type=ParamType.FLOAT,
+                required=False,
+                default=config.MIN_LIQUIDITY_MEDIAN_20D,
+                min=0,
+                help=(
+                    "Liquidity floor on median 20-day rupee turnover (price x "
+                    "volume). Data-gap-safe: unknown turnover never rejects a name."
+                ),
                 group="Risk & exits",
             ),
             ParamSpec(
