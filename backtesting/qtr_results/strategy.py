@@ -311,10 +311,12 @@ def evaluate_exit(
         return ExitOp(pos.stop_price, "trailing_stop")
 
     # 2) TARGET — gap-through fills at the open; else at the target level.
-    if o >= pos.target_price:
-        return ExitOp(o, "target")
-    if h >= pos.target_price:
-        return ExitOp(pos.target_price, "target")
+    #    Skipped entirely in "ride-the-wave" mode so winners run to the trail.
+    if not cfg.disable_profit_target:
+        if o >= pos.target_price:
+            return ExitOp(o, "target")
+        if h >= pos.target_price:
+            return ExitOp(pos.target_price, "target")
 
     # 3) TIME STOP — held past the max window; book at the close.
     days_held = (day - pos.entry_date).days

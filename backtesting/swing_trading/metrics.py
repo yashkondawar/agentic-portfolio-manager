@@ -44,18 +44,29 @@ def compute_metrics(
             dd = (eq - peak) / peak * 100.0
             max_dd = min(max_dd, dd)
 
-    # Daily-return based volatility / Sharpe (rough, rf=0).
+    # Daily-return based volatility / Sharpe / Sortino (rough, rf=0).
     rets = []
     for i in range(1, len(equity_curve)):
         prev = equity_curve[i - 1]["equity"]
         cur = equity_curve[i]["equity"]
         if prev > 0:
             rets.append(cur / prev - 1.0)
+    daily_vol = 0.0
+    annual_vol = 0.0
+    downside_dev = 0.0
+    sortino = 0.0
     if len(rets) > 1:
         mean = sum(rets) / len(rets)
         var = sum((r - mean) ** 2 for r in rets) / (len(rets) - 1)
         std = math.sqrt(var)
+        daily_vol = std
+        annual_vol = std * math.sqrt(252)
         sharpe = (mean / std * math.sqrt(252)) if std > 0 else 0.0
+        # Downside deviation uses only sub-zero daily returns (rf=0 target).
+        downs = [r for r in rets if r < 0]
+        if downs:
+            downside_dev = math.sqrt(sum(r * r for r in downs) / len(rets))
+        sortino = (mean / downside_dev * math.sqrt(252)) if downside_dev > 0 else 0.0
     else:
         sharpe = 0.0
 
@@ -82,6 +93,10 @@ def compute_metrics(
         "cagr_pct": round(cagr, 2),
         "max_drawdown_pct": round(max_dd, 2),
         "sharpe": round(sharpe, 2),
+        "sortino": round(sortino, 2),
+        "daily_vol_pct": round(daily_vol * 100.0, 3),
+        "annual_vol_pct": round(annual_vol * 100.0, 2),
+        "downside_dev_pct": round(downside_dev * 100.0, 3),
         "num_trades": n,
         "win_rate_pct": round(win_rate, 2),
         "profit_factor": round(profit_factor, 2) if profit_factor != float("inf") else None,

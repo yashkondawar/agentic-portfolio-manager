@@ -38,7 +38,14 @@ from pathlib import Path
 from .config import FUND_CACHE_DIR, PRICE_CACHE_DIR, RESULTS_DIR, BacktestConfig
 from .data import FundamentalsStore, PointInTimeData, ResultsCalendarStore, SectorStore
 from .engine import BacktestEngine
-from .metrics import compute_metrics, exit_reason_breakdown, render_summary
+from .hedge import HedgeConfig, apply_beta_hedge, hedged_equity_series, realized_book_beta
+from .metrics import (
+    compute_metrics,
+    enrich_metrics,
+    exit_reason_breakdown,
+    hedged_metrics,
+    render_summary,
+)
 
 logger = logging.getLogger("backtest.qtr.run")
 
@@ -50,7 +57,9 @@ def _parse_args() -> argparse.Namespace:
     p.add_argument("--capital", type=float, default=500_000.0, help="Starting capital ₹")
     p.add_argument("--goal-pct", type=float, default=20.0, help="Goal return %%")
     p.add_argument("--universe", default="nifty200",
-                   help="nifty50/100/200/500/midcap150/... (default nifty200)")
+                   help="nifty50/100/200/500/midcap150/smallcap250/... (default nifty200). "
+                        "Comma-separate to scan a UNION, e.g. 'nifty500,niftysmallcap250' "
+                        "to reach the mid/small-cap earnings-drift zone.")
     p.add_argument("--universe-file", help="Custom universe file (one NSE symbol/line)")
     p.add_argument("--max-symbols", type=int, default=None,
                    help="Cap universe size (quick runs / lighter scraping)")
@@ -61,11 +70,13 @@ def _parse_args() -> argparse.Namespace:
     p.add_argument("--max-new-per-day", type=int, default=5)
     p.add_argument("--max-positions", type=int, default=10)
     p.add_argument("--max-holding-days", type=int, default=None,
-                   help="Override the holding window (default: 60)")
+                   help="Override the holding window (default: 90)")
     p.add_argument("--atr-period", type=int, default=14,
                    help="ATR lookback period in sessions (default: 14)")
-    p.add_argument("--atr-stop-multiplier", type=float, default=2.5,
-                   help="Trailing-stop distance = ATR × this multiplier (default: 2.5)")
+    p.add_argument("--atr-stop-multiplier", type=float, default=6.0,
+                   help="Trailing-stop distance = ATR × this multiplier (default: 6.0 — "
+                        "the regime-stable ride-the-wave setting; use 2.5-3 for a tighter, "
+                        "shorter-horizon swing).")
     p.add_argument("--risk-per-trade", type=float, default=2.0, help="2%% rule")
     p.add_argument("--max-position-pct", type=float, default=None,
                    help="Per-name concentration cap %% of equity (default 20). Raising it "
@@ -76,6 +87,15 @@ def _parse_args() -> argparse.Namespace:
                         "Raising it lets high-conviction winners run further.")
     p.add_argument("--target-min-pct", type=float, default=None,
                    help="Lower bound of the PE-rerating target band %% (default 10).")
+    p.add_argument("--trail-only", action="store_true",
+                   help="Ride-the-wave exit: DISABLE the fixed profit target and let "
+                        "winners run until the ATR trailing stop (or time-stop) fires. "
+                        "NOW ON BY DEFAULT (the fixed +20%% cap clipped the few real "
+                        "runners); this flag is retained for explicitness. Use "
+                        "--keep-target to restore the capped behavior.")
+    p.add_argument("--keep-target", action="store_true",
+                   help="Restore the fixed PE-rerating profit target (the pre-redesign "
+                        "capped exit), overriding the default ride-the-wave behavior.")
     p.add_argument("--commission-pct", type=float, default=None,
                    help="Per-side commission %% (default 0.20 = ~40 bps rt)")
     p.add_argument("--pe-pct-threshold", type=float, default=None,
@@ -93,6 +113,14 @@ def _parse_args() -> argparse.Namespace:
                    help="B8: reject names whose point-in-time ROCE %% is below this. Off by default.")
     p.add_argument("--quality-on-financials", action="store_true",
                    help="Also apply the debt/ROCE gate to banks/NBFCs (default: exempt).")
+    p.add_argument("--debt-gate-mode", choices=("absolute", "sector_relative"), default=None,
+                   help="B8b: 'absolute' (default) uses the flat --max-debt-to-equity cap; "
+                        "'sector_relative' caps each name at max(floor, factor × its sector's "
+                        "median D/E) so capital-intensive sectors (shipping, cement, power) are "
+                        "judged against their own leverage norm instead of an IT company's.")
+    p.add_argument("--sector-debt-factor", type=float, default=None,
+                   help="Multiplier on the sector-median D/E for the sector_relative cap "
+                        "(default 3.0). Lower = stricter.")
     p.add_argument("--regime-filter", action="store_true",
                    help="B9: only open new positions when the benchmark is above its "
                         "regime SMA (correlated-drawdown guard).")
@@ -122,6 +150,43 @@ def _parse_args() -> argparse.Namespace:
                    help="Real declaration-date source: 'financial-results' (per-symbol "
                         "NSE archive) or 'event-calendar' (bulk board-meeting calendar; "
                         "freshest quarters, use for a real past-N-months backtest).")
+    # ── Ideal-state redesign (opt-in; defaults preserve legacy behavior) ──────
+    p.add_argument("--use-sue", action="store_true",
+                   help="Compute Standardized Unexpected Earnings (surprise vs the "
+                        "company's own EPS trend) and the declaration-day reaction; "
+                        "surfaced on events.csv and used as the primary signal under "
+                        "--cross-sectional.")
+    p.add_argument("--sue-window", type=int, default=None,
+                   help="Trailing quarters for the SUE drift/vol estimate (default 8).")
+    p.add_argument("--reaction-lookback", type=int, default=None,
+                   help="Sessions for the declaration-day abnormal-return leg (default 1).")
+    p.add_argument("--cross-sectional", action="store_true",
+                   help="Rank the day's declarers against each other by a composite "
+                        "z-score (SUE + reaction + graded leverage tilt) and buy the top "
+                        "quantile, instead of buying every name over an absolute threshold. "
+                        "Implies --use-sue.")
+    p.add_argument("--top-quantile", type=float, default=None,
+                   help="Fraction of the day's ranked field to buy under --cross-sectional "
+                        "(default 0.20 = top quintile).")
+    p.add_argument("--min-composite-score", type=float, default=None,
+                   help="Optional absolute floor on the composite z-score (a weak season "
+                        "then deploys less). Off by default.")
+    p.add_argument("--w-sue", type=float, default=None, help="Composite weight: SUE (default 0.5)")
+    p.add_argument("--w-reaction", type=float, default=None,
+                   help="Composite weight: declaration reaction (default 0.3)")
+    p.add_argument("--w-quality", type=float, default=None,
+                   help="Composite weight: leverage tilt (default 0.2)")
+    p.add_argument("--hedge", action="store_true",
+                   help="Overlay a short-index BETA HEDGE on the equity curve to isolate "
+                        "the PEAD alpha (the honest out-of-sample test). Adds a hedged "
+                        "block to the summary + a hedged equity column.")
+    p.add_argument("--hedge-ratio", type=float, default=None,
+                   help="Fraction of the book's beta to short (default 1.0 = neutralize).")
+    p.add_argument("--market-neutral", action="store_true",
+                   help="Shortcut for --hedge --hedge-ratio 1.0 (fully beta-neutral book).")
+    p.add_argument("--num-trials", type=int, default=None,
+                   help="Number of configs explored, for the DEFLATED Sharpe penalty. "
+                        "Set honestly (default 1).")
     p.add_argument("--no-cache", action="store_true", help="Force fresh downloads")
     p.add_argument("--tag", default=None, help="Override output run-tag")
     p.add_argument("--log-level", default="INFO")
@@ -145,16 +210,20 @@ def _config_json(cfg: BacktestConfig) -> dict:
 
 
 def _write_outputs(out_dir: Path, cfg: BacktestConfig, engine: BacktestEngine,
-                   metrics: dict, summary: str) -> None:
+                   metrics: dict, summary: str, hedged: dict | None = None) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     metrics = dict(metrics)
     metrics["exit_reasons"] = exit_reason_breakdown(engine.pf.closed)
     metrics["filter_stats"] = dict(sorted(engine.filter_stats.items()))
 
+    payload = {"config": _config_json(cfg), "metrics": metrics}
+    if hedged is not None:
+        payload["hedged_metrics"] = hedged
+
     (out_dir / "summary.txt").write_text(summary, encoding="utf-8")
     (out_dir / "summary.json").write_text(
-        json.dumps({"config": _config_json(cfg), "metrics": metrics}, indent=2),
+        json.dumps(payload, indent=2),
         encoding="utf-8",
     )
 
@@ -174,24 +243,33 @@ def _write_outputs(out_dir: Path, cfg: BacktestConfig, engine: BacktestEngine,
 
     with open(out_dir / "equity_curve.csv", "w", newline="", encoding="utf-8") as fh:
         w = csv.writer(fh)
-        w.writerow(["date", "equity", "cash", "deployed", "open_positions", "pending"])
+        has_hedge = bool(engine.daily_log) and "hedged_equity" in engine.daily_log[0]
+        header = ["date", "equity", "cash", "deployed", "open_positions", "pending"]
+        if has_hedge:
+            header += ["hedge_notional", "hedge_pnl", "hedged_equity"]
+        w.writerow(header)
         for s in engine.daily_log:
-            w.writerow([s["date"], s["equity"], s["cash"], s["deployed"],
-                        s["open_positions"], s.get("pending", 0)])
+            row = [s["date"], s["equity"], s["cash"], s["deployed"],
+                   s["open_positions"], s.get("pending", 0)]
+            if has_hedge:
+                row += [s.get("hedge_notional", 0.0), s.get("hedge_pnl", 0.0),
+                        s.get("hedged_equity", s["equity"])]
+            w.writerow(row)
 
     with open(out_dir / "events.csv", "w", newline="", encoding="utf-8") as fh:
         w = csv.writer(fh)
         w.writerow(["signal_date", "symbol", "quarter", "decl_date", "decl_date_real",
                     "is_strong", "strength", "yoy_profit", "qoq_profit", "yoy_eps",
                     "confirmed", "confirmed_reason", "liquid",
-                    "debt_to_equity", "roce", "pre_rs"])
+                    "debt_to_equity", "roce", "pre_rs", "sue", "reaction"])
         for e in engine.event_log:
             w.writerow([e["signal_date"], e["symbol"], e["quarter"], e["decl_date"],
                         e.get("decl_date_real"),
                         e["is_strong"], e["strength"], e["yoy_profit"],
                         e["qoq_profit"], e["yoy_eps"],
                         e.get("confirmed"), e.get("confirmed_reason"), e.get("liquid"),
-                        e.get("debt_to_equity"), e.get("roce"), e.get("pre_rs")])
+                        e.get("debt_to_equity"), e.get("roce"), e.get("pre_rs"),
+                        e.get("sue"), e.get("reaction")])
 
     open_rows = [
         {"symbol": p.symbol, "sector": p.sector, "quantity": p.quantity,
@@ -243,6 +321,10 @@ def main() -> int:
         cfg.target_max_pct = args.target_max_pct
     if args.target_min_pct is not None:
         cfg.target_min_pct = args.target_min_pct
+    if args.trail_only:
+        cfg.disable_profit_target = True
+    if args.keep_target:
+        cfg.disable_profit_target = False
     if args.commission_pct is not None:
         cfg.commission_pct = args.commission_pct
     if args.pe_pct_threshold is not None:
@@ -259,6 +341,10 @@ def main() -> int:
         cfg.min_roce = args.min_roce
     if args.quality_on_financials:
         cfg.apply_quality_to_financials = True
+    if args.debt_gate_mode is not None:
+        cfg.debt_gate_mode = args.debt_gate_mode
+    if args.sector_debt_factor is not None:
+        cfg.sector_debt_factor = args.sector_debt_factor
     if args.max_position_pct is not None:
         cfg.max_position_pct = args.max_position_pct
     if args.regime_filter:
@@ -282,6 +368,34 @@ def main() -> int:
         cfg.anticipation_min_rs = args.anticipation_min_rs
     if args.anticipation_rs_lookback is not None:
         cfg.anticipation_rs_lookback = args.anticipation_rs_lookback
+    # ── Ideal-state redesign knobs (opt-in) ──────────────────────────────────
+    if args.use_sue or args.cross_sectional:
+        cfg.use_sue = True
+    if args.sue_window is not None:
+        cfg.sue_window = args.sue_window
+    if args.reaction_lookback is not None:
+        cfg.reaction_lookback = args.reaction_lookback
+    if args.cross_sectional:
+        cfg.cross_sectional = True
+    if args.top_quantile is not None:
+        cfg.top_quantile = args.top_quantile
+    if args.min_composite_score is not None:
+        cfg.min_composite_score = args.min_composite_score
+    if args.w_sue is not None:
+        cfg.w_sue = args.w_sue
+    if args.w_reaction is not None:
+        cfg.w_reaction = args.w_reaction
+    if args.w_quality is not None:
+        cfg.w_quality = args.w_quality
+    if args.market_neutral:
+        cfg.hedge_enabled = True
+        cfg.hedge_ratio = 1.0
+    if args.hedge:
+        cfg.hedge_enabled = True
+    if args.hedge_ratio is not None:
+        cfg.hedge_ratio = args.hedge_ratio
+    if args.num_trials is not None:
+        cfg.num_trials = args.num_trials
 
     # Universe (reuses the live curator's loaders — same as the swing backtest).
     from backtesting.swing_trading.watchlist import load_universe
@@ -333,11 +447,42 @@ def main() -> int:
     metrics = compute_metrics(
         engine.daily_log, engine.pf.closed, cfg.starting_capital, cfg.goal_capital()
     )
-    summary = render_summary(metrics, cfg.goal_return_pct)
+    metrics = enrich_metrics(metrics, engine.daily_log, num_trials=cfg.num_trials)
+
+    # Portfolio beta vs the benchmark (always measured, independent of the hedge).
+    port_beta = realized_book_beta(engine.daily_log, prices.benchmark)
+    metrics["beta"] = round(port_beta, 3) if port_beta is not None else None
+    metrics["benchmark"] = cfg.universe_index
+
+    # ── Beta-hedge overlay (opt-in): isolate the PEAD alpha from market direction.
+    hedged = None
+    if cfg.hedge_enabled:
+        book_beta = cfg.hedge_book_beta
+        if cfg.hedge_use_measured_beta:
+            measured = realized_book_beta(engine.daily_log, prices.benchmark)
+            if measured is not None and measured > 0:
+                book_beta = measured
+                logger.info("Measured book beta = %.2f (used for the hedge).", measured)
+        hcfg = HedgeConfig(
+            enabled=True,
+            hedge_ratio=cfg.hedge_ratio,
+            book_beta=book_beta,
+            commission_pct=cfg.hedge_commission_pct,
+            annual_carry_pct=cfg.hedge_annual_carry_pct,
+        )
+        overlaid = apply_beta_hedge(engine.daily_log, prices.benchmark, hcfg)
+        engine.daily_log = overlaid  # carry the hedge columns into equity_curve.csv
+        hedged = hedged_metrics(
+            hedged_equity_series(overlaid), engine.pf.closed,
+            cfg.starting_capital, cfg.goal_capital(), num_trials=cfg.num_trials,
+        )
+
+    summary = render_summary(metrics, cfg.goal_return_pct, hedged=hedged)
 
     tag = args.tag or f"{cfg.universe_index}_{start.isoformat()}_{end.isoformat()}"
+    tag = tag.replace(",", "+").replace(" ", "")
     out_dir = RESULTS_DIR / tag
-    _write_outputs(out_dir, cfg, engine, metrics, summary)
+    _write_outputs(out_dir, cfg, engine, metrics, summary, hedged=hedged)
 
     print("\n" + summary)
     print(f"\nResults written to: {out_dir}")

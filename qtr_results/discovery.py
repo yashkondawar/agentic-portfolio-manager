@@ -16,6 +16,12 @@ from typing import Any, Dict, List, Optional
 from qtr_results import config
 from qtr_results.copilot_runner import run_copilot
 from qtr_results.util import dedupe_preserve, extract_json_block
+from scraper.nse_events import (
+    new_declared_from_calendar,
+    new_declared_results,
+    recent_declared_from_calendar,
+    recent_declared_results,
+)
 
 logger = logging.getLogger("qtr_results.discovery")
 
@@ -134,21 +140,56 @@ def discover_result_declarers(
 
 
 def _from_nse(*, lookback_days: int, as_of: date, delta: bool = True) -> List[Dict[str, Any]]:
+    """Assured NSE declared-results, unioning two feeds (each degrades to []).
+
+    * **event-calendar** (primary) -- fresh: carries result board meetings for
+      the whole market dated the day they happen. The financial-results feed
+      below is chronically stale/thin (it can freeze a symbol's latest quarter
+      for months), so the calendar is what actually surfaces just-declared names
+      like GESHIP on the day.
+    * **corporates-financial-results** (secondary) -- the "confirmed filed"
+      signal; kept because when it IS fresh it confirms the numbers were filed,
+      not merely that a board meeting occurred.
+    """
+    merged: Dict[str, Dict[str, Any]] = {}
+
+    def _merge(rows: List[Dict[str, Any]]) -> None:
+        for r in rows:
+            sym = str(r.get("symbol", "")).strip().upper()
+            if sym and sym not in merged:
+                merged[sym] = r
+
+    # Primary: fresh event-calendar.
     try:
         if delta:
-            from scraper.nse_events import new_declared_results
-
-            return new_declared_results(
-                cache_path=config.NSE_SEEN_PATH,
-                as_of=as_of,
-                max_age_days=max(7, lookback_days),
+            _merge(
+                new_declared_from_calendar(
+                    cache_path=config.NSE_SEEN_PATH,
+                    as_of=as_of,
+                    max_age_days=max(7, lookback_days),
+                )
             )
-        from scraper.nse_events import recent_declared_results
-
-        return recent_declared_results(lookback_days=lookback_days, as_of=as_of)
+        else:
+            _merge(recent_declared_from_calendar(lookback_days=lookback_days, as_of=as_of))
     except Exception as e:  # noqa: BLE001 - never let NSE break discovery
-        logger.warning("NSE declared-results discovery failed (%s).", e)
-        return []
+        logger.warning("NSE event-calendar discovery failed (%s).", e)
+
+    # Secondary: financial-results feed (confirmed filings).
+    try:
+        if delta:
+            _merge(
+                new_declared_results(
+                    cache_path=config.NSE_SEEN_PATH,
+                    as_of=as_of,
+                    max_age_days=max(7, lookback_days),
+                )
+            )
+        else:
+            _merge(recent_declared_results(lookback_days=lookback_days, as_of=as_of))
+    except Exception as e:  # noqa: BLE001 - never let NSE break discovery
+        logger.warning("NSE financial-results discovery failed (%s).", e)
+
+    return list(merged.values())
 
 
 def _from_llm(

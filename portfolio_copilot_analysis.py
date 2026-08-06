@@ -64,8 +64,13 @@ Examples
         --save analysis.md
 """
 
-from __future__ import annotations
-
+# NOTE: intentionally NOT using `from __future__ import annotations`. The
+# dataclasses below only reference concrete, already-imported types, and
+# stringized annotations force dataclasses into a code path
+# (`sys.modules[cls.__module__].__dict__`) that raises AttributeError when this
+# module is loaded by a loader that doesn't register it in sys.modules (e.g.
+# the Copilot agent runtime imports it as a bare top-level module). Using real
+# annotations keeps class creation independent of sys.modules state.
 import argparse
 import json
 import logging

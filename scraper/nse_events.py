@@ -270,6 +270,127 @@ def new_declared_results(
     return out
 
 
+# ── event-calendar declared source (fresh; financial-results feed lags) ───────
+# The corporates-financial-results API is chronically stale/thin — it can sit
+# days behind and even freeze a symbol's latest quarter (observed: GESHIP's most
+# recent row stuck at Jan-2025 while its Jun-2026 result was already public).
+# The event-calendar API, by contrast, carries every board meeting "to consider
+# and approve" results, dated the day it happens, for the whole market — so a
+# meeting whose date has already passed is an authoritative "just declared"
+# signal. We therefore treat past-dated result board meetings as declared
+# candidates (screener.in then verifies the actual numbers downstream).
+_CAL_PREFIX = "CAL"
+
+
+def recent_declared_from_calendar(
+    *,
+    lookback_days: int = 2,
+    as_of: Optional[date] = None,
+) -> List[Dict[str, Any]]:
+    """Companies whose result board-meeting already occurred in the window.
+
+    Sources the *fresh* event-calendar API (see note above) rather than the
+    lagging financial-results feed. Returns ``{symbol, company, result_date,
+    relating_to, source}`` for result-purpose events whose date is in
+    ``[as_of - lookback_days + 1, as_of]`` (i.e. already happened), latest first.
+    Degrades to ``[]`` on any NSE/parse failure.
+    """
+    as_of = as_of or date.today()
+    start = as_of - timedelta(days=max(0, lookback_days - 1))
+    by_symbol: Dict[str, Dict[str, Any]] = {}
+    for c_start, c_end in _iter_month_ranges(start, as_of):
+        data = _get_json(
+            _EVENT_CALENDAR_API,
+            params={
+                "index": "equities",
+                "from_date": c_start.strftime("%d-%m-%Y"),
+                "to_date": c_end.strftime("%d-%m-%Y"),
+            },
+        )
+        if not isinstance(data, list):
+            continue
+        for ev in data:
+            if not isinstance(ev, dict):
+                continue
+            if not (
+                _is_results_purpose(ev.get("purpose", ""))
+                or _is_results_purpose(ev.get("bm_desc", ""))
+            ):
+                continue
+            edate = _parse_nse_date(ev.get("date"))
+            if edate is None or not (start <= edate <= as_of):
+                continue
+            sym = str(ev.get("symbol", "")).strip().upper()
+            if not sym:
+                continue
+            prev = by_symbol.get(sym)
+            if prev is None or edate >= prev["_edate"]:
+                by_symbol[sym] = {
+                    "symbol": sym,
+                    "company": str(ev.get("company", "")).strip(),
+                    "result_date": edate.isoformat(),
+                    "relating_to": "",
+                    "source": "nse_event_calendar",
+                    "_edate": edate,
+                }
+    out = sorted(by_symbol.values(), key=lambda r: r["_edate"], reverse=True)
+    for r in out:
+        r.pop("_edate", None)
+    logger.info(
+        "NSE calendar: %d result-declarer(s) in last %d day(s).",
+        len(out), lookback_days,
+    )
+    return out
+
+
+def new_declared_from_calendar(
+    *,
+    cache_path: Union[str, Path],
+    as_of: Optional[date] = None,
+    max_age_days: int = 7,
+    prune_after_days: int = 400,
+) -> List[Dict[str, Any]]:
+    """Event-calendar declared results filed since the last run (the daily delta).
+
+    The calendar counterpart of :func:`new_declared_results`. Pulls recently
+    *past* result board meetings from the fresh event-calendar and diffs them
+    against the shared persistent seen-cache (keyed ``CAL|SYMBOL|<result_date>``
+    so calendar keys never collide with financial-results keys and the existing
+    date-suffix pruning still applies). Only brand-new declarers are surfaced;
+    every current declarer is absorbed into the cache so nothing is re-flagged.
+    Degrades to ``[]`` on any NSE failure, leaving the cache untouched.
+    """
+    as_of = as_of or date.today()
+    declared = recent_declared_from_calendar(lookback_days=max_age_days, as_of=as_of)
+    if not declared:
+        return []
+
+    seen = _load_seen(cache_path)
+    today_iso = as_of.isoformat()
+    out: List[Dict[str, Any]] = []
+    for r in declared:
+        key = f"{_CAL_PREFIX}|{r['symbol']}|{r['result_date']}"
+        already = key in seen
+        seen.setdefault(key, today_iso)  # always absorb into cache
+        if not already:
+            out.append(r)
+
+    # Prune stale cache keys (trailing date older than the retention window).
+    prune_before = as_of - timedelta(days=max(1, prune_after_days))
+    kept: Dict[str, str] = {}
+    for key, first_seen in seen.items():
+        parsed = _parse_nse_date(key.rsplit("|", 1)[-1])
+        if parsed is None or parsed >= prune_before:
+            kept[key] = first_seen
+    _save_seen(cache_path, kept)
+
+    logger.info(
+        "NSE calendar delta: %d new declarer(s) (cache now %d keys).",
+        len(out), len(kept),
+    )
+    return out
+
+
 def historical_result_dates(
     symbol: str,
     *,

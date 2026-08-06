@@ -50,9 +50,22 @@ def closed_positions(picks: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     return [p for p in picks if p["status"] in ("booked", "exited")]
 
 
-def add_pick(picks, analysis, plan, *, result_date: str, entry_date: Optional[str] = None):
+def add_pick(
+    picks,
+    analysis,
+    plan,
+    *,
+    result_date: str,
+    entry_date: Optional[str] = None,
+    quantity: int = 0,
+    invested: float = 0.0,
+):
     """Append a new pick unless one is already open for the symbol.
 
+    ``quantity`` / ``invested`` come from the portfolio sizing layer (0 when the
+    strategy is run as a pure signal tracker without a capital model). The stop
+    is stored as an absolute ₹ distance (``stop_distance_abs``) so the ratchet is
+    volatility-based; the percent form is kept for display / back-compat.
     Returns the created pick dict, or ``None`` if skipped (already open).
     """
     symbol = analysis.symbol
@@ -61,6 +74,11 @@ def add_pick(picks, analysis, plan, *, result_date: str, entry_date: Optional[st
         return None
 
     entry_date = entry_date or date.today().isoformat()
+    stop_abs = getattr(plan, "stop_distance_abs", None)
+    if stop_abs and stop_abs > 0:
+        stop_price = round(plan.entry_price - stop_abs, 2)
+    else:
+        stop_price = round(plan.entry_price * (1 - plan.trailing_stop_pct / 100.0), 2)
     pick: Dict[str, Any] = {
         "symbol": symbol,
         "company": analysis.company_name,
@@ -68,14 +86,16 @@ def add_pick(picks, analysis, plan, *, result_date: str, entry_date: Optional[st
         "result_date": result_date,
         "entry_date": entry_date,
         "entry_price": plan.entry_price,
+        "quantity": quantity,
+        "invested": round(invested, 2),
         "target_pct": plan.target_pct,
         "target_price": plan.target_price,
         "trailing_stop_pct": plan.trailing_stop_pct,
+        "stop_distance_abs": stop_abs,
+        "stop_basis": getattr(plan, "stop_basis", "ratio"),
         "max_holding_days": plan.max_holding_days,
         "highest_price": plan.entry_price,
-        "stop_price": round(
-            plan.entry_price * (1 - plan.trailing_stop_pct / 100.0), 2
-        ),
+        "stop_price": stop_price,
         "status": "open",
         "method": plan.method,
         "strength_score": analysis.strength_score,
@@ -91,8 +111,8 @@ def add_pick(picks, analysis, plan, *, result_date: str, entry_date: Optional[st
     }
     picks.append(pick)
     logger.info(
-        "Added pick %s @ Rs %.2f target %.1f%% stop %.1f%%",
-        symbol, plan.entry_price, plan.target_pct, plan.trailing_stop_pct,
+        "Added pick %s x%d @ Rs %.2f target %.1f%% stop Rs %.2f",
+        symbol, quantity, plan.entry_price, plan.target_pct, stop_price,
     )
     return pick
 
@@ -122,12 +142,18 @@ def update_open_positions(
             logger.warning("No price for open position %s; leaving unchanged.", p["symbol"])
             continue
 
-        # Ratchet the trailing stop off the highest price seen.
+        # Ratchet the trailing stop off the highest price seen. Prefer the
+        # absolute ATR-based distance; fall back to the legacy percent for
+        # positions opened before the ATR sizing was added.
         if price > p["highest_price"]:
             p["highest_price"] = round(price, 2)
-        p["stop_price"] = round(
-            p["highest_price"] * (1 - p["trailing_stop_pct"] / 100.0), 2
-        )
+        stop_abs = p.get("stop_distance_abs")
+        if stop_abs and stop_abs > 0:
+            p["stop_price"] = round(p["highest_price"] - stop_abs, 2)
+        else:
+            p["stop_price"] = round(
+                p["highest_price"] * (1 - p["trailing_stop_pct"] / 100.0), 2
+            )
         p["last_price"] = round(price, 2)
 
         entry_dt = _parse_date(p.get("entry_date"))
@@ -136,7 +162,11 @@ def update_open_positions(
 
         reason: Optional[str] = None
         status: Optional[str] = None
-        if price >= p["target_price"]:
+        # Ride-the-wave: when the fixed profit target is disabled a winner is
+        # only closed by the trailing stop or the time-stop, never clipped at the
+        # target. Positions opened under the old capped mode keep their target.
+        target_active = not config.DISABLE_PROFIT_TARGET
+        if target_active and price >= p["target_price"]:
             reason, status = "target", "booked"
         elif price <= p["stop_price"]:
             reason, status = "trailing_stop", "exited"

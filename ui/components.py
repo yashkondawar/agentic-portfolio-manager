@@ -127,21 +127,168 @@ def _render_watchlist(data: dict) -> None:
         st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
 
 
-def _render_quarterly_results(data: dict) -> None:
-    cols = st.columns(4)
-    cols[0].metric("Declarers", data.get("num_declarers", 0))
-    cols[1].metric("Strong results", data.get("num_strong", 0))
-    cols[2].metric("New picks", data.get("num_new_picks", 0))
-    cols[3].metric("Open picks", data.get("num_open", 0))
-    for title, key in (
-        ("New picks", "new_picks"),
-        ("Closed this run", "closed"),
-        ("Upcoming results", "upcoming"),
+def _fmt_inr(value: Any) -> str:
+    try:
+        return f"₹{float(value):,.0f}"
+    except (TypeError, ValueError):
+        return "-"
+
+
+def _portfolio_metrics(data: dict) -> None:
+    cols = st.columns(5)
+    cols[0].metric("Open positions", data.get("num_open", 0))
+    cols[1].metric("Invested", _fmt_inr(data.get("invested")))
+    cols[2].metric("Cash", _fmt_inr(data.get("cash")))
+    upnl = data.get("unrealized_pnl") or 0.0
+    cols[3].metric("Unrealized P&L", _fmt_inr(upnl), delta=round(float(upnl), 0))
+    rpnl = data.get("realized_pnl") or 0.0
+    cols[4].metric("Realized P&L", _fmt_inr(rpnl), delta=round(float(rpnl), 0))
+
+
+def _holdings_table(holdings: list) -> None:
+    if not holdings:
+        st.caption("No open positions.")
+        return
+    cols = [
+        "symbol", "company", "quantity", "entry_price", "last_price",
+        "invested", "market_value", "unrealized_pnl", "unrealized_pct",
+        "stop_price", "target_price", "days_held", "conviction",
+    ]
+    frame = pd.DataFrame(holdings)
+    frame = frame[[c for c in cols if c in frame.columns]]
+    st.dataframe(frame, use_container_width=True, hide_index=True)
+
+
+def _tradebook_table(tradebook: list) -> None:
+    if not tradebook:
+        st.caption("No closed trades yet — the tradebook fills as positions exit.")
+        return
+    cols = [
+        "symbol", "company", "entry_date", "exit_date", "days_held",
+        "quantity", "entry_price", "exit_price", "invested",
+        "realized_pnl", "realized_pct", "exit_reason",
+    ]
+    frame = pd.DataFrame(tradebook)
+    frame = frame[[c for c in cols if c in frame.columns]]
+    st.dataframe(frame, use_container_width=True, hide_index=True)
+    wins = [t for t in tradebook if (t.get("realized_pnl") or 0) > 0]
+    total = sum(t.get("realized_pnl") or 0 for t in tradebook)
+    cols = st.columns(3)
+    cols[0].metric("Closed trades", len(tradebook))
+    cols[1].metric(
+        "Win rate",
+        f"{(len(wins) / len(tradebook) * 100):.0f}%" if tradebook else "-",
+    )
+    cols[2].metric("Total realized P&L", _fmt_inr(total))
+
+
+def render_qtr_ledger_snapshot() -> None:
+    """Always-on portfolio + tradebook view, read straight from the ledger on disk.
+
+    Renders on page load without running the strategy (no network / no LLM), so the
+    user can see their current holdings and trade history at any time.
+    """
+    from qtr_results import engine as qtr_engine
+
+    try:
+        snap = qtr_engine.ledger_snapshot()
+    except Exception as exc:  # noqa: BLE001 - never let the snapshot break the page
+        st.info(f"No ledger to show yet ({exc}).")
+        return
+
+    st.markdown("### 📁 Current portfolio")
+    st.caption(
+        "Live ledger state on disk — shown on every page load, marked at the last "
+        "run's prices. Run the strategy below to refresh."
+    )
+    _portfolio_metrics(snap)
+    st.markdown("#### Holdings")
+    _holdings_table(snap.get("holdings") or [])
+    with st.expander(
+        f"📒 Tradebook — {snap.get('num_closed', 0)} closed trades", expanded=False
     ):
-        rows = data.get(key) or []
-        if rows:
-            st.markdown(f"#### {title}")
-            st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+        _tradebook_table(snap.get("tradebook") or [])
+
+
+_FUNNEL_STATUS_LABELS = {
+    "BUY": "✅ BUY (new position)",
+    "already_held": "Held (already open)",
+    "deferred_cap": "Deferred — portfolio full",
+    "no_cash": "Skipped — no cash",
+    "no_price": "Skipped — no price",
+    "no_plan": "Skipped — no plan",
+    "llm_rejected": "❌ LLM rejected",
+    "filtered_pre_llm": "Filtered — liquidity/uptrend",
+    "weak_fundamentals": "Rejected — weak fundamentals",
+    "data_error": "Errored — data gap",
+    "strong_fundamentals": "Strong (pending gate)",
+    "qualified": "Qualified",
+}
+
+
+def _render_quarterly_results(data: dict) -> None:
+    # 1) Portfolio snapshot (post-run state of the ledger / holdings).
+    st.markdown("### 📁 Portfolio after this run")
+    _portfolio_metrics(data)
+    _holdings_table(data.get("holdings") or [])
+
+    # 2) Today's actions — the only thing the user needs to execute.
+    actions = data.get("actions") or []
+    st.markdown("### 🎯 Today's actions")
+    if not actions:
+        st.caption("No buy/sell actions today. Existing positions (if any) are held.")
+    else:
+        for label, kind in (("🟢 Buy", "BUY"), ("🔴 Sell", "SELL"), ("⚪ Hold", "HOLD")):
+            rows = [a for a in actions if a.get("action") == kind]
+            if not rows:
+                continue
+            st.markdown(f"**{label}** ({len(rows)})")
+            frame = pd.DataFrame(rows)
+            cols = [c for c in ["symbol", "company", "quantity", "price", "value",
+                                "stop_price", "target_price", "detail"]
+                    if c in frame.columns]
+            st.dataframe(frame[cols], use_container_width=True, hide_index=True)
+
+    # 3) Filtering funnel — how the day's declarers narrowed to the buys.
+    funnel = data.get("funnel") or []
+    st.markdown("### 🔻 Filtering funnel")
+    if funnel:
+        fcols = st.columns(len(funnel))
+        for idx, stage in enumerate(funnel):
+            dropped = stage.get("dropped") or 0
+            fcols[idx].metric(
+                stage["stage"],
+                stage.get("count", 0),
+                delta=(f"-{dropped} dropped" if dropped else None),
+                delta_color="inverse",
+            )
+    analysed = data.get("analysed") or []
+    if analysed:
+        with st.expander(
+            f"🔎 All {len(analysed)} analysed stocks — where each dropped",
+            expanded=False,
+        ):
+            frame = pd.DataFrame(analysed)
+            if "status" in frame.columns:
+                frame["outcome"] = frame["status"].map(
+                    lambda s: _FUNNEL_STATUS_LABELS.get(s, s)
+                )
+            cols = [c for c in ["symbol", "company", "result_date", "strength",
+                                "stage", "outcome", "reason"] if c in frame.columns]
+            st.dataframe(frame[cols], use_container_width=True, hide_index=True)
+
+    # 4) Tradebook (closed trades) + upcoming heads-up.
+    with st.expander(
+        f"📒 Tradebook — {len(data.get('tradebook') or [])} closed trades",
+        expanded=False,
+    ):
+        _tradebook_table(data.get("tradebook") or [])
+    upcoming = data.get("upcoming") or []
+    if upcoming:
+        with st.expander(f"📅 Upcoming results ({len(upcoming)})", expanded=False):
+            st.dataframe(
+                pd.DataFrame(upcoming), use_container_width=True, hide_index=True
+            )
 
 
 def _render_backtest(data: dict) -> None:
