@@ -10,6 +10,7 @@ from datetime import datetime
 from importlib.util import find_spec
 
 import pandas as pd
+import plotly.graph_objects as go
 import streamlit as st
 
 from core import registry
@@ -553,3 +554,156 @@ def _broker():
         broker = ReadOnlyZerodha()
         st.session_state["broker"] = broker
     return broker
+
+
+# ── Kronos forecast visualization ───────────────────────────────────────────
+
+
+def _parse_tickers(raw: str) -> list[str]:
+    """Split a free-form ticker blob (commas / whitespace / newlines) into symbols."""
+    seen: dict[str, None] = {}
+    for chunk in raw.replace(",", " ").split():
+        sym = chunk.strip().upper()
+        if sym:
+            seen.setdefault(sym, None)
+    return list(seen.keys())
+
+
+def _kronos_chart(fc) -> go.Figure:
+    """History close line + forecast percentile cone (p10-p90) with a median path."""
+    figure = go.Figure()
+    hist = fc.history
+    figure.add_trace(
+        go.Scatter(
+            x=list(hist.index),
+            y=list(hist["close"]),
+            name="History (close)",
+            line={"color": "#4f7cff", "width": 2},
+        )
+    )
+
+    # Anchor the forecast cone at the last actual close so it reads continuously.
+    bands = fc.bands
+    x_fc = [fc.last_date] + list(bands.index)
+
+    def _series(col: str) -> list[float]:
+        return [fc.last_close] + list(bands[col])
+
+    # Outer cone p10–p90 (light) then inner p25–p75 (darker) as stacked fills.
+    figure.add_trace(
+        go.Scatter(x=x_fc, y=_series("p90"), name="p90", line={"width": 0}, showlegend=False)
+    )
+    figure.add_trace(
+        go.Scatter(
+            x=x_fc, y=_series("p10"), name="p10–p90", fill="tonexty",
+            fillcolor="rgba(79,124,255,0.12)", line={"width": 0},
+        )
+    )
+    figure.add_trace(
+        go.Scatter(x=x_fc, y=_series("p75"), name="p75", line={"width": 0}, showlegend=False)
+    )
+    figure.add_trace(
+        go.Scatter(
+            x=x_fc, y=_series("p25"), name="p25–p75", fill="tonexty",
+            fillcolor="rgba(79,124,255,0.25)", line={"width": 0},
+        )
+    )
+    figure.add_trace(
+        go.Scatter(
+            x=x_fc, y=_series("p50"), name="Median forecast",
+            line={"color": "#f5a623", "width": 2, "dash": "dot"},
+            mode="lines+markers",
+        )
+    )
+    figure.update_layout(
+        height=420,
+        margin={"l": 10, "r": 10, "t": 30, "b": 10},
+        yaxis_title="Price (₹)",
+        legend={"orientation": "h", "yanchor": "bottom", "y": 1.02, "x": 0},
+        hovermode="x unified",
+    )
+    return figure
+
+
+def _render_kronos_forecast(fc) -> None:
+    plain = fc.symbol
+    if not fc.ok:
+        st.subheader(plain)
+        st.warning(f"Could not forecast **{plain}**: {fc.error}")
+        st.divider()
+        return
+
+    sig = fc.signal
+    tone = {"BUY": "🟢", "HOLD": "🟡", "AVOID": "🔴"}.get(sig.direction, "⚪")
+    st.subheader(f"{tone} {plain} — {sig.direction} ({sig.confidence} confidence)")
+
+    row = st.columns(5)
+    row[0].metric("Last close", f"₹{fc.last_close:,.2f}")
+    row[1].metric("P(up)", f"{sig.prob_up:.0%}")
+    row[2].metric("Expected return", f"{sig.expected_return:+.1%}")
+    row[3].metric(f"Target ({fc.pred_len}d)", f"₹{sig.suggested_target:,.2f}")
+    row[4].metric("Reward:Risk", f"{sig.reward_risk:.2f}:1")
+
+    st.plotly_chart(_kronos_chart(fc), use_container_width=True)
+    st.caption(sig.rationale)
+    st.divider()
+
+
+def kronos_page() -> None:
+    page_header(
+        "Kronos Forecast Lab",
+        "Zero-shot OHLCV foundation-model price forecasts for any NSE ticker.",
+    )
+    st.warning(
+        "Indicative only. Kronos is a general-purpose forecaster run zero-shot on "
+        "daily NSE bars (out-of-distribution). Read the **shape and spread** of the "
+        "forecast cone, not the exact price — absolute levels can be biased. Not "
+        "investment advice; this app never places orders.",
+        icon="⚠️",
+    )
+
+    raw = st.text_area(
+        "Tickers",
+        value=st.session_state.get("kronos_tickers", "RELIANCE, TCS, INFY"),
+        help="One or more NSE symbols separated by commas, spaces, or new lines. "
+        "'.NS' is added automatically.",
+        height=80,
+    )
+    with st.expander("Model settings", expanded=False):
+        cols = st.columns(3)
+        pred_len = cols[0].slider("Forecast horizon (days)", 3, 30, 10)
+        sample_paths = cols[1].slider("Sample paths", 5, 40, 20, help="More paths = smoother cone, slower on CPU.")
+        history_bars = cols[2].slider("History window (bars)", 60, 400, 250)
+        st.caption("Model: **Kronos-base** (102M) on CPU. First run downloads weights (~100MB).")
+
+    if st.button("Run forecast", type="primary"):
+        tickers = _parse_tickers(raw)
+        if not tickers:
+            st.error("Enter at least one ticker.")
+            return
+        st.session_state["kronos_tickers"] = raw
+        try:
+            from kronos.predictor import KronosUnavailable
+            from kronos.viz import base_config, forecast_many_for_chart
+
+            cfg = base_config(pred_len=pred_len, sample_paths=sample_paths)
+            with st.status(
+                f"Forecasting {len(tickers)} ticker(s) with Kronos-base…", expanded=True
+            ) as status:
+                st.write("Loading model + fetching price history (first run is slower)…")
+                results = forecast_many_for_chart(
+                    tickers, config=cfg, history_bars=history_bars
+                )
+                status.update(label="Forecast complete", state="complete", expanded=False)
+            st.session_state["kronos_results"] = results
+        except KronosUnavailable as exc:
+            st.session_state.pop("kronos_results", None)
+            st.error("Kronos model is not installed in this environment.")
+            st.code(str(exc))
+            return
+
+    results = st.session_state.get("kronos_results")
+    if results:
+        st.caption(f"Showing {len(results)} forecast(s).")
+        for fc in results:
+            _render_kronos_forecast(fc)

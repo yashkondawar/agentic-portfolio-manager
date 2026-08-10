@@ -13,6 +13,7 @@ from streamlit.testing.v1 import AppTest
         "backtest_page",
         "broker_page",
         "settings_page",
+        "kronos_page",
     ],
 )
 def test_page_renders_without_exception(page_name):

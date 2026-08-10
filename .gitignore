@@ -223,3 +223,6 @@ qtr_results/state/
 # Local trader workbench history
 .trader_workbench/
 zerodha/.access_token.json
+
+# Kronos gate-eval raw price cache
+data_cache/
