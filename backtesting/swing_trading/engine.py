@@ -49,14 +49,6 @@ class BacktestEngine:
         self.watchlist_log: List[dict] = []
         self.pending: List[strategy.EntrySignal] = []
         self.daily_log: List[dict] = []
-        # Optional Kronos confirmation gate (lazily built so the baseline never
-        # imports torch/Kronos). Raises KronosUnavailable if enabled but missing.
-        self.gate = None
-        self.gate_log: List[dict] = []
-        if getattr(cfg, "use_kronos_gate", False):
-            from .kronos_gate import KronosGate
-            self.gate = KronosGate.from_config(cfg)
-            logger.info("Kronos confirmation gate ENABLED (%s)", cfg.kronos_model)
 
     # ── helpers ──────────────────────────────────────────────────────────────
     def _rebalance_days(self, days: List[date]) -> set:
@@ -191,29 +183,5 @@ class BacktestEngine:
             if sig is not None:
                 candidates.append(sig)
         candidates.sort(key=lambda s: s.score, reverse=True)
-        if self.gate is not None:
-            candidates = self._apply_gate(candidates, day, capacity)
         # Queue a little more than capacity (some may lapse / be unaffordable).
         self.pending = candidates[: capacity + 2]
-
-    def _apply_gate(
-        self, candidates: List[strategy.EntrySignal], day: date, capacity: int
-    ) -> List[strategy.EntrySignal]:
-        """Filter score-ranked candidates through the Kronos confirmation gate.
-
-        Best-ranked first; stops once enough survive to fill capacity (+buffer),
-        so we pay for the fewest forecasts possible. Point-in-time: the gate is
-        fed ``as_of`` slices only.
-        """
-        kept: List[strategy.EntrySignal] = []
-        need = capacity + 2
-        for sig in candidates:
-            df = self.data.as_of(sig.symbol, day, lookback_rows=self.cfg.kronos_lookback)
-            ksig = self.gate.evaluate(sig.symbol, df, day)
-            allowed = self.gate.allows(ksig)
-            self.gate_log.append(self.gate.decision_record(sig.symbol, day, ksig, allowed))
-            if allowed:
-                kept.append(sig)
-            if len(kept) >= need:
-                break
-        return kept

@@ -72,21 +72,6 @@ class BacktestConfig:
     # ── Costs ─────────────────────────────────────────────────────────────────
     commission_pct: float = 0.05              # round-trip-ish per-side cost proxy (%)
 
-    # ── Kronos confirmation gate (optional overlay) ───────────────────────────
-    # When enabled, each mechanical entry candidate must ALSO be confirmed by a
-    # point-in-time Kronos forecast before it can become a pending order. Off by
-    # default so the baseline is unchanged; the A/B service flips this on.
-    use_kronos_gate: bool = False
-    kronos_model: str = "NeoQuasar/Kronos-base"
-    kronos_tokenizer: str = "NeoQuasar/Kronos-Tokenizer-base"
-    kronos_device: str = "cpu"
-    kronos_lookback: int = 256                # history fed to Kronos (<=512 context)
-    kronos_pred_len: int = 10                 # forecast horizon in sessions
-    kronos_sample_paths: int = 10             # sampled paths for the distribution
-    kronos_min_prob_up: float = 0.55          # veto candidates below this P(up)
-    kronos_block_avoid: bool = True           # veto explicit AVOID calls
-    kronos_min_reward_risk: float = 0.0       # optional forecast R:R floor (0 = off)
-
     # ── Misc ──────────────────────────────────────────────────────────────────
     use_cache: bool = True                    # reuse downloaded price cache
     seed_label: str = "swing_backtest"

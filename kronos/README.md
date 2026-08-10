@@ -1,19 +1,22 @@
 # Kronos Price Forecast Integration
 
 Consumes [Kronos](https://github.com/shiyu-coder/Kronos) — an open-source
-foundation model for OHLCV candlesticks (AAAI 2026) — as a **diversifying price
-signal** for the NSE research system. It forecasts future candles and turns the
-forecast *distribution* into per-symbol **BUY / HOLD / AVOID** calls with a
-stop and target.
+foundation model for OHLCV candlesticks (AAAI 2026) — as a **standalone price
+visualization module** for the NSE research system. Enter any ticker(s) in the
+**Kronos Forecast Lab** UI page and it fetches full price history, forecasts
+future candles with Kronos-base, and renders a chart with a forecast
+percentile cone plus a per-symbol **BUY / HOLD / AVOID** summary.
 
-> Decision-support only. Kronos forecasts candles, not trades. Treat the
-> forecast **direction/distribution** as the signal — **not** the exact
-> predicted price — and validate any edge in the backtest before risking money.
+> Indicative only. Kronos is a general-purpose forecaster run **zero-shot** on
+> daily NSE bars (out-of-distribution). Read the **shape and spread** of the
+> forecast cone — **not** the exact predicted price; absolute levels can be
+> biased. This module is fully separate from the trading strategies and their
+> backtests.
 
 ## Why this design
 
-- **CPU-only, zero-shot.** Kronos-small (24.7M params) runs fine on CPU for
-  EOD/swing use. No GPU, no finetuning required to start.
+- **CPU-only, zero-shot.** Kronos-base (102M params) runs on CPU for EOD use.
+  No GPU, no finetuning required to start.
 - **Torch is isolated + lazy.** Nothing here imports `torch` until you actually
   run a forecast, so the rest of the app (and the registry) works without it.
 - **The signal layer is pure.** `signals.py` has no torch/network dependency and
@@ -27,7 +30,8 @@ kronos/
   predictor.py  # KronosForecaster: lazy torch + Kronos loader, sampled paths
   signals.py    # PURE: forecast paths -> directional/volatility signal (tested)
   service.py    # fetch OHLCV (yfinance) -> forecast -> signal
-strategies/kronos_forecast.py   # BaseStrategy wrapper (shows up in CLI/UI)
+  viz.py        # chart-ready payload (history + forecast cone) for the UI page
+ui/pages.py     # kronos_page(): the "Kronos Forecast Lab" Streamlit page
 ```
 
 ## Setup (one-time)
@@ -57,14 +61,14 @@ Kronos is an **optional dependency** and is **not on PyPI**.
    ```
 
 The first forecast downloads the model weights from Hugging Face (~100 MB for
-the small model), cached thereafter.
+the base model), cached thereafter.
 
 ## Configuration (env vars)
 
 | Var | Default | Meaning |
 |-----|---------|---------|
 | `KRONOS_REPO_PATH` | — | Path to the cloned Kronos repo |
-| `KRONOS_MODEL` | `NeoQuasar/Kronos-small` | HF model id |
+| `KRONOS_MODEL` | `NeoQuasar/Kronos-small` | HF model id (the viz page overrides to `Kronos-base`) |
 | `KRONOS_TOKENIZER` | `NeoQuasar/Kronos-Tokenizer-base` | HF tokenizer id |
 | `KRONOS_DEVICE` | `cpu` | `cpu` or `cuda` |
 | `KRONOS_LOOKBACK` | `400` | History bars (clamped to 512 context) |
@@ -75,25 +79,26 @@ the small model), cached thereafter.
 
 ## Usage
 
-CLI (registered strategy):
+UI — the primary entry point:
 
 ```bash
-python run.py kronos_forecast --param symbols="RELIANCE,TCS,INFY" \
-  --param pred_len=10 --param sample_paths=20
+streamlit run app.py
+# → Ideas & research → "Kronos Forecast Lab"
+# Enter one or more tickers, pick horizon / sample paths, Run forecast.
 ```
 
-Programmatic:
+Programmatic (chart-ready payload with the bigger Kronos-base model):
 
 ```python
-from kronos.config import KronosConfig
-from kronos.service import forecast_symbol
+from kronos.viz import base_config, forecast_for_chart
 
-res = forecast_symbol("RELIANCE", config=KronosConfig(pred_len=10, sample_paths=20))
-print(res.signal.direction, res.signal.prob_up, res.signal.suggested_stop)
+fc = forecast_for_chart("RELIANCE", config=base_config(pred_len=10, sample_paths=20))
+print(fc.signal.direction, fc.signal.prob_up)
+print(fc.bands)  # per-step p10/p25/p50/p75/p90 close (the forecast cone)
 ```
 
-Without the setup above, the strategy returns a clean `failed` result carrying
-these install instructions — it never crashes the app.
+Without the setup above, the page shows a clean error carrying these install
+instructions — it never crashes the app.
 
 ## The signal
 
@@ -104,12 +109,12 @@ For each symbol we sample `sample_paths` forecast paths and compute:
 - a **volatility cone** (mean predicted high/low) → `suggested_stop` / `suggested_target`,
 - `direction` (BUY/HOLD/AVOID) gated by conviction + reward:risk (thresholds in `signals.py`).
 
-## Recommended next step
+## Note on strategy integration
 
-Wire `kronos.service.forecast_symbol` into the point-in-time backtest
-(`backtesting/swing_trading/`) as (a) a standalone signal and (b) a *filter* on
-the existing swing playbook, then compare Sharpe / CAGR / max-DD / hit-rate vs.
-the current strategies and buy-and-hold NIFTY **with transaction costs**. Only
-promote it to live decision-support if it adds risk-adjusted return. Consider
-NSE finetuning (needs a rented GPU + Qlib) only if the zero-shot edge is real
-but marginal.
+This module is intentionally **standalone** — it is not wired into any trading
+strategy or backtest. A prior experiment using zero-shot Kronos as a confirmation
+gate on the swing screen did **not** show a robust edge on daily NSE bars
+(absolute forecasts are downward-biased and the cross-sectional rank did not
+replicate across windows). If pursued later, NSE finetuning (needs a rented GPU +
+Qlib) or a different bar frequency would be the next thing to try.
+

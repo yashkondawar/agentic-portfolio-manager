@@ -53,7 +53,4 @@ def test_registry_exposes_every_workbench_strategy():
         "watchlist_curation",
         "qtr_results",
         "swing_backtest",
-        "kronos_forecast",
-        "kronos_swing_ab",
-        "kronos_gate_eval",
     }
