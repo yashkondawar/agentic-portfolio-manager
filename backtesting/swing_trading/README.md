@@ -35,8 +35,8 @@ way to get a leak-free, reproducible result. The qualitative LLM vetting
 ## How point-in-time integrity is guaranteed
 
 1. **Data:** daily OHLCV from **yfinance** (`auto_adjust`), downloaded once for the
-   whole universe + Nifty benchmark with a warmup buffer, cached to disk
-   (`data_cache/`). yfinance is a *historical* source, so as-of cuts are exact.
+   whole universe + Nifty benchmark with a warmup buffer, cached in the central
+   SQLite database. yfinance is a *historical* source, so as-of cuts are exact.
 2. **As-of slicing:** every indicator is computed from `data.as_of(symbol, day)`,
    which returns only rows dated `<= day`. Rolling-high "breakout" tests exclude
    the current bar.
@@ -93,7 +93,7 @@ The first run downloads prices (cached afterwards, so reruns are fast/offline).
 
 ---
 
-## Outputs — `results/<tag>/`
+## Outputs — SQLite artifact group
 
 | File | Contents |
 |------|----------|
@@ -102,6 +102,9 @@ The first run downloads prices (cached afterwards, so reruns are fast/offline).
 | `equity_curve.csv` | daily equity / cash / deployed / open positions |
 | `watchlists.json` | the point-in-time monthly watchlists (with per-name detail) |
 | `open_positions.json` | positions still open at the end of the window |
+
+The CLI prints a `sqlite://artifacts/<group-id>` reference. Use
+`python -m core.storage export <group-id> <directory>` when files are needed.
 
 Metrics: total return, CAGR, max drawdown, Sharpe (rf=0), win rate, profit factor,
 avg win/loss, avg holding, avg exposure, and `goal_reached`.
@@ -112,7 +115,7 @@ avg win/loss, avg holding, avg exposure, and `goal_reached`.
 
 ```
 config.py        parameters (capital, goal, dates, universe, playbook thresholds)
-data.py          PointInTimeData — bulk download, disk cache, as_of slicing, calendar
+data.py          PointInTimeData — bulk download, SQLite cache, as_of slicing, calendar
 indicators.py    SMA/EMA/RSI/MACD/ATR/returns/rolling-high (backward-only)
 watchlist.py     monthly mechanical watchlist (reuses live curator Stage-1)
 strategy.py      entry signals + sizing + exit rules (the playbook, deterministically)

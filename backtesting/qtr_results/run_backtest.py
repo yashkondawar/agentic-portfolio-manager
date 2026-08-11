@@ -28,14 +28,15 @@ from __future__ import annotations
 
 import argparse
 import csv
-import json
+import io
 import logging
 import sys
 from dataclasses import asdict
 from datetime import date, timedelta
 from pathlib import Path
 
-from .config import FUND_CACHE_DIR, PRICE_CACHE_DIR, RESULTS_DIR, BacktestConfig
+from core.storage import save_artifacts
+from .config import FUND_CACHE_DIR, PRICE_CACHE_DIR, BacktestConfig
 from .data import FundamentalsStore, PointInTimeData, ResultsCalendarStore, SectorStore
 from .engine import BacktestEngine
 from .hedge import HedgeConfig, apply_beta_hedge, hedged_equity_series, realized_book_beta
@@ -209,10 +210,8 @@ def _config_json(cfg: BacktestConfig) -> dict:
     return d
 
 
-def _write_outputs(out_dir: Path, cfg: BacktestConfig, engine: BacktestEngine,
-                   metrics: dict, summary: str, hedged: dict | None = None) -> None:
-    out_dir.mkdir(parents=True, exist_ok=True)
-
+def _store_outputs(run_tag: str, cfg: BacktestConfig, engine: BacktestEngine,
+                   metrics: dict, summary: str, hedged: dict | None = None) -> str:
     metrics = dict(metrics)
     metrics["exit_reasons"] = exit_reason_breakdown(engine.pf.closed)
     metrics["filter_stats"] = dict(sorted(engine.filter_stats.items()))
@@ -221,55 +220,46 @@ def _write_outputs(out_dir: Path, cfg: BacktestConfig, engine: BacktestEngine,
     if hedged is not None:
         payload["hedged_metrics"] = hedged
 
-    (out_dir / "summary.txt").write_text(summary, encoding="utf-8")
-    (out_dir / "summary.json").write_text(
-        json.dumps(payload, indent=2),
-        encoding="utf-8",
-    )
+    trades_io = io.StringIO(newline="")
+    w = csv.writer(trades_io)
+    w.writerow(["symbol", "sector", "result_quarter", "method", "strength", "quantity",
+                "entry_date", "entry_price", "exit_date", "exit_price",
+                "pnl", "pnl_pct", "holding_days", "exit_reason"])
+    for t in engine.pf.closed:
+        sector = getattr(t, "sector", None) or "UNKNOWN"
+        w.writerow([t.symbol, sector, t.result_quarter, t.method, round(t.strength_score, 1),
+                    t.quantity, t.entry_date.isoformat(), round(t.entry_price, 2),
+                    t.exit_date.isoformat(), round(t.exit_price, 2), round(t.pnl, 2),
+                    round(t.pnl_pct, 2), t.holding_days, t.exit_reason])
 
-    with open(out_dir / "trades.csv", "w", newline="", encoding="utf-8") as fh:
-        w = csv.writer(fh)
-        w.writerow(["symbol", "sector", "result_quarter", "method", "strength", "quantity",
-                    "entry_date", "entry_price", "exit_date", "exit_price",
-                    "pnl", "pnl_pct", "holding_days", "exit_reason"])
-        for t in engine.pf.closed:
-            # Sector is stored on the (now closed) Position — pull it from the
-            # ClosedTrade's parent position if we recorded it; else UNKNOWN.
-            sector = getattr(t, "sector", None) or "UNKNOWN"
-            w.writerow([t.symbol, sector, t.result_quarter, t.method, round(t.strength_score, 1),
-                        t.quantity, t.entry_date.isoformat(), round(t.entry_price, 2),
-                        t.exit_date.isoformat(), round(t.exit_price, 2), round(t.pnl, 2),
-                        round(t.pnl_pct, 2), t.holding_days, t.exit_reason])
-
-    with open(out_dir / "equity_curve.csv", "w", newline="", encoding="utf-8") as fh:
-        w = csv.writer(fh)
-        has_hedge = bool(engine.daily_log) and "hedged_equity" in engine.daily_log[0]
-        header = ["date", "equity", "cash", "deployed", "open_positions", "pending"]
+    equity_io = io.StringIO(newline="")
+    w = csv.writer(equity_io)
+    has_hedge = bool(engine.daily_log) and "hedged_equity" in engine.daily_log[0]
+    header = ["date", "equity", "cash", "deployed", "open_positions", "pending"]
+    if has_hedge:
+        header += ["hedge_notional", "hedge_pnl", "hedged_equity"]
+    w.writerow(header)
+    for s in engine.daily_log:
+        row = [s["date"], s["equity"], s["cash"], s["deployed"],
+               s["open_positions"], s.get("pending", 0)]
         if has_hedge:
-            header += ["hedge_notional", "hedge_pnl", "hedged_equity"]
-        w.writerow(header)
-        for s in engine.daily_log:
-            row = [s["date"], s["equity"], s["cash"], s["deployed"],
-                   s["open_positions"], s.get("pending", 0)]
-            if has_hedge:
-                row += [s.get("hedge_notional", 0.0), s.get("hedge_pnl", 0.0),
-                        s.get("hedged_equity", s["equity"])]
-            w.writerow(row)
+            row += [s.get("hedge_notional", 0.0), s.get("hedge_pnl", 0.0),
+                    s.get("hedged_equity", s["equity"])]
+        w.writerow(row)
 
-    with open(out_dir / "events.csv", "w", newline="", encoding="utf-8") as fh:
-        w = csv.writer(fh)
-        w.writerow(["signal_date", "symbol", "quarter", "decl_date", "decl_date_real",
-                    "is_strong", "strength", "yoy_profit", "qoq_profit", "yoy_eps",
-                    "confirmed", "confirmed_reason", "liquid",
-                    "debt_to_equity", "roce", "pre_rs", "sue", "reaction"])
-        for e in engine.event_log:
-            w.writerow([e["signal_date"], e["symbol"], e["quarter"], e["decl_date"],
-                        e.get("decl_date_real"),
-                        e["is_strong"], e["strength"], e["yoy_profit"],
-                        e["qoq_profit"], e["yoy_eps"],
-                        e.get("confirmed"), e.get("confirmed_reason"), e.get("liquid"),
-                        e.get("debt_to_equity"), e.get("roce"), e.get("pre_rs"),
-                        e.get("sue"), e.get("reaction")])
+    events_io = io.StringIO(newline="")
+    w = csv.writer(events_io)
+    w.writerow(["signal_date", "symbol", "quarter", "decl_date", "decl_date_real",
+                "is_strong", "strength", "yoy_profit", "qoq_profit", "yoy_eps",
+                "confirmed", "confirmed_reason", "liquid",
+                "debt_to_equity", "roce", "pre_rs", "sue", "reaction"])
+    for e in engine.event_log:
+        w.writerow([e["signal_date"], e["symbol"], e["quarter"], e["decl_date"],
+                    e.get("decl_date_real"), e["is_strong"], e["strength"],
+                    e["yoy_profit"], e["qoq_profit"], e["yoy_eps"],
+                    e.get("confirmed"), e.get("confirmed_reason"), e.get("liquid"),
+                    e.get("debt_to_equity"), e.get("roce"), e.get("pre_rs"),
+                    e.get("sue"), e.get("reaction")])
 
     open_rows = [
         {"symbol": p.symbol, "sector": p.sector, "quantity": p.quantity,
@@ -279,7 +269,26 @@ def _write_outputs(out_dir: Path, cfg: BacktestConfig, engine: BacktestEngine,
          "method": p.method, "strength": round(p.strength_score, 1)}
         for p in engine.pf.positions.values()
     ]
-    (out_dir / "open_positions.json").write_text(json.dumps(open_rows, indent=2), encoding="utf-8")
+    group_id, _ = save_artifacts(
+        "qtr_results_backtest",
+        run_tag,
+        {
+            "summary.txt": summary,
+            "summary.json": payload,
+            "trades.csv": trades_io.getvalue(),
+            "equity_curve.csv": equity_io.getvalue(),
+            "events.csv": events_io.getvalue(),
+            "open_positions.json": open_rows,
+        },
+        metadata=payload,
+        content_types={
+            "summary.txt": "text/plain",
+            "trades.csv": "text/csv",
+            "equity_curve.csv": "text/csv",
+            "events.csv": "text/csv",
+        },
+    )
+    return group_id
 
 
 def main() -> int:
@@ -481,11 +490,10 @@ def main() -> int:
 
     tag = args.tag or f"{cfg.universe_index}_{start.isoformat()}_{end.isoformat()}"
     tag = tag.replace(",", "+").replace(" ", "")
-    out_dir = RESULTS_DIR / tag
-    _write_outputs(out_dir, cfg, engine, metrics, summary, hedged=hedged)
+    group_id = _store_outputs(tag, cfg, engine, metrics, summary, hedged=hedged)
 
     print("\n" + summary)
-    print(f"\nResults written to: {out_dir}")
+    print(f"\nResults stored at: sqlite://artifacts/{group_id}")
     return 0
 
 

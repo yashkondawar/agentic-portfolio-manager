@@ -1,7 +1,7 @@
 """Configuration and shared defaults for the quarterly-results strategy.
 
 All tunables (selection thresholds, target band, trailing-stop ratio, holding
-window) and state-file locations live here so the rest of the package stays
+window) and legacy state-file locations live here so the rest of the package stays
 free of magic numbers.
 """
 
@@ -195,5 +195,8 @@ DEFAULT_LOOKBACK_DAYS = 1  # how many days back (incl. today) to treat as "just 
 
 
 def ensure_state_dir() -> None:
-    """Create the state directory if it does not yet exist."""
-    STATE_DIR.mkdir(parents=True, exist_ok=True)
+    """Backward-compatible initializer for the central SQLite store."""
+    from core.storage import connect
+
+    with connect():
+        pass

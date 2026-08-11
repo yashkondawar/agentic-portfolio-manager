@@ -115,6 +115,7 @@ from datetime import datetime, date
 from pathlib import Path
 from typing import List, Optional, TextIO
 
+from core.storage import get_document, runtime_dir, save_artifacts
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -292,6 +293,13 @@ def load_watchlist(symbols_csv: Optional[str], watchlist_file: Optional[Path]) -
         for line in text.splitlines():
             line = line.split("#", 1)[0]  # allow trailing comments
             out.extend(s.strip().upper() for s in line.replace("\t", ",").split(",") if s.strip())
+    if not out:
+        stored = get_document("watchlists", "swing_current", {})
+        picks = stored.get("picks", []) if isinstance(stored, dict) else []
+        for pick in picks:
+            symbol = pick.get("symbol") if isinstance(pick, dict) else pick
+            if symbol:
+                out.append(str(symbol).strip().upper())
     # De-dup, preserve order
     seen = set()
     deduped = []
@@ -898,8 +906,8 @@ def run_analysis(
         scraper_tools=scraper_tools,
     )
 
-    tmp_dir = Path.cwd() / ".copilot_tmp"
-    tmp_dir.mkdir(exist_ok=True)
+    tmp_dir = runtime_dir() / "copilot"
+    tmp_dir.mkdir(parents=True, exist_ok=True)
     prompt_file = tmp_dir / f"swing-prompt-{uuid.uuid4().hex[:8]}.md"
     prompt_file.write_text(full_prompt, encoding="utf-8")
 
@@ -1270,7 +1278,7 @@ def main() -> int:
     copilot_log_path: Optional[Path] = args.copilot_log
     if copilot_log_path is not None and str(copilot_log_path).lower() == "auto":
         stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-        copilot_log_path = Path("logs") / f"swing-copilot-{stamp}.log"
+        copilot_log_path = runtime_dir() / "logs" / f"swing-copilot-{stamp}.log"
     if copilot_log_path is not None:
         print(f"Copilot log:     {copilot_log_path} (level={args.copilot_log_level})")
     print("=" * 50 + "\n")
@@ -1292,6 +1300,24 @@ def main() -> int:
     except Exception as e:
         logger.exception("Analysis failed: %s", e)
         return 1
+
+    archived = {"report.md": result}
+    if copilot_log_path is not None and copilot_log_path.exists():
+        archived["copilot.log"] = copilot_log_path.read_text(
+            encoding="utf-8", errors="replace"
+        )
+    group_id, _ = save_artifacts(
+        "swing_analysis",
+        f"{template.name}-{datetime.now():%Y%m%dT%H%M%S}",
+        archived,
+        metadata={
+            "template": template.name,
+            "positions": [position.symbol for position in positions],
+            "watchlist": watchlist,
+        },
+        content_types={"report.md": "text/markdown", "copilot.log": "text/plain"},
+    )
+    logger.info("Archived swing analysis at sqlite://artifacts/%s", group_id)
 
     if args.save:
         args.save.parent.mkdir(parents=True, exist_ok=True)

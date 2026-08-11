@@ -2,7 +2,7 @@
 
 The sector-relative debt gate (see ``config.sector_debt_cap``) needs the coarse
 yfinance sector of each shortlisted candidate. This module resolves it lazily
-and caches the result on disk so the daily run pays the yfinance cost for a
+and caches the result in SQLite so the daily run pays the yfinance cost for a
 symbol at most once. Any failure degrades to ``"UNKNOWN"`` (the caller then
 falls back to the flat debt floor) so a network hiccup never breaks a run.
 
@@ -13,16 +13,17 @@ whole scanned universe.
 
 from __future__ import annotations
 
-import json
 import logging
+import sqlite3
 import threading
 from typing import Dict, Optional
 
 from qtr_results import config
+from core.storage import get_document, set_document
 
 logger = logging.getLogger("qtr_results.sectors")
 
-# state/sector_cache.json — persists resolved sectors across daily runs.
+# Legacy path retained for one-time automatic import.
 _CACHE_PATH = config.STATE_DIR / "sector_cache.json"
 _LOCK = threading.Lock()
 _CACHE: Optional[Dict[str, str]] = None
@@ -43,26 +44,32 @@ def _load_cache() -> Dict[str, str]:
     global _CACHE
     if _CACHE is not None:
         return _CACHE
-    data: Dict[str, str] = {}
     try:
-        if _CACHE_PATH.exists():
-            with open(_CACHE_PATH, "r", encoding="utf-8") as fh:
-                loaded = json.load(fh)
-            if isinstance(loaded, dict):
-                data = {str(k): str(v) for k, v in loaded.items()}
-    except Exception as e:  # noqa: BLE001 - a corrupt cache must not break a run
+        loaded = get_document("qtr_results", "sector_cache")
+    except sqlite3.Error as e:
         logger.warning("Sector cache read failed (%s); starting empty.", e)
-        data = {}
+        loaded = None
+    if loaded is None and _CACHE_PATH.exists():
+        try:
+            import json
+
+            loaded = json.loads(_CACHE_PATH.read_text(encoding="utf-8"))
+            set_document("qtr_results", "sector_cache", loaded)
+        except (OSError, ValueError, sqlite3.Error) as e:
+            logger.warning("Legacy sector cache import failed (%s); starting empty.", e)
+    data = (
+        {str(k): str(v) for k, v in loaded.items()}
+        if isinstance(loaded, dict)
+        else {}
+    )
     _CACHE = data
     return _CACHE
 
 
 def _save_cache(cache: Dict[str, str]) -> None:
     try:
-        config.ensure_state_dir()
-        with open(_CACHE_PATH, "w", encoding="utf-8") as fh:
-            json.dump(cache, fh, indent=2, sort_keys=True)
-    except Exception as e:  # noqa: BLE001 - caching is best-effort
+        set_document("qtr_results", "sector_cache", cache)
+    except (OSError, ValueError, sqlite3.Error) as e:
         logger.warning("Sector cache write failed (%s); continuing.", e)
 
 
@@ -82,7 +89,7 @@ def _fetch_sector(symbol: str) -> str:
 def sector_for(symbol: str) -> str:
     """Return the cached/looked-up yfinance sector for ``symbol``.
 
-    Resolves once per symbol then serves from the on-disk cache. Degrades to
+    Resolves once per symbol then serves from the SQLite cache. Degrades to
     ``"UNKNOWN"`` (never raises) so the debt gate can fall back to the flat
     floor when a sector cannot be resolved.
     """

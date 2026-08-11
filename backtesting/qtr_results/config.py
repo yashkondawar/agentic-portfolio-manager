@@ -24,7 +24,6 @@ from qtr_results import config as live_config
 HERE = Path(__file__).resolve().parent
 PRICE_CACHE_DIR = HERE / "data_cache"
 FUND_CACHE_DIR = HERE / "fundamentals_cache"
-RESULTS_DIR = HERE / "results"
 
 
 @dataclass

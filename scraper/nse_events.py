@@ -18,15 +18,15 @@ can fall back to web search / watchlist.
 
 from __future__ import annotations
 
-import json
 import logging
 import re
 import time
 from datetime import date, datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Union
 
 import requests
+from core.storage import get_document, set_document
 
 logger = logging.getLogger("scraper.nse_events")
 
@@ -169,19 +169,25 @@ def _filing_key(row: Dict[str, Any]) -> Optional[str]:
 
 
 def _load_seen(cache_path: Path) -> Dict[str, str]:
-    try:
-        raw = json.loads(Path(cache_path).read_text(encoding="utf-8"))
-        keys = raw.get("keys", {}) if isinstance(raw, dict) else {}
-        return {str(k): str(v) for k, v in keys.items()} if isinstance(keys, dict) else {}
-    except (OSError, ValueError):
-        return {}
+    path = Path(cache_path)
+    storage_key = path.stem
+    raw = get_document("nse_events_seen", storage_key)
+    if raw is None and path.exists():
+        try:
+            import json
+
+            raw = json.loads(path.read_text(encoding="utf-8"))
+            set_document("nse_events_seen", storage_key, raw)
+        except (OSError, ValueError):
+            raw = None
+    keys = raw.get("keys", {}) if isinstance(raw, dict) else {}
+    return {str(k): str(v) for k, v in keys.items()} if isinstance(keys, dict) else {}
 
 
 def _save_seen(cache_path: Path, keys: Dict[str, str]) -> None:
     path = Path(cache_path)
-    path.parent.mkdir(parents=True, exist_ok=True)
     payload = {"updated_at": datetime.now().isoformat(timespec="seconds"), "keys": keys}
-    path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    set_document("nse_events_seen", path.stem, payload)
 
 
 def new_declared_results(

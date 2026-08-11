@@ -7,7 +7,7 @@ Point-in-time price data store for the backtest.
 Strategy:
   * Download daily OHLCV ONCE for the whole universe + benchmark, covering the
     backtest window PLUS a warmup buffer (so SMA200 / 52-week stats are warm on
-    day one). Cache to disk (pickle of {symbol: DataFrame}).
+    day one). Cache in SQLite (pickled {symbol: DataFrame} payload).
   * Serve per-day "as-of" slices: ``as_of(symbol, day)`` returns only the rows
     dated <= day. This is what guarantees the model never sees the future.
 
@@ -27,6 +27,7 @@ from pathlib import Path
 from typing import Dict, List, Optional
 
 import pandas as pd
+from core.storage import get_cache, put_cache
 
 logger = logging.getLogger("backtest.data")
 
@@ -69,7 +70,6 @@ class PointInTimeData:
 
     def __init__(self, cache_dir: Path):
         self.cache_dir = Path(cache_dir)
-        self.cache_dir.mkdir(parents=True, exist_ok=True)
         self.frames: Dict[str, pd.DataFrame] = {}   # plain symbol -> OHLCV df (tz-naive index)
         self.benchmark: Optional[pd.DataFrame] = None
         self._trading_days: Optional[List[date]] = None
@@ -95,10 +95,10 @@ class PointInTimeData:
         tag = _cache_tag(symbols, benchmark, dl_start, dl_end)
         cache_path = self._cache_path(tag)
 
-        if use_cache and cache_path.exists():
-            logger.info("Loading cached prices from %s", cache_path.name)
-            with open(cache_path, "rb") as fh:
-                blob = pickle.load(fh)
+        entry = get_cache("backtest_prices", tag) if use_cache else None
+        if entry is not None:
+            logger.info("Loading cached prices from SQLite (%s)", tag)
+            blob = pickle.loads(entry.payload)
             if (
                 blob.get("requested_symbols") == requested_symbols
                 and blob.get("benchmark_symbol") == benchmark
@@ -108,6 +108,18 @@ class PointInTimeData:
                 logger.info("Cache: %d symbols + benchmark loaded.", len(self.frames))
                 return
             logger.warning("Ignoring cache with mismatched universe metadata.")
+        elif use_cache and cache_path.exists():
+            logger.info("Importing legacy price cache %s", cache_path.name)
+            with open(cache_path, "rb") as fh:
+                blob = pickle.load(fh)
+            put_cache("backtest_prices", tag, pickle.dumps(blob), format="pickle")
+            if (
+                blob.get("requested_symbols") == requested_symbols
+                and blob.get("benchmark_symbol") == benchmark
+            ):
+                self.frames = blob["frames"]
+                self.benchmark = blob["benchmark"]
+                return
 
         import yfinance as yf
 
@@ -144,17 +156,14 @@ class PointInTimeData:
         logger.info("Downloaded %d / %d symbols with usable history.",
                     len(self.frames), total)
 
-        with open(cache_path, "wb") as fh:
-            pickle.dump(
-                {
-                    "frames": self.frames,
-                    "benchmark": self.benchmark,
-                    "requested_symbols": requested_symbols,
-                    "benchmark_symbol": benchmark,
-                },
-                fh,
-            )
-        logger.info("Cached prices to %s", cache_path.name)
+        blob = {
+            "frames": self.frames,
+            "benchmark": self.benchmark,
+            "requested_symbols": requested_symbols,
+            "benchmark_symbol": benchmark,
+        }
+        put_cache("backtest_prices", tag, pickle.dumps(blob), format="pickle")
+        logger.info("Cached prices to SQLite (%s)", tag)
 
     @staticmethod
     def _normalise(df: Optional[pd.DataFrame]) -> Optional[pd.DataFrame]:

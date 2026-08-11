@@ -6,6 +6,7 @@ from backtesting.swing_trading.config import BacktestConfig
 from backtesting.swing_trading.portfolio import ClosedTrade
 from backtesting.swing_trading.watchlist import UniverseStock
 from backtesting.swing_trading import service
+from core.storage import get_artifact
 
 
 class FakeData:
@@ -63,12 +64,12 @@ class ExitingEngine(FakeEngine):
 
 
 def test_backtest_service_returns_structured_artifacts(monkeypatch, tmp_path: Path):
+    monkeypatch.setenv("PORTFOLIO_DB_PATH", str(tmp_path / "portfolio.sqlite3"))
     monkeypatch.setattr(service, "PointInTimeData", FakeData)
     monkeypatch.setattr(service, "BacktestEngine", FakeEngine)
     monkeypatch.setattr(
         service, "load_universe", lambda _cfg: [UniverseStock(symbol="IGNORED")]
     )
-    monkeypatch.setattr(service, "RESULTS_DIR", tmp_path)
     cfg = BacktestConfig(
         starting_capital=1000,
         goal_return_pct=1,
@@ -81,8 +82,10 @@ def test_backtest_service_returns_structured_artifacts(monkeypatch, tmp_path: Pa
     assert result["metrics"]["total_return_pct"] == 2.0
     assert result["metrics"]["goal_reached"] is True
     assert result["trades"][0]["entry_date"] == "2026-01-02"
-    assert Path(result["artifacts"]["trades.csv"]).exists()
-    assert Path(result["artifacts"]["equity_curve.csv"]).exists()
+    trades_ref = result["artifacts"]["trades.csv"]
+    group_id = trades_ref.split("/")[3]
+    assert get_artifact(group_id, "trades.csv").text.startswith("symbol,setup")
+    assert get_artifact(group_id, "equity_curve.csv") is not None
 
 
 def test_backtest_service_translates_engine_exit(monkeypatch):
@@ -102,9 +105,9 @@ def test_backtest_service_translates_engine_exit(monkeypatch):
 
 
 def test_default_artifact_directories_are_unique(monkeypatch, tmp_path: Path):
+    monkeypatch.setenv("PORTFOLIO_DB_PATH", str(tmp_path / "portfolio.sqlite3"))
     monkeypatch.setattr(service, "PointInTimeData", FakeData)
     monkeypatch.setattr(service, "BacktestEngine", FakeEngine)
-    monkeypatch.setattr(service, "RESULTS_DIR", tmp_path)
     cfg = BacktestConfig(
         starting_capital=1000,
         start_date=date(2026, 1, 1),

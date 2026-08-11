@@ -13,7 +13,7 @@ constituents (~900 tradable names). Discovery uses it to RANK declarers so
 liquid names are verified first; it never hard-drops a name, so a strong
 off-index declarer is only deprioritised, not lost.
 
-The constituent lists are fetched once and persisted to ``state/universe.json``
+The constituent lists are fetched once and persisted to SQLite
 with a daily TTL. Every failure degrades gracefully: a stale cache is reused, and
 if no cache exists the membership test simply returns ``False`` for everything
 (ranking becomes a no-op -- exactly today's behaviour), so discovery is never
@@ -24,13 +24,14 @@ from __future__ import annotations
 
 import csv
 import io
-import json
 import logging
+import sqlite3
 import time
 import urllib.request
 from typing import Set
 
 from qtr_results import config
+from core.storage import get_document, set_document
 
 logger = logging.getLogger("qtr_results.universe")
 
@@ -66,39 +67,54 @@ def _fetch_index(url: str) -> Set[str]:
 
 def _load_cache() -> Set[str]:
     try:
-        raw = json.loads(_CACHE_PATH.read_text(encoding="utf-8"))
-        syms = raw.get("symbols", []) if isinstance(raw, dict) else []
-        return {str(s).strip().upper() for s in syms if str(s).strip()}
-    except (OSError, ValueError):
-        return set()
+        raw = get_document("qtr_results", "liquid_universe")
+    except sqlite3.Error as e:
+        logger.warning("Could not read universe cache: %s", e)
+        raw = None
+    if raw is None and _CACHE_PATH.exists():
+        try:
+            import json
+
+            raw = json.loads(_CACHE_PATH.read_text(encoding="utf-8"))
+            set_document("qtr_results", "liquid_universe", raw)
+        except (OSError, ValueError, sqlite3.Error):
+            raw = None
+    syms = raw.get("symbols", []) if isinstance(raw, dict) else []
+    return {str(s).strip().upper() for s in syms if str(s).strip()}
 
 
 def _save_cache(symbols: Set[str]) -> None:
     try:
-        config.ensure_state_dir()
-        _CACHE_PATH.write_text(
-            json.dumps(
-                {"updated_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
-                 "symbols": sorted(symbols)},
-                indent=2,
-            ),
-            encoding="utf-8",
+        set_document(
+            "qtr_results",
+            "liquid_universe",
+            {
+                "updated_at_epoch": time.time(),
+                "symbols": sorted(symbols),
+            },
         )
-    except OSError as e:  # pragma: no cover - disk issues shouldn't break a run
+    except (OSError, ValueError, sqlite3.Error) as e:  # pragma: no cover
         logger.warning("Could not persist universe cache: %s", e)
 
 
 def _cache_fresh() -> bool:
     try:
-        return (time.time() - _CACHE_PATH.stat().st_mtime) < _CACHE_TTL_SECONDS
-    except OSError:
+        raw = get_document("qtr_results", "liquid_universe")
+    except sqlite3.Error as e:
+        logger.warning("Could not inspect universe cache: %s", e)
+        return False
+    if not isinstance(raw, dict):
+        return False
+    try:
+        return (time.time() - float(raw["updated_at_epoch"])) < _CACHE_TTL_SECONDS
+    except (KeyError, TypeError, ValueError):
         return False
 
 
 def liquid_universe() -> Set[str]:
     """Return the cached set of liquid NSE symbols (fetch once/day).
 
-    Reuses a fresh in-memory copy, then a fresh on-disk cache, and only then
+    Reuses a fresh in-memory copy, then a fresh SQLite cache, and only then
     hits NSE. Any network failure falls back to whatever cache exists (even if
     stale); if nothing exists it returns an empty set so ranking is a safe no-op.
     """

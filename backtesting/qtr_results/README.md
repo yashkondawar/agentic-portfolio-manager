@@ -225,7 +225,7 @@ prices; both are cached, so reruns are fast and offline.
 
 ---
 
-## Outputs — `results/<tag>/`
+## Outputs — SQLite artifact group
 
 | File | Contents |
 |------|----------|
@@ -234,6 +234,9 @@ prices; both are cached, so reruns are fast and offline.
 | `equity_curve.csv` | daily equity / cash / deployed / open positions (+ `hedge_notional` / `hedge_pnl` / `hedged_equity` when `--hedge`) |
 | `events.csv` | every discovered result event and its point-in-time verdict (strong?, growth numbers, `sue`, `reaction`) |
 | `open_positions.json` | positions still open at the end of the window |
+
+The CLI prints a `sqlite://artifacts/<group-id>` reference. Use
+`python -m core.storage export <group-id> <directory>` when files are needed.
 
 Metrics: total return, CAGR, max drawdown, Sharpe (rf=0), **deflated Sharpe**, win
 rate, profit factor, avg win/loss, avg holding, avg exposure, `goal_reached`, and —

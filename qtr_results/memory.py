@@ -1,7 +1,7 @@
 """Long-term agent memory for the quarterly-results strategy.
 
-A durable store (``memory.json`` + human-readable ``memory.md``) that survives
-across runs. It accumulates realized outcomes, running win/return statistics and
+A durable SQLite document that survives across runs. It accumulates realized
+outcomes, running win/return statistics and
 dated learnings, and produces a compact summary that is fed back into the LLM
 discovery prompt and the per-run report so the agent "remembers" what has
 worked.
@@ -9,13 +9,13 @@ worked.
 
 from __future__ import annotations
 
-import json
 import logging
 from datetime import date, datetime
 from typing import Any, Dict, List
 
 from qtr_results import config
 from qtr_results import ledger as ledger_mod
+from core.storage import get_document, set_document
 
 logger = logging.getLogger("qtr_results.memory")
 
@@ -33,16 +33,19 @@ def _empty_memory() -> Dict[str, Any]:
 
 
 def load_memory() -> Dict[str, Any]:
-    if not config.MEMORY_JSON_PATH.exists():
-        return _empty_memory()
-    try:
-        mem = json.loads(config.MEMORY_JSON_PATH.read_text(encoding="utf-8"))
-        for k, v in _empty_memory().items():
-            mem.setdefault(k, v)
-        return mem
-    except (ValueError, OSError) as e:
-        logger.warning("Could not read memory (%s); starting fresh.", e)
-        return _empty_memory()
+    mem = get_document("qtr_results", "memory")
+    if mem is None and config.MEMORY_JSON_PATH.exists():
+        try:
+            import json
+
+            mem = json.loads(config.MEMORY_JSON_PATH.read_text(encoding="utf-8"))
+            set_document("qtr_results", "memory", mem)
+        except (ValueError, OSError) as e:
+            logger.warning("Could not import legacy memory (%s); starting fresh.", e)
+    mem = mem or _empty_memory()
+    for key, value in _empty_memory().items():
+        mem.setdefault(key, value)
+    return mem
 
 
 def _compute_stats(closed: List[Dict[str, Any]]) -> Dict[str, Any]:
@@ -136,11 +139,7 @@ def summarize_memory(mem: Dict[str, Any]) -> str:
 
 
 def save_memory(mem: Dict[str, Any]) -> None:
-    config.ensure_state_dir()
-    config.MEMORY_JSON_PATH.write_text(
-        json.dumps(mem, indent=2, default=str), encoding="utf-8"
-    )
-    config.MEMORY_MD_PATH.write_text(_render_md(mem), encoding="utf-8")
+    set_document("qtr_results", "memory", mem)
 
 
 def _render_md(mem: Dict[str, Any]) -> str:

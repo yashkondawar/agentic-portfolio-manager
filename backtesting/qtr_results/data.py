@@ -11,12 +11,12 @@ Three sources are combined:
   slice per day; ``as_of(sym, day)`` returns only rows dated ``<= day``).
 * **Fundamentals**: quarterly financials scraped ONCE per symbol from
   screener.in (the exact source the live ``qtr_results`` strategy verifies on),
-  cached to disk. The scraped values are *as-reported* historicals that do not
+  cached in SQLite. The scraped values are *as-reported* historicals that do not
   change, so restricting them to the quarter columns on/before a declaration date
   makes them point-in-time (see ``analysis.py``). Live/current fields (screener's
   "Current Price"/"Stock P/E") are deliberately NOT used for pricing — entries are
   priced from the historical OHLCV instead — so there is no look-ahead leak.
-* **Sectors**: yfinance ``Ticker.info["sector"]``, cached to disk. Used only to
+* **Sectors**: yfinance ``Ticker.info["sector"]``, cached in SQLite. Used only to
   cap sector concentration; a company's sector is fundamentally stable over the
   backtest window so today's snapshot is an acceptable proxy.
 
@@ -40,6 +40,7 @@ if str(_REPO_ROOT) not in sys.path:
 
 # Reuse the swing backtest's point-in-time price store (identical needs).
 from backtesting.swing_trading.data import PointInTimeData  # noqa: E402,F401
+from core.storage import get_cache, put_cache  # noqa: E402
 
 logger = logging.getLogger("backtest.qtr.data")
 
@@ -60,7 +61,6 @@ class FundamentalsStore:
 
     def __init__(self, cache_dir: Path):
         self.cache_dir = Path(cache_dir)
-        self.cache_dir.mkdir(parents=True, exist_ok=True)
         # plain symbol -> raw screener dict (top_ratios, quarterly_results, ...)
         self.raw: Dict[str, dict] = {}
 
@@ -71,11 +71,18 @@ class FundamentalsStore:
         tag = f"{len(symbols)}sym"
         cache_path = self._cache_path(tag)
 
+        entry = get_cache("qtr_backtest_fundamentals", tag) if use_cache else None
+        if entry is not None:
+            logger.info("Loading cached fundamentals from SQLite (%s)", tag)
+            self.raw = pickle.loads(entry.payload)
+            logger.info("Fundamentals cache: %d symbols loaded.", len(self.raw))
+            return
         if use_cache and cache_path.exists():
-            logger.info("Loading cached fundamentals from %s", cache_path.name)
             with open(cache_path, "rb") as fh:
                 self.raw = pickle.load(fh)
-            logger.info("Fundamentals cache: %d symbols loaded.", len(self.raw))
+            put_cache(
+                "qtr_backtest_fundamentals", tag, pickle.dumps(self.raw), format="pickle"
+            )
             return
 
         from scraper.screener import scrape_fundamentals
@@ -95,9 +102,10 @@ class FundamentalsStore:
                 self.raw[plain] = data
 
         logger.info("Scraped fundamentals for %d / %d symbols.", len(self.raw), total)
-        with open(cache_path, "wb") as fh:
-            pickle.dump(self.raw, fh)
-        logger.info("Cached fundamentals to %s", cache_path.name)
+        put_cache(
+            "qtr_backtest_fundamentals", tag, pickle.dumps(self.raw), format="pickle"
+        )
+        logger.info("Cached fundamentals to SQLite (%s)", tag)
 
     def get(self, symbol: str) -> Optional[dict]:
         return self.raw.get(_plain_symbol(symbol))
@@ -125,7 +133,6 @@ class ResultsCalendarStore:
 
     def __init__(self, cache_dir: Path):
         self.cache_dir = Path(cache_dir)
-        self.cache_dir.mkdir(parents=True, exist_ok=True)
         # plain symbol -> {quarter_end date -> declaration date}
         self.calendar: Dict[str, Dict] = {}
 
@@ -136,11 +143,21 @@ class ResultsCalendarStore:
         tag = f"{len(symbols)}sym"
         cache_path = self._cache_path(tag)
 
+        entry = get_cache("qtr_backtest_result_dates", tag) if use_cache else None
+        if entry is not None:
+            logger.info("Loading cached result dates from SQLite (%s)", tag)
+            self.calendar = pickle.loads(entry.payload)
+            logger.info("Result-date cache: %d symbols loaded.", len(self.calendar))
+            return
         if use_cache and cache_path.exists():
-            logger.info("Loading cached result dates from %s", cache_path.name)
             with open(cache_path, "rb") as fh:
                 self.calendar = pickle.load(fh)
-            logger.info("Result-date cache: %d symbols loaded.", len(self.calendar))
+            put_cache(
+                "qtr_backtest_result_dates",
+                tag,
+                pickle.dumps(self.calendar),
+                format="pickle",
+            )
             return
 
         from scraper.nse_events import historical_result_dates
@@ -165,9 +182,13 @@ class ResultsCalendarStore:
             _time.sleep(0.25)  # be polite to NSE across a large universe
 
         logger.info("Fetched real result dates for %d / %d symbols.", resolved, total)
-        with open(cache_path, "wb") as fh:
-            pickle.dump(self.calendar, fh)
-        logger.info("Cached result dates to %s", cache_path.name)
+        put_cache(
+            "qtr_backtest_result_dates",
+            tag,
+            pickle.dumps(self.calendar),
+            format="pickle",
+        )
+        logger.info("Cached result dates to SQLite (%s)", tag)
 
     def load_from_event_calendar(
         self,
@@ -187,11 +208,21 @@ class ResultsCalendarStore:
         tag = f"evcal_{len(symbols)}sym_{start.isoformat()}_{end.isoformat()}"
         cache_path = self._cache_path(tag)
 
+        entry = get_cache("qtr_backtest_result_dates", tag) if use_cache else None
+        if entry is not None:
+            logger.info("Loading cached event-calendar dates from SQLite (%s)", tag)
+            self.calendar = pickle.loads(entry.payload)
+            logger.info("Event-calendar cache: %d symbols loaded.", len(self.calendar))
+            return
         if use_cache and cache_path.exists():
-            logger.info("Loading cached event-calendar dates from %s", cache_path.name)
             with open(cache_path, "rb") as fh:
                 self.calendar = pickle.load(fh)
-            logger.info("Event-calendar cache: %d symbols loaded.", len(self.calendar))
+            put_cache(
+                "qtr_backtest_result_dates",
+                tag,
+                pickle.dumps(self.calendar),
+                format="pickle",
+            )
             return
 
         from scraper.nse_events import results_event_calendar
@@ -204,9 +235,13 @@ class ResultsCalendarStore:
             "Event calendar resolved %d / %d universe symbols (market had %d).",
             resolved, len(wanted), len(market),
         )
-        with open(cache_path, "wb") as fh:
-            pickle.dump(self.calendar, fh)
-        logger.info("Cached event-calendar dates to %s", cache_path.name)
+        put_cache(
+            "qtr_backtest_result_dates",
+            tag,
+            pickle.dumps(self.calendar),
+            format="pickle",
+        )
+        logger.info("Cached event-calendar dates to SQLite (%s)", tag)
 
     def dates_for(self, symbol: str) -> Dict:
         """Return ``{quarter_end -> declaration date}`` for a symbol (may be empty)."""
@@ -232,7 +267,6 @@ class SectorStore:
 
     def __init__(self, cache_dir: Path):
         self.cache_dir = Path(cache_dir)
-        self.cache_dir.mkdir(parents=True, exist_ok=True)
         self.sectors: Dict[str, str] = {}
 
     def _cache_path(self) -> Path:
@@ -240,10 +274,19 @@ class SectorStore:
 
     def load_or_download(self, symbols: List[str], use_cache: bool = True) -> None:
         cache_path = self._cache_path()
-        if use_cache and cache_path.exists():
+        entry = get_cache("qtr_backtest_sectors", self._CACHE_NAME) if use_cache else None
+        if entry is not None:
+            self.sectors = pickle.loads(entry.payload)
+            logger.info("Sector cache: %d symbols loaded.", len(self.sectors))
+        elif use_cache and cache_path.exists():
             with open(cache_path, "rb") as fh:
                 self.sectors = pickle.load(fh)
-            logger.info("Sector cache: %d symbols loaded.", len(self.sectors))
+            put_cache(
+                "qtr_backtest_sectors",
+                self._CACHE_NAME,
+                pickle.dumps(self.sectors),
+                format="pickle",
+            )
         else:
             self.sectors = {}
 
@@ -267,8 +310,12 @@ class SectorStore:
             self.sectors[plain] = sector.strip() or "UNKNOWN"
             if i % 20 == 0:
                 logger.info("  … %d/%d", i, len(missing))
-        with open(cache_path, "wb") as fh:
-            pickle.dump(self.sectors, fh)
+        put_cache(
+            "qtr_backtest_sectors",
+            self._CACHE_NAME,
+            pickle.dumps(self.sectors),
+            format="pickle",
+        )
         logger.info("Sector cache updated (%d symbols total).", len(self.sectors))
 
     def get(self, symbol: str) -> str:
