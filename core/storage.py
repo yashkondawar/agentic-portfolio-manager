@@ -708,7 +708,13 @@ def _save_legacy_artifacts(
     *,
     db_path: Optional[Path] = None,
 ) -> bool:
-    if _legacy_artifact_exists(legacy_path, db_path=db_path):
+    if _legacy_artifact_exists(
+        legacy_path,
+        category=category,
+        label=label,
+        artifacts=artifacts,
+        db_path=db_path,
+    ):
         return False
     group_id = uuid.uuid5(uuid.NAMESPACE_URL, f"legacy:{legacy_path}").hex
     try:
@@ -721,7 +727,13 @@ def _save_legacy_artifacts(
             group_id=group_id,
         )
     except sqlite3.IntegrityError:
-        if _legacy_artifact_exists(legacy_path, db_path=db_path):
+        if _legacy_artifact_exists(
+            legacy_path,
+            category=category,
+            label=label,
+            artifacts=artifacts,
+            db_path=db_path,
+        ):
             return False
         raise
     return True
@@ -730,6 +742,9 @@ def _save_legacy_artifacts(
 def _legacy_artifact_exists(
     legacy_path: str,
     *,
+    category: Optional[str] = None,
+    label: Optional[str] = None,
+    artifacts: Optional[Mapping[str, Any]] = None,
     db_path: Optional[Path] = None,
 ) -> bool:
     with connection_scope(db_path) as connection:
@@ -742,7 +757,39 @@ def _legacy_artifact_exists(
             """,
             (legacy_path,),
         ).fetchone()
-    return row is not None
+        if row is not None:
+            return True
+        if category is None or label is None or artifacts is None:
+            return False
+        rows = connection.execute(
+            """
+            SELECT g.id AS group_id, a.name, a.payload
+            FROM artifact_groups AS g
+            JOIN artifacts AS a ON a.group_id = g.id
+            WHERE g.category = ? AND g.label = ?
+            ORDER BY g.id, a.name
+            """,
+            (category, label),
+        ).fetchall()
+
+    expected = {
+        name: _artifact_payload(value)
+        for name, value in artifacts.items()
+    }
+    stored: dict[str, dict[str, bytes]] = {}
+    for candidate in rows:
+        stored.setdefault(candidate["group_id"], {})[candidate["name"]] = bytes(
+            candidate["payload"]
+        )
+    return any(candidate == expected for candidate in stored.values())
+
+
+def _artifact_payload(value: Any) -> bytes:
+    if isinstance(value, bytes):
+        return value
+    if isinstance(value, str):
+        return value.encode("utf-8")
+    return json.dumps(value, indent=2, default=str).encode("utf-8")
 
 
 def _parse_args() -> argparse.Namespace:

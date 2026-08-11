@@ -65,6 +65,25 @@ def test_migrate_legacy_storage_imports_state_and_artifacts(tmp_path: Path):
     assert second["artifact_groups"] == 0
 
 
+def test_migrate_deduplicates_identical_reports_from_different_roots(
+    tmp_path: Path,
+):
+    first_repo = tmp_path / "first"
+    second_repo = tmp_path / "second"
+    first_repo.mkdir()
+    second_repo.mkdir()
+    for repo in (first_repo, second_repo):
+        (repo / "forensic_test.md").write_text("# Same report", encoding="utf-8")
+    db_path = tmp_path / "portfolio.sqlite3"
+
+    first = migrate_legacy_storage(first_repo, db_path=db_path)
+    second = migrate_legacy_storage(second_repo, db_path=db_path)
+
+    assert first["artifact_groups"] == 1
+    assert second["artifact_groups"] == 0
+    assert database_summary(db_path=db_path)["artifact_groups"] == 1
+
+
 def test_sqlite_log_handler_persists_structured_logs(monkeypatch, tmp_path: Path):
     monkeypatch.setenv("PORTFOLIO_DB_PATH", str(tmp_path / "portfolio.sqlite3"))
     handler = SQLiteLogHandler()
