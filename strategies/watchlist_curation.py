@@ -256,11 +256,22 @@ class WatchlistCurationStrategy(BaseStrategy):
                 f"{len(shortlist)} names passed Stage-1 screening.\n\n{table}\n"
             )
             picks = [asdict(m) for m in shortlist]
+            artifact_group_id = wc.persist_watchlist(
+                picks,
+                index=index,
+                report=report,
+                shortlist=table,
+            )
             return StrategyResult(
                 strategy_id=self.id,
                 status="completed",
                 report=report,
-                data={"index": index, "stage": 1, "picks": picks},
+                data={
+                    "index": index,
+                    "stage": 1,
+                    "picks": picks,
+                    "artifact_group_id": artifact_group_id,
+                },
             )
 
         prompt = wc.build_curation_prompt(
@@ -280,6 +291,12 @@ class WatchlistCurationStrategy(BaseStrategy):
             log_level="debug",
         )
         picks = wc.parse_curated_watchlist(llm_output)
+        artifact_group_id = wc.persist_watchlist(
+            picks,
+            index=index,
+            report=llm_output,
+            shortlist=table,
+        )
 
         return StrategyResult(
             strategy_id=self.id,
@@ -290,5 +307,6 @@ class WatchlistCurationStrategy(BaseStrategy):
                 "stage": 2,
                 "picks": picks,
                 "shortlist": [asdict(m) for m in shortlist],
+                "artifact_group_id": artifact_group_id,
             },
         )

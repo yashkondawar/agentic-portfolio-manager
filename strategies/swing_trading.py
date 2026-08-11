@@ -184,7 +184,9 @@ class SwingTradingStrategy(BaseStrategy):
         import swing_trading_copilot as swing
 
         positions = swing.load_positions_from_json(params.get("positions") or [])
-        watchlist: List[str] = params.get("watchlist") or []
+        watchlist: List[str] = params.get("watchlist") or swing.load_watchlist(
+            None, None
+        )
 
         template = swing.resolve_template(params.get("template") or "daily")
         user_prompt = (params.get("prompt") or "").strip() or template.default_directive

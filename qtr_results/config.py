@@ -196,7 +196,7 @@ DEFAULT_LOOKBACK_DAYS = 1  # how many days back (incl. today) to treat as "just 
 
 def ensure_state_dir() -> None:
     """Backward-compatible initializer for the central SQLite store."""
-    from core.storage import connect
+    from core.storage import connection_scope
 
-    with connect():
+    with connection_scope():
         pass

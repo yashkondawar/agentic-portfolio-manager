@@ -12,10 +12,11 @@ import os
 import re
 import sqlite3
 import uuid
+from contextlib import contextmanager
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Mapping, Optional
+from typing import Any, Iterator, Mapping, Optional
 
 from dotenv import load_dotenv
 
@@ -70,6 +71,17 @@ def connect(
     _initialize_schema(connection)
     _restrict_permissions(path)
     return connection
+
+
+@contextmanager
+def connection_scope(db_path: Optional[Path] = None) -> Iterator[sqlite3.Connection]:
+    """Open a transactional connection and always release its file handles."""
+    connection = connect(db_path)
+    try:
+        with connection:
+            yield connection
+    finally:
+        connection.close()
 
 
 def _restrict_permissions(path: Path) -> None:
@@ -195,7 +207,7 @@ def set_document(
     db_path: Optional[Path] = None,
 ) -> None:
     now = _utc_now()
-    with connect(db_path) as connection:
+    with connection_scope(db_path) as connection:
         connection.execute(
             """
             INSERT INTO documents (
@@ -216,7 +228,7 @@ def get_document(
     *,
     db_path: Optional[Path] = None,
 ) -> Any:
-    with connect(db_path) as connection:
+    with connection_scope(db_path) as connection:
         row = connection.execute(
             "SELECT value_json FROM documents WHERE namespace = ? AND key = ?",
             (namespace, key),
@@ -230,7 +242,7 @@ def delete_document(
     *,
     db_path: Optional[Path] = None,
 ) -> bool:
-    with connect(db_path) as connection:
+    with connection_scope(db_path) as connection:
         cursor = connection.execute(
             "DELETE FROM documents WHERE namespace = ? AND key = ?",
             (namespace, key),
@@ -260,7 +272,7 @@ def put_cache(
 ) -> None:
     now = _utc_now()
     expiry = expires_at.astimezone(timezone.utc).isoformat() if expires_at else None
-    with connect(db_path) as connection:
+    with connection_scope(db_path) as connection:
         connection.execute(
             """
             INSERT INTO cache_entries (
@@ -293,7 +305,7 @@ def get_cache(
     *,
     db_path: Optional[Path] = None,
 ) -> Optional[CacheEntry]:
-    with connect(db_path) as connection:
+    with connection_scope(db_path) as connection:
         row = connection.execute(
             "SELECT * FROM cache_entries WHERE namespace = ? AND key = ?",
             (namespace, key),
@@ -322,7 +334,7 @@ def delete_cache(
     *,
     db_path: Optional[Path] = None,
 ) -> int:
-    with connect(db_path) as connection:
+    with connection_scope(db_path) as connection:
         if key is None:
             cursor = connection.execute(
                 "DELETE FROM cache_entries WHERE namespace = ?", (namespace,)
@@ -363,7 +375,7 @@ def save_artifacts(
     group_id = group_id or uuid.uuid4().hex
     now = _utc_now()
     references: dict[str, str] = {}
-    with connect(db_path) as connection:
+    with connection_scope(db_path) as connection:
         connection.execute(
             """
             INSERT INTO artifact_groups(id, category, label, metadata_json, created_at)
@@ -418,7 +430,7 @@ def get_artifact(
     *,
     db_path: Optional[Path] = None,
 ) -> Optional[StoredArtifact]:
-    with connect(db_path) as connection:
+    with connection_scope(db_path) as connection:
         row = connection.execute(
             "SELECT * FROM artifacts WHERE group_id = ? AND name = ?",
             (group_id, name),
@@ -452,7 +464,7 @@ def list_artifact_groups(
         values.append(category)
     query += " GROUP BY g.id ORDER BY g.created_at DESC LIMIT ?"
     values.append(max(1, int(limit)))
-    with connect(db_path) as connection:
+    with connection_scope(db_path) as connection:
         rows = connection.execute(query, values).fetchall()
     result = []
     for row in rows:
@@ -470,7 +482,7 @@ def export_artifact_group(
 ) -> list[Path]:
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
-    with connect(db_path) as connection:
+    with connection_scope(db_path) as connection:
         rows = connection.execute(
             "SELECT name, payload FROM artifacts WHERE group_id = ? ORDER BY name",
             (group_id,),
@@ -487,7 +499,7 @@ def export_artifact_group(
 
 
 def database_summary(*, db_path: Optional[Path] = None) -> dict[str, Any]:
-    with connect(db_path) as connection:
+    with connection_scope(db_path) as connection:
         counts = {
             table: connection.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
             for table in (
@@ -515,7 +527,7 @@ def list_logs(
         values.append(level.upper())
     query += " ORDER BY created_at DESC, id DESC LIMIT ?"
     values.append(max(1, int(limit)))
-    with connect(db_path) as connection:
+    with connection_scope(db_path) as connection:
         rows = connection.execute(query, values).fetchall()
     return [dict(row) for row in rows]
 
@@ -537,7 +549,7 @@ def migrate_legacy_storage(
             rows = source.execute("SELECT * FROM runs").fetchall()
         finally:
             source.close()
-        with connect(db_path) as destination:
+        with connection_scope(db_path) as destination:
             for row in rows:
                 cursor = destination.execute(
                     """
@@ -720,7 +732,7 @@ def _legacy_artifact_exists(
     *,
     db_path: Optional[Path] = None,
 ) -> bool:
-    with connect(db_path) as connection:
+    with connection_scope(db_path) as connection:
         row = connection.execute(
             """
             SELECT 1

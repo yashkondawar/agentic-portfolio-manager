@@ -8,7 +8,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, Optional
 
-from core.storage import connect, database_path
+from core.storage import connection_scope, database_path
 from core.strategy import StrategyResult
 
 DEFAULT_DB_PATH = database_path()
@@ -24,7 +24,7 @@ def save_run(
 ) -> str:
     run_id = uuid.uuid4().hex
     created_at = datetime.now(timezone.utc).isoformat()
-    with connect(db_path) as connection:
+    with connection_scope(db_path) as connection:
         connection.execute(
             """
             INSERT INTO runs (
@@ -62,7 +62,7 @@ def list_runs(
         values.append(strategy_id)
     query += " ORDER BY created_at DESC LIMIT ?"
     values.append(max(1, int(limit)))
-    with connect(db_path) as connection:
+    with connection_scope(db_path) as connection:
         rows = connection.execute(query, values).fetchall()
     return [dict(row) for row in rows]
 
@@ -72,7 +72,7 @@ def get_run(
     *,
     db_path: Optional[Path] = None,
 ) -> Optional[dict]:
-    with connect(db_path) as connection:
+    with connection_scope(db_path) as connection:
         row = connection.execute(
             "SELECT * FROM runs WHERE id = ?",
             (run_id,),
