@@ -46,6 +46,36 @@ unless you pass `--no-artifacts`.
 
 ---
 
+## The top-down funnel, and how much of it is real
+
+The strategy is taught as a four-level funnel. Three levels are quantified here;
+one is not, and pretending otherwise would be the easiest way to overstate the
+result.
+
+| Level | Modelled? | Implementation |
+|---|---|---|
+| 🛰️ **Satellite** — world markets, news, sentiment | **No** | Not derivable from Indian price data. See "Known biases" below. |
+| 🚁 **Helicopter** — Indian market direction | **Yes** | `build_regime_panel`: benchmark above its own SMA(200), plus optional breadth (share of the universe above SMA200). No entries on a closed regime. |
+| ✈️ **Aerial** — sector strength | **Yes** | `build_sector_panel`: equal-weighted sector indices, 63-session relative strength, trade only the top `sector_top_n` (default 5). |
+| 🔬 **Microscopic** — the stock | **Yes** | G/F/S conditions, liquidity and ATR filters, composite ranking, `max_per_sector` concentration cap. |
+
+The gates are not decorative. Over the 2021–2026 run they rejected candidates
+like this:
+
+```
+sector_weak      1,210   <- aerial
+regime_closed      365   <- helicopter
+capacity           279   <- 8-position limit
+sector_cap         170   <- 2-per-sector cap
+```
+
+The regime gate was open on only 74.9% of sessions. Each layer can be switched
+off individually (`--no-regime-filter`, `--no-sector-filter`) and each has a
+matching ablation, which is how the harness establishes that these gates — not
+the G/F/S condition — are carrying the result.
+
+---
+
 ## How look-ahead is prevented
 
 This is the part worth auditing, because a multi-timeframe RSI strategy is
@@ -286,6 +316,51 @@ a different optimum in every fold. A parameter with no stable value is not a
 parameter, it is noise. The only perfectly stable choice is the ATR stop
 multiplier, i.e. the risk control.
 
+### Out-of-sample-ish rerun: the most recent 5 years (2021-08-23 → 2026-08-21)
+
+The findings above use 2018–2024. Rerunning the same default configuration on
+the most recent five years — a window that includes 2025 and 2026, largely
+unseen when the parameters above were being looked at — reproduces the pattern
+rather than rescuing it:
+
+```
+Equity          Rs 500,000 -> Rs 672,885     (+34.58%)
+CAGR                        +6.13%     vs benchmark +8.02%   (excess -1.89%)
+Max drawdown               -18.29%     (459 sessions under water)
+Sharpe / Sortino        0.57 / 0.82
+Avg exposure                34.2%
+
+Closed trades                 175
+Win rate                   42.29%
+Profit factor                1.32
+Avg win / avg loss    +13.99% / -7.19%   (payoff 1.95)
+Expectancy            +0.109 R  (+1.77%/trade)
+Holding avg/median      28.9 / 27.0 days
+```
+
+Exit attribution:
+
+| exit | n | % of trades | % of P&L | avg |
+|---|---|---|---|---|
+| stop | 92 | 52.6% | −303.1% | −7.62% |
+| `rsi_target` | 60 | 34.3% | **+391.5%** | +16.28% |
+| `time_stop` | 23 | 13.1% | +11.7% | +1.47% |
+
+Year by year, which is the part worth staring at:
+
+| 2021 | 2022 | 2023 | 2024 | 2025 | 2026 |
+|---|---|---|---|---|---|
+| −3.03% | −0.75% | **+24.60%** | **+26.75%** | −9.87% | −1.76% |
+
+Four of six years are flat to negative; 2023 and 2024 are the entire result.
+That is the same "one fold carries everything" shape the walk-forward sweep
+found, showing up independently in calendar time. The forward-return study on
+this window is again negative at every horizon under 63 days (−0.05% at 5d,
+−0.27% at 10d, −0.57% at 21d with t = −1.96).
+
+Note also the **42.3% win rate**. Public GFS backtests advertise 70–80%. Nothing
+in this harness has ever produced that.
+
 ### What the ablations say (Nifty 500)
 
 | variant | CAGR | MaxDD | Sharpe | Trades | Win% | ExpR |
@@ -407,9 +482,11 @@ Every one of those is a change *away* from the strategy as taught.
 | `service.py` | orchestration; caches the expensive indicator pass across variants |
 | `run_backtest.py` | CLI |
 
-Tests live in `tests/test_gfs_leakage.py`, `tests/test_gfs_mechanics.py` and
-`tests/test_gfs_engine.py` (62 tests). The leakage suite is the one that matters;
-run it before trusting any change to `indicators.py` or `panels.py`.
+Tests live in `tests/test_gfs_leakage.py`, `tests/test_gfs_mechanics.py`,
+`tests/test_gfs_engine.py` and `tests/test_gfs_sweep.py` (73 tests), plus
+`tests/test_bars.py` (28) for the shared price store. The leakage suite is the
+one that matters; run it before trusting any change to `indicators.py` or
+`panels.py`.
 
 ### A note on the panel cache
 
@@ -419,3 +496,34 @@ indicator pass — so an 11-variant ablation or a 324-configuration sweep pays f
 the indicator pass once. `test_base_panel_cache_cannot_change_results` proves the
 cache is a pure optimisation, because a stale cache would silently corrupt every
 sweep result while every single-config test still passed.
+
+### A note on the price store
+
+Daily bars come from `core.bars`, a shared per-symbol store (one row per symbol
+per day) in the project SQLite database. Because it is keyed by symbol and date
+rather than by a hash of the whole request, changing `--start`, `--end` or
+`--universe` re-uses everything already on disk and downloads only the genuinely
+missing bars. Measured on this repo: a Nifty 500 run over a fresh window went
+from ~10 minutes to **37 seconds**, and switching to `nifty100` to **10 seconds**,
+with zero network calls in both cases.
+
+Warm it deliberately if you prefer:
+
+```powershell
+python -m backtesting.warm_bars --universe nifty500 --start 2018-01-01
+python -m backtesting.warm_bars --stats
+```
+
+Two design decisions in that module are worth knowing about, because both are
+correctness matters rather than performance ones:
+
+- **Only raw daily OHLCV is stored — never RSI, and never weekly/monthly bars.**
+  Those are derived at run time. A persisted `monthly_rsi` column would carry no
+  record of whether it came from a closed candle or an in-progress one, and that
+  distinction is worth ~6pp of CAGR here (see `live_htf_candles` above). Keeping
+  the leak-free logic in one place beats caching its output.
+- **Every top-up re-fetches a short overlap and compares it.** yfinance serves
+  split-adjusted prices, so a corporate action silently rewrites history; naive
+  appending would splice two adjustment bases into a single series. If an
+  overlapping close has moved more than 0.5%, the symbol is dropped and refetched
+  in full. `test_split_adjustment_drift_triggers_a_full_refetch` covers it.

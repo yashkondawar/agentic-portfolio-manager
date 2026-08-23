@@ -5,16 +5,19 @@ data.py
 Point-in-time price data store for the backtest.
 
 Strategy:
-  * Download daily OHLCV ONCE for the whole universe + benchmark, covering the
-    backtest window PLUS a warmup buffer (so SMA200 / 52-week stats are warm on
-    day one). Cache in SQLite (pickled {symbol: DataFrame} payload).
+  * Ensure daily OHLCV for the whole universe + benchmark is present in the
+    shared bar store (``core.bars``), covering the backtest window PLUS a warmup
+    buffer (so SMA200 / 52-week stats are warm on day one), then read it back.
+    The store holds one row per (symbol, day), so a second run over a different
+    window or universe re-uses everything already on disk and downloads only the
+    genuinely missing bars.
   * Serve per-day "as-of" slices: ``as_of(symbol, day)`` returns only the rows
     dated <= day. This is what guarantees the model never sees the future.
 
 Why download-once-then-slice (instead of calling yfinance per simulated day):
   * Correctness: identical underlying series for every as-of cut.
   * Speed: one network pass instead of 250 * N calls.
-  * Reproducibility / offline reruns from cache.
+  * Reproducibility / offline reruns from the store.
 """
 
 from __future__ import annotations
@@ -27,20 +30,23 @@ from pathlib import Path
 from typing import Dict, List, Optional
 
 import pandas as pd
-from core.storage import get_cache, put_cache
+
+from core import bars
+from core.storage import get_cache
 
 logger = logging.getLogger("backtest.data")
 
+#: Symbols with fewer sessions than this are treated as having no usable history.
+MIN_USABLE_ROWS = 60
+
 
 def _yf_symbol(symbol: str) -> str:
-    s = symbol.strip().upper()
-    if not s.endswith(".NS") and not s.endswith(".BO"):
-        s = f"{s}.NS"
-    return s
+    """Deprecated shim; the bar store owns symbol normalisation now."""
+    return bars.yf_symbol(symbol)
 
 
 def _plain_symbol(symbol: str) -> str:
-    return symbol.strip().upper().replace(".NS", "").replace(".BO", "")
+    return bars.plain_symbol(symbol)
 
 
 def _cache_symbol(symbol: str) -> str:
@@ -89,101 +95,86 @@ class PointInTimeData:
         use_cache: bool = True,
         chunk_size: int = 40,
     ) -> None:
+        """Populate `frames` and `benchmark` for [start - warmup, end].
+
+        Backed by the shared per-symbol bar store, so only bars not already on
+        disk are downloaded. The legacy range-keyed blob cache is still read
+        (and migrated into the store) so existing caches are not wasted.
+        """
         dl_start = start - timedelta(days=warmup_days)
         dl_end = end + timedelta(days=2)
         requested_symbols = sorted({_cache_symbol(symbol) for symbol in symbols})
+        wanted = [_plain_symbol(s) for s in symbols]
+
+        if use_cache:
+            self._migrate_legacy_cache(
+                symbols, requested_symbols, benchmark, dl_start, dl_end
+            )
+
+        to_sync = [*wanted, benchmark]
+        if use_cache:
+            report = bars.sync(to_sync, dl_start, dl_end, chunk_size=chunk_size)
+        else:
+            report = bars.sync(
+                to_sync, dl_start, dl_end, chunk_size=chunk_size, force=True
+            )
+        logger.info("Bar store: %s", report.summary())
+
+        self.frames = bars.read_bars(
+            wanted, dl_start, dl_end, min_rows=MIN_USABLE_ROWS
+        )
+        self.benchmark = bars.read_symbol(benchmark, dl_start, dl_end)
+        self._trading_days = None
+        logger.info(
+            "Loaded %d / %d symbols with usable history.", len(self.frames), len(wanted)
+        )
+
+    def _migrate_legacy_cache(
+        self,
+        symbols: List[str],
+        requested_symbols: List[str],
+        benchmark: str,
+        dl_start: date,
+        dl_end: date,
+    ) -> None:
+        """Fold a matching pre-bar-store cache into the store, once.
+
+        The old cache is keyed by the exact universe and window, so it hits only
+        for an identical rerun - but when it does, it saves a full download.
+        Migrated bars are still drift-checked on any later top-up.
+        """
         tag = _cache_tag(symbols, benchmark, dl_start, dl_end)
-        cache_path = self._cache_path(tag)
-
-        entry = get_cache("backtest_prices", tag) if use_cache else None
+        blob = None
+        entry = get_cache("backtest_prices", tag)
         if entry is not None:
-            logger.info("Loading cached prices from SQLite (%s)", tag)
             blob = pickle.loads(entry.payload)
-            if (
-                blob.get("requested_symbols") == requested_symbols
-                and blob.get("benchmark_symbol") == benchmark
-            ):
-                self.frames = blob["frames"]
-                self.benchmark = blob["benchmark"]
-                logger.info("Cache: %d symbols + benchmark loaded.", len(self.frames))
-                return
-            logger.warning("Ignoring cache with mismatched universe metadata.")
-        elif use_cache and cache_path.exists():
-            logger.info("Importing legacy price cache %s", cache_path.name)
-            with open(cache_path, "rb") as fh:
-                blob = pickle.load(fh)
-            put_cache("backtest_prices", tag, pickle.dumps(blob), format="pickle")
-            if (
-                blob.get("requested_symbols") == requested_symbols
-                and blob.get("benchmark_symbol") == benchmark
-            ):
-                self.frames = blob["frames"]
-                self.benchmark = blob["benchmark"]
-                return
+        else:
+            legacy = self._cache_path(tag)
+            if legacy.exists():
+                with open(legacy, "rb") as fh:
+                    blob = pickle.load(fh)
+        if not blob:
+            return
+        if (
+            blob.get("requested_symbols") != requested_symbols
+            or blob.get("benchmark_symbol") != benchmark
+        ):
+            return
 
-        import yfinance as yf
-
-        # Benchmark first (also defines the trading calendar).
-        logger.info("Downloading benchmark %s ...", benchmark)
-        bench = yf.download(benchmark, start=dl_start, end=dl_end, interval="1d",
-                            auto_adjust=True, progress=False, threads=True)
-        self.benchmark = self._normalise(bench)
-
-        yf_map = {_yf_symbol(s): _plain_symbol(s) for s in symbols}
-        all_yf = list(yf_map.keys())
-        total = len(all_yf)
-        for i in range(0, total, chunk_size):
-            chunk = all_yf[i:i + chunk_size]
-            logger.info("Downloading prices %d-%d of %d ...",
-                        i + 1, min(i + chunk_size, total), total)
-            try:
-                data = yf.download(chunk, start=dl_start, end=dl_end, interval="1d",
-                                   auto_adjust=True, progress=False,
-                                   group_by="ticker", threads=True)
-            except Exception as e:  # noqa: BLE001
-                logger.warning("Chunk download failed (%s); skipping.", e)
+        frames = blob.get("frames") or {}
+        known = bars.coverage([*frames.keys(), benchmark])
+        migrated = 0
+        for sym, df in frames.items():
+            if bars.plain_symbol(sym) in known:
                 continue
-            for yfs in chunk:
-                plain = yf_map[yfs]
-                try:
-                    sub = data[yfs] if len(chunk) > 1 else data
-                except (KeyError, TypeError):
-                    continue
-                df = self._normalise(sub)
-                if df is not None and not df.empty and len(df) >= 60:
-                    self.frames[plain] = df
-
-        logger.info("Downloaded %d / %d symbols with usable history.",
-                    len(self.frames), total)
-
-        blob = {
-            "frames": self.frames,
-            "benchmark": self.benchmark,
-            "requested_symbols": requested_symbols,
-            "benchmark_symbol": benchmark,
-        }
-        put_cache("backtest_prices", tag, pickle.dumps(blob), format="pickle")
-        logger.info("Cached prices to SQLite (%s)", tag)
-
-    @staticmethod
-    def _normalise(df: Optional[pd.DataFrame]) -> Optional[pd.DataFrame]:
-        if df is None or df.empty:
-            return None
-        df = df.copy()
-        # Flatten potential MultiIndex columns (single-ticker downloads).
-        if isinstance(df.columns, pd.MultiIndex):
-            df.columns = df.columns.get_level_values(0)
-        keep = [c for c in ["Open", "High", "Low", "Close", "Volume"] if c in df.columns]
-        df = df[keep].dropna(subset=["Close"])
-        # Make the index tz-naive python dates for clean comparison.
-        idx = pd.to_datetime(df.index)
-        try:
-            idx = idx.tz_localize(None)
-        except (TypeError, AttributeError):
-            pass
-        df.index = idx.normalize()
-        df = df[~df.index.duplicated(keep="last")].sort_index()
-        return df
+            bars.write_bars(sym, df, dl_start, dl_end)
+            migrated += 1
+        bench = blob.get("benchmark")
+        if bench is not None and bars.plain_symbol(benchmark) not in known:
+            bars.write_bars(benchmark, bench, dl_start, dl_end)
+            migrated += 1
+        if migrated:
+            logger.info("Migrated %d symbols from the legacy price cache.", migrated)
 
     # ── As-of access ──────────────────────────────────────────────────────────
 
