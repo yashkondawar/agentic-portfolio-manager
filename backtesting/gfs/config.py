@@ -76,6 +76,10 @@ RANK_DIP_DEPTH = "dip_depth"
 RANK_HTF_STRENGTH = "htf_strength"
 RANK_RANDOM = "random"
 
+# The label used when a stock's industry is not known. It is deliberately *not*
+# treated as a sector by the concentration cap - see `strategy.can_open_sector`.
+UNKNOWN_SECTOR = "Unknown"
+
 
 @dataclass
 class GFSConfig:

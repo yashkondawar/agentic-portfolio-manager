@@ -272,6 +272,27 @@ def test_sector_cap():
     assert not st.can_open_sector("IT", {"IT": 2}, cfg)
 
 
+def test_unknown_sector_is_never_capped():
+    """An unlabelled universe must not silently shrink the portfolio.
+
+    This is a regression test for a real bug. On the full NSE equity list every
+    name carries the label "Unknown", because the industry map only covers the
+    nifty500. Treating that as one sector meant a cap of 2 held the book to two
+    concurrent positions instead of eight - so the `nse_all` run reported a
+    2.8% CAGR that was mostly an artefact of its own concentration cap, and the
+    `no_sector_gate` ablation came back bit-identical to the baseline, which is
+    what gave the bug away. Nothing else in the suite caught it, because every
+    other test uses a fully labelled synthetic universe.
+    """
+    cfg = make_cfg(max_per_sector=2)
+    for count in (0, 2, 50):
+        assert st.can_open_sector("Unknown", {"Unknown": count}, cfg)
+        assert st.can_open_sector("", {"": count}, cfg)
+        assert st.can_open_sector(None, {None: count}, cfg)
+    # A known sector alongside unknowns is still capped.
+    assert not st.can_open_sector("IT", {"IT": 2, "Unknown": 99}, cfg)
+
+
 # ── Ranking ──────────────────────────────────────────────────────────────────
 
 

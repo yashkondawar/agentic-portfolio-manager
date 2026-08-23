@@ -168,9 +168,15 @@ even when it is the best number on the page.
    which removes the index-inclusion circularity (though not survivorship) and is
    the more defensible figure. `universe_bias_note()` prints this caveat with
    every result so it cannot be quietly dropped.
-2. **Sector labels are present-day.** `apply_sector_map` back-fills industry from
-   the current nifty500 file. Far less distorting than membership, but not
-   point-in-time.
+2. **Sector labels are present-day, and absent entirely on `nse_all`.**
+   `apply_sector_map` back-fills industry from the current nifty500 file. Far
+   less distorting than membership, but not point-in-time. More importantly, it
+   covers *none* of the ~2,300 names in `nse_all`, so that universe has no sector
+   gate and no per-sector cap. This is not cosmetic: an earlier version of this
+   harness counted every unlabelled stock into a single "Unknown" bucket, so a
+   cap of 2 held the book to two positions instead of eight and made `nse_all`
+   look like it returned 2.8% CAGR when the correct figure is 12.0%. Unknown
+   sectors are now uncapped, and `universe_bias_note` says so in the output.
 3. **The top-down funnel's qualitative leg is not modelled.** "Check global
    markets and news" cannot be made point-in-time — an LLM with live tools always
    sees today. It is replaced with quantifiable proxies (benchmark above SMA200,
@@ -218,6 +224,68 @@ at 63 days (+0.83%, t = 1.45).
 Monte Carlo: **52.4th percentile — fails.** Indistinguishable from random.
 Forward-return edge ≈ 0 at every horizon.
 
+### Full NSE equity list (`--universe nse_all`) — the survivorship check
+
+| | strategy | benchmark |
+|---|---|---|
+| CAGR | +12.0% | +12.4% |
+| Max drawdown | −31.5% | −38.4% |
+| Sharpe | 0.77 | — |
+
+Monte Carlo: **80.4th percentile — fails.** Forward-return edge is **negative and
+significant** at short horizons: −0.31% at 5d (t = −2.08) and −0.45% at 10d
+(t = −2.18).
+
+**How large is the index-inclusion bias?** Not as large as it first appears, and
+getting this right required fixing a bug (see below). `nse_all` has *no* industry
+labels, so its sector gate and per-sector cap are inert. Comparing it against a
+default Nifty 500 run therefore compares two different strategies. Matching the
+settings — Nifty 500 with `--no-sector-filter --max-per-sector 0` — gives the
+honest comparison:
+
+| universe, sector control off | CAGR | MaxDD | Sharpe | exposure |
+|---|---|---|---|---|
+| Nifty 500 | 12.47% | −30.2% | 0.84 | 60.2% |
+| NSE all | 12.0% | −31.5% | 0.77 | ~63% |
+
+So index-inclusion bias is worth roughly **0.5 pp of CAGR here, not 9 pp**.
+Survivorship bias (delisted companies missing from both) is still unmeasured and
+still favours the strategy.
+
+That same table exposes something more interesting: turning sector control *on*
+moves the Nifty 500 run from 12.5% CAGR / −30.2% DD to 11.7% CAGR / −14.4% DD.
+**The sector gate and position cap are the single biggest risk lever in the whole
+system** — worth roughly half the drawdown for 0.8 pp of return. They have
+nothing to do with G, F or S.
+
+### Overfitting check (`--sweep`, 324 configurations, 3 folds)
+
+| test window | CAGR | Sharpe | MaxDD | trades |
+|---|---|---|---|---|
+| 2021-04 → 2022-04 | −2.60% | −0.43 | −8.5% | 22 |
+| 2022-04 → 2023-04 | −6.97% | −0.40 | −15.3% | 71 |
+| 2023-04 → 2024-04 | +62.01% | 3.15 | −9.2% | 65 |
+
+**Deflated Sharpe Ratio: 0.0.** After accounting for 324 trials, the
+out-of-sample performance is indistinguishable from the luckiest cell of the
+grid. Two of three test folds lose money; one fold carries everything.
+
+Parameter stability across folds is the most damning single number in this
+document:
+
+| parameter | modal value | fold agreement |
+|---|---|---|
+| `atr_stop_mult` | 1.5 | **100%** |
+| `exit_rsi` | 70 | 66.7% |
+| `s_rsi_entry` | 45 | 66.7% |
+| `f_rsi_min` | 65 | **33.3%** ← unstable |
+| `g_rsi_min` | 65 | **33.3%** ← unstable |
+
+The two thresholds that *define* GFS — the "60" in Grandfather and Father — pick
+a different optimum in every fold. A parameter with no stable value is not a
+parameter, it is noise. The only perfectly stable choice is the ATR stop
+multiplier, i.e. the risk control.
+
 ### What the ablations say (Nifty 500)
 
 | variant | CAGR | MaxDD | Sharpe | Trades | Win% | ExpR |
@@ -233,12 +301,19 @@ Forward-return edge ≈ 0 at every horizon.
 | risk_based_sizing | 14.2% | −17.5% | 1.16 | 211 | 47.4% | 0.29 |
 | live_htf_candles | 5.8% | −10.1% | 0.92 | 94 | 48.9% | 0.36 |
 
+Note the ablation caveat: on `nse_all` the `no_sector_gate` row is *bit-identical*
+to the baseline, because that universe has no industry labels for the gate to act
+on. An ablation that changes nothing is evidence about the data, not the
+strategy. That is now stated in the bias note.
+
 Five conclusions, each of which contradicts some part of the strategy as pitched:
 
-1. **The G+F filter is a risk control, not a return generator.** Removing it
-   *raises* CAGR slightly (12.2% vs 11.7%) while nearly doubling drawdown (−28.3%
-   vs −14.4%). Its value is in what it avoids, not what it finds. Marketing GFS as
-   a way to find winners is backwards.
+1. **The G+F filter is a risk control, not a return generator.** On the Nifty 500,
+   removing it *raises* CAGR slightly (12.2% vs 11.7%) while nearly doubling
+   drawdown (−28.3% vs −14.4%). On `nse_all` it does add return (12.0% vs 9.9%)
+   but again its dominant effect is on drawdown (−31.5% vs −43.5%). Its value is
+   in what it avoids, not what it finds. Marketing GFS as a way to *find winners*
+   is backwards.
 2. **The daily dip is the load-bearing leg.** Without it, 2,094 trades earn an
    expectancy of 0.01 R — statistically nothing. The dip is what concentrates a
    diffuse signal into something tradable.
@@ -246,45 +321,72 @@ Five conclusions, each of which contradicts some part of the strategy as pitched
    first fell more than 3%, and 24.5% fell more than 5%. The `tight_pct_stop`
    ablation confirms it: win rate collapses from 46.8% to 30.4%. Meanwhile the
    2×ATR stop sits comfortably outside the noise — median winner MAE is −0.41 R,
-   and only 8.8% of winners came within 80% of the stop.
-4. **Ranking adds nothing.** `random_ranking` matches the baseline. Any effort
-   spent scoring candidates is currently wasted.
+   and only 8.8% of winners came within 80% of the stop. This is the single
+   clearest actionable finding in the whole study.
+4. **Ranking adds nothing.** `random_ranking` matches or beats the baseline on
+   every universe tested. Any effort spent scoring candidates is currently wasted.
 5. **Realism costs half the return.** `live_htf_candles` — using the in-progress
-   monthly/weekly candle a real trader sees on a chart — drops CAGR from 11.7% to
-   5.8%. Published GFS backtests almost certainly use closed candles without
-   saying so.
+   monthly/weekly candle a real trader actually sees on a chart — drops Nifty 500
+   CAGR from 11.7% to 5.8%. Published GFS backtests almost certainly use closed
+   candles without saying so.
 
 ### Honest verdict
 
-On the Nifty 500 the strategy **matches the index return using a third of the
-exposure and 40% of the drawdown**, and its entries beat a random-entry null at
-the 99.6th percentile. That is a real risk-adjusted result and not nothing.
+**The strategy does not have a demonstrable edge, and the evidence against it is
+stronger than the evidence for it.**
 
-But it **does not beat buy-and-hold on return**, it **collapses on large caps**,
-the **G+F filter does not do what it is advertised to do**, and the
-portfolio-free forward-return study — the cleanest test of the signal itself —
-**shows no significant edge at any horizon**. The Monte Carlo pass is therefore
-plausibly attributable to the gates, the ATR stop and the exit logic rather than
-to the GFS condition.
+What survives scrutiny:
 
-Add the survivorship and index-inclusion bias on top, and the defensible summary
-is: *a decent risk-managed swing framework whose distinctive ingredient is the
-least useful part of it.*
+- On the Nifty 500 with sector control on, it matches the index return with a
+  third of the exposure and 40% of the drawdown (Sharpe 1.04). That is a real
+  risk-adjusted result.
+- Its entries beat a random-entry null at the 99.6th percentile *on that one
+  configuration*.
+
+What does not survive scrutiny:
+
+- **The forward-return study — the cleanest test of the signal, free of any
+  portfolio construction — shows no positive edge on any universe, and a
+  significantly *negative* edge at 5 and 10 days on the full NSE list**
+  (t = −2.08, −2.18). Stocks meeting the GFS condition underperform in exactly
+  the short window the strategy claims to profit from.
+- **The Monte Carlo pass does not replicate.** 99.6th percentile on Nifty 500,
+  but 52.4th on Nifty 100 and 80.4th on `nse_all` — both failures.
+- **The walk-forward DSR is 0.0** across 324 configurations. Two of three test
+  folds lose money.
+- **The defining thresholds are unstable.** `g_rsi_min` and `f_rsi_min` agree in
+  only a third of folds. The "60" is not a discovered constant; it is a number
+  that fits whichever window you looked at.
+- It never beats buy-and-hold on return, on any universe.
+
+The consistent pattern across every test is that **the risk machinery is doing
+the work and the GFS condition is not**: the ATR stop is the only parameter
+stable across folds, the sector gate is the biggest drawdown lever, the regime
+gate helps, and ranking — the one place the "stock picking" would show up — is
+indistinguishable from random.
+
+Defensible summary: *a reasonable risk-managed swing framework wearing a
+multi-timeframe RSI costume, where the costume is the least useful part.* The
+70–80% win rates claimed in public GFS backtests do not appear anywhere in this
+study under leak-free accounting; the highest win rate observed was 62.5%, and
+only with a scale-out exit the original strategy does not specify.
 
 ### If you pursue this anyway
 
-The ablations point at a better strategy than the one described:
+The ablations point at a better strategy than the one described. Treat these as
+**hypotheses generated in-sample**, not results:
 
-- Replace the RSI-65 target with `scale_out_and_trail` (ExpR 0.84 vs 0.27,
-  win rate 62.5%).
-- Use `risk_based_sizing` (CAGR 14.2%, Sharpe 1.16).
-- Keep the ATR stop; discard the 3–5% fixed stop.
-- Keep G+F for drawdown control, but stop believing it selects winners.
-- Fix the 30% exposure problem — cash drag is most of the gap to buy-and-hold.
+- Replace the RSI-65 target with `scale_out_and_trail` (ExpR 0.84 vs 0.27, win
+  rate 62.5%) — it was the best exit on every universe tested.
+- Use `risk_based_sizing` (best CAGR on both Nifty 500 and `nse_all`).
+- Keep the ATR stop; discard the 3–5% fixed stop outright.
+- Keep the sector and regime gates — they are the strongest components measured.
+- Keep G+F for drawdown control if you like, but stop believing it selects
+  winners, and do not tune its threshold.
+- Drop the candidate ranking, or replace it with something that beats random.
+- Test on the *live* HTF mode, since that is what you will actually trade.
 
-All of that is *suggested by* an in-sample ablation table and is therefore a
-hypothesis, not a result. Run `--sweep` and `--universe nse_all` before
-committing capital.
+Every one of those is a change *away* from the strategy as taught.
 
 ---
 

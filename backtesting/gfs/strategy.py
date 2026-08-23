@@ -57,6 +57,7 @@ from .config import (
     STOP_ATR,
     STOP_PCT,
     STOP_SWING,
+    UNKNOWN_SECTOR,
 )
 from .portfolio import Position
 
@@ -333,7 +334,22 @@ def target_for(entry_price: float, signal: EntrySignal, cfg: GFSConfig) -> float
 
 
 def can_open_sector(sector: str, exposure: Dict[str, int], cfg: GFSConfig) -> bool:
+    """Concentration cap, skipped for unlabelled names.
+
+    "Unknown" is not a sector - it is the absence of one. Counting every
+    unlabelled stock into a single bucket does not control correlation, it just
+    throttles the book: on a universe with no sector data at all (the full NSE
+    equity list, where the nifty500 industry map covers none of the names), a
+    cap of 2 would silently hold the portfolio to 2 positions instead of
+    ``max_positions``. The backtest would then be measuring its own cap and
+    reporting it as a property of the strategy.
+
+    So an unknown sector is uncapped, and the universe bias note says plainly
+    that concentration control is unavailable for those runs.
+    """
     if cfg.max_per_sector <= 0:
+        return True
+    if not sector or sector == UNKNOWN_SECTOR:
         return True
     return exposure.get(sector, 0) < cfg.max_per_sector
 

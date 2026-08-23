@@ -282,7 +282,7 @@ def run_study(
     prepared = prepare_data(cfg, symbols)
     result = run_single(cfg, prepared, monte_carlo_runs=monte_carlo_runs)
 
-    bias = universe_bias_note(cfg)
+    bias = universe_bias_note(cfg, prepared.universe)
     sections = [
         render_summary(
             result["metrics"],

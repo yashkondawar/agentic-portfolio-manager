@@ -40,6 +40,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Optional
 
+from .config import UNKNOWN_SECTOR
+
 logger = logging.getLogger("gfs.universe")
 
 NSE_INDEX_URLS: Dict[str, str] = {
@@ -195,7 +197,7 @@ def apply_sector_map(
     return universe
 
 
-def universe_bias_note(cfg) -> str:
+def universe_bias_note(cfg, universe: Optional[List[UniverseStock]] = None) -> str:
     """The caveat that belongs next to every number this harness produces."""
     keys = cfg.resolved_universe_keys()
     if cfg.universe_file is not None:
@@ -210,12 +212,30 @@ def universe_bias_note(cfg) -> str:
             "index-inclusion bias IS present - membership today is partly a "
             "consequence of performance during the test window"
         )
-    return (
+    note = (
         "UNIVERSE BIAS: "
         f"{source}. {circular}. Delisted and merged companies are absent from "
         "every variant, so all returns here are an optimistic upper bound. "
         "Compare an index run against an `nse_all` run to size the effect."
     )
+    # A universe with no industry labels cannot be sector-gated or
+    # sector-capped. That is a material difference in what is being tested, so
+    # it is stated rather than left for the reader to infer from a suspiciously
+    # inert ablation row.
+    if universe:
+        unknown = sum(
+            1 for item in universe if not item.industry or item.industry == UNKNOWN_SECTOR
+        )
+        share = unknown / len(universe)
+        if share >= 0.5:
+            note += (
+                f" SECTOR DATA: {share:.0%} of this universe has no industry "
+                "label, so the sector gate passes everything and the "
+                "per-sector position cap does not bind. This run has weaker "
+                "concentration control than an index run - do not read the "
+                "difference in drawdown as a strategy effect."
+            )
+    return note
 
 
 def sector_counts(universe: List[UniverseStock]) -> Dict[str, int]:
