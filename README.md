@@ -96,11 +96,14 @@ python -m core.storage list-artifacts --limit 20
 python -m core.storage logs --level ERROR --limit 50
 python -m core.storage export <group-id> C:\exports\backtest
 python -m core.storage migrate --repo-root .
+python -m core.storage migrate --repo-root . --replace-state
 ```
 
 The migration command imports legacy `.trader_workbench/`, `qtr_results/state/`,
 backtest caches/results, and known generated reports without deleting them. It is
-safe to rerun. Inspect or edit the database directly with `sqlite3` or a desktop
+safe to rerun. Use `--replace-state` when the legacy folder contains the current
+authoritative mutable state; run and artifact history is still only appended.
+Inspect or edit the database directly with `sqlite3` or a desktop
 tool such as DB Browser for SQLite. Explicit CLI output paths remain available
 as exports; they are no longer the primary store.
 

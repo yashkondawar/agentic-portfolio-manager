@@ -65,6 +65,28 @@ def test_migrate_legacy_storage_imports_state_and_artifacts(tmp_path: Path):
     assert second["artifact_groups"] == 0
 
 
+def test_migrate_can_explicitly_replace_changed_mutable_state(tmp_path: Path):
+    repo = tmp_path / "repo"
+    state = repo / "qtr_results" / "state"
+    state.mkdir(parents=True)
+    ledger = state / "ledger.json"
+    ledger.write_text('[{"symbol": "TCS"}]', encoding="utf-8")
+    db_path = tmp_path / "portfolio.sqlite3"
+    migrate_legacy_storage(repo, db_path=db_path)
+    ledger.write_text('[{"symbol": "INFY"}]', encoding="utf-8")
+
+    unchanged = migrate_legacy_storage(repo, db_path=db_path)
+    replaced = migrate_legacy_storage(repo, replace_state=True, db_path=db_path)
+    repeated = migrate_legacy_storage(repo, replace_state=True, db_path=db_path)
+
+    assert unchanged["documents"] == 0
+    assert replaced["documents"] == 1
+    assert repeated["documents"] == 0
+    assert get_document("qtr_results", "ledger", db_path=db_path) == [
+        {"symbol": "INFY"}
+    ]
+
+
 def test_migrate_deduplicates_identical_reports_from_different_roots(
     tmp_path: Path,
 ):

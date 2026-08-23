@@ -535,9 +535,15 @@ def list_logs(
 def migrate_legacy_storage(
     repo_root: Path,
     *,
+    replace_state: bool = False,
     db_path: Optional[Path] = None,
 ) -> dict[str, int]:
-    """Import known repository-local state without deleting the source files."""
+    """Import known repository-local state without deleting the source files.
+
+    ``replace_state`` makes mutable documents and caches in the source
+    authoritative. Immutable runs and artifacts remain append-only and
+    idempotent.
+    """
     root = Path(repo_root).resolve()
     imported = {"runs": 0, "documents": 0, "caches": 0, "artifact_groups": 0}
 
@@ -579,21 +585,30 @@ def migrate_legacy_storage(
             value = json.loads(path.read_text(encoding="utf-8"))
         except (OSError, ValueError):
             continue
-        if get_document(namespace, key, db_path=db_path) is None:
+        current = get_document(namespace, key, db_path=db_path)
+        if current is None or (replace_state and current != value):
             set_document(namespace, key, value, db_path=db_path)
             imported["documents"] += 1
 
     legacy_watchlist = root / "swing_watchlist.txt"
-    if (
-        legacy_watchlist.exists()
-        and get_document("watchlists", "swing_current", db_path=db_path) is None
-    ):
+    if legacy_watchlist.exists():
         symbols = []
         for line in legacy_watchlist.read_text(encoding="utf-8").splitlines():
             symbol = line.split("#", 1)[0].strip().upper()
             if symbol:
                 symbols.append({"symbol": symbol})
-        if symbols:
+        current_watchlist = get_document(
+            "watchlists", "swing_current", db_path=db_path
+        )
+        current_symbols = (
+            current_watchlist.get("picks")
+            if isinstance(current_watchlist, dict)
+            else None
+        )
+        if symbols and (
+            current_watchlist is None
+            or (replace_state and current_symbols != symbols)
+        ):
             set_document(
                 "watchlists",
                 "swing_current",
@@ -646,11 +661,13 @@ def migrate_legacy_storage(
             if not match:
                 continue
             key = match.group(1)
-            if get_cache(namespace, key, db_path=db_path) is None:
+            payload = path.read_bytes()
+            current = get_cache(namespace, key, db_path=db_path)
+            if current is None or (replace_state and current.payload != payload):
                 put_cache(
                     namespace,
                     key,
-                    path.read_bytes(),
+                    payload,
                     format="pickle",
                     metadata={"legacy_path": str(path)},
                     db_path=db_path,
@@ -813,6 +830,11 @@ def _parse_args() -> argparse.Namespace:
     migrate_parser.add_argument(
         "--repo-root", type=Path, default=Path.cwd(), help="Repository to scan"
     )
+    migrate_parser.add_argument(
+        "--replace-state",
+        action="store_true",
+        help="Replace changed mutable documents and caches with the source state",
+    )
     return parser.parse_args()
 
 
@@ -846,7 +868,11 @@ def main() -> int:
     elif args.command == "migrate":
         print(
             json.dumps(
-                migrate_legacy_storage(args.repo_root, db_path=args.db),
+                migrate_legacy_storage(
+                    args.repo_root,
+                    replace_state=args.replace_state,
+                    db_path=args.db,
+                ),
                 indent=2,
             )
         )
