@@ -97,6 +97,13 @@ def build_parser() -> argparse.ArgumentParser:
     risk.add_argument("--max-positions", type=int, default=8)
     risk.add_argument("--max-position-pct", type=float, default=15.0)
     risk.add_argument("--max-per-sector", type=int, default=2)
+    risk.add_argument(
+        "--min-headroom-pct",
+        type=float,
+        default=0.0,
+        help="Only take dips at least this far below the resistance level the "
+        "exit targets. 0 disables. See conviction.py for the evidence.",
+    )
     risk.add_argument("--stop-mode", choices=[STOP_ATR, STOP_PCT, STOP_SWING], default=STOP_ATR)
     risk.add_argument("--atr-mult", type=float, default=2.0)
     risk.add_argument("--stop-pct", type=float, default=4.0)
@@ -189,6 +196,7 @@ def config_from_args(args) -> GFSConfig:
         sector_rs_lookback=args.sector_lookback,
         rank_by=args.rank_by,
         max_per_sector=args.max_per_sector,
+        min_headroom_pct=args.min_headroom_pct,
         starting_capital=args.capital,
         sizing_mode=args.sizing,
         risk_per_trade_pct=args.risk_per_trade,

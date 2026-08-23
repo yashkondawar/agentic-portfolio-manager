@@ -18,6 +18,13 @@ this harness exists to find out whether they survive contact with data.
 > `strategies/gfs.py` wrapper exists yet, on purpose. Build the scanner only if
 > the evidence below justifies it.
 
+> **Read order note.** The "Honest verdict" section reports the strategy *as
+> taught* (2×ATR stop, RSI-65 exit, 60-day time stop) and finds no edge. That
+> section is still accurate for those settings. **It is then partially overturned
+> by the conviction study further down**, which removes the time stop, widens the
+> stop, and adds a resistance-headroom entry filter — and does reach the 70%+ win
+> rate and index-beating return. Do not quote one without the other.
+
 ---
 
 ## Quick start
@@ -465,6 +472,156 @@ Every one of those is a change *away* from the strategy as taught.
 
 ---
 
+## The conviction study — and a partial reversal of the verdict above
+
+Everything above was run with the strategy as taught: a 2×ATR stop, an RSI-65
+exit, a 60-day time stop, and no filter on *where in its own range* the stock was
+when it dipped. Under those settings the conclusion stands.
+
+Two changes overturn it. Both were found by `conviction.py`, which simulates
+every GFS signal as a standalone trade — ~1,030 gated signals instead of the
+~240 the portfolio has room for — and splits the sample chronologically so rules
+picked on the early years are scored on the later ones.
+
+```bash
+python -m backtesting.gfs.run_conviction --start 2013-01-01 --end 2026-08-21 --grid
+```
+
+### Finding 1: headroom is the only entry filter that replicated
+
+Twenty-four features were screened by quintile (120 implicit comparisons, and
+6,329 more for two-feature conjunctions — the script prints both counts, because
+the best of that many looks good by chance). Almost all of them failed:
+`sector_rs`, `breadth_pct` and `atr_pct` all looked excellent in-sample and
+*inverted* out-of-sample. The best two-feature rule hit 76.6% on train and fell
+to 59.5% on test, with a bootstrap CI of 34.9–74.6% — a fitted rule, not a
+discovery.
+
+One thing replicated, monotonically, on **both** halves:
+
+| `headroom_pct ≥` | train n | train win | test n | test win | test ExpR |
+|---|---|---|---|---|---|
+| 0 | 507 | 45.0% | 524 | 49.8% | +0.356 |
+| 10 | 452 | 48.2% | 475 | 49.5% | +0.363 |
+| 15 | 287 | 52.6% | 339 | 51.3% | +0.433 |
+| 20 | 172 | 56.4% | 200 | 57.5% | +0.653 |
+| 25 | 95 | 61.1% | 121 | 60.3% | +0.726 |
+| 30 | 40 | 62.5% | 64 | 64.1% | +0.884 |
+
+`headroom_pct` is the distance from the entry close to the resistance level the
+exit targets. The reason it works is mechanical rather than statistical, which is
+why it survived: **the exit is defined at resistance, so a dip with the prior
+swing high 3% overhead cannot pay for its own stop.** No amount of higher-
+timeframe strength fixes a trade with nowhere to go. It is now a config knob,
+`min_headroom_pct`, applied in `apply_conditions`.
+
+### Finding 2: the win rate was never a property of the signal
+
+The `--grid` sweep holds the entry population fixed and varies only the exit
+geometry:
+
+| win rate (%) | exit RSI 55 | 60 | 65 | 70 |
+|---|---|---|---|---|
+| stop 1.0×ATR | 35.3 | 31.6 | 27.7 | 26.3 |
+| 2.0×ATR | 57.9 | 53.6 | 47.4 | 44.6 |
+| 3.0×ATR | 71.1 | 69.2 | 62.8 | 56.7 |
+| 4.0×ATR | 73.8 | **74.6** | 71.1 | 64.7 |
+
+Win rate moves from 26% to 75% **without a single change to which stocks are
+bought**, while expectancy stays in a band of 0.07–0.39 R with no relationship to
+it. Any GFS win rate quoted without its stop width is uninterpretable, and the
+public 70–80% claims are entirely reachable this way while making money in a
+completely different manner than advertised.
+
+### The 3–5% stop is the single most damaging rule in the brief
+
+Requiring a 3–5% stop was the explicit risk instruction. The excursion data says
+it is what was destroying the strategy:
+
+- Median MAE of eventual **winners**: **−5.02%**
+- Winners that first fell more than 3%: **68.5%**
+- Winners that first fell more than 5%: **50.6%**
+
+A 5% stop liquidates half the winners before they work. This is not a marginal
+effect — the ATR stability sweep shows tightening the stop makes *every* metric
+worse, including drawdown, which is the opposite of what a tight stop is for:
+
+| `atr_stop_mult` | trades | win rate | ExpR | CAGR | MaxDD | Sharpe |
+|---|---|---|---|---|---|---|
+| 2.0 | 279 | 49.8% | +0.141 | +6.98% | −23.4% | 0.57 |
+| 2.5 | 256 | 57.8% | +0.152 | +9.11% | −20.6% | 0.69 |
+| 3.0 | 240 | 66.7% | +0.212 | +13.34% | −17.2% | 0.93 |
+| **3.5** | **230** | **70.4%** | **+0.199** | **+14.16%** | **−17.5%** | **0.98** |
+| 4.0 | 222 | 72.5% | +0.178 | +14.14% | −21.4% | 0.98 |
+| 4.5 | 217 | 73.3% | +0.160 | +14.22% | −23.6% | 0.97 |
+| 5.0 | 212 | 75.0% | +0.149 | +13.41% | −28.3% | 0.92 |
+
+3.0–4.5 is a **plateau**, not a spike, which is what separates this from the
+tuned parameters that failed walk-forward earlier.
+
+### The configuration that survives
+
+```bash
+python -m backtesting.gfs.run_backtest \
+  --start 2013-01-01 --end 2026-08-21 --universe nifty500 \
+  --max-holding-days 0 --min-headroom-pct 10 \
+  --atr-mult 3.5 --exit-rsi 60 \
+  --max-positions 4 --max-position-pct 30 --monte-carlo 500
+```
+
+```
+CAGR +14.16%  vs benchmark +10.80%   (excess +3.36%)
+MaxDD -17.47% vs benchmark -38.44%   Sharpe 0.98
+Trades 230 | Win 70.43% | PF 1.91 | ExpR +0.199 (+3.54%/trade)
+Exits: rsi_target n=169 (73.5%, +208% of P&L) | stop n=61 (26.5%, -108%)
+Random-entry Monte Carlo: 98.6th percentile
+Forward return 63d: +1.59% edge, t = 3.08
+```
+
+Three separate things changed, and all three mattered:
+
+1. **No time stop** (`--max-holding-days 0`). Improved every metric on its own.
+2. **The headroom filter.** With it, the 63-day forward-return edge goes from
+   +0.50% (t = 1.06, noise) to +1.59% (t = 3.08). This is the first time in the
+   entire study that the *signal itself* — measured without any portfolio
+   construction — has shown a statistically significant edge.
+3. **A stop wide enough to survive the dip being bought.**
+
+Capital had to be redeployed as well: filtering cut exposure from 29% to 16%, and
+CAGR initially *fell* despite better trades because the money sat idle. Four
+positions at 30% each restores it.
+
+### What this does and does not overturn
+
+Overturned: the claim that no filter helps, and that 70–80% win rates are
+unreachable under leak-free accounting. Both were wrong. The strategy beats the
+index on return *and* halves the drawdown, and its signal now clears a
+significance test it previously failed.
+
+Not overturned:
+
+- **Payoff ratio is 0.87** — the average loss (−11.18%) is larger than the
+  average win (+9.72%). Break-even win rate is ~53%. The current 70% leaves
+  margin, but this configuration *depends* on staying above ~53%, which is a
+  more fragile position than a high-payoff system.
+- **`capacity` is now the top rejection reason** (1,427 signals dropped). Four
+  concentrated positions is the mechanism that converts trade quality into CAGR,
+  and it is also what makes the equity curve lumpy — 2014 (+46.8%), 2021, 2023
+  and 2024 (+42.2%) carry the entire record, while 2016, 2018 and 2025 are
+  negative.
+- **Index-inclusion bias is unmeasured here.** All of the above is Nifty 500
+  present-day constituents. Rerun on `nse_all` before trusting the level.
+- **`min_headroom_pct = 10` is the CAGR optimum but not a plateau** — 15 spikes
+  the drawdown to −31%. The *trade-quality* effect of headroom is monotonic and
+  replicated; its *CAGR* effect is noisier because it also moves exposure. Trust
+  the direction, not the decimal.
+- **G and F still have not been shown to select winners.** Nothing in this study
+  rehabilitated the 60/60 thresholds. The improvement came from where the stock
+  sits relative to its resistance, how wide the stop is, and how long the trade
+  is given — not from the Grandfather or the Father.
+
+---
+
 ## Module map
 
 | file | role |
@@ -478,6 +635,8 @@ Every one of those is a change *away* from the strategy as taught.
 | `metrics.py` | performance, excursions, exit attribution |
 | `baselines.py` | buy & hold, forward-return study, random-entry null, ablations |
 | `sweep.py` | walk-forward sweep, DSR, parameter-stability curves |
+| `conviction.py` | portfolio-free signal labelling, train/test feature search, stop×exit grid |
+| `run_conviction.py` | CLI for the conviction study |
 | `universe.py` | NSE index / all-equity loading, sector map, bias note |
 | `service.py` | orchestration; caches the expensive indicator pass across variants |
 | `run_backtest.py` | CLI |

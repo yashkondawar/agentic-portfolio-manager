@@ -135,6 +135,13 @@ class GFSConfig:
     rank_by: str = RANK_COMPOSITE
     max_per_sector: int = 2  # concentration cap among open positions
 
+    # Minimum distance to resistance, in percent, for a dip to be tradable.
+    # 0 disables the filter. This is the only entry filter the conviction study
+    # found that survived an out-of-sample test, and it is mechanical rather
+    # than statistical: the exit is defined at resistance, so a signal with no
+    # headroom has no room to pay for its own stop.
+    min_headroom_pct: float = 0.0
+
     # ── Capital, sizing and risk ─────────────────────────────────────────────
     starting_capital: float = 500_000.0
     sizing_mode: str = SIZING_EQUAL

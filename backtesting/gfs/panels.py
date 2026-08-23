@@ -57,6 +57,7 @@ PANEL_COLUMNS = [
     "turnover_cr",
     "swing_low",
     "resistance",
+    "headroom_pct",
     "tradable",
     "gf_ok",
     "s_dip",
@@ -179,6 +180,14 @@ def apply_conditions(base: pd.DataFrame, cfg: GFSConfig) -> pd.DataFrame:
         & (out["turnover_cr"] >= cfg.min_turnover_cr)
         & (out["atr_pct"] <= cfg.max_atr_pct)
     )
+
+    # Headroom: the distance to the resistance level the exit is defined
+    # against. A dip with the prior swing high 3% overhead cannot pay for its
+    # own stop, however strong the higher timeframes look. See
+    # `conviction.py` - this is the one entry filter that survived out-of-sample.
+    out["headroom_pct"] = (out["resistance"] - out["Close"]) / out["Close"] * 100.0
+    if cfg.min_headroom_pct > 0:
+        out["tradable"] &= out["headroom_pct"] >= cfg.min_headroom_pct
 
     # ── The GFS conditions themselves ────────────────────────────────────────
     out["gf_ok"] = (out["rsi_m"] >= cfg.g_rsi_min) & (out["rsi_w"] >= cfg.f_rsi_min)
