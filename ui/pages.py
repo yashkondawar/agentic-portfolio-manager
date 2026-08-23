@@ -26,7 +26,21 @@ from ui.components import (
     run_strategy,
 )
 from ui.forms import render_strategy_params
+from ui.market_temperature import market_temperature_page
 from ui.state import add_symbols, clear_symbols
+
+__all__ = [
+    "backtest_page",
+    "broker_page",
+    "dashboard_page",
+    "discover_page",
+    "kronos_page",
+    "market_temperature_page",
+    "portfolio_page",
+    "research_page",
+    "settings_page",
+    "swing_page",
+]
 
 
 def dashboard_page() -> None:

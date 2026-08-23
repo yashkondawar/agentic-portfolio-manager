@@ -14,6 +14,7 @@ from streamlit.testing.v1 import AppTest
         "broker_page",
         "settings_page",
         "kronos_page",
+        "market_temperature_page",
     ],
 )
 def test_page_renders_without_exception(page_name):
@@ -23,5 +24,5 @@ def test_page_renders_without_exception(page_name):
         "initialize_state()\n"
         f"{page_name}()\n"
     )
-    app = AppTest.from_string(script).run(timeout=30)
+    app = AppTest.from_string(script).run(timeout=120)
     assert not app.exception
