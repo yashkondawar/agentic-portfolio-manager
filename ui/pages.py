@@ -319,6 +319,7 @@ def broker_page() -> None:
             st.session_state["broker_cash"] = broker.available_cash()
             st.session_state["broker_holdings"] = broker.holdings_for_strategy()
             st.session_state["broker_positions"] = broker.positions_for_strategy()
+            st.session_state["broker_swing_positions"] = broker.swing_positions()
             st.session_state["broker_orders"] = broker.orders()
             st.session_state["broker_refreshed_at"] = datetime.now().isoformat()
         except Exception as exc:
@@ -520,7 +521,13 @@ def _holding_source(source: str) -> list[dict]:
 
 def _position_source(source: str) -> list[dict]:
     if source == "Zerodha snapshot":
-        rows = st.session_state.get("broker_positions", [])
+        # A swing trade is a delivery position, so it lives in the holdings book.
+        # Kite's ``positions`` book only covers today's trades and is empty for a
+        # delivery-only account, which is why this page used to report no
+        # snapshot while the Portfolio page loaded fine.
+        rows = st.session_state.get("broker_swing_positions") or st.session_state.get(
+            "broker_positions", []
+        )
         if not rows:
             st.warning("Refresh the Broker page before using a Zerodha snapshot.")
         return rows
