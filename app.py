@@ -9,6 +9,7 @@ from ui.pages import (
     dashboard_page,
     discover_page,
     kronos_page,
+    market_temperature_page,
     portfolio_page,
     research_page,
     settings_page,
@@ -58,6 +59,11 @@ navigation = st.navigation(
             ),
             st.Page(
                 research_page, title="Stock Research", icon=":material/query_stats:"
+            ),
+            st.Page(
+                market_temperature_page,
+                title="Market Temperature",
+                icon=":material/thermostat:",
             ),
             st.Page(
                 kronos_page, title="Kronos Forecast Lab", icon=":material/insights:"

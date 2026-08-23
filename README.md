@@ -69,6 +69,7 @@ scripts:
 | Dashboard | Shared idea basket, readiness, and recent persisted runs |
 | Discover Ideas | Watchlist screening and quarterly-results catalysts |
 | Stock Research | Parallel specialist agents or sequential supervisor |
+| Market Temperature | Long-horizon read on whether an index is unusually cheap or expensive, used to pace new-money deployment |
 | Swing Desk | Manage open swing positions and evaluate new entries |
 | Portfolio Review | Concentration, risk, conviction, and rebalancing review |
 | Backtest Lab | Historical return/risk metrics, equity curve, and trade log |
