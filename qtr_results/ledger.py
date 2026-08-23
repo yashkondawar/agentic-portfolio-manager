@@ -8,12 +8,12 @@ closes anything past the max holding window.
 
 from __future__ import annotations
 
-import json
 import logging
 from datetime import date, datetime
 from typing import Any, Callable, Dict, List, Optional
 
 from qtr_results import config
+from core.storage import get_document, set_document
 
 logger = logging.getLogger("qtr_results.ledger")
 
@@ -21,20 +21,23 @@ PriceFn = Callable[[str], Optional[float]]
 
 
 def load_ledger() -> List[Dict[str, Any]]:
-    if not config.LEDGER_PATH.exists():
-        return []
-    try:
-        return json.loads(config.LEDGER_PATH.read_text(encoding="utf-8"))
-    except (ValueError, OSError) as e:
-        logger.warning("Could not read ledger (%s); starting fresh.", e)
-        return []
+    stored = get_document("qtr_results", "ledger")
+    if stored is not None:
+        return stored
+    if config.LEDGER_PATH.exists():
+        try:
+            import json
+
+            legacy = json.loads(config.LEDGER_PATH.read_text(encoding="utf-8"))
+            set_document("qtr_results", "ledger", legacy)
+            return legacy
+        except (ValueError, OSError) as e:
+            logger.warning("Could not import legacy ledger (%s); starting fresh.", e)
+    return []
 
 
 def save_ledger(picks: List[Dict[str, Any]]) -> None:
-    config.ensure_state_dir()
-    config.LEDGER_PATH.write_text(
-        json.dumps(picks, indent=2, default=str), encoding="utf-8"
-    )
+    set_document("qtr_results", "ledger", picks)
 
 
 def has_open(picks: List[Dict[str, Any]], symbol: str) -> bool:

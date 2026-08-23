@@ -27,10 +27,12 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import time
 from typing import Any, Dict
 
 from core import registry
 from core.console import safe_print
+from core.run_history import save_run
 from logging_config import setup_logging
 
 
@@ -112,7 +114,13 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     params = _parse_params(args)
+    started = time.perf_counter()
     result = registry.run_strategy(args.strategy, params)
+    save_run(
+        result,
+        params,
+        duration_ms=int((time.perf_counter() - started) * 1000),
+    )
 
     print("=" * 80)
     print(f"STRATEGY: {result.strategy_id}  |  STATUS: {result.status}")

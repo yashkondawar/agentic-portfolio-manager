@@ -22,11 +22,12 @@ from typing import Optional, Dict, Any, List
 from datetime import datetime, date
 
 from kiteconnect import KiteConnect
+from core.storage import get_document, set_document
 
 logger = logging.getLogger(__name__)
 
-# Token persistence lives outside the repository to prevent accidental commits.
-TOKEN_FILE = Path(
+# Legacy token location, imported once when present.
+LEGACY_TOKEN_FILE = Path(
     os.getenv("ZERODHA_TOKEN_FILE", "").strip()
     or str(Path.home() / ".agentic-portfolio-manager" / "zerodha_access_token.json")
 ).expanduser()
@@ -54,32 +55,33 @@ class ZerodhaClient:
 
     def _load_saved_token(self):
         """Load previously saved access token if still valid (same day)."""
-        if TOKEN_FILE.exists():
+        data = get_document("credentials", "zerodha_access_token")
+        if data is None and LEGACY_TOKEN_FILE.exists():
             try:
-                data = json.loads(TOKEN_FILE.read_text(encoding="utf-8"))
-                saved_date = data.get("date", "")
-                token = data.get("access_token", "")
-                if saved_date == date.today().isoformat() and token:
-                    self.kite.set_access_token(token)
-                    self._access_token = token
-                    self._is_authenticated = True
-                    logger.info("[ZERODHA] Loaded saved access token (valid for today)")
-            except (json.JSONDecodeError, KeyError):
-                pass
+                data = json.loads(LEGACY_TOKEN_FILE.read_text(encoding="utf-8"))
+                set_document("credentials", "zerodha_access_token", data)
+            except (json.JSONDecodeError, OSError):
+                data = None
+        if isinstance(data, dict):
+            saved_date = data.get("date", "")
+            token = data.get("access_token", "")
+            if saved_date == date.today().isoformat() and token:
+                self.kite.set_access_token(token)
+                self._access_token = token
+                self._is_authenticated = True
+                logger.info("[ZERODHA] Loaded saved access token (valid for today)")
 
     def _save_token(self, access_token: str):
         """Save access token for reuse within the same trading day."""
-        TOKEN_FILE.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
-        os.chmod(TOKEN_FILE.parent, 0o700)
-        TOKEN_FILE.write_text(
-            json.dumps({
+        set_document(
+            "credentials",
+            "zerodha_access_token",
+            {
                 "access_token": access_token,
                 "date": date.today().isoformat(),
                 "saved_at": datetime.now().isoformat(),
-            }),
-            encoding="utf-8",
+            },
         )
-        os.chmod(TOKEN_FILE, 0o600)
         logger.info("[ZERODHA] Access token saved for today")
 
     @property

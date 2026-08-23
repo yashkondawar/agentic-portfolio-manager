@@ -79,11 +79,11 @@ from datetime import datetime, date
 from pathlib import Path
 from typing import Dict, List, Optional, TextIO
 
+from core.storage import runtime_dir, save_artifacts, set_document
 from dotenv import load_dotenv
 
 # Reuse the verified Copilot-CLI plumbing from the swing runner.
 from swing_trading_copilot import (
-    SCRAPER_MCP_SERVER_NAME,
     SCRAPER_TOOLS_DIRECTIVE,
     WEB_GROUNDING_DIRECTIVE,
     _resolve_copilot_bin,
@@ -179,7 +179,6 @@ def _yf_symbol(symbol: str) -> str:
 
 
 def _rsi(close, period: int = 14):
-    import pandas as pd  # local import; heavy dep
     delta = close.diff()
     gain = delta.clip(lower=0.0)
     loss = -delta.clip(upper=0.0)
@@ -240,7 +239,6 @@ class StockMetrics:
 
 
 def _compute_metrics_for(symbol: str, industry: str, df, nifty_ret_3m: Optional[float]) -> Optional[StockMetrics]:
-    import pandas as pd
     if df is None or df.empty:
         return None
     df = df.dropna(subset=["Close"])
@@ -581,8 +579,8 @@ def invoke_copilot(
     """Run the Copilot CLI non-interactively on a prompt file; stream + return stdout."""
     copilot_bin = _resolve_copilot_bin()
 
-    tmp_dir = Path.cwd() / ".copilot_tmp"
-    tmp_dir.mkdir(exist_ok=True)
+    tmp_dir = runtime_dir() / "copilot"
+    tmp_dir.mkdir(parents=True, exist_ok=True)
     prompt_file = tmp_dir / f"curate-prompt-{uuid.uuid4().hex[:8]}.md"
     prompt_file.write_text(prompt_text, encoding="utf-8")
 
@@ -715,6 +713,12 @@ def parse_curated_watchlist(llm_output: str) -> List[dict]:
 
 
 def write_watchlist_file(picks: List[dict], path: Path, *, index: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(render_watchlist(picks, index=index), encoding="utf-8")
+    logger.info("Wrote %d symbols to watchlist file: %s", len(picks), path)
+
+
+def render_watchlist(picks: List[dict], *, index: str) -> str:
     lines = [
         f"# Swing-trading watchlist — curated {date.today().isoformat()} "
         f"from {index} universe by watchlist_curator.py",
@@ -731,13 +735,17 @@ def write_watchlist_file(picks: List[dict], path: Path, *, index: str) -> None:
             if str(p.get(k, "")).strip()
         )
         lines.append(f"{sym}  # {meta}" if meta else sym)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    logger.info("Wrote %d symbols to watchlist file: %s", len(picks), path)
+    return "\n".join(lines) + "\n"
 
 
 def write_mechanical_watchlist(rows: List[StockMetrics], path: Path, *, index: str) -> None:
     """Stage-1-only watchlist (no LLM) — used with --no-llm."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(render_mechanical_watchlist(rows, index=index), encoding="utf-8")
+    logger.info("Wrote %d symbols to mechanical watchlist file: %s", len(rows), path)
+
+
+def render_mechanical_watchlist(rows: List[StockMetrics], *, index: str) -> str:
     lines = [
         f"# Swing-trading watchlist (MECHANICAL, no LLM vetting) — "
         f"{date.today().isoformat()} from {index} universe",
@@ -747,9 +755,48 @@ def write_mechanical_watchlist(rows: List[StockMetrics], path: Path, *, index: s
     ]
     for m in rows:
         lines.append(f"{m.symbol}  # {m.industry} | score {m.score:.3f}")
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    logger.info("Wrote %d symbols to mechanical watchlist file: %s", len(rows), path)
+    return "\n".join(lines) + "\n"
+
+
+def persist_watchlist(
+    picks: List[dict],
+    *,
+    index: str,
+    report: Optional[str] = None,
+    shortlist: Optional[str] = None,
+    copilot_log: Optional[Path] = None,
+) -> str:
+    set_document(
+        "watchlists",
+        "swing_current",
+        {
+            "updated_at": datetime.now().isoformat(timespec="seconds"),
+            "index": index,
+            "picks": picks,
+        },
+    )
+    artifacts = {"watchlist.txt": render_watchlist(picks, index=index)}
+    if report is not None:
+        artifacts["report.md"] = report
+    if shortlist is not None:
+        artifacts["shortlist.md"] = shortlist
+    if copilot_log is not None and copilot_log.exists():
+        artifacts["copilot.log"] = copilot_log.read_text(
+            encoding="utf-8", errors="replace"
+        )
+    group_id, _ = save_artifacts(
+        "watchlist_curation",
+        f"{index}-{datetime.now():%Y%m%dT%H%M%S}",
+        artifacts,
+        metadata={"index": index, "symbols": [pick.get("symbol") for pick in picks]},
+        content_types={
+            "watchlist.txt": "text/plain",
+            "report.md": "text/markdown",
+            "shortlist.md": "text/markdown",
+            "copilot.log": "text/plain",
+        },
+    )
+    return group_id
 
 
 # ─── CLI ──────────────────────────────────────────────────────────────────────
@@ -812,12 +859,10 @@ def _parse_args() -> argparse.Namespace:
                    help="Swing holding window (days) the watchlist must serve. Default: 30.")
     p.add_argument("--llm", action=argparse.BooleanOptionalAction, default=True,
                    help="Run Stage-2 LLM curation. --no-llm stops after the mechanical screen.")
-    p.add_argument("--out-watchlist", type=Path, default=Path("swing_watchlist.txt"),
-                   help="Output watchlist file (consumed by swing_trading_copilot.py). "
-                        "Default: swing_watchlist.txt.")
+    p.add_argument("--out-watchlist", type=Path, default=None,
+                   help="Optional file export. The active watchlist is always stored in SQLite.")
     p.add_argument("--out-report", type=Path, default=None,
-                   help="Save the full curation report (Markdown). "
-                        "Default: watchlist_report_<date>.md (LLM mode only).")
+                   help="Optional Markdown export for the full curation report.")
 
     # Copilot passthrough
     p.add_argument("--model", default=None, help="Copilot model (overrides COPILOT_MODEL).")
@@ -901,8 +946,18 @@ def main() -> int:
 
     # 3) Mechanical-only mode → write and exit.
     if not args.llm:
-        write_mechanical_watchlist(shortlist, args.out_watchlist, index=universe_label)
-        print(f"\nMechanical watchlist written → {args.out_watchlist}")
+        picks = [{"symbol": row.symbol, "industry": row.industry} for row in shortlist]
+        group_id = persist_watchlist(
+            picks,
+            index=universe_label,
+            shortlist=(
+                f"# Stage-1 shortlist — {universe_label} — "
+                f"{date.today().isoformat()}\n\n{table}\n"
+            ),
+        )
+        if args.out_watchlist:
+            write_mechanical_watchlist(shortlist, args.out_watchlist, index=universe_label)
+        print(f"\nMechanical watchlist stored → sqlite://artifacts/{group_id}")
         print("Re-run without --no-llm for fundamental/financial vetting.\n")
         return 0
 
@@ -910,7 +965,7 @@ def main() -> int:
     copilot_log_path: Optional[Path] = args.copilot_log
     if copilot_log_path is not None and str(copilot_log_path).lower() == "auto":
         stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-        copilot_log_path = Path("logs") / f"curate-{stamp}.log"
+        copilot_log_path = runtime_dir() / "logs" / f"curate-{stamp}.log"
 
     prompt = build_curation_prompt(
         shortlist,
@@ -934,30 +989,54 @@ def main() -> int:
         )
     except Exception as e:
         logger.exception("Stage-2 curation failed: %s", e)
-        logger.warning("Falling back to the mechanical shortlist for the watchlist file.")
-        write_mechanical_watchlist(shortlist, args.out_watchlist, index=universe_label)
+        logger.warning("Falling back to the mechanical shortlist.")
+        picks = [{"symbol": row.symbol, "industry": row.industry} for row in shortlist]
+        persist_watchlist(
+            picks,
+            index=universe_label,
+            shortlist=table,
+            copilot_log=copilot_log_path,
+        )
+        if args.out_watchlist:
+            write_mechanical_watchlist(shortlist, args.out_watchlist, index=universe_label)
         return 1
 
-    # 5) Save report + parse → watchlist file.
-    report_path = args.out_report or Path(f"watchlist_report_{date.today().isoformat()}.md")
-    report_path.parent.mkdir(parents=True, exist_ok=True)
-    report_path.write_text(llm_output, encoding="utf-8")
-    logger.info("Saved curation report to %s", report_path)
+    # 5) Persist report + active watchlist; optional paths are exports.
+    if args.out_report:
+        args.out_report.parent.mkdir(parents=True, exist_ok=True)
+        args.out_report.write_text(llm_output, encoding="utf-8")
+        logger.info("Exported curation report to %s", args.out_report)
 
     picks = parse_curated_watchlist(llm_output)
     if picks:
-        write_watchlist_file(picks, args.out_watchlist, index=universe_label)
-        print(f"\n✓ Curated watchlist ({len(picks)} names) → {args.out_watchlist}")
-        print(f"✓ Full report → {report_path}")
-        print("\nNext: feed it to your daily runs:")
-        print(f"  python swing_trading_copilot.py --source zerodha --watchlist-file {args.out_watchlist}\n")
+        group_id = persist_watchlist(
+            picks,
+            index=universe_label,
+            report=llm_output,
+            shortlist=table,
+            copilot_log=copilot_log_path,
+        )
+        if args.out_watchlist:
+            write_watchlist_file(picks, args.out_watchlist, index=universe_label)
+        print(
+            f"\nCurated watchlist ({len(picks)} names) stored "
+            f"→ sqlite://artifacts/{group_id}"
+        )
     else:
         logger.warning(
             "Could not parse a json watchlist block from the model output. "
-            "Saved the full report (%s); writing mechanical shortlist as fallback.",
-            report_path,
+            "Storing the mechanical shortlist as fallback.",
         )
-        write_mechanical_watchlist(shortlist, args.out_watchlist, index=universe_label)
+        fallback = [{"symbol": row.symbol, "industry": row.industry} for row in shortlist]
+        persist_watchlist(
+            fallback,
+            index=universe_label,
+            report=llm_output,
+            shortlist=table,
+            copilot_log=copilot_log_path,
+        )
+        if args.out_watchlist:
+            write_mechanical_watchlist(shortlist, args.out_watchlist, index=universe_label)
 
     return 0
 

@@ -114,7 +114,6 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
     )
     today = date.today()
 
-    config.ensure_state_dir()
     mem = memory_mod.load_memory()
     picks = ledger_mod.load_ledger()
     pf = portfolio_mod.load_portfolio(capital)
@@ -554,13 +553,12 @@ def _fetch_upcoming(days_ahead: int) -> List[Dict[str, Any]]:
 
 
 def ledger_snapshot() -> Dict[str, Any]:
-    """Read-only portfolio + tradebook straight from disk — no run, no network.
+    """Read-only portfolio + tradebook from SQLite — no run, no network.
 
     Used by the UI to always show the current ledger state on page load. Uses the
     stored ``last_price`` from the previous run to mark holdings (no live fetch),
     so it is instant and side-effect free.
     """
-    config.ensure_state_dir()
     picks = ledger_mod.load_ledger()
     pf = portfolio_mod.load_portfolio()
     holdings = _holdings_view(ledger_mod.open_positions(picks), as_of=date.today())

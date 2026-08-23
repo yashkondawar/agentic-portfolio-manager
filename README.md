@@ -78,7 +78,34 @@ scripts:
 Forms are generated from each strategy's `ParamSpec`, so new registered
 strategies and parameters become discoverable without adding another CLI-only
 workflow. Reports and structured data can be downloaded, and sanitized run
-history is stored locally under `.trader_workbench/`.
+history is stored in the local SQLite database described below.
+
+### Local storage
+
+All durable application data uses one SQLite database outside the repository:
+runs, reports and backtest artifacts, scraper/backtest caches, watchlists, and
+quarterly-strategy state. On Windows the default is
+`%LOCALAPPDATA%\AgenticPortfolioManager\portfolio.sqlite3`. Set
+`PORTFOLIO_DB_PATH` in `.env` to use another local path. SQLite runs in WAL mode
+and requires no service, container, account, or network connection.
+
+```bash
+python -m core.storage path
+python -m core.storage summary
+python -m core.storage list-artifacts --limit 20
+python -m core.storage logs --level ERROR --limit 50
+python -m core.storage export <group-id> C:\exports\backtest
+python -m core.storage migrate --repo-root .
+python -m core.storage migrate --repo-root . --replace-state
+```
+
+The migration command imports legacy `.trader_workbench/`, `qtr_results/state/`,
+backtest caches/results, and known generated reports without deleting them. It is
+safe to rerun. Use `--replace-state` when the legacy folder contains the current
+authoritative mutable state; run and artifact history is still only appended.
+Inspect or edit the database directly with `sqlite3` or a desktop
+tool such as DB Browser for SQLite. Explicit CLI output paths remain available
+as exports; they are no longer the primary store.
 
 **Trading safety:** the UI is decision-support only. Zerodha integration can
 authenticate and read account data, and research can show proposed orders, but

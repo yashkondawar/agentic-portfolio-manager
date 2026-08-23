@@ -6,24 +6,24 @@ same capital layer the backtest uses -- a persisted cash balance plus the exact
 risk-based sizing rule -- so every pick now carries a concrete share count,
 invested amount and rupee risk, and the book respects a max open-position count.
 
-State lives in ``state/portfolio.json``:
+State lives in the central SQLite ``documents`` table:
     {"starting_capital": 500000.0, "cash": 483210.0, "realized_pnl": 12345.0}
 
 ``cash`` is decremented (incl. commission) when a position is opened and credited
 back (net of commission) when it closes. ``equity`` = cash + marked value of the
-open book. Everything degrades safely: a missing/corrupt file re-seeds from the
+open book. Everything degrades safely: missing/corrupt state re-seeds from the
 configured ``STARTING_CAPITAL``.
 """
 
 from __future__ import annotations
 
-import json
 import logging
 import math
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
 
 from qtr_results import config
+from core.storage import get_document, set_document
 
 logger = logging.getLogger("qtr_results.portfolio")
 
@@ -46,28 +46,33 @@ def load_portfolio(starting_capital: Optional[float] = None) -> Portfolio:
     """Load the persisted portfolio, seeding a fresh one on first use.
 
     ``starting_capital`` (from the run params) seeds a brand-new portfolio; an
-    existing file keeps its own starting_capital so history is stable across runs.
+    existing state keeps its own starting_capital so history is stable across runs.
     """
     seed = starting_capital if starting_capital is not None else config.STARTING_CAPITAL
-    if not config.PORTFOLIO_PATH.exists():
+    raw = get_document("qtr_results", "portfolio")
+    if raw is None and config.PORTFOLIO_PATH.exists():
+        try:
+            import json
+
+            raw = json.loads(config.PORTFOLIO_PATH.read_text(encoding="utf-8"))
+            set_document("qtr_results", "portfolio", raw)
+        except (ValueError, OSError):
+            raw = None
+    if raw is None:
         return Portfolio(starting_capital=seed, cash=seed)
     try:
-        raw = json.loads(config.PORTFOLIO_PATH.read_text(encoding="utf-8"))
         return Portfolio(
             starting_capital=float(raw.get("starting_capital", seed)),
             cash=float(raw.get("cash", seed)),
             realized_pnl=float(raw.get("realized_pnl", 0.0)),
         )
-    except (ValueError, OSError, TypeError) as e:
+    except (ValueError, TypeError, AttributeError) as e:
         logger.warning("Could not read portfolio (%s); re-seeding from ₹%.0f.", e, seed)
         return Portfolio(starting_capital=seed, cash=seed)
 
 
 def save_portfolio(pf: Portfolio) -> None:
-    config.ensure_state_dir()
-    config.PORTFOLIO_PATH.write_text(
-        json.dumps(pf.to_dict(), indent=2), encoding="utf-8"
-    )
+    set_document("qtr_results", "portfolio", pf.to_dict())
 
 
 def _cost(notional: float) -> float:

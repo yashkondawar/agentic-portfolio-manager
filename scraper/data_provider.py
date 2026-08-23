@@ -9,11 +9,15 @@ Usage:
 """
 
 import logging
+import os
+import pickle
 import time
 from dataclasses import dataclass, field
+from datetime import datetime, timedelta, timezone
 from typing import Dict, Any, List, Optional
 import threading
 from concurrent.futures import ThreadPoolExecutor
+from core.storage import delete_cache, get_cache, put_cache
 
 logger = logging.getLogger(__name__)
 
@@ -22,6 +26,8 @@ _cache: Dict[str, "StockData"] = {}
 _cache_lock = threading.Lock()
 _fetch_locks: Dict[str, threading.Lock] = {}
 _fetch_locks_lock = threading.Lock()
+_CACHE_NAMESPACE = "live_stock_data"
+_CACHE_TTL_MINUTES = max(1, int(os.getenv("SCRAPE_CACHE_TTL_MINUTES", "15")))
 
 
 @dataclass
@@ -236,6 +242,14 @@ def get_stock_data(symbol: str, use_cache: bool = True) -> StockData:
     if use_cache and symbol in _cache:
         logger.info(f"[DATA] {symbol}: Using cached data (fetched {time.time() - _cache[symbol].fetch_time:.0f}s ago)")
         return _cache[symbol]
+    if use_cache:
+        entry = get_cache(_CACHE_NAMESPACE, symbol)
+        if entry is not None:
+            cached = pickle.loads(entry.payload)
+            if isinstance(cached, StockData):
+                _cache[symbol] = cached
+                logger.info("[DATA] %s: Using persistent SQLite cache", symbol)
+                return cached
 
     # Get per-symbol lock to prevent duplicate fetches
     with _fetch_locks_lock:
@@ -349,15 +363,25 @@ def get_stock_data(symbol: str, use_cache: bool = True) -> StockData:
 
         # Cache
         _cache[symbol] = data
+        put_cache(
+            _CACHE_NAMESPACE,
+            symbol,
+            pickle.dumps(data),
+            format="pickle",
+            expires_at=datetime.now(timezone.utc) + timedelta(minutes=_CACHE_TTL_MINUTES),
+        )
         return data
 
 
 def clear_cache(symbol: Optional[str] = None):
     """Clear cached data. If symbol given, clear just that one."""
     if symbol:
-        _cache.pop(symbol.upper(), None)
+        normalized = symbol.upper().replace(".NS", "").replace(".BO", "")
+        _cache.pop(normalized, None)
+        delete_cache(_CACHE_NAMESPACE, normalized)
     else:
         _cache.clear()
+        delete_cache(_CACHE_NAMESPACE)
 
 
 def prefetch_stocks(symbols: List[str]):

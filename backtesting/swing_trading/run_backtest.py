@@ -107,7 +107,7 @@ def main() -> int:
     print("\n" + result["summary"])
     summary_path = result["artifacts"].get("summary.txt")
     if summary_path:
-        print(f"\nResults written to: {Path(summary_path).parent}")
+        print(f"\nResults stored at: {summary_path.rsplit('/', 1)[0]}")
     return 0
 
 
