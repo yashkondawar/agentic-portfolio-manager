@@ -330,7 +330,22 @@ def evaluate_exits(
                 )
             )
 
-    # 4) Time stop - a calendar rule, knowable in advance, so it fills at the
+    # 4) Thesis invalidation: the weekly "Father" that justified this trade has
+    #    broken down. This is neither a stop nor a target - the reason for
+    #    holding has simply stopped being true, so P&L is irrelevant here.
+    if not ops and cfg.exit_f_rsi > 0:
+        rsi_w = row.get("rsi_w")
+        if rsi_w is not None and not pd.isna(rsi_w) and float(rsi_w) < cfg.exit_f_rsi:
+            ops.append(
+                ExitOp(
+                    price=close,
+                    reason="f_breakdown",
+                    fraction=1.0,
+                    fill=_fill_mode(cfg),
+                )
+            )
+
+    # 5) Time stop - a calendar rule, knowable in advance, so it fills at the
     #    next open like any other end-of-day decision.
     if not ops and cfg.max_holding_days > 0:
         if day - pos.entry_date >= timedelta(days=cfg.max_holding_days):

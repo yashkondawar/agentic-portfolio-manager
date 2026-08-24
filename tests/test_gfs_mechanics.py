@@ -199,6 +199,74 @@ def test_scale_out_books_a_fraction_once_only():
     assert st.evaluate_exits(pos, make_row(rsi_d=70.0), date(2020, 2, 2), cfg) == []
 
 
+# ── Weekly ("Father") breakdown exit ─────────────────────────────────────────
+
+
+def test_f_breakdown_is_disabled_by_default():
+    cfg = make_cfg(max_holding_days=0)
+    assert cfg.exit_f_rsi == 0.0
+    assert st.evaluate_exits(make_pos(), make_row(rsi_w=20.0), date(2020, 2, 1), cfg) == []
+
+
+def test_f_breakdown_exits_when_weekly_rsi_falls_below_the_threshold():
+    cfg = make_cfg(max_holding_days=0, exit_f_rsi=50.0)
+    ops = st.evaluate_exits(make_pos(), make_row(rsi_w=49.0), date(2020, 2, 1), cfg)
+    assert ops and ops[0].reason == "f_breakdown"
+    assert ops[0].fraction == 1.0
+    assert ops[0].fill == st.FILL_NEXT_OPEN
+
+
+def test_f_breakdown_does_not_fire_while_the_father_holds():
+    cfg = make_cfg(max_holding_days=0, exit_f_rsi=50.0)
+    assert st.evaluate_exits(make_pos(), make_row(rsi_w=50.0), date(2020, 2, 1), cfg) == []
+
+
+def test_f_breakdown_fires_on_a_winning_position_too():
+    """It is a thesis-invalidation rule, not a stop: P&L must not gate it."""
+    cfg = make_cfg(max_holding_days=0, exit_f_rsi=50.0)
+    row = make_row(Open=150.0, High=152.0, Low=149.0, Close=151.0, rsi_w=40.0)
+    ops = st.evaluate_exits(make_pos(entry_price=100.0), row, date(2020, 2, 1), cfg)
+    assert ops and ops[0].reason == "f_breakdown"
+
+
+def test_stop_still_takes_precedence_over_f_breakdown():
+    cfg = make_cfg(max_holding_days=0, exit_f_rsi=50.0)
+    row = make_row(Low=90.0, rsi_w=30.0)
+    ops = st.evaluate_exits(make_pos(stop_loss=95.0), row, date(2020, 2, 1), cfg)
+    assert ops[0].reason == "stop"
+
+
+def test_rsi_target_takes_precedence_over_f_breakdown():
+    """A profitable target exit beats bailing out on the weekly."""
+    cfg = make_cfg(exit_mode=EXIT_RSI, exit_rsi=65.0, max_holding_days=0, exit_f_rsi=50.0)
+    ops = st.evaluate_exits(make_pos(), make_row(rsi_d=70.0, rsi_w=30.0), date(2020, 2, 1), cfg)
+    assert ops[0].reason == "rsi_target"
+
+
+def test_f_breakdown_ignores_a_missing_weekly_rsi():
+    cfg = make_cfg(max_holding_days=0, exit_f_rsi=50.0)
+    assert st.evaluate_exits(make_pos(), make_row(rsi_w=float("nan")), date(2020, 2, 1), cfg) == []
+
+
+def test_f_breakdown_preempts_the_time_stop():
+    cfg = make_cfg(max_holding_days=30, exit_f_rsi=50.0, exit_rsi=95.0)
+    pos = make_pos(entry_date=date(2020, 1, 1))
+    ops = st.evaluate_exits(pos, make_row(rsi_w=40.0), date(2020, 1, 31), cfg)
+    assert ops[0].reason == "f_breakdown"
+
+
+def test_exit_f_rsi_above_entry_threshold_is_rejected():
+    """Exiting below 60 while entering above 60 would close every trade at once."""
+    with pytest.raises(ValueError):
+        make_cfg(exit_f_rsi=60.0, f_rsi_min=60.0).validate()
+    with pytest.raises(ValueError):
+        make_cfg(exit_f_rsi=101.0).validate()
+
+
+def test_exit_f_rsi_zero_is_valid_even_when_the_father_leg_is_ablated():
+    make_cfg(exit_f_rsi=0.0, f_rsi_min=0.0).validate()
+
+
 # ── Stop ratcheting ──────────────────────────────────────────────────────────
 
 

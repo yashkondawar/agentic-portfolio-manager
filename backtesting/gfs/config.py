@@ -169,6 +169,10 @@ class GFSConfig:
     max_holding_days: int = 60  # calendar-day time stop
     move_stop_to_breakeven_at_r: float = 0.0  # 0 disables
     indicator_exit_delay: bool = True
+    # Thesis-invalidation exit: leave when the "Father" that justified the trade
+    # breaks down mid-trade, regardless of P&L. 0 disables. This is not a stop
+    # and not a target - it is the entry condition ceasing to be true.
+    exit_f_rsi: float = 0.0
 
     # ── Costs ────────────────────────────────────────────────────────────────
     commission_pct: float = 0.05  # per side, %
@@ -221,6 +225,13 @@ class GFSConfig:
             raise ValueError("max_positions must be >= 1")
         if not 0 < self.scale_out_frac < 1:
             raise ValueError("scale_out_frac must be strictly between 0 and 1")
+        if not 0 <= self.exit_f_rsi <= 100:
+            raise ValueError("exit_f_rsi must be between 0 and 100")
+        if self.exit_f_rsi > 0 and self.exit_f_rsi >= self.f_rsi_min:
+            raise ValueError(
+                "exit_f_rsi must be below f_rsi_min, otherwise every position "
+                "exits on the bar it opens"
+            )
 
 
 @dataclass

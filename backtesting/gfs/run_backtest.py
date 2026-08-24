@@ -118,6 +118,13 @@ def build_parser() -> argparse.ArgumentParser:
         default=EXIT_RSI,
     )
     ex.add_argument("--exit-rsi", type=float, default=65.0)
+    ex.add_argument(
+        "--exit-f-rsi",
+        type=float,
+        default=0.0,
+        help="Exit when the weekly (Father) RSI falls below this, regardless of "
+        "P&L - the entry thesis has stopped being true. 0 disables.",
+    )
     ex.add_argument("--trail-atr-mult", type=float, default=3.0)
     ex.add_argument("--max-holding-days", type=int, default=60)
     ex.add_argument(
@@ -217,6 +224,7 @@ def config_from_args(args) -> GFSConfig:
         move_stop_to_breakeven_at_r=args.breakeven_at_r,
         exit_mode=args.exit_mode,
         exit_rsi=args.exit_rsi,
+        exit_f_rsi=args.exit_f_rsi,
         trail_atr_mult=args.trail_atr_mult,
         max_holding_days=args.max_holding_days,
         indicator_exit_delay=not args.instant_indicator_exits,

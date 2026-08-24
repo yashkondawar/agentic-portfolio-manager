@@ -769,23 +769,26 @@ both hurt. Not every tightening is an improvement.
 python -m backtesting.gfs.run_backtest \
   --start 2013-01-01 --end 2026-08-21 --universe nifty500 \
   --max-holding-days 0 --min-headroom-pct 10 --atr-mult 3.5 --exit-rsi 60 \
+  --s-rsi 43 \
   --max-positions 4 --max-position-pct 30 \
   --cash-yield-pct 6.5 --min-breadth 40
 ```
 
 ```
-CAGR gross +16.73% | after charges +16.19% | after tax +14.81%
-Benchmark taxed once at exit +10.00%   ->  post-tax excess +4.81%
-Max drawdown -17.06% (vs benchmark -38.44%) | Sharpe 1.25 | Sortino 1.89
-Trades 219 (16.1/yr) | Win 70.78% | PF 1.91 | ExpR +0.204 | holding 36.5d
-Statutory charges Rs 249,724 (0.111% of turnover) | CGT Rs 579,921
+CAGR gross +20.47% | after charges +19.90% | after tax +18.54%
+Benchmark taxed once at exit +10.00%   ->  post-tax excess +8.54%
+Max drawdown -19.67% (vs benchmark -38.44%) | Sharpe 1.30 | Sortino 1.97
+Trades 279 (20.5/yr) | Win 71.68% | PF 1.98 | ExpR +0.203 | payoff 0.82
 Monte Carlo: 99.0th percentile of 500 random-entry runs
-Negative years: 2025 only (-3.75%)
+Negative years: 2013 (-4.80%), 2016 (-8.44%)
+Split test: H1 2013-19 excess +2.18%, H2 2019-26 excess +9.15%
 ```
 
-Adding `--s-rsi 43` to this command raises post-tax CAGR to **+18.54%** and
-Sharpe to 1.30, at the cost of 2.6pp more drawdown — see "Loosening the filters"
-below for why that one change survived a split-sample test and the others did not.
+`--s-rsi 43` replaced the taught value of 40 after the split test in "Loosening
+the filters" below; 43-45 is the defensible region and 43 is its midpoint, not a
+tuned optimum. Without it the same config returns +14.81% post-tax with a
+first-half excess of −0.04%. The dataclass default remains 40 so that every
+earlier number in this document still reproduces from a bare `GFSConfig()`.
 
 ### The universe check — and why the level above should not be trusted
 
@@ -828,11 +831,12 @@ figure as somewhere between the two columns.
 
 ### What is still wrong with it
 
-- **The payoff ratio is still 0.87.** The average loss (−11.31%) is larger than
-  the average win (+9.82%), so break-even sits near a 53% win rate. The config
-  clears it comfortably at 70.8%, but the margin is the thing to monitor: this
-  is a system that *depends* on being right often, and the only lever that fixes
-  the asymmetry (`scale_out`) costs return.
+- **The payoff ratio is still 0.82.** The average loss is larger than the
+  average win, so break-even sits near a 55% win rate. The config clears it at
+  71.7%, but the margin is the thing to monitor: this is a system that *depends*
+  on being right often. Both attempts to fix the asymmetry — `scale_out` and the
+  weekly-breakdown exit — improved the payoff ratio exactly as intended and lost
+  return doing it, because they traded win rate away one-for-one.
 - **Returns are still lumpy.** 2014, 2021, 2023 and 2024 carry the record.
 - **Roughly 2.4pp of the post-tax CAGR now comes from a liquid fund, not from
   GFS.** That is honest accounting, not a stock-picking edge, and it should not
@@ -847,6 +851,31 @@ figure as somewhere between the two columns.
   the full NSE list are the missing piece needed to settle it.
 - **Almost all of the excess return is in the second half of the record.** See
   the split test below — this is the sharpest qualification of the +4.81% figure.
+
+### Levers not yet tested
+
+Recorded so they are not mistaken for dead ends. Ranked by expected value.
+
+1. **Park idle cash in the index instead of a liquid fund.** Even at maximal
+   loosening the strategy never exceeded 60.8% average exposure, so *no entry
+   filter can fix the cash drag* — it is structural. Holding NIFTYBEES in the
+   gaps would keep the account 100% invested, let GFS positions displace index
+   exposure rather than cash, and turn the reported excess into true alpha. This
+   is the single biggest untested change and it would most likely rescue the
+   flat 2013-2019 half.
+2. **RSI period — never swept, at all.** `rsi_period_monthly`, `_weekly` and
+   `_daily` all sit at 14 and nothing in this document has touched them. It is
+   the core parameter of the entire strategy and it is unexplored. Note the
+   panel cache is keyed on it, so a sweep is expensive (see the cache note).
+3. **Risk-based sizing.** `SIZING_RISK` exists in `strategy.size_position` but
+   every result here uses `SIZING_EQUAL`. Sizing by distance-to-stop attacks the
+   payoff ratio through position size rather than through exit timing, which is
+   the one route the two failed attempts above did not try.
+4. **Re-entry after a stop while G and F are still intact.** A stopped-out name
+   is currently gone for good even when the thesis never broke.
+5. **Entry-side trend-intactness filter** — price above its 50-DMA while daily
+   RSI is depressed. This is the weekly-breakdown idea moved to the entry, where
+   a false positive costs an opportunity instead of a realised loss.
 
 ## Loosening the filters — what more permissiveness actually buys
 
@@ -998,6 +1027,75 @@ exception it either dilutes the per-trade edge (`--s-rsi` above 48, `--f-rsi`,
 finding from this exercise is the split test: **the strategy's excess return is
 concentrated in 2019-2026 and is approximately zero in 2013-2019**, and that is
 true of the recommended config too.
+
+## The weekly-breakdown exit — a good hypothesis that the base rates killed
+
+The trade log made this look obvious. On nearly every stop-loss exit the weekly
+RSI had collapsed mid-trade while the entry-side "Father" condition had been
+intact at entry: WIPRO 67→45, ADANIENT 63→37, COLPAL 77→44, ENDURANCE 60→37.
+The losses looked less like noise than like *the Father failing*. Cutting on
+that should shrink the average loss and fix the 0.82 payoff ratio, which is the
+config's main structural weakness.
+
+`--exit-f-rsi N` implements it: leave when weekly RSI falls below `N`,
+regardless of P&L. It is neither a stop nor a target — it fires because the
+reason for holding stopped being true. It is **disabled by default (0)**.
+
+### It did exactly what it was supposed to, and still lost
+
+| `--exit-f-rsi` | payoff | win rate | ExpR | post-tax CAGR |
+|---|---|---|---|---|
+| off | 0.82 | 71.7% | +0.203 | **+18.54%** |
+| 40 | 0.84 | 71.3% | +0.202 | +18.51% |
+| 45 | 0.91 | 69.2% | +0.197 | +18.23% |
+| 50 | 1.08 | 61.2% | +0.139 | +13.44% |
+| 55 | **1.50** | 49.2% | +0.084 | +8.67% |
+
+The payoff ratio improves monotonically and substantially — the mechanism is
+real, and at 55 it nearly doubles. Expectancy falls the whole way. This is the
+mirror image of the earlier `scale_out` result: **win rate and payoff are two
+ends of one dial, and moving either end does not change the product.** The
+result reproduces on the S40 base (+14.81% → +10.61%) and in both halves, so it
+is not an artifact of one window.
+
+### Why — measured, not assumed
+
+For every closed trade, the lowest weekly RSI reached between entry and exit:
+
+| weekly RSI floor | winners (n=200) | losers (n=79) |
+|---|---|---|
+| dipped below 55 | 39.0% | 82.3% |
+| dipped below 50 | 18.0% | 59.5% |
+| dipped below 45 | 4.5% | 20.3% |
+| dipped below 40 | 0.5% | 3.8% |
+| **median floor** | **56.6** | **48.9** |
+
+**The signal is genuinely informative** — a loser is 3.3× more likely to breach
+50 than a winner, and the median floors are 8 points apart. The original
+observation was correct. It is the base rates that defeat it: at a 71.7% win
+rate there are 200 winners against 79 losers, so a 3.3:1 likelihood ratio still
+means an exit at 50 **cuts 47 losers and 36 winners — 43% friendly fire.**
+Tightening to 45 improves the ratio (36% friendly fire) but only catches a fifth
+of the losers, which is why it is nearly a no-op.
+
+The damage is worse than the counts imply, because the two errors are not
+symmetric. A winner cut on a weekly breakdown is cut *near its low*, forfeiting
+the entire recovery that made it a winner. A loser cut on the same signal only
+saves the sliver between the breakdown and the ATR stop that was going to catch
+it anyway at −12.5%. So even at equal counts the rule loses money.
+
+**Verdict: rejected.** The flag stays in the codebase, tested and defaulted off,
+because the negative result is worth keeping and the dial is worth having. The
+general lesson is worth more than the rule: *at a high win rate, an exit filter
+needs specificity far beyond "statistically significant" to pay for itself.* Any
+future exit idea should be checked against the winner/loser overlap table above
+before it is backtested.
+
+The entry-side version of this idea is untested and is not ruled out by any of
+the above: requiring the pullback to be *structurally intact* at the moment of
+entry (price still above its 50-DMA while daily RSI is low) filters before
+capital is committed, where a false positive costs an opportunity rather than a
+realised loss.
 
 ---
 

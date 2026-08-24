@@ -253,7 +253,8 @@ def _config_summary(cfg: GFSConfig) -> str:
             f" stop {cfg.stop_mode}"
             f"{f' {cfg.atr_stop_mult:g}x ATR' if cfg.stop_mode == 'atr' else ''}"
             f"{f' {cfg.fixed_stop_pct:g}%' if cfg.stop_mode == 'pct' else ''},"
-            f" time stop {cfg.max_holding_days}d",
+            f" time stop {cfg.max_holding_days}d"
+            f"{f', weekly-RSI breakdown <{cfg.exit_f_rsi:g}' if cfg.exit_f_rsi > 0 else ''}",
             f" Sizing     : {cfg.sizing_mode}, max {cfg.max_positions} positions,"
             f" <={cfg.max_position_pct:g}% each, <={cfg.max_per_sector}/sector",
             f" Gates      : regime={cfg.use_regime_filter} (SMA{cfg.regime_sma},"
