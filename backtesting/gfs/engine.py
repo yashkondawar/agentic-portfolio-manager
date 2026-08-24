@@ -79,6 +79,19 @@ class GFSBacktestEngine:
         panel = self.panels.get(symbol)
         return None if panel is None else panel.row(ts)
 
+    def _rsi_triplet(self, row: Optional[pd.Series]) -> Optional[tuple]:
+        """Daily/weekly/monthly RSI on one bar, for the exit record.
+
+        The weekly and monthly values here are the same leak-free projections the
+        entry used: as of this bar, only closed higher-timeframe candles count.
+        """
+        if row is None:
+            return None
+        def val(key: str) -> float:
+            v = row.get(key)
+            return 0.0 if v is None or pd.isna(v) else float(v)
+        return (val("rsi_d"), val("rsi_w"), val("rsi_m"))
+
     def _price_lookup(self, ts: pd.Timestamp):
         def lookup(sym: str) -> Optional[float]:
             panel = self.panels.get(sym)
@@ -150,6 +163,7 @@ class GFSBacktestEngine:
                 day,
                 op.reason,
                 op.fraction,
+                exit_rsi=self._rsi_triplet(row),
             )
         self.pending_exits = []
 
@@ -242,6 +256,7 @@ class GFSBacktestEngine:
                     day,
                     op.reason,
                     op.fraction,
+                    exit_rsi=self._rsi_triplet(row),
                 )
                 if symbol not in self.pf.positions:
                     break

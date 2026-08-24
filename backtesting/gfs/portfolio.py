@@ -96,6 +96,11 @@ class ClosedTrade:
     mae_pct: float
     mfe_pct: float
     partial: bool
+    # RSI at the exit bar. Recorded so a trade log can show the G/F/S state the
+    # position was closed in, not just the state it was opened in.
+    exit_rsi_d: float = 0.0
+    exit_rsi_w: float = 0.0
+    exit_rsi_m: float = 0.0
 
 
 @dataclass
@@ -149,6 +154,7 @@ class Portfolio:
         exit_date: date,
         reason: str,
         fraction: float = 1.0,
+        exit_rsi: Optional[tuple] = None,
     ) -> Optional[ClosedTrade]:
         pos = self.positions.get(symbol)
         if pos is None:
@@ -190,6 +196,9 @@ class Portfolio:
             mae_pct=pos.mae_pct(),
             mfe_pct=pos.mfe_pct(),
             partial=fraction < 1.0,
+            exit_rsi_d=float(exit_rsi[0]) if exit_rsi else 0.0,
+            exit_rsi_w=float(exit_rsi[1]) if exit_rsi else 0.0,
+            exit_rsi_m=float(exit_rsi[2]) if exit_rsi else 0.0,
         )
         self.closed.append(trade)
 
