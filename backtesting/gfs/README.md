@@ -26,7 +26,8 @@ this harness exists to find out whether they survive contact with data.
 > rate and index-beating return. The final section, **"Making it tradeable"**,
 > supersedes both on the *level* of returns: it adds the Indian tax stack and,
 > more importantly, stops assuming idle cash earns nothing. Quote that section's
-> numbers, not the earlier ones.
+> numbers, not the earlier ones — and quote its `nse_all` caveat with them, because
+> on the full listed universe the post-tax edge does not survive.
 
 ---
 
@@ -779,6 +780,45 @@ Monte Carlo: 99.0th percentile of 500 random-entry runs
 Negative years: 2025 only (-3.75%)
 ```
 
+### The universe check — and why the level above should not be trusted
+
+Every number in this section so far is Nifty 500 *present-day* constituents.
+Rerunning the identical config on `nse_all` (2,296 currently-listed EQ symbols)
+gives a very different answer:
+
+| | nifty500 | nse_all |
+|---|---|---|
+| CAGR after tax | **+14.81%** | **+9.60%** |
+| Benchmark, taxed once | +10.00% | +10.00% |
+| post-tax excess | **+4.81%** | **−0.40%** |
+| Max drawdown | −17.06% | −28.71% |
+| Sharpe | 1.25 | 0.79 |
+| Trades / win rate | 219 / 70.8% | 286 / 67.1% |
+| Expectancy | +0.204 R | +0.135 R |
+
+**On the full listed universe the post-tax edge disappears.** That is the single
+most important line in this document, and it outranks every optimisation above.
+
+Two things are mixed together in that gap, and honesty requires separating them:
+
+1. **Index-inclusion bias is real and large.** Nifty 500 membership *today* is
+   partly a consequence of having performed well during the test window, so
+   restricting the strategy to those names hands it a set of stocks pre-selected
+   for success.
+2. **But the comparison is confounded.** 100% of the `nse_all` universe has no
+   industry label, so the sector-strength gate passes everything and the
+   per-sector position cap never binds. The `nse_all` run is therefore not the
+   same strategy with a wider universe — it is the same strategy *with two risk
+   controls switched off*, which alone explains part of the worse drawdown
+   (−28.7% vs −17.1%) and the 2015 (−16.96%) and 2022 (−6.01%) losses.
+
+So the correct reading is neither "the strategy only works on the Nifty 500" nor
+"the edge is fake." It is: **the +14.81% level is not established outside the
+index universe, and the clean experiment has not been run.** Doing it properly
+requires sector labels for the full NSE list so the funnel is identical on both
+sides. Until then, treat +14.81% as an optimistic upper bound and the true
+figure as somewhere between the two columns.
+
 ### What is still wrong with it
 
 - **The payoff ratio is still 0.87.** The average loss (−11.31%) is larger than
@@ -796,6 +836,8 @@ Negative years: 2025 only (-3.75%)
   out-of-sample period left. The conviction study's train/test split is the only
   genuine out-of-sample evidence in this repo, and it covers the entry filter
   only — not the stop, the exit, the sizing or the breadth gate.
+- **The `nse_all` run does not confirm the level** (see above). Sector labels for
+  the full NSE list are the missing piece needed to settle it.
 
 ---
 
