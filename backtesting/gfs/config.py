@@ -42,6 +42,8 @@ from datetime import date
 from pathlib import Path
 from typing import List, Optional
 
+from .taxes import TaxConfig
+
 HERE = Path(__file__).resolve().parent
 DATA_CACHE_DIR = HERE / "data_cache"
 RESULTS_DIR = HERE / "results"
@@ -74,6 +76,8 @@ RANK_COMPOSITE = "composite"
 RANK_SECTOR_RS = "sector_rs"
 RANK_DIP_DEPTH = "dip_depth"
 RANK_HTF_STRENGTH = "htf_strength"
+RANK_HEADROOM = "headroom"  # distance to the resistance the exit targets
+RANK_REWARD_RISK = "reward_risk"  # that distance measured in units of stop
 RANK_RANDOM = "random"
 
 # The label used when a stock's industry is not known. It is deliberately *not*
@@ -170,6 +174,17 @@ class GFSConfig:
     commission_pct: float = 0.05  # per side, %
     slippage_bps: float = 15.0  # per side, basis points
 
+    # Idle cash is not dead money in practice: a portfolio this lightly deployed
+    # would hold the balance in a liquid fund. Defaulted to 0 so existing
+    # results stay comparable; set it explicitly to model the realistic case.
+    cash_yield_pct: float = 0.0
+
+    # Statutory charges and capital gains are modelled separately from
+    # execution costs above: STT and stamp duty do not shrink because you traded
+    # well, and capital gains tax is levied annually on realised profit rather
+    # than per fill. See taxes.py.
+    tax: TaxConfig = field(default_factory=TaxConfig)
+
     # ── Reproducibility ──────────────────────────────────────────────────────
     seed: int = 7
     label: str = "gfs"
@@ -197,6 +212,8 @@ class GFSConfig:
             RANK_SECTOR_RS,
             RANK_DIP_DEPTH,
             RANK_HTF_STRENGTH,
+            RANK_HEADROOM,
+            RANK_REWARD_RISK,
             RANK_RANDOM,
         ):
             raise ValueError("rank_by is not a known ranking mode")

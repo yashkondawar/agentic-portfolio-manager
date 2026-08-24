@@ -33,6 +33,7 @@ from . import baselines as bl
 from .config import DATA_CACHE_DIR, AblationVariant, GFSConfig
 from .engine import GFSBacktestEngine
 from .metrics import compute_metrics, render_summary
+from . import taxes as tx
 from .panels import (
     base_panel_key,
     build_panels,
@@ -283,15 +284,26 @@ def run_study(
     result = run_single(cfg, prepared, monte_carlo_runs=monte_carlo_runs)
 
     bias = universe_bias_note(cfg, prepared.universe)
+    metrics = result["metrics"]
+    years = float(metrics.get("years", 0.0) or 0.0)
+    tax_summary = tx.net_summary(
+        result["trades"], cfg.starting_capital, years, cfg.tax
+    )
     sections = [
         render_summary(
-            result["metrics"],
+            metrics,
             cfg_summary=_config_summary(cfg),
-            signal_stats=result["metrics"].get("signal_frequency"),
-            rejections=result["metrics"].get("rejections"),
+            signal_stats=metrics.get("signal_frequency"),
+            rejections=metrics.get("rejections"),
         ),
-        bl.render_forward_study(result["metrics"].get("forward_return_study", {})),
-        bl.render_random_null(result["metrics"].get("random_entry_null", {})),
+        tx.render_tax_summary(
+            tax_summary,
+            benchmark_gross_cagr=metrics.get("benchmark", {}).get("cagr_pct"),
+            years=years,
+            cfg=cfg.tax,
+        ),
+        bl.render_forward_study(metrics.get("forward_return_study", {})),
+        bl.render_random_null(metrics.get("random_entry_null", {})),
     ]
 
     ablation_rows: List[Dict[str, Any]] = []

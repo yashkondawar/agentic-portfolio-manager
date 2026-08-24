@@ -373,3 +373,33 @@ def test_holding_days_and_pnl_pct():
     assert trade.holding_days == 30
     assert trade.pnl_pct == pytest.approx(10.0)
     assert trade.pnl == pytest.approx(200.0)
+
+
+# ── Idle cash ────────────────────────────────────────────────────────────────
+
+
+def test_cash_yield_defaults_to_zero_so_old_results_still_reproduce():
+    pf = Portfolio(cash=100_000.0)
+    assert pf.accrue_cash_yield() == 0.0
+    assert pf.cash == 100_000.0
+
+
+def test_cash_yield_compounds_to_the_stated_annual_rate():
+    """252 sessions of accrual must land on the advertised yearly figure."""
+    pf = Portfolio(cash=100_000.0, cash_yield_pct=6.5)
+    for _ in range(252):
+        pf.accrue_cash_yield()
+    assert pf.cash == pytest.approx(106_500.0, rel=1e-6)
+
+
+def test_cash_yield_pays_only_on_the_uninvested_balance():
+    """Deployed capital must not earn the liquid-fund rate as well as the stock."""
+    invested = Portfolio(cash=10_000.0, cash_yield_pct=6.5)
+    idle = Portfolio(cash=100_000.0, cash_yield_pct=6.5)
+    assert invested.accrue_cash_yield() < idle.accrue_cash_yield()
+
+
+def test_cash_yield_is_not_credited_on_a_negative_balance():
+    pf = Portfolio(cash=-5_000.0, cash_yield_pct=6.5)
+    assert pf.accrue_cash_yield() == 0.0
+    assert pf.cash == -5_000.0

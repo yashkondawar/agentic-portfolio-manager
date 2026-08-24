@@ -28,6 +28,8 @@ from .config import (
     RANK_COMPOSITE,
     RANK_DIP_DEPTH,
     RANK_HTF_STRENGTH,
+    RANK_HEADROOM,
+    RANK_REWARD_RISK,
     RANK_RANDOM,
     RANK_SECTOR_RS,
     SIZING_EQUAL,
@@ -128,11 +130,18 @@ def build_parser() -> argparse.ArgumentParser:
     rank = p.add_argument_group("ranking and costs")
     rank.add_argument(
         "--rank-by",
-        choices=[RANK_COMPOSITE, RANK_SECTOR_RS, RANK_DIP_DEPTH, RANK_HTF_STRENGTH, RANK_RANDOM],
+        choices=[RANK_COMPOSITE, RANK_SECTOR_RS, RANK_DIP_DEPTH, RANK_HTF_STRENGTH,
+                 RANK_HEADROOM, RANK_REWARD_RISK, RANK_RANDOM],
         default=RANK_COMPOSITE,
     )
     rank.add_argument("--commission-pct", type=float, default=0.05)
     rank.add_argument("--slippage-bps", type=float, default=15.0)
+    rank.add_argument(
+        "--cash-yield-pct",
+        type=float,
+        default=0.0,
+        help="Annual return on idle cash (liquid fund). ~6.5 is realistic in India.",
+    )
     rank.add_argument("--seed", type=int, default=7)
 
     val = p.add_argument_group("validation")
@@ -213,6 +222,7 @@ def config_from_args(args) -> GFSConfig:
         indicator_exit_delay=not args.instant_indicator_exits,
         commission_pct=args.commission_pct,
         slippage_bps=args.slippage_bps,
+        cash_yield_pct=args.cash_yield_pct,
         seed=args.seed,
         label=args.label,
     )

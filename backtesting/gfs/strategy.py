@@ -51,6 +51,8 @@ from .config import (
     RANK_COMPOSITE,
     RANK_DIP_DEPTH,
     RANK_HTF_STRENGTH,
+    RANK_HEADROOM,
+    RANK_REWARD_RISK,
     RANK_RANDOM,
     RANK_SECTOR_RS,
     SIZING_EQUAL,
@@ -159,6 +161,24 @@ def score_candidate(
         return htf_strength
     if cfg.rank_by == RANK_SECTOR_RS:
         return sector_score
+    if cfg.rank_by in (RANK_HEADROOM, RANK_REWARD_RISK):
+        # When capacity binds - and it does, once an entry filter is on - the
+        # question is not "is this signal good" but "is it the best of today's".
+        # These two rank on the only property shown to survive a train/test
+        # split, so the scarce slot is spent on the trade with room to work.
+        headroom = row.get("headroom_pct")
+        if headroom is None or pd.isna(headroom):
+            return 0.0
+        if cfg.rank_by == RANK_HEADROOM:
+            return _normalize(float(headroom), 0.0, 40.0)
+        atr = row.get("atr")
+        close = float(row["Close"])
+        if atr is None or pd.isna(atr) or float(atr) <= 0 or close <= 0:
+            return 0.0
+        stop_distance_pct = cfg.atr_stop_mult * float(atr) / close * 100.0
+        if stop_distance_pct <= 0:
+            return 0.0
+        return _normalize(float(headroom) / stop_distance_pct, 0.0, 4.0)
     if cfg.rank_by == RANK_COMPOSITE:
         return 0.4 * sector_score + 0.3 * htf_strength + 0.3 * dip_depth
     return 0.0

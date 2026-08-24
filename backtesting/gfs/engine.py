@@ -59,6 +59,7 @@ class GFSBacktestEngine:
             cash=cfg.starting_capital,
             commission_pct=cfg.commission_pct,
             slippage_bps=cfg.slippage_bps,
+            cash_yield_pct=cfg.cash_yield_pct,
         )
         self.rng = random.Random(cfg.seed)
         self.pending_entries: List[EntrySignal] = []
@@ -111,6 +112,7 @@ class GFSBacktestEngine:
 
         for ts in days:
             day = ts.date()
+            self.pf.accrue_cash_yield()
             self._fill_pending_exits(ts, day)
             opened = self._fill_pending_entries(ts, day)
             self._manage(ts, day)

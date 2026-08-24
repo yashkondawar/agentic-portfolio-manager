@@ -103,6 +103,7 @@ class Portfolio:
     cash: float
     commission_pct: float = 0.05
     slippage_bps: float = 15.0
+    cash_yield_pct: float = 0.0
     positions: Dict[str, Position] = field(default_factory=dict)
     closed: List[ClosedTrade] = field(default_factory=list)
     equity_curve: List[dict] = field(default_factory=list)
@@ -216,6 +217,23 @@ class Portfolio:
         for pos in self.positions.values():
             counts[pos.sector] = counts.get(pos.sector, 0) + 1
         return counts
+
+    def accrue_cash_yield(self, sessions: int = 1) -> float:
+        """Credit idle cash with a liquid-fund style return.
+
+        A GFS portfolio is only ~40% deployed, so more than half the capital
+        sits uninvested for years. Assuming it earns nothing is not neutral --
+        it is a large, silent penalty that the benchmark (always 100% invested)
+        never pays. Indian retail parks that balance in liquid or arbitrage
+        funds, so the honest default is a modest positive yield rather than
+        zero. Set `cash_yield_pct` to 0 to restore the old behaviour.
+        """
+        if self.cash_yield_pct <= 0 or self.cash <= 0:
+            return 0.0
+        daily = (1.0 + self.cash_yield_pct / 100.0) ** (1.0 / 252.0) - 1.0
+        interest = self.cash * ((1.0 + daily) ** sessions - 1.0)
+        self.cash += interest
+        return interest
 
     def record_equity(
         self, day: date, price_lookup: Callable[[str], Optional[float]], **extra

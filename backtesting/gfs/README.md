@@ -23,7 +23,10 @@ this harness exists to find out whether they survive contact with data.
 > section is still accurate for those settings. **It is then partially overturned
 > by the conviction study further down**, which removes the time stop, widens the
 > stop, and adds a resistance-headroom entry filter — and does reach the 70%+ win
-> rate and index-beating return. Do not quote one without the other.
+> rate and index-beating return. The final section, **"Making it tradeable"**,
+> supersedes both on the *level* of returns: it adds the Indian tax stack and,
+> more importantly, stops assuming idle cash earns nothing. Quote that section's
+> numbers, not the earlier ones.
 
 ---
 
@@ -622,7 +625,180 @@ Not overturned:
 
 ---
 
-## Module map
+## Making it tradeable — costs, taxes and idle cash
+
+The conviction study produced a config with a real edge. This section asks the
+next question: does the edge survive contact with the tax office, and can the
+strategy be made to work in years when it currently loses money?
+
+### The finding that mattered most was not tax — it was idle cash
+
+The single biggest correction in this section is not a filter. It is that the
+strategy is only **~40% deployed**. Signals are scarce, so more than half the
+capital sat in the account earning nothing for thirteen years. That default is
+not neutral: the benchmark is 100% invested by construction and therefore never
+pays that penalty, so a zero cash return quietly hands the comparison to
+buy-and-hold.
+
+Modelling the balance in a liquid fund at 6.5% (`--cash-yield-pct 6.5`) is the
+realistic assumption for an Indian retail account, and it changes the picture
+substantially:
+
+| | idle cash at 0% | idle cash at 6.5% |
+|---|---|---|
+| CAGR after tax | +12.65% | **+15.02%** |
+| Sharpe | 0.98 | **1.23** |
+| Longest underwater | 570 sessions | **328 sessions** |
+| 2016 | −3.32% | **+0.76%** |
+| 2018 | −6.90% | −3.82% |
+| 2025 | −7.37% | −3.81% |
+
+Note what this is and is not. It does not improve a single trade, and the trade
+list is byte-identical. It removes an accounting artefact that was making a
+lightly-deployed strategy look worse than it is. `cash_yield_pct` defaults to
+**0** so every number printed earlier in this document still reproduces.
+
+### Taxes cost less than feared, because the trade count is low
+
+The full Indian stack is modelled in `taxes.py`: STT, stamp duty, exchange
+transaction charges, SEBI turnover fee, brokerage, and 18% GST on the
+broker-side fees only — GST does not attach to STT or stamp duty. Capital gains
+are computed per financial year (April–March), with the STCG rate switching from
+15% to 20% on 23 July 2024, loss set-off in the direction the law allows
+(short-term losses shelter both, long-term losses only shelter long-term), and
+carry-forward.
+
+The comparison is deliberately unflattering to the strategy: buy-and-hold is
+taxed **once at exit**, so its gains compound untaxed for thirteen years, while
+the strategy pays tax **annually** out of the account and therefore compounds
+against itself.
+
+```
+CAGR gross           +16.73%
+CAGR after charges   +16.19%   (drag 0.53pp)
+CAGR after tax       +14.81%   (drag 1.38pp)
+Benchmark, taxed once at exit  +10.00%
+```
+
+Total drag is **1.91pp**, and the post-tax excess is **+4.81%**. The reason it
+is this mild is turnover: **16 trades a year**, holding ~36 days. The concern
+that fees and taxes would eat the edge turns out to be unfounded *at this trade
+count* — but it is a direct function of trade count, and any change that
+multiplies turnover has to clear a much higher bar.
+
+Essentially nothing qualifies for LTCG (0.0% of trades held >1 year). Attempts
+to engineer holdings past 365 days are counterproductive — see the trailing-stop
+result below.
+
+### Which dials actually work
+
+Every variant below is the same entry population; only the dial changes.
+
+| dial | post-tax CAGR | Sharpe | verdict |
+|---|---|---|---|
+| baseline (4×30%, RSI 60 exit) | +12.57% | 0.98 | reference |
+| `--rank-by headroom` | +11.44% | — | **hurts** |
+| `--rank-by reward_risk` | +12.36% | — | no better than composite |
+| `--exit-mode scale_out` | +10.49% | 0.84 | fixes payoff, costs return |
+| `--exit-mode trail` | +2.79% | — | **destroys the strategy** |
+| `--cash-yield-pct 6.5` | +15.02% | 1.23 | **the big one** |
+| `--min-breadth 40` (with cash yield) | +14.81% | **1.25** | buys a losing year |
+
+Three of these deserve comment.
+
+**Ranking is still ≈ random.** Capacity is the top rejection reason (1,427
+signals dropped), so choosing *which* scarce slot to fill ought to matter.
+It does not. `RANK_HEADROOM` — the feature that survived the conviction study as
+an entry *filter* — actively hurts as a *ranking* key. A variable can be
+informative about whether to trade at all and uninformative about which of two
+qualifying trades is better; these are different questions and the answer to one
+does not transfer.
+
+**`scale_out` fixes the payoff ratio but not the return.** It lifts the payoff
+ratio from 0.87 to **1.39** and doubles expectancy (0.199 → 0.430 R) with a
+74.2% win rate. It still earns less, because booking half the position early
+leaves even more capital idle in a strategy that is already under-deployed. This
+is a genuine risk-preference choice — less dependence on the win rate, lower
+return — not a free improvement.
+
+**Pure trailing exits destroy the strategy** (+2.79%, 38.8% win rate, −40%
+drawdown). The RSI target exit is load-bearing. This also closes off the
+tax-efficiency idea of letting winners run into LTCG territory: the mechanism
+that would extend holding periods is the same one that removes the edge.
+
+### Concentration, not diversification, is what converts quality into return
+
+| slots × size | post-tax CAGR | ExpR | Sharpe | avg exposure |
+|---|---|---|---|---|
+| 3 × 35% | +12.67% | 0.183 | 0.88 | 45.6% |
+| **4 × 30%** | **+12.57%** | 0.199 | 0.98 | 41.7% |
+| 5 × 25% | +10.29% | 0.176 | 0.90 | 37.3% |
+| 6 × 20% | +10.35% | 0.193 | 0.98 | 33.6% |
+| 8 × 15% | +9.29% | **0.221** | **1.05** | 27.7% |
+
+Read the two right-hand columns against the left. Spreading wider makes every
+*trade statistic* better — expectancy and Sharpe are best at 8×15 — and makes
+the *portfolio* worse, monotonically, because exposure collapses from 45.6% to
+27.7%. There are not enough signals to fill eight slots, so extra slots do not
+add positions, they only shrink the ones you get. 4×30 is the compromise; 3×35
+earns marginally more with a worse drawdown.
+
+### The losing years are mostly, but not entirely, fixable
+
+Requiring 40% market breadth before opening new positions removes 2018 from the
+loss column and leaves **one** negative year in fourteen (2025, −3.75%), while
+improving Sharpe to 1.25 and cutting the longest underwater stretch from 328 to
+272 sessions. It costs 0.21pp of CAGR.
+
+Breadth ≥60 is the useful control: over-tightening does not keep helping, it
+**creates** new losing years (2015, 2018, 2022 at −6.71%, 2025) and drops CAGR
+to 11.53%. A filter that improved monotonically with strictness would be a
+warning sign that it was fitted to the specific bad years; this one behaves the
+way a real regime filter should.
+
+`--sector-top-n 3` (+9.96%) and `--min-headroom-pct 15` (+12.32%, −27.6% DD)
+both hurt. Not every tightening is an improvement.
+
+### The recommended tradeable config
+
+```bash
+python -m backtesting.gfs.run_backtest \
+  --start 2013-01-01 --end 2026-08-21 --universe nifty500 \
+  --max-holding-days 0 --min-headroom-pct 10 --atr-mult 3.5 --exit-rsi 60 \
+  --max-positions 4 --max-position-pct 30 \
+  --cash-yield-pct 6.5 --min-breadth 40
+```
+
+```
+CAGR gross +16.73% | after charges +16.19% | after tax +14.81%
+Benchmark taxed once at exit +10.00%   ->  post-tax excess +4.81%
+Max drawdown -17.06% (vs benchmark -38.44%) | Sharpe 1.25 | Sortino 1.89
+Trades 219 (16.1/yr) | Win 70.78% | PF 1.91 | ExpR +0.204 | holding 36.5d
+Statutory charges Rs 249,724 (0.111% of turnover) | CGT Rs 579,921
+Monte Carlo: 99.0th percentile of 500 random-entry runs
+Negative years: 2025 only (-3.75%)
+```
+
+### What is still wrong with it
+
+- **The payoff ratio is still 0.87.** The average loss (−11.31%) is larger than
+  the average win (+9.82%), so break-even sits near a 53% win rate. The config
+  clears it comfortably at 70.8%, but the margin is the thing to monitor: this
+  is a system that *depends* on being right often, and the only lever that fixes
+  the asymmetry (`scale_out`) costs return.
+- **Returns are still lumpy.** 2014, 2021, 2023 and 2024 carry the record.
+- **Roughly 2.4pp of the post-tax CAGR now comes from a liquid fund, not from
+  GFS.** That is honest accounting, not a stock-picking edge, and it should not
+  be reported as one.
+- **One negative year in fourteen is not the same as "positive in all market
+  conditions."** 2025 resists every filter tried here.
+- **Every parameter above was chosen on the same 13-year window.** There is no
+  out-of-sample period left. The conviction study's train/test split is the only
+  genuine out-of-sample evidence in this repo, and it covers the entry filter
+  only — not the stop, the exit, the sizing or the breadth gate.
+
+---
+
 
 | file | role |
 |---|---|
@@ -633,6 +809,7 @@ Not overturned:
 | `portfolio.py` | cash, positions, costs, R-multiples, MAE/MFE |
 | `engine.py` | the daily loop and its ordering |
 | `metrics.py` | performance, excursions, exit attribution |
+| `taxes.py` | Indian statutory charges + capital gains (FY, set-off, 2024 rate change) |
 | `baselines.py` | buy & hold, forward-return study, random-entry null, ablations |
 | `sweep.py` | walk-forward sweep, DSR, parameter-stability curves |
 | `conviction.py` | portfolio-free signal labelling, train/test feature search, stop×exit grid |
