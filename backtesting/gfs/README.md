@@ -27,7 +27,10 @@ this harness exists to find out whether they survive contact with data.
 > supersedes both on the *level* of returns: it adds the Indian tax stack and,
 > more importantly, stops assuming idle cash earns nothing. Quote that section's
 > numbers, not the earlier ones — and quote its `nse_all` caveat with them, because
-> on the full listed universe the post-tax edge does not survive.
+> on the full listed universe the post-tax edge does not survive. The last section,
+> **"Loosening the filters"**, adds the single dial worth changing (`--s-rsi 43`)
+> and one caveat that outranks the rest: split at 2019, the excess return is
+> **+4.08% in 2019-2026 and −0.04% in 2013-2019**.
 
 ---
 
@@ -780,6 +783,10 @@ Monte Carlo: 99.0th percentile of 500 random-entry runs
 Negative years: 2025 only (-3.75%)
 ```
 
+Adding `--s-rsi 43` to this command raises post-tax CAGR to **+18.54%** and
+Sharpe to 1.30, at the cost of 2.6pp more drawdown — see "Loosening the filters"
+below for why that one change survived a split-sample test and the others did not.
+
 ### The universe check — and why the level above should not be trusted
 
 Every number in this section so far is Nifty 500 *present-day* constituents.
@@ -838,6 +845,159 @@ figure as somewhere between the two columns.
   only — not the stop, the exit, the sizing or the breadth gate.
 - **The `nse_all` run does not confirm the level** (see above). Sector labels for
   the full NSE list are the missing piece needed to settle it.
+- **Almost all of the excess return is in the second half of the record.** See
+  the split test below — this is the sharpest qualification of the +4.81% figure.
+
+## Loosening the filters — what more permissiveness actually buys
+
+The question this section answers: *are the filters throwing away trades that
+would have helped?* Everything below is on the 13.6-year window, post-tax,
+`nifty500`, changing one dial at a time from the recommended config.
+
+### First, a noise floor
+
+`--sector-top-n 11` and `--sector-top-n 12` differ by **two trades out of 279**
+and by **0.71pp of post-tax CAGR**. That calibrates everything else here: on a
+sample of this size and this skew, differences below roughly 1pp are not
+evidence of anything. Several plausible-looking results in the tables below sit
+inside that band and are reported only so they are not re-tested later.
+
+### Not all filters do the same job
+
+Loosening splits cleanly into two behaviours, and conflating them is the trap.
+
+| dial loosened | exposure | ExpR (edge per trade) | Sharpe | reading |
+|---|---|---|---|---|
+| `--sector-top-n` 3 → 12 | 28.5% → 50.8% | 0.186 → 0.221 (no trend) | 1.14 → 1.24 (flat) | pure **throttle** |
+| `--s-rsi` 35 → 50 | 18.8% → 58.2% | 0.322 → 0.152 (falls) | 1.54 → 1.00 | genuine **selector** |
+
+The sector gate does not pick better trades. Across `--sector-top-n` 3 to 12 the
+per-trade expectancy and the Sharpe barely move while average exposure nearly
+doubles. All it does is meter how much capital gets deployed. The daily-RSI
+threshold is the opposite: it visibly changes the quality of what is bought.
+
+That distinction matters because on the full record, loosening the sector gate
+*looks* like the best idea available:
+
+| `--sector-top-n` | post-tax CAGR | Sharpe | exposure | neg. years |
+|---|---|---|---|---|
+| 3 | +10.32% | 1.14 | 28.5% | 1 |
+| 4 | +14.42% | 1.30 | 34.0% | 1 |
+| **5 (default)** | **+14.81%** | **1.25** | **39.1%** | **1** |
+| 6 | +14.41% | 1.17 | 41.7% | 2 |
+| 7 | +15.20% | 1.17 | 44.5% | 3 |
+| 8 | +13.33% | 1.07 | 45.9% | 2 |
+| 9 | +16.48% | 1.22 | 47.6% | 3 |
+| 10 | +16.61% | 1.22 | 48.2% | 3 |
+| 11 | +16.55% | 1.20 | 49.1% | 3 |
+| 12 | +17.26% | 1.24 | 50.8% | 1 |
+
+It is not a spike — 9 through 12 is a genuine four-value plateau around +16.7%.
+It is still wrong, for the reason in the next subsection.
+
+### The split test, which is what settled it
+
+Splitting the record at 2019-09-01 and requiring a setting to beat the index in
+*both* halves is the strongest test available without new data. It disqualifies
+the sector loosening immediately:
+
+| config | H1 2013-19 excess | H2 2019-26 excess | H1 exposure |
+|---|---|---|---|
+| recommended (top 5) | −0.04% | +4.08% | 31.3% |
+| `--sector-top-n 12` | **−2.96%** | +11.82% | 45.4% |
+| `--sector-top-n 10` | **−2.96%** | +10.63% | 41.2% |
+| `--sector-top-n 7` | −0.41% | +5.26% | 37.5% |
+| `--sector-top-n 6` | −0.20% | +3.68% | 33.8% |
+| `--min-headroom-pct 5` | **−2.09%** | +3.37% | 32.3% |
+| `--s-rsi 35` | −1.00% | −2.11% | 14.7% |
+
+The variants that top the full-record table are the *worst* in the first half.
+They deploy more capital, and the second half contained 2020-2024. That is a
+beta bet wearing the costume of an edge, and the full-record CAGR cannot tell
+the two apart.
+
+**This test also indicts the recommended config**, which is why it belongs in
+this README rather than in a footnote: its H1 excess is **−0.04%**. For the
+first seven years the strategy returned what the index returned. It did so at
+31% average exposure with a Sharpe of 1.17 against an index that drew down 38%,
+which is a defensible risk-adjusted result — but it is not the +4% excess the
+headline implies, and anyone sizing this should assume the first-half behaviour
+is the realistic one.
+
+### The one loosening that survives
+
+The daily entry threshold. `--s-rsi` 43 through 48 is positive in **both**
+halves, with 40 flat in H1 and 50 breaking down:
+
+| `--s-rsi` | H1 excess | H2 excess | full post-tax | Sharpe |
+|---|---|---|---|---|
+| 35 | −1.00% | −2.11% | +10.91% | 1.54 |
+| 38 | — | — | +9.32% | 1.03 |
+| **40 (default)** | **−0.04%** | **+4.08%** | **+14.81%** | **1.25** |
+| **43** | **+2.18%** | **+9.15%** | **+18.54%** | **1.30** |
+| 45 | +1.38% | +7.36% | +17.12% | 1.20 |
+| 48 | +1.25% | +3.42% | +14.89% | 1.05 |
+| 50 | −2.61% | +8.22% | +15.44% | 1.00 |
+
+Three adjacent values all improving both halves is the plateau argument; the
+peak at 43 on its own would not be worth acting on. Full validation of `--s-rsi 43`:
+
+```
+CAGR gross +20.47% | after charges +19.90% | after tax +18.54%
+Benchmark taxed once at exit +10.00%   ->  post-tax excess +8.54%
+Max drawdown -19.67% (vs benchmark -38.44%) | Sharpe 1.30 | Sortino 1.97
+Trades 279 (20.5/yr) | Win 71.68% | PF 1.98 | ExpR +0.203
+Monte Carlo: 99.0th percentile of 500 random-entry runs
+Negative years: 2013 (-4.80%), 2016 (-8.44%)
+```
+
+Against the recommended config it buys +3.73pp of post-tax CAGR and a better
+Sharpe, and costs 2.6pp of drawdown and one extra negative year. Note it moves
+2025 from −3.75% to **+3.85%** while pushing 2013 and 2016 negative — the bad
+years move around rather than disappearing.
+
+The mechanism is plausible rather than mysterious: RSI 40 on a daily chart is a
+rare event in a stock whose monthly and weekly RSI are both above 60, because
+such a stock is by construction not falling much. Demanding 40 discards most of
+the pullbacks the strategy is designed to buy. 43 is still a real dip.
+
+**Caveat on how this was found.** The split was used to *choose* S43, so this is
+weaker than a true holdout — it is a consistency check, not a clean
+out-of-sample test. The honest statement is that 43-45 is a defensible region
+and that the gap between +18.54% and +17.12% is close to the noise floor above.
+Prefer the region to the point estimate.
+
+### Loosenings that were tested and rejected
+
+| dial | result | why rejected |
+|---|---|---|
+| `--min-headroom-pct` 5 or 0 | +13.30%, DD −20.54%, 3 neg. years | worse in both halves; the one filter with independent out-of-sample support |
+| `--no-sector-filter` | +13.88%, exposure 54.8% | worse than keeping the gate at any setting |
+| `--min-breadth` 20 / 30 / 35 | +15.02 / +15.22 / +15.06% | all inside the noise floor; the filter barely binds below 40 |
+| `--g-rsi` 55 or 50 | +15.43 / +15.36% | inside noise; the Grandfather leg is nearly non-binding already |
+| `--f-rsi` 55 or 50 | +14.89 / +15.60%, DD −25.07 / −23.20% | flat return for 6-8pp more drawdown |
+| `--g-rsi 55 --f-rsi 55` | +12.94%, Sharpe 1.02 | strictly worse |
+| `--trigger recross` | +6.46% | badly worse; wait-for-recross forfeits the entry price |
+| `--max-per-sector 3` | +11.70%, DD −24.77% | concentration cap is doing real work at 2 |
+| `--sector-lookback 126` | +12.46%, 4 neg. years | 63 sessions is the better relative-strength window |
+
+Two of these deserve a note. `--g-rsi` barely matters because a stock with
+weekly RSI above 60 almost always has monthly RSI above 60 too — the Grandfather
+leg is largely redundant with the Father leg, which is worth knowing before
+defending the three-timeframe story too hard. And loosening the *Father* leg
+raises drawdown sharply without raising return, which is consistent with the
+earlier finding that stop-loss exits are nearly always accompanied by a weekly
+RSI breakdown.
+
+### The summary answer
+
+Loosening the entry funnel does not uncover missed opportunity. With one
+exception it either dilutes the per-trade edge (`--s-rsi` above 48, `--f-rsi`,
+`--min-headroom-pct`) or buys market beta that only pays in a bull half
+(`--sector-top-n`). The exception, `--s-rsi 43`, is worth adopting. The larger
+finding from this exercise is the split test: **the strategy's excess return is
+concentrated in 2019-2026 and is approximately zero in 2013-2019**, and that is
+true of the recommended config too.
 
 ---
 
