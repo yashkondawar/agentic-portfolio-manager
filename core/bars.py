@@ -334,6 +334,13 @@ def write_bars(
             req_start = min(req_start, _as_date(existing["requested_start"]))
             req_end = max(req_end, _as_date(existing["requested_end"]))
 
+        # Coverage of the future cannot exist. Callers routinely pad the end
+        # date past today, and recording that pad made `plan_fetches` treat the
+        # symbol as covered until the calendar caught up - so a symbol could
+        # silently stop topping up for days. Clamped after the merge so an
+        # already-poisoned row heals on its next write.
+        req_end = max(req_start, min(req_end, date.today()))
+
         conn.execute(
             "INSERT INTO bar_coverage(symbol, first_day, last_day, requested_start, "
             "requested_end, row_count, status, updated_at) VALUES(?,?,?,?,?,?,?,?) "
@@ -408,7 +415,16 @@ def normalise_frame(df: Optional[pd.DataFrame]) -> Optional[pd.DataFrame]:
         return None
     df = df.copy()
     if isinstance(df.columns, pd.MultiIndex):
-        df.columns = df.columns.get_level_values(0)
+        # yfinance puts the field names on level 0 under group_by="column" but
+        # on level 1 under group_by="ticker" - and it returns a MultiIndex even
+        # for a single ticker. Assuming level 0 silently produced a frame whose
+        # columns were all the ticker name, so "Close" went missing and the
+        # symbol was recorded as having no data. Pick the level that actually
+        # carries the field names.
+        levels = [df.columns.get_level_values(i) for i in range(df.columns.nlevels)]
+        df.columns = next(
+            (lv for lv in levels if any(c in OHLCV_COLUMNS for c in lv)), levels[0]
+        )
     keep = [c for c in OHLCV_COLUMNS if c in df.columns]
     if "Close" not in keep:
         return None
@@ -457,6 +473,7 @@ def plan_fetches(
     cov = coverage(symbols, conn=conn)
     # Calendar days per session, with slack for holidays.
     overlap_days = max(overlap_sessions, 0) * 2 + 5
+    today = date.today()
 
     jobs: List[FetchJob] = []
     for raw in symbols:
@@ -466,8 +483,12 @@ def plan_fetches(
             jobs.append(FetchJob(key, start, end, is_topup=False))
             continue
 
+        # A window recorded past today cannot have been verified, so trust it
+        # only as far as today. This also heals rows written before the clamp
+        # in write_bars existed, which would otherwise never top up again.
+        covered_to = min(info.requested_end, today)
         needs_backfill = start < info.requested_start
-        needs_forward = end > info.requested_end
+        needs_forward = end > covered_to
         if not (needs_backfill or needs_forward):
             continue
 
@@ -477,7 +498,7 @@ def plan_fetches(
                 FetchJob(
                     key,
                     min(start, info.requested_start),
-                    max(end, info.requested_end),
+                    max(end, covered_to),
                     is_topup=False,
                 )
             )
@@ -660,8 +681,19 @@ def _run_jobs(
 
         for ticker in chunk:
             key = yf_map[ticker]
+            # Select by frame shape rather than by chunk size: yfinance returns
+            # a per-ticker MultiIndex even when one ticker was requested, so a
+            # chunk of one must still be indexed into.
+            sub = data
             try:
-                sub = data[ticker] if len(chunk) > 1 else data
+                cols = getattr(data, "columns", None)
+                if isinstance(cols, pd.MultiIndex):
+                    # yfinance returns a per-ticker MultiIndex even for a chunk
+                    # of one, so a lone ticker must still be indexed into.
+                    # Falling back to the whole frame here would splice another
+                    # ticker's prices into this symbol.
+                    present = cols.get_level_values(0)
+                    sub = data[ticker] if ticker in present else None
             except (KeyError, TypeError):
                 sub = None
             frame = normalise_frame(sub)
@@ -709,3 +741,5 @@ def store_stats() -> Dict[str, object]:
         }
     finally:
         conn.close()
+
+

@@ -378,3 +378,112 @@ def test_replay_and_snapshot_holdings_agree_on_shape():
         "rsi_d", "rsi_w", "rsi_m", "shadow_exit",
     }
     assert required <= set(snapshot_row)
+
+
+# ── Data freshness ────────────────────────────────────────────────────────────
+# A benchmark parse bug once froze the master calendar four sessions in the
+# past. The run reported its stale as-of date and produced no signals, with no
+# error anywhere. These pin the guard that makes that loud.
+
+
+def test_a_weekend_gap_is_not_stale():
+    """Friday close read on Sunday is normal, not a fault."""
+    from gfs.engine import _freshness
+
+    fresh = _freshness(date(2024, 3, 15), date(2024, 3, 17))  # Fri -> Sun
+
+    assert fresh["weekdays_behind"] == 0
+    assert fresh["stale"] is False
+
+
+def test_tonights_close_not_published_yet_is_tolerated():
+    """One weekday behind is the provider running late, which self-heals."""
+    from gfs.engine import _freshness
+
+    fresh = _freshness(date(2024, 3, 14), date(2024, 3, 15))  # Thu -> Fri
+
+    assert fresh["weekdays_behind"] == 1
+    assert fresh["stale"] is False
+
+
+def test_the_benchmark_freeze_that_started_all_this_is_stale():
+    """The real incident: data to Friday, run on the following Tuesday."""
+    from gfs.engine import _freshness
+
+    fresh = _freshness(date(2024, 3, 15), date(2024, 3, 19))  # Fri -> Tue
+
+    assert fresh["weekdays_behind"] == 2
+    assert fresh["stale"] is True
+
+
+def test_a_stale_run_shouts_before_it_lists_any_order():
+    """The warning has to outrank the orders, or it will be scrolled past."""
+    from gfs.engine import render_report
+
+    report = render_report(
+        {
+            "as_of": "2024-03-15",
+            "sessions_replayed": ["2024-03-15"],
+            "book": {},
+            "orders": [],
+            "holdings": [],
+            "tradebook": [],
+            "freshness": {
+                "last_session": "2024-03-15",
+                "today": "2024-03-19",
+                "weekdays_behind": 2,
+                "stale": True,
+            },
+        }
+    )
+
+    assert "STALE PRICE DATA" in report
+    assert report.index("STALE PRICE DATA") < report.index("ORDERS FOR THE NEXT OPEN")
+
+
+def test_a_fresh_run_says_nothing_about_staleness():
+    from gfs.engine import render_report
+
+    report = render_report(
+        {
+            "as_of": "2024-03-15",
+            "sessions_replayed": ["2024-03-15"],
+            "book": {},
+            "orders": [],
+            "holdings": [],
+            "tradebook": [],
+            "freshness": {
+                "last_session": "2024-03-15",
+                "today": "2024-03-15",
+                "weekdays_behind": 0,
+                "stale": False,
+            },
+        }
+    )
+
+    assert "STALE" not in report
+
+
+def test_the_stale_branch_in_run_is_actually_executable(monkeypatch):
+    """The warning sits in a branch that never fires in a healthy run, so a typo
+    in it survives every other test and only shows up on the day it matters."""
+    from gfs import engine as live_engine
+
+    monkeypatch.setattr(
+        live_engine,
+        "_freshness",
+        lambda last, today: {
+            "last_session": "2024-03-11",
+            "today": "2024-03-15",
+            "weekdays_behind": 4,
+            "stale": True,
+        },
+    )
+    live_state.save_book(_seeded_book())
+    try:
+        result = live_engine.run({"as_of": date(2024, 3, 15), "dry_run": True})
+    finally:
+        live_state.reset_book()
+
+    assert result["data"]["freshness"]["stale"] is True
+    assert "STALE PRICE DATA" in result["report"]

@@ -407,6 +407,14 @@ def render_gfs_ledger_snapshot() -> None:
         "the close the last run saw — not a live quote. Run the strategy to bring "
         "the book up to date."
     )
+    stale = snap.get("freshness") or {}
+    if stale.get("stale"):
+        st.warning(
+            f"This book is **{stale.get('weekdays_behind')} weekdays** behind "
+            f"({stale.get('last_session')} vs {stale.get('today')}). Marks, "
+            "stops and the shadow exit are all computed off that old close, so "
+            "treat them as history until you run the strategy."
+        )
     _gfs_book_metrics(snap.get("book") or {})
     if snap.get("pending"):
         st.warning(
@@ -422,6 +430,19 @@ def render_gfs_ledger_snapshot() -> None:
 
 
 def _render_gfs_live(data: dict) -> None:
+    # 0) Stale data outranks everything else on the page: if the newest close is
+    #    days old, every order below is priced off the wrong bar.
+    fresh = data.get("freshness") or {}
+    if fresh.get("stale"):
+        st.error(
+            f"**Stale price data — do not place these orders.** The newest "
+            f"session available is **{fresh.get('last_session')}**, "
+            f"{fresh.get('weekdays_behind')} weekdays behind "
+            f"{fresh.get('today')}. Every order below is priced off that stale "
+            "close, so filling it at the next open is not the trade the "
+            "strategy tested. Refresh the bar store and re-run."
+        )
+
     # 1) Where the book stands after this run.
     st.markdown("### 📁 Book after this run")
     if data.get("dry_run"):

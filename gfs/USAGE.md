@@ -194,6 +194,9 @@ why.
 
 ## 5. Reading the output
 
+**Stale-data banner** — if it appears, read nothing else until you have fixed it.
+See §5a.
+
 **Book** — equity, cash, deployed and exposure. Exposure of 40–60% is normal; see
 §7.
 
@@ -230,6 +233,52 @@ after the fact.
 **Track record** — win rate, payoff, expectancy in R, average hold, max drawdown.
 CAGR is **withheld until the book has 90 days of history**, because annualising a
 good fortnight produces a meaningless number.
+
+---
+
+## 5a. The stale-data guard
+
+The most dangerous failure this system can have is not a wrong signal — it is a
+**right signal computed from old prices**, because nothing about it looks wrong.
+
+That has already happened once. A parsing bug in the shared bar store meant the
+benchmark index silently stopped updating while all 500 constituents stayed
+current. The benchmark defines the master calendar, so the whole strategy froze
+four sessions in the past, produced no signals, and reported an as-of date of the
+previous Friday without a single error.
+
+So every run now compares the newest session it can see against today:
+
+```
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ STALE PRICE DATA - DO NOT ACT ON THE ORDERS BELOW
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ Newest session available is 2026-08-21, 2 weekdays behind 2026-08-25.
+```
+
+**Thresholds.** Zero or one weekday behind is normal — weekends and holidays cost
+nothing, and one weekday absorbs the usual case of the data vendor not having
+published tonight's close yet. **Two or more weekdays is treated as a fault.**
+
+**Why it warns rather than refuses.** The replay itself is still correct: those
+sessions really did happen, and the pending orders will fill at the right
+historical opens once the data catches up. The book self-corrects. The hazard is
+entirely human — reading "place these at the next open" and placing them at a
+price several sessions later. So the banner targets the person, not the engine.
+
+**What to do.** Refresh the bar store and re-run:
+
+```powershell
+python -c "from core import bars; from datetime import date, timedelta; bars.sync(['^NSEI'], date.today()-timedelta(days=60), date.today(), force=True)"
+python -m gfs.run_daily
+```
+
+If it persists, the vendor is down or the symbol has changed. Do not trade the
+output.
+
+The saved-book panel in the UI carries the same warning, so a book you have not
+updated for a week announces itself when you open the tab rather than when you
+act on it.
 
 ---
 

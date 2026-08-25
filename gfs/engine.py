@@ -109,8 +109,10 @@ def run(params: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
 
     if start > today:
         # Already up to date. Still worth rendering the book, because that is
-        # what the user came to look at.
+        # what the user came to look at. No bars are loaded on this path, so
+        # freshness is measured against the book's own last session.
         data = _snapshot_payload(book, params, today, up_to_date=True)
+        data["freshness"] = _freshness(book.last_session, today)
         return {"report": render_report(data), "data": data}
 
     cfg = build_config(params, start=start, end=max(today, start + timedelta(days=1)))
@@ -120,8 +122,22 @@ def run(params: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     panels, calendar, sector_panel, regime_panel, qualify = prepared.panels_for(cfg)
 
     sessions = [ts for ts in calendar if start <= ts.date() <= today]
+    # The newest session the data actually reaches, which is what any decision
+    # today is really based on - regardless of how much of it we replay below.
+    available = [ts.date() for ts in calendar if ts.date() <= today]
+    fresh = _freshness(available[-1] if available else None, today)
+    if fresh["stale"]:
+        logger.warning(
+            "GFS live: price data is stale - newest session is %s, %d weekdays "
+            "behind %s. Any order this run produces must not be placed.",
+            fresh["last_session"],
+            fresh["weekdays_behind"],
+            today.isoformat(),
+        )
+
     if not sessions:
         data = _snapshot_payload(book, params, today, up_to_date=True)
+        data["freshness"] = fresh
         data["note"] = (
             f"No trading session between {start.isoformat()} and {today.isoformat()}."
         )
@@ -165,6 +181,7 @@ def run(params: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         today=today,
         dry_run=dry_run,
     )
+    data["freshness"] = fresh
     if not dry_run:
         # Saved only after the payload is assembled, because building it also
         # stamps the display marks onto the book.
@@ -340,6 +357,44 @@ def _book_age_days(book: Book) -> int:
     first = date.fromisoformat(book.equity_curve[0]["date"])
     last = date.fromisoformat(book.equity_curve[-1]["date"])
     return (last - first).days
+
+
+#: Weekdays the newest bar may lag `today` before the run is called stale. One
+#: absorbs the normal "the provider has not published tonight's close yet" case
+#: and public holidays; two means something is actually wrong.
+STALE_AFTER_WEEKDAYS = 2
+
+
+def _weekdays_between(after: date, upto: date) -> int:
+    """Weekdays in (after, upto]. Holidays are not known here, so this is an
+    upper bound on the sessions missed - which is the safe direction."""
+    if upto <= after:
+        return 0
+    days = (upto - after).days
+    return sum(
+        1
+        for i in range(1, days + 1)
+        if (after + timedelta(days=i)).weekday() < 5
+    )
+
+
+def _freshness(last_session: Optional[date], today: date) -> Dict[str, Any]:
+    """Is the newest bar recent enough to be trading on?
+
+    A parse bug once froze the benchmark - which defines the master calendar -
+    four sessions in the past, and the run reported its stale as-of date
+    without complaint. Silence is the dangerous part, so this is surfaced in
+    the report whether or not anything else looks wrong.
+    """
+    if last_session is None:
+        return {"last_session": None, "weekdays_behind": None, "stale": False}
+    behind = _weekdays_between(last_session, today)
+    return {
+        "last_session": last_session.isoformat(),
+        "today": today.isoformat(),
+        "weekdays_behind": behind,
+        "stale": behind >= STALE_AFTER_WEEKDAYS,
+    }
 
 
 # ── views over engine state ──────────────────────────────────────────────────
@@ -739,6 +794,7 @@ def ledger_snapshot() -> Dict[str, Any]:
 
     return {
         "as_of": book.last_session.isoformat() if book.last_session else None,
+        "freshness": _freshness(book.last_session, date.today()),
         "book": {
             "equity": round(equity, 2),
             "cash": round(book.cash, 2),
@@ -784,6 +840,24 @@ def render_report(data: Dict[str, Any]) -> str:
     else:
         lines.append(f" Sessions replayed: {len(data.get('sessions_replayed') or [])}")
     lines.append("")
+
+    fresh = data.get("freshness") or {}
+    if fresh.get("stale"):
+        lines.append("!" * 72)
+        lines.append(" STALE PRICE DATA - DO NOT ACT ON THE ORDERS BELOW")
+        lines.append("!" * 72)
+        lines.append(
+            f" Newest session available is {fresh.get('last_session')},"
+            f" {fresh.get('weekdays_behind')} weekdays behind {fresh.get('today')}."
+        )
+        lines.append(
+            " Every order below is priced off that stale close, so filling it at"
+        )
+        lines.append(
+            " the next open is not the trade the strategy tested. Refresh the bar"
+        )
+        lines.append(" store and re-run before placing anything.")
+        lines.append("")
 
     lines.append("-" * 72)
     lines.append(" BOOK")

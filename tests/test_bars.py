@@ -54,7 +54,13 @@ def make_frame(start: str, days: int, first_close: float = 100.0) -> pd.DataFram
 
 
 def make_downloader(frames: dict):
-    """A yfinance stand-in returning a group_by='ticker' shaped frame."""
+    """A yfinance stand-in returning a group_by='ticker' shaped frame.
+
+    Real yfinance returns ticker-major MultiIndex columns *even for a single
+    ticker*. This double used to return a flat frame in that case, which is why
+    a single-symbol parse bug went unnoticed: the benchmark is always fetched
+    alone, so it silently stopped updating. Keep this faithful.
+    """
 
     def _download(tickers, start, end):
         lo, hi = pd.Timestamp(start), pd.Timestamp(end)
@@ -68,8 +74,6 @@ def make_downloader(frames: dict):
                 parts[ticker] = window
         if not parts:
             return pd.DataFrame()
-        if len(tickers) == 1:
-            return parts.get(tickers[0], pd.DataFrame())
         return pd.concat(parts, axis=1)
 
     return _download
@@ -288,6 +292,93 @@ def test_drop_symbols_forces_a_refetch():
     assert bars.read_symbol("TCS") is None
     jobs = bars.plan_fetches(["TCS"], date(2023, 1, 1), date(2023, 3, 31))
     assert len(jobs) == 1 and jobs[0].is_topup is False
+
+
+# ── Staleness: a symbol must never silently stop updating ────────────────────
+
+
+def test_a_lone_ticker_is_parsed_from_a_ticker_major_frame():
+    """yfinance returns a MultiIndex even for one ticker.
+
+    Taking column level 0 blindly yielded columns named after the ticker, so
+    "Close" went missing and the symbol was recorded as having no data. The
+    benchmark is always fetched alone, so this froze the master calendar.
+    """
+    frame = make_frame("2023-01-02", 10)
+    ticker_major = pd.concat({"^NSEI": frame}, axis=1)
+    assert isinstance(ticker_major.columns, pd.MultiIndex)
+
+    out = bars.normalise_frame(ticker_major)
+
+    assert out is not None and len(out) == 10
+    assert "Close" in out.columns
+
+
+def test_syncing_a_single_symbol_actually_stores_rows():
+    frames = {"^NSEI": make_frame("2023-01-02", 20)}
+    report = bars.sync(
+        ["^NSEI"], date(2023, 1, 1), date(2023, 3, 31),
+        downloader=make_downloader(frames),
+    )
+
+    assert report.fetched == 1
+    assert report.empty == []
+    stored = bars.read_symbol("^NSEI")
+    assert stored is not None and len(stored) == 20
+
+
+def test_a_missing_ticker_is_not_filled_from_a_neighbour():
+    """The response only carried TCS, but INFY was asked for too. Falling back
+    to the whole frame would file TCS's prices under INFY - a silent, and
+    completely undetectable, corruption of the store."""
+    frames = {"TCS.NS": make_frame("2023-01-02", 20)}
+    report = bars.sync(
+        ["TCS", "INFY"], date(2023, 1, 1), date(2023, 3, 31),
+        downloader=make_downloader(frames),
+    )
+
+    assert report.empty == ["INFY"]
+    assert bars.read_symbol("INFY") is None
+    stored = bars.read_symbol("TCS")
+    assert stored is not None and len(stored) == 20
+
+
+def test_coverage_is_never_recorded_past_today():
+    """Callers pad the end date past today; recording that pad made the symbol
+    look covered until the calendar caught up, so it stopped topping up."""
+    future = date.today() + timedelta(days=10)
+    bars.write_bars("TCS", make_frame("2023-01-02", 20), date(2023, 1, 1), future)
+
+    assert bars.coverage(["TCS"])["TCS"].requested_end <= date.today()
+
+
+def test_a_future_coverage_window_still_allows_a_top_up():
+    """Belt and braces: rows written before the clamp existed must heal.
+
+    The store deliberately trusts "we asked through X and got all there was",
+    so a poisoned row is not refetched on the same day it claims to cover -
+    forcing that would also refetch every delisted name on every run. It heals
+    as soon as a later session is requested. The live runner does not rely on
+    this: it checks data freshness explicitly.
+    """
+    frame = make_frame("2023-01-02", 20)
+    bars.write_bars("TCS", frame, date(2023, 1, 1), date(2023, 3, 31))
+    # Simulate a poisoned row from an older build.
+    conn = bars._open()
+    try:
+        conn.execute(
+            "UPDATE bar_coverage SET requested_end = ? WHERE symbol = ?",
+            ((date.today() + timedelta(days=30)).isoformat(), "TCS"),
+        )
+        conn.commit()
+    finally:
+        conn.close()
+
+    # Without the read-side clamp this stays empty forever, because the stored
+    # window swallows every future request.
+    jobs = bars.plan_fetches(["TCS"], date(2023, 1, 1), date.today() + timedelta(days=1))
+
+    assert len(jobs) == 1, "a stale symbol claiming future coverage must refetch"
 
 
 # ── Sync end to end ──────────────────────────────────────────────────────────
