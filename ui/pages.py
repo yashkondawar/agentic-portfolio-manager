@@ -20,6 +20,7 @@ from ui.components import (
     clean_editor_rows,
     latest_result,
     page_header,
+    render_gfs_ledger_snapshot,
     render_qtr_ledger_snapshot,
     render_result,
     result_symbols,
@@ -98,9 +99,12 @@ def dashboard_page() -> None:
 def discover_page() -> None:
     page_header(
         "Discover Ideas",
-        "Screen broad universes and monitor fresh quarterly-result catalysts.",
+        "Screen broad universes, monitor fresh quarterly-result catalysts, and "
+        "track the GFS multi-timeframe book.",
     )
-    watchlist_tab, results_tab = st.tabs(["Watchlist builder", "Quarterly results"])
+    watchlist_tab, results_tab, gfs_tab = st.tabs(
+        ["Watchlist builder", "Quarterly results", "GFS multi-timeframe"]
+    )
     with watchlist_tab:
         _registry_runner("watchlist_curation", "discover_watchlist")
         _basket_action(latest_result("watchlist_curation"), "watchlist")
@@ -109,6 +113,17 @@ def discover_page() -> None:
         st.divider()
         _registry_runner("qtr_results", "discover_results")
         _basket_action(latest_result("qtr_results"), "quarterly")
+    with gfs_tab:
+        st.caption(
+            "Grandfather (monthly RSI) and Father (weekly RSI) confirm the trend "
+            "while the Son (daily RSI) pulls back. Run it **after the market "
+            "closes**: it replays every session since the last run and tells you "
+            "what to place at the next open."
+        )
+        render_gfs_ledger_snapshot()
+        st.divider()
+        _registry_runner("gfs_live", "discover_gfs")
+        _basket_action(latest_result("gfs_live"), "gfs")
 
 
 def research_page() -> None:

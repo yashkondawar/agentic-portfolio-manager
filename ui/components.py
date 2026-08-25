@@ -58,6 +58,8 @@ def render_result(result: StrategyResult, *, heading: bool = True) -> None:
         _render_watchlist(result.data)
     elif result.strategy_id == "qtr_results":
         _render_quarterly_results(result.data)
+    elif result.strategy_id == "gfs_live":
+        _render_gfs_live(result.data)
     else:
         _render_summary_data(result.data)
 
@@ -69,6 +71,7 @@ def render_result(result: StrategyResult, *, heading: bool = True) -> None:
             "parallel_agents",
             "watchlist_curation",
             "qtr_results",
+            "gfs_live",
         },
     ):
         st.markdown(result.report or "_No report returned._")
@@ -91,6 +94,13 @@ def result_symbols(result: StrategyResult) -> list[str]:
         ]
     if result.strategy_id == "parallel_agents":
         return list(data.get("decisions", {}))
+    if result.strategy_id == "gfs_live":
+        # The actionable set is the queued buys, not the whole watchlist.
+        return [
+            str(order.get("symbol", ""))
+            for order in data.get("orders", [])
+            if order.get("action") == "BUY" and order.get("symbol")
+        ]
     return list(data.get("symbols", []))
 
 
@@ -289,6 +299,325 @@ def _render_quarterly_results(data: dict) -> None:
             st.dataframe(
                 pd.DataFrame(upcoming), use_container_width=True, hide_index=True
             )
+
+
+# ── GFS (Grandfather / Father / Son) ─────────────────────────────────────────
+
+_GFS_STATUS_LABELS = {
+    "queued": "✅ Queued to buy",
+    "already_held": "Held (already open)",
+    "regime_closed": "Blocked — market regime closed",
+    "sector_weak": "Blocked — sector outside the top N",
+    "sector_cap": "Blocked — sector already at its cap",
+    "portfolio_full": "Deferred — portfolio full",
+    "ranked_out": "Ranked below today's winners",
+}
+
+
+def _gfs_book_metrics(book: dict) -> None:
+    cols = st.columns(5)
+    cols[0].metric("Equity", _fmt_inr(book.get("equity")))
+    cols[1].metric(
+        "Deployed",
+        _fmt_inr(book.get("deployed")),
+        delta=f"{book.get('exposure_pct', 0)}% of book",
+        delta_color="off",
+    )
+    cols[2].metric("Cash", _fmt_inr(book.get("cash")))
+    cols[3].metric("Open positions", book.get("open_positions", 0))
+    rpnl = book.get("realized_pnl") or 0.0
+    cols[4].metric("Realized P&L", _fmt_inr(rpnl), delta=round(float(rpnl), 0))
+    total = book.get("total_return_pct")
+    if total is not None:
+        st.caption(
+            f"Since inception ({book.get('opened_on') or '-'}): **{total:+.2f}%** on a "
+            f"{_fmt_inr(book.get('starting_capital'))} starting book · "
+            f"{book.get('closed_trades', 0)} closed trades."
+        )
+
+
+def _gfs_holdings_table(holdings: list, shadow: dict | None = None) -> None:
+    if not holdings:
+        st.caption("No open positions. The regime or the sector gate may be shut.")
+        return
+    cols = [
+        "symbol", "sector", "quantity", "entry_date", "entry_price", "last_price",
+        "unrealized_pct", "value", "stop_price", "target_price", "days_held",
+        "rsi_d", "rsi_w", "rsi_m", "shadow_exit",
+    ]
+    frame = pd.DataFrame(holdings)
+    frame = frame[[c for c in cols if c in frame.columns]]
+    st.dataframe(frame, use_container_width=True, hide_index=True)
+    if shadow and shadow.get("exit_rsi"):
+        would = shadow.get("would_exit") or []
+        threshold = shadow["exit_rsi"]
+        if would:
+            st.caption(
+                f"🔍 **Shadow rule** — exiting at daily RSI {threshold:.0f} instead would "
+                f"already be selling {', '.join(would)}. Reported only; the book did not act."
+            )
+        else:
+            st.caption(
+                f"🔍 **Shadow rule** — exiting at daily RSI {threshold:.0f} instead would "
+                "not be selling anything right now."
+            )
+
+
+def _gfs_tradebook_table(tradebook: list) -> None:
+    if not tradebook:
+        st.caption("No closed trades yet — the tradebook fills as positions exit.")
+        return
+    cols = [
+        "symbol", "sector", "entry_date", "exit_date", "holding_days", "quantity",
+        "entry_price", "exit_price", "pnl", "pnl_pct", "r_multiple",
+        "entry_rsi", "exit_rsi", "exit_reason",
+    ]
+    frame = pd.DataFrame(tradebook)
+    frame = frame[[c for c in cols if c in frame.columns]]
+    st.dataframe(frame, use_container_width=True, hide_index=True)
+    wins = [t for t in tradebook if (t.get("pnl") or 0) > 0]
+    stats = st.columns(3)
+    stats[0].metric("Closed trades", len(tradebook))
+    stats[1].metric("Win rate", f"{len(wins) / len(tradebook) * 100:.0f}%")
+    stats[2].metric(
+        "Total realized P&L", _fmt_inr(sum(t.get("pnl") or 0 for t in tradebook))
+    )
+
+
+def render_gfs_ledger_snapshot() -> None:
+    """Always-on book view, read straight from the DB — no network, no rerun."""
+    from gfs import engine as gfs_engine
+
+    try:
+        snap = gfs_engine.ledger_snapshot()
+    except Exception as exc:  # noqa: BLE001 - never let the snapshot break the page
+        st.info(f"No GFS book to show yet ({exc}).")
+        return
+
+    if not snap.get("as_of"):
+        st.info(
+            "The GFS book has not been created yet. Run the strategy below — it "
+            "starts flat from today, or backfills from a date you choose."
+        )
+        return
+
+    st.markdown("### 📁 GFS book")
+    st.caption(
+        f"Saved state as of the **{snap['as_of']}** close. Positions are marked at "
+        "the close the last run saw — not a live quote. Run the strategy to bring "
+        "the book up to date."
+    )
+    _gfs_book_metrics(snap.get("book") or {})
+    if snap.get("pending"):
+        st.warning(
+            f"{snap['pending']} order(s) are queued for the next open. Run the "
+            "strategy after the close to fill them."
+        )
+    st.markdown("#### Holdings")
+    _gfs_holdings_table(snap.get("holdings") or [], snap.get("shadow"))
+    with st.expander(
+        f"📒 Tradebook — {snap.get('num_closed', 0)} closed trades", expanded=False
+    ):
+        _gfs_tradebook_table(snap.get("tradebook") or [])
+
+
+def _render_gfs_live(data: dict) -> None:
+    # 1) Where the book stands after this run.
+    st.markdown("### 📁 Book after this run")
+    if data.get("dry_run"):
+        st.warning("Dry run — nothing was saved to the database.")
+    as_of = data.get("as_of")
+    replayed = len(data.get("sessions_replayed") or [])
+    if data.get("up_to_date"):
+        st.info(
+            "Already up to date — no new trading session since the last run. "
+            "Showing the saved book."
+        )
+    elif as_of:
+        st.caption(
+            f"Marked to the **{as_of}** close · {replayed} session(s) replayed since "
+            "the last run."
+        )
+    _gfs_book_metrics(data.get("book") or {})
+
+    # 2) The regime banner — the single gate that decides whether GFS trades.
+    diag = data.get("diagnostics") or {}
+    if diag.get("regime_ok") is not None:
+        breadth = diag.get("breadth_pct")
+        floor = diag.get("min_breadth_pct")
+        if diag["regime_ok"]:
+            st.success(
+                f"🟢 **Market regime open** — breadth {breadth}% of the universe is "
+                f"above its 200-DMA (needs ≥ {floor}%). New entries are allowed."
+            )
+        else:
+            st.error(
+                f"🔴 **Market regime closed** — breadth {breadth}% is below the "
+                f"{floor}% floor. No new entries; open positions are still managed."
+            )
+
+    # 3) The only thing to execute: orders for the next open.
+    orders = data.get("orders") or []
+    st.markdown("### 🎯 Orders for the next open")
+    st.caption(
+        "GFS never fills on the bar that produced the signal. These are placed at "
+        "the **next** session's open — the same timing the backtest was measured on."
+    )
+    if not orders:
+        st.caption("Nothing to place. Hold what you have.")
+    else:
+        for label, kind, columns in (
+            (
+                "🟢 Buy",
+                "BUY",
+                ["symbol", "sector", "quantity", "reference_price", "stop_price",
+                 "rsi_m", "rsi_w", "rsi_d", "resistance"],
+            ),
+            (
+                "🔴 Sell",
+                "SELL",
+                ["symbol", "sector", "quantity", "reference_price", "reason"],
+            ),
+        ):
+            rows = [o for o in orders if o.get("action") == kind]
+            if not rows:
+                continue
+            st.markdown(f"**{label}** ({len(rows)})")
+            frame = pd.DataFrame(rows)
+            st.dataframe(
+                frame[[c for c in columns if c in frame.columns]],
+                use_container_width=True,
+                hide_index=True,
+            )
+        if any(o.get("action") == "BUY" for o in orders):
+            st.caption(
+                "Quantities are indicative. The engine re-derives the stop and the "
+                "size from the actual opening print, so an overnight gap changes the "
+                "size rather than silently changing the risk."
+            )
+
+    # 4) What the replay already executed since the previous run.
+    fills = data.get("fills") or []
+    if fills:
+        with st.expander(f"✅ Filled since the last run ({len(fills)})", expanded=True):
+            frame = pd.DataFrame(fills)
+            cols = ["date", "action", "symbol", "quantity", "price", "detail"]
+            st.dataframe(
+                frame[[c for c in cols if c in frame.columns]],
+                use_container_width=True,
+                hide_index=True,
+            )
+
+    # 5) Holdings + the shadow-exit reading.
+    st.markdown("### 📊 Holdings")
+    _gfs_holdings_table(data.get("holdings") or [], data.get("shadow"))
+
+    # 6) The top-down funnel, universe -> order.
+    funnel = data.get("funnel") or []
+    if funnel:
+        st.markdown("### 🔻 Top-down funnel")
+        fcols = st.columns(len(funnel))
+        for idx, stage in enumerate(funnel):
+            dropped = stage.get("dropped") or 0
+            fcols[idx].metric(
+                stage["stage"],
+                stage.get("count", 0),
+                delta=(f"-{dropped}" if dropped else None),
+                delta_color="inverse",
+            )
+
+    watchlist = data.get("watchlist") or []
+    if watchlist:
+        with st.expander(
+            f"🔎 {len(watchlist)} name(s) met the GFS condition today — and why each "
+            "did or did not become an order",
+            expanded=False,
+        ):
+            frame = pd.DataFrame(watchlist)
+            if "status" in frame.columns:
+                frame["outcome"] = frame["status"].map(
+                    lambda s: _GFS_STATUS_LABELS.get(s, s)
+                )
+            cols = [
+                "symbol", "sector", "sector_rank", "close", "rsi_m", "rsi_w", "rsi_d",
+                "headroom_pct", "resistance", "outcome",
+            ]
+            st.dataframe(
+                frame[[c for c in cols if c in frame.columns]],
+                use_container_width=True,
+                hide_index=True,
+            )
+
+    # 7) Track record.
+    metrics = data.get("metrics") or {}
+    if metrics.get("num_trades"):
+        st.markdown("### 📈 Track record")
+        cols = st.columns(5)
+        cols[0].metric("Win rate", _pct(metrics.get("win_rate_pct")))
+        cols[1].metric("Payoff ratio", metrics.get("payoff_ratio", "-"))
+        cols[2].metric("Expectancy", f"{metrics.get('expectancy_r', 0)}R")
+        cols[3].metric("Avg hold", f"{metrics.get('avg_holding_days', 0)}d")
+        cols[4].metric("Max drawdown", _pct(metrics.get("max_drawdown_pct")))
+        if metrics.get("cagr_pct") is not None:
+            st.caption(
+                f"CAGR {metrics['cagr_pct']}% · Sharpe {metrics.get('sharpe')} · "
+                f"avg exposure {metrics.get('avg_exposure_pct')}% over "
+                f"{metrics.get('years')} years."
+            )
+        else:
+            st.caption(
+                "The book is too young for an annualised figure — CAGR is withheld "
+                "until it has at least 90 days of history."
+            )
+
+    curve = data.get("equity_curve") or []
+    if len(curve) > 2:
+        frame = pd.DataFrame(curve)
+        fig = go.Figure()
+        fig.add_trace(
+            go.Scatter(
+                x=pd.to_datetime(frame["date"]),
+                y=frame["equity"],
+                name="Equity",
+                mode="lines",
+            )
+        )
+        fig.update_layout(
+            height=260,
+            margin=dict(l=10, r=10, t=30, b=10),
+            title="Book equity",
+        )
+        st.plotly_chart(fig, use_container_width=True)
+
+    with st.expander(f"📒 Tradebook — {len(data.get('tradebook') or [])} closed trades"):
+        _gfs_tradebook_table(data.get("tradebook") or [])
+
+    # 8) Diagnostics and the exact configuration that produced all of the above.
+    rejections = diag.get("rejections") or {}
+    config = data.get("config") or {}
+    if rejections or config:
+        with st.expander("⚙️ Diagnostics and configuration", expanded=False):
+            if rejections:
+                st.markdown("**Why candidates were turned away this run**")
+                st.dataframe(
+                    pd.DataFrame(
+                        [{"reason": k, "count": v} for k, v in rejections.items()]
+                    ),
+                    use_container_width=True,
+                    hide_index=True,
+                )
+            if config:
+                st.markdown("**Configuration**")
+                st.dataframe(
+                    pd.DataFrame(
+                        [{"setting": k, "value": str(v)} for k, v in config.items()]
+                    ),
+                    use_container_width=True,
+                    hide_index=True,
+                )
+            note = diag.get("universe_note")
+            if note:
+                st.caption(note)
 
 
 def _render_backtest(data: dict) -> None:
