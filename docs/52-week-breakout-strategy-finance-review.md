@@ -38,7 +38,7 @@ high. A signal is accepted only when:
 
 Signals are generated after the close and may be filled at the next session's
 open. Each accepted position risks at most 1% of current equity to an initial
-1 ATR stop, is capped by notional value, and has a standing profit target. The
+1.5 ATR stop, is capped by notional value, and has a standing profit target. The
 portfolio caps total initial open risk at 5% of equity.
 
 > **Institutional sleeve upgrade (section 18).** The rules above are the
@@ -52,6 +52,14 @@ portfolio caps total initial open risk at 5% of equity.
 > returns roughly 5.4% CAGR at -14% drawdown (Sharpe 0.51). See section 18
 > for the full implemented-vs-skipped list, the empirical findings, and the
 > realistic-cost results matrix.
+
+> **Trade-management pass (section 19).** A subsequent study of exits widened
+> the initial stop to 1.5 ATR, widened the Chandelier trail to 4 ATR, and cut
+> partial booking to 20% at 3.5 ATR. These are the **current defaults**, and
+> they raise the realistic-cost five-year result to roughly 24% CAGR at -14.5%
+> drawdown (Sharpe 1.36). Section 19 also documents a negative result — entry
+> features cannot distinguish winners from losers — and one window
+> (2015-2018) where the change is harmful.
 
 The original baseline, first optimized version, and current cross-regime
 version produced:
@@ -460,9 +468,12 @@ HighestHighSinceEntry >= EntryPrice + 2 * ATR_at_entry
 Once active:
 
 ```text
-ChandelierStop = HighestHighSinceEntry - 2 * CurrentATR14
+ChandelierStop = HighestHighSinceEntry - 4 * CurrentATR14
 Stop = max(ExistingStop, ChandelierStop)
 ```
+
+The 4 ATR width is the section-19 default (previously 2 ATR); it is deliberately
+wide so that routine pullbacks inside an intact trend do not close the position.
 
 The newly calculated stop applies prospectively. The simulation checks the
 day's low against the old stop before using that day's high to raise the stop.
@@ -1086,6 +1097,12 @@ actual fills.
 
 ## 14. Questions for an external finance reviewer
 
+> Questions 1, 2 and 8 have since been answered empirically in section 19: the
+> fixed target *was* truncating long-tail winners, the 1 ATR stop *was* too
+> tight (108 entry-day stops with a 0% win rate), and the target *should* be
+> partial with a trailing remainder. The defaults now reflect those answers.
+> The remaining questions are still open.
+
 1. Is a fixed 4 ATR target economically appropriate for a 52-week momentum
    strategy, or does it sacrifice the rare long-tail winners that normally
    drive momentum returns?
@@ -1168,8 +1185,11 @@ The implementation is deterministic and internally consistent on its main
 rules. Under the earlier flat-cost model the cross-regime defaults produced
 16.56% CAGR over the original five-year period; under the **realistic
 Indian delivery-cost model that is now the default** (section 18) the same
-window returns roughly 5.4% CAGR at -14% drawdown with a ~47% win rate. The
-lower, more honest headline number is the correct one to reason about.
+window returned roughly 5.4% CAGR at -14% drawdown with a ~47% win rate. The
+**section-19 trade-management defaults** raise that same realistic-cost window
+to roughly 24.3% CAGR at -14.5% drawdown, with a mean of ~11% CAGR across six
+independent windows. The multi-window mean, not the 24%, is the number to
+reason about.
 
 It is **not yet institutionally validated**. Current-constituent survivorship,
 validation reuse, historical earnings-calendar availability, multiple testing,
@@ -1226,9 +1246,12 @@ model. This is the dominant reason headline CAGR falls relative to sections 10-1
 
 ### 18.3 Partial-profit exit with uncapped trailing remainder
 
-`enable_partial_profit=True` books **half** the position at the first target
-(2.5 ATR), moves the stop on the remainder to breakeven, and lets the rest ride
+`enable_partial_profit=True` books a slice of the position at the first target,
+moves the stop on the remainder to breakeven, and lets the rest ride
 the Chandelier trail with **no fixed cap**, so outlier winners are not truncated.
+Section 18 booked **half** at 2.5 ATR; section 19 revises this to **20% at
+3.5 ATR** so winners keep most of their size while still de-risking to
+breakeven.
 The 10-session time-exit only cuts non-performers and is skipped once a partial
 has been booked. `ExitOp.fraction` carries the booked fraction through to
 `Portfolio.close_position`, and both the historical engine and the daily
@@ -1340,3 +1363,197 @@ honest and more robust system: realistic frictions, tighter drawdowns, a higher
 win rate, sector/correlation diversification, and asymmetric partial-profit
 exits — all validated across multiple independent windows rather than a single
 in-sample fit.
+
+> **Superseded in part by section 19.** The conclusion that 15%+ CAGR was
+> unattainable assumed the *trade-management* parameters were already near
+> optimal. They were not. Section 19 shows that widening the stop and trail and
+> keeping most of the position on winners lifts the five-year figure to ~24%
+> CAGR at a comparable drawdown, without touching entry selectivity or the cost
+> model.
+
+---
+
+## 19. Trade-management pass: stop width, trail width, and winner sizing
+
+Section 18 optimised *what to buy* and *what it costs*. This section optimises
+*how the trade is managed after entry*, which turned out to be where the
+strategy was leaking most of its return.
+
+### 19.1 The diagnostic: where do losses actually come from?
+
+Decomposing the 727 trades of the five-year run by holding period:
+
+| Holding period | Trades | Net P&L | Win rate | Avg return |
+|---|---:|---:|---:|---:|
+| 0-1 days | 212 | -367,342 | 17.0% | -1.3% |
+| 2-3 days | 101 | -118,881 | 28.7% | -0.2% |
+| 4-5 days | 77 | -36,052 | 40.3% | 1.2% |
+| 6-10 days | 144 | +115,804 | 63.2% | 3.9% |
+| 11-20 days | 130 | +245,257 | 74.6% | 5.7% |
+| 20+ days | 63 | +310,235 | 92.1% | 13.5% |
+
+Essentially **all** losses came from trades killed within three days
+(-INR 4.86 lakh) and **all** profit from trades that survived six days or more
+(+INR 6.71 lakh). By exit reason, a single bucket dominated: `ENTRY-DAY-STOP`,
+108 trades, -INR 3.02 lakh, a 0% win rate. The 1 ATR stop was being hit by
+normal post-breakout noise before the thesis had a chance to resolve.
+
+### 19.2 Negative result: entry-time features cannot predict the losers
+
+Before changing exits, we tested whether the losers were identifiable *at entry*
+(which would allow a filter instead of a management change). For all 727 trades
+we recomputed the entry-bar features and compared trades that died in 0-1 days
+against those that ran 20+ days:
+
+| Feature | Day 0-1 losers | 20+ day winners | Delta |
+|---|---:|---:|---:|
+| Gap % | 0.43 | 0.31 | -0.12 |
+| ATR % | 3.67 | 3.61 | -0.07 |
+| Extension (ATR) | 0.48 | 0.47 | -0.01 |
+| Volume ratio | 2.82 | 2.91 | +0.10 |
+| Distance to SMA20 | 11.59 | 10.07 | -1.53 |
+| Distance to SMA50 | 18.93 | 15.36 | -3.58 |
+| Distance to SMA200 | 45.24 | 37.24 | -8.00 |
+| 63-day relative strength | 31.93 | 25.20 | -6.73 |
+| RSI(14) | 75.95 | 68.85 | -7.10 |
+
+The two populations are **nearly identical at entry**. Quintile analysis on every
+feature produced non-monotonic, noise-shaped P&L profiles (for example ATR%
+quintile net P&L ran -40k / +87k / +5k / -25k / +123k). One result was actively
+counterintuitive: the *largest* gap-ups were the best performers, so filtering
+them out — a common retail instinct — would have destroyed return.
+
+**Conclusion: there is no entry filter that separates these trades.** Whether a
+breakout works is decided after entry, not before it. This is why every attempt
+in sections 11 and 18 to raise the win rate by tightening entries failed, and it
+redirects the entire optimisation effort to exits.
+
+### 19.3 Parameter study
+
+All runs are the full Nifty 500 universe, realistic costs, INR 500,000 sleeve,
+2021-07-24 to 2026-07-24.
+
+**Initial stop width** (all else at section-18 defaults):
+
+| Stop | CAGR | Max DD | Sharpe | PF | Win rate | Entry-day stops |
+|---|---:|---:|---:|---:|---:|---:|
+| 1.0 ATR (old) | 5.36% | -14.01% | 0.51 | 1.14 | 47.0% | 108 |
+| 1.5 ATR | 3.26% | -16.39% | 0.34 | 1.09 | 52.7% | 25 |
+| 2.0 ATR | 4.97% | -13.03% | 0.51 | 1.14 | 54.7% | 8 |
+| 2.5 ATR | 4.79% | -11.97% | 0.56 | 1.17 | 56.3% | 3 |
+| 3.0 ATR | 4.12% | -9.61% | 0.57 | 1.17 | 56.9% | 2 |
+
+Widening the stop does exactly what the diagnostic predicted — win rate rises
+monotonically from 47% to 57% and entry-day stops collapse from 108 to 2 — but
+CAGR *falls*, because position size is `risk / (entry - stop)`, so a wider stop
+mechanically shrinks every position and reduces exposure. **Stop width alone is
+not the answer.**
+
+**Trailing-stop width** (2.0 ATR initial stop):
+
+| Chandelier | CAGR | Max DD | Sharpe | PF | Avg hold |
+|---|---:|---:|---:|---:|---:|
+| 2.0 ATR (old) | 4.97% | -13.03% | 0.51 | 1.14 | 10.1 |
+| 3.0 ATR | 7.53% | -16.48% | 0.65 | 1.23 | 14.1 |
+| 3.5 ATR | 11.62% | -16.17% | 0.91 | 1.36 | 16.0 |
+| 4.0 ATR | 13.23% | -15.16% | 0.98 | 1.47 | 19.1 |
+| 4.5 ATR | 11.84% | -18.41% | 0.86 | 1.44 | 20.2 |
+| 5.0 ATR | 11.22% | -19.06% | 0.79 | 1.43 | 22.6 |
+
+This is the single largest effect in the study. The 2 ATR trail was harvesting
+winners during routine pullbacks; average holding period more than doubles at
+4 ATR. The response is a broad **plateau** between 3.5 and 5.0 ATR rather than a
+spike, which is the signature of a real effect rather than a curve fit.
+
+**Winner sizing.** The section-18 rule booked *half* the position at 2.5 ATR.
+Both booking *less* and booking *later* improve results, and they compose:
+
+| Fraction booked | Booking level | CAGR | Max DD | Sharpe | PF |
+|---|---|---:|---:|---:|---:|
+| 50% | 2.5 ATR | 13.23% | -15.16% | 0.98 | 1.47 |
+| 33% | 2.5 ATR | 14.45% | -17.21% | 0.99 | 1.56 |
+| 25% | 2.5 ATR | 17.25% | -16.53% | 1.12 | 1.68 |
+| 50% | 3.5 ATR | 16.45% | -17.39% | 1.14 | 1.56 |
+| 20% | 3.5 ATR | 24.31% | -14.47% | 1.36 | 1.96 |
+
+Note that disabling partial booking entirely is *worse* (8.22% CAGR), because
+with `enable_partial_profit=False` the position exits fully at the
+`profit_target_atr` cap. The partial-booking branch is what removes the hard cap
+and lets the remainder ride the trail indefinitely, and it also moves the
+remainder's stop to breakeven. The optimum is therefore to keep the mechanism
+but shrink the slice it sells: book a token 20% to de-risk to breakeven, and
+leave 80% running.
+
+### 19.4 Selected configuration
+
+| Parameter | Section 18 | Section 19 |
+|---|---|---|
+| `atr_stop_mult` | 1.0 | **1.5** |
+| `chandelier_atr_mult` | 2.0 | **4.0** |
+| `partial_profit_atr` | 2.5 | **3.5** |
+| `partial_profit_fraction` | 0.50 | **0.20** |
+
+Entry rules, regime gate, liquidity floors, earnings blackout, sizing, sector and
+correlation caps, and the cost model are all **unchanged**.
+
+### 19.5 Out-of-sample validation
+
+The configuration was selected on the five-year window, then evaluated unchanged
+on independent windows. 2020-2021 and 2008-2009 are deliberately excluded as
+crash-and-recovery regimes that flatter momentum systems.
+
+| Window | Old CAGR / DD | New CAGR / DD |
+|---|---|---|
+| 2012-01..2014-12 | 2.25% / -7.80% | **10.97% / -11.24%** |
+| 2015-01..2019-01 | **1.82% / -17.60%** | -1.82% / -26.65% |
+| 2019 (full) | -2.15% / -4.65% | **4.95% / -5.71%** |
+| 2022-01..2024-12 | 10.00% / -13.81% | **36.36% / -13.67%** |
+| 2025-01..2026-07 | 3.00% / -6.25% | **4.65% / -8.35%** |
+| 2021-07..2026-07 (5y) | 5.36% / -14.01% | **24.31% / -14.47%** |
+
+The new configuration wins five of six windows, lifting mean CAGR across windows
+from ~3.0% to ~11.0%. Three alternative configurations from the same plateau
+(2.0 ATR stop / 15% booking; 4.5 ATR trail / 25% booking; 1.5 ATR stop / 15%
+booking) were validated in parallel and all beat the old defaults on the same
+five windows, confirming the result is a property of the *region* and not of one
+parameter tuple.
+
+### 19.6 Known weakness: choppy, trendless markets
+
+2015-2018 is the one window that degrades, and it degrades meaningfully:
+-1.82% CAGR against +1.82%, with drawdown widening from -17.6% to -26.7%. The
+mechanism is unambiguous and expected. A 4 ATR trail is designed to give back
+open profit in order to stay in a trend; in a market that repeatedly starts and
+abandons trends, it gives the profit back without ever catching the trend. Both
+configurations make essentially no money over that four-year stretch (+7.5% and
+-7.1% total), so the practical difference is **path**, not terminal wealth — but
+a 27% drawdown is a real tolerance question for the allocator.
+
+Three mitigations were tested on that window and **none worked**:
+
+| Variant | 2015-2018 CAGR / DD | 2022-2024 CAGR / DD |
+|---|---|---|
+| Selected config | -1.82% / -26.65% | 36.36% / -13.67% |
+| + continuous regime scaling | -2.76% / -26.87% | 30.34% / -14.10% |
+| + open-risk cap cut to 4% | -1.16% / -27.37% | 25.58% / -19.00% |
+| + earlier trail activation (1.5 ATR) | -1.82% / -26.65% | 36.36% / -13.67% |
+
+Each either failed to help the weak window or paid for a marginal improvement
+with a large loss in the strong windows. Earlier trail activation was inert
+because partial booking already forces the trail on. The weakness is therefore
+**accepted and documented** rather than patched, since every patch tested so far
+costs more than it saves.
+
+### 19.7 Honest reading of these numbers
+
+- The 24% five-year CAGR is the *selection* window and should be discounted.
+  The ~11% mean across six windows is the more defensible expectation.
+- The 2022-2024 result (36% CAGR) is a strong trending regime for Indian
+  mid-caps and will not repeat on demand.
+- Win rate is roughly unchanged (~47%). The gain came from raising the average
+  win, not from losing less often — consistent with section 18.5's finding that
+  win rate is structurally pinned for breakout systems.
+- Survivorship bias from current Nifty 500 membership (section 13.1) is
+  unchanged and still applies to every figure above.
+- The strategy now holds positions roughly 20 days instead of 7. Capital turns
+  over more slowly, and the sleeve will look idle for longer stretches.

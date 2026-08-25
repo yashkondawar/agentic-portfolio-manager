@@ -116,8 +116,8 @@ def test_pending_signal_fills_next_session_and_creates_managed_position():
     assert opened == {"TEST"}
     assert pending == []
     assert filled[0]["action"] == "ENTERED"
-    assert portfolio.positions["TEST"].stop_loss == 99.0
-    assert portfolio.positions["TEST"].target_price == 106.0
+    assert portfolio.positions["TEST"].stop_loss == 98.0
+    assert portfolio.positions["TEST"].target_price == 108.0
     assert rejected == []
     assert exits == []
 
@@ -158,7 +158,7 @@ def test_entry_day_hard_stop_is_recorded_immediately():
     assert opened == set()
     assert "TEST" not in portfolio.positions
     assert exits[0]["reason"] == "ENTRY-DAY-STOP"
-    assert exits[0]["pnl_pct"] == -1.98
+    assert exits[0]["pnl_pct"] == -2.97
 
 
 def test_entry_day_target_is_recorded_when_stop_is_not_touched():

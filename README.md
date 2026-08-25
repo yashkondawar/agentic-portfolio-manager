@@ -53,7 +53,7 @@ inspection, or use as an explicit state override.
 The cross-regime defaults require a close at least 0.5% above the prior high,
 2.0x relative volume, three-month return at least 15 percentage points above
 the Nifty, and a 50-day SMA that has risen at least 2% over 20 sessions. Each
-trade risks 1% of equity to a 1 ATR initial stop. Backtests model the stop
+trade risks 1% of equity to a 1.5 ATR initial stop. Backtests model the stop
 before the target when both prices occur in one daily candle. For live use,
 place both exit orders after entry; the daily workflow reports and persists
 their exact levels but does not submit broker orders.
@@ -62,16 +62,25 @@ An institutional hardening pass (see
 `docs/52-week-breakout-strategy-finance-review.md`, section 18) adds a realistic
 Indian delivery-cost model (~0.33% round-trip), a diversification framework (up
 to 12 positions with per-sector and pairwise-correlation caps and a 15%
-per-name notional cap), and partial-profit booking (half off at 2.5 ATR, stop to
-breakeven, uncapped Chandelier trail on the remainder). Continuous regime
+per-name notional cap), and partial-profit booking. Continuous regime
 scaling is implemented but **disabled by default** because the simple binary
 market gate produced better drawdowns and Sharpe across every test window.
 
+A subsequent trade-management pass (section 19) widened the initial stop to
+1.5 ATR, widened the Chandelier trail from 2 ATR to 4 ATR, and cut the
+partial-profit booking from half the position at 2.5 ATR to **20% at 3.5 ATR**,
+so winners keep most of their size instead of being halved early. Entry filters
+were left untouched: an exit-time study of 727 trades found day-one losers and
+multi-week winners statistically indistinguishable at entry, so the edge is in
+trade management, not in more selective entries.
+
 Under these realistic-cost defaults, the five-year simulation
 (2021-07-24 through 2026-07-24, ₹500,000 initial cash) produces roughly
-5.4% CAGR, -14% maximum drawdown, 0.51 Sharpe, and a ~47% win rate. The lower
-headline return versus the earlier flat-cost figures (16.56% CAGR) is almost
-entirely the honest transaction-cost model; drawdown and win rate both improve.
+24.3% CAGR, -14.5% maximum drawdown, 1.36 Sharpe, a 1.96 profit factor, and a
+~47% win rate, ending near ₹14.8 lakh. The same change improves 2012-2014,
+2019, 2022-2024 and 2025-2026, and is roughly 3 percentage points worse across
+the choppy 2015-2018 stretch, where the wider trail gives back more in
+sideways markets.
 The strategy is signal-scarce (≈28% average exposure), so its edge comes from
 selectivity — relaxing filters to deploy more capital was tested and degraded
 every window. All figures use today's Nifty 500 membership and therefore retain

@@ -158,8 +158,11 @@ def test_cross_regime_defaults_use_leadership_and_bounded_reward():
     assert cfg.min_breakout_pct == 0.5
     assert cfg.min_relative_strength_3m_pct == 15.0
     assert cfg.min_sma50_slope_pct == 2.0
-    assert cfg.atr_stop_mult == 1.0
+    assert cfg.atr_stop_mult == 1.5
     assert cfg.profit_target_atr == 4.0
+    assert cfg.chandelier_atr_mult == 4.0
+    assert cfg.partial_profit_atr == 3.5
+    assert cfg.partial_profit_fraction == 0.20
 
     with pytest.raises(ValueError, match="profit_target_atr"):
         BreakoutConfig(profit_target_atr=0)

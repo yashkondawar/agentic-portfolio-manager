@@ -48,7 +48,7 @@ class BreakoutConfig:
     max_correlation: float = 0.85
     correlation_lookback: int = 63
     stop_method: str = "atr"
-    atr_stop_mult: float = 1.0
+    atr_stop_mult: float = 1.5
     technical_stop_buffer_atr: float = 0.1
     profit_target_atr: float = 4.0
 
@@ -61,10 +61,10 @@ class BreakoutConfig:
 
     trail_method: str = "chandelier"
     trail_activation_atr: float = 2.0
-    chandelier_atr_mult: float = 2.0
+    chandelier_atr_mult: float = 4.0
     enable_partial_profit: bool = True
-    partial_profit_atr: float = 2.5
-    partial_profit_fraction: float = 0.5
+    partial_profit_atr: float = 3.5
+    partial_profit_fraction: float = 0.20
     false_breakout_closes: int = 2
     time_exit_sessions: int = 10
     time_exit_progress_pct: float = 5.0
