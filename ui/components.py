@@ -416,7 +416,18 @@ def render_gfs_ledger_snapshot() -> None:
             "treat them as history until you run the strategy."
         )
     _gfs_book_metrics(snap.get("book") or {})
-    if snap.get("pending"):
+    pending_orders = snap.get("orders") or []
+    if pending_orders:
+        st.markdown("#### 🎯 Orders waiting for the next open")
+        st.warning(
+            f"**{len(pending_orders)} order(s) queued.** Place these at the next "
+            "session's open, then run the strategy after that close so the book "
+            "records the fill. GFS never fills on the bar that produced the "
+            "signal, so waiting for these to appear in Holdings before buying "
+            "would put you a session late."
+        )
+        _gfs_orders_tables(pending_orders)
+    elif snap.get("pending"):
         st.warning(
             f"{snap['pending']} order(s) are queued for the next open. Run the "
             "strategy after the close to fill them."
@@ -427,6 +438,41 @@ def render_gfs_ledger_snapshot() -> None:
         f"📒 Tradebook — {snap.get('num_closed', 0)} closed trades", expanded=False
     ):
         _gfs_tradebook_table(snap.get("tradebook") or [])
+
+
+def _gfs_orders_tables(orders: list) -> None:
+    """The only actionable section, rendered identically whether it comes from a
+    fresh run or from the queue persisted in the saved book. A count alone is
+    useless: you cannot place an order you cannot see."""
+    for label, kind, columns in (
+        (
+            "🟢 Buy",
+            "BUY",
+            ["symbol", "sector", "quantity", "reference_price", "stop_price",
+             "rsi_m", "rsi_w", "rsi_d", "resistance"],
+        ),
+        (
+            "🔴 Sell",
+            "SELL",
+            ["symbol", "sector", "quantity", "reference_price", "reason"],
+        ),
+    ):
+        rows = [o for o in orders if o.get("action") == kind]
+        if not rows:
+            continue
+        st.markdown(f"**{label}** ({len(rows)})")
+        frame = pd.DataFrame(rows)
+        st.dataframe(
+            frame[[c for c in columns if c in frame.columns]],
+            use_container_width=True,
+            hide_index=True,
+        )
+    if any(o.get("action") == "BUY" for o in orders):
+        st.caption(
+            "Quantities are indicative. The engine re-derives the stop and the "
+            "size from the actual opening print, so an overnight gap changes the "
+            "size rather than silently changing the risk."
+        )
 
 
 def _render_gfs_live(data: dict) -> None:
@@ -487,35 +533,7 @@ def _render_gfs_live(data: dict) -> None:
     if not orders:
         st.caption("Nothing to place. Hold what you have.")
     else:
-        for label, kind, columns in (
-            (
-                "🟢 Buy",
-                "BUY",
-                ["symbol", "sector", "quantity", "reference_price", "stop_price",
-                 "rsi_m", "rsi_w", "rsi_d", "resistance"],
-            ),
-            (
-                "🔴 Sell",
-                "SELL",
-                ["symbol", "sector", "quantity", "reference_price", "reason"],
-            ),
-        ):
-            rows = [o for o in orders if o.get("action") == kind]
-            if not rows:
-                continue
-            st.markdown(f"**{label}** ({len(rows)})")
-            frame = pd.DataFrame(rows)
-            st.dataframe(
-                frame[[c for c in columns if c in frame.columns]],
-                use_container_width=True,
-                hide_index=True,
-            )
-        if any(o.get("action") == "BUY" for o in orders):
-            st.caption(
-                "Quantities are indicative. The engine re-derives the stop and the "
-                "size from the actual opening print, so an overnight gap changes the "
-                "size rather than silently changing the risk."
-            )
+        _gfs_orders_tables(orders)
 
     # 4) What the replay already executed since the previous run.
     fills = data.get("fills") or []

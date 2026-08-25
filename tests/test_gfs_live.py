@@ -487,3 +487,43 @@ def test_the_stale_branch_in_run_is_actually_executable(monkeypatch):
 
     assert result["data"]["freshness"]["stale"] is True
     assert "STALE PRICE DATA" in result["report"]
+
+
+def test_a_queued_order_is_visible_in_the_saved_book_not_just_counted():
+    """The window between the run that queues an order and the run that fills it
+    is exactly when the user has to place it. Reporting only a count there makes
+    the order unactionable - they cannot buy a number."""
+    from gfs import engine as live_engine
+    from backtesting.gfs.strategy import EntrySignal
+
+    book = _seeded_book()
+    book.pending_entries = [
+        EntrySignal(
+            symbol="GABRIEL",
+            sector="Automobile and Auto Components",
+            signal_date=date(2024, 3, 15),
+            close=1346.0,
+            atr=56.96,
+            stop_hint=1146.63,
+            rsi_d=41.6,
+            rsi_w=67.3,
+            rsi_m=72.9,
+            sector_rank=3.0,
+            resistance=1596.7,
+            score=0.51,
+        )
+    ]
+    live_state.save_book(book)
+    try:
+        snap = live_engine.ledger_snapshot()
+    finally:
+        live_state.reset_book()
+
+    assert snap["pending"] == 1
+    orders = snap["orders"]
+    assert [o["symbol"] for o in orders] == ["GABRIEL"]
+    order = orders[0]
+    assert order["action"] == "BUY"
+    assert order["stop_price"] == 1146.63
+    # An indicative size, so the capital it will absorb is visible.
+    assert isinstance(order["quantity"], int) and order["quantity"] > 0

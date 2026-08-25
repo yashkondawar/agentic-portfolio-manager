@@ -41,6 +41,24 @@ seven uneven chunks with a full save/reload of the book between each, and assert
 the resulting cash, positions, stop levels, high-water marks, trade log and
 equity curve are identical.
 
+### The daily rhythm this implies
+
+| When | Engine | You |
+|---|---|---|
+| Tonight, after close | Finds a signal, queues it | Read the order |
+| **Tomorrow, at the open** | — | **Place it** |
+| Tomorrow, after close | Replays the session, fills at the real open, moves it into Holdings | Run again |
+
+**Do not wait for an order to appear under Holdings before buying it.** It only
+lands there on the run *after* you placed it — and that run has already booked
+the fill at the open you were meant to trade. Waiting puts you a session behind
+the book, and every number the strategy reports from then on describes trades you
+did not make.
+
+Between those two runs the order lives only in the pending queue, so the saved
+book panel shows the full order table — symbol, indicative quantity, stop, RSI
+triplet — not merely a count.
+
 ---
 
 ## 2. Running it

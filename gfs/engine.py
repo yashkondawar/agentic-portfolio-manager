@@ -351,6 +351,22 @@ def _snapshot_payload(
     return snap
 
 
+def _sizing_config(book: Book) -> Optional[GFSConfig]:
+    """Default config, purely so the saved-book view can show an indicative size.
+
+    The run path sizes against the config that run actually used; this path has
+    no run to consult, so it falls back to the adopted defaults. If the user
+    overrode sizing on their last run the number shown here can differ - which
+    is harmless, because the engine re-derives it from the opening print either
+    way.
+    """
+    try:
+        anchor = book.last_session or date.today()
+        return build_config({}, start=anchor, end=anchor + timedelta(days=1))
+    except Exception:  # noqa: BLE001 - the view must survive a bad config
+        return None
+
+
 def _book_age_days(book: Book) -> int:
     if not book.equity_curve:
         return 0
@@ -500,8 +516,18 @@ def _orders(
     return orders
 
 
-def _pending_orders_from_book(book: Book) -> List[Dict[str, Any]]:
-    """Same queue, rendered without an engine (snapshot path)."""
+def _pending_orders_from_book(
+    book: Book,
+    *,
+    equity: Optional[float] = None,
+    cfg: Optional[GFSConfig] = None,
+) -> List[Dict[str, Any]]:
+    """Same queue, rendered without an engine (snapshot path).
+
+    Buy quantities are re-derived by the engine from the actual opening print,
+    so anything shown here is indicative. It is still worth showing: a blank
+    quantity gives no sense of the capital the order will absorb.
+    """
     orders: List[Dict[str, Any]] = []
     for symbol, op in book.pending_exits:
         pos = book.positions.get(symbol)
@@ -517,17 +543,26 @@ def _pending_orders_from_book(book: Book) -> List[Dict[str, Any]]:
             }
         )
     for sig in book.pending_entries:
+        qty = None
+        if equity is not None and cfg is not None:
+            try:
+                qty = int(
+                    gfs_strategy.size_position(sig.close, sig.stop_hint, equity, cfg)
+                )
+            except Exception:  # noqa: BLE001 - sizing must never break the view
+                qty = None
         orders.append(
             {
                 "action": "BUY",
                 "symbol": sig.symbol,
                 "sector": sig.sector,
-                "quantity": None,
+                "quantity": qty,
                 "reference_price": _round(sig.close),
                 "stop_price": _round(sig.stop_hint),
                 "rsi_d": _round(sig.rsi_d, 1),
                 "rsi_w": _round(sig.rsi_w, 1),
                 "rsi_m": _round(sig.rsi_m, 1),
+                "resistance": _round(getattr(sig, "resistance", None)),
                 "reason": "gfs_entry",
                 "detail": "Carried over from the last run.",
             }
@@ -817,6 +852,12 @@ def ledger_snapshot() -> Dict[str, Any]:
         "tradebook": _tradebook(book.closed),
         "num_closed": len(book.closed),
         "pending": len(book.pending_entries) + len(book.pending_exits),
+        # The orders themselves, not just a count - this queue is what the user
+        # has to place at tomorrow's open, and it is only visible here between
+        # the run that created it and the run that fills it.
+        "orders": _pending_orders_from_book(
+            book, equity=equity, cfg=_sizing_config(book)
+        ),
         "last_run": last_run,
         "equity_curve": book.equity_curve[-500:],
     }
