@@ -32,6 +32,12 @@ this harness exists to find out whether they survive contact with data.
 > and one caveat that outranks the rest: split at 2019, the excess return is
 > **+4.08% in 2019-2026 and −0.04% in 2013-2019**.
 
+> **See also [`EXPLORATIONS.md`](EXPLORATIONS.md)** — the research log. This file
+> documents what the harness *is*; that one documents *how we got here*, in the
+> order it happened, including every rejected idea and why. If you are about to
+> try something on this strategy, check there first: roughly two thirds of the
+> ideas tested did not work, and several of them were good ideas.
+
 ---
 
 ## Quick start
@@ -784,11 +790,67 @@ Negative years: 2013 (-4.80%), 2016 (-8.44%)
 Split test: H1 2013-19 excess +2.18%, H2 2019-26 excess +9.15%
 ```
 
+> **Two later changes are not in that command line.** `--exit-rsi 70` (see
+> "Exit target" in EXPLORATIONS.md ch. 8) raises post-tax CAGR to +21.50% and
+> lifts payoff from 0.82 to 1.37, but it doubles the holding period and lost to
+> exit-60 in YTD 2026 — treat 68–72 as a preference, not a settled result. And
+> the **regime gate now defaults to breadth-only**, which is a default change
+> rather than a flag: see the next section.
+
 `--s-rsi 43` replaced the taught value of 40 after the split test in "Loosening
 the filters" below; 43-45 is the defensible region and 43 is its midpoint, not a
 tuned optimum. Without it the same config returns +14.81% post-tax with a
 first-half excess of −0.04%. The dataclass default remains 40 so that every
 earlier number in this document still reproduces from a bare `GFSConfig()`.
+
+### The regime gate: breadth-only is now the default
+
+The gate used to be two conditions ANDed: benchmark above its 200-DMA **and**
+market breadth ≥ 40%. It is now `--regime-mode`, with two choices:
+
+| mode | test | default |
+|---|---|---|
+| `breadth` | breadth ≥ `--min-breadth` | **yes** |
+| `breadth+sma` | breadth ≥ `--min-breadth` **and** benchmark > SMA(`--regime-sma`) | the old behaviour |
+
+`min_breadth_pct` now defaults to **40.0** rather than 0, so the gate is live out
+of the box.
+
+> **Reproducibility note.** This is a behaviour change to the bare
+> `GFSConfig()` defaults — previously the gate was `benchmark > SMA200 AND
+> breadth ≥ 0%`, i.e. the trend leg alone. Numbers printed elsewhere in this
+> document that predate this section were produced under the old default; to
+> reproduce them exactly, pass `--regime-mode breadth+sma --min-breadth 0`.
+
+| variant | CAGR | Sharpe | DD | expo | T1 13-17 | T2 17-22 | T3 22-26 |
+|---|---|---|---|---|---|---|---|
+| `breadth+sma` (old default) | +21.50 | 1.31 | −23.39 | 58.1 | **−1.14** | +8.97 | +17.69 |
+| **`breadth` (new default)** | +20.94 | 1.27 | −23.40 | 64.4 | **+1.19** | +10.32 | +13.78 |
+| index 200-DMA only | +21.23 | 1.28 | −21.75 | 61.3 | +1.25 | +7.21 | +16.40 |
+| no gate at all | +23.77 | 1.28 | −28.72 | 76.4 | +5.85 | +11.48 | +16.88 |
+
+**The AND of both legs was the only configuration tested that loses a third.**
+Breadth-only costs 0.56pp of CAGR, has an *identical* drawdown, adds 6.3pp of
+exposure, and turns T1 positive.
+
+Two things stop this from becoming "drop the gate entirely":
+
+- **`no gate` is leverage, not edge.** It runs at 76.4% exposure. Cut back to a
+  matched ~60% and it returns **+18.08%** against the gated +21.50%. On
+  CAGR-per-unit-exposure the gated config is the best of everything tested
+  (0.370 vs 0.311), which is the relevant metric when GFS shares a corpus with
+  other strategies. It also gives back 2018 entirely (−0.2% vs +16.9%).
+- **The sample starts in 2013, so there is no 2008 in it.** The 200-DMA leg's
+  real value is a slow grinding bear; in 2020's V-shaped crash it *cost* money
+  (+31.6% vs +47.9% ungated) by re-admitting capital too late. Dropping it is a
+  bet that future crashes look more like 2020 than 2008. If you disagree, it is
+  one flag: `--regime-mode breadth+sma`.
+
+The change was motivated by live-ish evidence rather than a sweep: in 2026 the
+gate was shut from March to August because the benchmark stayed below its
+200-DMA, while breadth had already recovered from 26.9% to 59.7% and qualifying
+setups were sitting there unbought (6 on 13 May). Full write-up in
+EXPLORATIONS.md ch. 13 and 15.
 
 ### The universe check — and why the level above should not be trusted
 
@@ -863,16 +925,21 @@ Recorded so they are not mistaken for dead ends. Ranked by expected value.
    exposure rather than cash, and turn the reported excess into true alpha. This
    is the single biggest untested change and it would most likely rescue the
    flat 2013-2019 half.
-2. **RSI period — never swept, at all.** `rsi_period_monthly`, `_weekly` and
-   `_daily` all sit at 14 and nothing in this document has touched them. It is
-   the core parameter of the entire strategy and it is unexplored. Note the
-   panel cache is keyed on it, so a sweep is expensive (see the cache note).
-3. **Risk-based sizing.** `SIZING_RISK` exists in `strategy.size_position` but
-   every result here uses `SIZING_EQUAL`. Sizing by distance-to-stop attacks the
-   payoff ratio through position size rather than through exit timing, which is
-   the one route the two failed attempts above did not try.
-4. **Re-entry after a stop while G and F are still intact.** A stopped-out name
-   is currently gone for good even when the thesis never broke.
+2. ~~**RSI period — never swept, at all.**~~ **Swept.** 7 → +20.12%, 9 → +16.55%,
+   **14 → +21.50%**, 21 → +10.15%. The default is also the peak, so there is no
+   fitting concern — the one sweep that could only have produced bad news, and
+   didn't. See EXPLORATIONS.md ch. 12.
+3. ~~**Risk-based sizing.**~~ **Tested — it is a leverage dial, not a selector.**
+   `--risk-per-trade-pct` moves return and drawdown together in fixed proportion
+   because it moves *exposure*; at matched exposure it does not beat equal
+   weight. Legitimate as a risk control, not reportable as an edge.
+   See EXPLORATIONS.md ch. 10.
+4. ~~**Re-entry after a stop while G and F are still intact.**~~ **Tested and
+   closed.** It was never blocked — the engine only skips symbols *currently
+   held*. The diagnostic found the Father leg is what prevents it: the day after
+   a stop, weekly RSI averages 46.4 and only **1.5%** of stopped names still
+   qualify, while monthly RSI averages 66.4. Adding hysteresis to the Father leg
+   lost on every metric. See EXPLORATIONS.md ch. 14.
 5. **Entry-side trend-intactness filter** — price above its 50-DMA while daily
    RSI is depressed. This is the weekly-breakdown idea moved to the entry, where
    a false positive costs an opportunity instead of a realised loss.
@@ -1117,6 +1184,8 @@ realised loss.
 | `universe.py` | NSE index / all-equity loading, sector map, bias note |
 | `service.py` | orchestration; caches the expensive indicator pass across variants |
 | `run_backtest.py` | CLI |
+| `README.md` | what the harness is and what the current config does |
+| `EXPLORATIONS.md` | **the research log** — every hypothesis tried, in order, including the rejected ones |
 
 Tests live in `tests/test_gfs_leakage.py`, `tests/test_gfs_mechanics.py`,
 `tests/test_gfs_engine.py` and `tests/test_gfs_sweep.py` (73 tests), plus

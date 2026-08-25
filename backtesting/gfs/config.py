@@ -65,6 +65,18 @@ STOP_ATR = "atr"
 STOP_PCT = "pct"
 STOP_SWING = "swing"
 
+# Market-regime gate modes - the "is the market bullish?" step of the funnel.
+#
+# `breadth` asks only how much of the universe is in its own uptrend.
+# `breadth+sma` additionally demands the benchmark close above its own SMA(n).
+#
+# The AND was the original design and reads like the safer of the two. It is
+# not: it is the only regime setting in the study that loses to the benchmark in
+# a sub-period (2013-2017), because the 200-DMA is a lagging line that keeps the
+# book shut long after participation has recovered. See EXPLORATIONS.md.
+REGIME_BREADTH = "breadth"
+REGIME_BREADTH_SMA = "breadth+sma"
+
 # Exit management modes.
 EXIT_RSI = "rsi"  # pure GFS: leave when daily RSI reaches exit_rsi
 EXIT_SCALE_OUT = "scale_out"  # book part at exit_rsi, trail the rest
@@ -126,8 +138,13 @@ class GFSConfig:
 
     # ── Helicopter view: market regime gate ──────────────────────────────────
     use_regime_filter: bool = True
-    regime_sma: int = 200  # benchmark must close above its own SMA(n)
-    min_breadth_pct: float = 0.0  # % of universe above SMA(200); 0 disables
+    # Breadth alone is the default. Adding the benchmark's own 200-DMA on top
+    # costs nothing in drawdown but is the difference between a strategy that is
+    # positive in every sub-period and one that is not - see EXPLORATIONS.md,
+    # "Decomposing the regime gate".
+    regime_mode: str = REGIME_BREADTH
+    regime_sma: int = 200  # benchmark SMA(n); only read in `breadth+sma` mode
+    min_breadth_pct: float = 40.0  # % of universe above SMA(200); 0 disables
 
     # ── Aerial view: sector gate ─────────────────────────────────────────────
     use_sector_filter: bool = True
@@ -232,6 +249,13 @@ class GFSConfig:
                 "exit_f_rsi must be below f_rsi_min, otherwise every position "
                 "exits on the bar it opens"
             )
+        if self.regime_mode not in (REGIME_BREADTH, REGIME_BREADTH_SMA):
+            raise ValueError(
+                f"regime_mode must be {REGIME_BREADTH!r} or {REGIME_BREADTH_SMA!r}"
+            )
+        if self.use_regime_filter and self.regime_mode == REGIME_BREADTH_SMA:
+            if self.regime_sma < 2:
+                raise ValueError("regime_sma must be >= 2 when the trend leg is on")
 
 
 @dataclass

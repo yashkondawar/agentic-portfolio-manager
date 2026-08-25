@@ -20,7 +20,12 @@ import pandas as pd
 import pytest
 
 from backtesting.gfs import baselines as bl
-from backtesting.gfs.config import GFSConfig, RANK_RANDOM
+from backtesting.gfs.config import (
+    GFSConfig,
+    RANK_RANDOM,
+    REGIME_BREADTH,
+    REGIME_BREADTH_SMA,
+)
 from backtesting.gfs.engine import GFSBacktestEngine
 from backtesting.gfs.metrics import compute_metrics, render_summary
 from backtesting.gfs.panels import (
@@ -308,6 +313,38 @@ def test_regime_gate_reduces_or_holds_trade_count(market):
     off, _, _ = run_pipeline(data, universe, make_cfg(use_regime_filter=False))
     on, _, _ = run_pipeline(data, universe, make_cfg(use_regime_filter=True))
     assert len(on.pf.closed) <= len(off.pf.closed)
+
+
+def test_regime_modes_differ_only_in_the_trend_leg(market):
+    """`breadth` must ignore the index SMA entirely; `breadth+sma` must AND the
+    two legs, so it can never be open on a day the breadth-only gate is shut."""
+    data, universe = market
+    calendar = master_calendar(data.benchmark, build_panels(data, universe, make_cfg()))
+    panels = build_panels(data, universe, make_cfg())
+
+    breadth_cfg = make_cfg(
+        use_regime_filter=True, regime_mode=REGIME_BREADTH, min_breadth_pct=40.0
+    )
+    both_cfg = make_cfg(
+        use_regime_filter=True,
+        regime_mode=REGIME_BREADTH_SMA,
+        min_breadth_pct=40.0,
+        regime_sma=200,
+    )
+    breadth = build_regime_panel(data.benchmark, panels, calendar, breadth_cfg).frame
+    both = build_regime_panel(data.benchmark, panels, calendar, both_cfg).frame
+
+    assert breadth["bench_ok"].all(), "breadth mode must not consult the index SMA"
+    assert both["bench_sma"].notna().any(), "breadth+sma mode must compute the SMA"
+    assert (both["regime_ok"] <= breadth["regime_ok"]).all(), (
+        "adding the trend leg can only close days, never open new ones"
+    )
+    assert breadth["breadth_pct"].equals(both["breadth_pct"])
+
+
+def test_regime_mode_is_validated():
+    with pytest.raises(ValueError):
+        make_cfg(use_regime_filter=True, regime_mode="sma-only").validate()
 
 
 def test_sector_gate_reduces_or_holds_trade_count(market):

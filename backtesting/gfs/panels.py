@@ -32,7 +32,7 @@ import numpy as np
 import pandas as pd
 
 from . import indicators as ind
-from .config import GFSConfig, TRIGGER_DIP
+from .config import GFSConfig, REGIME_BREADTH_SMA, TRIGGER_DIP
 
 logger = logging.getLogger("gfs.panels")
 
@@ -361,10 +361,16 @@ def build_regime_panel(
 
     Two measurable proxies replace reading the news:
 
-    * the benchmark trading above its own SMA(n) - a trend switch, and
-    * breadth, the share of the universe above its 200-day SMA - a
-      participation check that catches the case where the index is held up by a
-      handful of heavyweights.
+    * breadth, the share of the universe above its 200-day SMA - a participation
+      check that catches the case where the index is held up by a handful of
+      heavyweights, and
+    * optionally, the benchmark trading above its own SMA(n) - a trend switch.
+
+    `regime_mode` chooses between them. Breadth alone is the default: requiring
+    both was the original design and is the only regime setting tested that
+    loses to the benchmark in a sub-period, because the benchmark's 200-DMA is a
+    lagging line. In 2026 it held the book shut from March to August while
+    breadth had already recovered from 26.9% to 59.7%.
     """
     frame = pd.DataFrame(index=master_index)
 
@@ -373,8 +379,14 @@ def build_regime_panel(
     else:
         bench_close = pd.Series(np.nan, index=master_index, dtype="float64")
     frame["bench_close"] = bench_close
-    frame["bench_sma"] = bench_close.rolling(cfg.regime_sma, min_periods=cfg.regime_sma).mean()
-    frame["bench_ok"] = (bench_close > frame["bench_sma"]).fillna(False)
+    if cfg.regime_mode == REGIME_BREADTH_SMA:
+        frame["bench_sma"] = bench_close.rolling(
+            cfg.regime_sma, min_periods=cfg.regime_sma
+        ).mean()
+        frame["bench_ok"] = (bench_close > frame["bench_sma"]).fillna(False)
+    else:
+        frame["bench_sma"] = np.nan
+        frame["bench_ok"] = True
 
     if panels:
         above = pd.concat(

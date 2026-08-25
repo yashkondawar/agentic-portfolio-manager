@@ -30,7 +30,7 @@ from core.storage import save_artifacts
 
 from ..swing_trading.data import PointInTimeData
 from . import baselines as bl
-from .config import DATA_CACHE_DIR, AblationVariant, GFSConfig
+from .config import DATA_CACHE_DIR, REGIME_BREADTH_SMA, AblationVariant, GFSConfig
 from .engine import GFSBacktestEngine
 from .metrics import compute_metrics, render_summary
 from . import taxes as tx
@@ -257,7 +257,8 @@ def _config_summary(cfg: GFSConfig) -> str:
             f"{f', weekly-RSI breakdown <{cfg.exit_f_rsi:g}' if cfg.exit_f_rsi > 0 else ''}",
             f" Sizing     : {cfg.sizing_mode}, max {cfg.max_positions} positions,"
             f" <={cfg.max_position_pct:g}% each, <={cfg.max_per_sector}/sector",
-            f" Gates      : regime={cfg.use_regime_filter} (SMA{cfg.regime_sma},"
+            f" Gates      : regime={cfg.use_regime_filter} ({cfg.regime_mode},"
+            f"{f' SMA{cfg.regime_sma},' if cfg.regime_mode == REGIME_BREADTH_SMA else ''}"
             f" breadth>={cfg.min_breadth_pct:g}%),"
             f" sector={cfg.use_sector_filter} (top {cfg.sector_top_n})",
             f" Costs      : {cfg.commission_pct:g}%/side + {cfg.slippage_bps:g}bps"

@@ -32,6 +32,8 @@ from .config import (
     RANK_REWARD_RISK,
     RANK_RANDOM,
     RANK_SECTOR_RS,
+    REGIME_BREADTH,
+    REGIME_BREADTH_SMA,
     SIZING_EQUAL,
     SIZING_RISK,
     STOP_ATR,
@@ -86,8 +88,23 @@ def build_parser() -> argparse.ArgumentParser:
 
     gate = p.add_argument_group("top-down gates")
     gate.add_argument("--no-regime-filter", action="store_true")
-    gate.add_argument("--regime-sma", type=int, default=200)
-    gate.add_argument("--min-breadth", type=float, default=0.0)
+    gate.add_argument(
+        "--regime-mode",
+        choices=[REGIME_BREADTH, REGIME_BREADTH_SMA],
+        default=REGIME_BREADTH,
+        help=(
+            "Which market-regime test to apply. 'breadth' (default) uses "
+            "participation alone. 'breadth+sma' additionally demands the "
+            "benchmark close above its own --regime-sma, which is the original "
+            "design but lags: it is the only regime setting that loses to the "
+            "benchmark in a sub-period. See EXPLORATIONS.md."
+        ),
+    )
+    gate.add_argument(
+        "--regime-sma", type=int, default=200,
+        help="Benchmark SMA length; only read when --regime-mode breadth+sma.",
+    )
+    gate.add_argument("--min-breadth", type=float, default=40.0)
     gate.add_argument("--no-sector-filter", action="store_true")
     gate.add_argument("--sector-top-n", type=int, default=5)
     gate.add_argument("--sector-lookback", type=int, default=63)
@@ -205,6 +222,7 @@ def config_from_args(args) -> GFSConfig:
         s_rsi_entry=args.s_rsi,
         entry_trigger=args.trigger,
         use_regime_filter=not args.no_regime_filter,
+        regime_mode=args.regime_mode,
         regime_sma=args.regime_sma,
         min_breadth_pct=args.min_breadth,
         use_sector_filter=not args.no_sector_filter,
