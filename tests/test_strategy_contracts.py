@@ -52,5 +52,6 @@ def test_registry_exposes_every_workbench_strategy():
         "portfolio_analysis",
         "watchlist_curation",
         "qtr_results",
+        "gfs_live",
         "swing_backtest",
     }
