@@ -26,6 +26,7 @@ _STRATEGY_MODULES = (
     "portfolio_analysis",
     "watchlist_curation",
     "qtr_results",
+    "gfs_live",
     "swing_backtest",
 )
 
