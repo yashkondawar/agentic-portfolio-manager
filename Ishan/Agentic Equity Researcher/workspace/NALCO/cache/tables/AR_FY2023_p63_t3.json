@@ -1,0 +1,103 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 63,
+  "table_index": 3,
+  "bbox": [
+    60.17066666666667,
+    479.14,
+    549.6297500000001,
+    657.041
+  ],
+  "rows": [
+    [
+      "Sl.\nNo.",
+      "Particulars",
+      "Total",
+      "Male",
+      null,
+      "Female",
+      null
+    ],
+    [
+      null,
+      null,
+      "(A)",
+      "No. (B)",
+      "% (B / A)",
+      "No. (C)",
+      "% (C / A)"
+    ],
+    [
+      "",
+      "DIFFERENTLY ABLED EMPLOYEES (Executives)",
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "1",
+      "Permanent (D)",
+      "28",
+      "24",
+      "85.71",
+      "4",
+      "14.29"
+    ],
+    [
+      "2",
+      "Other than\nPermanent (E)",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A."
+    ],
+    [
+      "3",
+      "Total differently abled employees (D + E)",
+      "28",
+      "24",
+      "85.71",
+      "4",
+      "14.29"
+    ],
+    [
+      "",
+      "DIFFERENTLY ABLED WORKERS",
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "4",
+      "Permanent (F)\n(Non-Executives)",
+      "62",
+      "53",
+      "85.48",
+      "9",
+      "14.52"
+    ],
+    [
+      "5",
+      "Other than\npermanent (G)",
+      "Nil",
+      "Nil",
+      "Nil",
+      "Nil",
+      "Nil"
+    ],
+    [
+      "6",
+      "Total differently abled workers (F + G)",
+      "62",
+      "53",
+      "85.48",
+      "9",
+      "14.52"
+    ]
+  ]
+}

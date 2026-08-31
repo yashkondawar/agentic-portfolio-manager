@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 94,
+  "table_index": 2,
+  "bbox": [
+    94.47433333333333,
+    486.0963333333334,
+    549.8523333333333,
+    553.356
+  ],
+  "rows": [
+    [
+      "Received From",
+      "Opening Balance",
+      "Received during the year",
+      "Resolved during the year",
+      "Closing Balance"
+    ],
+    [
+      "SEBI",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    [
+      "Stock Exchange",
+      "0",
+      "1",
+      "1",
+      "0"
+    ],
+    [
+      "Individuals",
+      "0",
+      "948",
+      "948",
+      "0"
+    ],
+    [
+      "TOTAL",
+      "0",
+      "949",
+      "949",
+      "0"
+    ]
+  ]
+}

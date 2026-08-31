@@ -1,0 +1,83 @@
+{
+  "SRC-2800": {
+    "doc": "AR_FY2023.pdf",
+    "kind": "annual_report",
+    "page": 133,
+    "locator": "Standalone Cash Flow Statement, working capital: trade payables",
+    "period": "FY2023",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-2801": {
+    "doc": "AR_FY2023.pdf",
+    "kind": "annual_report",
+    "page": 133,
+    "locator": "Standalone Cash Flow Statement, working capital: other liabilities",
+    "period": "FY2023",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-2802": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 41,
+    "locator": "Directors' Report, 7.0 Raw Material Securitisation, Bauxite",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-2803": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 41,
+    "locator": "Directors' Report, 7.0 Raw Material Securitisation, Bauxite",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-2804": {
+    "doc": "AR_FY2023.pdf",
+    "kind": "annual_report",
+    "page": 20,
+    "locator": "Directors' Report, 8.1 5th Stream of Alumina Refinery",
+    "period": "FY2023",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-2805": {
+    "doc": "AR_FY2023.pdf",
+    "kind": "annual_report",
+    "page": 20,
+    "locator": "Directors' Report, 8.1 5th Stream of Alumina Refinery, Power Plant commissioning",
+    "period": "FY2023",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-2806": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 180,
+    "locator": "Auditor report paragraph ix(a) on borrowings and bill discounting",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-2807": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 203,
+    "locator": "Note 37.2 Segment revenues and results, Intersegment revenue",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-2808": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 203,
+    "locator": "Note 37.2 Segment revenues and results, Intersegment revenue prior year",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  }
+}

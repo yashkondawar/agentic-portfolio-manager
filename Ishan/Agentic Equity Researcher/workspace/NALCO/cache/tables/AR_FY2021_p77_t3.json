@@ -1,0 +1,27 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 77,
+  "table_index": 3,
+  "bbox": [
+    79.62006666666666,
+    536.85695,
+    555.3404666666667,
+    669.1700999999999
+  ],
+  "rows": [
+    [
+      "Unit",
+      "Products",
+      "Environmental Concerns",
+      "Risks",
+      "Opportunities /\nMitigation Measures"
+    ],
+    [
+      "Alumina\nRefinery",
+      "Calcined\nAlumina",
+      "a. Air Pollution\nb. Water Pollution\nc. Land contamination",
+      "1. Air Pollution:\ni) Stack Emission\nii) Dust in Calcined Alumina,\nBauxite, Coal and Ash\nhandling areas",
+      "1. Air Pollution:\ni) Electro Static Precipitators (ESPs) are provided in Boiler for\ncollecting particulate matters from Flue Gas of Boiler.\nii) ESP is provided in Calciners for collection of Alumina dust\ngenerated in calcinations process.\niii) Bag filters and de-dusting system are provided in Alumina\nloading and unloading area to prevent dust emission.\niv) Sprinkler and de-dusting system are provided in Lime\nhandling area, Red Mud pond area, Ash, Coal and Bauxite\nhandling areas to control fugitive emission."
+    ]
+  ]
+}

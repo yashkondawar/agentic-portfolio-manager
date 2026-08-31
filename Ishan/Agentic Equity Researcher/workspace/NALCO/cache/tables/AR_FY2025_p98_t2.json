@@ -1,0 +1,27 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 98,
+  "table_index": 2,
+  "bbox": [
+    68.28139999999999,
+    545.7291,
+    542.46225,
+    674.2996
+  ],
+  "rows": [
+    [
+      "Stakeholder\nGroup",
+      "Whether identified\nas Vulnerable\n& Marginalized\nGroup (Yes/No)",
+      "Channels of\ncommunication\n(Email, SMS,\nNewspaper,\nPamphlets,\nAdvertisement,\nCommunity Meetings,\nNotice Board,\nWebsite), Others",
+      "Frequency of\nengagement\n(Annually/Half\nyearly/ Quarterly\n/ others – please\nspecify)",
+      "Purpose and scope of engagement including\nkey topics and concerns raised during such\nengagement"
+    ],
+    [
+      "Investors/\nShareholders",
+      "No",
+      "E mails, Letters,\nWebsite, Newspaper,\nAnnual General\nmeetings",
+      "Regular & need\nbased",
+      "Company Performance, Dividends, Complaints &\ngrievances"
+    ]
+  ]
+}

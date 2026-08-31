@@ -1,0 +1,45 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 45,
+  "table_index": 2,
+  "bbox": [
+    79.62011578947367,
+    136.63229999999996,
+    555.1650380952381,
+    197.8424
+  ],
+  "rows": [
+    [
+      "Total Amount Spent for the\nFinancial Year (in ₹ lakh)",
+      "Amount Unspent (in ₹)",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      "Total Amount transferred to Unspent CSR\nAccount as per Section 135(6)",
+      null,
+      "Amount transferred to any fund specified under Schedule VII as per\nsecond proviso to Section 135(5)",
+      null,
+      null
+    ],
+    [
+      null,
+      "Amount",
+      "Date of transfer",
+      "Name of the Fund",
+      "Amount",
+      "Date of transfer"
+    ],
+    [
+      "3,500.00",
+      "NA",
+      "NA",
+      "NA",
+      "NA",
+      "NA"
+    ]
+  ]
+}

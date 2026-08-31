@@ -1,0 +1,53 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 87,
+  "table_index": 1,
+  "bbox": [
+    51.2736705882353,
+    73.95089999999999,
+    542.4420647058823,
+    309.0948
+  ],
+  "rows": [
+    [
+      "S.\nNo.",
+      "Material issue\nidentified",
+      "Indicate\nwhether risk\nor opportunity\n(R/O)",
+      "Rationale for identifying\nthe risk / opportunity",
+      "In case of risk, approach to adapt or\nmitigate",
+      "Financial implications of\nthe risk or opportunity\n(Indicate positive or\nnegative implications)"
+    ],
+    [
+      "Governance",
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "13",
+      "Business Ethics &\nAnti-Corruption",
+      "R",
+      "Materiality Analysis,\nGovernance Concerns",
+      "Pl. refer response to Principle 1 Essential\nIndicator 4",
+      "Negative"
+    ],
+    [
+      "14",
+      "Risk Management",
+      "R",
+      "Materiality Analysis,\nGovernance Concerns",
+      "A robust risk management framework\nhas been established to identify, assess,\nand mitigate potential business threats.\nThis process is overseen by a dedicated\nBoard-level committee to ensure strategic\nalignment. Regular risk assessments\nare conducted, with identified risks\nsystematically documented and escalated\nwhen required.",
+      "Negative"
+    ],
+    [
+      "15",
+      "R&D innovation &\ntechnology",
+      "R&O",
+      "Materiality Analysis,\nGovernance Concerns",
+      "Committed to R&D, innovation, and\ntechnological advancement, the company\noperates a fully equipped Research &\nTechnology Centre in Bhubaneswar,\nsupported by dedicated R&D units at\nAngul and Damanjodi. A detailed list of\nR&D and technology absorption initiatives\nis provided in the Annual Report.",
+      "Positive"
+    ]
+  ]
+}

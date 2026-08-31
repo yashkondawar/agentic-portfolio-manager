@@ -1,0 +1,58 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 187,
+  "table_index": 2,
+  "bbox": [
+    73.951,
+    255.36800000000005,
+    549.6869,
+    350.237
+  ],
+  "rows": [
+    [
+      "Segment results",
+      null,
+      null
+    ],
+    [
+      "Operating Segments",
+      "Year ended 31.03.2022",
+      "Year ended 31.03.2021"
+    ],
+    [
+      "Chemical segment",
+      "1,127.41",
+      "635.75"
+    ],
+    [
+      "Aluminium segment",
+      "3,257.20",
+      "867.67"
+    ],
+    [
+      "Segment result before exceptional items, interest and tax",
+      "4,384.61",
+      "1,503.42"
+    ],
+    [
+      "Interest & financing charges",
+      "23.12",
+      "7.08"
+    ],
+    [
+      "Interest and dividend income",
+      "223.91",
+      "90.75"
+    ],
+    [
+      "Other unallocated income net of unallocated expenses",
+      "(630.53)",
+      "(270.57)"
+    ],
+    [
+      "Profit before tax",
+      "3,954.87",
+      "1,316.52"
+    ]
+  ]
+}

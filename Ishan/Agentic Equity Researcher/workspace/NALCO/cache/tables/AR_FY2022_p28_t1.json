@@ -1,0 +1,85 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 28,
+  "table_index": 1,
+  "bbox": [
+    74.819,
+    100.05400000000009,
+    288.607,
+    374.35600000000005
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "Calendar\nYear 2020",
+      "Calendar\nYear 2021",
+      "Calendar\nYear 2022\n(Projected)"
+    ],
+    [
+      "Alumina",
+      null,
+      null,
+      null
+    ],
+    [
+      "Global Demand\n(Million MT)",
+      "126.36",
+      "130.99",
+      "129.79*"
+    ],
+    [
+      "Global Supply\n(Million MT)",
+      "126.84",
+      "131.30",
+      "129.70*"
+    ],
+    [
+      "Balance\n[Surplus/(Deficit)]",
+      "0.48",
+      "0.31",
+      "(0.09)*"
+    ],
+    [
+      "Aluminium Metal",
+      null,
+      null,
+      null
+    ],
+    [
+      "Global Demand\n(Million MT)",
+      "62.92",
+      "68.95",
+      "69.04*"
+    ],
+    [
+      "Global Supply\n(Million MT)",
+      "64.74",
+      "67.46",
+      "66.91*"
+    ],
+    [
+      "Balance\n[Surplus/(Deficit)]",
+      "1.83",
+      "(1.49)",
+      "(2.13)*"
+    ],
+    [
+      "Price Trend",
+      "FY 2020-21",
+      "FY 2021-22",
+      "FY 2022-23\n(till June\n2022)"
+    ],
+    [
+      "LME Price\n(USD per MT)",
+      "1,802",
+      "2,769",
+      "2,882"
+    ],
+    [
+      "Alumina Price Index\n(as % of LME Price)",
+      "15.68%",
+      "13.25%",
+      "12.88%"
+    ]
+  ]
+}

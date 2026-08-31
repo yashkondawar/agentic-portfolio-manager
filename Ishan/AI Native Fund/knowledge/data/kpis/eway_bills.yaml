@@ -1,0 +1,28 @@
+kpi_id: eway_bills
+scope: macro
+cycle_refs: [gdp_business_cycle]
+formula: >
+  E-Way Bills = national count of GST e-way bills generated per month
+  (sum of intra-state + inter-state outward + inter-state inward
+  supplies across all states/UTs). A high-frequency goods-movement /
+  logistics-activity proxy, complementary to GST Collections (value) —
+  captures freight/trade volume even when average transaction value is
+  flat or falling.
+inputs:
+  - name: National monthly e-way bill count
+    source: >
+      gst.gov.in statistics download page, one ewb-data-<FY>.xlsx per
+      fiscal year (e.g. ewb-data-2025-26.xlsx), state x month rows summed
+      across the 3 supply-type count columns (0-indexed positions 5, 8,
+      11 — stable across FY files despite header-text drift) via
+      afund.data.macro_govt.MacroGovtPipeline -> macro_series
+      EWAY_BILLS. WORKSTREAM D: full history available back to 2018-07
+      (GST e-way bill system launch) through the latest published month
+      — the best-backfilled series in this workstream.
+    status: available
+orientation: goldilocks_type
+lookback_years: 8
+cadence: monthly
+source_status: available
+registry_xref: null
+references_xref: []

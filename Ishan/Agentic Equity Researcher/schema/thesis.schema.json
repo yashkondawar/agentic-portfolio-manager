@@ -1,0 +1,365 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "thesis.schema.json",
+  "title": "Thesis",
+  "description": "state/thesis.json — owned by prompts/33_thesis_synthesis.md. Before this schema existed, thesis.json had no writer and no shape; the rating was improvised per run from an SOP sentence. The return decomposition and the archetype checklist are what make the rating reproducible and what the red team (prompts/34) attacks.",
+  "type": "object",
+  "required": [
+    "company",
+    "as_of",
+    "return_decomposition",
+    "archetype",
+    "pillars",
+    "must_be_true",
+    "monitorables",
+    "variant_view",
+    "rating"
+  ],
+  "properties": {
+    "company": {
+      "type": "string"
+    },
+    "ticker": {
+      "type": "string"
+    },
+    "as_of": {
+      "type": "string",
+      "description": "ISO date of this synthesis pass"
+    },
+    "sector_family": {
+      "type": "string"
+    },
+    "sector_playbook": {
+      "type": "string"
+    },
+    "return_decomposition": {
+      "type": "object",
+      "description": "Step 1 of module 33, computed BEFORE the archetype is chosen. Drives the 40% rule.",
+      "required": [
+        "metric",
+        "current_multiple",
+        "target_multiple",
+        "current_metric",
+        "target_year_metric",
+        "expected_return_pct",
+        "multiple_share_pct",
+        "valuation_base_year"
+      ],
+      "properties": {
+        "metric": {
+          "type": "string",
+          "description": "EPS | EBITDA | BVPS | EV/EBITDA base — per the \"## Valuation convention\" section of prompts/sector_playbooks/<playbook>.md"
+        },
+        "current_multiple": {
+          "type": "number"
+        },
+        "target_multiple": {
+          "type": "number"
+        },
+        "current_metric": {
+          "type": "number"
+        },
+        "target_year_metric": {
+          "type": "number"
+        },
+        "metric_growth_pct": {
+          "type": "number"
+        },
+        "multiple_change_pct": {
+          "type": "number"
+        },
+        "expected_return_pct": {
+          "type": "number"
+        },
+        "multiple_share_pct": {
+          "type": "number",
+          "description": "Share of expected return attributable to the multiple moving. >40 (config.thesis.rerate_share_threshold_pct) forces the re-rating archetype regardless of self-description."
+        },
+        "valuation_base_year": {
+          "type": "string",
+          "description": "e.g. FY27E, Sep'27E, H1FY28E"
+        },
+        "rolled_forward": {
+          "type": "boolean",
+          "description": "true when the base year is beyond the last year in the estimates table"
+        },
+        "unrolled_target_context": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Required when rolled_forward is true: the fair-value context using the un-rolled base, so the reader can see what the roll contributed."
+        }
+      }
+    },
+    "archetype": {
+      "type": "object",
+      "required": [
+        "primary",
+        "evidence",
+        "skepticism_weight"
+      ],
+      "properties": {
+        "primary": {
+          "type": "string",
+          "enum": [
+            "garp",
+            "quality-compounder",
+            "margin-expansion",
+            "market-share-gainer",
+            "capex-to-cashflow",
+            "balance-sheet-repair",
+            "cyclical-recovery",
+            "regulatory-tailwind",
+            "turnaround",
+            "special-situation",
+            "deep-value-sotp",
+            "re-rating",
+            "cyclical-peak",
+            "de-rating"
+          ]
+        },
+        "secondary": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "forced_rerating": {
+          "type": "boolean",
+          "description": "true when the 40% rule triggered, i.e. the re-rating checklist applies in addition to the primary archetype's."
+        },
+        "evidence": {
+          "type": "string"
+        },
+        "skepticism_weight": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        }
+      }
+    },
+    "pillars": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "required": [
+          "claim",
+          "evidence_refs",
+          "falsifiable_because"
+        ],
+        "properties": {
+          "claim": {
+            "type": "string"
+          },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 2,
+            "description": "≥2 refs from DIFFERENT source documents (config.orchestration.evidence_min_per_thesis_pillar)",
+            "items": {
+              "type": "string"
+            }
+          },
+          "falsifiable_because": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "established",
+              "partial",
+              "unestablished"
+            ]
+          }
+        }
+      }
+    },
+    "must_be_true": {
+      "type": "array",
+      "description": "The selected archetype's checklist, run against the evidence. A majority of `unestablished` means the archetype is REJECTED, not weakened.",
+      "items": {
+        "type": "object",
+        "required": [
+          "condition",
+          "status",
+          "why"
+        ],
+        "properties": {
+          "condition": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "established",
+              "partial",
+              "unestablished"
+            ]
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "why": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "monitorables": {
+      "type": "array",
+      "description": "Archetype falsifiers converted into thresholds. A monitorable without a number is not a monitorable.",
+      "items": {
+        "type": "object",
+        "required": [
+          "what",
+          "threshold",
+          "consequence"
+        ],
+        "properties": {
+          "what": {
+            "type": "string"
+          },
+          "threshold": {
+            "type": "string",
+            "description": "numeric and specific"
+          },
+          "review_by": {
+            "type": "string"
+          },
+          "consequence": {
+            "type": "string",
+            "description": "which pillar or rating it changes"
+          }
+        }
+      }
+    },
+    "variant_view": {
+      "type": "object",
+      "required": [
+        "vs_guidance",
+        "reverse_read"
+      ],
+      "properties": {
+        "vs_guidance": {
+          "type": "string"
+        },
+        "vs_consensus": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "null when consensus could not be sourced — say so rather than implying one"
+        },
+        "reverse_read": {
+          "type": "string",
+          "description": "At CMP, what growth path does the market's multiple imply vs ours?"
+        },
+        "no_variant_view": {
+          "type": "boolean",
+          "description": "Legitimate outcome: the analysis supports the current price. Do not manufacture a disagreement."
+        }
+      }
+    },
+    "rating": {
+      "type": "object",
+      "required": [
+        "value",
+        "derivation",
+        "not_higher_because",
+        "not_lower_because"
+      ],
+      "properties": {
+        "value": {
+          "type": "string",
+          "enum": [
+            "BUY",
+            "ADD",
+            "REDUCE",
+            "SELL"
+          ]
+        },
+        "derivation": {
+          "type": "string",
+          "description": "expected return → skepticism weight → red-flag haircut → data-gap widening → scale"
+        },
+        "not_higher_because": {
+          "type": "string"
+        },
+        "not_lower_because": {
+          "type": "string"
+        },
+        "confidence": {
+          "type": "string",
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "capped_by": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "e.g. sparse data mode, unresolved high-severity red flag, rejected archetype"
+        }
+      }
+    },
+    "redteam": {
+      "type": "object",
+      "description": "Written by MODULE 33, not module 34. Module 34 owns findings/thesis_redteam.json and is forbidden from touching state/thesis.json (separate context, so it must not edit the artefact it is attacking); module 33 owns this file, so 33 writes this block back on its mandatory post-red-team pass (prompts/33 step 7b). Until 2026-08-03 this block had no writer at all. Surfaced in the note's data-gaps section and rendered in full in dossier section 11.",
+      "properties": {
+        "verdict": {
+          "type": "string",
+          "enum": [
+            "survives",
+            "survives_with_qualifications",
+            "not_established"
+          ]
+        },
+        "material_challenges_count": {
+          "type": "integer"
+        },
+        "high_severity_challenges": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "disconfirming_exhibit": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rounds": {
+          "type": "integer",
+          "description": "at least 1 — the first round trip is mandatory"
+        }
+      }
+    },
+    "fair_value_context": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "Context only. The formal target price belongs to the downstream engine via handoff/valuation_handoff.json.",
+      "properties": {
+        "low": {
+          "type": "number"
+        },
+        "high": {
+          "type": "number"
+        },
+        "basis": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

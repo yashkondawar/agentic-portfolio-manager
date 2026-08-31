@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 53,
+  "table_index": 2,
+  "bbox": [
+    60.7525,
+    518.44,
+    549.6830428571428,
+    606.364
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Financial Year",
+      "Amount available for set-off from preceding\nfinancial years (in R)",
+      "Amount required to be set-off for the financial\nyear, if any (in R)"
+    ],
+    [
+      "1",
+      "2018-19",
+      "NIL",
+      "NIL"
+    ],
+    [
+      "2.",
+      "2019-20",
+      "NIL",
+      "NIL"
+    ],
+    [
+      "3.",
+      "2020-21",
+      "NIL",
+      "NIL"
+    ],
+    [
+      "",
+      "Total",
+      "NIL",
+      "NIL"
+    ]
+  ]
+}

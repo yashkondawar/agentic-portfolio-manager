@@ -1,0 +1,88 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 168,
+  "table_index": 3,
+  "bbox": [
+    45.54021666666667,
+    461.56975000000006,
+    463.815,
+    661.893
+  ],
+  "rows": [
+    [
+      "A.",
+      "Non-current",
+      "As at 31.03.2022"
+    ],
+    [
+      null,
+      "(a) Capital advances",
+      "493.65"
+    ],
+    [
+      null,
+      "(b) Advances other than capital advance:",
+      ""
+    ],
+    [
+      null,
+      "Advance with Govt. authorities",
+      ""
+    ],
+    [
+      null,
+      "(1) Customs, excise, sales tax, port trusts etc.",
+      "179.71"
+    ],
+    [
+      null,
+      "(2) Deposits with Income Tax Authority (net)",
+      "109.53"
+    ],
+    [
+      null,
+      "(3) Other Government authorities",
+      "6.01"
+    ],
+    [
+      null,
+      "(c) Others",
+      ""
+    ],
+    [
+      null,
+      "Prepaid expenses",
+      ""
+    ],
+    [
+      null,
+      "(1) Deferred employee benefits [refer Note 11.1]",
+      "15.50"
+    ],
+    [
+      null,
+      "Gross other non-current assets",
+      "804.40"
+    ],
+    [
+      null,
+      "Less: Allowance for bad and doubtful for other non-current assets",
+      ""
+    ],
+    [
+      null,
+      "(a) Capital advances",
+      "0.01"
+    ],
+    [
+      null,
+      "Total allowance for bad and doubtful for other non-current assets",
+      "0.01"
+    ],
+    [
+      null,
+      "Total other non-current assets",
+      "804.39"
+    ]
+  ]
+}

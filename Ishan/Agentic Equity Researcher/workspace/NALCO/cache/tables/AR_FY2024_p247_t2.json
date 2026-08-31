@@ -1,0 +1,41 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 247,
+  "table_index": 2,
+  "bbox": [
+    51.27376666666667,
+    391.5455,
+    542.9764714285715,
+    456.4090714285714
+  ],
+  "rows": [
+    [
+      "Promoter’s name",
+      "As at 31.03.2024",
+      null,
+      "As at 31.03.2023",
+      null
+    ],
+    [
+      null,
+      "Number of shares\nheld",
+      "% of holding of\nequity shares",
+      "Number of shares\nheld",
+      "% of holding of\nequity shares"
+    ],
+    [
+      "Government of India",
+      "94,17,93,011",
+      "51.28%",
+      "94,17,93,011",
+      "51.28%"
+    ],
+    [
+      "Total",
+      "94,17,93,011",
+      "51.28%",
+      "94,17,93,011",
+      "51.28%"
+    ]
+  ]
+}

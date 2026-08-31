@@ -1,0 +1,62 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 73,
+  "table_index": 1,
+  "bbox": [
+    45.573499999999996,
+    57.669000000000096,
+    549.9421666666667,
+    287.46700000000004
+  ],
+  "rows": [
+    [
+      "Stakeholder Group",
+      "Whether identified\nas Vulnerable &\nMarginalized\nGroup (Yes/No)",
+      "Channels of communication\n(Email, SMS, Newspaper,\nPamphlets, Advertisement,\nCommunity Meetings,\nNotice Board, Website), Others",
+      "Frequency of\nengagement\n(Annually/Half yearly/\nQuarterly / others –\nplease specify)",
+      "Purpose and scope of engagement including\nkey topics and concerns raised during such\nengagement"
+    ],
+    [
+      "Shareholders",
+      "No",
+      "E mails, Letters, Website,\nNewspaper, Annual General\nmeetings",
+      "Regular & Need based",
+      "Company Performance, Dividends, Complaints &\ngrievances"
+    ],
+    [
+      "Community",
+      "Yes",
+      "Request letters- Emails,\nCommunity Meetings",
+      "Need based",
+      "Community needs on infrastructure, employment,\neducation, health, sanitation"
+    ],
+    [
+      "Government\nAuthorities /\nRegulatory Bodies",
+      "No",
+      "Meetings, Emails, Letters",
+      "Regular and need based",
+      "Infrastructure development, Company Performance,\nLabour issues, Corporate Social Responsibilities,\nCompliance of various rules, acts, regulation, and laws"
+    ],
+    [
+      "Customers",
+      "No",
+      "Website, emails, Letters,\nMeetings, conference, Surveys",
+      "Regular and Need-based",
+      "Commercial matters, Policy issues, market conditions,\ncomplaints & grievances"
+    ],
+    [
+      "Employees",
+      "No",
+      "Discussion forums with\nAssociations and Unions,\nEmails, Letters, Surveys,",
+      "Regular",
+      "benefits and remunerations, Performance rating and\nrecognition, Career growth, Training and skill\ndevelopment, Safe and healthy working condition,\nwelfare measures"
+    ],
+    [
+      "Value Chain\nPartners (Suppliers,\nVendors,\nContractors)",
+      "Partly",
+      "Website, Mobile Apps, Email,\nLetters, vendor Meet",
+      "Regular and need based",
+      "Special privilege to MSE units, Transparency &\nanti-corruption practices, Simplified procedure & timely\npayment, Terms & conditions of purchase, Speedy\nliquidation of disputes & redressal of grievances."
+    ]
+  ]
+}

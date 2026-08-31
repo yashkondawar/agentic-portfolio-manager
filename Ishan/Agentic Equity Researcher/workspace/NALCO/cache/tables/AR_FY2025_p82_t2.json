@@ -1,0 +1,31 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 82,
+  "table_index": 2,
+  "bbox": [
+    51.2737375,
+    614.12595,
+    542.65949,
+    665.0676
+  ],
+  "rows": [
+    [
+      "S. No.",
+      "Product/Service",
+      "NIC Code",
+      "% of total Turnover contributed"
+    ],
+    [
+      "1",
+      "Aluminium products",
+      "24202",
+      "66.27 %"
+    ],
+    [
+      "2",
+      "Alumina products",
+      "20119",
+      "33.57 %"
+    ]
+  ]
+}

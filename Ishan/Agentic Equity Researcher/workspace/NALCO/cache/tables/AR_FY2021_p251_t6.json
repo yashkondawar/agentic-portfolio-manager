@@ -1,0 +1,38 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 251,
+  "table_index": 6,
+  "bbox": [
+    79.6201,
+    588.59368,
+    555.4001238095237,
+    655.29
+  ],
+  "rows": [
+    [
+      "",
+      "Year ended\n31.03.2021",
+      "Year ended\n31.03.2020"
+    ],
+    [
+      null,
+      "₹ per share",
+      "₹ per share"
+    ],
+    [
+      "36.1 Basic Earnings per share (₹)",
+      "",
+      ""
+    ],
+    [
+      "From total operations",
+      "6.97",
+      "0.73"
+    ],
+    [
+      "Total Basic earnings per share",
+      "6.97",
+      "0.73"
+    ]
+  ]
+}

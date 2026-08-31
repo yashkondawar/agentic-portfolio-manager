@@ -1,0 +1,103 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 103,
+  "table_index": 1,
+  "bbox": [
+    68.28147368421052,
+    88.01884999999999,
+    542.7264315789474,
+    380.8222
+  ],
+  "rows": [
+    [
+      "Parameter",
+      "FY 2024-25",
+      "FY 2023-24"
+    ],
+    [
+      "Water discharge by destination and level of treatment (in kiloliters)",
+      null,
+      null
+    ],
+    [
+      "(i) To Surface water",
+      null,
+      null
+    ],
+    [
+      "- No treatment",
+      "0",
+      "0"
+    ],
+    [
+      "- With treatment – please specify level of treatment\nCoal mine pit water is transferred to settling pond for treatment by addition of lime and\nalum. Clear water from the settling pond is partially discharged to nearby water bodies only\nduring monsoon with prior intimation to SPCB.",
+      "1,06,658.85",
+      "52,471"
+    ],
+    [
+      "(ii) To Groundwater",
+      null,
+      null
+    ],
+    [
+      "- No treatment",
+      "0",
+      "0"
+    ],
+    [
+      "- With treatment – please specify level of treatment",
+      "0",
+      "0"
+    ],
+    [
+      "(iii) To Seawater",
+      null,
+      null
+    ],
+    [
+      "- No treatment",
+      "0",
+      "0"
+    ],
+    [
+      "- With treatment – please specify level of treatment",
+      "0",
+      "0"
+    ],
+    [
+      "(iv) Sent to third parties (Municipal Sewers)",
+      null,
+      null
+    ],
+    [
+      "- No treatment (water discharged from Corporate Office, Bhubaneswar to municipal drain\nsystem of BMC. )",
+      "15,000",
+      "15,000"
+    ],
+    [
+      "- With treatment – please specify level of treatment",
+      "0",
+      "0"
+    ],
+    [
+      "(v) Others",
+      null,
+      null
+    ],
+    [
+      "- No treatment",
+      "0",
+      "0"
+    ],
+    [
+      "- With treatment – please specify level of treatment",
+      "0",
+      ""
+    ],
+    [
+      "Total water discharged (in kiloliters)",
+      "1,21,658.85",
+      "67,471"
+    ]
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 67,
+  "table_index": 1,
+  "bbox": [
+    45.51444444444444,
+    45.754999999999995,
+    549.8233333333333,
+    79.971
+  ],
+  "rows": [
+    [
+      "11",
+      "Has the entity carried out independent assessment/ evaluation of the\nworking of its policies by an external agency? (Yes(Y)/No (N)).\nIf yes, provide name of the agency.",
+      "P1",
+      "P2",
+      "P3",
+      "P4",
+      "P5",
+      "P6",
+      "P7",
+      "P8",
+      "P9"
+    ],
+    [
+      null,
+      null,
+      "N",
+      "N",
+      "N",
+      "N",
+      "N",
+      "N",
+      "N",
+      "N",
+      "N"
+    ]
+  ]
+}

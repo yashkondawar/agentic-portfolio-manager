@@ -1,0 +1,58 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 190,
+  "table_index": 3,
+  "bbox": [
+    93.79327083333334,
+    471.6427999999999,
+    546.6907375,
+    584.0163
+  ],
+  "rows": [
+    [
+      "",
+      "Segment results",
+      null
+    ],
+    [
+      "Operating Segments",
+      "Year ended\n31.03.2021",
+      "Year ended\n31.03.2020"
+    ],
+    [
+      "Chemical segment",
+      "635.75",
+      "554.26"
+    ],
+    [
+      "Aluminium segment",
+      "867.67",
+      "(281.98)"
+    ],
+    [
+      "Segment result before exceptional items, interest and tax",
+      "1,503.42",
+      "272.28"
+    ],
+    [
+      "Interest & financing charges",
+      "7.08",
+      "5.74"
+    ],
+    [
+      "Interest and dividend income",
+      "90.75",
+      "134.43"
+    ],
+    [
+      "Other unallocated income net of unallocated expenses",
+      "(270.57)",
+      "(174.73)"
+    ],
+    [
+      "Profit before tax",
+      "1,316.52",
+      "226.24"
+    ]
+  ]
+}

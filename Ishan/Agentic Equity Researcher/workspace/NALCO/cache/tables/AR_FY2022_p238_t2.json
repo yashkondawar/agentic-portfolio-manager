@@ -1,0 +1,93 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 238,
+  "table_index": 2,
+  "bbox": [
+    45.52746,
+    361.8085000000001,
+    473.10200000000003,
+    541.576
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      "Year ended 31.03.2022"
+    ],
+    [
+      "(a)",
+      "Interest income",
+      ""
+    ],
+    [
+      null,
+      "(i) Interest income earned from financial assets that are not designated as at fair value through profit or loss:",
+      ""
+    ],
+    [
+      null,
+      "- Bank deposits",
+      "103.18"
+    ],
+    [
+      null,
+      "- Loans to employees",
+      "9.25"
+    ],
+    [
+      null,
+      "- Other financial assets carried at amortised cost",
+      "13.42"
+    ],
+    [
+      null,
+      "(ii) Interest income earned from Income tax refund",
+      "84.51"
+    ],
+    [
+      "(b)",
+      "Dividend income",
+      ""
+    ],
+    [
+      null,
+      "- Dividends from current investments",
+      "13.91"
+    ],
+    [
+      "(c)",
+      "Net foreign exchange gain/(loss)",
+      "(1.59)"
+    ],
+    [
+      "(d)",
+      "Net gain/(loss) on financial assets designated as at FVTPL",
+      "(0.36)"
+    ],
+    [
+      "(e)",
+      "Net gain/(loss) on sale of other investments",
+      "-"
+    ],
+    [
+      "(f)",
+      "Write back of liabilities no longer required [refer note: 29.1]",
+      "23.00"
+    ],
+    [
+      "(g)",
+      "Income from internally generated scrap",
+      "33.77"
+    ],
+    [
+      "(h)",
+      "Others",
+      "18.33"
+    ],
+    [
+      "Total other income",
+      null,
+      "297.42"
+    ]
+  ]
+}

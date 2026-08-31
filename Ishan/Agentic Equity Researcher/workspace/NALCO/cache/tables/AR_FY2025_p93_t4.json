@@ -1,0 +1,67 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 93,
+  "table_index": 4,
+  "bbox": [
+    68.28159142857143,
+    521.46721,
+    541.7626250000001,
+    628.7785
+  ],
+  "rows": [
+    [
+      "Benefits",
+      "FY 2024-25",
+      null,
+      null,
+      "FY 2023-24",
+      null,
+      null
+    ],
+    [
+      null,
+      "No. of employees\ncovered as a % of\ntotal employees",
+      "No. of workers\ncovered as a %\nof total workers",
+      "Deducted and\ndeposited with\nthe authority\n(Y/N/N.A.)",
+      "No. of employees\ncovered as a % of\ntotal employees",
+      "No. of workers\ncovered as a %\nof total workers",
+      "Deducted and\ndeposited with\nthe authority\n(Y/N/N.A.)"
+    ],
+    [
+      "PF",
+      "100%",
+      "100%",
+      "Yes",
+      "100%",
+      "100%",
+      "Y"
+    ],
+    [
+      "Gratuity",
+      "100%",
+      "16.65 %",
+      "Yes",
+      "100%",
+      "28%",
+      "Y"
+    ],
+    [
+      "ESI",
+      "NA",
+      "83.35 %",
+      "Yes",
+      "NA",
+      "72%",
+      "Y"
+    ],
+    [
+      "Others – Retrenchment\nBenefits etc",
+      "NA",
+      "83.35 %",
+      "NA",
+      "NA",
+      "72%",
+      "NA"
+    ]
+  ]
+}

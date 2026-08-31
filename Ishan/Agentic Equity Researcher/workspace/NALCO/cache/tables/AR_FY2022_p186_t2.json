@@ -1,0 +1,45 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 186,
+  "table_index": 2,
+  "bbox": [
+    73.951,
+    224.6295,
+    453.543,
+    325.151
+  ],
+  "rows": [
+    [
+      "Profit before tax",
+      "3,954.87"
+    ],
+    [
+      "Income tax expense thereon @ 25.168%",
+      "995.36"
+    ],
+    [
+      "Tax effect of -",
+      ""
+    ],
+    [
+      "i) disallowable expenses (permanent difference)",
+      "21.26"
+    ],
+    [
+      "ii) expenses allowable in excess of expenditure incurred",
+      "(16.15)"
+    ],
+    [
+      "iii) Adjustment relating to earlier years",
+      "(9.88)"
+    ],
+    [
+      "iv) others",
+      "12.31"
+    ],
+    [
+      "Income tax expense recognised in profit or loss",
+      "1,002.90"
+    ]
+  ]
+}

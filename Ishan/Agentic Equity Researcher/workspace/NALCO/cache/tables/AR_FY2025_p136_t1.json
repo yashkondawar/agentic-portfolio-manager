@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 136,
+  "table_index": 1,
+  "bbox": [
+    68.28155333333332,
+    88.01884999999999,
+    542.3412352941176,
+    183.8447
+  ],
+  "rows": [
+    [
+      "Description of results",
+      "Date of meeting",
+      "Newspapers",
+      "Publication date"
+    ],
+    [
+      "1st Qtr.- (Apr-June, 2024)",
+      "12.08.2024",
+      "Hindu Business Line (English), Dharitri (Odia) and\nNav Bharat (Hindi)",
+      "14.08.2024"
+    ],
+    [
+      "2nd Qtr.- (July-Sept., 2024)",
+      "13.11.2024",
+      "Financial Express (English), Sambad (Odia) and\nSanmarg (Hindi)",
+      "14.11.2024"
+    ],
+    [
+      "3rd Qtr.- (Oct.- Dec., 2024)",
+      "10.02.2025",
+      "Business Standard (English), Samaja (Odia) and Azad\nSipahi (Hindi)",
+      "12.02.2025"
+    ],
+    [
+      "4th Qtr. - (Jan.–March, 2025 and year 2024-25)",
+      "21.05.2025",
+      "The Economic Times (English), The Prameya (Odia)\nand Nav Bharat (Hindi)",
+      "22.05.2025"
+    ]
+  ]
+}

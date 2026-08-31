@@ -1,0 +1,103 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 210,
+  "table_index": 1,
+  "bbox": [
+    51.27364285714286,
+    150.72088571428574,
+    542.1943466666667,
+    357.9596
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      "As at 31.03.2025",
+      "As at 31.03.2024"
+    ],
+    [
+      "A.",
+      "Non-current",
+      null,
+      null
+    ],
+    [
+      "",
+      "(i) Others [Refer note 24.1]",
+      "230.50",
+      "230.50"
+    ],
+    [
+      "Total other non-current liabilities",
+      null,
+      "230.50",
+      "230.50"
+    ],
+    [
+      "B.",
+      "Current",
+      null,
+      null
+    ],
+    [
+      "",
+      "(i) Contract Liabilities (Revenue received in advance) [Refer Note 24.2 & 28.2]",
+      "149.73",
+      "211.02"
+    ],
+    [
+      null,
+      "(ii) Statutory and other dues",
+      null,
+      null
+    ],
+    [
+      null,
+      "(a) Electricity duty",
+      "39.51",
+      "39.01"
+    ],
+    [
+      null,
+      "(b) Tax deducted and collected at source",
+      "31.99",
+      "35.78"
+    ],
+    [
+      null,
+      "(c) Contribution to NEPF trust and NPS",
+      "24.99",
+      "27.15"
+    ],
+    [
+      null,
+      "(d) Dues towards stamp duty",
+      "212.78",
+      "212.78"
+    ],
+    [
+      null,
+      "(e) Others (Service tax, excise duty, GST, Royalty etc)",
+      "127.87",
+      "86.43"
+    ],
+    [
+      null,
+      "(iii) Renewable energy purchase obligation",
+      "45.64",
+      "28.24"
+    ],
+    [
+      null,
+      "(iv) Grants for property, plant and equipment",
+      "0.41",
+      "0.43"
+    ],
+    [
+      "Total other current liabilities",
+      null,
+      "632.92",
+      "640.84"
+    ]
+  ]
+}

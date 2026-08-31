@@ -1,0 +1,55 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 192,
+  "table_index": 4,
+  "bbox": [
+    51.27365161290323,
+    570.4838,
+    543.0048129032258,
+    662.5356
+  ],
+  "rows": [
+    [
+      "",
+      "",
+      "Year ended 31.03.2024",
+      "Year ended 31.03.2023"
+    ],
+    [
+      "(a)",
+      "Stores and spares consumed",
+      "410.19",
+      "443.69"
+    ],
+    [
+      "(b)",
+      "Repair and maintenance to",
+      null,
+      null
+    ],
+    [
+      "",
+      "(1) Buildings",
+      "53.58",
+      "68.36"
+    ],
+    [
+      null,
+      "(2) Machinery",
+      "195.94",
+      "209.60"
+    ],
+    [
+      null,
+      "(3) Others",
+      "25.39",
+      "26.20"
+    ],
+    [
+      "(c)",
+      "Other Manufacturing Expenses",
+      null,
+      null
+    ]
+  ]
+}

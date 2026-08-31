@@ -1,0 +1,37 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 228,
+  "table_index": 3,
+  "bbox": [
+    93.24322666666667,
+    377.10632,
+    547.2345233333333,
+    444.67692
+  ],
+  "rows": [
+    [
+      "Customers",
+      null,
+      "% of trade\nreceivables",
+      "Customer Category"
+    ],
+    [
+      "a.",
+      "DUBAI ALUMINIUM PJSC",
+      "44%",
+      "Alumina"
+    ],
+    [
+      "b.",
+      "APSPDCL",
+      "19%",
+      "Wind Power"
+    ],
+    [
+      "c.",
+      "RDPPC, DEVIKOT, RAJASTHAN",
+      "12%",
+      "Wind Power"
+    ]
+  ]
+}

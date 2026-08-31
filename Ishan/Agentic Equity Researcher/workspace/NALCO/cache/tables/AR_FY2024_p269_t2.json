@@ -1,0 +1,34 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 269,
+  "table_index": 2,
+  "bbox": [
+    51.27349,
+    495.79925,
+    542.7067333333333,
+    537.2471428571429
+  ],
+  "rows": [
+    [
+      "",
+      "USD impact",
+      null,
+      "EURO impact",
+      null
+    ],
+    [
+      null,
+      "Year ended 31.03.2024",
+      "Year ended 31.03.2023",
+      "Year ended 31.03.2024",
+      "Year ended 31.03.2023"
+    ],
+    [
+      "Impact on profit or loss for the year",
+      "(21.6)",
+      "(6.6)",
+      "(4.11)",
+      "(3.01)"
+    ]
+  ]
+}

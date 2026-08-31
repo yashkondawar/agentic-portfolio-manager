@@ -1,0 +1,83 @@
+{
+  "run_date": "2026-07-15",
+  "decisions": [
+    {
+      "rule": "T1",
+      "decision": "13 files classified: 5 annual_report (FY2021-FY2025), 4 transcript (FY2026 Q1-Q4), 4 presentation (FY2026 Q1-Q4). No quarterly_result filings, no deep_research_prior, no peer_material, no kpi_data.",
+      "reason": "Classified by first-page/keyword content scan (deterministic script), not filenames — originals had opaque UUID names. Shortfalls recorded in manifest.gaps."
+    },
+    {
+      "rule": "T2",
+      "decision": "sector_pack = commodities_energy (primary and only). bfsi_statements = false.",
+      "reason": "NALCO is an integrated bauxite-alumina-aluminium producer with captive power (metals & mining). Both reportable segments (Chemicals=alumina, Aluminium) sit in the same value chain, so no secondary pack needed."
+    },
+    {
+      "rule": "T3",
+      "decision": "R-SEGMENT fires literally (2 reportable segments), but both segments are one aluminium value chain. Plan: DR1 (company/management) may start in parallel with analysis; DR2 (sector/peers) waits until extraction confirms segment mix and external-vs-inter-segment alumina sales, then runs ONCE scoped to the aluminium value chain (LME aluminium price, alumina index, power/coal costs). Smaller targeted searches interleave between waves per user preference; research_loops_max=3.",
+      "reason": "Segment count > 1 blocks R-PURE, but the segments share one industry — a per-segment DR2 branch would duplicate work. Extraction-first confirms mix cheaply; user explicitly prefers fluid, smaller in-between searches over monolithic research passes."
+    },
+    {
+      "rule": "T4",
+      "decision": "Extract both bases. Preliminary primary basis = consolidated, to be confirmed at COMPUTE: NALCO's subsidiaries/JVs (Angul Aluminium Park, GACL-NALCO Alkalies JV, Utkarsha Aluminium Dhatu Nigam JV) are believed immaterial (<10% of revenue), in which case standalone becomes primary and consolidated the cross-check.",
+      "reason": "Rule T4: consolidated primary only when subsidiaries material. Materiality not yet verifiable pre-extraction; decision flagged for confirmation and the standalone-vs-consolidated comparison table is mandatory either way."
+    },
+    {
+      "rule": "T5",
+      "decision": "Market data pulled at intake: NATIONALUM.NS via tools/market_data.py — 55 facts + 1 index series -> facts/market_data.json.",
+      "reason": "Ticker resolvable; deterministic source per config (never web prices)."
+    },
+    {
+      "rule": "T6",
+      "decision": "Peer seed list (to be confirmed from extracted docs): Hindalco Industries, Vedanta (aluminium division) domestic; global reference set for DR2: Alcoa, Norsk Hydro, Chalco, Emirates Global Aluminium, Rio Tinto (aluminium). DR2 extends and sources each addition.",
+      "reason": "Standard Indian primary-aluminium comparables; extraction wave will confirm which peers the company itself names in AR/PPT competition sections."
+    },
+    {
+      "rule": "T2-RECHECK",
+      "decision": "family = commodities_energy (unchanged); playbook = ferrous_non_ferrous_metals (newly assigned — the two-tier registry postdates this run).",
+      "reason": "Re-run against state/business_model.json per prompts/02 T2-RECHECK. The value chain confirms a per-tonne spread business with captive bauxite; the 'Chemical' segment is metallurgical alumina, not specialty chemicals.",
+      "inputs_examined": [
+        "state/business_model.json",
+        "config/sector_registry.yaml"
+      ]
+    }
+  ],
+  "ticker": "NATIONALUM.NS",
+  "sector": {
+    "family": "commodities_energy",
+    "playbook": "ferrous_non_ferrous_metals",
+    "playbook_status": "authored",
+    "confidence": "high",
+    "matched_keywords": [
+      "ebitda per tonne",
+      "cost of production per tonne",
+      "realisation per tonne",
+      "captive mine"
+    ],
+    "rejected_alternatives": [
+      {
+        "playbook": "cement",
+        "why_not": "shares the per-tonne spread structure and the `ebitda per tonne` keyword, but NALCO produces no clinker/cement and the market is global rather than freight-limited regional"
+      },
+      {
+        "playbook": "power_utilities",
+        "why_not": "the 1,200 MW CPP and 198.4 MW wind are captive inputs to smelting, not a merchant or regulated generation business; no PPA book and no regulated equity"
+      },
+      {
+        "playbook": "specialty_chemicals",
+        "why_not": "the 'Chemical' reporting-segment NAME is misleading — the segment is metallurgical-grade alumina, a commodity intermediate priced off LME, not a specialty chemical. Classifying on the segment label rather than the economics would have routed this to the wrong playbook."
+      }
+    ],
+    "secondary_playbooks": [],
+    "bfsi_statements": false,
+    "generic_reason": null,
+    "recheck": {
+      "ran": true,
+      "agreed": true,
+      "family": "commodities_energy",
+      "playbook": "ferrous_non_ferrous_metals",
+      "reason": "T2-RECHECK run 2026-08-03 against state/business_model.json, which was written after the original triage. The value chain it maps (bauxite -> alumina -> aluminium, captive power, per_tonne unit economics) confirms the first pass. unit_denominator per_tonne matches the registry entry for this playbook."
+    }
+  },
+  "data_mode": "normal",
+  "_normalised": "`sector` and `data_mode` added 2026-08-03. The original run recorded T2 only as prose inside `decisions` ('sector_pack = commodities_energy'), which no downstream consumer can read a slug out of — compute_kpis.py --playbook, compute_ratios.py --family, prompts/31 and prompts/41 all need the machine-readable block. The family value is carried over verbatim from the original T2 decision; the tier-2 playbook is new because tier-2 routing did not exist when this run executed."
+}

@@ -1,0 +1,69 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 85,
+  "table_index": 2,
+  "bbox": [
+    51.273653333333336,
+    373.33290000000005,
+    542.58465625,
+    665.1795
+  ],
+  "rows": [
+    [
+      "S.\nNo.",
+      "Material issue\nidentified",
+      "Indicate\nwhether risk\nor opportunity\n(R/O)",
+      "Rationale for identifying\nthe risk / opportunity",
+      "In case of risk, approach to adapt or\nmitigate",
+      "Financial implications of\nthe risk or opportunity\n(Indicate positive or\nnegative implications)"
+    ],
+    [
+      "Environment",
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "1",
+      "Waste Management",
+      "R",
+      "Materiality Analysis,\nGovernment Regulations,\nEnvironmental Concerns",
+      "Pl. refer response to Principle 6 Essential\nIndicator 10",
+      "Negative"
+    ],
+    [
+      "2",
+      "Water & Effluent\nManagement",
+      "R",
+      "Materiality Analysis,\nGovernment Regulations,\nEnvironmental Concerns",
+      "Pl. refer response to Principle 6 Essential\nIndicator 5",
+      "Negative"
+    ],
+    [
+      "3",
+      "Emissions",
+      "R",
+      "Materiality Analysis,\nGovernment Regulations,\nEnvironmental Concerns",
+      "ESPs for Boiler stacks of CPP & Refinery\nto control particulates emission; FTPs\nfor Smelter Potlines to control fluoride\nemissions; Fugitive Fluoride monitoring\nsystems in Smelter potlines",
+      "Negative"
+    ],
+    [
+      "4",
+      "Energy\nManagement",
+      "R",
+      "Materiality Analysis,\nGovernment Regulations,\nEnvironmental Concerns",
+      "Implemented energy-saving measures\nand achieved ISO-50001 certification for\nour Alumina Refinery, Captive Power\nPlant, and Aluminium Smelter; Regular\nenergy audits identify opportunities\nfor savings which are assessed and\nimplemented; A comprehensive list of\nenergy conservation initiatives is included\nin the Company’s Annual Report",
+      "Positive"
+    ],
+    [
+      "5",
+      "Resource Use",
+      "R&O",
+      "Materiality Analysis,\nGovernment Regulations,\nEnvironmental Concerns",
+      "Optimization of raw material\nconsumption through diligent monitoring\nand control; Specific consumption\nnorms set by the board-level Technology\ncommittee;",
+      "Positive"
+    ]
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 245,
+  "table_index": 3,
+  "bbox": [
+    63.368,
+    480.88100000000003,
+    549.55,
+    579.5600000000001
+  ],
+  "rows": [
+    [
+      "",
+      "Year ended 31.03.2023",
+      "Year ended 31.03.2022"
+    ],
+    [
+      "Tax on remeasurement gain or loss of defined benefit obligations",
+      "",
+      ""
+    ],
+    [
+      "- Current Tax",
+      "-",
+      "-"
+    ],
+    [
+      "- Deferred Tax",
+      "26.50",
+      "(23.30)"
+    ],
+    [
+      "Total income tax recognised in other comprehensive income",
+      "26.50",
+      "(23.30)"
+    ],
+    [
+      "Bifurcation of the income tax recognised in other comprehensive income into:",
+      "",
+      ""
+    ],
+    [
+      "Items that will be reclassified to profit or loss",
+      "-",
+      "-"
+    ],
+    [
+      "Items that will not be reclassified to profit or loss",
+      "26.50",
+      "(23.30)"
+    ]
+  ]
+}

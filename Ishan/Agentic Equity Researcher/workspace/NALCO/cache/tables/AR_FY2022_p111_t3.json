@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 111,
+  "table_index": 3,
+  "bbox": [
+    93.98725,
+    558.6870000000001,
+    549.9876444444444,
+    675.104
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "Stock Exchanges where shares are listed",
+      null
+    ],
+    [
+      null,
+      "BSE Limited",
+      "National Stock Exchange of India Ltd."
+    ],
+    [
+      "Address",
+      "Phiroze Jeejeebhoy Towers, Dalal Street,\nMUMBAI - 400 001",
+      "Exchange Plaza, Bandra-Kurla Complex,\nBandra East, MUMBAI - 400 051"
+    ],
+    [
+      "Scrip code",
+      "532234",
+      "NATIONALUM"
+    ],
+    [
+      "Traded from",
+      "19.10.1992",
+      "28.04.1999"
+    ],
+    [
+      "Stock code (ISIN)",
+      "INE 139A01034",
+      "INE 139A01034"
+    ],
+    [
+      "Payment of Listing Fees for 2022-23",
+      "Paid on 25.04.2022",
+      "Paid on 25.04.2022"
+    ]
+  ]
+}

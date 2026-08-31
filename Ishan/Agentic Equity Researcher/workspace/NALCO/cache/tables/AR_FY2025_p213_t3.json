@@ -1,0 +1,151 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 213,
+  "table_index": 3,
+  "bbox": [
+    51.27363076923077,
+    333.24577142857146,
+    542.9237615384616,
+    651.0117600000001
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      "Year ended 31.03.2025",
+      "Year ended 31.03.2024"
+    ],
+    [
+      "I.",
+      "Revenue from Contract with customers",
+      null,
+      null
+    ],
+    [
+      "",
+      "(a) Sale of products",
+      null,
+      null
+    ],
+    [
+      null,
+      "1) Export:",
+      null,
+      null
+    ],
+    [
+      null,
+      "i) Chemical",
+      "5,387.27",
+      "3,302.16"
+    ],
+    [
+      null,
+      "ii) Aluminium",
+      "129.70",
+      "973.57"
+    ],
+    [
+      null,
+      "2) Domestic:",
+      null,
+      null
+    ],
+    [
+      null,
+      "i) Chemical",
+      "206.56",
+      "235.25"
+    ],
+    [
+      null,
+      "ii) Aluminium",
+      "10,912.52",
+      "8,517.63"
+    ],
+    [
+      null,
+      "(b) Sale of power",
+      null,
+      null
+    ],
+    [
+      null,
+      "i) Wind Power [Refer note no. 28.3]",
+      "26.16",
+      "41.51"
+    ],
+    [
+      null,
+      "Total Revenue from Contract with customers",
+      "16,662.21",
+      "13,070.12"
+    ],
+    [
+      "II.",
+      "Other operating income",
+      null,
+      null
+    ],
+    [
+      "",
+      "(a) Export Incentives",
+      null,
+      null
+    ],
+    [
+      null,
+      "i) Chemical",
+      "95.94",
+      "58.82"
+    ],
+    [
+      null,
+      "ii) Aluminium",
+      "3.05",
+      "24.41"
+    ],
+    [
+      null,
+      "(b) Incentives on Renewable Energy",
+      null,
+      null
+    ],
+    [
+      null,
+      "i) Renewable Energy certificates",
+      "(1.34)",
+      "(38.30)"
+    ],
+    [
+      null,
+      "(c) Own manufactured goods internally used/capitalised",
+      "0.57",
+      "16.24"
+    ],
+    [
+      null,
+      "(d) Income from internally generated scrap",
+      "25.01",
+      "15.99"
+    ],
+    [
+      null,
+      "(e) Despatch money claim",
+      "2.19",
+      "1.87"
+    ],
+    [
+      null,
+      "Total Other operating income",
+      "125.42",
+      "79.03"
+    ],
+    [
+      "Revenue from operations",
+      null,
+      "16,787.63",
+      "13,149.15"
+    ]
+  ]
+}

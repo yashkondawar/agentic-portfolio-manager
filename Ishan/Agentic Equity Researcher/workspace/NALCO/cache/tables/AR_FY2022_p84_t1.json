@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 84,
+  "table_index": 1,
+  "bbox": [
+    45.37088333333333,
+    54.875666666666724,
+    303.301,
+    332.821
+  ],
+  "rows": [
+    [
+      "Unit",
+      "Products",
+      "Environmental Concerns",
+      "Risks"
+    ],
+    [
+      "Mines",
+      "Bauxite",
+      "• Air Pollution\n• Water Pollution\n• Noise pollution\n• Solid waste pollution\n• Land Degradation",
+      "2)Water Pollution:\ni) Waste water from\nMining, Canteen,\nVehicle Washing and\nsewage from toilets."
+    ],
+    [
+      null,
+      null,
+      null,
+      "3) Noise pollution\ni) Noise during blasting\nand operation of heavy\nvehicles."
+    ],
+    [
+      null,
+      null,
+      null,
+      "4) Solid waste pollution:\ni) Overburden material\nfrom excavation of\nminerals.\nii) Organic waste from\ncanteen."
+    ],
+    [
+      null,
+      null,
+      null,
+      "5) Land Degradation\ni) Excavation of\noverburden and ore\nmaterial by blasting and\nuse of machinery."
+    ]
+  ]
+}

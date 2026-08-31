@@ -1,0 +1,1960 @@
+[
+  {
+    "id": "F-AR24-001",
+    "metric": "revenue_from_operations",
+    "label": "Revenue from operations",
+    "value": 13149.15,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-400"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": true
+  },
+  {
+    "id": "F-AR24-002",
+    "metric": "profit_before_tax",
+    "label": "Profit before tax",
+    "value": 2783.57,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-400"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": true
+  },
+  {
+    "id": "F-AR24-003",
+    "metric": "profit_for_the_year",
+    "label": "Profit for the year",
+    "value": 2059.95,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-400"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": true
+  },
+  {
+    "id": "F-AR24-004",
+    "metric": "eps_basic",
+    "label": "Earnings per equity share - Basic",
+    "value": 11.22,
+    "unit": "INR",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-400"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": true
+  },
+  {
+    "id": "F-AR24-002-dup2",
+    "metric": "alumina_hydrate_production_mt",
+    "label": "Alumina Hydrate Production (MT)",
+    "value": 2124000,
+    "unit": "count",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-401"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-003-dup2",
+    "metric": "aluminium_production_mt",
+    "label": "Aluminium Production (MT)",
+    "value": 463428,
+    "unit": "count",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-402"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-004-dup2",
+    "metric": "revenue_from_operations_inr_cr",
+    "label": "Revenue from Operations",
+    "value": 13149.15,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-403"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-005",
+    "metric": "revenue_from_operations_inr_cr",
+    "label": "Revenue from Operations",
+    "value": 13149.15,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-404"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-006",
+    "metric": "other_income_inr_cr",
+    "label": "Other Income",
+    "value": 250.71,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-405"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-007",
+    "metric": "other_income_inr_cr",
+    "label": "Other Income",
+    "value": 250.71,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-406"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-008",
+    "metric": "total_income_inr_cr",
+    "label": "Total Income",
+    "value": 13399.86,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-407"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-009",
+    "metric": "total_income_inr_cr",
+    "label": "Total Income",
+    "value": 13399.86,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-408"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-010",
+    "metric": "cost_of_materials_consumed_inr_cr",
+    "label": "Cost of Raw Materials Consumed",
+    "value": 2791.89,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-409"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-011",
+    "metric": "power_and_fuel_inr_cr",
+    "label": "Cost of Power and Fuel Consumed",
+    "value": 3547.7,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-410"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-012",
+    "metric": "change_in_inventory_inr_cr",
+    "label": "Change in Inventory",
+    "value": -146.05,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-411"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-013",
+    "metric": "employee_benefits_inr_cr",
+    "label": "Employee Benefits Expense",
+    "value": 2034.06,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-412"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-014",
+    "metric": "finance_costs_inr_cr",
+    "label": "Finance Costs",
+    "value": 17.21,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-413"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-015",
+    "metric": "depreciation_ppe_inr_cr",
+    "label": "Depreciation - Property, Plant and Equipment",
+    "value": 728.69,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-414"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-016",
+    "metric": "impairment_ppe_inr_cr",
+    "label": "Impairment - Property, Plant and Equipment",
+    "value": -11.62,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-415"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-017",
+    "metric": "amortization_intangible_inr_cr",
+    "label": "Amortization - Intangible Assets",
+    "value": 32.58,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-416"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-018",
+    "metric": "other_expenses_inr_cr",
+    "label": "Other Expenses",
+    "value": 2048.64,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-417"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-019",
+    "metric": "total_expenses_inr_cr",
+    "label": "Total Expenses",
+    "value": 11043.1,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-418"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-020",
+    "metric": "total_expenses_inr_cr",
+    "label": "Total Expenses",
+    "value": 11043.1,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-419"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-021",
+    "metric": "pbit_inr_cr",
+    "label": "Profit Before Interest and Tax",
+    "value": 2356.76,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-420"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-022",
+    "metric": "pbit_inr_cr",
+    "label": "Profit Before Interest and Tax",
+    "value": 2356.76,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-421"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-023",
+    "metric": "exceptional_items_inr_cr",
+    "label": "Exceptional Items",
+    "value": -426.81,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-422"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": [
+      "one_off"
+    ]
+  },
+  {
+    "id": "F-AR24-024",
+    "metric": "exceptional_items_inr_cr",
+    "label": "Exceptional Items",
+    "value": -426.81,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-423"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": [
+      "one_off"
+    ]
+  },
+  {
+    "id": "F-AR24-025",
+    "metric": "jv_share_of_profit_loss_inr_cr",
+    "label": "Share of Profit/(Loss) of Joint Ventures",
+    "value": -71.49,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-424"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-026",
+    "metric": "profit_before_tax_inr_cr",
+    "label": "Profit Before Tax",
+    "value": 2783.57,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-425"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-027",
+    "metric": "profit_before_tax_inr_cr",
+    "label": "Profit Before Tax",
+    "value": 2712.08,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-426"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-028",
+    "metric": "current_tax_expense_cy_inr_cr",
+    "label": "Current Tax Expense - Current Year",
+    "value": 763.49,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-427"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-029",
+    "metric": "current_tax_expense_ey_inr_cr",
+    "label": "Current Tax Expense - Earlier Years",
+    "value": 76.22,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-428"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-030",
+    "metric": "deferred_tax_inr_cr",
+    "label": "Deferred Tax",
+    "value": -116.09,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-429"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-031",
+    "metric": "total_tax_expense_inr_cr",
+    "label": "Total Tax Expense",
+    "value": 723.62,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-430"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-032",
+    "metric": "total_tax_expense_inr_cr",
+    "label": "Total Tax Expense",
+    "value": 723.62,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-431"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-033",
+    "metric": "profit_for_the_year_inr_cr",
+    "label": "Profit for the Year",
+    "value": 2059.95,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-432"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-034",
+    "metric": "profit_for_the_year_inr_cr",
+    "label": "Profit for the Year",
+    "value": 1988.46,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-433"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-035",
+    "metric": "oci_remeasurement_inr_cr",
+    "label": "OCI - Remeasurement of Defined Benefit Plans",
+    "value": 7.66,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-434"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-036",
+    "metric": "tax_on_oci_inr_cr",
+    "label": "Tax on OCI",
+    "value": 0.25,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-435"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-037",
+    "metric": "oci_net_inr_cr",
+    "label": "Other Comprehensive Income (Net of Tax)",
+    "value": 7.91,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-436"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-038",
+    "metric": "oci_net_inr_cr",
+    "label": "Other Comprehensive Income (Net of Tax)",
+    "value": 7.91,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-437"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-039",
+    "metric": "tci_inr_cr",
+    "label": "Total Comprehensive Income",
+    "value": 2067.86,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-438"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-040",
+    "metric": "tci_inr_cr",
+    "label": "Total Comprehensive Income",
+    "value": 1996.37,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-439"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-041",
+    "metric": "eps_basic_inr",
+    "label": "Earnings Per Share - Basic",
+    "value": 11.22,
+    "unit": "INR_mn",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-440"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-042",
+    "metric": "eps_diluted_inr",
+    "label": "Earnings Per Share - Diluted",
+    "value": 11.22,
+    "unit": "INR_mn",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-441"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-043",
+    "metric": "eps_basic_inr",
+    "label": "Earnings Per Share - Basic",
+    "value": 10.83,
+    "unit": "INR_mn",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-442"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-044",
+    "metric": "eps_diluted_inr",
+    "label": "Earnings Per Share - Diluted",
+    "value": 10.83,
+    "unit": "INR_mn",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-443"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-045",
+    "metric": "ppe_inr_cr",
+    "label": "Property, Plant and Equipment",
+    "value": 7020.24,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-444"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-046",
+    "metric": "cwip_inr_cr",
+    "label": "Capital Work-in-Progress",
+    "value": 3961.49,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-445"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-047",
+    "metric": "intangible_assets_inr_cr",
+    "label": "Intangible Assets",
+    "value": 362.49,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-446"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-048",
+    "metric": "intangible_assets_under_dev_inr_cr",
+    "label": "Intangible Assets Under Development",
+    "value": 611.59,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-447"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-049",
+    "metric": "investments_jv_inr_cr",
+    "label": "Investments in Joint Ventures",
+    "value": 352.22,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-448"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-050",
+    "metric": "other_investments_inr_cr",
+    "label": "Other Investments",
+    "value": 0.03,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-449"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-051",
+    "metric": "loans_non_current_inr_cr",
+    "label": "Loans (Non-Current)",
+    "value": 79.4,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-450"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-052",
+    "metric": "other_financial_assets_nc_inr_cr",
+    "label": "Other Financial Assets (Non-Current)",
+    "value": 17.81,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-451"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-053",
+    "metric": "cta_non_current_inr_cr",
+    "label": "Current Tax Assets (Non-Current)",
+    "value": 260.11,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-452"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-054",
+    "metric": "other_non_current_assets_inr_cr",
+    "label": "Other Non-Current Assets",
+    "value": 621.74,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-453"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-055",
+    "metric": "non_current_assets_total_inr_cr",
+    "label": "Total Non-Current Assets",
+    "value": 13287.12,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-454"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-056",
+    "metric": "inventories_inr_cr",
+    "label": "Inventories",
+    "value": 1829.72,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-455"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-057",
+    "metric": "investments_current_inr_cr",
+    "label": "Investments (Current)",
+    "value": 172.91,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-456"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-058",
+    "metric": "trade_receivables_inr_cr",
+    "label": "Trade Receivables",
+    "value": 153.5,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-457"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-059",
+    "metric": "cash_and_equivalents_inr_cr",
+    "label": "Cash and Cash Equivalents",
+    "value": 43.49,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-458"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-060",
+    "metric": "bank_balances_other_inr_cr",
+    "label": "Bank Balances (Other than Cash)",
+    "value": 2531.66,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-459"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-061",
+    "metric": "loans_current_inr_cr",
+    "label": "Loans (Current)",
+    "value": 28.05,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-460"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-062",
+    "metric": "other_financial_assets_current_inr_cr",
+    "label": "Other Financial Assets (Current)",
+    "value": 78.4,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-461"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-063",
+    "metric": "cta_current_inr_cr",
+    "label": "Current Tax Assets (Current)",
+    "value": 238.69,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-462"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-064",
+    "metric": "other_current_assets_inr_cr",
+    "label": "Other Current Assets",
+    "value": 1053.46,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-463"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-065",
+    "metric": "current_assets_total_inr_cr",
+    "label": "Total Current Assets",
+    "value": 6129.88,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-464"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-066",
+    "metric": "non_current_assets_held_for_sale_inr_cr",
+    "label": "Non-Current Assets Held for Sale",
+    "value": 1.6,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-465"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-067",
+    "metric": "total_assets_inr_cr",
+    "label": "Total Assets",
+    "value": 19418.6,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-466"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-068",
+    "metric": "equity_share_capital_inr_cr",
+    "label": "Equity Share Capital",
+    "value": 918.32,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-467"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-069",
+    "metric": "other_equity_inr_cr",
+    "label": "Other Equity",
+    "value": 13653.34,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-468"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-070",
+    "metric": "total_equity_inr_cr",
+    "label": "Total Equity",
+    "value": 14571.66,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-469"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-071",
+    "metric": "lease_liabilities_nc_inr_cr",
+    "label": "Lease Liabilities (Non-Current)",
+    "value": 51.0,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-470"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-072",
+    "metric": "tp_msme_nc_inr_cr",
+    "label": "Trade Payables - MSME (Non-Current)",
+    "value": 0.0,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-471"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-073",
+    "metric": "tp_other_nc_inr_cr",
+    "label": "Trade Payables - Other (Non-Current)",
+    "value": 18.31,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-472"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-074",
+    "metric": "other_financial_liabilities_nc_inr_cr",
+    "label": "Other Financial Liabilities (Non-Current)",
+    "value": 286.71,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-473"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-075",
+    "metric": "provisions_nc_inr_cr",
+    "label": "Provisions (Non-Current)",
+    "value": 170.57,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-474"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-076",
+    "metric": "deferred_tax_liability_inr_cr",
+    "label": "Deferred Tax Liability (Net)",
+    "value": 841.43,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-475"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-077",
+    "metric": "other_non_current_liabilities_inr_cr",
+    "label": "Other Non-Current Liabilities",
+    "value": 301.24,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-476"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-078",
+    "metric": "non_current_liabilities_total_inr_cr",
+    "label": "Total Non-Current Liabilities",
+    "value": 1669.26,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-477"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-079",
+    "metric": "borrowings_current_inr_cr",
+    "label": "Borrowings (Current)",
+    "value": 39.16,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-478"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-080",
+    "metric": "lease_liabilities_current_inr_cr",
+    "label": "Lease Liabilities (Current)",
+    "value": 6.22,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-479"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-081",
+    "metric": "tp_msme_current_inr_cr",
+    "label": "Trade Payables - MSME (Current)",
+    "value": 175.29,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-480"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-082",
+    "metric": "tp_other_current_inr_cr",
+    "label": "Trade Payables - Other (Current)",
+    "value": 1320.96,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-481"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-083",
+    "metric": "other_financial_liabilities_current_inr_cr",
+    "label": "Other Financial Liabilities (Current)",
+    "value": 735.79,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-482"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-084",
+    "metric": "other_current_liabilities_inr_cr",
+    "label": "Other Current Liabilities",
+    "value": 672.89,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-483"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-085",
+    "metric": "provisions_current_inr_cr",
+    "label": "Provisions (Current)",
+    "value": 173.39,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-484"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-086",
+    "metric": "ctl_net_inr_cr",
+    "label": "Current Tax Liabilities (Net)",
+    "value": 53.98,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-485"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-087",
+    "metric": "current_liabilities_total_inr_cr",
+    "label": "Total Current Liabilities",
+    "value": 3177.68,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-486"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-088",
+    "metric": "total_liabilities_inr_cr",
+    "label": "Total Liabilities",
+    "value": 4846.94,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-487"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-089",
+    "metric": "cfo_inr_cr",
+    "label": "Cash Flow from Operating Activities",
+    "value": 2719.32,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-488"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-090",
+    "metric": "capex_ppe_inr_cr",
+    "label": "Capex - Property, Plant and Equipment",
+    "value": 1560.53,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-489"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-091",
+    "metric": "capex_intangible_inr_cr",
+    "label": "Capex - Intangible Assets",
+    "value": 96.25,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-490"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-092",
+    "metric": "total_capex_inr_cr",
+    "label": "Total Capex",
+    "value": 1656.78,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-491"
+    },
+    "method": "computed",
+    "confidence": "high",
+    "load_bearing": false,
+    "formula": "capex_ppe + capex_intangible",
+    "inputs": [
+      "F-AR24-090",
+      "F-AR24-091"
+    ],
+    "flags": []
+  },
+  {
+    "id": "F-AR24-093",
+    "metric": "cfi_inr_cr",
+    "label": "Cash Flow from Investing Activities",
+    "value": -2000.47,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-492"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-094",
+    "metric": "dividends_paid_inr_cr",
+    "label": "Dividends Paid",
+    "value": 734.65,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-493"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-095",
+    "metric": "cff_inr_cr",
+    "label": "Cash Flow from Financing Activities",
+    "value": -738.65,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-494"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-096",
+    "metric": "total_assets_inr_cr",
+    "label": "Total Assets",
+    "value": 19235.03,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-495"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-097",
+    "metric": "total_equity_inr_cr",
+    "label": "Total Equity",
+    "value": 14388.09,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-496"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-098",
+    "metric": "cfo_inr_cr",
+    "label": "Cash Flow from Operating Activities",
+    "value": 2719.32,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-497"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-099",
+    "metric": "cfi_inr_cr",
+    "label": "Cash Flow from Investing Activities",
+    "value": -2000.47,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-498"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-AR24-100",
+    "metric": "cff_inr_cr",
+    "label": "Cash Flow from Financing Activities",
+    "value": -738.65,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-499"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  }
+]

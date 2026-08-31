@@ -1,0 +1,1022 @@
+[
+  {
+    "id": "F-PQ3-001",
+    "metric": "bauxite_production_qty",
+    "label": "Bauxite Production Q3",
+    "value": 1997,
+    "unit": "000T",
+    "period": "FY2026Q3",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-662"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-002",
+    "metric": "alumina_hydrate_production_qty",
+    "label": "Alumina Hydrate Production Q3",
+    "value": 574,
+    "unit": "000T",
+    "period": "FY2026Q3",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-662"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-003",
+    "metric": "metal_production_qty",
+    "label": "Aluminium Metal Production Q3",
+    "value": 120,
+    "unit": "000T",
+    "period": "FY2026Q3",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-662"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-004",
+    "metric": "thermal_power_generation_qty",
+    "label": "Thermal Power Generation Q3",
+    "value": 1776,
+    "unit": "MU",
+    "period": "FY2026Q3",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-662"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-005",
+    "metric": "alumina_export_sales_qty",
+    "label": "Alumina Export Sales Q3",
+    "value": 363.3,
+    "unit": "000T",
+    "period": "FY2026Q3",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-663"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-006",
+    "metric": "alumina_domestic_sales_qty",
+    "label": "Alumina Domestic Sales Q3",
+    "value": 39.6,
+    "unit": "000T",
+    "period": "FY2026Q3",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-663"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-007",
+    "metric": "metal_export_sales_qty",
+    "label": "Metal Export Sales Q3",
+    "value": 7.1,
+    "unit": "000T",
+    "period": "FY2026Q3",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-663"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-008",
+    "metric": "metal_domestic_sales_qty",
+    "label": "Metal Domestic Sales Q3",
+    "value": 119.3,
+    "unit": "000T",
+    "period": "FY2026Q3",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-663"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-009",
+    "metric": "net_sales",
+    "label": "Net Sales Q3",
+    "value": 4700,
+    "unit": "INR_cr",
+    "period": "FY2026Q3",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-666"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-010",
+    "metric": "other_operating_income",
+    "label": "Other Operating Income Q3",
+    "value": 31,
+    "unit": "INR_cr",
+    "period": "FY2026Q3",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-666"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-011",
+    "metric": "revenue_from_operations",
+    "label": "Revenue from Operations Q3",
+    "value": 4731,
+    "unit": "INR_cr",
+    "period": "FY2026Q3",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-666"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-012",
+    "metric": "other_non_operating_income",
+    "label": "Other Non-Operating Income Q3",
+    "value": 194,
+    "unit": "INR_cr",
+    "period": "FY2026Q3",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-666"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-013",
+    "metric": "total_income",
+    "label": "Total Income Q3",
+    "value": 4925,
+    "unit": "INR_cr",
+    "period": "FY2026Q3",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-666"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-014",
+    "metric": "operating_expenses",
+    "label": "Operating Expenses Q3",
+    "value": 2551,
+    "unit": "INR_cr",
+    "period": "FY2026Q3",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-666"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-015",
+    "metric": "ebitda",
+    "label": "EBITDA (Operating Income) Q3",
+    "value": 2374,
+    "unit": "INR_cr",
+    "period": "FY2026Q3",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 2,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-666"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-016",
+    "metric": "depreciation",
+    "label": "Depreciation Q3",
+    "value": 182,
+    "unit": "INR_cr",
+    "period": "FY2026Q3",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-666"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-017",
+    "metric": "finance_cost",
+    "label": "Finance Cost Q3",
+    "value": 60,
+    "unit": "INR_cr",
+    "period": "FY2026Q3",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-666"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-018",
+    "metric": "exceptional_income_expense",
+    "label": "Exceptional Income / (Expense) Q3",
+    "value": null,
+    "unit": "INR_cr",
+    "period": "FY2026Q3",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-666"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-019",
+    "metric": "pbt",
+    "label": "Profit Before Tax Q3",
+    "value": 2132,
+    "unit": "INR_cr",
+    "period": "FY2026Q3",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-666"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-020",
+    "metric": "pat",
+    "label": "Profit After Tax Q3",
+    "value": 1601,
+    "unit": "INR_cr",
+    "period": "FY2026Q3",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-666"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-021",
+    "metric": "bauxite_production_qty",
+    "label": "Bauxite Production 9M (Upto Q3)",
+    "value": 5630,
+    "unit": "000T",
+    "period": "FY2026H1-Q3",
+    "period_type": "9M",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-664"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-022",
+    "metric": "alumina_hydrate_production_qty",
+    "label": "Alumina Hydrate Production 9M (Upto Q3)",
+    "value": 1727,
+    "unit": "000T",
+    "period": "FY2026H1-Q3",
+    "period_type": "9M",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-664"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-023",
+    "metric": "metal_production_qty",
+    "label": "Aluminium Metal Production 9M (Upto Q3)",
+    "value": 354,
+    "unit": "000T",
+    "period": "FY2026H1-Q3",
+    "period_type": "9M",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-664"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-024",
+    "metric": "thermal_power_generation_qty",
+    "label": "Net Power Generation 9M (Upto Q3)",
+    "value": 5205,
+    "unit": "MU",
+    "period": "FY2026H1-Q3",
+    "period_type": "9M",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-664"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-025",
+    "metric": "alumina_hydrate_sales_qty",
+    "label": "Alumina/Hydrate Sale 9M (Upto Q3)",
+    "value": 1103,
+    "unit": "000T",
+    "period": "FY2026H1-Q3",
+    "period_type": "9M",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-665"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-026",
+    "metric": "aluminium_export_sales_qty",
+    "label": "Aluminium Export 9M (Upto Q3)",
+    "value": 70,
+    "unit": "000T",
+    "period": "FY2026H1-Q3",
+    "period_type": "9M",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-665"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-027",
+    "metric": "metal_domestic_sales_qty",
+    "label": "Domestic Metal Sale 9M (Upto Q3)",
+    "value": 345,
+    "unit": "000T",
+    "period": "FY2026H1-Q3",
+    "period_type": "9M",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-665"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-028",
+    "metric": "total_metal_sales_qty",
+    "label": "Total Metal Sale 9M (Upto Q3)",
+    "value": 415,
+    "unit": "000T",
+    "period": "FY2026H1-Q3",
+    "period_type": "9M",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-665"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-029",
+    "metric": "net_sales",
+    "label": "Net Sales 9M (Upto Q3)",
+    "value": 12748,
+    "unit": "INR_cr",
+    "period": "FY2026H1-Q3",
+    "period_type": "9M",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-667"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-030",
+    "metric": "other_operating_income",
+    "label": "Other Operating Income 9M (Upto Q3)",
+    "value": 82,
+    "unit": "INR_cr",
+    "period": "FY2026H1-Q3",
+    "period_type": "9M",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-667"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-031",
+    "metric": "revenue_from_operations",
+    "label": "Revenue from Operations 9M (Upto Q3)",
+    "value": 12830,
+    "unit": "INR_cr",
+    "period": "FY2026H1-Q3",
+    "period_type": "9M",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-667"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-032",
+    "metric": "other_non_operating_income",
+    "label": "Other Non-Operating Income 9M (Upto Q3)",
+    "value": 469,
+    "unit": "INR_cr",
+    "period": "FY2026H1-Q3",
+    "period_type": "9M",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-667"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-033",
+    "metric": "total_income",
+    "label": "Total Income 9M (Upto Q3)",
+    "value": 13299,
+    "unit": "INR_cr",
+    "period": "FY2026H1-Q3",
+    "period_type": "9M",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-667"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-034",
+    "metric": "operating_expenses",
+    "label": "Operating Expenses 9M (Upto Q3)",
+    "value": 7233,
+    "unit": "INR_cr",
+    "period": "FY2026H1-Q3",
+    "period_type": "9M",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-667"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-035",
+    "metric": "ebitda",
+    "label": "EBITDA (Operating Income) 9M (Upto Q3)",
+    "value": 6066,
+    "unit": "INR_cr",
+    "period": "FY2026H1-Q3",
+    "period_type": "9M",
+    "basis": "consolidated",
+    "level": 2,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-667"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-036",
+    "metric": "depreciation",
+    "label": "Depreciation 9M (Upto Q3)",
+    "value": 534,
+    "unit": "INR_cr",
+    "period": "FY2026H1-Q3",
+    "period_type": "9M",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-667"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-037",
+    "metric": "finance_cost",
+    "label": "Finance Cost 9M (Upto Q3)",
+    "value": 76,
+    "unit": "INR_cr",
+    "period": "FY2026H1-Q3",
+    "period_type": "9M",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-667"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-038",
+    "metric": "exceptional_income_expense",
+    "label": "Exceptional Income / (Expense) 9M (Upto Q3)",
+    "value": null,
+    "unit": "INR_cr",
+    "period": "FY2026H1-Q3",
+    "period_type": "9M",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-667"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-039",
+    "metric": "pbt",
+    "label": "Profit Before Tax 9M (Upto Q3)",
+    "value": 5456,
+    "unit": "INR_cr",
+    "period": "FY2026H1-Q3",
+    "period_type": "9M",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-667"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-040",
+    "metric": "pat",
+    "label": "Profit After Tax 9M (Upto Q3)",
+    "value": 4098,
+    "unit": "INR_cr",
+    "period": "FY2026H1-Q3",
+    "period_type": "9M",
+    "basis": "consolidated",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-667"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": true,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-041",
+    "metric": "bauxite_capacity_current",
+    "label": "Bauxite Mining Capacity (Current)",
+    "value": 7.5,
+    "unit": "MTPA",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-661"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": [
+      "company_claim"
+    ]
+  },
+  {
+    "id": "F-PQ3-042",
+    "metric": "alumina_refinery_capacity_current",
+    "label": "Alumina Refinery Capacity (Current)",
+    "value": 2.1,
+    "unit": "MTPA",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-661"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": [
+      "company_claim"
+    ]
+  },
+  {
+    "id": "F-PQ3-043",
+    "metric": "aluminium_smelter_capacity_current",
+    "label": "Aluminium Smelter Capacity (Current)",
+    "value": 0.46,
+    "unit": "MTPA",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-661"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": [
+      "company_claim"
+    ]
+  },
+  {
+    "id": "F-PQ3-044",
+    "metric": "cpp_capacity_current",
+    "label": "Captive Power Plant Capacity (Current)",
+    "value": 1200,
+    "unit": "MW",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-661"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": [
+      "company_claim"
+    ]
+  },
+  {
+    "id": "F-PQ3-045",
+    "metric": "coal_mines_capacity_current",
+    "label": "Coal Mines Capacity (Current)",
+    "value": 4.0,
+    "unit": "MTPA",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-661"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": [
+      "company_claim"
+    ]
+  },
+  {
+    "id": "F-PQ3-046",
+    "metric": "wind_power_capacity_current",
+    "label": "Wind Power Capacity (Current)",
+    "value": 198,
+    "unit": "MW",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-661"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": [
+      "company_claim"
+    ]
+  },
+  {
+    "id": "F-PQ3-047",
+    "metric": "govt_holding_pct",
+    "label": "Government of India Holding",
+    "value": 51.28,
+    "unit": "pct",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-660"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  },
+  {
+    "id": "F-PQ3-048",
+    "metric": "csr_budget_fy2026",
+    "label": "CSR Budget FY2026",
+    "value": 91.19,
+    "unit": "INR_cr",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-673"
+    },
+    "method": "reported",
+    "formula": null,
+    "inputs": [],
+    "confidence": "high",
+    "load_bearing": false,
+    "flags": []
+  }
+]

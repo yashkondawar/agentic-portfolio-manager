@@ -1,0 +1,23 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 224,
+  "table_index": 1,
+  "bbox": [
+    74.352,
+    73.82600000000002,
+    549.5876666666667,
+    141.04100000000005
+  ],
+  "rows": [
+    [
+      "Customers Customer Category",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      "a. Andhra Pradesh Southern Power Distribution Company Ltd. Wind Power\nb. Zetwerk Manufacturing Businesses Pvt Ltd Metal\nc. NTPC Vidyut Vyapar Nigam Ltd Wind Power\nd. Gloster Cables Limited Metal\ne. Gupta Power Infrastructure Ltd Metal",
+      "29%\n15%\n11%\n7%\n6%",
+      "49%\n-\n13%\n-\n19%"
+    ]
+  ]
+}

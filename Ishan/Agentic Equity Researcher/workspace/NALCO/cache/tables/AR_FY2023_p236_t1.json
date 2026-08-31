@@ -1,0 +1,139 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 236,
+  "table_index": 1,
+  "bbox": [
+    45.979,
+    77.66250000000008,
+    549.6236666666667,
+    268.12700000000007
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      "",
+      "Claims against the Company not acknowledged as debts",
+      "",
+      ""
+    ],
+    [
+      "a.",
+      "Demand from statutory authority",
+      "",
+      ""
+    ],
+    [
+      "",
+      "1. Odisha Sales tax",
+      "3.71",
+      "4.09"
+    ],
+    [
+      null,
+      "2. Central Sales tax",
+      "277.52",
+      "280.55"
+    ],
+    [
+      null,
+      "3. VAT",
+      "0.69",
+      "12.64"
+    ],
+    [
+      null,
+      "4. Excise duty",
+      "410.44",
+      "410.44"
+    ],
+    [
+      null,
+      "5. Custom duty",
+      "102.67",
+      "102.77"
+    ],
+    [
+      null,
+      "6. Service tax",
+      "13.08",
+      "14.82"
+    ],
+    [
+      null,
+      "7. Income tax",
+      "210.27",
+      "223.75"
+    ],
+    [
+      null,
+      "8. Entry tax",
+      "217.28",
+      "222.21"
+    ],
+    [
+      null,
+      "9. Road tax",
+      "2.65",
+      "2.65"
+    ],
+    [
+      null,
+      "10. Stamp duty",
+      "0.51",
+      "0.51"
+    ],
+    [
+      null,
+      "11. Claim From Govt. (NGT)",
+      "-",
+      "109.01"
+    ],
+    [
+      null,
+      "12. Claim From PSUs",
+      "423.21",
+      "322.92"
+    ],
+    [
+      null,
+      "13. Land acquisition and interest thereon",
+      "85.55",
+      "78.07"
+    ],
+    [
+      null,
+      "14. Dept. of mines Govt. of Odisha",
+      "136.32",
+      "136.32"
+    ],
+    [
+      null,
+      "15.Water Resources Deptt. Govt. of Odisha for Water Conservation fund",
+      "119.24",
+      "119.24"
+    ],
+    [
+      "b.",
+      "Claim by contractors/suppliers and others",
+      "-",
+      "-"
+    ],
+    [
+      "",
+      "1. Claims of Contractor’s suppliers and others",
+      "359.15",
+      "338.41"
+    ],
+    [
+      "Total",
+      null,
+      "2,362.31",
+      "2378.40"
+    ]
+  ]
+}

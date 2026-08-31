@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 184,
+  "table_index": 3,
+  "bbox": [
+    112.308,
+    528.4395000000001,
+    549.921,
+    590.7575
+  ],
+  "rows": [
+    [
+      "Name of JV/Associate Nature of Transaction",
+      "Year ended 31.03.2023",
+      "Year ended 31.03.2022"
+    ],
+    [
+      "Khanij Bidesh India Limited Equity Contribution",
+      "12.00",
+      "-"
+    ],
+    [
+      "GACL NALCO Alkalis & Chemicals Limited Purchase of goods",
+      "75.59",
+      "-"
+    ],
+    [
+      "GACL NALCO Alkalis & Chemicals Limited Receivable- man power assistance\nand other expenses",
+      "0.77",
+      "0.70"
+    ]
+  ]
+}

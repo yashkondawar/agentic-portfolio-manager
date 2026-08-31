@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FactRecord",
+  "description": "The only carrier of numbers/claims between modules. Markdown tables are rendered from these, never the reverse.",
+  "type": "object",
+  "required": ["id", "metric", "value", "period", "basis", "source", "method", "confidence"],
+  "properties": {
+    "id": { "type": "string", "description": "e.g. F-REV-FY2024-CONS-001; EXT- prefix for external facts; D- for derived; EST- for estimates" },
+    "metric": { "type": "string", "description": "snake_case canonical key, e.g. revenue_from_operations, gnpa_pct, capex_guidance" },
+    "label": { "type": "string", "description": "human label as printed in source" },
+    "value": { "type": ["number", "string", "null"], "description": "exact as printed (no rounding) or 'N/A — missing <field>'" },
+    "unit": { "type": "string", "description": "INR_cr | INR_mn | pct | x | days | count | text — as per source" },
+    "period": { "type": "string", "description": "FY2024 | FY2025Q3 | FY2025H1 | LTM2025-03 | POINT2025-05-12" },
+    "period_type": { "enum": ["FY", "Q", "H", "LTM", "POINT"] },
+    "basis": { "enum": ["consolidated", "standalone", "na"] },
+    "level": { "type": "integer", "description": "1 = face of statement, 2 = notes breakdown, 3 = deeper note detail" },
+    "parent": { "type": ["string", "null"], "description": "fact id this is a breakdown of" },
+    "source": {
+      "type": "object",
+      "required": ["src_id"],
+      "properties": {
+        "src_id": { "type": "string", "description": "SRC-### in state/source_registry.json" },
+        "quote": { "type": ["string", "null"], "description": "verbatim span ≤25 words when qualitative" }
+      }
+    },
+    "method": { "enum": ["reported", "computed", "assumption", "estimate"] },
+    "formula": { "type": ["string", "null"], "description": "required when method=computed/estimate, e.g. 'cfo - net_capex'" },
+    "inputs": { "type": "array", "items": { "type": "string" }, "description": "fact ids used when computed/estimated" },
+    "confidence": { "enum": ["high", "medium", "low"] },
+    "load_bearing": { "type": "boolean", "default": false },
+    "flags": { "type": "array", "items": { "type": "string" }, "description": "superseded | restated_original | unverified | one_off | discrepancy" },
+    "impacts": { "type": "array", "items": { "type": "string" }, "description": "external facts only: module names whose findings this may invalidate" }
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 241,
+  "table_index": 2,
+  "bbox": [
+    74.069,
+    231.29100000000005,
+    549.75285,
+    377.086
+  ],
+  "rows": [
+    [
+      "Service Cost:",
+      "",
+      ""
+    ],
+    [
+      "-Current Service cost",
+      "(35.10)",
+      "(52.67)"
+    ],
+    [
+      "-Past Service Cost and (gain)/loss from settlements",
+      "17.36",
+      "16.10"
+    ],
+    [
+      "-Net Interest expense",
+      "(10.91)",
+      "(5.11)"
+    ],
+    [
+      "Components of defined benefit costs recognised in profit or loss",
+      "(28.65)",
+      "(41.68)"
+    ],
+    [
+      "Remeasurement of the net defined benefit liability:",
+      "",
+      ""
+    ],
+    [
+      "Return on the net defined benefit liability",
+      "4.68",
+      "(1.78)"
+    ],
+    [
+      "Actuarial (Gains)/losses arising from changes in financial assumptions",
+      "24.61",
+      "5.10"
+    ],
+    [
+      "Actuarial (Gains)/losses arising from experience assumptions",
+      "17.96",
+      "14.31"
+    ],
+    [
+      "Others",
+      "",
+      ""
+    ],
+    [
+      "Adjustments for restrictions on the defined benefit asset",
+      "",
+      ""
+    ],
+    [
+      "Components of defined benefit costs recognised in other comprehensive income",
+      "47.25",
+      "17.63"
+    ],
+    [
+      "Total",
+      "18.60",
+      "(24.05)"
+    ]
+  ]
+}

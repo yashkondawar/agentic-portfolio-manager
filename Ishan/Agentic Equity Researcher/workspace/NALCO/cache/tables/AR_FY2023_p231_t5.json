@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 231,
+  "table_index": 5,
+  "bbox": [
+    92.163,
+    520.282,
+    549.4577999999999,
+    675.371
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      "i) Principal amount due",
+      "36.59",
+      "31.50"
+    ],
+    [
+      "ii) Interest on principal amount due",
+      "Nil",
+      "Nil"
+    ],
+    [
+      "iii) Interest and principal amount paid beyond appointment day",
+      "Nil",
+      "Nil"
+    ],
+    [
+      "iv) The amount of interest due and for the period of delay in making payment\n(which have been paid but beyond the appointed day during the year) but without\nadding the amount of interest specified under MSME Development Act 2006.",
+      "Nil",
+      "Nil"
+    ],
+    [
+      "v) The amount of interest accrued and remaining unpaid at the end of the year.",
+      "Nil",
+      "Nil"
+    ],
+    [
+      "vi) The amount of further interest remaining due and payable even in the succeeding\nyears, until such date when the interest due as above are actually paid to the small\nenterprise, for the purpose of disallowance as a deductible expenditure under\nsection 23 of MSME Development Act 2006.",
+      "Nil",
+      "Nil"
+    ]
+  ]
+}

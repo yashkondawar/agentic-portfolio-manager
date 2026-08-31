@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 44,
+  "table_index": 2,
+  "bbox": [
+    68.28155384615384,
+    153.736,
+    529.3977375,
+    254.11900000000003
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Particular",
+      "Amount (in `)"
+    ],
+    [
+      "(1)",
+      "(2)",
+      "(3)"
+    ],
+    [
+      "(i)",
+      "Two percent of average net profit of the company as per sub-section (5) of the section\n135",
+      "` 48,15,00,000"
+    ],
+    [
+      "(ii)",
+      "Total amount spent for the Financial Year",
+      "` 50,53,82,266"
+    ],
+    [
+      "(iii)",
+      "Excess amount spent for the financial year [(ii)-(i)]",
+      "` 2,38,82,266"
+    ],
+    [
+      "(iv)",
+      "Surplus arising out of the CSR projects or programmes or activities of the previous\nfinancial years, if any",
+      "NIL"
+    ],
+    [
+      "(v)",
+      "Amount available for set off in succeeding financial years [(iii)-(iv)]",
+      "NIL"
+    ]
+  ]
+}

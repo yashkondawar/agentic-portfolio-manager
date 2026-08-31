@@ -1,0 +1,28 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 91,
+  "table_index": 3,
+  "bbox": [
+    68.28131764705883,
+    461.99680000000006,
+    542.8865882352941,
+    513.4601
+  ],
+  "rows": [
+    [
+      "",
+      "FY 2023-24",
+      "FY 2022-23"
+    ],
+    [
+      "Directly sourced from MSMEs/ small producers",
+      "30.64% **",
+      "29.88%*"
+    ],
+    [
+      "Directly from within India",
+      "97.69%",
+      "98.2%"
+    ]
+  ]
+}

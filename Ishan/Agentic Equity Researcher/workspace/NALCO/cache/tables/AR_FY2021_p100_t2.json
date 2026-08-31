@@ -1,0 +1,49 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 100,
+  "table_index": 2,
+  "bbox": [
+    116.47082608695654,
+    88.12426249999994,
+    546.8369833333334,
+    162.6014
+  ],
+  "rows": [
+    [
+      "No. of Directors Present",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Board Meeting No.\n& Date",
+      "Board\nStrength",
+      "Functional",
+      "Part-time\nOfficial",
+      "Part-time\nNon-official (Independent)",
+      "Total\nAttendance",
+      "% of attendance\nto strength"
+    ],
+    [
+      "327th\n15.03.2021",
+      "6",
+      "4",
+      "2",
+      "0",
+      "6",
+      "100.00"
+    ],
+    [
+      "328th\n23.03.2021",
+      "6",
+      "4",
+      "2",
+      "0",
+      "6",
+      "100.00"
+    ]
+  ]
+}

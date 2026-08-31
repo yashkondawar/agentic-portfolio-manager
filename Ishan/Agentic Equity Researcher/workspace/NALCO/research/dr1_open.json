@@ -1,0 +1,46 @@
+{
+  "open_questions": [
+    {
+      "id": "OQ-DR1-1",
+      "question": "Panchpatmali lease terminal dates: which block expires 2029 vs which expires 2032/2035? External source (2019-vintage IBM yearbook) gives South=2029, North-Central=2032 — conflicts with brief's 'central=2029, south=2035' framing. Needs verification against NALCO's own current AR/investor-presentation lease disclosure (primary, in-house).",
+      "severity": "medium",
+      "routed_to": "fundamental-analyst",
+      "reason_unresolved": "Best available external source is 6+ years stale; a more recent renewal may exist that this search pass didn't surface. Internal AR text is authoritative and should be checked directly rather than via web search."
+    },
+    {
+      "id": "OQ-DR1-2",
+      "question": "Confirm GoI (President of India) shareholding of 51.28% via a primary NSE/BSE shareholding-pattern filing rather than a market-data aggregator.",
+      "severity": "low",
+      "routed_to": "orchestrator",
+      "reason_unresolved": "NSE corporate-filings pages are bot-walled to automated fetch; BSE fallback not attempted in this pass due to search-budget allocation to higher-priority items. Figure matches brief's stated value so risk of material error is low, but corroboration tier is currently secondary/unverified, not primary."
+    },
+    {
+      "id": "OQ-DR1-3",
+      "question": "Is there a NALCO-specific DIPAM dividend directive (vs. the general CPSE minimum-dividend norm) and does NALCO's own Dividend Distribution Policy document specify a payout ratio target?",
+      "severity": "low",
+      "routed_to": "fundamental-analyst",
+      "reason_unresolved": "NALCO's Dividend Distribution Policy PDF (nalcoindia.com/wp-content/uploads/2019/01/Dividend-Policy.pdf) was located but not fetched in this pass; recommend a direct fetch if payout-ratio assumptions become load-bearing for estimates."
+    },
+    {
+      "id": "OQ-DR1-4",
+      "question": "Reputation sweep (X/Twitter, YouTube, Glassdoor/Naukri) on named management (CMD Singh, Director-Finance Behuria) and broader employee/customer sentiment consensus table was not conducted — out of scope given bounded search budget for this pass focused on appointments/regulatory/lease priorities.",
+      "severity": "low",
+      "routed_to": "deep-researcher (follow-up pass, if requested)",
+      "reason_unresolved": "Deprioritized under the 20-search budget in favor of regulatory/lease/disinvestment/dividend items explicitly listed in scope; standing checklist item C (reputation sweep) not exhausted."
+    },
+    {
+      "id": "OQ-DR1-5",
+      "question": "Direct primary-docket screen of SEBI order database and NCLT/NCLAT/IBBI case search for NALCO/directors (rather than general web search) to upgrade the 'no adverse finding located' result to a certified clean scan.",
+      "severity": "medium",
+      "routed_to": "orchestrator / deep-researcher follow-up",
+      "reason_unresolved": "SEBI/NCLT sites were not directly queryable via search tooling in this pass (general web search returned only tangential/administrative pages); a direct site-restricted fetch attempt was not executed given search-budget constraints. Governance-analyst should treat current result as provisional, not exhaustive."
+    },
+    {
+      "id": "OQ-DR1-6",
+      "question": "Director (Personnel/HR) — identity and appointment date not confirmed in this pass.",
+      "severity": "low",
+      "routed_to": "fundamental-analyst / governance-analyst",
+      "reason_unresolved": "Not surfaced in the search results reviewed; likely findable directly on nalcoindia.com/company/nalco-leadership/board-of-directors/ with a targeted fetch."
+    }
+  ]
+}

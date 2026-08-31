@@ -1,0 +1,38 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 61,
+  "table_index": 3,
+  "bbox": [
+    102.297225,
+    538.24705,
+    554.915215,
+    610.747075
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "FY 2020-21",
+      "FY 2019-20"
+    ],
+    [
+      "Profit before Tax",
+      "1,316.52",
+      "226.24"
+    ],
+    [
+      "Tax Expenses",
+      "16.99",
+      "88.01"
+    ],
+    [
+      "Profit After Tax",
+      "1,299.53",
+      "138.23"
+    ],
+    [
+      "Earnings Per Share (of ₹ 5/- each)",
+      "6.97",
+      "0.74"
+    ]
+  ]
+}

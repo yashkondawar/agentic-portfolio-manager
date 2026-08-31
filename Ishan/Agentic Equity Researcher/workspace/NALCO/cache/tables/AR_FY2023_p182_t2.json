@@ -1,0 +1,41 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 182,
+  "table_index": 2,
+  "bbox": [
+    92.093,
+    430.68700000000007,
+    549.422,
+    472.7816666666667
+  ],
+  "rows": [
+    [
+      "USD impact EURO impact",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "Year ended",
+      "Year ended",
+      "Year ended",
+      "Year ended"
+    ],
+    [
+      "",
+      "31.03.2023",
+      "31.03.2022",
+      "31.03.2023",
+      "31.03.2022"
+    ],
+    [
+      "Impact on profit or loss for the year",
+      "(6.6)",
+      "11.7",
+      "3.01",
+      "2.14"
+    ]
+  ]
+}

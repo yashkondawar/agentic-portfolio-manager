@@ -1,0 +1,55 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 74,
+  "table_index": 1,
+  "bbox": [
+    45.504,
+    57.10149999999999,
+    549.895,
+    151.687
+  ],
+  "rows": [
+    [
+      "",
+      "Male",
+      null,
+      "Female",
+      null
+    ],
+    [
+      null,
+      "Number",
+      "Median remuneration/\nsalary/ wages of\nrespective category",
+      "Number",
+      "Median remuneration/\nsalary/ wages of\nrespective category"
+    ],
+    [
+      "Board of Directors (BoD)",
+      "6",
+      "7,630,432.17",
+      "0",
+      "N.A."
+    ],
+    [
+      "Key Managerial Personnel",
+      "7",
+      "7,402,563",
+      "0",
+      "N.A."
+    ],
+    [
+      "Employees other than BoD and KMP (Executives)",
+      "1502",
+      "3,546,713.10",
+      "86",
+      "2,950,207.40"
+    ],
+    [
+      "Workers* (Permanent Workers i.e. non-Executives)",
+      "3361",
+      "2,639,015.06",
+      "241",
+      "1,861,066.81"
+    ]
+  ]
+}

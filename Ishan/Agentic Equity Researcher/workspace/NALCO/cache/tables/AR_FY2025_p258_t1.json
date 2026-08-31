@@ -1,0 +1,49 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 258,
+  "table_index": 1,
+  "bbox": [
+    51.26708571428571,
+    206.3747846153846,
+    542.5231652173914,
+    363.7338
+  ],
+  "rows": [
+    [
+      "Details of the Wind Power Plants",
+      null,
+      "Cost",
+      "Carrying Value after\nDepreciation &\nbefore Impairment",
+      "Impairment\nduring the\nyear",
+      "Carrying Value\nafter Depreciation\n& Impairment",
+      "Cummulative\nImpairment"
+    ],
+    [
+      "1.",
+      "50MW, Devikot, Rajasthan\nFY 2024-25\nFY 2023-24",
+      "338.19\n338.19",
+      "215.90\n230.12",
+      "26.84\n(11.11)",
+      "53.06\n94.12",
+      "162.84\n136.00"
+    ],
+    [
+      "2.",
+      "47.60MW, Ludherva, Rajasthan\nFY 2024-25\nFY 2023-24",
+      "280.62\n280.62",
+      "140.03\n152.11",
+      "(0.11)\n12.29",
+      "19.89\n31.86",
+      "120.14\n120.25"
+    ],
+    [
+      "3.",
+      "50.4 MW, Sangli, Maharashtra\nFY 2024-25\nFY 2023-24",
+      "342.71\n342.71",
+      "224.16\n238.95",
+      "4.17\n(9.82)",
+      "139.95\n158.91",
+      "84.21\n80.04"
+    ]
+  ]
+}

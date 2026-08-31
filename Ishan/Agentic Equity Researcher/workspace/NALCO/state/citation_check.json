@@ -1,0 +1,372 @@
+{
+  "fatal": [
+    "dr1b_followup.json: fact F-EXT-1150 has no src_id",
+    "dr1b_followup.json: fact F-EXT-1151 has no src_id",
+    "dr1b_followup.json: fact F-EXT-1152 has no src_id",
+    "dr1b_followup.json: fact F-EXT-1153 has no src_id",
+    "dr1b_followup.json: fact F-EXT-1154 has no src_id",
+    "dr1b_followup.json: fact F-EXT-1155 has no src_id",
+    "dr1b_followup.json: fact F-EXT-1156 has no src_id",
+    "dr1b_followup.json: fact F-EXT-1157 has no src_id",
+    "dr1b_followup.json: fact F-EXT-1158 has no src_id",
+    "dr1b_followup.json: fact F-EXT-1159 has no src_id"
+  ],
+  "warnings": [
+    "335 registry entries never cited: ['SRC-201', 'SRC-313', 'SRC-331', 'SRC-339', 'SRC-347', 'SRC-349', 'SRC-351', 'SRC-355', 'SRC-379', 'SRC-381']\u2026"
+  ],
+  "stats": {
+    "registry_entries": 1057,
+    "src_used": 723,
+    "report_citations": 194
+  },
+  "auditor_sample": [
+    {
+      "file": "final_note.md",
+      "line": 75,
+      "sid": "SRC-200",
+      "context": "| PBT (standalone) | 1,316.5 [S107] | 3,954.9 [S200] | 1,955.0 [S330] | 2,712.1 [S400] | 7,135.1 [S500] | 7,767 (cons) [F-PQ4-026] |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 138,
+      "sid": "SRC-500",
+      "context": "| PBT (standalone) | 1,316.5 [S107] | 3,954.9 [S200] | 1,955.0 [S330] | 2,712.1 [S400] | 7,135.1 [S500] |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 116,
+      "sid": "SRC-1322",
+      "context": "**Weighted moat composite = 4.3/10** [S1322]. The two dimensions where NALCO genuinely differentiates \u2014 supply-chain integration (7) and regulatory/access barri"
+    },
+    {
+      "file": "final_note.md",
+      "line": 113,
+      "sid": "SRC-1391",
+      "context": "| Base | 32.76 [S1390] / 31.05 [S1391] | \u22120.98% | Probability-weighted 5th-stream; external price normalization off the FY26 peak. |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 360,
+      "sid": "SRC-1387",
+      "context": "| EBITDA (\u20b9cr) | 7,922 [F-PQ4-018] | 8,613 [F-PQ4-018] | 8,632.7 [S1386] | 8,237.2 [S1387] |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 154,
+      "sid": "SRC-1320",
+      "context": "Reported ratio_summary: ROE 25.4% (FY2022) \u2192 12.0% (FY2023); ROCE 34.1% (FY2022) \u2192 15.2% (FY2023) [ratio_summary]. FY2025 consolidated ROE ~32.7% [S1320] is lar"
+    },
+    {
+      "file": "dossier.md",
+      "line": 142,
+      "sid": "SRC-514",
+      "context": "*Legend:* [S100] AR_FY2021 p.151 Note 27; [S101] AR_FY2021 p.152 Note 28; [S103] AR_FY2021 p.152 Notes 31\u201333; [S107] AR_FY2021 p.152 Note 36 EPS; [S200] AR_FY20"
+    },
+    {
+      "file": "dossier.md",
+      "line": 140,
+      "sid": "SRC-200",
+      "context": "| EPS diluted (standalone) | 7.0 [S107] | 16.1 [S200] | 8.4 [S350] | 11.2 [S551] | 28.99 [S550] |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 138,
+      "sid": "SRC-330",
+      "context": "| PBT (standalone) | 1,316.5 [S107] | 3,954.9 [S200] | 1,955.0 [S330] | 2,712.1 [S400] | 7,135.1 [S500] |"
+    },
+    {
+      "file": "final_note.md",
+      "line": 77,
+      "sid": "SRC-200",
+      "context": "| EPS diluted (\u20b9, standalone) | 7.0 [S107] | 16.1 [S200] | 8.4 [S350] | 11.2 [S551] | 28.99 [S550] | 31.67 (cons calc) |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 480,
+      "sid": "SRC-374",
+      "context": "*Legend:* [S108] AR_FY2021 p.151 Notes 5\u20137; [S110] AR_FY2021 p.151 Notes 15\u201316; [S111] AR_FY2021 p.151 Notes 17\u201318; [S113] AR_FY2021 p.151 Note 19; [S203] AR_FY"
+    },
+    {
+      "file": "dossier.md",
+      "line": 137,
+      "sid": "SRC-503",
+      "context": "| Other income | 146.6 [S101] | 264.1 [S303] | 235.6 [S302] | 250.7 [S503] | 357.0 [S502] |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 486,
+      "sid": "SRC-3453",
+      "context": "| CFO | 2,199.4 (F-FOR context) | 4,049.6 [S3454] | 908.2 [S3453] | 2,727.1 (F-FOR context) | 5,806.1 (F-FOR context) |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 464,
+      "sid": "SRC-107",
+      "context": "| EPS diluted (standalone) | 7.0 [S107] | 16.1 [S200] | 8.4 [S350] | 11.2 [S551] | 28.99 [S550] |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 130,
+      "sid": "SRC-550",
+      "context": "*All PAT/EPS cells below are the standalone P&L figures. Note the FY2025 standalone PAT (5,324.67cr [S538]) differs from the consolidated PAT (5,267.94cr) used "
+    },
+    {
+      "file": "dossier.md",
+      "line": 130,
+      "sid": "SRC-538",
+      "context": "*All PAT/EPS cells below are the standalone P&L figures. Note the FY2025 standalone PAT (5,324.67cr [S538]) differs from the consolidated PAT (5,267.94cr) used "
+    },
+    {
+      "file": "dossier.md",
+      "line": 137,
+      "sid": "SRC-502",
+      "context": "| Other income | 146.6 [S101] | 264.1 [S303] | 235.6 [S302] | 250.7 [S503] | 357.0 [S502] |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 142,
+      "sid": "SRC-502",
+      "context": "*Legend:* [S100] AR_FY2021 p.151 Note 27; [S101] AR_FY2021 p.152 Note 28; [S103] AR_FY2021 p.152 Notes 31\u201333; [S107] AR_FY2021 p.152 Note 36 EPS; [S200] AR_FY20"
+    },
+    {
+      "file": "dossier.md",
+      "line": 142,
+      "sid": "SRC-538",
+      "context": "*Legend:* [S100] AR_FY2021 p.151 Note 27; [S101] AR_FY2021 p.152 Note 28; [S103] AR_FY2021 p.152 Notes 31\u201333; [S107] AR_FY2021 p.152 Note 36 EPS; [S200] AR_FY20"
+    },
+    {
+      "file": "dossier.md",
+      "line": 476,
+      "sid": "SRC-203",
+      "context": "| Trade receivables | N/A | 75.2 [S203] | 91.3 [S378] | 153.5 [S579] | 186.4 [S578] |"
+    },
+    {
+      "file": "final_note.md",
+      "line": 13,
+      "sid": "SRC-1450",
+      "context": "| 361.65 [S-MKT] | 66,421.8 [S-MKT] | 445.15 / 179.93 [S-MKT] | 51.28% (nil \u2014 sovereign) [S1450] | N/A \u2014 not in supplied filings | ~48.7% (implied) | 11.04x / 1"
+    },
+    {
+      "file": "final_note.md",
+      "line": 114,
+      "sid": "SRC-1393",
+      "context": "| Bull | 38.11 [S1392] / 42.42 [S1393] | +15.74% | 5th-stream at nameplate; metal $3,200/t, alumina $340/t; margin 48\u201349%. |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 480,
+      "sid": "SRC-397",
+      "context": "*Legend:* [S108] AR_FY2021 p.151 Notes 5\u20137; [S110] AR_FY2021 p.151 Notes 15\u201316; [S111] AR_FY2021 p.151 Notes 17\u201318; [S113] AR_FY2021 p.151 Note 19; [S203] AR_FY"
+    },
+    {
+      "file": "dossier.md",
+      "line": 142,
+      "sid": "SRC-330",
+      "context": "*Legend:* [S100] AR_FY2021 p.151 Note 27; [S101] AR_FY2021 p.152 Note 28; [S103] AR_FY2021 p.152 Notes 31\u201333; [S107] AR_FY2021 p.152 Note 36 EPS; [S200] AR_FY20"
+    },
+    {
+      "file": "final_note.md",
+      "line": 75,
+      "sid": "SRC-500",
+      "context": "| PBT (standalone) | 1,316.5 [S107] | 3,954.9 [S200] | 1,955.0 [S330] | 2,712.1 [S400] | 7,135.1 [S500] | 7,767 (cons) [F-PQ4-026] |"
+    },
+    {
+      "file": "final_note.md",
+      "line": 102,
+      "sid": "SRC-1389",
+      "context": "| PAT (\u20b9cr, cons) | 5,267.9 | 5,815.8 | 6,015.9 [S1388] | 5,702.8 [S1389] |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 462,
+      "sid": "SRC-538",
+      "context": "| PAT (standalone) | 1,299.4 [S107] | 2,952.0 [S200] | 1,544.5 [S338] | 1,988.5 [S400] | 5,324.7 [S538] |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 142,
+      "sid": "SRC-503",
+      "context": "*Legend:* [S100] AR_FY2021 p.151 Note 27; [S101] AR_FY2021 p.152 Note 28; [S103] AR_FY2021 p.152 Notes 31\u201333; [S107] AR_FY2021 p.152 Note 36 EPS; [S200] AR_FY20"
+    },
+    {
+      "file": "dossier.md",
+      "line": 472,
+      "sid": "SRC-108",
+      "context": "| Total assets | 14,710.6 [S108] | 17,488.8 [S397] | 17,738.7 [S396] | 19,418.6 [S595] | 23,122.5 [S594] |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 486,
+      "sid": "SRC-3454",
+      "context": "| CFO | 2,199.4 (F-FOR context) | 4,049.6 [S3454] | 908.2 [S3453] | 2,727.1 (F-FOR context) | 5,806.1 (F-FOR context) |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 362,
+      "sid": "SRC-1388",
+      "context": "| PAT (\u20b9cr, cons) | 5,267.9 [F-AR25B-013] | 5,815.8 [F-PQ4-029] | 6,015.9 [S1388] | 5,702.8 [S1389] |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 44,
+      "sid": "SRC-1306",
+      "context": "**Valuation synopsis.** CMP \u20b9361.65 (2026-07-15) is 12.5x FY2025 EPS [S1306] and ~11.4x the FY2026 cross-check EPS [S1307], against a five-year PE-on-average-pr"
+    },
+    {
+      "file": "dossier.md",
+      "line": 142,
+      "sid": "SRC-101",
+      "context": "*Legend:* [S100] AR_FY2021 p.151 Note 27; [S101] AR_FY2021 p.152 Note 28; [S103] AR_FY2021 p.152 Notes 31\u201333; [S107] AR_FY2021 p.152 Note 36 EPS; [S200] AR_FY20"
+    },
+    {
+      "file": "final_note.md",
+      "line": 100,
+      "sid": "SRC-1386",
+      "context": "| EBITDA (\u20b9cr) | 7,922 | 8,613 | 8,632.7 [S1386] | 8,237.2 [S1387] |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 456,
+      "sid": "SRC-500",
+      "context": "| Revenue from operations | 8,955.8 [S100] | 14,214.6 [S301] | 14,254.9 [S300] | 13,149.1 [S400] | 16,787.6 [S500] |"
+    },
+    {
+      "file": "final_note.md",
+      "line": 115,
+      "sid": "SRC-1395",
+      "context": "| Bear | 24.04 [S1394] / 21.26 [S1395] | \u221218.05% | Zero incremental 5th-stream; metal ~$2,400/t, alumina $260\u2013280/t; margin 37\u201339%; finance cost +30\u201350%. |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 142,
+      "sid": "SRC-100",
+      "context": "*Legend:* [S100] AR_FY2021 p.151 Note 27; [S101] AR_FY2021 p.152 Note 28; [S103] AR_FY2021 p.152 Notes 31\u201333; [S107] AR_FY2021 p.152 Note 36 EPS; [S200] AR_FY20"
+    },
+    {
+      "file": "final_note.md",
+      "line": 77,
+      "sid": "SRC-550",
+      "context": "| EPS diluted (\u20b9, standalone) | 7.0 [S107] | 16.1 [S200] | 8.4 [S350] | 11.2 [S551] | 28.99 [S550] | 31.67 (cons calc) |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 456,
+      "sid": "SRC-400",
+      "context": "| Revenue from operations | 8,955.8 [S100] | 14,214.6 [S301] | 14,254.9 [S300] | 13,149.1 [S400] | 16,787.6 [S500] |"
+    },
+    {
+      "file": "final_note.md",
+      "line": 103,
+      "sid": "SRC-1391",
+      "context": "| EPS diluted (\u20b9, cons) | 28.68 | 31.67 | 32.76 [S1390] | 31.05 [S1391] |"
+    },
+    {
+      "file": "final_note.md",
+      "line": 81,
+      "sid": "SRC-693",
+      "context": "- **Margin architecture is cyclical, not structural.** The +1,966 bps FY2025 margin move traces to price/volume (metal realization ~$2,550\u2192$2,700/t; alumina vol"
+    },
+    {
+      "file": "dossier.md",
+      "line": 460,
+      "sid": "SRC-502",
+      "context": "| Other income | 146.6 [S101] | 264.1 [S303] | 235.6 [S302] | 250.7 [S503] | 357.0 [S502] |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 138,
+      "sid": "SRC-107",
+      "context": "| PBT (standalone) | 1,316.5 [S107] | 3,954.9 [S200] | 1,955.0 [S330] | 2,712.1 [S400] | 7,135.1 [S500] |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 459,
+      "sid": "SRC-515",
+      "context": "| Finance costs | 7.1 [S103] | 23.1 [S315] | 12.9 [S314] | 17.2 [S515] | 59.0 [S514] |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 459,
+      "sid": "SRC-103",
+      "context": "| Finance costs | 7.1 [S103] | 23.1 [S315] | 12.9 [S314] | 17.2 [S515] | 59.0 [S514] |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 358,
+      "sid": "SRC-1384",
+      "context": "| Revenue (\u20b9cr) | 16,787.6 [S500] | 17,843.0 [F-PQ4-001] | 19,399.4 [S1384] | 19,156.4 [S1385] |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 134,
+      "sid": "SRC-300",
+      "context": "| Revenue from operations | 8,955.8 [S100] | 14,214.6 [S301] | 14,254.9 [S300] | 13,149.1 [S400] | 16,787.6 [S500] |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 472,
+      "sid": "SRC-595",
+      "context": "| Total assets | 14,710.6 [S108] | 17,488.8 [S397] | 17,738.7 [S396] | 19,418.6 [S595] | 23,122.5 [S594] |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 480,
+      "sid": "SRC-203",
+      "context": "*Legend:* [S108] AR_FY2021 p.151 Notes 5\u20137; [S110] AR_FY2021 p.151 Notes 15\u201316; [S111] AR_FY2021 p.151 Notes 17\u201318; [S113] AR_FY2021 p.151 Note 19; [S203] AR_FY"
+    },
+    {
+      "file": "dossier.md",
+      "line": 139,
+      "sid": "SRC-338",
+      "context": "| PAT (standalone) | 1,299.4 [S107] | 2,952.0 [S200] | 1,544.5 [S338] | 1,988.5 [S400] | 5,324.7 [S538] |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 460,
+      "sid": "SRC-503",
+      "context": "| Other income | 146.6 [S101] | 264.1 [S303] | 235.6 [S302] | 250.7 [S503] | 357.0 [S502] |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 137,
+      "sid": "SRC-303",
+      "context": "| Other income | 146.6 [S101] | 264.1 [S303] | 235.6 [S302] | 250.7 [S503] | 357.0 [S502] |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 480,
+      "sid": "SRC-378",
+      "context": "*Legend:* [S108] AR_FY2021 p.151 Notes 5\u20137; [S110] AR_FY2021 p.151 Notes 15\u201316; [S111] AR_FY2021 p.151 Notes 17\u201318; [S113] AR_FY2021 p.151 Note 19; [S203] AR_FY"
+    },
+    {
+      "file": "dossier.md",
+      "line": 365,
+      "sid": "SRC-1396",
+      "context": "| P/E @ CMP (x) | \u2014 | 11.42 | 11.04 [S1396] | 11.65 [S1397] |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 459,
+      "sid": "SRC-514",
+      "context": "| Finance costs | 7.1 [S103] | 23.1 [S315] | 12.9 [S314] | 17.2 [S515] | 59.0 [S514] |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 142,
+      "sid": "SRC-315",
+      "context": "*Legend:* [S100] AR_FY2021 p.151 Note 27; [S101] AR_FY2021 p.152 Note 28; [S103] AR_FY2021 p.152 Notes 31\u201333; [S107] AR_FY2021 p.152 Note 36 EPS; [S200] AR_FY20"
+    },
+    {
+      "file": "dossier.md",
+      "line": 136,
+      "sid": "SRC-515",
+      "context": "| Finance costs | 7.1 [S103] | 23.1 [S315] | 12.9 [S314] | 17.2 [S515] | 59.0 [S514] |"
+    },
+    {
+      "file": "dossier.md",
+      "line": 480,
+      "sid": "SRC-579",
+      "context": "*Legend:* [S108] AR_FY2021 p.151 Notes 5\u20137; [S110] AR_FY2021 p.151 Notes 15\u201316; [S111] AR_FY2021 p.151 Notes 17\u201318; [S113] AR_FY2021 p.151 Note 19; [S203] AR_FY"
+    }
+  ]
+}

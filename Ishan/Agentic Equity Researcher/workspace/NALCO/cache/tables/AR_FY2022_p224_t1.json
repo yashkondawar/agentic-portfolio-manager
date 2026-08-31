@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 224,
+  "table_index": 1,
+  "bbox": [
+    45.37746,
+    92.09300000000007,
+    460.409,
+    244.08000000000004
+  ],
+  "rows": [
+    [
+      "Name of the joint venture",
+      "Principal Activity and place of business",
+      null
+    ],
+    [
+      null,
+      null,
+      "As at 31.03.2022"
+    ],
+    [
+      "(a) Utkarsha Aluminium\nDhatu Nigam Limited",
+      "Manufacture, market, sell, buy, trade, distribute,\nimport and export of all high end aluminium alloy products\nincluding scrap to fulfil the requirement of critical, strategic\nand other sectors",
+      "50.00%"
+    ],
+    [
+      "(b) Khanij Bidesh India Limited",
+      "Identify, explore, acquire, develop, mine, process, procure\nand sell strategic minerals outside India",
+      "40.00%"
+    ],
+    [
+      "(c) Angul Aluminium Park\nPrivate Limited",
+      "Promoting aluminium specific downstream in Odisha,\nBhubaneswar, Odisha.",
+      "49.00%"
+    ],
+    [
+      "(d) GACL-NALCO Alkalies &\nChemicals Private Limited",
+      "Production of caustic soda,\nVadodara, Gujarat.",
+      "40.00%"
+    ]
+  ]
+}

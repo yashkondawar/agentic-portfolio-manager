@@ -1,0 +1,49 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 186,
+  "table_index": 1,
+  "bbox": [
+    73.951,
+    85.95290000000006,
+    453.543,
+    201.13550000000004
+  ],
+  "rows": [
+    [
+      "",
+      "Year ended 31.03.2022"
+    ],
+    [
+      "Current tax",
+      ""
+    ],
+    [
+      "In respect of current year",
+      "1,061.63"
+    ],
+    [
+      "In respect of prior years",
+      "(9.88)"
+    ],
+    [
+      "",
+      "1,051.75"
+    ],
+    [
+      "Deferred tax",
+      ""
+    ],
+    [
+      "In respect of current year",
+      "(48.85)"
+    ],
+    [
+      "",
+      "(48.85)"
+    ],
+    [
+      "Total income tax expense recognised in current year",
+      "1,002.90"
+    ]
+  ]
+}

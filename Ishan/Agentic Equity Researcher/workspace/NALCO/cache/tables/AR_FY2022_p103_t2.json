@@ -1,0 +1,67 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 103,
+  "table_index": 2,
+  "bbox": [
+    94.043,
+    289.7326666666667,
+    549.6146444444445,
+    496.40600000000006
+  ],
+  "rows": [
+    [
+      "Name",
+      "Sitting Fees (`)",
+      null,
+      ""
+    ],
+    [
+      null,
+      "Board Meetings",
+      "Committee Meetings",
+      "Total (`)"
+    ],
+    [
+      "Shri Ravi Nath Jha\nPart-time Non-official (Independent) Director@",
+      "27,000/-",
+      "45,000/-",
+      "72,000/-"
+    ],
+    [
+      "Dr. B. R. Ramakrishna\nPart-time Non-official (Independent) Director@",
+      "27,000/-",
+      "90,000/-",
+      "1,17,000/-"
+    ],
+    [
+      "Adv. George Kurian\nPart-time Non-official (Independent) Director@",
+      "27,000/-",
+      "90,000/-",
+      "1,17,000/-"
+    ],
+    [
+      "Dr. Ajay Narang\nPart-time Non-official (Independent) Director@",
+      "27,000/-",
+      "90,000/-",
+      "1,17,000/-"
+    ],
+    [
+      "Shri Y. P. Chillio\nPart-time Non-official (Independent) Director@\nMs. (Dr.) Shatorupa\nPart-time Non-official (Independent) Director@",
+      "27,000/-\n27,000/-",
+      "90,000/-\n45,000/-",
+      "1,17,000/-\n72,000/-"
+    ],
+    [
+      "Adv. Dushyant Upadhyay\nPart-time Non-official (Independent) Director@",
+      "27,000/-",
+      "67,500/-",
+      "94,500/-"
+    ],
+    [
+      "Shri Sanjay Ramanlal Patel\nPart-time Non-official (Independent) Director@",
+      "Nil",
+      "Nil",
+      "Nil"
+    ]
+  ]
+}

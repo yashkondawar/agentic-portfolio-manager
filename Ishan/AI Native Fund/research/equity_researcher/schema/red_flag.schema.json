@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RedFlag",
+  "description": "Single shared ledger (state/red_flags.json). compute_ratios.py seeds candidates from thresholds; forensic-auditor owns confirm/dismiss; every module may append. No module keeps a private flag list — this fixes the analysis-prompt overlap where two modules produced diverging versions of the same flag.",
+  "type": "object",
+  "required": ["id", "category", "flag", "status", "severity"],
+  "properties": {
+    "id": { "type": "string", "description": "RF-###" },
+    "category": { "enum": ["earnings_quality", "cash_flow", "working_capital", "balance_sheet", "governance", "related_party", "audit", "disclosure", "concentration", "data_quality", "other"] },
+    "flag": { "type": "string", "description": "one-line statement of the concern" },
+    "metric_evidence": { "type": "array", "items": { "type": "string" }, "description": "fact ids supporting it" },
+    "threshold": { "type": ["string", "null"], "description": "rule that fired, e.g. 'CFO/EBITDA 54% < 70% floor (config)'" },
+    "why_chain": { "type": "array", "items": { "type": "string" }, "maxItems": 3, "description": "why-why: immediate cause -> operational cause -> structural cause" },
+    "management_story": { "type": ["string", "null"], "description": "what management says about it (quote ref), vs reality" },
+    "status": { "enum": ["candidate", "confirmed", "dismissed", "disclosed"] },
+    "severity": { "enum": ["high", "medium", "low"] },
+    "confidence": { "enum": ["high", "medium", "low"] },
+    "owner": { "type": "string", "description": "module that last adjudicated it" },
+    "open_question_ids": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 260,
+  "table_index": 2,
+  "bbox": [
+    48.439,
+    127.80914999999999,
+    546.8366222222222,
+    609.9372
+  ],
+  "rows": [
+    [
+      "Ind As\nNos.",
+      "Nomenclature",
+      "Description"
+    ],
+    [
+      "Ind AS 101",
+      "First time\nAdoption of\nIndian Accounting\nStandards",
+      "− The Company adopted Ind AS in the year 2016-17 and hence this standard is no longer applicable."
+    ],
+    [
+      "Ind AS 102",
+      "Share Based\nPayments",
+      "− There is no such transaction during the year which involves share-based payments, hence the standard is not applicable."
+    ],
+    [
+      "Ind AS 103",
+      "Business\nCombination",
+      "− The standard is not applicable."
+    ],
+    [
+      "Ind AS 104",
+      "Insurance Contracts",
+      "− The standard is not applicable."
+    ],
+    [
+      "Ind AS 105",
+      "Non-Current Assets\nHeld for Sale and\nDiscontinued\nOperations",
+      "− The Company does not have any disposal group, thus no disclosure has been made."
+    ],
+    [
+      "Ind AS 106",
+      "Exploration for\nand Evaluation of\nMineral Resources",
+      "− The Company has not incurred any expenses on exploration and evaluation of mineral resources, hence the standard is not\napplicable."
+    ],
+    [
+      "Ind AS 107",
+      "Financial\nInstruments\nDisclosure",
+      "− Disclosure as required by the standard with regard to classification of financial instruments, nature and extent of risk arising\nfrom the instruments both qualitative and quantitates are made at note 37."
+    ],
+    [
+      "Ind AS 108",
+      "Operating Segments",
+      "− The Company has classified its operation into two segments i.e. Chemical Segment and Aluminium Segment based on the\napproach of the Chief Operating Decision Maker (CODM) what it takes while reviewing the performance of the Company.\n− Segment revenue, results, assets and liabilities, revenue from major products, geographical informations and other segment\ninformations are disclosed at note 35."
+    ],
+    [
+      "Ind AS 109",
+      "Financial\nInstruments",
+      "− Except investments in mutual funds and forward contract on foreign currency other Financial assets and liabilities have been\nmeasured at amortised cost and same is disclosed at note 37."
+    ],
+    [
+      "Ind AS 110",
+      "Consolidated\nFinancial Statements",
+      "− Consolidated financial statements are prepared considering the joint ventures and associates of the company following the\nequity method of consolidation."
+    ],
+    [
+      "Ind AS 111",
+      "Joint Arrangements",
+      "− The Company follows the principles set out in the standard for financial reporting of its interest in arrangements that are jointly\ncontrolled."
+    ],
+    [
+      "Ind AS 112",
+      "Disclosure of\nInterest in Other\nEntities",
+      "− The Company has four joint ventures whose summarised financial informations and its reconciliation with the carrying amount\nof the interest are disclosed at note 9."
+    ],
+    [
+      "Ind AS 113",
+      "Fair Value\nMeasurement",
+      "− The Company has adopted the principles of fair value measurement as laid down in the standard while measuring its financial\nassets and liabilities.\n− Accounting policy in this regard is disclosed at para 4.2.6. of the Significant Accounting Policy."
+    ],
+    [
+      "Ind AS 114",
+      "Regulatory Deferral\nAccounts",
+      "− The Company is not subject to any rate regulation, thus the standard is not applicable."
+    ],
+    [
+      "Ind AS 115",
+      "Revenue from\ncontracts with\ncustomers",
+      "− The Company recognises revenue on completion of all its performance obligation relating to the contract with the customers."
+    ],
+    [
+      "Ind AS 116",
+      "Leases",
+      "− The company identifies all leases wherever a contract is, or contains, a lease if it conveys the right to control the use of an\nidentified asset (explicitly or implicitly specified in the contract) for a period of time in exchange of consideration, at the\ninception of the contract.\n− the company recognizes, “Right Of Use” ROU Asset at cost, and the Lease Liability is measured at the present value of all lease\npayments"
+    ]
+  ]
+}

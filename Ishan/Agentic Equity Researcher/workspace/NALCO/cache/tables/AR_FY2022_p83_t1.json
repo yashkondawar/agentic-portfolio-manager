@@ -1,0 +1,55 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 83,
+  "table_index": 1,
+  "bbox": [
+    92.8346,
+    54.875666666666724,
+    549.8545166666667,
+    644.349
+  ],
+  "rows": [
+    [
+      "Products",
+      "Environmental Concerns",
+      "Risks",
+      "Opportunities /Mitigation Measures"
+    ],
+    [
+      "Aluminium",
+      "• Air pollution\n• Water pollution\n• Land contamination",
+      "2. Water Pollution:\ni) Generation of fluoride\ncontaminated surface\nrunoffs.",
+      "2. Water Pollution:\ni) Surface runoffs are collected in three HDPE lined holding pools through\ndedicated drains. The fluorinated surface runoff is treated in De-fluoridation\nplants. (Operated on Ion Exchange technology and latest Emrion Nano\nTechnology). The treated water is then recycled for cooling, horticulture & other\nplant use. Garland drains around hazardous waste storage & handling area collect\nthe contaminated surface runoff and transfers to holding pools for treatment."
+    ],
+    [
+      null,
+      null,
+      "3. Land Contamination:\nGeneration of\nHazardous waste like\n(i) SPL,\n(ii) Dross,\n(iii) Shot blasting\nwaste etc.",
+      "3. Land Contamination:\n(i) SPL is stored in impervious lined engineered landfill & in concreted sheds to\nprevent land contamination. Carbon portion of SPL is segregated & is stored\nseparately in concreted floor sheds for future utilization in energy recovery.\nAround 5,896 MT of carbon portion of SPL disposed during FY 2021-22 to\nauthorized recycler M/s. Green Energy as part of energy recovery from waste.\n(ii) Aluminium Dross is recycled into the pots. Around 30,399 MT of Aluminium\ndross was sold to authorized recyclers during FY 2021-22.\n(iii) Shot blasting waste, Induction furnace slag, Rejected lining of furnace, ladle\ncleaning residue etc. is being disposed off in common Hazardous waste landfill at\nSukinda, Jajpur."
+    ],
+    [
+      "Electricity",
+      "• Air pollution\n• Water pollution\n• Land contamination",
+      "1. Air Pollution\ni) Flue Gas from Boiler.\nii) Fugitive Dust from\nCoal and Ash\nHandling Area.\niii) Heat emission in flue\ngas to atmosphere.",
+      "1. Air Pollution:\ni) Ash and other particulate matters are extracted by ESPs provided in flue gas path.\nii) Dust Extraction and Sprinklers system are provided in Coal and Ash Handling\nareas to control fugitive dust.\niii) Air Heater and Economisers are provided to recover heat from flue gas."
+    ],
+    [
+      null,
+      null,
+      "2. Water Pollution\ni) Effluent Waste water\nii) Sewage Waste water\niii) Surface runoff water.",
+      "2. Water Pollution:\ni) Effluent treatment plant is provided for treatment of industrial waste water. The\ntreated water is used for ash slurry making.\nDecanted water from ash pond is reused for ash slurry making.\nii) Sewage Treatment Plant is provided for treatment of Sewage Waste water. The\nsewage waste water after treatment is reused for Horticulture & plantation\npurposes.\niii) Rain water harvesting system & Surface runoff water is used in fire hydrant\nsystem for fire fighting."
+    ],
+    [
+      null,
+      null,
+      "3. Land Contamination:\ni) Mill Rejects\nii) Ash\niii) Scraps (Metallic and\nNon-metallic scraps)",
+      "3. Land Contamination:\ni) Mill Rejects are stored in demarcated low lying areas for disposal to authorized\nparties for reuse.\nii) Both bottom ash and fly ash from ESPs are disposed to Ash pond in slurry form.\nAlso after completion of the project for lean slurry disposal to Mines Void in July\n2021 for reclamation of mined out area the ash is disposed in lean slurry mode to\nSouth Bharatpur (OCP).\nDry Ash is also used for low lying area filling, Stone quarries void filling, disposed\nto value added product manufacturer for ash brick making and use in asbestos,\ncement etc. under a subsidy scheme.\nConstruction of Ash mound over ash Pond –II has been completed.\niii) The Scraps are sold to recyclers"
+    ],
+    [
+      "Bauxite",
+      "• Air Pollution\n• Water Pollution\n• Noise pollution\n• Solid waste pollution\n• Land Degradation",
+      "1)Air pollution\ni) Emission from heavy\nvehicles\nii) Fugitive Dust emission\nduring Bauxite mining,\nhandling including\ncrushing in crusher and\nconveying in conveyor.",
+      "1) Air pollution:\ni) Proper selection and maintenance of vehicles to minimize emission from\nvehicles.\nii) Water spraying on haul roads and stock pile area with 6 nos. of 28 KL mobile\nsprinkler and fixed sprinklers along haul road.\nSuitable blast design and delayed blasting using NONEL detonators to minimise\ndust generation.\nImplementation of dry fog system at Crusher and Conveyor to suppress dust &\nfully covered conveyor to prevent dust generation.\nAdoption of vacuum suction/wet drilling in all drill machines.\nFog cannon to suppress dust in stockpiles."
+    ]
+  ]
+}

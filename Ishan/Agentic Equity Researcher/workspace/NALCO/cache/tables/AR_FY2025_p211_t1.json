@@ -1,0 +1,111 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 211,
+  "table_index": 1,
+  "bbox": [
+    51.273627272727275,
+    87.77895000000001,
+    542.7633318181818,
+    262.8332142857143
+  ],
+  "rows": [
+    [
+      "2024-25",
+      "Opening balance as\nat 01.04.2024",
+      "Recognised in\nprofit or loss",
+      "Recognised in other\ncomprehensive income",
+      "Closing balance as\nat 31.03.2025"
+    ],
+    [
+      "Deferred tax liabilities relating to:",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Property, plant and equipment",
+      "(971.00)",
+      "53.23",
+      "-",
+      "(917.77)"
+    ],
+    [
+      "FVTPL financial assets",
+      "-",
+      "(1.74)",
+      "",
+      "(1.74)"
+    ],
+    [
+      "Provision for defined benefit obligation (OCI)",
+      "(1.70)",
+      "-",
+      "0.01",
+      "(1.69)"
+    ],
+    [
+      "Deferred tax liabilities",
+      "(972.70)",
+      "51.49",
+      "0.01",
+      "(921.20)"
+    ],
+    [
+      "Deferred tax assets in relation to:",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Provision for defined benefit obligation",
+      "18.90",
+      "9.02",
+      "-",
+      "27.92"
+    ],
+    [
+      "Provision for doubtful debts / advances",
+      "72.78",
+      "(1.12)",
+      "-",
+      "71.66"
+    ],
+    [
+      "FVTPL financial assets",
+      "35.49",
+      "(5.94)",
+      "-",
+      "29.55"
+    ],
+    [
+      "Temporary Difference due to application of section 43B",
+      "0.92",
+      "0.01",
+      "-",
+      "0.93"
+    ],
+    [
+      "Others",
+      "3.18",
+      "(3.18)",
+      "-",
+      "0.00"
+    ],
+    [
+      "Deferred tax assets",
+      "131.27",
+      "(1.21)",
+      "-",
+      "130.06"
+    ],
+    [
+      "Deferred tax (liabilities) / assets [net]",
+      "(841.43)",
+      "50.28",
+      "0.01",
+      "(791.14)"
+    ]
+  ]
+}

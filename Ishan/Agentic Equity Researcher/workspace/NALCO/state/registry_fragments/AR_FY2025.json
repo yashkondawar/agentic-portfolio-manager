@@ -1,0 +1,902 @@
+{
+  "SRC-500": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 28 - Revenue from operations (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-501": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 28 - Revenue from operations (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-502": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 29 - Other income (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-503": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 29 - Other income (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-504": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Standalone Statement of Profit and Loss - Total Income (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-505": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Standalone Statement of Profit and Loss - Total Income (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-506": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 30 - Cost of raw materials consumed (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-507": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 30 - Cost of raw materials consumed (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-508": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 30 - Cost of power and fuel consumed (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-509": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 30 - Cost of power and fuel consumed (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-510": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 31 - Changes in inventories of finished goods (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-511": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 31 - Changes in inventories of finished goods (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-512": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 32 - Employee benefits expense (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-513": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 32 - Employee benefits expense (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-514": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 33 - Finance costs (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-515": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 33 - Finance costs (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-516": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 5 - Property Plant and Equipment - Depreciation (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-517": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 5 - Property Plant and Equipment - Depreciation (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-518": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 5 - Property Plant and Equipment - Impairment (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-519": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 5 - Property Plant and Equipment - Impairment (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-520": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 7 - Intangible Assets - Amortisation (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-521": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 7 - Intangible Assets - Amortisation (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-522": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 34 - Other expenses (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-523": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 34 - Other expenses (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-524": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Standalone Statement of Profit and Loss - Total expenses (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-525": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Standalone Statement of Profit and Loss - Total expenses (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-526": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Standalone Statement of Profit and Loss - Profit before exceptional items and tax (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-527": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Standalone Statement of Profit and Loss - Profit before exceptional items and tax (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-528": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 35 - Exceptional Items (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-529": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 35 - Exceptional Items (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-530": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Standalone Statement of Profit and Loss - Profit before tax (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-531": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Standalone Statement of Profit and Loss - Profit before tax (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-532": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 36 - Tax Expense - Current tax - Current year (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-533": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 36 - Tax Expense - Current tax - Current year (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-534": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 36 - Tax Expense - Current tax - Earlier years (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-535": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 36 - Tax Expense - Current tax - Earlier years (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-536": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 36 - Tax Expense - Deferred tax (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-537": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 36 - Tax Expense - Deferred tax (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-538": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Standalone Statement of Profit and Loss - Profit for the year (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-539": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Standalone Statement of Profit and Loss - Profit for the year (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-540": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Standalone Statement of Profit and Loss - Remeasurement gains / (losses) on defined benefit plans (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-541": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Standalone Statement of Profit and Loss - Remeasurement gains / (losses) on defined benefit plans (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-542": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 36 - Income tax relating to OCI items (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-543": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 36 - Income tax relating to OCI items (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-544": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Standalone Statement of Profit and Loss - Other comprehensive income net of tax (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-545": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Standalone Statement of Profit and Loss - Other comprehensive income net of tax (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-546": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Standalone Statement of Profit and Loss - Total comprehensive income (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-547": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Standalone Statement of Profit and Loss - Total comprehensive income (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-548": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 38 - Earnings per share - Basic (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-549": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 38 - Earnings per share - Basic (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-550": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 38 - Earnings per share - Diluted (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-551": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 155,
+    "locator": "Note 38 - Earnings per share - Diluted (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-552": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Standalone Balance Sheet - Property, plant and equipment (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-553": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Standalone Balance Sheet - Property, plant and equipment (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-554": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Standalone Balance Sheet - Capital work-in-progress (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-555": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Standalone Balance Sheet - Capital work-in-progress (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-556": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Standalone Balance Sheet - Intangible assets (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-557": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Standalone Balance Sheet - Intangible assets (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-558": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Standalone Balance Sheet - Intangible assets under development (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-559": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Standalone Balance Sheet - Intangible assets under development (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-560": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 9 - Investments in joint ventures (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-561": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 9 - Investments in joint ventures (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-562": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 9 - Other Investments (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-563": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 9 - Other Investments (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-564": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 11 - Loans (non-current) (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-565": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 11 - Loans (non-current) (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-566": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 12 - Other financial assets (non-current) (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-567": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 12 - Other financial assets (non-current) (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-568": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 13 - Current tax assets net (non-current) (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-569": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 13 - Current tax assets net (non-current) (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-570": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 14 - Other non-current assets (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-571": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 14 - Other non-current assets (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-572": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Standalone Balance Sheet - Total non-current assets (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-573": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Standalone Balance Sheet - Total non-current assets (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-574": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 15 - Inventories (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-575": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 15 - Inventories (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-576": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 9 - Investments (current) (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-577": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 9 - Investments (current) (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-578": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 10 - Trade receivables (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-579": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 10 - Trade receivables (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-580": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 16 - Cash and cash equivalents (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-581": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 16 - Cash and cash equivalents (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-582": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 16 - Bank balances other than cash and cash equivalents (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-583": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 16 - Bank balances other than cash and cash equivalents (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-584": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 11 - Loans (current) (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-585": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 11 - Loans (current) (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-586": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 12 - Other financial assets (current) (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-587": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 12 - Other financial assets (current) (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-588": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 13 - Current tax assets net (current) (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-589": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 13 - Current tax assets net (current) (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-590": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 14 - Other current assets (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-591": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 14 - Other current assets (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-592": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Standalone Balance Sheet - Total current assets (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-593": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Standalone Balance Sheet - Total current assets (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-594": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Standalone Balance Sheet - Total assets (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-595": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Standalone Balance Sheet - Total assets (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-596": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 17 - Equity share capital (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-597": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 17 - Equity share capital (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-598": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 18 - Other equity (FY2025)",
+    "period": "FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-599": {
+    "doc": "AR_FY2025.pdf",
+    "kind": "annual_report",
+    "page": 154,
+    "locator": "Note 18 - Other equity (FY2024)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  }
+}

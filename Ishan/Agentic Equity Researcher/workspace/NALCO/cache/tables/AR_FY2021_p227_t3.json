@@ -1,0 +1,125 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 227,
+  "table_index": 3,
+  "bbox": [
+    79.6201,
+    315.19269999999995,
+    554.9706846153846,
+    593.6607428571427
+  ],
+  "rows": [
+    [
+      "B.",
+      "Current",
+      "",
+      "As at\n31.03.2021",
+      "As at\n31.03.2020"
+    ],
+    [
+      null,
+      "Investments in Mutual Funds",
+      "Units in ‘000",
+      "Amount in ₹ Crore",
+      "Units in ‘000 Amount in ₹ Crore"
+    ],
+    [
+      null,
+      "Quoted Investments\nBOI AXA Liquid Fund\nBOI AXA overnight Fund\nCanara Liquid Fund\nBaroda Liquid Fund\nSBI Premier Liquid Fund\nUnion KBC Liquid\nUTI Overnight Fund",
+      "",
+      "",
+      "50 5.00\n100 10.00\n— —\n120 12.00\n180 18.01\n100 10.00"
+    ],
+    [
+      null,
+      null,
+      "—",
+      "—",
+      null
+    ],
+    [
+      null,
+      null,
+      "—",
+      "—",
+      null
+    ],
+    [
+      null,
+      null,
+      "239",
+      "24.05",
+      null
+    ],
+    [
+      null,
+      null,
+      "1,009",
+      "101.14",
+      null
+    ],
+    [
+      null,
+      null,
+      "684",
+      "71.10",
+      null
+    ],
+    [
+      null,
+      null,
+      "520",
+      "52.09",
+      null
+    ],
+    [
+      null,
+      null,
+      "—",
+      "—",
+      null
+    ],
+    [
+      "Total - Other current Investments",
+      null,
+      "",
+      "248.38",
+      "55.01"
+    ],
+    [
+      "Additional Information",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Aggregate cost of quoted investments",
+      null,
+      null,
+      "248.00",
+      "55.00"
+    ],
+    [
+      "Aggregate market value of quoted investments",
+      null,
+      null,
+      "248.38",
+      "55.01"
+    ],
+    [
+      "Aggregate cost of unquoted investments",
+      null,
+      null,
+      "—",
+      "—"
+    ],
+    [
+      "Aggregate amount of impairment in value of investments",
+      null,
+      null,
+      "—",
+      "—"
+    ]
+  ]
+}

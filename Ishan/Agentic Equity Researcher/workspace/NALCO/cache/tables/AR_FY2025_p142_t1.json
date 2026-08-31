@@ -1,0 +1,25 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 142,
+  "table_index": 1,
+  "bbox": [
+    68.281375,
+    134.49719999999996,
+    541.948,
+    176.37919999999997
+  ],
+  "rows": [
+    [
+      "Instrument Type",
+      "Rating/Outlook"
+    ],
+    [
+      "Non-Fund based limits",
+      "IND A1+"
+    ],
+    [
+      "Fund based limits",
+      "IND AAA / Stable"
+    ]
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 122,
+  "table_index": 2,
+  "bbox": [
+    68.281375,
+    154.56600000000003,
+    542.4670333333333,
+    222.10159999999996
+  ],
+  "rows": [
+    [
+      "Technology Imported/\nUpgraded",
+      "Year of import /\nupgraded",
+      "Has Technology been\nfully absorbed",
+      "If not fully absorbed, area where this has not taken\nplace, reasons therefor and future plans of action"
+    ],
+    [
+      "Low energy cell technology for\nSmelter Plant (AP2XN0) – 15\npots trial",
+      "2021-2022",
+      "No, only implemented in\n15 pots.",
+      "R&D trial in 15 pots completed, procurement of\nnew design lining materials in progress for scale-up\nimplementation."
+    ]
+  ]
+}

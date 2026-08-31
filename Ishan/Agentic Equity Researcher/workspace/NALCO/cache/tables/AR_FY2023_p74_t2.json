@@ -1,0 +1,85 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 74,
+  "table_index": 2,
+  "bbox": [
+    45.504,
+    324.26700000000005,
+    549.895,
+    433.593
+  ],
+  "rows": [
+    [
+      "",
+      "FY 2022-23",
+      null,
+      null,
+      "FY 2021-22",
+      null,
+      null
+    ],
+    [
+      null,
+      "Filed during\nthe year",
+      "Pending resolution\nat the end of the year",
+      "Remarks",
+      "Filed during\nthe year",
+      "Pending resolution\nat the end of the year",
+      "Remarks"
+    ],
+    [
+      "Sexual Harassment",
+      "0",
+      "0",
+      "N.A.",
+      "1",
+      "0",
+      "Penalty Imposed"
+    ],
+    [
+      "Discrimination at workplace",
+      "0",
+      "0",
+      "N.A.",
+      "0",
+      "0",
+      "N.A."
+    ],
+    [
+      "Child Labor",
+      "0",
+      "0",
+      "N.A.",
+      "0",
+      "0",
+      "N.A."
+    ],
+    [
+      "Forced Labor/ Involuntary Labor",
+      "0",
+      "0",
+      "N.A.",
+      "0",
+      "0",
+      "N.A."
+    ],
+    [
+      "Wages",
+      "0",
+      "0",
+      "N.A.",
+      "0",
+      "0",
+      "N.A."
+    ],
+    [
+      "Other human rights related issues",
+      "0",
+      "0",
+      "N.A.",
+      "0",
+      "0",
+      "N.A."
+    ]
+  ]
+}

@@ -1,0 +1,153 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 77,
+  "table_index": 1,
+  "bbox": [
+    45.7625,
+    45.90450000000004,
+    549.895,
+    432.884
+  ],
+  "rows": [
+    [
+      "Parameter",
+      "FY 2022-23",
+      "FY 2021-22"
+    ],
+    [
+      "Total Waste generated (in metric tons)",
+      null,
+      null
+    ],
+    [
+      "For each category of waste generated, total waste disposed by nature of disposal method (in metric tonnes)",
+      null,
+      null
+    ],
+    [
+      "Category of waste (E- waste)",
+      "",
+      ""
+    ],
+    [
+      "(i) Incineration",
+      "0",
+      "0"
+    ],
+    [
+      "(ii) Landfilling",
+      "0",
+      "0"
+    ],
+    [
+      "(iii) Other Disposal operations (to authorized recyclers)",
+      "5.356",
+      "7.53"
+    ],
+    [
+      "Total",
+      "5.356",
+      "7.53"
+    ],
+    [
+      "Category of waste (Bio-medical waste)",
+      "",
+      ""
+    ],
+    [
+      "(i) Incineration",
+      "0",
+      "0"
+    ],
+    [
+      "(ii) Landfilling",
+      "0",
+      "0"
+    ],
+    [
+      "(iii) Other disposal operations (Own treatment facility)",
+      "1.78",
+      "1.88"
+    ],
+    [
+      "Total",
+      "1.78",
+      "1.88"
+    ],
+    [
+      "Category of waste (Battery waste)",
+      null,
+      null
+    ],
+    [
+      "(i) Incineration",
+      "0",
+      "0"
+    ],
+    [
+      "(ii) Landfilling",
+      "0",
+      "0"
+    ],
+    [
+      "(iii) Other disposal operations (to Authorized Recyclers)",
+      "29.29",
+      "42.96"
+    ],
+    [
+      "Total",
+      "29.29",
+      "42.96"
+    ],
+    [
+      "Category of waste (Other Hazardous waste)",
+      null,
+      null
+    ],
+    [
+      "(i) Incineration",
+      "124.589",
+      "117.842"
+    ],
+    [
+      "(ii) Landfilling (captive landfill)",
+      "47.341",
+      "31.325"
+    ],
+    [
+      "(iii) Other disposal operations (to authorised recyclers, CHWTSDF Sukinda)",
+      "28,556.7",
+      "41,045.69"
+    ],
+    [
+      "Total",
+      "28,728.63",
+      "41,194.86"
+    ],
+    [
+      "Category of waste (Other Non-Hazardous waste)",
+      null,
+      null
+    ],
+    [
+      "(i) Incineration",
+      "0",
+      "0"
+    ],
+    [
+      "(ii) Landfilling",
+      "0",
+      "0"
+    ],
+    [
+      "(iii) Other disposal operations (Red mud pond, Ash disposal, Sold, filling low-lying areas etc.)",
+      "69,39,754.87",
+      "61,51,119.72"
+    ],
+    [
+      "Total",
+      "69,39,754.87",
+      "61,51,119.72"
+    ]
+  ]
+}

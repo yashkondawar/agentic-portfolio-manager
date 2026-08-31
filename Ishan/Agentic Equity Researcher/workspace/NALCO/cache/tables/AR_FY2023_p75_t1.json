@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 75,
+  "table_index": 1,
+  "bbox": [
+    45.62083333333334,
+    86.58200000000011,
+    550.1783333333334,
+    163.30900000000008
+  ],
+  "rows": [
+    [
+      "Parameter",
+      "FY 2022-23",
+      "FY 2021-22"
+    ],
+    [
+      "Total electricity consumption (A)",
+      "43,59,616",
+      "49,53,024"
+    ],
+    [
+      "Total fuel consumption (B)",
+      "9,85,80,904",
+      "10,02,65,819"
+    ],
+    [
+      "Energy consumption through other sources (C) Roof-Top Solar",
+      "2,529",
+      "2,648"
+    ],
+    [
+      "Total energy consumption (A+B+C)",
+      "10,29,43,048",
+      "10,52,21,491"
+    ],
+    [
+      "Energy intensity per rupee of turnover",
+      "0.00073",
+      "0.00075"
+    ]
+  ]
+}

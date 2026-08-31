@@ -1,0 +1,30 @@
+.env
+.venv/
+data/*.db
+data/*.db-shm
+data/*.db-wal
+data/raw/
+data/packets/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+
+# Agentic Equity Researcher subsystem (research/equity_researcher/) — per-run
+# scratch output only; the subsystem itself (prompts, agents, tools, schema)
+# is checked in.
+research/equity_researcher/workspace/*
+!research/equity_researcher/workspace/README.md
+research/equity_researcher/input/*
+!research/equity_researcher/input/README.md
+research/equity_researcher/Outputs/
+research/equity_researcher/tools/report_formatter/node_modules/
+# 165-note broker corpus (179 files, ~4.9 MB) — third-party research PDFs and their
+# markdown conversions. Copied locally so the citations in docs/ER_CORPUS_FINDINGS.md
+# and the sector playbooks resolve, but not ours to redistribute and not source.
+# Rebuild with tools/er_corpus/ (discover -> fetch -> convert -> profile -> digest).
+research/equity_researcher/reference/er_corpus/
+data/exports/
+
+# Ad hoc downloaded zips (source-material drops) — never committed.
+*.zip

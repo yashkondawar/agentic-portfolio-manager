@@ -1,0 +1,28 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 94,
+  "table_index": 1,
+  "bbox": [
+    61.195,
+    191.28700000000003,
+    442.20484999999996,
+    269.857
+  ],
+  "rows": [
+    [
+      "Complaints pending as on 31.03.2021"
+    ],
+    [
+      "Complaints received during FY 2021-22"
+    ],
+    [
+      "Complaints disposed during FY 2021-22"
+    ],
+    [
+      "Complaints pending as on 31.03.2022"
+    ],
+    [
+      "Percentage of Customer Complaints Pending as on 31.03.2022"
+    ]
+  ]
+}

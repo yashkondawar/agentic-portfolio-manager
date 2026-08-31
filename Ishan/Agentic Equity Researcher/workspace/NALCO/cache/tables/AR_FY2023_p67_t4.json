@@ -1,0 +1,112 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 67,
+  "table_index": 4,
+  "bbox": [
+    45.51444444444444,
+    480.07266666666675,
+    549.8233333333333,
+    641.798
+  ],
+  "rows": [
+    [
+      "Monetary",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "NGRBC\nprinciple",
+      "Name of the regulatory/\nenforcement agencies/\njudicial institutions",
+      null,
+      "Amount (INR)",
+      null,
+      "Brief of the Case",
+      null,
+      "Has an appeal\nbeen preferred? (Yes/ No)"
+    ],
+    [
+      "Penalty / Fine",
+      "Nil",
+      "N.A.",
+      null,
+      "N.A.",
+      null,
+      "N.A.",
+      null,
+      "N.A."
+    ],
+    [
+      "Settlement",
+      "Nil",
+      "N.A.",
+      null,
+      "N.A.",
+      null,
+      "N.A.",
+      null,
+      "N.A."
+    ],
+    [
+      "Compounding fee",
+      "Nil",
+      "N.A.",
+      null,
+      "N.A.",
+      null,
+      "N.A.",
+      null,
+      "N.A."
+    ],
+    [
+      "Non- Monetary",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "NGRBC\nprinciple",
+      null,
+      "Name of the regulatory/\nenforcement agencies/\njudicial institutions",
+      null,
+      "Brief of the Case",
+      null,
+      "Has an appeal\nbeen preferred? (Yes/ No)",
+      null
+    ],
+    [
+      "Imprisonment",
+      "Nil",
+      null,
+      "N.A.",
+      null,
+      "N.A.",
+      null,
+      "",
+      null
+    ],
+    [
+      "Punishment",
+      "Nil",
+      null,
+      "N.A.",
+      null,
+      "N.A.",
+      null,
+      "",
+      null
+    ]
+  ]
+}

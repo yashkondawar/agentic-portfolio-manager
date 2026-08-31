@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 69,
+  "table_index": 1,
+  "bbox": [
+    45.64225,
+    105.007,
+    550.00125,
+    156.50600000000009
+  ],
+  "rows": [
+    [
+      "Indicate input Material",
+      "Recycled or re-used input material to total material",
+      null
+    ],
+    [
+      "",
+      "FY 2022-23",
+      "FY 2021-22"
+    ],
+    [
+      "Aluminium Scrap recycled as % of hot metal produced",
+      "2.0055",
+      "1.7653"
+    ],
+    [
+      "Caustic Soda recycled from red mud as % of total consumption",
+      "12.64",
+      "11.22"
+    ]
+  ]
+}

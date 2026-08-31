@@ -1,0 +1,31 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 64,
+  "table_index": 3,
+  "bbox": [
+    51.4152347826087,
+    265.80105000000003,
+    543.368048,
+    319.6511
+  ],
+  "rows": [
+    [
+      "Location",
+      "Number of plants",
+      "Number of offices",
+      "Total"
+    ],
+    [
+      "National",
+      "4*",
+      "7**",
+      "11"
+    ],
+    [
+      "International",
+      "0",
+      "0",
+      "0"
+    ]
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 98,
+  "table_index": 2,
+  "bbox": [
+    68.281475,
+    342.5668,
+    543.18567,
+    502.1658
+  ],
+  "rows": [
+    [
+      "Sl.\nNo.",
+      "Item",
+      "Investment\n(` in lakh)"
+    ],
+    [
+      "1.",
+      "Reduction of Specific oil consumption (HFO) in Calciners by application of HFO additives with\nreduction of 1.8% from existing specific oil consumption.",
+      "512"
+    ],
+    [
+      "2.",
+      "GL Header of BAT-A, B & D has been modified (more loops have been removed) in evaporators for\nincrease of Steam Economy from 2.9 to 3.05.",
+      "29"
+    ],
+    [
+      "3.",
+      "Replacement of existing low capacity aluminate liquor pump-128 in security filtration. Existing 800\nCu.M/Hr pump is replaced with 1,200 Cu.M/Hr pump.",
+      "45"
+    ],
+    [
+      "4.",
+      "Installation of 100 nos. of 190W LED floodlight fittings in place of 400W conventional flood lights in\nswitchyards.",
+      "06"
+    ],
+    [
+      "5.",
+      "Installation of 200 nos. of 100W led highbay lights in place of 250W high bay fittings inside plant.",
+      "08"
+    ],
+    [
+      "6.",
+      "Installation of 3,000 nos. of 18W led tube lights in place of 40W tube light in offices.",
+      "06"
+    ],
+    [
+      "7.",
+      "Installation of 5,000 nos. of 40W led well glass fittings in place of 70W HPSV fittings inside plant.",
+      "08"
+    ]
+  ]
+}

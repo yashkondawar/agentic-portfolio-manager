@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 259,
+  "table_index": 1,
+  "bbox": [
+    51.27365,
+    291.99989999999997,
+    542.2677375,
+    388.71115
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "Year ended 31.03.2024",
+      "Year ended 31.03.2023"
+    ],
+    [
+      "Fair value of plan assets",
+      "3,927.43",
+      "4,009.91"
+    ],
+    [
+      "Present value of defined benefit obligations",
+      "3,696.08",
+      "3,835.87"
+    ],
+    [
+      "Net liability arising from defined benefit obligation of trust",
+      "-",
+      "-"
+    ],
+    [
+      "Discount Rate",
+      "8.25%",
+      "8.15%"
+    ],
+    [
+      "Guaranteed Rate of Return",
+      "8.25%",
+      "8.15%"
+    ],
+    [
+      "Interest Rate declared by Trust",
+      "8.25%",
+      "8.15%"
+    ]
+  ]
+}

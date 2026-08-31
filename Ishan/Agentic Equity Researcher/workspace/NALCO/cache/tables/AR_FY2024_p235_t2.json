@@ -1,0 +1,63 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 235,
+  "table_index": 2,
+  "bbox": [
+    51.27366428571429,
+    473.594,
+    542.9411571428572,
+    631.096375
+  ],
+  "rows": [
+    [
+      "",
+      "As at 31.03.2024",
+      "As at 31.03.2023"
+    ],
+    [
+      "Capital Work-in-progress",
+      "3,977.37",
+      "2,769.92"
+    ],
+    [
+      "Construction materials including in transit",
+      "82.95",
+      "64.53"
+    ],
+    [
+      "",
+      "4,060.32",
+      "2,834.45"
+    ],
+    [
+      "Less: Provision for impairment",
+      "(98.83)",
+      "(89.50)"
+    ],
+    [
+      "Total Capital Work-in-progress",
+      "3,961.49",
+      "2,744.95"
+    ],
+    [
+      "Movement in provision for impairment",
+      "As at 31.03.2024",
+      "As at 31.03.2023"
+    ],
+    [
+      "Opening balance",
+      "89.50",
+      "48.11"
+    ],
+    [
+      "Provision made during the year",
+      "9.33",
+      "41.39"
+    ],
+    [
+      "Closing balance",
+      "98.83",
+      "89.50"
+    ]
+  ]
+}

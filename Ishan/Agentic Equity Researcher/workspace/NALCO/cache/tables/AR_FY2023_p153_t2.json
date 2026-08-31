@@ -1,0 +1,97 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 153,
+  "table_index": 2,
+  "bbox": [
+    45.854,
+    392.377,
+    549.421,
+    631.0036666666666
+  ],
+  "rows": [
+    [
+      "6.A.1 Ageing of Capital Work in Progress Amount in ` Crore",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Particulars Amount in CWIP for a period of",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "Less than\n1 Year",
+      "1-2 Years 2-3 Year",
+      "More than\n3 Years",
+      "Total"
+    ],
+    [
+      "Project in progress",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "(a) Mines & Refinery As on 31.03.2023\nAs on 31.03.2022",
+      "1,159.23\n699.01",
+      "599.00 271.26\n230.10 311.02",
+      "393.31\n85.53",
+      "2,422.80\n1,325.66"
+    ],
+    [
+      "(b) Smelter & Power As on 31.03.2023\nAs on 31.03.2022",
+      "137.57\n127.62",
+      "68.34 13.77\n68.73 65.38",
+      "58.05\n96.64",
+      "277.73\n358.37"
+    ],
+    [
+      "(c) Others As on 31.03.2023\nAs on 31.03.2022",
+      "12.40\n5.83",
+      "0.14 0.09\n0.38 0.11",
+      "119.74\n119.63",
+      "132.37\n125.95"
+    ],
+    [
+      "Project temporarily suspended",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "(a) Mines & Refinery As on 31.03.2023\nAs on 31.03.2022",
+      "-\n-",
+      "- -\n- -",
+      "-\n-",
+      "-\n-"
+    ],
+    [
+      "(b) Smelter & Power As on 31.03.2023\nAs on 31.03.2022",
+      "-\n-",
+      "- -\n- -",
+      "1.55\n1.55",
+      "1.55\n1.55"
+    ],
+    [
+      "(c) Others As on 31.03.2023\nAs on 31.03.2022",
+      "-\n-",
+      "- -\n- -",
+      "-\n-",
+      "-\n-"
+    ],
+    [
+      "Total as on 31.03.2023\nTotal as on 31.03.2022",
+      "1,309.20\n832.46",
+      "667.48 285.12\n299.21 376.51",
+      "572.65\n303.35",
+      "2,834.45\n1,811.53"
+    ]
+  ]
+}

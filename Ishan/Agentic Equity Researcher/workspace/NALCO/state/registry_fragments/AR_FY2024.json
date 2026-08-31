@@ -1,0 +1,902 @@
+{
+  "SRC-400": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 147,
+    "locator": "Standalone Statement of Profit and Loss - Revenue from Operations, Profit Before Tax, Profit for Year, EPS Basic",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-401": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Non-current Assets (PPE, CWIP, Intangibles)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-402": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Non-current Assets",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-403": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Revenue from Operations",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-404": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 217,
+    "locator": "Consolidated Statement of Profit and Loss - Revenue from Operations",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-405": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 147,
+    "locator": "Standalone Statement of Profit and Loss - Other Income",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-406": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 217,
+    "locator": "Consolidated Statement of Profit and Loss - Other Income",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-407": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 147,
+    "locator": "Standalone Statement of Profit and Loss - Total Income",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-408": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 217,
+    "locator": "Consolidated Statement of Profit and Loss - Total Income",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-409": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 147,
+    "locator": "Standalone Statement of Profit and Loss - Cost of Raw Materials Consumed",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-410": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 147,
+    "locator": "Standalone Statement of Profit and Loss - Cost of Power and Fuel Consumed",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-411": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 147,
+    "locator": "Standalone Statement of Profit and Loss - Changes in Inventories",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-412": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 147,
+    "locator": "Standalone Statement of Profit and Loss - Employee Benefits Expense",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-413": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 147,
+    "locator": "Standalone Statement of Profit and Loss - Finance Costs",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-414": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 147,
+    "locator": "Standalone Statement of Profit and Loss - Depreciation PPE",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-415": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 147,
+    "locator": "Standalone Statement of Profit and Loss - Impairment PPE",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-416": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 147,
+    "locator": "Standalone Statement of Profit and Loss - Amortization Intangible Assets",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-417": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 147,
+    "locator": "Standalone Statement of Profit and Loss - Other Expenses",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-418": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 147,
+    "locator": "Standalone Statement of Profit and Loss - Total Expenses",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-419": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 217,
+    "locator": "Consolidated Statement of Profit and Loss - Total Expenses",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-420": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 147,
+    "locator": "Standalone Statement of Profit and Loss - Profit Before Interest and Tax",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-421": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 217,
+    "locator": "Consolidated Statement of Profit and Loss - Profit Before Interest and Tax",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-422": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 147,
+    "locator": "Standalone Statement of Profit and Loss - Exceptional Items",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-423": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 217,
+    "locator": "Consolidated Statement of Profit and Loss - Exceptional Items",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-424": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 217,
+    "locator": "Consolidated Statement of Profit and Loss - Share of Profit/Loss of Joint Ventures",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-425": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 147,
+    "locator": "Standalone Statement of Profit and Loss - Profit Before Tax",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-426": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 217,
+    "locator": "Consolidated Statement of Profit and Loss - Profit Before Tax",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-427": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 147,
+    "locator": "Standalone Statement of Profit and Loss - Current Tax Expense (Current Year)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-428": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 147,
+    "locator": "Standalone Statement of Profit and Loss - Current Tax Expense (Earlier Years)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-429": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 147,
+    "locator": "Standalone Statement of Profit and Loss - Deferred Tax",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-430": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 147,
+    "locator": "Standalone Statement of Profit and Loss - Total Tax Expense",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-431": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 217,
+    "locator": "Consolidated Statement of Profit and Loss - Total Tax Expense",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-432": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 147,
+    "locator": "Standalone Statement of Profit and Loss - Profit for the Year",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-433": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 217,
+    "locator": "Consolidated Statement of Profit and Loss - Profit for the Year",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-434": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 147,
+    "locator": "Standalone Statement of Profit and Loss - OCI Remeasurement of Defined Benefit Plans",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-435": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 147,
+    "locator": "Standalone Statement of Profit and Loss - Tax on OCI",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-436": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 147,
+    "locator": "Standalone Statement of Profit and Loss - Other Comprehensive Income (Net of Tax)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-437": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 217,
+    "locator": "Consolidated Statement of Profit and Loss - Other Comprehensive Income (Net of Tax)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-438": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 147,
+    "locator": "Standalone Statement of Profit and Loss - Total Comprehensive Income",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-439": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 217,
+    "locator": "Consolidated Statement of Profit and Loss - Total Comprehensive Income",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-440": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 147,
+    "locator": "Standalone Statement of Profit and Loss - Earnings Per Share (Basic)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-441": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 147,
+    "locator": "Standalone Statement of Profit and Loss - Earnings Per Share (Diluted)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-442": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 217,
+    "locator": "Consolidated Statement of Profit and Loss - Earnings Per Share (Basic)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-443": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 217,
+    "locator": "Consolidated Statement of Profit and Loss - Earnings Per Share (Diluted)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-444": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Property, Plant and Equipment",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-445": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Capital Work-in-Progress",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-446": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Intangible Assets",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-447": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Intangible Assets Under Development",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-448": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Investments in Joint Ventures",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-449": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Other Investments",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-450": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Loans (Non-Current)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-451": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Other Financial Assets (Non-Current)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-452": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Current Tax Assets (Non-Current)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-453": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Other Non-Current Assets",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-454": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Total Non-Current Assets",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-455": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Inventories",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-456": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Investments (Current)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-457": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Trade Receivables",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-458": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Cash and Cash Equivalents",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-459": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Bank Balances (Other than Cash)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-460": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Loans (Current)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-461": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Other Financial Assets (Current)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-462": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Current Tax Assets (Current)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-463": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Other Current Assets",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-464": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Total Current Assets",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-465": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Non-Current Assets Held for Sale",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-466": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Total Assets",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-467": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Equity Share Capital",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-468": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Other Equity",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-469": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Total Equity",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-470": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Lease Liabilities (Non-Current)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-471": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Trade Payables MSME (Non-Current)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-472": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Trade Payables Other (Non-Current)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-473": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Other Financial Liabilities (Non-Current)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-474": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Provisions (Non-Current)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-475": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Deferred Tax Liability (Net)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-476": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Other Non-Current Liabilities",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-477": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Total Non-Current Liabilities",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-478": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Borrowings (Current)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-479": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Lease Liabilities (Current)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-480": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Trade Payables MSME (Current)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-481": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Trade Payables Other (Current)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-482": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Other Financial Liabilities (Current)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-483": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Other Current Liabilities",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-484": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Provisions (Current)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-485": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Current Tax Liabilities (Net)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-486": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Total Current Liabilities",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-487": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 146,
+    "locator": "Standalone Balance Sheet - Total Liabilities",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-488": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 149,
+    "locator": "Standalone Statement of Cash Flow - Cash Flow from Operating Activities",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-489": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 149,
+    "locator": "Standalone Statement of Cash Flow - Capex PPE",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-490": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 149,
+    "locator": "Standalone Statement of Cash Flow - Capex Intangible Assets",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-491": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 149,
+    "locator": "Standalone Statement of Cash Flow - Total Capex (Computed)",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-492": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 149,
+    "locator": "Standalone Statement of Cash Flow - Cash Flow from Investing Activities",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-493": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 149,
+    "locator": "Standalone Statement of Cash Flow - Dividends Paid",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-494": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 149,
+    "locator": "Standalone Statement of Cash Flow - Cash Flow from Financing Activities",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-495": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 216,
+    "locator": "Consolidated Balance Sheet - Total Assets",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-496": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 216,
+    "locator": "Consolidated Balance Sheet - Total Equity",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-497": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 219,
+    "locator": "Consolidated Statement of Cash Flow - Cash Flow from Operating Activities",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-498": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 219,
+    "locator": "Consolidated Statement of Cash Flow - Cash Flow from Investing Activities",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-499": {
+    "doc": "AR_FY2024.pdf",
+    "kind": "annual_report",
+    "page": 219,
+    "locator": "Consolidated Statement of Cash Flow - Cash Flow from Financing Activities",
+    "period": "FY2024",
+    "url": null,
+    "accessed": null
+  }
+}

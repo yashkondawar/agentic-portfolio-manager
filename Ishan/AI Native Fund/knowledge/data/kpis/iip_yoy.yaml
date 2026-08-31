@@ -1,0 +1,35 @@
+kpi_id: iip_yoy
+scope: macro
+cycle_refs: [gdp_business_cycle]
+formula: >
+  IIP YoY = year-over-year % change in India's Index of Industrial
+  Production (General/headline, base 2011-12=100), as published by
+  MoSPI. The canonical monthly industrial-output growth read; broader
+  coverage than ICI (which is a ~40%-weight subset) but publishes with
+  more lag.
+inputs:
+  - name: IIP index level (IIP_INDEX) + published YoY growth rate (IIP_YOY), monthly
+    source: >
+      mcp.mospi.gov.in eSankhyiki MCP server (JSON-RPC 2.0 over
+      streamable-HTTP POST; BETA protocol, github.com/nso-india/
+      esankhyiki-mcp), tool get_data(dataset="IIP", filters={base_year:
+      "2011-12", frequency: "Monthly", type: "General", limit: 200}) —
+      one call returns full published history (167 records at
+      verification time, 2012-04 through 2026-03) via
+      afund.data.macro_govt.MacroGovtPipeline -> macro_series IIP_INDEX
+      (level) + IIP_YOY (growth_rate). WORKSTREAM D: confirmed live.
+      HONEST GAP: MoSPI's own data has a null growth_rate for Apr-2021
+      (the Apr-2020 COVID base-period comparator was near-zero, making
+      YoY undefined) — afund.data.macro_govt.parse_iip_mcp_response()
+      keeps the valid IIP_INDEX level for that month but correctly omits
+      an IIP_YOY point for it rather than fabricating one. Protocol is
+      BETA and wrapped in try/except at the pipeline level; if MoSPI
+      changes/breaks the MCP contract this KPI degrades gracefully to
+      data_pending rather than crashing the job.
+    status: available
+orientation: goldilocks_type
+lookback_years: 10
+cadence: monthly
+source_status: available
+registry_xref: null
+references_xref: []

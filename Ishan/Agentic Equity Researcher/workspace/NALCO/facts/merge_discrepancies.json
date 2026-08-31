@@ -1,0 +1,257 @@
+[
+  {
+    "metric": "revenue_from_operations",
+    "period": "FY2022",
+    "basis": "standalone",
+    "kept": {
+      "value": 14214.58,
+      "src": "SRC-301",
+      "fragment": "facts_AR_FY2023.json"
+    },
+    "superseded": {
+      "value": 14180.81,
+      "src": "SRC-200",
+      "fragment": "facts_AR_FY2022.json"
+    }
+  },
+  {
+    "metric": "other_income",
+    "period": "FY2022",
+    "basis": "standalone",
+    "kept": {
+      "value": 264.09,
+      "src": "SRC-303",
+      "fragment": "facts_AR_FY2023.json"
+    },
+    "superseded": {
+      "value": 297.42,
+      "src": "SRC-200",
+      "fragment": "facts_AR_FY2022.json"
+    }
+  },
+  {
+    "metric": "total_income",
+    "period": "FY2022",
+    "basis": "standalone",
+    "kept": {
+      "value": 14478.67,
+      "src": "SRC-305",
+      "fragment": "facts_AR_FY2023.json"
+    },
+    "superseded": {
+      "value": 14478.23,
+      "src": "SRC-200",
+      "fragment": "facts_AR_FY2022.json"
+    }
+  },
+  {
+    "metric": "finance_costs",
+    "period": "FY2022",
+    "basis": "standalone",
+    "kept": {
+      "value": 23.13,
+      "src": "SRC-315",
+      "fragment": "facts_AR_FY2023.json"
+    },
+    "superseded": {
+      "value": 23.12,
+      "src": "SRC-200",
+      "fragment": "facts_AR_FY2022.json"
+    }
+  },
+  {
+    "metric": "other_expenses",
+    "period": "FY2022",
+    "basis": "standalone",
+    "kept": {
+      "value": 2065.5,
+      "src": "SRC-323",
+      "fragment": "facts_AR_FY2023.json"
+    },
+    "superseded": {
+      "value": 2065.07,
+      "src": "SRC-200",
+      "fragment": "facts_AR_FY2022.json"
+    }
+  },
+  {
+    "metric": "total_expenses",
+    "period": "FY2022",
+    "basis": "standalone",
+    "kept": {
+      "value": 10523.8,
+      "src": "SRC-325",
+      "fragment": "facts_AR_FY2023.json"
+    },
+    "superseded": {
+      "value": 10523.36,
+      "src": "SRC-200",
+      "fragment": "facts_AR_FY2022.json"
+    }
+  },
+  {
+    "metric": "inventories",
+    "period": "FY2022",
+    "basis": "standalone",
+    "kept": {
+      "value": 1645.6,
+      "src": "SRC-375",
+      "fragment": "facts_AR_FY2023.json"
+    },
+    "superseded": {
+      "value": 1646.17,
+      "src": "SRC-203",
+      "fragment": "facts_AR_FY2022.json"
+    }
+  },
+  {
+    "metric": "total_assets",
+    "period": "FY2022",
+    "basis": "standalone",
+    "kept": {
+      "value": 17488.83,
+      "src": "SRC-397",
+      "fragment": "facts_AR_FY2023.json"
+    },
+    "superseded": {
+      "value": 17277.79,
+      "src": "SRC-203",
+      "fragment": "facts_AR_FY2022.json"
+    }
+  },
+  {
+    "metric": "total_liabilities",
+    "period": "FY2022",
+    "basis": "standalone",
+    "kept": {
+      "value": 4934.19,
+      "src": "SRC-3443",
+      "fragment": "facts_AR_FY2023_part2.json"
+    },
+    "superseded": {
+      "value": 4723.15,
+      "src": "SRC-203",
+      "fragment": "facts_AR_FY2022.json"
+    }
+  },
+  {
+    "metric": "segment_revenue_aluminium",
+    "period": "FY2022",
+    "basis": "standalone",
+    "kept": {
+      "value": 10183.69,
+      "src": "SRC-3466",
+      "fragment": "facts_AR_FY2023_part2.json"
+    },
+    "superseded": {
+      "value": 10157.34,
+      "src": "SRC-205",
+      "fragment": "facts_AR_FY2022.json"
+    }
+  },
+  {
+    "metric": "revenue_from_operations",
+    "period": "FY2022",
+    "basis": "consolidated",
+    "kept": {
+      "value": 14214.58,
+      "src": "SRC-3473",
+      "fragment": "facts_AR_FY2023_part2.json"
+    },
+    "superseded": {
+      "value": 14180.81,
+      "src": "SRC-212",
+      "fragment": "facts_AR_FY2022_cons.json"
+    }
+  },
+  {
+    "metric": "total_assets",
+    "period": "FY2022",
+    "basis": "consolidated",
+    "kept": {
+      "value": 17486.58,
+      "src": "SRC-3477",
+      "fragment": "facts_AR_FY2023_part2.json"
+    },
+    "superseded": {
+      "value": 17275.54,
+      "src": "SRC-227",
+      "fragment": "facts_AR_FY2022_cons.json"
+    }
+  },
+  {
+    "metric": "working_capital_driver_fy2023_cfo_collapse",
+    "period": "FY2023",
+    "basis": "standalone",
+    "kept": {
+      "value": "Other liabilities swing from \u20b9383.61cr inflow (FY2022) to \u20b9222.95cr outflow (FY2023) = \u20b9606.56cr cash impact",
+      "src": "SRC-2801",
+      "fragment": "facts_oq_answers.json"
+    },
+    "superseded": {
+      "value": "Trade payables swing from \u20b9495.70cr inflow (FY2022) to \u20b9222.84cr outflow (FY2023) = \u20b9718.54cr cash impact",
+      "src": "SRC-2800",
+      "fragment": "facts_oq_answers.json"
+    }
+  },
+  {
+    "metric": "revenue_from_operations",
+    "period": "FY2025",
+    "basis": "consolidated",
+    "kept": {
+      "value": 16787.63,
+      "src": "SRC-2500",
+      "fragment": "facts_AR_FY2025_pass2.json"
+    },
+    "superseded": {
+      "value": 16788,
+      "src": "SRC-693",
+      "fragment": "facts_PPT_FY2026Q4.json"
+    }
+  },
+  {
+    "metric": "total_income",
+    "period": "FY2025",
+    "basis": "consolidated",
+    "kept": {
+      "value": 17144.64,
+      "src": "SRC-2504",
+      "fragment": "facts_AR_FY2025_pass2.json"
+    },
+    "superseded": {
+      "value": 17145,
+      "src": "SRC-693",
+      "fragment": "facts_PPT_FY2026Q4.json"
+    }
+  },
+  {
+    "metric": "pbt",
+    "period": "FY2025",
+    "basis": "consolidated",
+    "kept": {
+      "value": 7078.37,
+      "src": "SRC-2508",
+      "fragment": "facts_AR_FY2025_pass2.json"
+    },
+    "superseded": {
+      "value": 7135,
+      "src": "SRC-693",
+      "fragment": "facts_PPT_FY2026Q4.json"
+    }
+  },
+  {
+    "metric": "pat",
+    "period": "FY2025",
+    "basis": "consolidated",
+    "kept": {
+      "value": 5267.94,
+      "src": "SRC-2512",
+      "fragment": "facts_AR_FY2025_pass2.json"
+    },
+    "superseded": {
+      "value": 5325,
+      "src": "SRC-693",
+      "fragment": "facts_PPT_FY2026Q4.json"
+    }
+  }
+]

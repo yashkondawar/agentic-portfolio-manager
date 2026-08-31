@@ -1,0 +1,45 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 186,
+  "table_index": 4,
+  "bbox": [
+    73.951,
+    408.59800000000007,
+    453.543,
+    507.41850000000005
+  ],
+  "rows": [
+    [
+      "",
+      "Year ended 31.03.2022"
+    ],
+    [
+      "Tax on remeasurement gain or loss of defined benefit obligations",
+      ""
+    ],
+    [
+      "- Current Tax",
+      "-"
+    ],
+    [
+      "- Deferred Tax",
+      "(23.30)"
+    ],
+    [
+      "Total income tax recognised in other comprehensive income",
+      "(23.30)"
+    ],
+    [
+      "Bifurcation of the income tax recognised in other comprehensive income into:",
+      ""
+    ],
+    [
+      "Items that will be reclassified to profit or loss",
+      "-"
+    ],
+    [
+      "Items that will not be reclassified to profit or loss",
+      "(23.30)"
+    ]
+  ]
+}

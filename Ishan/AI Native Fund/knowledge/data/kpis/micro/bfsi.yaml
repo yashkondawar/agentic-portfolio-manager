@@ -1,0 +1,89 @@
+# BFSI micro KPI deep-definitions. Lean by design: formula + sourcing +
+# xref only. Qualitative framing lives in registry/kpis/bfsi.yaml and
+# knowledge/references/sectors/bfsi.md — not repeated here.
+sector: bfsi
+registry_ref: registry/kpis/bfsi.yaml
+kpis:
+  - kpi_id: bfsi_roe
+    scope: sector
+    cycle_refs: [earnings_margin_cycle, sector_thematic_cycle]
+    formula: "ROE = Net Profit (TTM) / Average Shareholders' Equity"
+    inputs:
+      - name: Net profit TTM
+        source: afund.financials_quarterly (net_profit)
+        status: available
+      - name: Shareholders' equity
+        source: afund.financials_quarterly.raw_json (not a dedicated column yet)
+        status: derivable
+    orientation: value_type
+    lookback_years: 8
+    cadence: quarterly
+    source_status: derivable
+    registry_xref: "kpis/bfsi.yaml#roe"
+    references_xref: [sectors/bfsi.md]
+
+  - kpi_id: bfsi_price_to_book
+    scope: sector
+    cycle_refs: [valuation_cycle, sector_thematic_cycle]
+    formula: "P/BV = Share Price / Book Value per Share"
+    inputs:
+      - name: Share price
+        source: afund.daily_prices
+        status: available
+      - name: Book value per share
+        source: afund.financials_quarterly.raw_json (not a dedicated column yet)
+        status: derivable
+    orientation: value_type
+    lookback_years: 8
+    cadence: daily
+    source_status: derivable
+    registry_xref: "kpis/bfsi.yaml#price_to_book"
+    references_xref: [sectors/bfsi.md, kpi_interpretation/valuation_cycle.md]
+
+  - kpi_id: bfsi_gnpa
+    scope: sector
+    cycle_refs: [credit_debt_cycle]
+    formula: "GNPA % = Gross Non-Performing Assets / Gross Advances"
+    inputs:
+      - name: Gross NPA, gross advances
+        source: afund.financials_quarterly.raw_json (bank/NBFC disclosures, not a dedicated column)
+        status: derivable
+    orientation: fear_type
+    lookback_years: 8
+    cadence: quarterly
+    source_status: derivable
+    registry_xref: "kpis/bfsi.yaml#gnpa"
+    references_xref: [sectors/bfsi.md, kpi_interpretation/credit_cycle.md]
+
+  - kpi_id: bfsi_nim
+    scope: sector
+    cycle_refs: [earnings_margin_cycle, interest_rate_liquidity_cycle]
+    formula: "NIM = Net Interest Income / Average Interest-Earning Assets"
+    inputs:
+      - name: Net interest income
+        source: afund.financials_quarterly.raw_json (not a dedicated column yet)
+        status: derivable
+      - name: Average interest-earning assets
+        source: afund.financials_quarterly.raw_json (not a dedicated column yet)
+        status: derivable
+    orientation: value_type
+    lookback_years: 8
+    cadence: quarterly
+    source_status: derivable
+    registry_xref: "kpis/bfsi.yaml#nim"
+    references_xref: [sectors/bfsi.md]
+
+  - kpi_id: bfsi_cet1_ratio
+    scope: sector
+    cycle_refs: [credit_debt_cycle]
+    formula: "CET1 Ratio = Common Equity Tier 1 Capital / Risk-Weighted Assets (Basel III)"
+    inputs:
+      - name: CET1 capital, risk-weighted assets
+        source: regulatory disclosures (Pillar 3) — not yet wired
+        status: missing
+    orientation: goldilocks_type
+    lookback_years: 8
+    cadence: quarterly
+    source_status: missing
+    registry_xref: "kpis/bfsi.yaml#cet1_ratio"
+    references_xref: [sectors/bfsi.md]

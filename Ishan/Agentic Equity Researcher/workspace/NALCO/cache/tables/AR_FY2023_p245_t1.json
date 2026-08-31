@@ -1,0 +1,58 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 245,
+  "table_index": 1,
+  "bbox": [
+    63.368,
+    185.58200000000005,
+    549.55,
+    298.93050000000005
+  ],
+  "rows": [
+    [
+      "",
+      "Year ended 31.03.2023",
+      "Year ended 31.03.2022"
+    ],
+    [
+      "Current tax",
+      "",
+      ""
+    ],
+    [
+      "In respect of current year",
+      "475.47",
+      "1,061.63"
+    ],
+    [
+      "In respect of prior years",
+      "(181.06)",
+      "(9.88)"
+    ],
+    [
+      "",
+      "294.41",
+      "1,051.75"
+    ],
+    [
+      "Deferred tax",
+      "",
+      ""
+    ],
+    [
+      "In respect of current year",
+      "116.09",
+      "(48.85)"
+    ],
+    [
+      "",
+      "116.09",
+      "(48.85)"
+    ],
+    [
+      "Total income tax expense recognised in current year",
+      "410.50",
+      "1,002.90"
+    ]
+  ]
+}

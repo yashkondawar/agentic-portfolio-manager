@@ -1,0 +1,943 @@
+[
+  {
+    "id": "RF-001",
+    "category": "earnings_quality",
+    "flag": "Other income 25.9% of CFO exceeds 20.0% (FY2023, standalone)",
+    "metric_evidence": [
+      "F-AR23-003",
+      "SRC-3453",
+      "D-OTHER_INCOME_SHARE_OF_CFO-FY2023-STAN-062",
+      "SRC-1020",
+      "SRC-1021"
+    ],
+    "threshold": "other_income_share_of_cfo_max_pct=20.0",
+    "why_chain": [
+      "Layer 1 (mechanical): other_income_share_of_cfo = other_income/CFO*100. FY2023 CFO (standalone) collapsed to Rs908.24cr from Rs4049.61cr in FY2022 (-77.6% YoY, D-CFO_YOY-FY2023-STAN-066), while other income was Rs235.63cr (F-AR23-003), roughly flat vs FY2022's Rs264.09cr/Rs297.42cr (depending on which restated figure, see RF-MERGE-02). The 25.9% breach is arithmetically a denominator effect, not a numerator (other-income) expansion.",
+      "Layer 2 (why CFO fell): FY2023 standalone CFO fell on working-capital absorption in a year revenue was flat (+0.28% YoY, D-REVENUE_FROM_OPERATIONS_YOY-FY2023-STAN-063) but PAT nearly halved (-47.7% YoY, D-PAT_YOY-FY2023-STAN-064) — consistent with commodity-price-driven margin compression (aluminium/alumina cycle down FY2023) rather than a WC-manipulation pattern; inventories and receivables both stayed in a normal low-single-digit-days band (see RF-002/RF-003 why-chains) rather than showing the rising-DSO + rising-inventory + flat-volumes channel-stuffing signature.",
+      "Layer 3 (concerning vs benign): Benign explanation supported by: (a) other income itself did not spike — the ratio moves because CFO cratered, and CFO cratering tracks a well-documented commodity down-cycle year for NALCO; (b) no matching rise in receivables/inventory that would indicate CFO understating true cash generation is masked by parking cash outflows elsewhere. Concerning residual: no management quote in the extracted facts explains the specific CFO working-capital swing (extraction did not pull the CFO Note/Schedule reconciliation line items for FY2023), so the WC-leg-level explanation (which leg absorbed cash) is not fully evidenced — this is a disclosure/extraction gap, not evidence of manipulation."
+    ],
+    "management_story": null,
+    "status": "disclosed",
+    "severity": "medium",
+    "confidence": "medium",
+    "owner": "forensic-auditor",
+    "open_question_ids": [
+      "FQ-NALCO-01"
+    ]
+  },
+  {
+    "id": "RF-002",
+    "category": "working_capital",
+    "flag": "DSO rose 21% YoY (2->2 days) (FY2023, standalone)",
+    "metric_evidence": [
+      "D-DSO_DAYS-FY2022-STAN-046",
+      "D-DSO_DAYS-FY2023-STAN-059",
+      "SRC-1022"
+    ],
+    "threshold": "dso_yoy_increase_max_pct=20.0",
+    "why_chain": [
+      "Layer 1 (mechanical): DSO moved from 1.93 days (FY2022) to 2.34 days (FY2023), a 21.2% relative increase that trips the 20% YoY threshold.",
+      "Layer 2 (materiality): both absolute values are in low single-digit days — economically immaterial for a company with Rs14,000-17,000cr revenue. A move from 1.93 to 2.34 days reflects roughly 1.5 additional days' worth of receivables on ~Rs14,255cr revenue (~Rs16cr), not a working-capital or revenue-recognition concern.",
+      "Layer 3 (verdict): Percentage-threshold flags on a near-zero base amplify noise into apparent breaches. No corroborating signal (inventory build, customer concentration change, channel-stuffing pattern) accompanies this. Dismissed on materiality grounds."
+    ],
+    "management_story": null,
+    "status": "dismissed",
+    "severity": "low",
+    "confidence": "high",
+    "owner": "forensic-auditor",
+    "open_question_ids": []
+  },
+  {
+    "id": "RF-003",
+    "category": "working_capital",
+    "flag": "DSO rose 82% YoY (2->4 days) (FY2024, standalone)",
+    "metric_evidence": [
+      "D-DSO_DAYS-FY2023-STAN-059",
+      "D-DSO_DAYS-FY2024-STAN-070",
+      "SRC-1022"
+    ],
+    "threshold": "dso_yoy_increase_max_pct=20.0",
+    "why_chain": [
+      "Layer 1 (mechanical): DSO moved from 2.34 days (FY2023) to 4.26 days (FY2024), an 82% relative increase — the largest DSO jump in the series.",
+      "Layer 2 (materiality and context): still under one working week of receivables outstanding; NALCO's customer base (largely PSU/institutional aluminium and alumina offtake, LME-linked pricing, negligible retail credit risk) structurally supports near-zero DSO. FY2024 revenue fell -7.76% YoY (D-REVENUE_FROM_OPERATIONS_YOY-FY2024-STAN-072) while inventory days also fell (50.83 vs 47.12 in FY2023 -> FY2024 actually rose slightly to 50.83, see D-INVENTORY_DAYS-FY2024-STAN-071) — a rising-DSO-with-flat-or-falling-volumes channel-stuffing pattern would require inventory to be falling while receivables rise (goods shipped out on extended credit); here inventory days also increased modestly, which is more consistent with a demand slowdown than with stuffing.",
+      "Layer 3 (verdict): Absolute receivables base remains trivial (single-digit days) relative to revenue scale. Dismissed on materiality; flagged in narrative as a trend to monitor if DSO continues compounding (FY2025 DSO 4.05 days, essentially flat vs FY2024 — trend has stabilized, D-DSO_DAYS-FY2025-STAN-077)."
+    ],
+    "management_story": null,
+    "status": "dismissed",
+    "severity": "low",
+    "confidence": "high",
+    "owner": "forensic-auditor",
+    "open_question_ids": []
+  },
+  {
+    "id": "RF-MERGE-01",
+    "category": "data_quality",
+    "status": "dismissed",
+    "severity": "low",
+    "source": "merge_facts.py value conflict",
+    "detail": {
+      "metric": "revenue_from_operations",
+      "period": "FY2022",
+      "basis": "standalone",
+      "kept": {
+        "value": 14214.58,
+        "src": "SRC-301",
+        "fragment": "facts_AR_FY2023.json"
+      },
+      "superseded": {
+        "value": 14180.81,
+        "src": "SRC-200",
+        "fragment": "facts_AR_FY2022.json"
+      }
+    },
+    "why_chain": [
+      "Delta is +0.24% (14214.58 vs 14180.81) between AR_FY2023's FY2022 comparative column and AR_FY2022's own-year figure — both AR-sourced (SRC-301 p.131 Note 29 vs SRC-200 p.147), immaterial magnitude consistent with routine minor regrouping/rounding between consecutive annual reports, not a restatement of substance.",
+      "Per citation standard section 2 (quarterly/annual conflicts: latest wins) and the reported-over-computed precedence rule, AR_FY2023's comparative (the more recent, audited restatement) is correctly kept; AR_FY2022's original is correctly retained with flags:['restated_original'] per registry convention."
+    ],
+    "management_story": null,
+    "confidence": "high",
+    "opened": "2026-07-15",
+    "adjudicated": "2026-07-16",
+    "flag": "Merge discrepancy on revenue_from_operations FY2022 (standalone): kept 14214.58 [SRC-301] over 14180.81 [SRC-200]",
+    "_normalised": "flag rendered from the structured `detail` discrepancy dict (2026-08-03); raw dict retained in `discrepancy`",
+    "discrepancy": {
+      "metric": "revenue_from_operations",
+      "period": "FY2022",
+      "basis": "standalone",
+      "kept": {
+        "value": 14214.58,
+        "src": "SRC-301",
+        "fragment": "facts_AR_FY2023.json"
+      },
+      "superseded": {
+        "value": 14180.81,
+        "src": "SRC-200",
+        "fragment": "facts_AR_FY2022.json"
+      }
+    }
+  },
+  {
+    "id": "RF-MERGE-02",
+    "category": "data_quality",
+    "status": "disclosed",
+    "severity": "medium",
+    "source": "merge_facts.py value conflict",
+    "detail": {
+      "metric": "other_income",
+      "period": "FY2022",
+      "basis": "standalone",
+      "kept": {
+        "value": 264.09,
+        "src": "SRC-303",
+        "fragment": "facts_AR_FY2023.json"
+      },
+      "superseded": {
+        "value": 297.42,
+        "src": "SRC-200",
+        "fragment": "facts_AR_FY2022.json"
+      }
+    },
+    "why_chain": [
+      "Delta is -11.2% (264.09 vs 297.42), the largest relative move among the FY2022 merge conflicts and too large to be pure rounding. AR_FY2023 Note 30 (SRC-303, p.131) restates FY2022 other income Rs33.33cr lower than AR_FY2022's own contemporaneous Note (SRC-200, p.147).",
+      "No regrouping/reclassification footnote was captured by extraction to explain the specific line moved (e.g., a sub-component of other income reclassified to revenue-from-operations or to exceptional items) — extraction facts contain only the headline other-income number, not the underlying Note 30 sub-schedule breakdown for both years side by side.",
+      "Per citation standard, latest AR (AR_FY2023) wins as the presentation-of-record value; original (AR_FY2022) is retained with flags:['restated_original']. Disclosed rather than dismissed because the magnitude (>10% of the line item) warrants a visible gap note rather than silent resolution — this is standard Ind AS comparative restatement behavior for CPSEs, not evidence of manipulation, but the underlying driver is unconfirmed from extracted facts alone."
+    ],
+    "management_story": null,
+    "confidence": "medium",
+    "opened": "2026-07-15",
+    "adjudicated": "2026-07-16",
+    "open_question_ids": [
+      "FQ-NALCO-02"
+    ],
+    "flag": "Merge discrepancy on other_income FY2022 (standalone): kept 264.09 [SRC-303] over 297.42 [SRC-200]",
+    "_normalised": "flag rendered from the structured `detail` discrepancy dict (2026-08-03); raw dict retained in `discrepancy`",
+    "discrepancy": {
+      "metric": "other_income",
+      "period": "FY2022",
+      "basis": "standalone",
+      "kept": {
+        "value": 264.09,
+        "src": "SRC-303",
+        "fragment": "facts_AR_FY2023.json"
+      },
+      "superseded": {
+        "value": 297.42,
+        "src": "SRC-200",
+        "fragment": "facts_AR_FY2022.json"
+      }
+    }
+  },
+  {
+    "id": "RF-MERGE-03",
+    "category": "data_quality",
+    "status": "dismissed",
+    "severity": "low",
+    "source": "merge_facts.py value conflict",
+    "detail": {
+      "metric": "total_income",
+      "period": "FY2022",
+      "basis": "standalone",
+      "kept": {
+        "value": 14478.67,
+        "src": "SRC-305",
+        "fragment": "facts_AR_FY2023.json"
+      },
+      "superseded": {
+        "value": 14478.23,
+        "src": "SRC-200",
+        "fragment": "facts_AR_FY2022.json"
+      }
+    },
+    "why_chain": [
+      "Delta is +0.003% (Rs0.44cr on a Rs14,478cr base) — immaterial, consistent with rounding at the second decimal / minor consolidation of sub-schedules between the two AR presentations. Note: this delta is inconsistent with the sum of the RF-MERGE-01 (+33.77cr) and RF-MERGE-02 (-33.33cr) deltas individually, but nets to approximately the same order of magnitude (+0.44cr), suggesting the revenue and other-income regroupings substantially offset each other within total income — supporting the regrouping-not-restatement-of-substance interpretation.",
+      "Latest AR (AR_FY2023) value kept per citation standard; immaterial, dismissed."
+    ],
+    "management_story": null,
+    "confidence": "high",
+    "opened": "2026-07-15",
+    "adjudicated": "2026-07-16",
+    "flag": "Merge discrepancy on total_income FY2022 (standalone): kept 14478.67 [SRC-305] over 14478.23 [SRC-200]",
+    "_normalised": "flag rendered from the structured `detail` discrepancy dict (2026-08-03); raw dict retained in `discrepancy`",
+    "discrepancy": {
+      "metric": "total_income",
+      "period": "FY2022",
+      "basis": "standalone",
+      "kept": {
+        "value": 14478.67,
+        "src": "SRC-305",
+        "fragment": "facts_AR_FY2023.json"
+      },
+      "superseded": {
+        "value": 14478.23,
+        "src": "SRC-200",
+        "fragment": "facts_AR_FY2022.json"
+      }
+    }
+  },
+  {
+    "id": "RF-MERGE-04",
+    "category": "data_quality",
+    "status": "dismissed",
+    "severity": "low",
+    "source": "merge_facts.py value conflict",
+    "detail": {
+      "metric": "finance_costs",
+      "period": "FY2022",
+      "basis": "standalone",
+      "kept": {
+        "value": 23.13,
+        "src": "SRC-315",
+        "fragment": "facts_AR_FY2023.json"
+      },
+      "superseded": {
+        "value": 23.12,
+        "src": "SRC-200",
+        "fragment": "facts_AR_FY2022.json"
+      }
+    },
+    "why_chain": [
+      "Delta is Rs0.01cr (+0.04%) — a rounding artifact, not a restatement of substance. Latest AR value kept per citation standard. Dismissed."
+    ],
+    "management_story": null,
+    "confidence": "high",
+    "opened": "2026-07-15",
+    "adjudicated": "2026-07-16",
+    "flag": "Merge discrepancy on finance_costs FY2022 (standalone): kept 23.13 [SRC-315] over 23.12 [SRC-200]",
+    "_normalised": "flag rendered from the structured `detail` discrepancy dict (2026-08-03); raw dict retained in `discrepancy`",
+    "discrepancy": {
+      "metric": "finance_costs",
+      "period": "FY2022",
+      "basis": "standalone",
+      "kept": {
+        "value": 23.13,
+        "src": "SRC-315",
+        "fragment": "facts_AR_FY2023.json"
+      },
+      "superseded": {
+        "value": 23.12,
+        "src": "SRC-200",
+        "fragment": "facts_AR_FY2022.json"
+      }
+    }
+  },
+  {
+    "id": "RF-MERGE-05",
+    "category": "data_quality",
+    "status": "dismissed",
+    "severity": "low",
+    "source": "merge_facts.py value conflict",
+    "detail": {
+      "metric": "other_expenses",
+      "period": "FY2022",
+      "basis": "standalone",
+      "kept": {
+        "value": 2065.5,
+        "src": "SRC-323",
+        "fragment": "facts_AR_FY2023.json"
+      },
+      "superseded": {
+        "value": 2065.07,
+        "src": "SRC-200",
+        "fragment": "facts_AR_FY2022.json"
+      }
+    },
+    "why_chain": [
+      "Delta is Rs0.43cr (+0.02%) — immaterial rounding/minor regrouping. Latest AR value kept per citation standard. Dismissed."
+    ],
+    "management_story": null,
+    "confidence": "high",
+    "opened": "2026-07-15",
+    "adjudicated": "2026-07-16",
+    "flag": "Merge discrepancy on other_expenses FY2022 (standalone): kept 2065.5 [SRC-323] over 2065.07 [SRC-200]",
+    "_normalised": "flag rendered from the structured `detail` discrepancy dict (2026-08-03); raw dict retained in `discrepancy`",
+    "discrepancy": {
+      "metric": "other_expenses",
+      "period": "FY2022",
+      "basis": "standalone",
+      "kept": {
+        "value": 2065.5,
+        "src": "SRC-323",
+        "fragment": "facts_AR_FY2023.json"
+      },
+      "superseded": {
+        "value": 2065.07,
+        "src": "SRC-200",
+        "fragment": "facts_AR_FY2022.json"
+      }
+    }
+  },
+  {
+    "id": "RF-MERGE-06",
+    "category": "data_quality",
+    "status": "dismissed",
+    "severity": "low",
+    "source": "merge_facts.py value conflict",
+    "detail": {
+      "metric": "total_expenses",
+      "period": "FY2022",
+      "basis": "standalone",
+      "kept": {
+        "value": 10523.8,
+        "src": "SRC-325",
+        "fragment": "facts_AR_FY2023.json"
+      },
+      "superseded": {
+        "value": 10523.36,
+        "src": "SRC-200",
+        "fragment": "facts_AR_FY2022.json"
+      }
+    },
+    "why_chain": [
+      "Delta is Rs0.44cr (+0.004%), consistent with, and roughly netting, the finance-costs (RF-MERGE-04) and other-expenses (RF-MERGE-05) regrouping deltas. Immaterial. Latest AR value kept per citation standard. Dismissed."
+    ],
+    "management_story": null,
+    "confidence": "high",
+    "opened": "2026-07-15",
+    "adjudicated": "2026-07-16",
+    "flag": "Merge discrepancy on total_expenses FY2022 (standalone): kept 10523.8 [SRC-325] over 10523.36 [SRC-200]",
+    "_normalised": "flag rendered from the structured `detail` discrepancy dict (2026-08-03); raw dict retained in `discrepancy`",
+    "discrepancy": {
+      "metric": "total_expenses",
+      "period": "FY2022",
+      "basis": "standalone",
+      "kept": {
+        "value": 10523.8,
+        "src": "SRC-325",
+        "fragment": "facts_AR_FY2023.json"
+      },
+      "superseded": {
+        "value": 10523.36,
+        "src": "SRC-200",
+        "fragment": "facts_AR_FY2022.json"
+      }
+    }
+  },
+  {
+    "id": "RF-MERGE-07",
+    "category": "data_quality",
+    "status": "dismissed",
+    "severity": "low",
+    "source": "merge_facts.py value conflict",
+    "detail": {
+      "metric": "inventories",
+      "period": "FY2022",
+      "basis": "standalone",
+      "kept": {
+        "value": 1645.6,
+        "src": "SRC-375",
+        "fragment": "facts_AR_FY2023.json"
+      },
+      "superseded": {
+        "value": 1646.17,
+        "src": "SRC-203",
+        "fragment": "facts_AR_FY2022.json"
+      }
+    },
+    "why_chain": [
+      "Delta is Rs0.57cr (-0.03%) — immaterial, likely a minor provisioning/valuation adjustment in the comparative-year inventory note between the two ARs. Latest AR value kept per citation standard. Dismissed."
+    ],
+    "management_story": null,
+    "confidence": "high",
+    "opened": "2026-07-15",
+    "adjudicated": "2026-07-16",
+    "flag": "Merge discrepancy on inventories FY2022 (standalone): kept 1645.6 [SRC-375] over 1646.17 [SRC-203]",
+    "_normalised": "flag rendered from the structured `detail` discrepancy dict (2026-08-03); raw dict retained in `discrepancy`",
+    "discrepancy": {
+      "metric": "inventories",
+      "period": "FY2022",
+      "basis": "standalone",
+      "kept": {
+        "value": 1645.6,
+        "src": "SRC-375",
+        "fragment": "facts_AR_FY2023.json"
+      },
+      "superseded": {
+        "value": 1646.17,
+        "src": "SRC-203",
+        "fragment": "facts_AR_FY2022.json"
+      }
+    }
+  },
+  {
+    "id": "RF-MERGE-08",
+    "category": "data_quality",
+    "status": "disclosed",
+    "severity": "medium",
+    "source": "merge_facts.py value conflict",
+    "detail": {
+      "metric": "total_assets",
+      "period": "FY2022",
+      "basis": "standalone",
+      "kept": {
+        "value": 17488.83,
+        "src": "SRC-397",
+        "fragment": "facts_AR_FY2023.json"
+      },
+      "superseded": {
+        "value": 17277.79,
+        "src": "SRC-203",
+        "fragment": "facts_AR_FY2022.json"
+      }
+    },
+    "why_chain": [
+      "Delta is +1.22% (Rs211.04cr) — larger than a rounding artifact; a real balance-sheet regrouping between AR_FY2022's own-year figure and AR_FY2023's FY2022 comparative column. Moves in the same direction and similar order of magnitude to the total-liabilities delta (RF-MERGE-09, +Rs211.04cr, near-identical in size), consistent with a reclassification between an asset and liability/equity line (e.g., a provision or deferred-tax grossing change) that nets to the same total-assets-total-liabilities identity shift, rather than an error.",
+      "No specific reclassification footnote captured in extracted facts to name the exact line moved. Per citation standard, AR_FY2023 (latest) balance sheet value is kept as presentation-of-record; AR_FY2022 original retained with flags:['restated_original']. Disclosed given materiality (>1% of total assets) despite the balancing evidence pointing to benign regrouping."
+    ],
+    "management_story": null,
+    "confidence": "medium",
+    "opened": "2026-07-15",
+    "adjudicated": "2026-07-16",
+    "open_question_ids": [
+      "FQ-NALCO-02"
+    ],
+    "flag": "Merge discrepancy on total_assets FY2022 (standalone): kept 17488.83 [SRC-397] over 17277.79 [SRC-203]",
+    "_normalised": "flag rendered from the structured `detail` discrepancy dict (2026-08-03); raw dict retained in `discrepancy`",
+    "discrepancy": {
+      "metric": "total_assets",
+      "period": "FY2022",
+      "basis": "standalone",
+      "kept": {
+        "value": 17488.83,
+        "src": "SRC-397",
+        "fragment": "facts_AR_FY2023.json"
+      },
+      "superseded": {
+        "value": 17277.79,
+        "src": "SRC-203",
+        "fragment": "facts_AR_FY2022.json"
+      }
+    }
+  },
+  {
+    "id": "RF-MERGE-09",
+    "category": "data_quality",
+    "status": "disclosed",
+    "severity": "medium",
+    "source": "merge_facts.py value conflict",
+    "detail": {
+      "metric": "total_liabilities",
+      "period": "FY2022",
+      "basis": "standalone",
+      "kept": {
+        "value": 4934.19,
+        "src": "SRC-3443",
+        "fragment": "facts_AR_FY2023_part2.json"
+      },
+      "superseded": {
+        "value": 4723.15,
+        "src": "SRC-203",
+        "fragment": "facts_AR_FY2022.json"
+      }
+    },
+    "why_chain": [
+      "Delta is +4.47% (Rs211.04cr) — the same magnitude as the RF-MERGE-08 total-assets delta, confirming this is a balance-sheet identity-preserving regrouping (an asset/liability reclassification in the FY2022 comparative column of AR_FY2023) rather than an independent data error or two unrelated restatements. This internal consistency (matching deltas on both sides of the balance sheet) is positive evidence for the benign-regrouping explanation.",
+      "Per citation standard, AR_FY2023 (latest) value kept; AR_FY2022 original retained with flags:['restated_original']. Disclosed (not dismissed outright) given the relative magnitude on the liabilities base (+4.5%) and the absence of a captured footnote naming the specific line reclassified."
+    ],
+    "management_story": null,
+    "confidence": "medium",
+    "opened": "2026-07-15",
+    "adjudicated": "2026-07-16",
+    "open_question_ids": [
+      "FQ-NALCO-02"
+    ],
+    "flag": "Merge discrepancy on total_liabilities FY2022 (standalone): kept 4934.19 [SRC-3443] over 4723.15 [SRC-203]",
+    "_normalised": "flag rendered from the structured `detail` discrepancy dict (2026-08-03); raw dict retained in `discrepancy`",
+    "discrepancy": {
+      "metric": "total_liabilities",
+      "period": "FY2022",
+      "basis": "standalone",
+      "kept": {
+        "value": 4934.19,
+        "src": "SRC-3443",
+        "fragment": "facts_AR_FY2023_part2.json"
+      },
+      "superseded": {
+        "value": 4723.15,
+        "src": "SRC-203",
+        "fragment": "facts_AR_FY2022.json"
+      }
+    }
+  },
+  {
+    "id": "RF-MERGE-10",
+    "category": "data_quality",
+    "status": "dismissed",
+    "severity": "low",
+    "source": "merge_facts.py value conflict",
+    "detail": {
+      "metric": "segment_revenue_aluminium",
+      "period": "FY2022",
+      "basis": "standalone",
+      "kept": {
+        "value": 10183.69,
+        "src": "SRC-3466",
+        "fragment": "facts_AR_FY2023_part2.json"
+      },
+      "superseded": {
+        "value": 10157.34,
+        "src": "SRC-205",
+        "fragment": "facts_AR_FY2022.json"
+      }
+    },
+    "why_chain": [
+      "Delta is +0.26% (Rs26.35cr) — immaterial, in line with the revenue_from_operations delta (RF-MERGE-01, +0.24%), consistent with the same minor overall revenue regrouping flowing through to the segment note. Latest AR value kept per citation standard. Dismissed."
+    ],
+    "management_story": null,
+    "confidence": "high",
+    "opened": "2026-07-15",
+    "adjudicated": "2026-07-16",
+    "flag": "Merge discrepancy on segment_revenue_aluminium FY2022 (standalone): kept 10183.69 [SRC-3466] over 10157.34 [SRC-205]",
+    "_normalised": "flag rendered from the structured `detail` discrepancy dict (2026-08-03); raw dict retained in `discrepancy`",
+    "discrepancy": {
+      "metric": "segment_revenue_aluminium",
+      "period": "FY2022",
+      "basis": "standalone",
+      "kept": {
+        "value": 10183.69,
+        "src": "SRC-3466",
+        "fragment": "facts_AR_FY2023_part2.json"
+      },
+      "superseded": {
+        "value": 10157.34,
+        "src": "SRC-205",
+        "fragment": "facts_AR_FY2022.json"
+      }
+    }
+  },
+  {
+    "id": "RF-MERGE-11",
+    "category": "data_quality",
+    "status": "dismissed",
+    "severity": "low",
+    "source": "merge_facts.py value conflict",
+    "detail": {
+      "metric": "revenue_from_operations",
+      "period": "FY2022",
+      "basis": "consolidated",
+      "kept": {
+        "value": 14214.58,
+        "src": "SRC-3473",
+        "fragment": "facts_AR_FY2023_part2.json"
+      },
+      "superseded": {
+        "value": 14180.81,
+        "src": "SRC-212",
+        "fragment": "facts_AR_FY2022_cons.json"
+      }
+    },
+    "why_chain": [
+      "Identical values and identical +0.24% delta to the standalone version (RF-MERGE-01) — NALCO's consolidated and standalone revenue are effectively the same figure (immaterial subsidiary contribution), so this is the same regrouping flowing through consolidation, not a separate issue. Latest AR value kept per citation standard. Dismissed."
+    ],
+    "management_story": null,
+    "confidence": "high",
+    "opened": "2026-07-15",
+    "adjudicated": "2026-07-16",
+    "flag": "Merge discrepancy on revenue_from_operations FY2022 (consolidated): kept 14214.58 [SRC-3473] over 14180.81 [SRC-212]",
+    "_normalised": "flag rendered from the structured `detail` discrepancy dict (2026-08-03); raw dict retained in `discrepancy`",
+    "discrepancy": {
+      "metric": "revenue_from_operations",
+      "period": "FY2022",
+      "basis": "consolidated",
+      "kept": {
+        "value": 14214.58,
+        "src": "SRC-3473",
+        "fragment": "facts_AR_FY2023_part2.json"
+      },
+      "superseded": {
+        "value": 14180.81,
+        "src": "SRC-212",
+        "fragment": "facts_AR_FY2022_cons.json"
+      }
+    }
+  },
+  {
+    "id": "RF-MERGE-12",
+    "category": "data_quality",
+    "status": "disclosed",
+    "severity": "medium",
+    "source": "merge_facts.py value conflict",
+    "detail": {
+      "metric": "total_assets",
+      "period": "FY2022",
+      "basis": "consolidated",
+      "kept": {
+        "value": 17486.58,
+        "src": "SRC-3477",
+        "fragment": "facts_AR_FY2023_part2.json"
+      },
+      "superseded": {
+        "value": 17275.54,
+        "src": "SRC-227",
+        "fragment": "facts_AR_FY2022_cons.json"
+      }
+    },
+    "why_chain": [
+      "Delta is +1.22% (Rs211.04cr) — same magnitude and direction as the standalone total-assets conflict (RF-MERGE-08), confirming the regrouping originates at the standalone level and flows through consolidation unchanged (consistent with an immaterial subsidiary contribution). Same balance-sheet-identity-preserving regrouping explanation applies.",
+      "Latest AR (AR_FY2023) value kept per citation standard. Disclosed (not dismissed) for the same materiality reason as RF-MERGE-08, sharing the same open question."
+    ],
+    "management_story": null,
+    "confidence": "medium",
+    "opened": "2026-07-15",
+    "adjudicated": "2026-07-16",
+    "open_question_ids": [
+      "FQ-NALCO-02"
+    ],
+    "flag": "Merge discrepancy on total_assets FY2022 (consolidated): kept 17486.58 [SRC-3477] over 17275.54 [SRC-227]",
+    "_normalised": "flag rendered from the structured `detail` discrepancy dict (2026-08-03); raw dict retained in `discrepancy`",
+    "discrepancy": {
+      "metric": "total_assets",
+      "period": "FY2022",
+      "basis": "consolidated",
+      "kept": {
+        "value": 17486.58,
+        "src": "SRC-3477",
+        "fragment": "facts_AR_FY2023_part2.json"
+      },
+      "superseded": {
+        "value": 17275.54,
+        "src": "SRC-227",
+        "fragment": "facts_AR_FY2022_cons.json"
+      }
+    }
+  },
+  {
+    "id": "RF-MERGE-13",
+    "category": "data_quality",
+    "status": "dismissed",
+    "severity": "low",
+    "source": "merge_facts.py value conflict",
+    "detail": {
+      "metric": "revenue_from_operations",
+      "period": "FY2025",
+      "basis": "consolidated",
+      "kept": {
+        "value": 16787.63,
+        "src": "SRC-2500",
+        "fragment": "facts_AR_FY2025_pass2.json"
+      },
+      "superseded": {
+        "value": 16788,
+        "src": "SRC-693",
+        "fragment": "facts_PPT_FY2026Q4.json"
+      }
+    },
+    "why_chain": [
+      "Delta is Rs0.37cr on a Rs16,788cr base (+0.002%) — the PPT_FY2026Q4.pdf investor presentation (SRC-693, 'Financial Highlights FY 2025-26... with FY2025 comparatives') reports whole-crore rounded figures for the FY2025 comparative column, while AR_FY2025.pdf reports the audited two-decimal figure. This is a unit/precision difference (rounding in a presentation deck), not a restatement or inconsistency.",
+      "Per citation standard, the audited AR figure (reported, higher-precision, primary document) is correctly kept over the rounded presentation figure. Dismissed as benign — this pattern (rounding in investor-deck comparatives vs. audited AR) repeats identically across RF-MERGE-13/14/15/16, reinforcing the unit-difference explanation rather than four independent data conflicts."
+    ],
+    "management_story": null,
+    "confidence": "high",
+    "opened": "2026-07-15",
+    "adjudicated": "2026-07-16",
+    "flag": "Merge discrepancy on revenue_from_operations FY2025 (consolidated): kept 16787.63 [SRC-2500] over 16788 [SRC-693]",
+    "_normalised": "flag rendered from the structured `detail` discrepancy dict (2026-08-03); raw dict retained in `discrepancy`",
+    "discrepancy": {
+      "metric": "revenue_from_operations",
+      "period": "FY2025",
+      "basis": "consolidated",
+      "kept": {
+        "value": 16787.63,
+        "src": "SRC-2500",
+        "fragment": "facts_AR_FY2025_pass2.json"
+      },
+      "superseded": {
+        "value": 16788,
+        "src": "SRC-693",
+        "fragment": "facts_PPT_FY2026Q4.json"
+      }
+    }
+  },
+  {
+    "id": "RF-MERGE-14",
+    "category": "data_quality",
+    "status": "dismissed",
+    "severity": "low",
+    "source": "merge_facts.py value conflict",
+    "detail": {
+      "metric": "total_income",
+      "period": "FY2025",
+      "basis": "consolidated",
+      "kept": {
+        "value": 17144.64,
+        "src": "SRC-2504",
+        "fragment": "facts_AR_FY2025_pass2.json"
+      },
+      "superseded": {
+        "value": 17145,
+        "src": "SRC-693",
+        "fragment": "facts_PPT_FY2026Q4.json"
+      }
+    },
+    "why_chain": [
+      "Delta is Rs0.36cr (+0.002%) — same PPT-rounding-vs-audited-AR pattern as RF-MERGE-13. Dismissed as benign unit/precision difference; audited AR figure kept per citation standard."
+    ],
+    "management_story": null,
+    "confidence": "high",
+    "opened": "2026-07-15",
+    "adjudicated": "2026-07-16",
+    "flag": "Merge discrepancy on total_income FY2025 (consolidated): kept 17144.64 [SRC-2504] over 17145 [SRC-693]",
+    "_normalised": "flag rendered from the structured `detail` discrepancy dict (2026-08-03); raw dict retained in `discrepancy`",
+    "discrepancy": {
+      "metric": "total_income",
+      "period": "FY2025",
+      "basis": "consolidated",
+      "kept": {
+        "value": 17144.64,
+        "src": "SRC-2504",
+        "fragment": "facts_AR_FY2025_pass2.json"
+      },
+      "superseded": {
+        "value": 17145,
+        "src": "SRC-693",
+        "fragment": "facts_PPT_FY2026Q4.json"
+      }
+    }
+  },
+  {
+    "id": "RF-MERGE-15",
+    "category": "data_quality",
+    "status": "dismissed",
+    "severity": "low",
+    "source": "merge_facts.py value conflict",
+    "detail": {
+      "metric": "pbt",
+      "period": "FY2025",
+      "basis": "consolidated",
+      "kept": {
+        "value": 7078.37,
+        "src": "SRC-2508",
+        "fragment": "facts_AR_FY2025_pass2.json"
+      },
+      "superseded": {
+        "value": 7135,
+        "src": "SRC-693",
+        "fragment": "facts_PPT_FY2026Q4.json"
+      }
+    },
+    "why_chain": [
+      "Delta is Rs56.63cr (+0.80%) — larger than RF-MERGE-13/14 in relative terms but still consistent with the PPT reporting a whole-crore-rounded comparative that, at the PBT/PAT level (post several expense lines), can diverge slightly more than at the revenue/total-income level due to compounding of rounded sub-totals rather than a single rounding step. No evidence of a substantive restatement (no footnote, no repeated occurrence pattern across other metrics/periods).",
+      "Per citation standard, the audited AR (higher precision, primary document) figure is kept. Note: this same 7135 figure appears in the comprehensive_statement.md 'Profit before exceptional items and tax' FY2025 standalone row (7135.06), suggesting the PPT figure is drawing on a slightly different profit line management commonly quotes (e.g., pre-exceptional or a rounded management-reported PBT) rather than the exact audited consolidated P&L PBT. Dismissed as benign presentation variance; flagged in narrative as a minor precision note, not a data-quality concern requiring further research."
+    ],
+    "management_story": null,
+    "confidence": "medium",
+    "opened": "2026-07-15",
+    "adjudicated": "2026-07-16",
+    "flag": "Merge discrepancy on pbt FY2025 (consolidated): kept 7078.37 [SRC-2508] over 7135 [SRC-693]",
+    "_normalised": "flag rendered from the structured `detail` discrepancy dict (2026-08-03); raw dict retained in `discrepancy`",
+    "discrepancy": {
+      "metric": "pbt",
+      "period": "FY2025",
+      "basis": "consolidated",
+      "kept": {
+        "value": 7078.37,
+        "src": "SRC-2508",
+        "fragment": "facts_AR_FY2025_pass2.json"
+      },
+      "superseded": {
+        "value": 7135,
+        "src": "SRC-693",
+        "fragment": "facts_PPT_FY2026Q4.json"
+      }
+    }
+  },
+  {
+    "id": "RF-MERGE-16",
+    "category": "data_quality",
+    "status": "dismissed",
+    "severity": "low",
+    "source": "merge_facts.py value conflict",
+    "detail": {
+      "metric": "pat",
+      "period": "FY2025",
+      "basis": "consolidated",
+      "kept": {
+        "value": 5267.94,
+        "src": "SRC-2512",
+        "fragment": "facts_AR_FY2025_pass2.json"
+      },
+      "superseded": {
+        "value": 5325,
+        "src": "SRC-693",
+        "fragment": "facts_PPT_FY2026Q4.json"
+      }
+    },
+    "why_chain": [
+      "Delta is Rs57.06cr (+1.08%) — same pattern as RF-MERGE-15 (PBT); the PPT's FY2025 PAT comparative (5325) matches the 'PAT FY2025 Full Year' figure elsewhere in comprehensive_statement.md, again suggesting the PPT quotes a rounded management/standalone-adjacent PAT figure rather than the exact audited consolidated PAT. Audited AR figure kept per citation standard.",
+      "Dismissed as benign presentation variance — same root cause as RF-MERGE-13/14/15 (PPT rounding/management-reported convention vs audited AR precision), not an independent data-quality issue."
+    ],
+    "management_story": null,
+    "confidence": "medium",
+    "opened": "2026-07-15",
+    "adjudicated": "2026-07-16",
+    "flag": "Merge discrepancy on pat FY2025 (consolidated): kept 5267.94 [SRC-2512] over 5325 [SRC-693]",
+    "_normalised": "flag rendered from the structured `detail` discrepancy dict (2026-08-03); raw dict retained in `discrepancy`",
+    "discrepancy": {
+      "metric": "pat",
+      "period": "FY2025",
+      "basis": "consolidated",
+      "kept": {
+        "value": 5267.94,
+        "src": "SRC-2512",
+        "fragment": "facts_AR_FY2025_pass2.json"
+      },
+      "superseded": {
+        "value": 5325,
+        "src": "SRC-693",
+        "fragment": "facts_PPT_FY2026Q4.json"
+      }
+    }
+  },
+  {
+    "id": "RF-GUI-01",
+    "category": "disclosure",
+    "flag": "FY26 volume contribution from 5th-stream alumina refinery cut ~40% within one fiscal year (implied ~500KT to 300KT), management-labelled as a revision, then effectively deferred to FY27",
+    "metric_evidence": [
+      "GD-Q1-002",
+      "GD-Q2-004",
+      "GD-Q3-037",
+      "GD-Q4-002"
+    ],
+    "threshold": null,
+    "why_chain": [
+      "Q1/Q2 FY26 guidance implied ~5 lakh ton (500KT) FY26 contribution from the new refinery stream.",
+      "Q3 (Jan-2026) explicitly revises this to 3 lakh ton (300KT), quote-tagged as a revision by the company itself (GD-Q3-037: 'Previously guided 5 lakh KT for FY26 from new refinery, now more realistic 3 lakh KT').",
+      "Q4 (Apr-2026) reframes the entire contribution as an FY27 event (2 lakh ton incremental, GD-Q4-002), consistent with the commissioning start date (June 2026) falling after FY26 (Apr-Mar) close."
+    ],
+    "management_story": "Framed as normal ramp-up conservatism ('optimistic planning') rather than a miss; no explicit acknowledgment that the original 500KT figure implied FY26 delivery.",
+    "status": "confirmed",
+    "severity": "medium",
+    "confidence": "high",
+    "owner": "22_management_guidance",
+    "open_question_ids": [
+      "OQ-GUI-03"
+    ],
+    "source_finding": "F-GUI-01",
+    "opened": "2026-07-16",
+    "adjudicated": "2026-07-16",
+    "adjudicated_by": "21_forensic_earnings_quality",
+    "adjudication_note": "Confirmed. Quantified, company-labelled, in-year -40% downward revision of a headline FY26 volume lever, followed by effective one-year deferral to FY27 once the commissioning date moved past FY26 close. Distinguishable from RF-GUI-03/04 (pre-DPR, years-out projects with no near-term delivery commitment): here an original figure implied FY26 delivery and did not arrive. No structural reconciling explanation of the kind that kept guidance.json's own F-GUI-04 (JV cost-sharing rationale) out of red-flag-candidate status is present. Guidance-credibility issue only; no financial-statement/accrual impact."
+  },
+  {
+    "id": "RF-GUI-02",
+    "category": "disclosure",
+    "flag": "Alumina export contract mix (spot vs term) target stated inconsistently three times within one fiscal year (80/20 spot-heavy at Q1, 50/50 at Q2 via a quote flagged as an evasive answer, spot-only by Q4)",
+    "metric_evidence": [
+      "GD-Q1-014",
+      "GD-Q2-024",
+      "GD-Q4-036"
+    ],
+    "threshold": null,
+    "why_chain": [
+      "Q1 (Aug-2025): 80% spot / 20% long-term stated as a deliberate strategic shift.",
+      "Q2 (Nov-2025): 50% term / 50% spot stated as the target mix; underlying quote reference itself flagged 'refusal_Q2_contract_mix' in the source extraction, indicating an evasive or non-committal management answer.",
+      "Q4 (Apr-2026): no long-term contracts being written at all, spot-only, attributed to the low-price environment."
+    ],
+    "management_story": "Each individual quarter's framing is plausible on its own (tracking realized pricing), but no quarter reconciles its stated mix with the prior quarter's stated target.",
+    "status": "confirmed",
+    "severity": "low",
+    "confidence": "medium",
+    "owner": "22_management_guidance",
+    "open_question_ids": [],
+    "source_finding": "F-GUI-02",
+    "opened": "2026-07-16",
+    "adjudicated": "2026-07-16",
+    "adjudicated_by": "21_forensic_earnings_quality",
+    "adjudication_note": "Confirmed at low severity. Three genuinely distinct stated positions on the same commercial-mix variable within one fiscal year; the extraction-layer 'refusal_Q2_contract_mix' tag is independent corroboration of an evasive Q2 answer, not merely my inference. Mitigating: the drift direction (toward spot) is at least internally consistent with the stated falling-price rationale, which is why severity is kept low rather than medium. No revenue-recognition or financial-statement impact; guidance-consistency issue only."
+  },
+  {
+    "id": "RF-GUI-03",
+    "category": "disclosure",
+    "flag": "0.5 MTPA smelter expansion commissioning date inconsistent across and within documents (Dec-2030 transcript vs Jun-2031 PPT at Q2; Aug-2030 PPT at Q3; Q4 PPT self-contradictory — Aug-2030 on slide vs Jun-2031 in table)",
+    "metric_evidence": [
+      "GD-Q2-008",
+      "GD-PQ2-006",
+      "GD-PQ3-004",
+      "GD-Q4-013",
+      "GD-PQ4-003"
+    ],
+    "threshold": null,
+    "why_chain": [
+      "Project remains pre-DPR/pre-tender through Q4 FY26 (DPR targeted Aug-Sept 2026).",
+      "Commissioning date given as Dec-2030 (Q2 call), Jun-2031 (Q2 deck), Aug-2030 (Q3 deck), 'end-2030/early 2031' (Q3/Q4 calls).",
+      "Q4 presentation itself contains both Aug-2030 and Jun-2031 without reconciliation (GD-PQ4-003 conditionality field notes the internal conflict directly)."
+    ],
+    "management_story": null,
+    "status": "disclosed",
+    "severity": "low",
+    "confidence": "high",
+    "owner": "22_management_guidance",
+    "open_question_ids": [],
+    "source_finding": "F-GUI-03",
+    "opened": "2026-07-16",
+    "adjudicated": "2026-07-16",
+    "adjudicated_by": "21_forensic_earnings_quality",
+    "adjudication_note": "Disclosed, not confirmed. Real, evidenced inconsistency (including a same-deck self-contradiction), but the project is pre-DPR/pre-tender and years out (2030/2031) with no committed capital — every date quoted is an explicit planning estimate, not a delivery commitment being tested against an actual outcome, unlike RF-GUI-01. Read as a documentation/QA-control lapse rather than evidence of deliberate guidance manipulation. Flagged as a disclosure-hygiene item."
+  },
+  {
+    "id": "RF-GUI-04",
+    "category": "disclosure",
+    "flag": "Pottangi bauxite mine commissioning date mismatched between the Q2 FY26 earnings call (June 2026) and the same quarter's investor presentation (May 2026)",
+    "metric_evidence": [
+      "GD-Q2-019",
+      "GD-PQ2-002"
+    ],
+    "threshold": null,
+    "why_chain": [
+      "Same reporting date (2025-11-07), same underlying milestone, two different documents from the same disclosure package give different months.",
+      "MDO tender still described as 'this month' / ongoing as of the Nov-2025 call for a claimed May-2026 commissioning, a comparatively tight runway."
+    ],
+    "management_story": null,
+    "status": "disclosed",
+    "severity": "low",
+    "confidence": "medium",
+    "owner": "22_management_guidance",
+    "open_question_ids": [
+      "OQ-GUI-02"
+    ],
+    "source_finding": "F-GUI-05",
+    "opened": "2026-07-16",
+    "adjudicated": "2026-07-16",
+    "adjudicated_by": "21_forensic_earnings_quality",
+    "adjudication_note": "Disclosed, not confirmed. Narrow (one-month), same-package, same-date mismatch consistent with a transcription/production slip rather than a repeated credibility pattern (contrast RF-GUI-01/02, which recur across quarters). The ongoing MDO tender is an independent execution-risk signal, not a resolution of which date is correct; no financial figure affected. OQ-GUI-02 remains open to confirm the correct date via subsequent filings."
+  }
+]

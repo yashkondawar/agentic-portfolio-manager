@@ -1,0 +1,153 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 86,
+  "table_index": 1,
+  "bbox": [
+    68.28148275862068,
+    236.91310000000001,
+    542.6039034482758,
+    668.3235
+  ],
+  "rows": [
+    [
+      "Parameter",
+      "FY 2023-24",
+      "FY 2022-23"
+    ],
+    [
+      "Total Waste generated (in metric tonnes)",
+      null,
+      null
+    ],
+    [
+      "Plastic waste (A)",
+      "0",
+      "0.00"
+    ],
+    [
+      "E-waste (B)",
+      "13.169",
+      "14.16"
+    ],
+    [
+      "Bio-medical waste (C)",
+      "1.859",
+      "1.78"
+    ],
+    [
+      "Construction and demolition waste (D)",
+      "12",
+      "10.00"
+    ],
+    [
+      "Battery waste (E)",
+      "32.154",
+      "27.03"
+    ],
+    [
+      "Radioactive waste (F)",
+      "0",
+      "0.00"
+    ],
+    [
+      "Other Hazardous waste. Please specify, if any. (G) As per Hazardous waste Authorization granted by\nOSPCB",
+      "99,324.153",
+      "94,016.60"
+    ],
+    [
+      "Other Non-hazardous waste generated (H).\nOverburden, red mud. Lime grit, fly ash, ferrous & non-ferrous scrap, refractory bricks, mixed debris",
+      "1,10,62,779.91",
+      "74,01,597.38"
+    ],
+    [
+      "Total (A+B + C + D + E + F + G + H)",
+      "1,11,62,163.25",
+      "74,95,666.95"
+    ],
+    [
+      "Waste Intensity per rupee of turnover.\n(Total waste generated / Revenue from operations)",
+      "0.000085",
+      "0.000053"
+    ],
+    [
+      "Waste Intensity per rupee of turnover adjusted for Purchasing Power Parity (PPP)\n(Total waste generated / Revenue from operations adjusted for PPP)",
+      "0.00195",
+      "0.00121"
+    ],
+    [
+      "Waste intensity in terms of physical output\n(Alumina Production in MT)",
+      "5.26",
+      "3.53"
+    ],
+    [
+      "For each category of waste generated, total waste recovered through recycling, re-using or other recovery operations (in metric tonnes)",
+      null,
+      null
+    ],
+    [
+      "Category of waste (Construction & Demolition waste)",
+      null,
+      null
+    ],
+    [
+      "(i) Recycled",
+      "0",
+      "0"
+    ],
+    [
+      "(ii) Re-used",
+      "12",
+      "10"
+    ],
+    [
+      "(iii) Other recovery operations",
+      "0",
+      "0"
+    ],
+    [
+      "Total",
+      "12",
+      "10"
+    ],
+    [
+      "Category of waste (Other Hazardous waste)",
+      null,
+      null
+    ],
+    [
+      "(i) Recycled",
+      "87,039.82",
+      "82,804.59"
+    ],
+    [
+      "(ii) Re-used",
+      "136",
+      "30"
+    ],
+    [
+      "(iii) Other recovery operations",
+      "0",
+      "0"
+    ],
+    [
+      "Total",
+      "87,175.82",
+      "82,834.59"
+    ],
+    [
+      "Category of waste (Other Non-Hazardous waste)",
+      null,
+      null
+    ],
+    [
+      "(i) Recycled",
+      "0",
+      "0"
+    ],
+    [
+      "(ii) Re-used",
+      "9,50,775",
+      "9,45,147"
+    ]
+  ]
+}

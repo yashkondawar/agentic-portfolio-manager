@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 44,
+  "table_index": 3,
+  "bbox": [
+    71.11609090909091,
+    577.4475,
+    546.6093636363636,
+    644.1438999999999
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Financial Year",
+      "Amount available for set-off from preceding financial years\n(in ₹)",
+      "Amount required to be set-off for the financial year, if any (in ₹)"
+    ],
+    [
+      "1.",
+      "2018-19",
+      "NIL",
+      "NIL"
+    ],
+    [
+      "2.",
+      "2019-20",
+      "NIL",
+      "NIL"
+    ],
+    [
+      "3.",
+      "2020-21",
+      "NIL",
+      "NIL"
+    ],
+    [
+      "Total",
+      null,
+      "NIL",
+      "NIL"
+    ]
+  ]
+}

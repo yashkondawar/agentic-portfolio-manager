@@ -1,0 +1,547 @@
+# cycle_framework.yaml — the Universal Cycle-Positioning Framework
+# (docs/source-material/cycle-positioning-framework.txt) encoded as
+# constitution-as-config for the Phase 7 cycle engine (src/afund/cycles/).
+#
+# status: DRAFT — all thresholds illustrative per source doc sections 0/7,
+# must be calibrated/back-tested before real capital. Every specific number
+# below is inherited verbatim from the source document (flagged inline where
+# the doc itself flags it as inherited-vs-illustrative) or is an explicit
+# DRAFT judgment call this file adds to resolve a gap/ambiguity the doc
+# leaves open (each such call is commented in place, tagged "DRAFT judgment
+# call"). See CLAUDE.md hard rules: label DRAFT in any output derived from
+# this file.
+#
+# `kind: cycle_framework` (not "strategy") is a deliberate marker so
+# registry/registry.py's Registry.load() skips this file when validating
+# registry/strategies/*.yaml against the strict Strategy model — this file
+# has its own shape and its own loader (src/afund/cycles/framework.py),
+# which pydantic-validates it directly by path, mirroring
+# knowledge/loader.py's pattern.
+kind: cycle_framework
+framework_id: cycle_positioning_framework
+version: 1
+status: "DRAFT — all thresholds illustrative per source doc §0/§7, must be calibrated/back-tested before real capital"
+source_doc: docs/source-material/cycle-positioning-framework.txt
+
+# ---------------------------------------------------------------------------
+# phases — the 8-phase cycle wheel (source doc section 2.4)
+# ---------------------------------------------------------------------------
+# Each phase's percentile_band is the doc's own table (section 2.4), which
+# leaves two structural gaps the engine must resolve deterministically:
+#   (a) 45-55th percentile has NO assigned phase (Value ends at 45th,
+#       Momentum starts at 45th on the *low* end but per the table Momentum
+#       is "45th-65th" while Value is "20th-45th" and Distribution is
+#       "75th-90th" and Denial is "55th-75th" — so 45-55 is actually
+#       double-covered by Momentum's stated band on one side and genuinely
+#       gapless if read literally, EXCEPT the doc's own worked phrasing in
+#       section 2.3 ("a metric at the 20th percentile...") and the phase
+#       table's Denial row (55th-75th) leaves NO phase explicitly covering
+#       exactly 45-55 read as "falling" (Momentum requires "Rising" and
+#       Denial's band starts at 55, not 45) -- direction is the tiebreaker,
+#       see classification_rules below.
+#   (b) 10th and 15th percentile boundary overlap: DeepValue is stated as
+#       "<10th-15th" (i.e. its own band already straddles 10-15) while Value
+#       is "20th-45th" -- there is a genuine gap 15-20 with no explicit
+#       phase, and AttractiveGrowth's "15th-30th, turning up" overlaps
+#       DeepValue's own upper edge at 15. classification_rules resolves both
+#       with nearest-band + direction tiebreak (DRAFT judgment calls,
+#       commented per-rule below).
+phases:
+  - phase_id: euphoria
+    name: "Euphoria / Mania"
+    position_on_wave: "Peak"
+    percentile_band: {min: 90, max: 100}
+    direction_rule: rising_or_flat_at_highs   # doc: "Rising or flat-at-highs"
+    default_posture: >
+      Reduce toward the floor of the strategic range; systematic
+      profit-booking regardless of narrative.
+    narrative_markers:
+      - "'This time is different'"
+      - "mainstream (non-financial) media coverage"
+      - "product/IPO proliferation on the theme"
+      - "leverage & new-account growth surging"
+    illustrative_quantitative_trigger: >
+      Yield Gap >1.70; stock/sector P/E crossing the ~25x discomfort
+      threshold; a "20-30 years of return in months" parabolic reading.
+      (inherited directly from source material per doc footnote)
+    directional_lean: -1
+
+  - phase_id: distribution
+    name: "Distribution"
+    position_on_wave: "Just past peak"
+    percentile_band: {min: 75, max: 90}
+    direction_rule: stalling   # doc: "Flattening / rolling over"
+    default_posture: >
+      Continue trimming; rotate to quality/defensive tilt; raise hedges.
+    narrative_markers:
+      - "skepticism dismissed as 'not getting it'"
+      - "narrowing leadership"
+    illustrative_quantitative_trigger: >
+      Breadth narrows even as the index holds; credit spreads start
+      widening while price is still near highs.
+    directional_lean: -1
+
+  - phase_id: denial
+    name: "Denial / Early Decline"
+    position_on_wave: "Falling from the top"
+    percentile_band: {min: 55, max: 75}
+    direction_rule: falling   # doc: "Falling, still above average"
+    default_posture: >
+      No fresh buying; do not average down pre-emptively; hold hedges.
+    narrative_markers:
+      - "'Just a healthy correction' narrative with no fundamental
+        improvement evidence"
+    illustrative_quantitative_trigger: >
+      Price falls, valuation still above its own long-run average.
+    directional_lean: -1
+
+  - phase_id: value
+    name: "Value"
+    position_on_wave: "Below average, falling"
+    percentile_band: {min: 20, max: 45}
+    direction_rule: falling
+    default_posture: >
+      Begin staged, tranche-based accumulation.
+    narrative_markers:
+      - "narrative turns cautious"
+      - "outflows rising but not yet capitulatory"
+    illustrative_quantitative_trigger: >
+      Metric crosses below its own long-run average and keeps falling.
+    directional_lean: 0
+
+  - phase_id: deep_value
+    name: "Deep Value / Capitulation"
+    position_on_wave: "Trough, just before the turn"
+    percentile_band: {min: 0, max: 15}   # doc: "<10th-15th"; see classification_rules gap note (b)
+    direction_rule: falling_decelerating   # doc: "Falling but decelerating (bottoming pattern)"
+    default_posture: >
+      Maximum systematic accumulation, deployed in tranches.
+    narrative_markers:
+      - "'This asset class is dead'"
+      - "forced/redemption-driven selling"
+      - "no new product launches in the space"
+      - "extreme underweight positioning"
+    illustrative_quantitative_trigger: >
+      Yield Gap <1.40; VIX >25; breadth extreme-oversold (e.g. <15% of names
+      above their 200-DMA); several rare statistical extremes hitting
+      simultaneously. (thresholds inherited directly from source material)
+    directional_lean: 1
+
+  - phase_id: attractive_growth
+    name: "Attractive Growth / Early Recovery"
+    position_on_wave: "Just after the trough"
+    percentile_band: {min: 15, max: 30}
+    direction_rule: turning_up
+    default_posture: >
+      Continue/accelerate accumulation as fundamentals confirm.
+    narrative_markers:
+      - "'dead cat bounce' skepticism"
+      - "price stops making new lows despite still-negative headlines"
+    illustrative_quantitative_trigger: >
+      Early positive inflection in earnings/flow data while the metric is
+      still cheap.
+    directional_lean: 1
+
+  - phase_id: momentum
+    name: "Momentum / Confirmation"
+    position_on_wave: "Rising through average"
+    percentile_band: {min: 45, max: 65}
+    direction_rule: rising
+    default_posture: >
+      Ride the trend at normal-to-full strategic weight.
+    narrative_markers:
+      - "narrative turns constructive, not yet euphoric"
+      - "participation broadens"
+    illustrative_quantitative_trigger: >
+      Trend confirmed across price, breadth, and earnings revisions; metric
+      crosses back above its own average.
+    directional_lean: 1
+
+  - phase_id: optimism
+    name: "Optimism / Belief"
+    position_on_wave: "Rising, above average"
+    percentile_band: {min: 65, max: 85}
+    direction_rule: rising_decelerating
+    default_posture: >
+      Begin trimming outsized winners; rebalance into laggards.
+    narrative_markers:
+      - "herd participation broadens"
+      - "skepticism gives way to endorsement"
+    illustrative_quantitative_trigger: >
+      Valuation rich but still "justified" by strong realized fundamentals.
+    directional_lean: 0
+
+# classification_rules — deterministic resolution for the doc's band gaps
+# and overlaps (DRAFT judgment calls; the doc leaves these ambiguous by
+# construction per its own footnote: "Percentile bands are illustrative
+# starting points"). Algorithm (src/afund/cycles/classify.py):
+#   1. Find every phase whose percentile_band contains the level. If exactly
+#      one matches AND its direction_rule is compatible with the observed
+#      direction/momentum, classify to it directly.
+#   2. If zero or multiple phases match (a gap or an overlap), use
+#      NEAREST-BAND resolution: compute the absolute percentile distance
+#      from the level to each phase's band (0 if inside the band), and
+#      among the phases within `nearest_band_tiebreak_max_distance`
+#      percentile points, pick the one whose direction_rule best matches
+#      the observed direction/momentum (see direction compatibility map
+#      below). This is what the doc's own worked example does explicitly
+#      ("a metric at the 20th percentile and falling means something
+#      different from a metric at the 20th percentile and turning up" —
+#      i.e. direction, not level alone, is the deciding tiebreaker).
+#   3. If direction alone still ties (e.g. exactly flat with no lean), fall
+#      back to the phase with the lower phase_id ordinal (earlier in the
+#      wheel / more conservative reading) — this last-resort rule is a
+#      DRAFT judgment call with no doc basis, included only so the function
+#      is total (always returns exactly one phase).
+classification_rules:
+  nearest_band_tiebreak_max_distance: 10   # DRAFT judgment call: percentile points
+  gap_resolutions:
+    # (a) 45-55 band: Momentum's stated lower edge (45) and Denial's stated
+    # lower edge (55) leave no phase literally covering "45-55, falling" or
+    # "45-55, flat/ambiguous". DRAFT judgment call: a level in 45-55 that is
+    # rising resolves to Momentum (nearest band, direction-compatible); a
+    # level in 45-55 that is falling resolves to Denial (nearest band,
+    # direction-compatible) rather than inventing a 9th phase — the doc's
+    # 8-phase wheel is exhaustive by construction (section 2.4 intro), so
+    # gaps are a classification-boundary issue, not a missing-phase issue.
+    - band: {min: 45, max: 55}
+      note: "rising -> momentum; falling -> denial; flat -> nearest by distance, momentum wins ties (DRAFT judgment call)"
+    # (b) 15-20 band: DeepValue's stated upper edge is 15, Value's stated
+    # lower edge is 20. DRAFT judgment call: a level in 15-20 that is
+    # "falling but decelerating" (bottoming pattern) resolves to DeepValue;
+    # a level in 15-20 that is "turning up" resolves to AttractiveGrowth
+    # (whose band already starts at 15 and overlaps this gap); a level in
+    # 15-20 that is plain "falling" (not yet decelerating) resolves to
+    # Value (nearest band on the falling side).
+    - band: {min: 15, max: 20}
+      note: "falling_decelerating -> deep_value; turning_up -> attractive_growth; falling -> value (DRAFT judgment call)"
+    # 10-15 overlap: DeepValue's own band already spans this (<10-15) so no
+    # gap exists here, but AttractiveGrowth's band (15-30) touches it at
+    # exactly 15 — a level AT exactly 15 with direction "turning_up" favors
+    # AttractiveGrowth over DeepValue's "falling_decelerating" requirement,
+    # since AttractiveGrowth's direction is a closer match once the turn has
+    # started (DRAFT judgment call).
+    - band: {min: 10, max: 15}
+      note: "boundary point 15 with turning_up direction favors attractive_growth over deep_value (DRAFT judgment call)"
+  direction_compatibility:
+    # direction_rule value -> set of observed (direction_3m/6m/12m,
+    # momentum_state) combinations it accepts, used by the nearest-band
+    # tiebreak in step 2 above. Free-text notes, consumed by classify.py's
+    # DIRECTION_COMPATIBILITY constant (kept in sync manually — a golden
+    # test cross-checks this list against the enum classify.py accepts).
+    rising_or_flat_at_highs: ["rising", "flat"]
+    stalling: ["flat", "falling"]   # "flattening/rolling over" — early falling counts as stalling too
+    falling: ["falling"]
+    falling_decelerating: ["falling"]   # direction=falling AND momentum_state=decelerating
+    turning_up: ["rising"]              # was falling, now direction=rising (early), or momentum_state=accelerating while falling
+    rising: ["rising"]
+    rising_decelerating: ["rising"]     # direction=rising AND momentum_state=decelerating
+
+# ---------------------------------------------------------------------------
+# orientations — metric-orientation transforms (source doc section 2.2)
+# ---------------------------------------------------------------------------
+orientations:
+  value_type:
+    description: "High reading = expensive/late-cycle. Score the raw percentile as-is (no transform)."
+    value_type: use_percentile_as_is
+  fear_type:
+    description: >
+      High reading = distressed = early-cycle opportunity. Invert before
+      scoring: transformed_percentile = 100 - raw_percentile, so a raw high
+      reading (fear spike) maps to a LOW transformed percentile (i.e. reads
+      like "cheap"/early-cycle) once run through the same 8-phase wheel as
+      value-type metrics.
+    fear_type_invert: "p -> 100 - p"
+  goldilocks_type:
+    description: >
+      Both extremes are late-cycle stress; the middle is healthy. Score by
+      distance from a target band, not by percentile direction. Each
+      goldilocks-type KPI defines its own goldilocks_band (target range in
+      the metric's native units, e.g. CPI 2-6% per RBI's target band); the
+      score is the metric's distance outside that band (0 if inside),
+      signed so that BOTH exceeding the top and falling below the bottom
+      count as "late-cycle stress" of equal severity per the doc's framing
+      (section 2.2: "both extremes are late-cycle stress").
+    goldilocks_band:
+      # Per-KPI target bands. DRAFT — only cpi_yoy's band is inherited
+      # directly from the doc (RBI's official target); the others are DRAFT
+      # judgment calls (no source-doc number given) using the closest
+      # commonly-cited India macro convention, flagged for back-test.
+      cpi_yoy: {min: 2.0, max: 6.0}   # RBI's target band (4% +/- 2pp) — inherited from doc/RBI convention
+      gdp_growth_rate: {min: 5.0, max: 8.0}   # DRAFT judgment call — no doc number; "healthy" India trend-growth band
+      capacity_utilization_pct: {min: 70.0, max: 85.0}   # DRAFT judgment call — no doc number
+      capex_to_gdp_pct: {min: 28.0, max: 34.0}   # DRAFT judgment call — no doc number
+
+# ---------------------------------------------------------------------------
+# direction — trailing rate-of-change windows (source doc section 2.3)
+# ---------------------------------------------------------------------------
+direction:
+  windows_months: [3, 6, 12]
+  flat_threshold_pct: 2.0   # DRAFT: |RoC| < 2% annualized counts as "flat" (no doc number given)
+  momentum_of_momentum:
+    description: >
+      Rate-of-change of the rate-of-change (RoC-of-RoC): is the metric's own
+      trend accelerating or decelerating? Computed as the change in the
+      trailing-3m RoC vs. the trailing-3m RoC measured one window earlier.
+    states: [accelerating, decelerating, stable]
+    stable_threshold_pct: 1.0   # DRAFT: |RoC-of-RoC| < 1pp counts as "stable" (no doc number given)
+
+# ---------------------------------------------------------------------------
+# parabolic_rule — Parabolic Return Compression Rule (source doc section 3,
+# "generalized from the source's gold example")
+# ---------------------------------------------------------------------------
+parabolic_rule:
+  description: >
+    If any asset delivers more than roughly its own long-run average annual
+    return compressed into a window of a few months (the source's
+    illustration: 20-30 years of typical return inside ~24 months, 200-400%
+    appreciation), treat this as a structural Phase-1 signal and trigger the
+    systematic trim rule regardless of the prevailing narrative.
+  window_months: 24   # DRAFT — the doc's own illustrative window
+  compression_factor: >
+    DRAFT: trigger fires when trailing-window return >=
+    long_run_annual_mean_return * compression_factor, where
+    compression_factor approximates the doc's "20-30 years of typical
+    return inside ~24 months" illustration (i.e. compression_factor ~=
+    20-30, calibrated per-asset from long_run_annual_mean_return; NOT a
+    fixed universal number — this field documents the relationship, the
+    engine derives the effective trigger threshold per-asset in
+    parabolic.py from each cycle's own return history).
+  min_abs_return_pct: 100   # DRAFT secondary trigger, per plan spec: trailing-window return >= 100% absolute independently fires the flag
+  action: auto_trim_flag
+
+# ---------------------------------------------------------------------------
+# evi — Equity Valuation Index (source doc section 3 table + KPI appendix)
+# ---------------------------------------------------------------------------
+evi:
+  components: [index_pe, index_pb, gsec_yield_x_pe, mcap_gdp]
+  weights: {index_pe: 0.25, index_pb: 0.25, gsec_yield_x_pe: 0.25, mcap_gdp: 0.25}   # doc: "equal weights"
+  compute_only_when_all_available: false
+  partial_evi_disclosure: >
+    When one or more components is unavailable, EVI is still computed as
+    the equal-weighted average of whichever components ARE available (their
+    weights re-normalized to sum to 1among the available set), and the
+    output MUST carry a `components_missing` list disclosing exactly which
+    components were dropped — never silently treated as a full-confidence
+    EVI. This is a DRAFT judgment call (the doc doesn't specify partial-EVI
+    behavior at all); re-normalizing among available components rather than
+    zero-filling missing ones was chosen so a 1-of-4-available EVI isn't
+    silently diluted toward a false "neutral" reading.
+
+# ---------------------------------------------------------------------------
+# functional_groups (source doc section 4.1) + regime_clusters (4.2) +
+# group_weights_by_cluster (4.3, verbatim table) +
+# regime_classification_rules
+# ---------------------------------------------------------------------------
+functional_groups:
+  macro_regime:
+    name: "Macro-Regime"
+    cycles: [gdp_business_cycle, inflation_cycle, interest_rate_liquidity_cycle, credit_debt_cycle]
+    question: "What's the economic weather?"
+  market_structure:
+    name: "Market-Structure"
+    cycles: [valuation_cycle, earnings_margin_cycle, sentiment_behavioral_cycle, fii_dii_capital_flows_cycle]
+    question: "Is the market/asset cheap or dear, and is money moving in or out?"
+  external:
+    name: "External"
+    cycles: [currency_external_balance_cycle, global_risk_appetite_dollar_cycle]
+    question: "What's happening to cross-border capital and the currency?"
+  idiosyncratic:
+    name: "Idiosyncratic"
+    cycles: [sector_thematic_cycle, commodity_cycle, real_estate_cycle, capex_investment_cycle]
+    question: "Within the favored macro backdrop, what specifically looks attractive?"
+
+regime_clusters: [Recovery, Expansion, Overheating, Slowdown, Crisis]
+
+# doc section 4.3, verbatim table. Percentages are the doc's own numbers.
+group_weights_by_cluster:
+  Recovery:
+    macro_regime: 30
+    market_structure: 45
+    external: 25
+    why: "Valuation/Sentiment typically lead the turn; External confirms via currency bottoming"
+  Expansion:
+    macro_regime: 35
+    market_structure: 40
+    external: 25
+    why: "Balanced — no single group dominates"
+  Overheating:
+    macro_regime: 45
+    market_structure: 35
+    external: 20
+    why: "Macro imbalances (inflation, credit-to-GDP gap) become the binding constraint ahead of pure valuation"
+  Slowdown:
+    macro_regime: 40
+    market_structure: 40
+    external: 20
+    why: "Earnings/Margin deterioration corroborates the Macro-Regime read"
+  Crisis:
+    macro_regime: 25
+    market_structure: 55
+    external: 20
+    why: "Behavioral extremes become the single highest-value signal at true systemic troughs"
+
+regime_classification_rules:
+  description: >
+    Classify the prevailing macro backdrop into one of the five
+    regime_clusters using the Macro-Regime functional group ALONE (doc
+    section 4.2), by reading the phase of that group's own constituent
+    cycles (gdp_business_cycle, inflation_cycle,
+    interest_rate_liquidity_cycle, credit_debt_cycle).
+  unknown_when_data_pending: true
+  # DRAFT judgment call: the doc names the five clusters and says "use the
+  # Macro-Regime group alone" but gives no explicit phase->cluster mapping
+  # table (unlike group_weights_by_cluster, which IS a verbatim table). This
+  # mapping infers the most natural reading of each cluster's macro
+  # narrative onto the 8-phase wheel's own default_posture language, and
+  # is the single most speculative part of this file — flagged for the
+  # heaviest back-test scrutiny.
+  phase_to_cluster_map:
+    deep_value: Crisis
+    value: Slowdown
+    attractive_growth: Recovery
+    momentum: Expansion
+    optimism: Overheating
+    denial: Slowdown
+    distribution: Overheating
+    euphoria: Overheating
+  resolution: >
+    Compute the phase of every available macro_regime-group cycle; if NONE
+    have a computed phase (all data_pending — true of every macro_regime
+    cycle in this engine on Phase-7 day-1, since gdp_business_cycle,
+    inflation_cycle, interest_rate_liquidity_cycle, and credit_debt_cycle
+    all require macro_series inputs not sourced until Phase 8), the regime
+    cluster is UNKNOWN rather than guessed. If one or more are available,
+    map each to a cluster via phase_to_cluster_map and take the
+    plurality (most common) cluster; ties broken by the cycle listed
+    earliest in functional_groups.macro_regime.cycles.
+
+# ---------------------------------------------------------------------------
+# alignment — Confluence / Alignment Score (source doc section 4.4)
+# ---------------------------------------------------------------------------
+alignment:
+  directional_lean_map:
+    "+1": [deep_value, attractive_growth, momentum]   # doc: "Phases 5-7, buy-favorable"
+    "0": [value, optimism]                             # doc: "Phases 4, 8, ambiguous"
+    "-1": [euphoria, distribution, denial]             # doc: "Phases 1-3, sell-favorable"
+  alignment_score_definition: >
+    Alignment Score = the proportion of independently-scored cycles whose
+    directional_lean points the same direction (the majority sign among
+    +1/0/-1 leans across all cycles with a computed phase; data_pending
+    cycles are excluded from the denominator, never counted as 0/neutral).
+    Expressed 0-100 (doc's CompositeAllocationDecision schema uses 0-100).
+
+# ---------------------------------------------------------------------------
+# allocation_bands (source doc section 5.1, verbatim table)
+# ---------------------------------------------------------------------------
+allocation_bands:
+  yield_gap_thresholds: {deep_value_below: 1.40, euphoria_above: 1.70}
+  bands:
+    - composite_reading: "Yield Gap <1.40 / Phase 5, high alignment"
+      regime_label: "Deep Value / Capitulation"
+      equity_pct: {min: 70, max: 90}
+      debt_pct: {min: 5, max: 15}
+      gold_reits_pct: {min: 5, max: 10}
+      cash_pct: {min: 0, max: 5}
+    - composite_reading: "Value / Phase 4-6"
+      regime_label: "Value / Early Recovery"
+      equity_pct: {min: 55, max: 70}
+      debt_pct: {min: 15, max: 25}
+      gold_reits_pct: {min: 8, max: 12}
+      cash_pct: {min: 0, max: 5}
+    - composite_reading: "Neutral / Phase 6-7"
+      regime_label: "Momentum / Fair Value"
+      equity_pct: {min: 40, max: 55}
+      debt_pct: {min: 25, max: 35}
+      gold_reits_pct: {min: 10, max: 15}
+      cash_pct: {min: 0, max: 10}
+    - composite_reading: "Yield Gap >1.70 / Phase 1-2, high alignment"
+      regime_label: "Distribution / Euphoria"
+      equity_pct: {min: 10, max: 25}
+      debt_pct: {min: 40, max: 60}
+      gold_reits_pct: {min: 10, max: 20}
+      cash_pct: {min: 5, max: 15}
+      note: >
+        At the high-equity end of the range, tax-efficient implementation
+        (doc section 5.5) can keep gross equity exposure near ~65% while
+        net exposure runs as low as 10-20% via cash-future arbitrage — a
+        structural choice, not a valuation call.
+
+# ---------------------------------------------------------------------------
+# reconciliation — quantitative vs. qualitative phase quadrant table
+# (source doc section 2.6, verbatim rows)
+# ---------------------------------------------------------------------------
+reconciliation:
+  narrative_bucket_bands:
+    dismissive: {min: -100, max: -34}
+    neutral: {min: -33, max: 33}
+    euphoric: {min: 34, max: 100}
+  quadrants:
+    - quant_phase_bucket: aligned_favorable   # quant phase directional_lean matches narrative bucket sign
+      narrative_bucket: any_matching
+      interpretation: "Aligned — high-confidence classification"
+      outcome: proceed_full_conviction
+      flags: {}
+    - quant_phase_bucket: cheap   # quant reads deep_value/value/attractive_growth (directional_lean +1 or 0-but-cheap-side)
+      narrative_bucket: dismissive
+      interpretation: >
+        Quant reads cheap, narrative still dismissive/pessimistic — the
+        classic contrarian sweet spot; the crowd hasn't repriced yet.
+      outcome: highest_conviction_opportunity
+      flags: {contrarian_sweet_spot: true, requires_premortem: true}
+    - quant_phase_bucket: expensive   # quant reads euphoria/distribution/optimism
+      narrative_bucket: euphoric
+      interpretation: >
+        Quant reads expensive, narrative still euphoric — late-cycle,
+        textbook top-forming pattern.
+      outcome: reduce_do_not_wait_for_narrative_confirmation
+      flags: {late_cycle_top: true, reduce_signal: true}
+    - quant_phase_bucket: ambiguous_or_conflicting
+      narrative_bucket: any
+      interpretation: "Ambiguous / conflicting in an unclear way — genuine uncertainty."
+      outcome: lower_confidence_smaller_size_flag_for_review
+      flags: {ambiguous: true, route_to_critique: true, lower_confidence: true}
+
+# ---------------------------------------------------------------------------
+# governance (source doc section 6, verbatim checklist items tagged
+# mechanical|judgment)
+# ---------------------------------------------------------------------------
+governance:
+  checklist:
+    - item: "Is the signal corroborated by at least two independent cycle categories (one Macro-Regime + one Market-Structure), not valuation alone?"
+      type: mechanical
+    - item: "Has the qualitative Narrative Score been computed and reconciled against the quantitative phase, with any divergence explicitly noted?"
+      type: mechanical
+    - item: "Does the normalization lookback span at least one full historical cycle, and has it been checked for an un-modeled structural break (regulatory reset, series redefinition, market-structure change)?"
+      type: judgment
+    - item: "Is position size scaled to the Confidence/Alignment Score, not to narrative appeal alone?"
+      type: mechanical
+    - item: "If the Parabolic Return Compression Rule fired, was the systematic trim executed regardless of the prevailing narrative?"
+      type: mechanical
+    - item: "Is the call corroborated across at least two independent reporting periods, not one data point vulnerable to a one-off distortion?"
+      type: mechanical
+    - item: "Are the Currency/External and domestic cycles consistent, or does a conflict (e.g. cheap equity + currency stress) require an explicit hedge decision first?"
+      type: judgment
+    - item: "Has the implementation/tax layer been checked so realized net exposure matches the model's intended exposure?"
+      type: judgment
+    - item: "Does the shift exceed a human-in-the-loop threshold (6.3)? If so, is sign-off logged?"
+      type: mechanical
+    - item: "Is a dated, versioned rationale record being written for the post-mortem learning loop?"
+      type: mechanical
+
+  premortem_trigger: >
+    For any allocation shift above a defined threshold, or any new
+    high-conviction security position: generate a written Pre-Mortem before
+    execution (doc section 6.2). Also mandatory whenever the reconciliation
+    quadrant flags contrarian_sweet_spot (see reconciliation above).
+
+  hitl_triggers:
+    - "Any single rebalancing shift exceeds a defined percentage-point threshold"
+    - "Any anchor metric reads beyond roughly +/-3 standard deviations (possible data error or genuine regime break)"
+    - "Alignment Score is low but the recommended action size is not (low-alignment-large-size)"
+    - "A new sector/country exposure is being initiated for the first time (first_time_exposure)"
+    - "A Pre-Mortem surfaces an unresolved plausible failure story"
+
+  sizing:
+    formula: "Size multiplier = Confidence x Alignment (both scaled 0-1)"
+    capped_by: risk_limits   # registry/rules/risk_limits.yaml — standing concentration limits

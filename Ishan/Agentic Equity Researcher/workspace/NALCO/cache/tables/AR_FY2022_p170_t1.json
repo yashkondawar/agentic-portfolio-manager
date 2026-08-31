@@ -1,0 +1,63 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 170,
+  "table_index": 1,
+  "bbox": [
+    45.448883333333335,
+    78.06135,
+    463.6323333333333,
+    211.765
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      "As at 31.03.2022"
+    ],
+    [
+      "(g)",
+      "Scraps",
+      "16.91"
+    ],
+    [
+      "",
+      "(1) Cost",
+      "16.91"
+    ],
+    [
+      null,
+      "(2) Less: Provision",
+      ""
+    ],
+    [
+      "Total inventories",
+      null,
+      "1,646.17"
+    ],
+    [
+      "Included above, goods-in-transit:",
+      null,
+      ""
+    ],
+    [
+      "",
+      "(i) Raw materials",
+      "20.79"
+    ],
+    [
+      null,
+      "(ii) Coal and fuel oil",
+      "57.79"
+    ],
+    [
+      null,
+      "(iii) Stores and spares",
+      "6.31"
+    ],
+    [
+      "Total goods-in-transit",
+      null,
+      "84.89"
+    ]
+  ]
+}

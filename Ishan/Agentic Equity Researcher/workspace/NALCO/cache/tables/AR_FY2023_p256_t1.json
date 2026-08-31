@@ -1,0 +1,93 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 256,
+  "table_index": 1,
+  "bbox": [
+    45.354,
+    45.742000000000075,
+    549.921,
+    680.172
+  ],
+  "rows": [
+    [
+      "Ind As Nos.",
+      "Nomenclature",
+      "Description"
+    ],
+    [
+      "Ind AS 20",
+      "Accounting for\nGovernment Grants and\nDisclosure of\nGovernment Assistance",
+      "- Grants received from the Government for assets is presented as deferred income. Accounting policy of in this\nregard is disclosed at para 3.14."
+    ],
+    [
+      "Ind AS 21",
+      "The Effects of\nChanges in Foreign\nExchange Rates",
+      "- Accounting policies with regard to transaction in foreign currency has been disclosed at para 3.6 of the Significant\nAccounting policy."
+    ],
+    [
+      "Ind AS 23",
+      "Borrowing Cost",
+      "- The Company capitalises borrowing costs that are directly attributable to the acquisition, construction or\nproduction of a qualifying asset as part of the cost of that asset. Disclosure in this regard has been made at para\n3.13 of the significant accounting policy."
+    ],
+    [
+      "Ind AS 24",
+      "Related Party Disclosure",
+      "- Name of related parties, aggregated sales and purchase transaction with them, any outstanding balances against\nthem and benefits paid to and loan outstanding against the key managerial persons has been disclosed at Note 40."
+    ],
+    [
+      "Ind AS 27",
+      "Separate Financial\nStatements",
+      "- Investments made in joint ventures and associates are presented at cost in the separate financial statements."
+    ],
+    [
+      "Ind AS 28",
+      "Investment in\nAssociates &\nJoint Venture",
+      "- The Company adjusts its’ share of profit in the profit or loss of the subsidiaries with the carrying amount of the\ninvestments in its consolidated financial statements using equity method."
+    ],
+    [
+      "Ind AS 29",
+      "Financial Reporting\nin Hyperinflationary\nEconomics",
+      "- This standard is not applicable to the company as its’ functional currency is not a currency of any hyperinflationary\neconomy."
+    ],
+    [
+      "Ind AS 32",
+      "Financial Instruments\nPresentation",
+      "- All items of assets and liabilities have been segregated into financial and other assets and liabilities based on the\ndefinitions laid down in the standard and are presented as required in Schedule III."
+    ],
+    [
+      "Ind AS 33",
+      "Earnings per share",
+      "- The Company has not issued any potential equity shares. Thus, both the Basic and Diluted EPS remains same.\n- Disclosure with regard to the weighted average number of equity shares and earnings for the period used in\ncomputation of EPS is made at Note 38."
+    ],
+    [
+      "Ind AS 34",
+      "Interim Financial\nReporting",
+      "- Being a listed entity, the Company prepares its interim financials as required by SEBI(LODR) Regulations, 2015\nin accordance with the recognition and measurement principles laid down in this standard on a quarterly basis."
+    ],
+    [
+      "Ind AS 36",
+      "Impairment of Asset",
+      "- Accounting policy relating to impairment of various assets is disclosed at respective paras in the significant\naccounting policies.\n- The management reviews the carrying values of assets at each reporting date and assess whether there is any\nindication that an asset may be impaired in accordance with the standard."
+    ],
+    [
+      "Ind AS 37",
+      "Provisions, Contingent\nLiabilities and Assets",
+      "- Accounting policies relating to Provisions, Contingent Liabilities and Assets are stated at para 3.7 of the Significant\nAccounting Policies.\n- Provisions are recognised when the company has a present obligation as a result of past events, legal or constructive,\nwhich requires out flow of resources to settle the obligation and can reliably be estimated considering the risks\nand uncertainties surrounding the event. Movement of different types of provisions are disclosed at note 24 (C).\n- In case of other obligations that arises from past events and whose existence will be confirmed only by the\noccurrence or non-occurrence of one or more uncertain future events not wholly within the control of the\ncompany contingent liabilities are disclosed at note 27 and in compliance with the requirement of Schedule III.\n- Contingent assets are not recognised but are disclosed where an inflow of economic benefits is probable."
+    ],
+    [
+      "Ind AS 38",
+      "Intangible Assets",
+      "- The accounting policy in this regard is mentioned at para 3.2 of the significant accounting policies.\n- The Company recognises expenditure on R&D activities, payments towards NPV, expenditure on cluster projects\nand expenditure on softwares, which qualifies the conditions for recognitions laid down in the standard, as\nintangible assets.\n- Reconciliation of opening carrying amount and closing carrying amount of intangible assets showing additions,\nreduction and amortisation is placed at note 8."
+    ],
+    [
+      "Ind AS 40",
+      "Investment Property",
+      "- The company does not have any investment property, thus the standard is not applicable."
+    ],
+    [
+      "Ind AS 41",
+      "Agriculture",
+      "- The company does not have any agricultural activity, thus the standard is not applicable."
+    ]
+  ]
+}

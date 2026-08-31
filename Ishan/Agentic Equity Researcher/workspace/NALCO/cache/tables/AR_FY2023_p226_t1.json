@@ -1,0 +1,121 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 226,
+  "table_index": 1,
+  "bbox": [
+    45.729,
+    61.59100000000012,
+    549.3406666666666,
+    299.947
+  ],
+  "rows": [
+    [
+      "12 - Other financial assets Amount in ` Crore",
+      null,
+      null,
+      null
+    ],
+    [
+      "A.",
+      "Non-current",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      null,
+      "Security deposits",
+      "16.72",
+      "9.18"
+    ],
+    [
+      null,
+      "Mines closure deposits [refer note 12.2]",
+      "4.83",
+      "0.56"
+    ],
+    [
+      "Total other non-current financial assets",
+      null,
+      "21.55",
+      "9.74"
+    ],
+    [
+      "B.",
+      "Current",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      null,
+      "(a) Advances to employees",
+      "22.84",
+      "24.96"
+    ],
+    [
+      null,
+      "(b) Insurance claims receivables and others",
+      "7.22",
+      "7.22"
+    ],
+    [
+      null,
+      "(c) Gratuity(funded)",
+      "26.74",
+      "22.17"
+    ],
+    [
+      null,
+      "Gross - other current financial assets",
+      "56.80",
+      "54.35"
+    ],
+    [
+      null,
+      "Less: Allowance for bad and doubtful other current financial assets",
+      "",
+      ""
+    ],
+    [
+      null,
+      "a) Insurance claims",
+      "7.22",
+      "7.22"
+    ],
+    [
+      null,
+      "Total allowance for bad and doubtful - other current assets",
+      "7.22",
+      "7.22"
+    ],
+    [
+      null,
+      "Net other current financial assets",
+      "49.58",
+      "47.13"
+    ],
+    [
+      null,
+      "Classification of other current financial assets:",
+      "",
+      ""
+    ],
+    [
+      null,
+      "Unsecured, considered good",
+      "49.58",
+      "47.13"
+    ],
+    [
+      null,
+      "Unsecured, considered doubtful",
+      "7.22",
+      "7.22"
+    ],
+    [
+      null,
+      "Gross other current financial assets",
+      "56.80",
+      "54.35"
+    ]
+  ]
+}

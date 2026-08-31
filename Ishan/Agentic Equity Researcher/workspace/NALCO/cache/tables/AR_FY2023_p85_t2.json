@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 85,
+  "table_index": 2,
+  "bbox": [
+    74.34259999999999,
+    320.40766666666667,
+    549.5626,
+    428.77400000000006
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Item",
+      "Investment (` in lakh)"
+    ],
+    [
+      "1.",
+      "Replacement work of Flue Gas Air Duct-Boiler 1,2,3",
+      "340.89"
+    ],
+    [
+      "2.",
+      "Hydrate dewatering aid addition in Drum Filters.",
+      "146.51"
+    ],
+    [
+      "3.",
+      "Thermal (Fuel Additive) in Calciners.",
+      "365.22"
+    ],
+    [
+      "4.",
+      "Replacement of 5,350 nos. conventional light fittings with LED systems.",
+      "56.47"
+    ],
+    [
+      "5.",
+      "Replacement of old ACs & motors with higher efficiency versions.",
+      "33.76"
+    ],
+    [
+      "6.",
+      "Vapour Absorption machine for Control room AC.",
+      "17.45"
+    ]
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 53,
+  "table_index": 12,
+  "bbox": [
+    51.273700000000005,
+    500.5112,
+    542.221925,
+    566.9274
+  ],
+  "rows": [
+    [
+      "",
+      "Under Process\nas on\n01.04.2024",
+      "Received during\nthe year (including cases\ntransferred from other Public\nAuthorities",
+      "No. of cases\ntransferred to other\nPublic Authorities",
+      "Decisions where\nrequests/ appeals\nrejected",
+      "Decisions where\nrequests/ appeals\naccepted and settled",
+      "Under Process as\non 31.03.2025"
+    ],
+    [
+      "Requests",
+      "22",
+      "554",
+      "8",
+      "119",
+      "431",
+      "18"
+    ],
+    [
+      "First Appeals",
+      "4",
+      "70",
+      "0",
+      "0",
+      "70",
+      "4"
+    ]
+  ]
+}

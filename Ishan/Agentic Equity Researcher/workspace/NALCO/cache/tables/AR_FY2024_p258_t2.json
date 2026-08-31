@@ -1,0 +1,73 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 258,
+  "table_index": 2,
+  "bbox": [
+    51.27364285714285,
+    548.3049000000001,
+    543.3948571428572,
+    673.84024
+  ],
+  "rows": [
+    [
+      "",
+      "",
+      "Year ended 31.03.2024",
+      "Year ended 31.03.2023"
+    ],
+    [
+      "(a)",
+      "Salaries and wages, including bonus",
+      "1,685.82",
+      "1,419.98"
+    ],
+    [
+      "(b)",
+      "Contribution to provident and other funds",
+      null,
+      null
+    ],
+    [
+      "",
+      "1) Provident fund",
+      "110.53",
+      "114.77"
+    ],
+    [
+      null,
+      "2) Gratuity",
+      "34.80",
+      "35.72"
+    ],
+    [
+      null,
+      "3) Post employment pension scheme",
+      "99.16",
+      "103.61"
+    ],
+    [
+      "(c)",
+      "Staff welfare expenses",
+      "111.35",
+      "167.91"
+    ],
+    [
+      "Total employee benefit expense",
+      null,
+      "2,041.66",
+      "1,841.99"
+    ],
+    [
+      "Less: Transferred to Expenditure during construction (EDC)",
+      null,
+      "7.60",
+      "9.93"
+    ],
+    [
+      "Net employee benefit expense",
+      null,
+      "2,034.06",
+      "1,832.06"
+    ]
+  ]
+}

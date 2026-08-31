@@ -1,0 +1,93 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 66,
+  "table_index": 1,
+  "bbox": [
+    51.27366153846154,
+    171.89173333333338,
+    542.9127928571428,
+    418.1548
+  ],
+  "rows": [
+    [
+      "Stakeholder group\nfrom whom complaint\nis received",
+      "Grievance Redressal\nMechanism in Place (Yes/No)\n(If yes, then provide web-link\nfor grievance redress policy)",
+      "FY 2023-24",
+      null,
+      null,
+      "FY 2022-23",
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      "Number of\ncomplaints\nfiled during\nthe year",
+      "Number of\ncomplaints\npending\nresolution\nat close of\nthe year",
+      "Remarks",
+      "Number of\ncomplaints\nfiled during\nthe year",
+      "Number of\ncomplaints\npending\nresolution at\nclose of the\nyear",
+      "Remarks"
+    ],
+    [
+      "Communities",
+      "No",
+      "0",
+      "0",
+      "-",
+      "0",
+      "0",
+      "-"
+    ],
+    [
+      "Investors (other than\nshareholders)",
+      "N.A.",
+      "0",
+      "0",
+      "-",
+      "0",
+      "0",
+      "-"
+    ],
+    [
+      "Shareholders",
+      "Yes\nhttps://nalcoindia.com/investor-\nservices/contact-us/",
+      "1,336",
+      "0",
+      "-",
+      "949",
+      "0",
+      "-"
+    ],
+    [
+      "Employees and workers",
+      "Yes",
+      "0",
+      "0",
+      "-",
+      "0",
+      "0",
+      "-"
+    ],
+    [
+      "Customers",
+      "Yes",
+      "2",
+      "0",
+      "-",
+      "6",
+      "0",
+      "-"
+    ],
+    [
+      "Value Chain Partners",
+      "Yes\nhttps://samadhaan.msme.gov.in\nhttps://champions.gov.in",
+      "3",
+      "0",
+      "-",
+      "5",
+      "0",
+      "-"
+    ]
+  ]
+}

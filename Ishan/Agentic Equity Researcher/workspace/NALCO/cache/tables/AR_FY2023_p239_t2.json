@@ -1,0 +1,79 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 239,
+  "table_index": 2,
+  "bbox": [
+    45.979,
+    472.99600000000004,
+    549.546,
+    587.214
+  ],
+  "rows": [
+    [
+      "Amount in ` Crore",
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      null,
+      "Year ended 31.03.2023",
+      "Year ended 31.03.2022"
+    ],
+    [
+      "(a)",
+      "Salaries and wages, including bonus",
+      "1,419.98",
+      "1,968.69"
+    ],
+    [
+      "(b)",
+      "Contribution to provident and other funds",
+      "",
+      ""
+    ],
+    [
+      null,
+      "1) Provident fund",
+      "114.77",
+      "115.87"
+    ],
+    [
+      null,
+      "2) Gratuity",
+      "35.72",
+      "30.01"
+    ],
+    [
+      null,
+      "3) Post employment pension scheme",
+      "103.61",
+      "104.00"
+    ],
+    [
+      "(c)",
+      "Staff welfare expenses",
+      "167.91",
+      "167.50"
+    ],
+    [
+      "Total employee benefit expense",
+      null,
+      "1,841.99",
+      "2,386.07"
+    ],
+    [
+      "Less: Transferred to Expenditure during construction (EDC)",
+      null,
+      "9.93",
+      "30.27"
+    ],
+    [
+      "Net employee benefit expense",
+      null,
+      "1,832.06",
+      "2,355.80"
+    ]
+  ]
+}

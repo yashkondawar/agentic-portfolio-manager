@@ -1,0 +1,138 @@
+[
+  {
+    "id": "GD-PQ3-001",
+    "metric": "lme_aluminium_price_cy2026",
+    "guided_value": "2670",
+    "unit": "USD/MT",
+    "period": "CY2026",
+    "conditionality": "Average for calendar year 2026",
+    "quote_ref": "QT-PQ3-008",
+    "given_on": "2026-01-30",
+    "kind": "guidance",
+    "source": {
+      "src_id": "SRC-668"
+    }
+  },
+  {
+    "id": "GD-PQ3-002",
+    "metric": "bauxite_capacity_expansion_pottangi",
+    "guided_value": "3.5",
+    "unit": "MTPA",
+    "period": "FY2026",
+    "conditionality": "Pottangi Bauxite mines expansion with 111 million tonne reserve",
+    "commissioning_date": "May 2026",
+    "quote_ref": "QT-PQ3-004",
+    "given_on": "2026-01-30",
+    "kind": "guidance",
+    "source": {
+      "src_id": "SRC-672"
+    }
+  },
+  {
+    "id": "GD-PQ3-003",
+    "metric": "alumina_capacity_expansion_5th_stream",
+    "guided_value": "1.0",
+    "unit": "MTPA",
+    "period": "FY2026",
+    "conditionality": "5th Stream Alumina Refinery expansion",
+    "commissioning_date": "June 2026",
+    "quote_ref": "QT-PQ3-005",
+    "given_on": "2026-01-30",
+    "kind": "guidance",
+    "source": {
+      "src_id": "SRC-672"
+    }
+  },
+  {
+    "id": "GD-PQ3-004",
+    "metric": "aluminium_smelter_capacity_expansion",
+    "guided_value": "0.5",
+    "unit": "MTPA",
+    "period": "medium-term",
+    "conditionality": "Smelter capacity addition for extrusions and value-added products",
+    "commissioning_date": "August 2030",
+    "quote_ref": "QT-PQ3-006",
+    "given_on": "2026-01-30",
+    "kind": "guidance",
+    "source": {
+      "src_id": "SRC-672"
+    }
+  },
+  {
+    "id": "GD-PQ3-005",
+    "metric": "captive_power_plant_expansion",
+    "guided_value": "1080",
+    "unit": "MW",
+    "period": "medium-term",
+    "conditionality": "CPP capacity expansion for power requirement",
+    "commissioning_date": "June 2031",
+    "quote_ref": "QT-PQ3-007",
+    "given_on": "2026-01-30",
+    "kind": "guidance",
+    "source": {
+      "src_id": "SRC-672"
+    }
+  },
+  {
+    "id": "GD-PQ3-006",
+    "metric": "indian_aluminium_demand_cagr_historical",
+    "guided_value": "9.0",
+    "unit": "pct",
+    "period": "5-year",
+    "conditionality": "Historical CAGR over last 5 years",
+    "quote_ref": "QT-PQ3-002",
+    "given_on": "2026-01-30",
+    "kind": "statement",
+    "flags": [
+      "company_claim"
+    ],
+    "source": {
+      "src_id": "SRC-670"
+    }
+  },
+  {
+    "id": "GD-PQ3-007",
+    "metric": "indian_aluminium_demand_cagr_forecast",
+    "guided_value": "6.3-7.2",
+    "unit": "pct",
+    "period": "2025-2030",
+    "conditionality": "Expected CAGR range till 2030",
+    "quote_ref": "QT-PQ3-003",
+    "given_on": "2026-01-30",
+    "kind": "guidance",
+    "flags": [
+      "company_claim"
+    ],
+    "source": {
+      "src_id": "SRC-670"
+    }
+  },
+  {
+    "id": "GD-PQ3-008",
+    "metric": "global_gdp_growth_fy2026",
+    "guided_value": "3.3",
+    "unit": "pct",
+    "period": "FY2026",
+    "conditionality": "IMF forecast for FY2026 (calendar year equivalent)",
+    "quote_ref": null,
+    "given_on": "2026-01-30",
+    "kind": "external_guidance",
+    "source": {
+      "src_id": "SRC-669"
+    }
+  },
+  {
+    "id": "GD-PQ3-009",
+    "metric": "india_gdp_growth_fy2026",
+    "guided_value": "7.2",
+    "unit": "pct",
+    "period": "FY2026",
+    "conditionality": "RBI/Government estimate for FY2026",
+    "quote_ref": null,
+    "given_on": "2026-01-30",
+    "kind": "external_guidance",
+    "source": {
+      "src_id": "SRC-670"
+    }
+  }
+]

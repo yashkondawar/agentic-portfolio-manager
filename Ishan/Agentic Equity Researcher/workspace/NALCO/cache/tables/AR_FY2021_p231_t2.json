@@ -1,0 +1,97 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 231,
+  "table_index": 2,
+  "bbox": [
+    79.620192,
+    122.6876,
+    555.400648,
+    339.01392
+  ],
+  "rows": [
+    [
+      "",
+      "",
+      "As at\n31.03.2021",
+      "As at\n31.03.2020"
+    ],
+    [
+      "(a)",
+      "Raw materials",
+      "72.69",
+      "89.46"
+    ],
+    [
+      "(b)",
+      "Coal and fuel oil",
+      "215.62",
+      "338.63"
+    ],
+    [
+      "(c)",
+      "Finished goods",
+      "464.43",
+      "440.02"
+    ],
+    [
+      "(d)",
+      "Carbon Anodes (Intermediaries)",
+      "118.57",
+      "153.03"
+    ],
+    [
+      "(e)",
+      "Work-in-progress",
+      "298.35",
+      "282.54"
+    ],
+    [
+      "(f)",
+      "Stores and spares",
+      "292.84",
+      "378.51"
+    ],
+    [
+      "(g)",
+      "Scraps",
+      "13.82",
+      "14.71"
+    ],
+    [
+      "Total inventories",
+      null,
+      "1,476.32",
+      "1,696.90"
+    ],
+    [
+      "Included above, goods-in-transit:",
+      null,
+      "",
+      ""
+    ],
+    [
+      "(i)",
+      "Raw materials",
+      "4.15",
+      "10.71"
+    ],
+    [
+      "(ii)",
+      "Coal and fuel oil",
+      "25.12",
+      "10.48"
+    ],
+    [
+      "(iii)",
+      "Stores and spares",
+      "4.45",
+      "9.86"
+    ],
+    [
+      "Total goods-in-transit",
+      null,
+      "33.72",
+      "31.05"
+    ]
+  ]
+}

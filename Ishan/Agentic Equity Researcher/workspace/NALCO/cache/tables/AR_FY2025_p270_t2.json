@@ -1,0 +1,49 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 270,
+  "table_index": 2,
+  "bbox": [
+    51.27365714285715,
+    291.9441142857143,
+    542.6175900000001,
+    360.85540000000003
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      "As at 31.03.2025",
+      "As at 31.03.2024"
+    ],
+    [
+      "(a)",
+      "In deposit account (having original maturity between 3-12 months)",
+      "5,298.46",
+      "2,527.41"
+    ],
+    [
+      null,
+      "Principal",
+      "5,172.00",
+      "2,479.00"
+    ],
+    [
+      null,
+      "Accrued Interest",
+      "126.46",
+      "48.41"
+    ],
+    [
+      "(b)",
+      "Earmarked balance with scheduled banks [refer note 16.B.1]",
+      "6.87",
+      "4.25"
+    ],
+    [
+      "Total other bank balances",
+      null,
+      "5,305.33",
+      "2,531.66"
+    ]
+  ]
+}

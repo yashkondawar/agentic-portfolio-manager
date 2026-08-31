@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 112,
+  "table_index": 3,
+  "bbox": [
+    68.28140909090908,
+    582.002,
+    542.748152173913,
+    677.8281
+  ],
+  "rows": [
+    [
+      "Description of results",
+      "Date of meeting",
+      "Newspapers",
+      "Publication date"
+    ],
+    [
+      "1st Qtr.- (Apr.-June, 2023)",
+      "11.08.2023",
+      "Hindu Business Line (English), Sambad (Odia) and\nPunjab Kesari (Hindi)",
+      "12.08.2023"
+    ],
+    [
+      "2nd Qtr.- (July-Sept., 2023)",
+      "09.11.2023",
+      "Financial Express (English), Dharitri (Odia) and\nSanmarg (Hindi)",
+      "10.11.2023"
+    ],
+    [
+      "3rd Qtr.- (Oct.- Dec., 2023)",
+      "13.02.2024",
+      "Business Standard (English), Prameya (Odia) and\nAzad Sipahi (Hindi)",
+      "15.02.2024"
+    ],
+    [
+      "4th Qtr. - (Jan.–March, 2024 and year\n2023-24)",
+      "27.05.2024",
+      "Economic Times (English), Prameya (Odia) and\nSanmarg (Hindi)",
+      "28.05.2024"
+    ]
+  ]
+}

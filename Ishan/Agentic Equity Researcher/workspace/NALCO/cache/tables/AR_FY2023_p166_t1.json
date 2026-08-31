@@ -1,0 +1,405 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 166,
+  "table_index": 1,
+  "bbox": [
+    45.979,
+    77.28550000000001,
+    549.734,
+    691.5706666666666
+  ],
+  "rows": [
+    [
+      "A. Non-current",
+      null,
+      "As at 31.03.2023",
+      null,
+      "As at 31.03.2022",
+      null
+    ],
+    [
+      "(a) Provision for employee benefits",
+      null,
+      "",
+      null,
+      "",
+      null
+    ],
+    [
+      "(1) Retirement benefits obligations",
+      null,
+      "",
+      null,
+      "",
+      null
+    ],
+    [
+      "(i) Post retirement medical benefits scheme (PRMBS) (funded)",
+      null,
+      "-",
+      null,
+      "152.83",
+      null
+    ],
+    [
+      "(ii) Settling in benefit on retirement",
+      null,
+      "12.59",
+      null,
+      "13.73",
+      null
+    ],
+    [
+      "(iii) Nalco benevolent fund scheme (NBFS)",
+      null,
+      "2.07",
+      null,
+      "2.15",
+      null
+    ],
+    [
+      "(iv) Nalco retirement welfare scheme( NRWS)",
+      null,
+      "8.29",
+      null,
+      "8.88",
+      null
+    ],
+    [
+      "(v) Retirement gift",
+      null,
+      "4.78",
+      null,
+      "5.36",
+      null
+    ],
+    [
+      "(2) Other long-term employee benefits",
+      null,
+      "",
+      null,
+      "",
+      null
+    ],
+    [
+      "(i) Compensated absences (refer note 24.4)",
+      null,
+      "-",
+      null,
+      "-",
+      null
+    ],
+    [
+      "(ii) Long service rewards",
+      null,
+      "12.32",
+      null,
+      "11.55",
+      null
+    ],
+    [
+      "(iii) Nalco employees family financial assistance rehabilitation scheme(NEFFARS)",
+      null,
+      "16.18",
+      null,
+      "25.51",
+      null
+    ],
+    [
+      "(b) Other Provisions",
+      null,
+      "",
+      null,
+      "",
+      null
+    ],
+    [
+      "(1) Asset restoration obligations/dismantling",
+      null,
+      "44.22",
+      null,
+      "40.59",
+      null
+    ],
+    [
+      "(2) Other legal and constructive obligations",
+      null,
+      "0.38",
+      null,
+      "0.38",
+      null
+    ],
+    [
+      "Total non current provisions",
+      null,
+      "100.83",
+      null,
+      "260.98",
+      null
+    ],
+    [
+      "B. Current",
+      null,
+      "As at 31.03.2023",
+      null,
+      "As at 31.03.2022",
+      null
+    ],
+    [
+      "(a) Provision for employee benefits",
+      null,
+      "",
+      null,
+      "",
+      null
+    ],
+    [
+      "(1) Retirement benefits obligations",
+      null,
+      "",
+      null,
+      "",
+      null
+    ],
+    [
+      "(i) Gratuity (funded)",
+      null,
+      "-",
+      null,
+      "-",
+      null
+    ],
+    [
+      "(ii) Post retirement medical benefits scheme (PRMBS) (funded)",
+      null,
+      "10.44",
+      null,
+      "9.48",
+      null
+    ],
+    [
+      "(iii) Settling in benefit on retirement",
+      null,
+      "3.30",
+      null,
+      "3.79",
+      null
+    ],
+    [
+      "(iv) Nalco benevolent fund scheme (NBFS)",
+      null,
+      "0.43",
+      null,
+      "0.48",
+      null
+    ],
+    [
+      "(v) Nalco retirement welfare scheme( NRWS)",
+      null,
+      "2.69",
+      null,
+      "2.90",
+      null
+    ],
+    [
+      "(vi) Retirement gift",
+      null,
+      "1.07",
+      null,
+      "1.17",
+      null
+    ],
+    [
+      "(2) Other Long-term employee benefits",
+      null,
+      "",
+      null,
+      "",
+      null
+    ],
+    [
+      "(i) Compensated absences (funded)",
+      null,
+      "39.82",
+      null,
+      "18.99",
+      null
+    ],
+    [
+      "(ii) Long service rewards",
+      null,
+      "0.63",
+      null,
+      "0.93",
+      null
+    ],
+    [
+      "(iii) Nalco employees family financial assistance rehabilitation scheme(NEFFARS)",
+      null,
+      "6.83",
+      null,
+      "9.84",
+      null
+    ],
+    [
+      "(b) Other Provisions",
+      null,
+      "",
+      null,
+      "",
+      null
+    ],
+    [
+      "(1) towards peripheral development expenses",
+      null,
+      "30.05",
+      null,
+      "30.30",
+      null
+    ],
+    [
+      "(2) towards other legal and constructive obligations",
+      null,
+      "51.63",
+      null,
+      "49.07",
+      null
+    ],
+    [
+      "Total current provisions",
+      null,
+      "146.89",
+      null,
+      "126.95",
+      null
+    ],
+    [
+      "C. Movement of provisions",
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "(1) Movement of retirement benefit obligations [refer note 33]",
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "(2)Movement of employee benefits",
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Amount in ` Crore",
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "Compensated absences (funded)",
+      null,
+      "Long service rewards",
+      null,
+      "NEFFARS"
+    ],
+    [
+      "Balance at 31.03.2021",
+      "430.37",
+      null,
+      "13.13",
+      null,
+      "31.88"
+    ],
+    [
+      "Additional provisions recognised",
+      "121.28",
+      null,
+      "1.49",
+      null,
+      "31.59"
+    ],
+    [
+      "Reductions arising from payments",
+      "(112.33)",
+      null,
+      "(0.92)",
+      null,
+      "(28.12)"
+    ],
+    [
+      "Changes arising from remeasurement",
+      "25.62",
+      null,
+      "(1.22)",
+      null,
+      "-"
+    ],
+    [
+      "Others [refer note 24.4]",
+      "(445.95)",
+      null,
+      "-",
+      null,
+      "-"
+    ],
+    [
+      "Balance at 31.03.2022",
+      "18.99",
+      null,
+      "12.48",
+      null,
+      "35.35"
+    ],
+    [
+      "Additional provisions recognised",
+      "84.41",
+      null,
+      "1.49",
+      null,
+      "11.65"
+    ],
+    [
+      "Reductions arising from payments",
+      "(52.25)",
+      null,
+      "(1.35)",
+      null,
+      "(23.99)"
+    ],
+    [
+      "Changes arising from remeasurement",
+      "(11.33)",
+      null,
+      "0.33",
+      null,
+      "-"
+    ],
+    [
+      "Others [refer note 24.4]",
+      "-",
+      null,
+      "-",
+      null,
+      "-"
+    ],
+    [
+      "Balance at 31.03.2023",
+      "39.82",
+      null,
+      "12.95",
+      null,
+      "23.01"
+    ]
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 112,
+  "table_index": 2,
+  "bbox": [
+    93.79323333333333,
+    217.27405,
+    547.6940181818181,
+    251.53199999999998
+  ],
+  "rows": [
+    [
+      "Name",
+      "Category",
+      "Position",
+      "Meeting held",
+      "Meeting attended"
+    ],
+    [
+      "Shri N. N. Sharma@@",
+      "Independent",
+      "Chairman",
+      "1",
+      "1"
+    ],
+    [
+      "Smt. Achla Sinha^^",
+      "Independent",
+      "Member",
+      "1",
+      "1"
+    ]
+  ]
+}

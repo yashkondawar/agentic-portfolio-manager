@@ -1,0 +1,134 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 158,
+  "table_index": 3,
+  "bbox": [
+    45.854,
+    369.4630000000001,
+    549.671,
+    584.9924000000001
+  ],
+  "rows": [
+    [
+      "10. B. Trade receivables ageing Amount in ` Crore",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "(a)",
+      "Ageing when due date of payment is specified",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "Outstanding from the due date of payment",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Sl.\nNo.",
+      "Particulars",
+      "",
+      "Less than\n6 months",
+      "6 months\n- 1 Years",
+      "1-2 Years",
+      "2-3 Years",
+      "More than\n3 Years",
+      "Total"
+    ],
+    [
+      "(i)",
+      "Undisputed Trade receivables- considered good",
+      "As on 31.03.2023\nAs on 31.03.2022",
+      "54.25\n45.89",
+      "16.97\n21.07",
+      "20.11\n2.83",
+      "-\n5.46",
+      "-\n-",
+      "91.33\n75.25"
+    ],
+    [
+      "(ii)",
+      "Undisputed Trade receivables- significant increase in credit risk",
+      "As on 31.03.2023\nAs on 31.03.2022",
+      "-\n-",
+      "-\n-",
+      "-\n-",
+      "-\n-",
+      "-\n-",
+      "-\n-"
+    ],
+    [
+      "(iii)",
+      "Undisputed Trade receivables- credit impaired",
+      "As on 31.03.2023\nAs on 31.03.2022",
+      "-\n-",
+      "0.55\n-",
+      "7.73\n0.74",
+      "1.87\n11.6",
+      "3.64\n7.9",
+      "13.79\n20.24"
+    ],
+    [
+      "(iv)",
+      "Disputed Trade receivables- considered good",
+      "As on 31.03.2023\nAs on 31.03.2022",
+      "-\n-",
+      "-\n-",
+      "-\n-",
+      "-\n-",
+      "-\n-",
+      "-\n-"
+    ],
+    [
+      "(v)",
+      "Disputed Trade receivables- significant increase in credit risk",
+      "As on 31.03.2023\nAs on 31.03.2022",
+      "-\n-",
+      "-\n-",
+      "-\n-",
+      "-\n-",
+      "-\n-",
+      "-\n-"
+    ],
+    [
+      "(vi)",
+      "Disputed Trade receivables- credit impaired",
+      "As on 31.03.2023\nAs on 31.03.2022",
+      "-\n-",
+      "-\n-",
+      "-\n-",
+      "-\n-",
+      "36.28\n36.90",
+      "36.28\n36.90"
+    ],
+    [
+      "",
+      "",
+      "Total as on 31.03.2023\nTotal as on 31.03.2022",
+      "54.25\n45.89",
+      "17.52\n21.07",
+      "27.84\n3.57",
+      "1.87\n17.06",
+      "39.92\n44.80",
+      "141.40\n132.39"
+    ]
+  ]
+}

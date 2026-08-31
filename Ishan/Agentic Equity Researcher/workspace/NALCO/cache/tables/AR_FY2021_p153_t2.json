@@ -1,0 +1,117 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 153,
+  "table_index": 2,
+  "bbox": [
+    56.9429,
+    115.27969999999993,
+    555.3406,
+    577.9997999999999
+  ],
+  "rows": [
+    [
+      "A.",
+      "Equity share capital"
+    ],
+    [
+      null,
+      "Balance as at 31.03.2019 932.81"
+    ],
+    [
+      null,
+      "Changes during the year —"
+    ],
+    [
+      null,
+      "Balance as at 31.03.2020 932.81"
+    ],
+    [
+      null,
+      "Changes during the year (14.49)"
+    ],
+    [
+      null,
+      "Balance as at 31.03.2021 918.32"
+    ],
+    [
+      "B.",
+      "Other equity Amount in ₹ Crore"
+    ],
+    [
+      null,
+      "Reserves and surplus"
+    ],
+    [
+      null,
+      "Other equity Capital redemption General reserve Retained earnings Total\nreserve"
+    ],
+    [
+      null,
+      "Balance as at 31.03.2019 355.81 8,112.98 1,082.91 9,551.70"
+    ],
+    [
+      null,
+      "Profit for the year — — 138.23 138.23"
+    ],
+    [
+      null,
+      "Other comprehensive income (net of taxes) — — (16.17) (16.17)"
+    ],
+    [
+      null,
+      "Total comprehensive income for the year — — 122.06 122.06"
+    ],
+    [
+      null,
+      "Final dividend for the previous year — — (233.20) (233.20)"
+    ],
+    [
+      null,
+      "Tax on final dividend for the previous year (47.94) (47.94)"
+    ],
+    [
+      null,
+      "Interim dividend for the year (279.84) (279.84)"
+    ],
+    [
+      null,
+      "Tax on interim dividend for the year (57.52) (57.52)"
+    ],
+    [
+      null,
+      "Balance as at 31.03.2020 355.81 8,112.98 586.47 9,055.26"
+    ],
+    [
+      null,
+      "Profit for the year — — 1,299.53 1,299.53"
+    ],
+    [
+      null,
+      "Other comprehensive income (net of taxes) — — 23.83 23.83"
+    ],
+    [
+      null,
+      "Total comprehensive income for the year — — 1,323.36 1,323.36"
+    ],
+    [
+      null,
+      "Premium on Buy-back of equity shares (152.18) — (152.18)"
+    ],
+    [
+      null,
+      "Expenses on Buy-back of equity shares (net of tax benefit) (3.45) — (3.45)"
+    ],
+    [
+      null,
+      "Transfer of General Reserve to Capital redemption reserve 14.49 (14.49) — —"
+    ],
+    [
+      null,
+      "Interim dividend for the year (460.61) (460.61)"
+    ],
+    [
+      null,
+      "Balance as at 31.03.2021 370.30 7,942.86 1,449.22 9,762.38"
+    ]
+  ]
+}

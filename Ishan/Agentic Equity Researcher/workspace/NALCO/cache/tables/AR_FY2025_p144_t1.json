@@ -1,0 +1,38 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 144,
+  "table_index": 1,
+  "bbox": [
+    85.2892375,
+    105.8012,
+    542.466811111111,
+    174.881
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "FY 2024-25",
+      "FY 2023-24"
+    ],
+    [
+      "Administrative and office expenses",
+      "149.69",
+      "133.16"
+    ],
+    [
+      "Total expenses",
+      "10,009.54",
+      "11,043.10"
+    ],
+    [
+      "Administrative and office expenses as a % of total expenses",
+      "1.50%",
+      "1.20%"
+    ],
+    [
+      "Financial expenses",
+      "58.97",
+      "17.21"
+    ]
+  ]
+}

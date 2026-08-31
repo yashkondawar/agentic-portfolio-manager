@@ -1,0 +1,137 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 180,
+  "table_index": 2,
+  "bbox": [
+    45.52746,
+    290.1024500000001,
+    473.10200000000003,
+    691.529
+  ],
+  "rows": [
+    [
+      "",
+      "Year ended 31.03.2022"
+    ],
+    [
+      "Finished goods",
+      ""
+    ],
+    [
+      "Opening stock",
+      ""
+    ],
+    [
+      "(1) Bauxite",
+      "4.34"
+    ],
+    [
+      "(2) Chemical",
+      "232.28"
+    ],
+    [
+      "(3) Aluminium",
+      "227.81"
+    ],
+    [
+      "Opening stock",
+      "464.43"
+    ],
+    [
+      "Total opening stock of finished goods",
+      "464.43"
+    ],
+    [
+      "Less:",
+      ""
+    ],
+    [
+      "Closing stock",
+      ""
+    ],
+    [
+      "(1) Bauxite",
+      "18.54"
+    ],
+    [
+      "(2) Chemical",
+      "253.91"
+    ],
+    [
+      "(3) Aluminium",
+      "270.02"
+    ],
+    [
+      "Closing stock",
+      "542.47"
+    ],
+    [
+      "Total Closing stock of finished goods",
+      "542.47"
+    ],
+    [
+      "(Accretion)/Depletion in finished goods",
+      "(78.04)"
+    ],
+    [
+      "Intermediaries",
+      ""
+    ],
+    [
+      "Opening stock",
+      ""
+    ],
+    [
+      "Anodes",
+      "100.83"
+    ],
+    [
+      "Others",
+      "17.74"
+    ],
+    [
+      "Total opening stock of intermediaries",
+      "118.57"
+    ],
+    [
+      "Less: Closing stock",
+      ""
+    ],
+    [
+      "Anodes",
+      "113.19"
+    ],
+    [
+      "Others",
+      "23.48"
+    ],
+    [
+      "Total closing stock of intermediaries",
+      "136.67"
+    ],
+    [
+      "(Accretion)/depletion in intermediaries",
+      "(18.10)"
+    ],
+    [
+      "Work-in-process",
+      ""
+    ],
+    [
+      "Opening stock",
+      "298.35"
+    ],
+    [
+      "Less: Closing stock",
+      "319.04"
+    ],
+    [
+      "(Accretion)/depletion in work in process",
+      "(20.69)"
+    ],
+    [
+      "Total (Accretion)/Depletion in inventory",
+      "(116.83)"
+    ]
+  ]
+}

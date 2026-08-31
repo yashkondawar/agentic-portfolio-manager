@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 203,
+  "table_index": 2,
+  "bbox": [
+    51.27364285714286,
+    412.34275,
+    542.7264285714285,
+    481.42208
+  ],
+  "rows": [
+    [
+      "",
+      "Particulars",
+      "As at 31.03.2025",
+      "As at 31.03.2024"
+    ],
+    [
+      "(a)",
+      "Balances with banks",
+      null,
+      null
+    ],
+    [
+      "",
+      "(1) Balances with scheduled banks",
+      null,
+      null
+    ],
+    [
+      null,
+      "-In current accounts",
+      "121.40",
+      "43.49"
+    ],
+    [
+      "Total cash and cash equivalents",
+      null,
+      "121.40",
+      "43.49"
+    ]
+  ]
+}

@@ -1,0 +1,559 @@
+# Sector registry — THE single source of truth for sector routing.
+#
+# Before this file existed, the 8 valid sector slugs were duplicated by hand in four
+# places (prompts/02_triage_rules.md T2, config/agent_config.yaml's comment, README.md,
+# CLAUDE.md) with nothing keeping them in sync, and schema/valuation_handoff.schema.json
+# typed `sector_pack` as a bare string with no enum — so a typo'd or invented pack name
+# validated cleanly and silently.
+#
+# Consumers:
+#   prompts/02_triage_rules.md          T2 classification (family + playbook + confidence)
+#   prompts/03_business_model_...       KPI-tree seeding from signature_kpis
+#   tools/compute_kpis.py               --playbook: signature_kpis coverage check
+#   tools/compute_ratios.py             --family: skip_ratios suppression
+#   tools/validate_sector_registry.py   integrity check — run after ANY edit
+#   schema/valuation_handoff.schema.json  enum kept in sync with families
+#
+# TWO TIERS:
+#   families  — 8 broad routing packs (prompts/sector_packs/<slug>.md). Coarse, stable;
+#               `sector_pack` in the handoff still records one of these.
+#   playbooks — deep sub-sector playbooks (prompts/sector_playbooks/<slug>.md). A family
+#               answers "which statements, which lenses"; a playbook answers "what exactly
+#               do I compute, in what order, and what does good look like".
+#
+# KEYWORD PRECISION WARNING (learned the hard way in tools/er_corpus/fetch_corpus.py):
+# an early sector classifier used the bare token `APE` for BFSI's annualised premium
+# equivalent. It matched "ape" and "apex" 44 times inside a transmission-conductor note
+# and routed a capital-goods company to BFSI. NEVER use a bare 2-4 letter acronym as a
+# keyword. Prefer multi-word phrases that occur in essentially one sector.
+#
+# `status: authored` = the playbook file exists. `status: pending` = the routing entry is
+# live (so triage degrades to the family pack, not to `generic`) but the deep playbook is
+# not yet written. validate_sector_registry.py reports pending entries as INFO, and errors
+# only when an `authored` entry has no file.
+#
+# ALL 32 PLAYBOOKS ARE `authored` as of 2026-08-03. `pending` remains a valid status for
+# future additions; no entry currently uses it.
+#
+# WHAT THIS FILE DOES *NOT* CARRY — one fact, one home:
+#   valuation convention  -> `prompts/sector_playbooks/<slug>.md`, section
+#                            "## Valuation convention" (with its traps, and the corpus
+#                            note it is anchored to). Until 2026-08-03 this file also
+#                            carried a one-line prose summary per playbook; that made the
+#                            registry a second, shorter, drifting copy of the playbook's
+#                            own section, so it was removed. E11 in
+#                            validate_sector_registry.py fails the build if it comes back.
+#   analysis sequence, exhibit set, forensic screens -> the playbook file, same reason.
+# What stays here is only what a MACHINE routes or checks on: family, status, keywords,
+# signature_kpis (the coverage contract tools/compute_kpis.py enforces),
+# unit_denominator, and the interpretation frame (primary_multiple,
+# secondary_multiples, multiple_conditioners).
+#
+# THE INTERPRETATION FRAME (added 2026-08-11) — and why it is not an E11 violation.
+# docs/OPINION_VS_ANALYSIS.md section 7 says a reading is `fact + conditioning variable +
+# sector convention -> verdict`. The *convention prose* stays in the playbook, where E11
+# put it. What lives here is only the machine form a tool can route on: which multiple is
+# primary, which are secondary cross-checks, and which conditioning variables decide the
+# reading in this sub-sector. Three tokens, no sentences. `multiple_conditioners` draws
+# from the closed vocabulary below — E12 requires an authored playbook to declare a
+# primary_multiple and at least one conditioner, E13 rejects a token outside the
+# vocabulary. Downstream: prompts/33 seeds state/interpretation_ledger.json from it, and
+# the fund repo's src/afund/research/er_adapter.py reads it into the buy-side packet.
+
+version: 1
+updated: "2026-08-11"
+derived_from: docs/ER_CORPUS_FINDINGS.md
+
+# The closed vocabularies the interpretation frame draws on. Closed so that readings are
+# comparable across notes and machine-checkable; the prose definitions, with the question
+# each conditioner answers, are docs/OPINION_VS_ANALYSIS.md section 7.4.
+interpretation_vocabulary:
+  conditioning_variables:
+    - growth_rate              # is the multiple justified by the LEVEL of growth (PEG)?
+    - growth_durability        # for how many years must it hold, and has it ever?
+    - incremental_roce         # what does the MARGINAL rupee of capital earn?
+    - sustainable_roe          # what through-cycle return does a P/B or P/ABV capitalise?
+    - cycle_position           # trough, mid-cycle or peak earnings base?
+    - earnings_base_quality    # adjusted vs reported, attributable vs headline, one-offs
+    - capital_intensity        # asset-heavy or asset-light; what does replacement cost say?
+    - terminal_value_share     # how much value sits beyond the forecast horizon?
+    - balance_sheet_risk       # does leverage, funding cost or covenant change the verdict?
+    - accounting_basis         # Ind-AS 116, standalone vs consolidated, fiscal-base mismatch
+    - own_history_anchor       # how is this priced against its own multiple band?
+    - peer_set_choice          # which comparables define "the peers", and who chose them?
+  multiples:
+    - pe_forward
+    - pe_midcycle
+    - pe_executed_earnings     # order book converted at a historical execution rate first
+    - pe_core_adjusted         # "core" EPS — the adjustment list must be published
+    - peg
+    - ev_ebitda_forward
+    - ev_ebitda_midcycle
+    - ev_ebitda_runrate
+    - ev_sales
+    - ev_gmv
+    - ev_pre_sales
+    - ev_per_tonne
+    - ev_per_key
+    - ev_per_bed
+    - ev_per_scm
+    - p_abv                    # adjusted book value — nets off net NPAs
+    - p_b
+    - p_bv_regulated           # regulated equity base, not reported book
+    - p_ev                     # embedded value (life insurance only)
+    - appraisal_value          # EV + n x VNB
+    - pct_of_aaum
+    - dcf
+    - sotp
+    - nav_gav
+    - cap_rate
+    - replacement_cost
+
+families:
+  bfsi:
+    display: "Banking, Financial Services & Insurance"
+    pack: prompts/sector_packs/bfsi.md
+    bfsi_statements: true
+    skip_ratios: [inventory_days, receivable_days, payable_days, cash_conversion_cycle,
+                  ebitda_margin, ev_ebitda, asset_turnover]
+    primary_multiple: p_b
+    secondary_multiples: [p_abv, p_ev, pe_forward]
+    multiple_conditioners: [sustainable_roe, balance_sheet_risk, earnings_base_quality]
+  consumer_retail:
+    display: "Consumer, Retail & Hospitality"
+    pack: prompts/sector_packs/consumer_retail.md
+    bfsi_statements: false
+    primary_multiple: pe_forward
+    secondary_multiples: [ev_ebitda_forward, dcf]
+    multiple_conditioners: [growth_durability, incremental_roce, accounting_basis]
+  commodities_energy:
+    display: "Commodities, Energy & Utilities"
+    pack: prompts/sector_packs/commodities_energy.md
+    bfsi_statements: false
+    primary_multiple: ev_ebitda_midcycle
+    secondary_multiples: [ev_per_tonne, sotp, replacement_cost]
+    multiple_conditioners: [cycle_position, capital_intensity, earnings_base_quality]
+  it_technology:
+    display: "IT, Technology & Digital"
+    pack: prompts/sector_packs/it_technology.md
+    bfsi_statements: false
+    primary_multiple: pe_forward
+    secondary_multiples: [ev_sales, ev_ebitda_forward]
+    multiple_conditioners: [growth_rate, growth_durability, own_history_anchor]
+  pharma_chemicals:
+    display: "Pharma, Healthcare & Chemicals"
+    pack: prompts/sector_packs/pharma_chemicals.md
+    bfsi_statements: false
+    primary_multiple: pe_forward
+    secondary_multiples: [ev_ebitda_forward, sotp]
+    multiple_conditioners: [peer_set_choice, earnings_base_quality, growth_durability]
+  auto_engineering:
+    display: "Autos, Engineering & Manufacturing"
+    pack: prompts/sector_packs/auto_engineering.md
+    bfsi_statements: false
+    primary_multiple: pe_forward
+    secondary_multiples: [ev_ebitda_forward, sotp, peg]
+    multiple_conditioners: [cycle_position, growth_durability, incremental_roce]
+  infra_capital_goods:
+    display: "Infrastructure & Capital Goods"
+    pack: prompts/sector_packs/infra_capital_goods.md
+    bfsi_statements: false
+    primary_multiple: sotp
+    secondary_multiples: [pe_executed_earnings, nav_gav, ev_ebitda_forward]
+    multiple_conditioners: [balance_sheet_risk, earnings_base_quality, terminal_value_share]
+  generic:
+    display: "Generic / conglomerate / uncovered"
+    pack: prompts/sector_packs/generic.md
+    bfsi_statements: false
+    primary_multiple: pe_forward
+    secondary_multiples: [ev_ebitda_forward, sotp, dcf]
+    multiple_conditioners: [peer_set_choice, own_history_anchor, earnings_base_quality]
+
+playbooks:
+
+  # ---------------- BFSI ----------------
+  banks_private:
+    family: bfsi
+    status: authored
+    keywords: ["scheduled commercial bank", "casa ratio", "net interest margin",
+               "priority sector lending", "deposit franchise", "savings account deposits"]
+    signature_kpis: [net_interest_margin_pct, casa_ratio_pct, credit_cost_pct,
+                     cost_to_income_pct, gnpa_pct, roa_pct, advances_growth_pct]
+    unit_denominator: per_rupee_of_average_assets
+    primary_multiple: p_abv
+    secondary_multiples: [pe_forward, sotp]
+    multiple_conditioners: [sustainable_roe, earnings_base_quality, balance_sheet_risk]
+
+  nbfc_diversified:
+    family: bfsi
+    status: authored
+    keywords: ["non-banking financial company", "upper layer nbfc", "assets under management",
+               "cost of borrowings", "disbursement", "loan against property", "vehicle finance"]
+    signature_kpis: [cost_of_funds_pct, credit_cost_pct, nim_pct, roa_pct,
+                     average_ticket_size_inr, aum_growth_pct]
+    unit_denominator: per_rupee_of_average_aum
+    primary_multiple: p_b
+    secondary_multiples: [pe_forward]
+    multiple_conditioners: [sustainable_roe, cycle_position, balance_sheet_risk]
+
+  housing_finance:
+    family: bfsi
+    status: authored
+    keywords: ["housing finance company", "home loan", "loan to value", "national housing bank"]
+    signature_kpis: [spread_pct, cost_of_funds_pct, gnpa_pct, ltv_pct, aum_growth_pct, roa_pct]
+    unit_denominator: per_rupee_of_average_aum
+    primary_multiple: p_b
+    secondary_multiples: [pe_forward]
+    multiple_conditioners: [sustainable_roe, balance_sheet_risk, own_history_anchor]
+
+  microfinance:
+    family: bfsi
+    status: authored
+    keywords: ["joint liability group", "microfinance", "microfinance institutions network", "collection efficiency",
+               "borrower per loan officer"]
+    signature_kpis: [collection_efficiency_pct, credit_cost_pct, par_30_pct,
+                     borrowers_per_officer, yield_pct]
+    unit_denominator: per_borrower
+    primary_multiple: p_b
+    secondary_multiples: []
+    multiple_conditioners: [sustainable_roe, cycle_position, earnings_base_quality]
+
+  life_insurance:
+    family: bfsi
+    status: authored
+    keywords: ["value of new business", "annualised premium equivalent", "persistency ratio",
+               "embedded value", "solvency ratio", "protection mix"]
+    signature_kpis: [vnb_margin_pct, ape_growth_pct, persistency_61m_pct,
+                     embedded_value_inr, solvency_ratio_x]
+    unit_denominator: per_policy
+    primary_multiple: p_ev
+    secondary_multiples: [appraisal_value]
+    multiple_conditioners: [growth_durability, earnings_base_quality, terminal_value_share]
+
+  general_health_insurance:
+    family: bfsi
+    status: authored
+    keywords: ["combined ratio", "loss ratio", "claims ratio", "gross written premium",
+               "incurred claims", "underwriting profit"]
+    signature_kpis: [combined_ratio_pct, loss_ratio_pct, expense_ratio_pct,
+                     gwp_growth_pct, investment_yield_pct]
+    unit_denominator: per_policy
+    primary_multiple: p_b
+    secondary_multiples: [pe_forward]
+    multiple_conditioners: [sustainable_roe, earnings_base_quality, peer_set_choice]
+
+  amc_capital_market_infra:
+    family: bfsi
+    status: authored
+    keywords: ["asset management company", "average assets under management",
+               "systematic investment plan", "depository participant", "clearing corporation"]
+    signature_kpis: [aaum_inr_cr, yield_bps, equity_mix_pct, operating_margin_pct, sip_flow_inr_cr]
+    unit_denominator: per_rupee_of_aaum
+
+  # ---------------- Consumer, retail & hospitality ----------------
+    primary_multiple: pe_forward
+    secondary_multiples: [pct_of_aaum, sotp]
+    multiple_conditioners: [growth_durability, peer_set_choice, earnings_base_quality]
+  fmcg:
+    family: consumer_retail
+    status: authored
+    keywords: ["general trade", "modern trade", "direct reach", "advertising and promotion",
+               "premiumisation", "rural growth", "outlets covered"]
+    signature_kpis: [volume_growth_pct, gross_margin_pct, ad_spend_pct_of_sales,
+                     direct_reach_outlets, ebitda_margin_pct]
+    unit_denominator: per_case
+    primary_multiple: pe_forward
+    secondary_multiples: []
+    multiple_conditioners: [incremental_roce, growth_durability, peer_set_choice]
+
+  apparel_grocery_retail:
+    family: consumer_retail
+    status: authored
+    keywords: ["same store sales growth", "like for like sales", "revenue per square feet",
+               "store additions", "footfall", "bill value"]
+    signature_kpis: [sssg_pct, revenue_per_sqft_inr, store_count, store_ebitda_margin_pct,
+                     inventory_turns_x]
+    unit_denominator: per_store
+    primary_multiple: ev_ebitda_forward
+    secondary_multiples: [pe_forward]
+    multiple_conditioners: [accounting_basis, capital_intensity, peer_set_choice]
+
+  qsr:
+    family: consumer_retail
+    status: authored
+    keywords: ["average daily sales", "same store sales growth", "dine-in", "delivery mix",
+               "restaurant operating margin", "store payback"]
+    signature_kpis: [sssg_pct, average_daily_sales_inr, store_ebitda_margin_pct,
+                     store_count, store_payback_years]
+    unit_denominator: per_store
+    primary_multiple: ev_ebitda_forward
+    secondary_multiples: [dcf]
+    multiple_conditioners: [accounting_basis, incremental_roce, capital_intensity]
+
+  hotels:
+    family: consumer_retail
+    status: authored
+    keywords: ["average room rate", "revpar", "room nights", "hotel occupancy",
+               "managed keys", "owned keys", "operational keys"]
+    signature_kpis: [arr_inr, occupancy_pct, revpar_inr, ebitda_per_key_inr,
+                     cost_per_key_vs_replacement_pct]
+    unit_denominator: per_key
+
+  # ---------------- Commodities, energy & utilities ----------------
+    primary_multiple: ev_ebitda_forward
+    secondary_multiples: [dcf, ev_per_key, replacement_cost]
+    multiple_conditioners: [earnings_base_quality, capital_intensity, cycle_position]
+  ferrous_non_ferrous_metals:
+    family: commodities_energy
+    status: authored
+    keywords: ["ebitda per tonne", "cost of production per tonne", "realisation per tonne",
+               "cost curve", "captive mine", "blended realisation"]
+    signature_kpis: [ebitda_per_tonne_inr, cost_of_production_per_tonne_inr,
+                     realisation_per_tonne_inr, capacity_utilisation_pct, captive_rm_pct]
+    unit_denominator: per_tonne
+    primary_multiple: ev_ebitda_midcycle
+    secondary_multiples: [replacement_cost, pe_forward]
+    multiple_conditioners: [cycle_position, capital_intensity, earnings_base_quality]
+
+  cement:
+    family: commodities_energy
+    status: authored
+    keywords: ["clinker", "grinding capacity", "lead distance", "blended cement",
+               "ebitda per tonne", "pet coke"]
+    signature_kpis: [ebitda_per_tonne_inr, realisation_per_tonne_inr, capacity_utilisation_pct,
+                     lead_distance_km, clinker_factor_x]
+    unit_denominator: per_tonne
+    primary_multiple: ev_per_tonne
+    secondary_multiples: [ev_ebitda_midcycle]
+    multiple_conditioners: [cycle_position, capital_intensity, peer_set_choice]
+
+  power_utilities:
+    family: commodities_energy
+    status: authored
+    keywords: ["plant load factor", "power purchase agreement", "merchant tariff",
+               "regulated equity", "availability based tariff", "fuel cost pass through"]
+    signature_kpis: [plf_pct, tariff_inr_per_kwh, regulated_equity_inr_cr,
+                     receivable_days_from_discoms, ppa_tenure_years]
+    unit_denominator: per_mw
+    primary_multiple: sotp
+    secondary_multiples: [p_bv_regulated, ev_ebitda_forward]
+    multiple_conditioners: [sustainable_roe, terminal_value_share, balance_sheet_risk]
+
+  renewables:
+    family: commodities_energy
+    status: authored
+    keywords: ["capacity utilisation factor", "solar module", "wafer", "topcon",
+               "domestic content requirement", "ists waiver", "gigawatt"]
+    signature_kpis: [capacity_gw, capacity_utilisation_pct, realisation_per_watt_inr,
+                     order_book_gw, ebitda_per_watt_inr]
+    unit_denominator: per_watt_or_per_mw
+    primary_multiple: ev_ebitda_forward
+    secondary_multiples: [pe_forward, peg, dcf]
+    multiple_conditioners: [growth_rate, growth_durability, terminal_value_share]
+
+  oil_gas_cgd:
+    family: commodities_energy
+    status: authored
+    keywords: ["gross refining margin", "crack spread", "apm gas", "city gas distribution",
+               "cng volumes", "png connections", "mmscmd", "reserve replacement"]
+    signature_kpis: [gross_refining_margin_usd_bbl, ebitda_per_scm_inr, volumes_mmscmd,
+                     marketing_margin_inr, reserve_replacement_ratio_x]
+    unit_denominator: per_scm_or_per_barrel
+
+  # ---------------- IT & technology ----------------
+    primary_multiple: sotp
+    secondary_multiples: [ev_ebitda_midcycle, dcf, ev_per_scm]
+    multiple_conditioners: [cycle_position, terminal_value_share, earnings_base_quality]
+  it_services:
+    family: it_technology
+    status: authored
+    keywords: ["constant currency", "total contract value", "offshore mix", "utilisation rate",
+               "attrition", "revenue per employee", "large deal wins"]
+    signature_kpis: [cc_revenue_growth_pct, ebit_margin_pct, utilisation_pct,
+                     attrition_ltm_pct, revenue_per_employee_usd, tcv_usd_mn]
+    unit_denominator: per_employee
+    primary_multiple: pe_forward
+    secondary_multiples: []
+    multiple_conditioners: [growth_rate, growth_durability, own_history_anchor]
+
+  internet_platforms:
+    family: it_technology
+    status: authored
+    keywords: ["gross merchandise value", "take rate", "contribution margin",
+               "monthly transacting users", "customer acquisition cost", "net revenue retention"]
+    signature_kpis: [gmv_inr_cr, take_rate_pct, contribution_margin_pct,
+                     mtu_mn, adjusted_ebitda_margin_pct]
+    unit_denominator: per_transacting_user
+
+  # ---------------- Pharma, healthcare & chemicals ----------------
+    primary_multiple: ev_sales
+    secondary_multiples: [ev_gmv, ev_ebitda_forward, dcf]
+    multiple_conditioners: [growth_durability, terminal_value_share, earnings_base_quality]
+  pharma_generics:
+    family: pharma_chemicals
+    status: authored
+    keywords: ["abbreviated new drug application", "para iv", "first to file", "usfda",
+               "import alert", "price erosion", "warning letter"]
+    signature_kpis: [us_revenue_share_pct, gross_margin_pct, rd_pct_of_sales,
+                     anda_pending_count, facility_compliance_status]
+    unit_denominator: per_molecule
+    primary_multiple: pe_core_adjusted
+    secondary_multiples: [ev_ebitda_forward]
+    multiple_conditioners: [earnings_base_quality, peer_set_choice, growth_durability]
+
+  cdmo_cramps:
+    family: pharma_chemicals
+    status: authored
+    keywords: ["contract development and manufacturing", "custom synthesis", "cramps",
+               "commercial molecules", "validation batches", "customer patent cliff"]
+    signature_kpis: [commercial_molecule_count, revenue_concentration_top5_pct,
+                     contracted_revenue_share_pct, capacity_utilisation_pct, gross_margin_pct]
+    unit_denominator: per_molecule
+    primary_multiple: pe_forward
+    secondary_multiples: [ev_ebitda_forward]
+    multiple_conditioners: [growth_durability, peer_set_choice, earnings_base_quality]
+
+  specialty_chemicals:
+    family: pharma_chemicals
+    status: authored
+    keywords: ["specialty chemical", "agrochemical", "soda ash", "caustic soda",
+               "fluorochemical", "kilo tonnes per annum", "china plus one", "chemical intermediate"]
+    signature_kpis: [ebitda_per_tonne_inr, realisation_per_tonne_inr, capacity_utilisation_pct,
+                     contracted_revenue_share_pct, revenue_concentration_top5_pct]
+    unit_denominator: per_tonne
+    primary_multiple: sotp
+    secondary_multiples: [ev_ebitda_forward, pe_forward]
+    multiple_conditioners: [peer_set_choice, cycle_position, earnings_base_quality]
+
+  hospitals:
+    family: pharma_chemicals
+    status: authored
+    keywords: ["arpob", "average length of stay", "occupied bed", "operational beds",
+               "bed addition", "payor mix", "ayushman"]
+    signature_kpis: [arpob_inr_per_bed_day, occupancy_pct, alos_days,
+                     ebitda_per_bed_inr, operational_beds_count]
+    unit_denominator: per_bed
+    primary_multiple: ev_ebitda_forward
+    secondary_multiples: [dcf, ev_per_bed]
+    multiple_conditioners: [capital_intensity, earnings_base_quality, terminal_value_share]
+
+  diagnostics:
+    family: pharma_chemicals
+    status: authored
+    keywords: ["test volumes", "realisation per test", "patient volumes", "collection centres",
+               "b2c mix", "accession"]
+    signature_kpis: [test_volume_mn, realisation_per_test_inr, patients_mn,
+                     collection_centre_count, ebitda_margin_pct]
+    unit_denominator: per_test
+
+  # ---------------- Autos & engineering ----------------
+    primary_multiple: ev_ebitda_forward
+    secondary_multiples: [dcf]
+    multiple_conditioners: [growth_durability, incremental_roce, capital_intensity]
+  auto_oem:
+    family: auto_engineering
+    status: authored
+    keywords: ["society of indian automobile manufacturers", "vahan portal", "passenger vehicle volume", "two-wheeler volume",
+               "commercial vehicle volume", "dealer inventory", "discounts per vehicle"]
+    signature_kpis: [volume_growth_pct, realisation_per_vehicle_inr, ebitda_per_vehicle_inr,
+                     market_share_pct, dealer_inventory_days]
+    unit_denominator: per_vehicle
+    primary_multiple: pe_midcycle
+    secondary_multiples: [ev_ebitda_forward, sotp]
+    multiple_conditioners: [cycle_position, earnings_base_quality, peer_set_choice]
+
+  auto_ancillary:
+    family: auto_engineering
+    status: authored
+    keywords: ["content per vehicle", "kit value", "platform win", "tooling",
+               "aftermarket mix", "order book auto"]
+    signature_kpis: [content_per_vehicle_inr, customer_concentration_top5_pct,
+                     ev_revenue_share_pct, capacity_utilisation_pct, ebitda_margin_pct]
+    unit_denominator: per_vehicle
+    primary_multiple: pe_forward
+    secondary_multiples: []
+    multiple_conditioners: [growth_durability, incremental_roce, own_history_anchor]
+
+  electronics_manufacturing:
+    family: auto_engineering
+    status: authored
+    keywords: ["electronics manufacturing services", "original design manufacturer", "printed circuit board assembly",
+               "production linked incentive", "smt lines"]
+    signature_kpis: [odm_revenue_share_pct, inventory_turns_x, customer_concentration_top5_pct,
+                     capacity_utilisation_pct, working_capital_days]
+    unit_denominator: per_unit
+    primary_multiple: pe_forward
+    secondary_multiples: [peg, ev_ebitda_forward]
+    multiple_conditioners: [growth_rate, growth_durability, incremental_roce]
+
+  defence_manufacturing:
+    family: auto_engineering
+    status: authored
+    keywords: ["indigenisation list", "ministry of defence", "offset obligation",
+               "order book defence", "emergency procurement"]
+    signature_kpis: [order_book_inr_cr, book_to_bill_x, execution_rate_pct,
+                     govt_receivable_days, ebitda_margin_pct]
+    unit_denominator: per_order
+
+  # ---------------- Infrastructure & capital goods ----------------
+    primary_multiple: pe_executed_earnings
+    secondary_multiples: []
+    multiple_conditioners: [growth_durability, earnings_base_quality, incremental_roce]
+  epc_construction:
+    family: infra_capital_goods
+    status: authored
+    keywords: ["order book", "order inflow", "book to bill", "engineering procurement construction",
+               "hybrid annuity", "l1 position", "bid pipeline"]
+    signature_kpis: [order_book_inr_cr, book_to_bill_x, execution_rate_pct,
+                     working_capital_days, contingent_liabilities_pct_networth]
+    unit_denominator: per_project
+    primary_multiple: pe_executed_earnings
+    secondary_multiples: [sotp, p_b]
+    multiple_conditioners: [balance_sheet_risk, earnings_base_quality, capital_intensity]
+
+  capital_goods_electrical:
+    family: infra_capital_goods
+    status: authored
+    keywords: ["transmission and distribution", "conductor", "transformer", "switchgear",
+               "power cable", "order book capital goods"]
+    signature_kpis: [order_book_inr_cr, capacity_utilisation_pct, realisation_per_tonne_inr,
+                     ebitda_per_tonne_inr, export_share_pct]
+    unit_denominator: per_tonne
+    primary_multiple: sotp
+    secondary_multiples: [pe_forward]
+    multiple_conditioners: [peer_set_choice, growth_durability, earnings_base_quality]
+
+  real_estate:
+    family: infra_capital_goods
+    status: authored
+    keywords: ["pre-sales", "booking value", "saleable area", "launch pipeline",
+               "unsold inventory", "land bank", "collections"]
+    signature_kpis: [presales_inr_cr, realisation_per_sqft_inr, area_sold_msf,
+                     collections_inr_cr, net_debt_to_operating_surplus_x]
+    unit_denominator: per_square_foot
+    primary_multiple: nav_gav
+    secondary_multiples: [sotp, dcf, cap_rate, ev_pre_sales]
+    multiple_conditioners: [terminal_value_share, balance_sheet_risk, accounting_basis]
+
+  logistics:
+    family: infra_capital_goods
+    status: authored
+    keywords: ["tonne kilometre", "fleet utilisation", "warehousing space", "throughput",
+               "express parcel", "rail coefficient", "twenty foot equivalent"]
+    signature_kpis: [volume_tonnes_or_teu, realisation_per_tonne_inr, fleet_utilisation_pct,
+                     warehouse_occupancy_pct, ebitda_margin_pct]
+    unit_denominator: per_tonne_km_or_per_teu
+
+  # ---------------- Fallback ----------------
+    primary_multiple: ev_ebitda_forward
+    secondary_multiples: [dcf]
+    multiple_conditioners: [capital_intensity, incremental_roce, growth_durability]
+  generic:
+    family: generic
+    status: authored
+    keywords: []
+    signature_kpis: []
+    unit_denominator: null
+    primary_multiple: pe_forward
+    secondary_multiples: [ev_ebitda_forward, sotp, dcf]
+    multiple_conditioners: [peer_set_choice, own_history_anchor, earnings_base_quality]

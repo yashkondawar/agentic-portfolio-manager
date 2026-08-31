@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "afund"
+version = "0.1.0"
+description = "AI-native, human-in-the-loop investment research platform (Phase 0 scaffold)."
+requires-python = ">=3.11,<3.14"
+readme = "README.md"
+dependencies = [
+    "pandas>=2.2,<2.4",
+    "requests",
+    "pydantic>=2.7",
+    "PyYAML",
+    "feedparser",
+    "beautifulsoup4",
+    "lxml",
+    "yfinance",
+    "ta",
+    "streamlit",
+    "plotly",
+    "python-dotenv",
+    "pypdf",
+    "markitdown>=0.1.6",
+    "pdfplumber>=0.11.10",
+    "bse>=3.3.0",
+    "openpyxl>=3.1",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+# Scope collection to the fund's own suite. Without this, bare `pytest -q`
+# walks the whole rootdir and also imports research/disclosure_fetcher/tests/
+# (a standalone script meant to be run directly with
+# `.venv\Scripts\python research/disclosure_fetcher/tests/test_offline.py`,
+# not pytest-discovered) — that import has module-level
+# `from disclosure_fetcher.llm_agent import ...`, which pollutes sys.modules
+# for the rest of the process and breaks
+# tests/test_research/test_disclosure_fetcher.py's
+# test_key_free_mode_never_imports_optional_deps (it has zero test_*
+# functions itself so it never shows up as a collected/failing test — just a
+# silent import side effect during collection).
+testpaths = ["tests"]

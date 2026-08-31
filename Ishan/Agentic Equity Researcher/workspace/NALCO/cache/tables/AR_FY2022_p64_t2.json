@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 64,
+  "table_index": 2,
+  "bbox": [
+    59.98733333333333,
+    549.479,
+    488.1885,
+    646.741
+  ],
+  "rows": [
+    [
+      "Description",
+      "2021-22",
+      "2020-21"
+    ],
+    [
+      "Aluminium Production (’000 MT)",
+      "4,032.6",
+      "3,629.9*"
+    ],
+    [
+      "Aluminium Domestic Sales (’000 MT)",
+      "1,568.0",
+      "1,347.3"
+    ],
+    [
+      "Aluminium Export Sales (’000 MT)",
+      "2,465.0",
+      "2,329.1*"
+    ],
+    [
+      "Aluminium Imports (’000 MT)",
+      "2,334.4",
+      "2,060.3"
+    ],
+    [
+      "Total Aluminium Consumption (’000 MT)",
+      "3,902.4",
+      "3,407.6"
+    ]
+  ]
+}

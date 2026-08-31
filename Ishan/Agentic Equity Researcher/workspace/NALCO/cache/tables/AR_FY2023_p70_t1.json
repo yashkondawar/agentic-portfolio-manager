@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 70,
+  "table_index": 1,
+  "bbox": [
+    45.335,
+    129.59750000000008,
+    549.8507142857143,
+    190.80500000000006
+  ],
+  "rows": [
+    [
+      "",
+      "Permanent employees (Executives)",
+      null,
+      "Permanent workers (non-Executives)",
+      null
+    ],
+    [
+      "Gender",
+      "Return to work rate",
+      "Retention rate",
+      "Return to work rate",
+      "Retention rate"
+    ],
+    [
+      "Male",
+      "100%",
+      "100%",
+      "100%",
+      "100%"
+    ],
+    [
+      "Female",
+      "100%",
+      "100%",
+      "100%",
+      "100%"
+    ],
+    [
+      "Total",
+      "100%",
+      "100%",
+      "100%",
+      "100%"
+    ]
+  ]
+}

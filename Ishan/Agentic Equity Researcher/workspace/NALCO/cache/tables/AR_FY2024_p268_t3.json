@@ -1,0 +1,73 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 268,
+  "table_index": 3,
+  "bbox": [
+    51.273664,
+    322.2321,
+    542.7255461538462,
+    488.023225
+  ],
+  "rows": [
+    [
+      "",
+      "As at 31.03.2024",
+      "As at 31.03.2023"
+    ],
+    [
+      "Financial Assets",
+      null,
+      null
+    ],
+    [
+      "Measured at fair value through profit or loss (FVTPL)",
+      null,
+      null
+    ],
+    [
+      "(a) Mandatorily measured:",
+      null,
+      null
+    ],
+    [
+      "(i) Investments in mutual funds",
+      "172.91",
+      "145.58"
+    ],
+    [
+      "(ii) Forward contract on foreign currency",
+      "Nil",
+      "Nil"
+    ],
+    [
+      "Measured at Amortised cost",
+      null,
+      null
+    ],
+    [
+      "(a) Cash and bank balances",
+      "43.49",
+      "63.29"
+    ],
+    [
+      "(b) Other financial assets at amortised cost",
+      "3,057.50",
+      "2,545.54"
+    ],
+    [
+      "",
+      "3,273.90",
+      "2,754.41"
+    ],
+    [
+      "Financial Liabilities",
+      null,
+      null
+    ],
+    [
+      "Measured at Amortised cost",
+      "2,633.44",
+      "2,179.34"
+    ]
+  ]
+}

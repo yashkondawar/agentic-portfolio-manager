@@ -1,0 +1,167 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 238,
+  "table_index": 3,
+  "bbox": [
+    71.11616285714285,
+    430.16541666666666,
+    546.8366628571428,
+    690.9899166666665
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      null,
+      "As at\n31.03.2021",
+      "As at\n31.03.2020"
+    ],
+    [
+      "Claims against the Company not acknowledged as debts",
+      null,
+      null,
+      "",
+      ""
+    ],
+    [
+      "a.",
+      "Demand from statutory authority",
+      null,
+      "",
+      ""
+    ],
+    [
+      null,
+      "1.",
+      "Odisha Sales tax",
+      "3.72",
+      "4.31"
+    ],
+    [
+      null,
+      "2.",
+      "Central Sales tax",
+      "281.01",
+      "281.01"
+    ],
+    [
+      null,
+      "3.",
+      "VAT",
+      "12.64",
+      "12.64"
+    ],
+    [
+      null,
+      "4.",
+      "Excise duty",
+      "410.44",
+      "410.44"
+    ],
+    [
+      null,
+      "5.",
+      "Custom duty",
+      "104.47",
+      "104.47"
+    ],
+    [
+      null,
+      "6.",
+      "Service tax",
+      "21.98",
+      "18.19"
+    ],
+    [
+      null,
+      "7.",
+      "Income tax",
+      "162.66",
+      "547.62"
+    ],
+    [
+      null,
+      "8.",
+      "Entry tax",
+      "221.37",
+      "221.37"
+    ],
+    [
+      null,
+      "9.",
+      "Road tax",
+      "2.65",
+      "2.65"
+    ],
+    [
+      null,
+      "10.",
+      "Stamp duty",
+      "0.51",
+      "0.51"
+    ],
+    [
+      null,
+      "11.",
+      "Claim From Govt. (NGT)",
+      "62.30",
+      "15.59"
+    ],
+    [
+      null,
+      "12.",
+      "Claim From PSUs",
+      "247.59",
+      "188.73"
+    ],
+    [
+      null,
+      "13.",
+      "Land acquisition and interest there on",
+      "73.73",
+      "88.20"
+    ],
+    [
+      null,
+      "14.",
+      "Dept. of mines Govt. of Odisha",
+      "136.32",
+      "136.32"
+    ],
+    [
+      null,
+      "15.",
+      "NPV related demand under Mining lease",
+      "—",
+      "92.45"
+    ],
+    [
+      null,
+      "16.",
+      "Water Resources Deptt. Govt. of Odisha for Water Conservation fund",
+      "119.24",
+      "119.24"
+    ],
+    [
+      "b.",
+      "Claim by contractors/suppliers and others",
+      null,
+      "",
+      "—"
+    ],
+    [
+      null,
+      "1.",
+      "Claims of Contractor’s suppliers and others",
+      "292.85",
+      "318.08"
+    ],
+    [
+      "Total",
+      null,
+      null,
+      "2,153.48",
+      "2561.82"
+    ]
+  ]
+}

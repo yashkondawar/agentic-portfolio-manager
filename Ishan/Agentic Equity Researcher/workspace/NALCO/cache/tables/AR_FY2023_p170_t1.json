@@ -1,0 +1,181 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 170,
+  "table_index": 1,
+  "bbox": [
+    45.979,
+    301.668,
+    549.546,
+    551.1136666666667
+  ],
+  "rows": [
+    [
+      "27.1 Movement of contingent liabilities Amount in ` Crore",
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      null,
+      "As at 31.03.2022",
+      "Reduction during the year",
+      "Addition during the year",
+      "As at 31.03.2023"
+    ],
+    [
+      "a.",
+      "Demand by statutory authority",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "1. Odisha Sales tax",
+      "4.09",
+      "(0.38)",
+      "-",
+      "3.71"
+    ],
+    [
+      null,
+      "2. Central Sales tax",
+      "280.55",
+      "(3.49)",
+      "0.46",
+      "277.52"
+    ],
+    [
+      null,
+      "3. VAT",
+      "12.64",
+      "(11.95)",
+      "-",
+      "0.69"
+    ],
+    [
+      null,
+      "4. Excise duty",
+      "410.44",
+      "-",
+      "-",
+      "410.44"
+    ],
+    [
+      null,
+      "5. Custom duty",
+      "102.77",
+      "(0.09)",
+      "-",
+      "102.67"
+    ],
+    [
+      null,
+      "6. Service tax",
+      "14.82",
+      "(1.73)",
+      "-",
+      "13.08"
+    ],
+    [
+      null,
+      "7. Income tax",
+      "223.75",
+      "(15.90)",
+      "2.42",
+      "210.27"
+    ],
+    [
+      null,
+      "8. Entry tax",
+      "222.21",
+      "(4.94)",
+      "-",
+      "217.28"
+    ],
+    [
+      null,
+      "9. Road tax",
+      "2.65",
+      "-",
+      "-",
+      "2.65"
+    ],
+    [
+      null,
+      "10. Stamp duty",
+      "0.51",
+      "-",
+      "-",
+      "0.51"
+    ],
+    [
+      null,
+      "11. Claim From Govt (NGT)",
+      "109.01",
+      "(109.01)",
+      "-",
+      "-"
+    ],
+    [
+      null,
+      "12. Claim From PSUs",
+      "322.92",
+      "-",
+      "100.30",
+      "423.21"
+    ],
+    [
+      null,
+      "13. Land acquisition and interest thereon",
+      "78.07",
+      "-",
+      "7.48",
+      "85.55"
+    ],
+    [
+      null,
+      "14. Demand from Dept. of mines Govt. of Odisha",
+      "136.32",
+      "-",
+      "-",
+      "136.32"
+    ],
+    [
+      null,
+      "15. Demand from Water Resources Deptt. Govt. of Odisha\nfor Water Conservation fund",
+      "119.24",
+      "-",
+      "-",
+      "119.24"
+    ],
+    [
+      "b.",
+      "Claim by contractors/suppliers and others",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "1. Claims of Contractor’s suppliers and others",
+      "338.41",
+      "(9.55)",
+      "30.30",
+      "359.15"
+    ],
+    [
+      null,
+      "Total",
+      "2,378.40",
+      "(157.04)",
+      "140.95",
+      "2,362.31"
+    ]
+  ]
+}

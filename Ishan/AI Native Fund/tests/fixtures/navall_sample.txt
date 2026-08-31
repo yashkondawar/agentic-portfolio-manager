@@ -1,0 +1,60 @@
+Scheme Code;ISIN Div Payout/ ISIN Growth;ISIN Div Reinvestment;Scheme Name;Net Asset Value;Date
+ 
+Open Ended Schemes(Debt Scheme - Banking and PSU Fund)
+ 
+Aditya Birla Sun Life Mutual Fund
+ 
+119551;INF209KA12Z1;INF209KA13Z9;Aditya Birla Sun Life Banking & PSU Debt Fund  - DIRECT - IDCW;106.7721;02-Jul-2026
+119552;INF209K01YM2;-;Aditya Birla Sun Life Banking & PSU Debt Fund  - DIRECT - MONTHLY IDCW;117.5476;02-Jul-2026
+119553;INF209K01YO8;-;Aditya Birla Sun Life Banking & PSU Debt Fund  - Direct - Quarterly IDCW;104.8065;02-Jul-2026
+108272;INF209K01LX6;INF209KA11Z3;Aditya Birla Sun Life Banking & PSU Debt Fund  - REGULAR - IDCW;149.4684;02-Jul-2026
+110282;INF209K01LU2;-;Aditya Birla Sun Life Banking & PSU Debt Fund  - REGULAR - MONTHLY IDCW;112.8330;02-Jul-2026
+108274;INF209K01LN7;-;Aditya Birla Sun Life Banking & PSU Debt Fund  - REGULAR - Quarterly IDCW;102.4077;02-Jul-2026
+108273;INF209K01LV0;-;Aditya Birla Sun Life Banking & PSU Debt Fund - Regular Plan-Growth;387.2057;02-Jul-2026
+119550;INF209K01YN0;-;Aditya Birla Sun Life Banking & PSU Debt Fund- Direct Plan-Growth;403.2338;02-Jul-2026
+ 
+Axis Mutual Fund
+ 
+128952;INF846K01NF8;-;Axis Banking & PSU Debt Fund - Direct Plan - Bonus Option;1532.8272;14-Jun-2017
+120437;-;INF846K01CU0;Axis Banking & PSU Debt Fund - Direct Plan - Daily IDCW;1039.1310;02-Jul-2026
+120438;INF846K01CR6;-;Axis Banking & PSU Debt Fund - Direct Plan - Growth Option;2886.8297;02-Jul-2026
+120439;INF846K01CT2;INF846K01CS4;Axis Banking & PSU Debt Fund - Direct Plan - Monthly IDCW;1037.1005;02-Jul-2026
+120436;INF846K01CV8;INF846K01CW6;Axis Banking & PSU Debt Fund - Direct Plan - Weekly IDCW;1041.0554;02-Jul-2026
+128953;INF846K01NG6;-;Axis Banking & PSU Debt Fund - Regular Plan - Bonus Option;1289.4075;18-May-2015
+117447;-;INF846K01CC8;Axis Banking & PSU Debt Fund - Regular Plan - Daily IDCW;1039.1303;02-Jul-2026
+117446;INF846K01CB0;-;Axis Banking & PSU Debt Fund - Regular Plan - Growth option;2791.6434;02-Jul-2026
+117449;INF846K01CF1;INF846K01CG9;Axis Banking & PSU Debt Fund - Regular Plan - Monthly IDCW;1037.0356;02-Jul-2026
+117448;INF846K01CD6;INF846K01CE4;Axis Banking & PSU Debt Fund - Regular Plan - Weekly IDCW;1041.0280;02-Jul-2026
+ 
+Bajaj Finserv Mutual Fund
+ 
+152164;INF0QA701649;INF0QA701631;Bajaj Finserv Banking and PSU Fund-  Direct Plan-Monthly- IDCW;11.0557;02-Jul-2026
+152163;INF0QA701615;INF0QA701623;Bajaj Finserv Banking and PSU Fund- Direct Plan- IDCW;12.1801;02-Jul-2026
+152165;INF0QA701557;-;Bajaj Finserv Banking and PSU Fund- Regular Plan- Growth;12.0050;02-Jul-2026
+152166;INF0QA701565;INF0QA701573;Bajaj Finserv Banking and PSU Fund- Regular Plan- IDCW;12.0050;02-Jul-2026
+152162;INF0QA701607;-;Bajaj Finserv Banking and PSU Fund-Direct Plan- Growth;12.1801;02-Jul-2026
+152167;INF0QA701599;INF0QA701581;Bajaj Finserv Banking and PSU Fund-Regular Plan-Monthly-IDCW;10.9840;02-Jul-2026
+ 
+Bandhan Mutual Fund
+ 
+121936;INF194K019M8;-;Bandhan Banking and PSU Fund - Direct Annual IDCW;12.3517;02-Jul-2026
+127471;-;INF194KA1JD3;Bandhan Banking and PSU Fund - Direct Daily IDCW;10.4768;02-Jul-2026
+121934;-;INF194K010N5;Bandhan Banking and PSU Fund - Direct Fortnightly IDCW;10.4642;02-Jul-2026
+121279;INF194K015G8;-;Bandhan Banking and PSU Fund - Direct Growth;26.9941;02-Jul-2026
+121281;INF194K016G6;INF194K017G4;Bandhan Banking and PSU Fund - Direct IDCW;14.1995;02-Jul-2026
+121935;-;INF194K011N3;Bandhan Banking and PSU Fund - Direct Monthly IDCW;10.4451;02-Jul-2026
+121938;INF194K018M0;-;Bandhan Banking and PSU Fund - Direct Quarterly IDCW;11.0180;02-Jul-2026
+121933;INF194K015M6;-;Bandhan Banking and PSU Fund - Regular Annual IDCW;11.3664;02-Jul-2026
+127470;-;INF194KA1JC5;Bandhan Banking and PSU Fund - Regular Daily IDCW;10.8788;02-Jul-2026
+121931;-;INF194K016M4;Bandhan Banking and PSU Fund - Regular Fortnightly IDCW;10.6201;02-Jul-2026
+121280;INF194K01SN6;-;Bandhan Banking and PSU Fund - Regular Growth;26.1502;02-Jul-2026
+121282;INF194K01SO4;INF194K012D2;Bandhan Banking and PSU Fund - Regular IDCW;14.1210;02-Jul-2026
+121932;-;INF194K017M2;Bandhan Banking and PSU Fund - Regular Monthly IDCW;10.6893;02-Jul-2026
+121937;INF194K014M9;-;Bandhan Banking and PSU Fund - Regular Quarterly IDCW;10.9137;02-Jul-2026
+ 
+Canara Robeco Mutual Fund
+ 
+150505;INF760K01KC4;-;Canara Robeco Banking and PSU Debt Fund- Direct Plan- Growth Option;12.8669;02-Jul-2026
+150507;INF760K01KE0;INF760K01KD2;Canara Robeco Banking and PSU Debt Fund- Direct Plan- IDCW Payout;10.7867;02-Jul-2026
+150503;INF760K01KF7;-;Canara Robeco Banking and PSU Debt Fund- Regular Plan- Growth Option;12.7171;02-Jul-2026
+150504;INF760K01KH3;INF760K01KG5;Canara Robeco Banking and PSU Debt Fund- Regular Plan- IDCW (Payout/ Reinvestment);10.6701;02-Jul-2026

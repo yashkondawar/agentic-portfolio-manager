@@ -1,0 +1,31 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 82,
+  "table_index": 1,
+  "bbox": [
+    51.2737375,
+    532.7411,
+    542.65949,
+    587.018
+  ],
+  "rows": [
+    [
+      "S. No.",
+      "Description of Main Activity",
+      "Description of Business Activity",
+      "% of Turnover of the entity"
+    ],
+    [
+      "1",
+      "Mining & Quarrying",
+      "Other Mining & Quarrying Activities",
+      "33.57 %"
+    ],
+    [
+      "2",
+      "Manufacturing",
+      "Metal and metal products",
+      "66.27 %"
+    ]
+  ]
+}

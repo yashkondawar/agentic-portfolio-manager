@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 35,
+  "table_index": 4,
+  "bbox": [
+    306.8170428571429,
+    510.3912,
+    542.9761714285714,
+    657.7729555555555
+  ],
+  "rows": [
+    [
+      "POWER G",
+      "ENERATION (Mil",
+      "lion Units)\n(cid:27)(cid:27)(cid:25)(cid:29)"
+    ],
+    [
+      "(cid:27)(cid:25)(cid:25)(cid:24)\n(cid:27)(cid:26)(cid:28)(cid:27)\n(cid:31)(cid:30)(cid:28)(cid:28)\n(cid:31)(cid:30)(cid:29)(cid:29)",
+      null,
+      null
+    ],
+    [
+      "",
+      null,
+      null
+    ],
+    [
+      "2020-21 2021-22 2022-23 2023-24 2024-25",
+      null,
+      null
+    ]
+  ]
+}

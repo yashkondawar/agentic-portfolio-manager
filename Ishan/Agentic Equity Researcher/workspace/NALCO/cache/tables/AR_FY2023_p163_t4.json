@@ -1,0 +1,68 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 163,
+  "table_index": 4,
+  "bbox": [
+    45.894400000000005,
+    526.644,
+    549.4613999999999,
+    664.4580000000001
+  ],
+  "rows": [
+    [
+      "20 B - Movement of Lease Liability Amount in ` Crore",
+      null,
+      null
+    ],
+    [
+      "",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      "Balance at the beginning",
+      "56.43",
+      "55.97"
+    ],
+    [
+      "Additions during the year",
+      "-",
+      "0.56"
+    ],
+    [
+      "Finance Cost added during the year",
+      "4.08",
+      "4.13"
+    ],
+    [
+      "Payment of lease liability",
+      "3.65",
+      "4.23"
+    ],
+    [
+      "Balance at the end of the year",
+      "56.86",
+      "56.43"
+    ],
+    [
+      "21 - Borrowings Amount in ` Crore",
+      null,
+      null
+    ],
+    [
+      "Current (secured) ( at amortised cost)",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      "Liabilities towards bills discounted",
+      "47.75",
+      "20.67"
+    ],
+    [
+      "Total",
+      "47.75",
+      "20.67"
+    ]
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 82,
+  "table_index": 4,
+  "bbox": [
+    68.28134,
+    577.69915,
+    542.609634375,
+    669.733
+  ],
+  "rows": [
+    [
+      "",
+      "% of value chain partners (by value of business done with such partners) that were assessed"
+    ],
+    [
+      "Sexual Harassment",
+      "Nil"
+    ],
+    [
+      "Discrimination at workplace",
+      "100%"
+    ],
+    [
+      "Child Labour",
+      "100%"
+    ],
+    [
+      "Forced Labour/Involuntary Labour",
+      "100%"
+    ],
+    [
+      "Wages",
+      "100%"
+    ]
+  ]
+}

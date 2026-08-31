@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 103,
+  "table_index": 2,
+  "bbox": [
+    102.29724545454546,
+    88.12419999999993,
+    555.3406166666667,
+    177.15139999999997
+  ],
+  "rows": [
+    [
+      "Name",
+      "Remuneration for the year 2020-21 (₹)",
+      null,
+      null
+    ],
+    [
+      null,
+      "All elements of remuneration",
+      "Other benefits",
+      "Total"
+    ],
+    [
+      "Shri R. S. Mahapatro\nDirector (HR)",
+      "47,25,511",
+      "32,751",
+      "47,58,262"
+    ],
+    [
+      "Shri M. P. Mishra\nDirector (P&T) & Director (Finance)-Addl. Charge*",
+      "20,86,852",
+      "9,41,913",
+      "30,28,765"
+    ],
+    [
+      "Shri B. K. Das\nDirector (Production) & Director (Commercial) –Addl. Charge#",
+      "16,59,103",
+      "7,094",
+      "16,66,197"
+    ]
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 183,
+  "table_index": 1,
+  "bbox": [
+    74.03433333333332,
+    59.63600000000008,
+    549.73185,
+    230.49000000000007
+  ],
+  "rows": [
+    [
+      "32. Employee benefits expense (Contd.) Amount in ` Crore",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "Post retirement\nmedical benefit",
+      "Settling-\nin-benefit",
+      "NALCO\nbenevolent fund\nscheme",
+      "NALCO\nretirement\nwelfare scheme",
+      "Superannuation\ngift scheme",
+      "Gratuity\n(Funded)"
+    ],
+    [
+      "Current service cost",
+      "-",
+      "(2.94)",
+      "-",
+      "-",
+      "-",
+      "(32.16)"
+    ],
+    [
+      "Interest Cost",
+      "(10.46)",
+      "(1.17)",
+      "(0.16)",
+      "(0.79)",
+      "(0.47)",
+      "(38.82)"
+    ],
+    [
+      "Remeasurement (gains)/losses",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Actuarial (Gains)/losses arising from changes in\nfinancial assumptions",
+      "1.33",
+      "0.39",
+      "0.05",
+      "0.25",
+      "0.20",
+      "22.39"
+    ],
+    [
+      "Actuarial (Gains)/losses arising from experience\nassumptions",
+      "(9.58)",
+      "0.04",
+      "(0.62)",
+      "(1.01)",
+      "-",
+      "29.13"
+    ],
+    [
+      "Benefits paid",
+      "11.75",
+      "5.75",
+      "0.83",
+      "2.15",
+      "0.90",
+      "82.56"
+    ],
+    [
+      "Others",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Closing defined benefit obligation as at\nMarch 31, 2022",
+      "(162.31)",
+      "(17.51)",
+      "(2.63)",
+      "(11.78)",
+      "(6.53)",
+      "(532.70)"
+    ]
+  ]
+}

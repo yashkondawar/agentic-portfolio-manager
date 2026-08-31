@@ -1,0 +1,349 @@
+{
+  "ticker": "NALCO",
+  "module": "22_management_guidance",
+  "run_date": "2026-07-16",
+  "coverage_note": "Transcripts/presentations available ONLY for FY2026 (4 quarters: Q1 08-Aug-25, Q2 07-Nov-25, Q3 30-Jan-26, Q4 30-Apr-26). No transcripts exist for FY2021-FY2025; all pre-FY2026 management-signalling context is limited to AR MD&A narrative (not separately re-extracted here). Credibility scoring below is therefore capped at 'medium' confidence even where hit-rate looks clean, because the track record is a single fiscal year (4 data points) observed by the same reporting management team, not a multi-year pattern. This cap is stated per family below, not re-derived.",
+
+  "executive_read": {
+    "tone_verdict": "Bullish / self-confident, delivered against a backdrop of a commodity-price headwind and one material operational slippage — management leans on volume and cost-efficiency achievement to talk past a realization miss.",
+    "tone_evidence": [
+      {"quote_ref": "QT-Q4-009-context", "quote": "Taking very challenging target this year 10% higher targets all areas. First quarter achieved all targets. Very sure achieving targets. End of year financials very good.", "speaker": "CMD Brijendra Pratap Singh", "doc": "TR_2026-04-30.pdf"},
+      {"quote_ref": "QT-Q4-001", "quote": "This year, we have done best ever physical performance in all the areas, bauxite excavation, alumina hydrate production, calcined alumina production, metal production.", "speaker": "CMD", "doc": "TR_2026-04-30.pdf"},
+      {"quote_ref": "QT-Q1-007", "quote": "There is growth of 33% in the revenue and the PAT has registered growth of 77% against the corresponding quarter last year.", "speaker": "DGM (Mechanical)", "doc": "TR_2025-08-08.pdf"}
+    ],
+    "top_2_drivers_their_framing": [
+      "Volume growth across bauxite/alumina/metal/power — repeatedly cited as 'best ever' / record production and sales, used to offset a ~36% YoY alumina price decline ($580 to $370/t FY25 to FY26, QT-Q4-006).",
+      "Cost/techno-economic efficiency — caustic soda consumption improvement (121 kg/t to 99 kg/t 9M FY26, GD-Q3-014), captive coal ramp to 4 MTpa displacing costlier e-auction/linkage coal and grid power (GD-Q2-026 to GD-Q2-030), employee cost ratio decline via retirements (GD-Q2-032, GD-Q3-016)."
+    ],
+    "top_2_risks_their_framing": [
+      "Alumina price/oversupply — management explicitly attributes the realization decline to Indonesian refinery ramp-up and a compressed alumina-to-LME premium (15-17% to 11-11.5%, QT-Q4-006/GD-Q4-035), and (Q3) to Middle East geopolitical disruption to shipping.",
+      "5th-stream refinery execution slip — management itself flagged the commissioning date moved from Sept 2025 to June 2026 (GD-Q2-001 notes: 'Revised from September 2025... 80% physical completion') and the FY26 in-year volume contribution cut from 500KT to 300KT (GD-Q3-037, explicitly labelled a revision by the company)."
+    ]
+  },
+
+  "topic_syntheses": [
+    {
+      "topic": "sales_demand_market_share",
+      "rows": [
+        {
+          "what_management_said": "FY26 total alumina sales guided 12.5-12.8 lakh tons (Q1, GD-Q1-013); revised to 12-12.5 lakh tons (Q2, GD-Q2-014); Q3 guided 1250-1300 KT (GD-Q3-001).",
+          "numeric_check_vs_facts": "FY26 actual per Q4 call: export 13.09 lakh ton + domestic 1.37 lakh ton = 14.46 lakh ton total (QT-Q4-1011/quotes_TR_2026-04-30). Actual came in ABOVE every quarterly guide issued during the year by 13-20%.",
+          "external_corroboration": "pending research — no independent alumina volume tracker in file set",
+          "sign": "+",
+          "implication": "Volume guidance was systematically conservative/beaten, not missed — opposite failure mode from the refinery timeline. Feeds estimates-builder as a credible base but note the beat direction (upside bias, not precision)."
+        },
+        {
+          "what_management_said": "FY26 metal production guided 470K tons vs 450-460K rated capacity (Q2, GD-Q2-025; Q3 GD-Q3-009 refined to 470-472KT).",
+          "numeric_check_vs_facts": "Actual FY26 metal production 4.71 lakh tons (471KT) per Q4 (QT-Q4-002/context: 'cast metal production around 2.61% growth'; GD-Q4-003 states FY26 peak 4.71 lakh tons, FY27 target 4.73 lakh tons).",
+          "external_corroboration": "pending research",
+          "sign": "+",
+          "implication": "Near-exact hit (471 actual vs 470 guided) — best-scoring guide in the ledger."
+        }
+      ]
+    },
+    {
+      "topic": "costs_efficiency_one_offs",
+      "rows": [
+        {
+          "what_management_said": "Caustic soda consumption guided 'sustainable' at 96 kg/ton (Q2, GD-Q2-033); Q3 reports 99 kg/ton 9M actual with Rs.129cr savings vs 121 kg/ton prior year (GD-Q3-014).",
+          "numeric_check_vs_facts": "99 kg/ton 9M actual vs 96 kg/ton guided — modest miss (+3%) but directionally consistent and well ahead of prior year base.",
+          "external_corroboration": "pending research",
+          "sign": "+",
+          "implication": "Credible, delivered cost lever; small guide/actual gap not material."
+        },
+        {
+          "what_management_said": "Q4 cost of production guided 'slightly higher' (GD-Q3-008) due to CP coke +Rs.7-8K/t and caustic soda tender increase, offset by efficiency.",
+          "numeric_check_vs_facts": "Q4 actual alumina cost Rs.20,000-22,000/t and metal cost Rs.155,000-160,000/t (GD-Q4-024, GD-Q4-025) — consistent with the directional 'slightly higher' guide; no hard miss identifiable from records provided.",
+          "external_corroboration": "pending research",
+          "sign": "neutral",
+          "implication": "Directional guides (non-numeric) are hard to score precisely but have not been contradicted."
+        }
+      ]
+    },
+    {
+      "topic": "product_mix_margin_strategy",
+      "rows": [
+        {
+          "what_management_said": "Alumina export/spot mix targeted at 80% spot/20% long-term (Q1, GD-Q1-014); Q2 describes a target 50/50 term-spot mix (GD-Q2-024, flagged 'refusal_Q2_contract_mix' quote ref — evasive answer candidate).",
+          "numeric_check_vs_facts": "Internal inconsistency: Q1 guide (80/20 spot-heavy) and Q2 guide (50/50 target) describe different desired mixes five months apart without an explicit reconciliation in the record set. By Q4, management states 'no long term alumina contracts... due to low pricing environment' (GD-Q4-036) — a third position.",
+          "external_corroboration": "pending research",
+          "sign": "−",
+          "implication": "Contradiction — see Section: Contradictions #2. Mix strategy has moved three times in one year, tracking price weakness rather than a stated strategy being executed to plan."
+        }
+      ]
+    },
+    {
+      "topic": "opex_rd_talent",
+      "rows": [
+        {
+          "what_management_said": "Employee cost guided to decline from 18% of total cost (Q2, GD-Q2-031) to 15-16% by FY27 (GD-Q2-032) via retirements; Q3 guides Rs.70-100cr FY26 full-year reduction from 200-250 senior superannuations (GD-Q3-016).",
+          "numeric_check_vs_facts": "Q4 confirms stable headcount ~4,880 with ~250 retirements offset by 5th-stream recruitment (GD-Q4-038) — consistent with the guided mechanism; too early (only 2 quarters of data since the Nov-25 guide) to score hit/miss on the 15-16% FY27 target.",
+          "external_corroboration": "pending research",
+          "sign": "neutral",
+          "implication": "Plausible mechanical guide (retirement-driven), not yet verifiable — flag to re-run when FY27 transcripts land."
+        }
+      ]
+    },
+    {
+      "topic": "corporate_actions",
+      "rows": [
+        {
+          "what_management_said": "Rs.2.50/share final dividend recommended by Board (Q1, GD-Q1-029).",
+          "numeric_check_vs_facts": "Stated as Board-recommended, not yet a guide-vs-actual pair (dividends are declared, not guided-then-missed in the way a volume target is) — treated as a fact, not scored for credibility.",
+          "external_corroboration": "pending research",
+          "sign": "neutral",
+          "implication": "No corporate action (buyback/M&A/demerger) under management discussion in this record set beyond the smelter JV structuring (see capex section) and the Neyveli Lignite 50-50 power JV (GD-Q4-027) — reasoned view in Section 4 below."
+        }
+      ]
+    },
+    {
+      "topic": "debt_interest_fundraising",
+      "rows": [
+        {
+          "what_management_said": "Cash balance projected to exceed Rs.20,000cr by FY26-end (Q2, GD-Q2-012) from Rs.7,900cr as of Sept-2025; smelter capex external funding need Rs.5,000-6,000cr in EPC mode (vs none in JV mode) for FY28-29 (GD-Q2-013).",
+          "numeric_check_vs_facts": "No FY26-end cash actual is available in the record set provided (FY2026 AR not yet published per manifest gap). Cannot score — flagged as an open question for the next run once FY26 AR lands.",
+          "external_corroboration": "pending research",
+          "sign": "neutral",
+          "implication": "Debt-funded capex is not indicated; company signals self-funding via internal cash generation for the near-term capex plan, funding gap only appears in an EPC (non-JV) structuring scenario for the smelter — a scenario management appears to be steering away from (JV with Neyveli Lignite for power, GD-Q4-027)."
+        }
+      ]
+    },
+    {
+      "topic": "capex_depreciation_utilization",
+      "rows": [
+        {
+          "what_management_said": "FY26 total capex guided Rs.1,700cr (Q3, GD-Q3-017).",
+          "numeric_check_vs_facts": "FY26 actual capex ~Rs.2,000cr (QT-Q4 context 'FY2026 capex actual Rs. 2000 cr') to Rs.2,100cr (Director Finance: 'Our target was Rs.1,700 crores, but we have exceeded by almost Rs.400 crores more' — implying ~Rs.2,100cr). Overrun of ~Rs.300-400cr, i.e. ~18-24% above guide.",
+          "external_corroboration": "pending research",
+          "sign": "−",
+          "implication": "Capex guide missed on the low side (spent more than guided) — for a PSU this typically reads as accelerated project execution rather than cost overrun in the pejorative sense (management frames it as pulling spend forward), but it is a quantified guidance miss and is scored as such in the ledger."
+        },
+        {
+          "what_management_said": "5th-stream refinery commissioning: Q1 guided June 2026 (already itself a revision from an original Sept-2025 plan referenced only in Q2's own framing, GD-Q2-001 notes). Confirmed June 2026 through Q2/Q3/Q4.",
+          "numeric_check_vs_facts": "Consistent June-2026 guide held across 3 consecutive quarters (Q2, Q3, Q4) after the initial slip — this is the post-revision guide, and it has NOT slipped again as of the Q4 (Apr-2026) call, i.e. two quarters of stability since the reset.",
+          "external_corroboration": "pending research — no independent commissioning tracker",
+          "sign": "neutral",
+          "implication": "One material slip (pre-Q1 baseline to June 2026), then held. Credibility on this specific milestone is 'low' for the original baseline, 'medium' for the reset date given only 2 quarters of post-reset stability."
+        },
+        {
+          "what_management_said": "FY26 in-year alumina volume contribution from the 5th stream: Q1/Q2 guided 5-6 lakh tons (GD-Q1-002) / 5 lakh tons for FY27 (GD-Q2-004) — for FY26 itself, no explicit FY26 (as opposed to FY27) production number was guided until Q3.",
+          "numeric_check_vs_facts": "Q3 (Jan-2026) explicitly revises: 'Previously guided 5 lakh KT for FY26 from new refinery, now more realistic 3 lakh KT' (GD-Q3-037) — a company-labelled revision, cutting the number by 40% roughly 3 months after the original figure was implied. Given the commissioning start itself is June 2026 (after FY26 ends, since NALCO's FY26 = Apr25-Mar26), this FY26 volume contribution figure is effectively zero to negligible and the whole framing appears to migrate to FY27 by Q4 (GD-Q4-002: 2 lakh tons incremental FY27).",
+          "external_corroboration": "pending research",
+          "sign": "−",
+          "implication": "See Contradiction #1 below — this is the headline signal-set item and the clearest instance of guidance drift needing explicit disclosure."
+        },
+        {
+          "what_management_said": "Smelter expansion 0.5 MTPA commissioning date.",
+          "numeric_check_vs_facts": "Dates given across the four transcripts/PPTs: Q1 transcript 'FY2027-FY2030' (3-4yr from pre-project, GD-Q1-023); Q2 transcript 'December 2030' (GD-Q2-008); Q2 PPT 'Jun-2031' (GD-PQ2-006); Q3 transcript 'by end-2030 or early H1-2031' (GD-Q3-022); Q3 PPT 'August 2030' (GD-PQ3-004); Q4 transcript 'Dec 2030 - early 2031' (GD-Q4-013); Q4 PPT contains an INTERNAL inconsistency — 'Likely Commissioning Aug 2030 per slide, but revised to Jun 2031 in table' within the SAME document (GD-PQ4-003 conditionality field).",
+          "external_corroboration": "pending research",
+          "sign": "−",
+          "implication": "See Contradiction #3 — the target date has moved across at least 3 distinct points (Aug-2030 / Dec-2030 / Jun-2031) across documents, and the Q4 presentation contradicts itself. This is a directionally consistent 'late-2030 to mid-2031' window but the imprecision itself is a credibility signal for a project still in DPR/pre-tender stage."
+        }
+      ]
+    },
+    {
+      "topic": "margins_customers_orderbook",
+      "rows": [
+        {
+          "what_management_said": "Alumina realization outlook: Q1 guided $400-450/t (GD-Q1-010) for 'coming quarters' off a Q1 actual of $416; Q2 guided H2 FY26 $320-340/t (GD-Q2-015) off a Q2 actual of $380 and then-current spot of $320; Q3 guided Q4 $310-320/t (GD-Q3-006).",
+          "numeric_check_vs_facts": "Q4 actual realization $348/t (GD-Q4-037 context: 'Q4 '25-'26 average realization was somewhere around 3,000/tons. Alumina, it is $348'). Actual $348 came in ABOVE the Q3 guide range of $310-320 (beat by ~9%), but well BELOW the Q1 guide range of $400-450 (miss by ~20-27%). FY25 to FY26 full-year average fell $580 to $370 (QT-Q4-006).",
+          "external_corroboration": "pending research — LME/AWP alumina index not independently pulled in this run",
+          "sign": "−",
+          "implication": "Price guidance decayed monotonically downward each quarter (450→340→320) as the market moved against the company, then the actual outcome beat only the most recently reset (most conservative) guide. This is a classic 'ratchet down, then clear the lowered bar' pattern — the ledger scores the family 'low' credibility on absolute level, 'medium' on most-recent-quarter precision."
+        },
+        {
+          "what_management_said": "Aluminium/LME price outlook: Q2 guided H2 FY26 INR2,800-2,900/t (~USD equivalent, GD-Q2-016); Q3 guided Q4 $2,900-3,000 and FY27 $2,800-3,000 (GD-Q3-010, GD-Q3-011); Q4 guided FY27 $3,000-3,100 normalized ex-war-premium (GD-Q4-006), Q1 FY27 actual/near-term $3,500-3,600 (GD-Q4-007).",
+          "numeric_check_vs_facts": "Q4 FY26 actual realization ~$2,700-2,767/t per company commentary (quotes_TR_2026-04-30 context 'Q4 FY2026 aluminium realization $2767') vs Q3's own Q4 guide of $2,900-3,000 — a miss on the low side of roughly 5-7%, though within a reasonable band. FY27 guide of $3,000-3,100 'normalized' is explicitly hedged as contingent on war-premium unwind — an assumption not yet testable.",
+          "external_corroboration": "pending research",
+          "sign": "neutral",
+          "implication": "Metal price guide missed modestly to the downside for Q4 FY26 itself even as spot LME has since spiked on geopolitical premium — illustrates management guides on commodity price are directional color, not precision forecasts, consistent with the citation standard's caution on external-dependent claims."
+        }
+      ]
+    }
+  ],
+
+  "guidance_ledger": [
+    {
+      "metric_family": "alumina_volume_production_sales",
+      "records": ["GD-Q1-005","GD-Q1-011","GD-Q1-012","GD-Q1-013","GD-Q2-014","GD-Q3-001","GD-Q3-027","GD-Q4-001"],
+      "history_one_line": "Beat 3/3 verifiable full-year volume guides (FY26 alumina total sales actual 14.46 lakh tons vs successive guides of 12.5-12.8, then 12-12.5, then 12.5-13.0 lakh tons) — consistently conservative, never missed low.",
+      "credibility": "medium",
+      "credibility_rationale": "Hit rate is high (>100% of guide achieved each time), which nominally scores 'high', but capped to 'medium' because: (a) single fiscal year of transcript history (per coverage_note), (b) the guide itself moved down mid-year (Q1 to Q2) before the beat, meaning part of the 'beat' is against an already-lowered bar, not the original one.",
+      "feeds_estimates_builder": "Use FY26 actual (14.46 lakh tons) as the base; treat FY27 alumina volume guidance (25 lakh tons total, GD-Q4-001) as upside-biased per this history — a conservative haircut is not warranted given the beat pattern, but the 5th-stream incremental piece (2 lakh tons, GD-Q4-002) should be treated separately per the capex family below."
+    },
+    {
+      "metric_family": "metal_volume_production",
+      "records": ["GD-Q2-025","GD-Q3-009","GD-Q3-028","GD-Q4-003"],
+      "history_one_line": "Met 1/1 verifiable full-year metal production guide almost exactly (470K guided vs 471K actual, <0.3% variance).",
+      "credibility": "high (within-year), capped medium for track-record depth",
+      "credibility_rationale": "Tightest hit in the ledger. Capped from 'high' only by the single-year data constraint stated in coverage_note, not by any miss.",
+      "feeds_estimates_builder": "FY27 metal production guide of 4.73 lakh tons (GD-Q4-003) is a credible base-case input given this precision."
+    },
+    {
+      "metric_family": "5th_stream_refinery_commissioning_timeline",
+      "records": ["GD-Q1-001","GD-Q2-001","GD-Q3-004","GD-PQ3-003","GD-Q4-010","GD-PQ4-002"],
+      "history_one_line": "One material slip (implied Sept-2025 baseline to June-2026, a ~9-month push) surfaced and admitted by management in Q2; the reset June-2026 date then held stable across 3 subsequent quarters (Q2, Q3, Q4 all confirm June 2026).",
+      "credibility": "low (pre-reset) / medium (post-reset, provisionally)",
+      "credibility_rationale": "A single slip on a headline capacity project is a material miss regardless of stability afterward. Per the guidance-analyst mandate this must not become an unquestioned base-case input — the post-reset date should carry an explicit execution-risk discount in the model until an actual June-2026 commissioning is confirmed (next data point needed: Q1 FY27 transcript, expected ~Aug-2026).",
+      "feeds_estimates_builder": "Do NOT treat June-2026 as a high-confidence date for base case; carry a downside scenario with a further 1-2 quarter slip given the track record on this specific asset."
+    },
+    {
+      "metric_family": "5th_stream_fy26_volume_contribution",
+      "records": ["GD-Q1-002","GD-Q2-004","GD-Q3-002/GD-Q3-037","GD-Q4-002"],
+      "history_one_line": "Guided FY26 contribution cut from an implied ~5 lakh tons (500KT) to 3 lakh tons (300KT) within the same fiscal year — a company-labelled 40% downward revision (GD-Q3-037) — then effectively deferred to FY27 (200KT incremental, GD-Q4-002) by year-end.",
+      "credibility": "low",
+      "credibility_rationale": "Explicit, management-acknowledged revision within a single fiscal year on a headline growth metric. This is the single clearest miss in the ledger and should NOT be used as a margin/volume tailwind in near-term (FY27 H1) base-case estimates without a haircut.",
+      "feeds_estimates_builder": "Use the Q4 framing (2 lakh tons FY27 incremental, upside case 3-3.5 lakh tons if early commissioning per GD-Q4-002 note) as the base, but flag to estimates-builder that this same lever has already been cut once — apply a probability-weighted (not point) estimate."
+    },
+    {
+      "metric_family": "smelter_expansion_0.5mtpa_capex_and_timeline",
+      "records": ["GD-Q1-023","GD-Q2-008","GD-PQ2-006","GD-Q3-022","GD-PQ3-004","GD-Q4-013","GD-PQ4-003","GD-Q2-011","GD-Q4-019"],
+      "history_one_line": "Commissioning date has been stated as Aug-2030, Dec-2030, and Jun-2031 across different documents within the same 9-month window (including a self-contradictory PPT, GD-PQ4-003); combined capex estimate also moved from Rs.30,000cr (Q2) to Rs.23,000-24,000cr (Q4, on JV restructuring of the power plant).",
+      "credibility": "low",
+      "credibility_rationale": "Project is still pre-DPR/pre-tender as of Q4 FY26 (DPR targeted Aug-Sept 2026, GD-Q4-011) — every date and capex figure given so far is a planning estimate, not a delivered milestone, and the figures have not stabilized even directionally (three discrete dates, two discrete capex totals in under a year of disclosure).",
+      "feeds_estimates_builder": "Treat 0.5 MTPA smelter capacity as a post-FY2030 scenario item only, excluded from the explicit forecast horizon (FY27-FY29) entirely; capex phasing (GD-Q4-016/017/018: FY27 Rs.1,800-2,000cr, FY28 Rs.4,000-5,000cr, FY29-30 Rs.8,000-10,000cr) should carry low confidence given the underlying project has no DPR yet."
+    },
+    {
+      "metric_family": "pottangi_bauxite_mine_commissioning",
+      "records": ["GD-Q1-006","GD-Q2-019","GD-PQ2-002","GD-PQ3-002","GD-PQ4-001"],
+      "history_one_line": "Q1 guided a Feb-June 2026 window; Q2 transcript narrowed to June 2026 while the same quarter's PPT said May-2026; Q3 PPT restates May-2026. As of Q4 (Apr-2026) call, no confirmation of actual commissioning is present in the record set — status unresolved at period end.",
+      "credibility": "low",
+      "credibility_rationale": "Transcript-vs-PPT date mismatch within the same reporting quarter (Q2: June per call, May per deck) is an internal inconsistency, not just normal guidance narrowing. Combined with an MDO tender still 'ongoing'/'this month' as late as Nov-2025 for a claimed May-2026 commissioning, the timeline is tight and unverified.",
+      "feeds_estimates_builder": "Do not assume Pottangi captive bauxite offset is live before Q1 FY27 close at the earliest; model a slip scenario given the tight tender-to-commissioning runway."
+    },
+    {
+      "metric_family": "fy_capex_total",
+      "records": ["GD-Q3-017","GD-Q3-018","GD-Q4-016"],
+      "history_one_line": "FY26 capex guided Rs.1,700cr (Q3, Jan-2026) vs actual ~Rs.2,000-2,100cr (Q4, Apr-2026) — missed (spent more) by ~Rs.300-400cr (~18-24%).",
+      "credibility": "medium",
+      "credibility_rationale": "A capex overrun of this magnitude late in the year (guide given only one quarter before year-end) suggests either the Q3 guide undercounted committed spend or year-end catch-up/advance payments occurred. Not necessarily a red flag on its own (company frames it as accelerated execution) but is a quantified miss and should discount confidence in the FY27 capex guide (Rs.1,800-2,000cr, GD-Q3-018/GD-Q4-016) which has now been repeated unchanged across two quarters.",
+      "feeds_estimates_builder": "Apply a modest upward bias (not haircut) to FY27 capex vs the stated Rs.1,800-2,000cr band, consistent with the FY26 pattern of exceeding near-term capex guides."
+    },
+    {
+      "metric_family": "alumina_price_realization_outlook",
+      "records": ["GD-Q1-010","GD-Q2-015","GD-Q3-006","GD-Q4-037","GD-Q4-005"],
+      "history_one_line": "Guide ratcheted down each quarter ($400-450 to $320-340 to $310-320) tracking a falling spot market; Q4 actual ($348) beat only the most recently lowered guide, missing the original Q1 guide by ~20-27%.",
+      "credibility": "low",
+      "credibility_rationale": "This is a commodity price call, not an operational guide — management has limited control and the pattern (chase the market down, then narrowly beat the latest number) is the textbook signature of a low-credibility price guide. Per the module mandate, this must not become a base-case margin assumption without independent corroboration.",
+      "feeds_estimates_builder": "Route to deep-research (industry/commodity) before using any of the FY27 alumina price points (GD-Q4-005: $300-310/t) as a base-case input — treat as company's own directional view only, cross-check against independent alumina index (e.g. Non-ferrous/AWP) in DR2."
+    },
+    {
+      "metric_family": "aluminium_lme_price_outlook",
+      "records": ["GD-Q2-016","GD-Q3-010","GD-Q3-011","GD-Q4-006","GD-Q4-007","GD-PQ2-009","GD-PQ3-001","GD-PQ4-007"],
+      "history_one_line": "Q3's own Q4 FY26 guide ($2,900-3,000) missed low vs actual (~$2,700-2,767); separately, the company's CY2026 LME average guide moved from $2,670 (Q2/Q3 PPT) to $3,125 (Q4 PPT) — a ~17% upward revision in one quarter, coinciding with a geopolitical price spike.",
+      "credibility": "low",
+      "credibility_rationale": "Same commodity-forecast caveat as alumina; the CY2026 average guide jumping 17% quarter-to-quarter shows the 'guidance' is essentially a restated market consensus/spot extrapolation, not an independent view with a track record of accuracy.",
+      "feeds_estimates_builder": "Do not anchor FY27 LME assumptions to the company's own $3,000-3,100 'normalized' view (GD-Q4-006) without independent verification — this is explicitly a war-premium-adjustment guess. Route to DR2 (sector/commodity)."
+    },
+    {
+      "metric_family": "coal_captive_production",
+      "records": ["GD-Q1-007","GD-Q2-026","GD-Q3-024","GD-Q4-008"],
+      "history_one_line": "Guided 4 MTpa FY26 (from a 2.6-2.7 MT base) held consistently across all four quarters and appears to have been delivered (Q4 confirms captive coal production growth of 41.84% YoY, consistent with the ramp to ~4 MT).",
+      "credibility": "medium-high",
+      "credibility_rationale": "Consistent guide, no revisions, YoY growth rate cited at Q4 (41.84%) is directionally consistent with a 2.6-2.7 MT to ~4 MT ramp (+~48-54%), a reasonably close match. Capped at 'medium-high' rather than 'high' only because an exact FY26 tonnage actual (vs the 4 MT guide) is not stated verbatim in the record set — inferred from the growth-rate quote, not a directly matched figure.",
+      "feeds_estimates_builder": "FY27 captive coal guide of 4.8 MT (GD-Q4-008, subject to EC clearance for Utkal D&E blocks) can be used as base case with a footnote on the EC-clearance conditionality."
+    }
+  ],
+
+  "margin_bridge_achievability": {
+    "bridge_described": "Management's implicit margin bridge for FY27 rests on three levers: (1) volume growth (5th-stream ramp + Pottangi captive bauxite reducing purchased-bauxite cost), (2) cost efficiency (caustic soda, captive coal/power substitution, employee cost decline from retirements), (3) partial commodity price recovery (alumina and LME both assumed to firm from FY26 trough levels).",
+    "lever_scoring": [
+      {"lever": "5th-stream volume ramp (FY27 +2 lakh ton alumina)", "achievability": "Low-Medium", "basis": "Same lever already cut once in-year (500KT to 300KT to effectively FY27-only, 200KT); commissioning date itself has one prior slip on record."},
+      {"lever": "Captive bauxite (Pottangi) cost offset", "achievability": "Low-Medium", "basis": "Transcript/PPT date mismatch (May vs June 2026) and late MDO tendering as of Nov-2025 for a claimed May-2026 start; no confirmed actual commissioning in the record set through Q4 FY26."},
+      {"lever": "Cost efficiency (caustic soda, coal, employee cost)", "achievability": "Medium-High", "basis": "This is the one lever with a clean, consistent, non-revised delivery track record across all four FY26 quarters (caustic soda 121→99 kg/t; coal captive ramp delivered; employee cost mechanically tied to scheduled retirements)."},
+      {"lever": "Commodity price recovery (alumina/LME)", "achievability": "Low", "basis": "Price guidance has been the least reliable family in the ledger (ratcheted down each quarter on alumina; 17% one-quarter swing on the LME CY2026 view) — achievability of the assumed recovery is a market call, not a management-controlled lever."}
+    ],
+    "overall_achievability": "Medium-Low — the only lever with a clean multi-quarter delivery record is cost efficiency; the two volume/capacity levers both carry an admitted in-year revision, and the price lever is explicitly outside management's control and has shown the largest guide-to-guide swings in the ledger."
+  },
+
+  "customer_orderbook_concentration": {
+    "note": "NALCO sells alumina (export/domestic) and aluminium (LME-linked, largely domestic) as a commodity producer — no discrete 'customer' or 'orderbook' concentration metric of the kind used for order-book businesses is disclosed in the transcripts/PPTs reviewed. Closest analogues: alumina export/domestic sales split (Q4 FY26: 13.09 lakh ton export vs 1.37 lakh ton domestic, ~90.5%/9.5%) and the spot/term contract mix (contradictory across quarters, see Contradiction #2). No single-customer or top-N-customer disclosure found — flag as N/A for concentration red-flag scoring at this time, not a gap in extraction.",
+    "red_flag_candidate": false
+  },
+
+  "contradictions": [
+    {
+      "id": "F-GUI-01",
+      "claim": "FY26 volume contribution from the 5th-stream alumina refinery",
+      "claim_quote_refs": ["GD-Q1-002", "GD-Q2-004"],
+      "evidence_fact_refs": ["GD-Q3-037", "GD-Q4-002"],
+      "external_refs": [],
+      "description": "Q1/Q2 guidance implied ~5 lakh tons (500KT) of FY26 alumina volume from the new refinery; Q3 (Jan-2026) explicitly revises this to 3 lakh tons (300KT), labelled by the company itself as a revision ('now more realistic 3 lakh KT'); by Q4 the framing has shifted entirely to FY27 (2 lakh tons incremental). Net effect: the originally implied FY26 contribution appears to have been ~zero to negligible once the June-2026 commissioning date (itself a slip from an implied Sept-2025 baseline) is applied to a Apr-Mar fiscal year.",
+      "confidence": "high",
+      "severity": "medium",
+      "red_flag_ledger_candidate": true,
+      "category": "disclosure"
+    },
+    {
+      "id": "F-GUI-02",
+      "claim": "Desired alumina export contract mix (spot vs term/long-term)",
+      "claim_quote_refs": ["GD-Q1-014"],
+      "evidence_fact_refs": ["GD-Q2-024", "GD-Q4-036"],
+      "external_refs": [],
+      "description": "Q1 states an 80% spot / 20% long-term target mix, framed as a deliberate shift 'due to pricing.' Q2 states a target of 50% term contracts / 50% spot (opposite direction) with the underlying quote itself flagged 'refusal_Q2_contract_mix' (evasive-answer candidate) in the source record. Q4 then states no long-term contracts are being written at all ('spot_only') due to the low-price environment. Three distinct, mutually inconsistent positions on the same strategic variable within one fiscal year.",
+      "confidence": "medium",
+      "severity": "low",
+      "red_flag_ledger_candidate": true,
+      "category": "disclosure"
+    },
+    {
+      "id": "F-GUI-03",
+      "claim": "0.5 MTPA smelter expansion commissioning date",
+      "claim_quote_refs": ["GD-Q2-008", "GD-PQ2-006"],
+      "evidence_fact_refs": ["GD-PQ3-004", "GD-Q4-013", "GD-PQ4-003"],
+      "external_refs": [],
+      "description": "Commissioning date stated variously as December 2030 (Q2 transcript), June 2031 (Q2 PPT), August 2030 (Q3 PPT), 'end-2030 or early H1-2031' (Q3/Q4 transcripts), and the Q4 PPT itself contains both August-2030 (slide) and June-2031 (table) without reconciliation — an internal document inconsistency, not just a cross-quarter drift.",
+      "confidence": "high",
+      "severity": "low",
+      "red_flag_ledger_candidate": true,
+      "category": "disclosure"
+    },
+    {
+      "id": "F-GUI-04",
+      "claim": "Combined smelter + power plant capex estimate",
+      "claim_quote_refs": ["GD-Q2-009", "GD-Q2-010", "GD-Q2-011"],
+      "evidence_fact_refs": ["GD-Q4-015", "GD-Q4-019", "GD-Q4-028"],
+      "external_refs": [],
+      "description": "Q2 guides a combined Rs.30,000cr (smelter Rs.17-20k cr + power Rs.10-11k cr). Q4 restates as Rs.23,000-24,000cr total (smelter Rs.17-18k cr + NALCO's 50% share of a Rs.12k cr power JV with Neyveli Lignite, i.e. Rs.6k cr net to NALCO) — management attributes the reduction to the JV structuring decision, which is a reasonable explanation, but the headline combined number moved by ~20-23% between quarters on a project still pre-DPR.",
+      "confidence": "high",
+      "severity": "low",
+      "red_flag_ledger_candidate": false,
+      "note": "Not flagged as a red-flag candidate because management provides an internally consistent structural reason (JV cost-sharing) for the change, unlike F-GUI-01/03 which show no reconciling explanation."
+    },
+    {
+      "id": "F-GUI-05",
+      "claim": "Pottangi bauxite mine commissioning date",
+      "claim_quote_refs": ["GD-Q2-019"],
+      "evidence_fact_refs": ["GD-PQ2-002", "GD-PQ3-002"],
+      "external_refs": [],
+      "description": "Q2 transcript states June 2026; the same quarter's PPT states May 2026 for the identical milestone — a same-quarter, same-document-set mismatch between the verbal call and the accompanying deck.",
+      "confidence": "medium",
+      "severity": "low",
+      "red_flag_ledger_candidate": true,
+      "category": "disclosure"
+    }
+  ],
+
+  "derived_facts_written": [
+    {"id": "SRC-1040", "doc": "derived", "kind": "guidance_credibility_score", "locator": "alumina_volume_production_sales credibility=medium", "period": "FY2026"},
+    {"id": "SRC-1041", "doc": "derived", "kind": "guidance_credibility_score", "locator": "metal_volume_production credibility=high(capped medium)", "period": "FY2026"},
+    {"id": "SRC-1042", "doc": "derived", "kind": "guidance_credibility_score", "locator": "5th_stream_refinery_commissioning_timeline credibility=low/medium", "period": "FY2026"},
+    {"id": "SRC-1043", "doc": "derived", "kind": "guidance_credibility_score", "locator": "5th_stream_fy26_volume_contribution credibility=low", "period": "FY2026"},
+    {"id": "SRC-1044", "doc": "derived", "kind": "guidance_credibility_score", "locator": "smelter_expansion_0.5mtpa_capex_and_timeline credibility=low", "period": "FY2026-FY2031"},
+    {"id": "SRC-1045", "doc": "derived", "kind": "guidance_credibility_score", "locator": "pottangi_bauxite_mine_commissioning credibility=low", "period": "FY2026"},
+    {"id": "SRC-1046", "doc": "derived", "kind": "guidance_credibility_score", "locator": "fy_capex_total credibility=medium", "period": "FY2026"},
+    {"id": "SRC-1047", "doc": "derived", "kind": "guidance_credibility_score", "locator": "alumina_price_realization_outlook credibility=low", "period": "FY2026"},
+    {"id": "SRC-1048", "doc": "derived", "kind": "guidance_credibility_score", "locator": "aluminium_lme_price_outlook credibility=low", "period": "FY2026"},
+    {"id": "SRC-1049", "doc": "derived", "kind": "guidance_credibility_score", "locator": "coal_captive_production credibility=medium-high", "period": "FY2026"},
+    {"id": "SRC-1050", "doc": "derived", "kind": "margin_bridge_lever_score", "locator": "5th-stream volume ramp achievability=Low-Medium", "period": "FY2027"},
+    {"id": "SRC-1051", "doc": "derived", "kind": "margin_bridge_lever_score", "locator": "Pottangi captive bauxite achievability=Low-Medium", "period": "FY2027"},
+    {"id": "SRC-1052", "doc": "derived", "kind": "margin_bridge_lever_score", "locator": "cost efficiency achievability=Medium-High", "period": "FY2027"},
+    {"id": "SRC-1053", "doc": "derived", "kind": "margin_bridge_lever_score", "locator": "commodity price recovery achievability=Low", "period": "FY2027"},
+    {"id": "SRC-1054", "doc": "derived", "kind": "margin_bridge_overall", "locator": "overall achievability=Medium-Low", "period": "FY2027"},
+    {"id": "SRC-1055", "doc": "derived", "kind": "delivery_check", "locator": "FY26 alumina total sales actual 14.46 lakh ton vs guided 12.5-13.0 lakh ton (beat)", "period": "FY2026"},
+    {"id": "SRC-1056", "doc": "derived", "kind": "delivery_check", "locator": "FY26 metal production actual 4.71 lakh ton vs guided 4.70 lakh ton (hit)", "period": "FY2026"},
+    {"id": "SRC-1057", "doc": "derived", "kind": "delivery_check", "locator": "FY26 capex actual ~Rs.2,000-2,100cr vs guided Rs.1,700cr (miss, overrun ~18-24%)", "period": "FY2026"},
+    {"id": "SRC-1058", "doc": "derived", "kind": "delivery_check", "locator": "Q4 FY26 alumina realization actual $348/t vs Q3 guide $310-320/t (beat) vs Q1 guide $400-450/t (miss)", "period": "FY2026Q4"},
+    {"id": "SRC-1059", "doc": "derived", "kind": "delivery_check", "locator": "Q4 FY26 aluminium realization actual ~$2,700-2,767/t vs Q3 guide $2,900-3,000/t (miss, low side ~5-7%)", "period": "FY2026Q4"}
+  ]
+}

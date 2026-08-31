@@ -1,0 +1,49 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 52,
+  "table_index": 1,
+  "bbox": [
+    75.0515,
+    472.54033333333336,
+    549.422,
+    566.436
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Position*",
+      "As on 31.03.2023",
+      "As on 31.03.2022"
+    ],
+    [
+      "A",
+      "Executives",
+      "1,588",
+      "1,667"
+    ],
+    [
+      "B",
+      "Supervisory",
+      "332",
+      "371"
+    ],
+    [
+      "C",
+      "Skilled/Highly Skilled",
+      "3,150",
+      "3,004"
+    ],
+    [
+      "D",
+      "Unskilled/Semi Skilled",
+      "120",
+      "478"
+    ],
+    [
+      "Total",
+      null,
+      "5,190",
+      "5,520"
+    ]
+  ]
+}

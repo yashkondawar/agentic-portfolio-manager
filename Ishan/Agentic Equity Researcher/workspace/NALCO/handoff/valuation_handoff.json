@@ -1,0 +1,335 @@
+{
+  "company": {
+    "name": "National Aluminium Company Limited",
+    "ticker": "NATIONALUM",
+    "exchange": "NSE",
+    "sector": "Metals & Mining - Aluminium",
+    "sector_pack": "metals_mining",
+    "basis": "consolidated"
+  },
+  "as_of": "2026-07-16",
+  "market": {
+    "cmp": 361.65,
+    "cmp_date": "2026-07-15",
+    "shares_diluted_cr": 183.6632,
+    "mcap_cr": 66421.8,
+    "free_float_pct": null,
+    "promoter_pct": null,
+    "pledge_pct": null,
+    "fii_pct": null,
+    "dii_pct": null,
+    "week52_high": 445.15,
+    "week52_low": 179.93,
+    "fact_refs": [
+      "F-MKT-CURRENT_PRICE-POINT2026-07-15",
+      "F-MKT-SHARES_OUTSTANDING-POINT2026-07-15",
+      "F-MKT-MARKET_CAP-POINT2026-07-15"
+    ]
+  },
+  "historicals": [
+    {
+      "fy": "FY2024",
+      "revenue": 13149.15,
+      "revenue_growth_pct": -7.76,
+      "ebitda": null,
+      "ebitda_margin_pct": null,
+      "depreciation": null,
+      "interest": null,
+      "other_income": null,
+      "pbt": 2712.08,
+      "pat": 1988.46,
+      "pat_adjusted": null,
+      "eps_diluted": 10.83,
+      "cfo": 2727.08,
+      "capex": 1559.7,
+      "fcf": 1167.38,
+      "net_debt": null,
+      "roe_pct": 13.8202,
+      "roce_pct": null,
+      "fy_avg_price": 93.75,
+      "fy_avg_pe": 8.66,
+      "fact_refs": [
+        "F-AR25B-002",
+        "F-AR24-027",
+        "F-AR25B-014",
+        "F-AR25B-018",
+        "F-AR25B-024",
+        "F-AR25B-072",
+        "D-ROE-FY2024-CONS-018"
+      ]
+    },
+    {
+      "fy": "FY2025",
+      "revenue": 16787.63,
+      "revenue_growth_pct": 27.67,
+      "ebitda": 7922.0,
+      "ebitda_margin_pct": 47.19,
+      "depreciation": 728.0,
+      "interest": 59.0,
+      "other_income": 357.01,
+      "pbt": 7135.0,
+      "pat": 5267.94,
+      "pat_adjusted": null,
+      "eps_diluted": 28.68,
+      "cfo": 5806.11,
+      "capex": 1175.58,
+      "fcf": 4630.53,
+      "net_debt": null,
+      "roe_pct": 32.7267,
+      "roce_pct": null,
+      "fy_avg_price": 183.26,
+      "fy_avg_pe": 6.39,
+      "fact_refs": [
+        "F-AR25B-001",
+        "F-PQ4-018",
+        "F-PQ4-021",
+        "F-PQ4-024",
+        "F-AR25-003",
+        "F-PQ4-027",
+        "F-AR25B-013",
+        "F-AR25B-017",
+        "F-AR25B-023",
+        "F-AR25B-071",
+        "D-ROE-FY2025-CONS-026"
+      ]
+    },
+    {
+      "fy": "FY2026",
+      "revenue": 17843.0,
+      "revenue_growth_pct": 6.28,
+      "ebitda": 8613.0,
+      "ebitda_margin_pct": 48.27,
+      "depreciation": 745.0,
+      "interest": 100.0,
+      "other_income": 666.0,
+      "pbt": 7767.0,
+      "pat": 5815.76,
+      "pat_adjusted": null,
+      "eps_diluted": 31.67,
+      "cfo": null,
+      "capex": null,
+      "fcf": null,
+      "net_debt": null,
+      "roe_pct": null,
+      "roce_pct": null,
+      "fy_avg_price": 239.99,
+      "fy_avg_pe": 7.58,
+      "fact_refs": [
+        "F-PQ4-001",
+        "F-PQ4-017",
+        "F-PQ4-020",
+        "F-PQ4-023",
+        "F-PQ4-009",
+        "F-PQ4-026",
+        "F-PQ4-029",
+        "F-MKT-SHARES_OUTSTANDING-POINT2026-07-15"
+      ]
+    }
+  ],
+  "estimates": [
+    {
+      "fy": "FY2027",
+      "revenue": 19399.4,
+      "revenue_growth_pct": 8.72,
+      "ebitda_margin_pct": 44.5,
+      "ebitda": 8632.7,
+      "depreciation": 857.0,
+      "interest": 115.0,
+      "tax_rate_pct": 25.3,
+      "pat": 6015.9,
+      "eps_diluted": 32.76,
+      "capex": 2280.0,
+      "fcf": null,
+      "roe_pct": null,
+      "assumption_refs": [
+        "A-1350",
+        "A-1351",
+        "A-1352",
+        "A-1353",
+        "A-1354",
+        "A-1360",
+        "A-1362",
+        "A-1363",
+        "A-1364",
+        "A-1365",
+        "A-1366",
+        "A-1367",
+        "A-1368"
+      ],
+      "confidence": "medium",
+      "source_refs": [
+        "SRC-1384",
+        "SRC-1386",
+        "SRC-1388",
+        "SRC-1390",
+        "SRC-1392",
+        "SRC-1394",
+        "SRC-1396"
+      ]
+    },
+    {
+      "fy": "FY2028",
+      "revenue": 19156.4,
+      "revenue_growth_pct": -1.25,
+      "ebitda_margin_pct": 43.0,
+      "ebitda": 8237.2,
+      "depreciation": 894.9,
+      "interest": 129.0,
+      "tax_rate_pct": 25.3,
+      "pat": 5702.8,
+      "eps_diluted": 31.05,
+      "capex": 2250.0,
+      "fcf": null,
+      "roe_pct": null,
+      "assumption_refs": [
+        "A-1350",
+        "A-1351",
+        "A-1352",
+        "A-1355",
+        "A-1356",
+        "A-1361",
+        "A-1362",
+        "A-1363",
+        "A-1364",
+        "A-1365",
+        "A-1366",
+        "A-1367",
+        "A-1368"
+      ],
+      "confidence": "medium",
+      "source_refs": [
+        "SRC-1385",
+        "SRC-1387",
+        "SRC-1389",
+        "SRC-1391",
+        "SRC-1393",
+        "SRC-1395",
+        "SRC-1397"
+      ]
+    }
+  ],
+  "guidance_ledger": [
+    {
+      "metric": "aluminium_metal_volumes",
+      "guided_value": "near-full utilization of existing smelter capacity, ~4.6-4.7 lakh MT/yr",
+      "period": "FY2027-FY2028",
+      "given_on": "FY2026Q4 earnings call / PPT",
+      "source_ref": "F-PQ4-079",
+      "credibility": "high",
+      "delivery_history": "Volume guidance has consistently been the most reliable metric family in the ledger; production has tracked near-target for several years."
+    },
+    {
+      "metric": "fifth_stream_alumina_refinery_commissioning",
+      "guided_value": "incremental ~200kt (cut down from an original 500kt guide) via 5th stream ramp, originally guided for Jun-2026 commissioning",
+      "period": "FY2026-FY2028",
+      "given_on": "multiple quarters FY2025-FY2026, progressively revised down",
+      "source_ref": "F-EXT-1150",
+      "credibility": "low",
+      "delivery_history": "Guided volume cut twice within FY2026 (500kt->300kt->200kt); guided Jun-2026 commissioning date already passed as of Jul-2026 access date with commissioning unconfirmed (commissioning-support tender still pre-bid as of 01-Jul-2026); consistent with a broader ~18-month historical pattern of timeline slippage on capacity projects."
+    },
+    {
+      "metric": "pottangi_bauxite_mine",
+      "guided_value": "captive bauxite supply to reduce input cost once operational; MDO awarded",
+      "period": "FY2027 onward",
+      "given_on": "Dec-2025 MDO award disclosure",
+      "source_ref": "F-EXT-1155",
+      "credibility": "medium",
+      "delivery_history": "MDO award is a concrete milestone (Dec-2025) but first captive ore flow / cost-offset realization timing is not yet independently corroborated."
+    },
+    {
+      "metric": "capex_execution",
+      "guided_value": "capex plans historically understate actual spend",
+      "period": "multi-year",
+      "given_on": "recurring pattern across FY2024-FY2026 capex disclosures",
+      "source_ref": "F-FUND-04",
+      "credibility": "low",
+      "delivery_history": "Confirmed recurring overrun of ~20% vs plan; applied in estimates as an upward capex/finance-cost bias rather than taken at face value."
+    },
+    {
+      "metric": "metal_and_alumina_price_outlook",
+      "guided_value": "aluminium $3,000-3,100/t; alumina $300-310/t (management's own commentary)",
+      "period": "FY2027",
+      "given_on": "FY2026Q4 earnings call",
+      "source_ref": "F-PQ4-115",
+      "credibility": "medium",
+      "delivery_history": "Management price commentary is directionally useful but is corroborated against, not substituted for, independent sources (World Bank CMO, Platts) per citation-standard confidence hierarchy; management commentary sits within/near the independent forecast band."
+    }
+  ],
+  "capex_plan": {
+    "announced_total": 5677.4,
+    "period": "FY2025 onward (5th-stream refinery)",
+    "purpose": "5th-stream alumina refinery capacity expansion plus Kayathar wind power (INR 163cr)",
+    "funding": null,
+    "growth_vs_maintenance_split": null,
+    "expected_asset_turn": null,
+    "commissioning_timeline": "Originally guided Jun-2026; unconfirmed as of Jul-2026 access date (DR1b), commissioning-support tender still pre-bid as of 01-Jul-2026",
+    "fact_refs": [
+      "F-AR25B-157",
+      "F-AR25B-162",
+      "F-EXT-1150",
+      "F-EXT-1151"
+    ]
+  },
+  "pe_bands": {
+    "ttm_pe": 11.42,
+    "fwd_pe_fy1": 11.04,
+    "fwd_pe_fy2": 11.65,
+    "hist_5y": {
+      "min": 4.61,
+      "p25": 6.39,
+      "median": 7.58,
+      "p75": 8.2,
+      "max": 8.66
+    },
+    "peer_domestic_median": null,
+    "peer_international_median": 10.04,
+    "premium_discount_note": "CMP implies fwd P/E FY27E/FY28E of 11.0x/11.7x, above the FY22-FY26 historical band (4.6x-8.7x, median 7.6x) despite base-case EPS being roughly flat over the estimate horizon -- consistent with the market pricing in either a structurally higher multiple (post cyclical-peak re-rating) or partial credit for 5th-stream/Pottangi optionality that this base case discounts. Domestic peer P/E medians were not located in DR2 sector research (data gap); only one international peer forward P/E (Alcoa, 10.04x) was found, which sits below NALCO's implied forward multiples."
+  },
+  "other_multiples": {
+    "ev_ebitda_ttm": null,
+    "ev_ebitda_5y_median": null,
+    "pb": null,
+    "pb_5y_median": null,
+    "fcf_yield_pct": null
+  },
+  "scenario_seeds": {
+    "base": {
+      "eps_cagr_2y_pct": -0.98,
+      "rationale": "Drivers-based build with near-rated-capacity metal volumes, external-anchored (World Bank/Platts) price normalization off the FY26 cyclical peak, and a probability-weighted (0.40/0.55) 5th-stream alumina ramp given its low guidance credibility and DR1b's unconfirmed-commissioning finding -- yields roughly flat EPS over FY26-FY28E."
+    },
+    "bull": {
+      "eps_cagr_2y_pct": 15.74,
+      "rationale": "5th-stream/Pottangi delivered in full at guided nameplate (no probability discount), metal/alumina prices hold at the upper end of independent+management ranges, and modest margin expansion from Pottangi's captive-ore cost offset."
+    },
+    "bear": {
+      "eps_cagr_2y_pct": -18.05,
+      "rationale": "5th-stream/Pottangi contribute zero volume in the horizon (continuation of the demonstrated ~18-month slip pattern), metal price falls to Goldman Sachs' bear case (~$2,400/t CY2027) and alumina to $260/t on deepening Indonesian oversupply, and the confirmed capex-overrun pattern continues to inflate finance costs."
+    }
+  },
+  "growth_drivers": [
+    "Aluminium metal volumes near rated smelter capacity (credible, high-confidence guidance family)",
+    "5th-stream alumina refinery ramp (probability-weighted, not guaranteed -- low guidance credibility, unconfirmed commissioning as of Jul-2026)",
+    "Pottangi captive bauxite mine (MDO awarded Dec-2025) as a medium-term input-cost offset",
+    "Global aluminium/alumina price cycle, anchored to World Bank CMO and Platts FOB Australia independent forecasts rather than management guidance alone"
+  ],
+  "key_risks_to_estimates": [
+    "5th-stream commissioning slips further or ramps below the probability-weighted volume assumed in the base case (guidance credibility scored low; ~18-month historical slip pattern; DR1b found commissioning unconfirmed as of Jul-2026 despite the guided date having passed)",
+    "Confirmed capex-execution overrun (~20% historically, F-FUND-04) continues, inflating D&A and finance costs beyond the base-case allowance",
+    "Aluminium/alumina prices revert toward the independent forecasts' lower tracks (Goldman Sachs bear case ~$2,400/t metal; continued Indonesian alumina oversupply) faster than assumed",
+    "Q4 FY2026 PAT already down -17% YoY (F-PQ4-115) -- a signal that the FY26 full-year cyclical-peak margin (48.27%) may be harder to sustain than the base case's already-conservative fade assumes",
+    "No domestic peer P/E benchmark was available in DR2 research to cross-check the implied forward multiple -- data gap flagged, not filled"
+  ],
+  "rating": {
+    "value": "N/A - not assigned by estimates-builder",
+    "thesis_one_line": "N/A - rating and target price are set by the downstream valuation/peer agent, not by estimates-builder.",
+    "variant_view": "Base case is materially more conservative on EPS (~flat FY26-FY28E) than management's own bullish framing of the 5th-stream ramp and price outlook (guidance.json executive tone_verdict: 'Bullish / self-confident'), because the 5th-stream/Pottangi volume upside -- the single largest swing factor in the model -- is scored low-credibility by the guidance ledger and its commissioning remains unconfirmed per DR1b as of Jul-2026, so it is probability-weighted rather than taken at face value. Management's own price guidance ($3,000-3,100/t metal, $300-310/t alumina) is broadly in line with the independent (World Bank/Platts) anchors used here."
+  },
+  "data_gaps": [
+    "FY2026 CFO, capex, FCF, net_debt, ROE and ROCE not available -- FY2026 annual report not yet published as of run date; only Q4 PPT summary figures exist",
+    "FY2024 EBITDA, depreciation, interest and other-income breakouts not separately available on a consolidated basis in the fact store -- left null rather than invented",
+    "Domestic peer forward P/E multiples not located in DR2 sector/peer research -- only one international peer (Alcoa, fwd P/E 10.04x) found",
+    "EV/EBITDA and P/B multiples (ttm and 5y median) not computed -- net debt / book value series incomplete in the current fact set for a reliable EV build",
+    "FCF not computed for FY2026E/FY27E/FY28E -- capex-plan funding/maintenance-vs-growth split not disclosed with enough granularity to separate maintenance capex from the 5th-stream growth tranche"
+  ],
+  "source_registry_path": "workspace/NALCO/state/source_registry.json"
+}

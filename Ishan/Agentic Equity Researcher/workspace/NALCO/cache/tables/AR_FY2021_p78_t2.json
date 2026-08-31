@@ -1,0 +1,55 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 78,
+  "table_index": 2,
+  "bbox": [
+    71.11608571428572,
+    88.12414999999993,
+    546.8365142857143,
+    683.3349
+  ],
+  "rows": [
+    [
+      "Unit",
+      "Products",
+      "Environmental Concerns",
+      "Risks",
+      "Opportunities /\nMitigation Measures"
+    ],
+    [
+      "Alumina\nRefinery",
+      "Calcined\nAlumina",
+      "",
+      "2. Water Pollution:\ni) Waste effluent.\nii) Sewage & Waste water.\niii) Surface Runoff water",
+      "2. Water Pollution:\ni) Effluents are treated in treatment facilities.\nii) The waste water treatment, recycling and reuse is carried out\nfor Ash pond over flow water and Red mud pond over flow\nwater.\niii) Return water from ash pond is reused for ash slurry making.\niv) Red Mud pond return water is reused for caustic red mud\nwashing.\nv) Sewage Waste water is treated in Sewage Treatment Plant and\nthe same is reused for Horticulture purposes.\nvi) Surface runoff & storm water is stored in the Sabari Lake and\ndisposed to outside after necessary treatment, if required."
+    ],
+    [
+      null,
+      null,
+      null,
+      "3. Land Contamination:\ni) Lime grit\nii) Red mud\niii) Ash",
+      "3. Land Contamination:\ni) Lime Grit is disposed to recyclers for Brick or other similar\nproduct manufacturing.\nii) Red mud utilization for extraction of Iron concentrate and\nGallium from Red mud is being explored.\niii) Higher utilization of fly ash by motivating entrepreneurs for\nutilization of fly ash in areas such as: Manufacturing of fly ash\nbricks, cement, road construction, dyke making, filling up\nlow lying areas etc."
+    ],
+    [
+      "Smelter",
+      "Aluminium",
+      "• Air pollution\n• Water pollution\n• Land contamination",
+      "1. Air Pollution:\ni) Fluoride & particulate\nemission from the FTP/FTC\nstacks due to pot operation.\nii) Generation of PFC during\nanode effect, detailed below*",
+      "1. Air Pollution:\ni) Fluoride emission is controlled by absorption of fluoride gas\nin alumina in FTPs & FTCs. Total fluoride emission is being\nmaintained below norm of 0.8 kg per ton of Aluminum\nproduced. Continuous laser based fugitive monitoring system\nis already installed in Pot Line-4 to monitor rooftop emission\nof fluoride and process is underway to install the same in\nPotlines-1 to 3. Also pneumatic transfer system of coke dust\nis under operation to minimize dust generation.\nii) The Smelter plant is equipped with ALPSYS pot regulation\nsystem, which minimizes anode effect by timely dosing\nAlumina."
+    ],
+    [
+      null,
+      null,
+      null,
+      "2. Water Pollution:\ni) Generation of fluoride\ncontaminated surface\nrunoffs.",
+      "2. Water Pollution:\ni) Surface runoffs are collected in three HDPE lined holding\npools through dedicated drains. The fluorinated surface\nrunoff is treated in De-fluoridation plants. (Operated on Ion\nExchange technology and latest Emrion Nano Technology).\nThe treated water is then recycled for cooling, horticulture\n& other plant use. Garland drains around hazardous waste\nstorage & handling area collect the contaminated surface\nrunoff and transfers to holding pools for treatment."
+    ],
+    [
+      null,
+      null,
+      null,
+      "3. Land Contamination:\nGeneration of Hazardous waste\nlike:\n(i) SPL\n(ii) Dross\n(iii) Shot blasting waste etc.",
+      "3. Land Contamination:\n(i) SPL is stored in impervious lined engineered landfill & in\nconcreted sheds to prevent land contamination. Carbon\nportion of SPL is segregated & is stored separately in concreted\nfloor sheds for future utilization in energy recovery. Disposal\nof carbon portion of SPL to authorized re-processors is also\nundergoing.\n(ii) Aluminium Dross is recycled into the pots. Disposal of legacy\nstock of 6000 MT of dross completed. Disposal of another lot\n(1984 MT) of legacy stock is under progress.\n(iii) Shot blasting waste, Induction furnace slag, Rejected lining\nof furnace, ladle cleaning residue etc. is being disposed off in\ncommon Hazardous waste landfill at Sukinda, Jajpur."
+    ]
+  ]
+}

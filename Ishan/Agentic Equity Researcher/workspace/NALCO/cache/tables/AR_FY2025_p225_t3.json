@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 225,
+  "table_index": 3,
+  "bbox": [
+    51.27368787878788,
+    313.785,
+    542.6150432432432,
+    389.249375
+  ],
+  "rows": [
+    [
+      "",
+      "Material non-cash expenditure",
+      null
+    ],
+    [
+      null,
+      "Year ended 31.03.2025",
+      "Year ended 31.03.2024"
+    ],
+    [
+      "Chemical segment",
+      "26.41",
+      "11.91"
+    ],
+    [
+      "Aluminium segment",
+      "37.41",
+      "16.51"
+    ],
+    [
+      "Unallocated",
+      "3.64",
+      "2.77"
+    ],
+    [
+      "",
+      "67.46",
+      "31.19"
+    ]
+  ]
+}

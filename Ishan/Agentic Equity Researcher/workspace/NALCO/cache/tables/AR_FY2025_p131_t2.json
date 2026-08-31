@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 131,
+  "table_index": 2,
+  "bbox": [
+    79.2737125,
+    316.05395,
+    542.653848,
+    385.1335
+  ],
+  "rows": [
+    [
+      "Received From",
+      "Opening Balance",
+      "Received during the year",
+      "Resolved during the year",
+      "Closing Balance"
+    ],
+    [
+      "SEBI",
+      "0",
+      "17",
+      "15",
+      "2"
+    ],
+    [
+      "Stock Exchange",
+      "0",
+      "1",
+      "1",
+      "0"
+    ],
+    [
+      "Individuals",
+      "0",
+      "822",
+      "822",
+      "0"
+    ],
+    [
+      "TOTAL",
+      "0",
+      "840",
+      "838",
+      "2"
+    ]
+  ]
+}

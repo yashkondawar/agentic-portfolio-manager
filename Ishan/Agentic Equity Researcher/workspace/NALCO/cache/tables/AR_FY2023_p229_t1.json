@@ -1,0 +1,38 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 229,
+  "table_index": 1,
+  "bbox": [
+    45.659333333333336,
+    63.009000000000015,
+    549.055,
+    139.34000000000003
+  ],
+  "rows": [
+    [
+      "17. Non Current Assets held for sale Amount in ` Crore",
+      null,
+      null
+    ],
+    [
+      "Particulars",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      "Non Current Assets held for sale",
+      "",
+      ""
+    ],
+    [
+      "Gross\nLess: Impairment provision",
+      "7.06\n6.42",
+      "7.09\n6.52"
+    ],
+    [
+      "Total Non-Current assets held for sale",
+      "0.64",
+      "0.57"
+    ]
+  ]
+}

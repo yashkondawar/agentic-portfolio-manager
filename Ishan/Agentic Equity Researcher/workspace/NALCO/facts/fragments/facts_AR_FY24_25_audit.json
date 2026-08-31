@@ -1,0 +1,746 @@
+[
+  {
+    "id": "F-AUD-01",
+    "metric": "auditor_name_1",
+    "label": "Joint Statutory Auditor 1",
+    "value": "A.K. Sabat & Co.",
+    "unit": "text",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-2700"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false
+  },
+  {
+    "id": "F-AUD-02",
+    "metric": "auditor_name_2",
+    "label": "Joint Statutory Auditor 2",
+    "value": "P.A. & Associates",
+    "unit": "text",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-2701"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false
+  },
+  {
+    "id": "F-AUD-03",
+    "metric": "audit_opinion_type",
+    "label": "Audit Opinion Type",
+    "value": "Unqualified/Unmodified",
+    "unit": "text",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-2702",
+      "quote": "the aforesaid Standalone Financial Statements give the information required by the Companies Act"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false
+  },
+  {
+    "id": "F-AUD-04",
+    "metric": "cag_supplementary_audit_comment",
+    "label": "CAG Supplementary Audit Comment",
+    "value": "Nil - Nothing significant has come to knowledge",
+    "unit": "text",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-2703"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false
+  },
+  {
+    "id": "F-AUD-05",
+    "metric": "contingent_liabilities_total",
+    "label": "Contingent Liabilities Total (Claims not acknowledged as debts)",
+    "value": 1920.03,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-2704"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": true
+  },
+  {
+    "id": "F-AUD-06",
+    "metric": "contingent_liability_odisha_sales_tax",
+    "label": "Odisha Sales Tax Demand",
+    "value": 3.77,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-05",
+    "source": {
+      "src_id": "SRC-2705"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-07",
+    "metric": "contingent_liability_central_sales_tax",
+    "label": "Central Sales Tax Demand",
+    "value": 277.06,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-05",
+    "source": {
+      "src_id": "SRC-2706"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-08",
+    "metric": "contingent_liability_vat",
+    "label": "VAT Demand",
+    "value": 0.69,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-05",
+    "source": {
+      "src_id": "SRC-2707"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-09",
+    "metric": "contingent_liability_excise_duty",
+    "label": "Excise Duty Demand",
+    "value": 19.27,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-05",
+    "source": {
+      "src_id": "SRC-2708"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-10",
+    "metric": "contingent_liability_custom_duty",
+    "label": "Custom Duty Demand",
+    "value": 183.68,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-05",
+    "source": {
+      "src_id": "SRC-2709"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-11",
+    "metric": "contingent_liability_service_tax",
+    "label": "Service Tax Demand",
+    "value": 14.06,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-05",
+    "source": {
+      "src_id": "SRC-2710"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-12",
+    "metric": "contingent_liability_gst",
+    "label": "GST Demand",
+    "value": 34.15,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-05",
+    "source": {
+      "src_id": "SRC-2711"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-13",
+    "metric": "contingent_liability_income_tax",
+    "label": "Income Tax Demand",
+    "value": 195.26,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-05",
+    "source": {
+      "src_id": "SRC-2712"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-14",
+    "metric": "contingent_liability_entry_tax",
+    "label": "Entry Tax Demand",
+    "value": 105.65,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-05",
+    "source": {
+      "src_id": "SRC-2713"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-15",
+    "metric": "contingent_liability_road_tax",
+    "label": "Road Tax Demand",
+    "value": 2.65,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-05",
+    "source": {
+      "src_id": "SRC-2714"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-16",
+    "metric": "contingent_liability_stamp_duty",
+    "label": "Stamp Duty Demand",
+    "value": 0.51,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-05",
+    "source": {
+      "src_id": "SRC-2715"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-17",
+    "metric": "contingent_liability_land_acquisition",
+    "label": "Land Acquisition and Interest Thereon",
+    "value": 118.01,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-05",
+    "source": {
+      "src_id": "SRC-2716"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-18",
+    "metric": "contingent_liability_mines_dept",
+    "label": "Demand from Dept. of Mines Govt. of Odisha",
+    "value": 136.32,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-05",
+    "source": {
+      "src_id": "SRC-2717"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-19",
+    "metric": "contingent_liability_water_resources",
+    "label": "Water Resources Dept. Govt. of Odisha Water Conservation Fund",
+    "value": 119.24,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-05",
+    "source": {
+      "src_id": "SRC-2718"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-20",
+    "metric": "contingent_liability_contractors_claims",
+    "label": "Claims of Contractors/Suppliers and Others",
+    "value": 166.88,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-05",
+    "source": {
+      "src_id": "SRC-2719"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-21",
+    "metric": "contingent_liability_psu_claims",
+    "label": "Claim from PSUs (OHPC Energy Compensation)",
+    "value": 542.83,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-05",
+    "source": {
+      "src_id": "SRC-2720"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-22",
+    "metric": "auditor_name_1_fy2025",
+    "label": "Joint Statutory Auditor 1 FY2025",
+    "value": "B M Chatrath & Co. LLP",
+    "unit": "text",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-2750"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false
+  },
+  {
+    "id": "F-AUD-23",
+    "metric": "auditor_name_2_fy2025",
+    "label": "Joint Statutory Auditor 2 FY2025",
+    "value": "SRB & Associates",
+    "unit": "text",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-2751"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false
+  },
+  {
+    "id": "F-AUD-24",
+    "metric": "audit_opinion_type_fy2025",
+    "label": "Audit Opinion Type FY2025",
+    "value": "Unqualified/Unmodified",
+    "unit": "text",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-2752",
+      "quote": "the aforesaid standalone financial statements give the information required by the Companies Act"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false
+  },
+  {
+    "id": "F-AUD-25",
+    "metric": "cag_supplementary_audit_comment_fy2025",
+    "label": "CAG Supplementary Audit Comment FY2025",
+    "value": "Nil - Nothing significant has come to knowledge",
+    "unit": "text",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-2753"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false
+  },
+  {
+    "id": "F-AUD-26",
+    "metric": "payroll_software_audit_trail_gap",
+    "label": "Payroll Software Audit Trail Gap",
+    "value": "Payroll software used for maintaining records did not have audit trail feature enabled",
+    "unit": "text",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-2754"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": false
+  },
+  {
+    "id": "F-AUD-27",
+    "metric": "contingent_liabilities_total_fy2025",
+    "label": "Contingent Liabilities Total FY2025 (Claims not acknowledged as debts)",
+    "value": 2050.43,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "parent": null,
+    "source": {
+      "src_id": "SRC-2755"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": true
+  },
+  {
+    "id": "F-AUD-28",
+    "metric": "contingent_liability_odisha_sales_tax_fy2025",
+    "label": "Odisha Sales Tax Demand FY2025",
+    "value": 3.77,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-27",
+    "source": {
+      "src_id": "SRC-2756"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-29",
+    "metric": "contingent_liability_central_sales_tax_fy2025",
+    "label": "Central Sales Tax Demand FY2025",
+    "value": 277.06,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-27",
+    "source": {
+      "src_id": "SRC-2757"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-30",
+    "metric": "contingent_liability_vat_fy2025",
+    "label": "VAT Demand FY2025",
+    "value": 0.69,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-27",
+    "source": {
+      "src_id": "SRC-2758"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-31",
+    "metric": "contingent_liability_excise_duty_fy2025",
+    "label": "Excise Duty Demand FY2025",
+    "value": 5.46,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-27",
+    "source": {
+      "src_id": "SRC-2759"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-32",
+    "metric": "contingent_liability_custom_duty_fy2025",
+    "label": "Custom Duty Demand FY2025",
+    "value": 187.20,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-27",
+    "source": {
+      "src_id": "SRC-2760"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-33",
+    "metric": "contingent_liability_service_tax_fy2025",
+    "label": "Service Tax Demand FY2025",
+    "value": 8.46,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-27",
+    "source": {
+      "src_id": "SRC-2761"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-34",
+    "metric": "contingent_liability_gst_fy2025",
+    "label": "GST Demand FY2025",
+    "value": 37.55,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-27",
+    "source": {
+      "src_id": "SRC-2762"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-35",
+    "metric": "contingent_liability_income_tax_fy2025",
+    "label": "Income Tax Demand FY2025",
+    "value": 196.73,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-27",
+    "source": {
+      "src_id": "SRC-2763"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-36",
+    "metric": "contingent_liability_entry_tax_fy2025",
+    "label": "Entry Tax Demand FY2025",
+    "value": 84.04,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-27",
+    "source": {
+      "src_id": "SRC-2764"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-37",
+    "metric": "contingent_liability_road_tax_fy2025",
+    "label": "Road Tax Demand FY2025",
+    "value": 2.65,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-27",
+    "source": {
+      "src_id": "SRC-2765"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-38",
+    "metric": "contingent_liability_stamp_duty_fy2025",
+    "label": "Stamp Duty Demand FY2025",
+    "value": 0.51,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-27",
+    "source": {
+      "src_id": "SRC-2766"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-39",
+    "metric": "contingent_liability_land_acquisition_fy2025",
+    "label": "Land Acquisition and Interest Thereon FY2025",
+    "value": 123.15,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-27",
+    "source": {
+      "src_id": "SRC-2767"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-40",
+    "metric": "contingent_liability_mines_dept_fy2025",
+    "label": "Demand from Dept. of Mines Govt. of Odisha FY2025",
+    "value": 136.32,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-27",
+    "source": {
+      "src_id": "SRC-2768"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-41",
+    "metric": "contingent_liability_water_resources_fy2025",
+    "label": "Water Resources Dept. Govt. of Odisha Water Conservation Fund FY2025",
+    "value": 119.24,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-27",
+    "source": {
+      "src_id": "SRC-2769"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-42",
+    "metric": "contingent_liability_contractors_claims_fy2025",
+    "label": "Claims of Contractors/Suppliers and Others FY2025",
+    "value": 167.19,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-27",
+    "source": {
+      "src_id": "SRC-2770"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AUD-43",
+    "metric": "contingent_liability_psu_claims_fy2025",
+    "label": "Claim from PSUs (OHPC Energy Compensation) FY2025",
+    "value": 700.41,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "parent": "F-AUD-27",
+    "source": {
+      "src_id": "SRC-2771"
+    },
+    "method": "reported",
+    "confidence": "high"
+  }
+]

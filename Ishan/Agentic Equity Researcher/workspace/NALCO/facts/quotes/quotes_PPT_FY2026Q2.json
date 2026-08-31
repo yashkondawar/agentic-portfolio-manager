@@ -1,0 +1,93 @@
+[
+  {
+    "id": "QT-PQ2-001",
+    "topics": ["debt_interest_fundraising", "capex_depreciation_utilization"],
+    "speaker": "NALCO Management",
+    "quote": "Zero debt leverage gives strength to balance sheet to fund Smelter & Power expansion plans",
+    "context_summary": "Balance sheet strength enables capital expenditure on major expansions",
+    "source": {"src_id": "SRC-641"},
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-PQ2-002",
+    "topics": ["sales_demand_market_share", "industry_macro_regulatory"],
+    "speaker": "NALCO Management",
+    "quote": "Indian Aluminium consumption is growing at CAGR of around 9% in last 05 years",
+    "context_summary": "Historical consumption growth rate in India",
+    "source": {"src_id": "SRC-640"},
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-PQ2-003",
+    "topics": ["sales_demand_market_share", "industry_macro_regulatory"],
+    "speaker": "NALCO Management",
+    "quote": "Indian Aluminium demand is expected to grow at CAGR range of 6.3 to 7.2 per cent till 2030",
+    "context_summary": "Forward projection of Indian aluminium demand growth",
+    "source": {"src_id": "SRC-640"},
+    "period_discussed": "general",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-PQ2-004",
+    "topics": ["capex_depreciation_utilization", "product_mix_margin_strategy"],
+    "speaker": "NALCO Management",
+    "quote": "Integrated Bauxite-Alumina-Aluminium-Power-Coal Complex. Global leader in producing bauxite and alumina at lowest cost",
+    "context_summary": "Company positioning and integrated supply chain",
+    "source": {"src_id": "SRC-631"},
+    "period_discussed": "general",
+    "kind": "statement",
+    "flags": ["company_claim"]
+  },
+  {
+    "id": "QT-PQ2-005",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "NALCO Management",
+    "quote": "Highest ever H1 Alumina Hydrate Production & Highest ever H1 Cast Metal Production",
+    "context_summary": "Record production achievement in H1 FY2026",
+    "source": {"src_id": "SRC-634"},
+    "period_discussed": "FY2026H1",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-PQ2-006",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "NALCO Management",
+    "quote": "Highest ever H1 Alumina/Hydrate Sale & Highest ever H1 Domestic Metal Sales",
+    "context_summary": "Record sales achievement in H1 FY2026",
+    "source": {"src_id": "SRC-635"},
+    "period_discussed": "FY2026H1",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-PQ2-007",
+    "topics": ["product_mix_margin_strategy", "capex_depreciation_utilization"],
+    "speaker": "NALCO Management",
+    "quote": "Expanded Refinery capacity to protect bottom line in case of LME downswing",
+    "context_summary": "Strategic refinery capacity expansion for downside protection",
+    "source": {"src_id": "SRC-641"},
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-PQ2-008",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "NALCO Management",
+    "quote": "Smelter capacity addition to give scope for extrusions and other value added products",
+    "context_summary": "Smelter expansion enabling new product opportunities",
+    "source": {"src_id": "SRC-641"},
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-PQ2-009",
+    "topics": ["sales_demand_market_share"],
+    "speaker": "NALCO Management",
+    "quote": "Export and Global Presence",
+    "context_summary": "Company emphasizing export business and global market presence",
+    "source": {"src_id": "SRC-641"},
+    "period_discussed": "general",
+    "kind": "statement"
+  }
+]

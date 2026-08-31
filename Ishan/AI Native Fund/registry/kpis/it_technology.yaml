@@ -1,0 +1,114 @@
+# IT & Technology (Services, SaaS, New Age Tech) — KPI/ratio vocabulary and
+# qualitative checklist for the Equity Research / Sectoral Analyst agents.
+# Source: docs/source-material/er-deep-research-prompts.txt, "IT & Technology Analyst" section.
+
+sector: it_technology
+description: >
+  IT services, SaaS, and new-age tech. Non-linear growth (revenue growth
+  without proportional headcount growth), talent economics, and AI/GenAI
+  disruption risk are the dominant lenses.
+
+quantitative_kpis:
+  # Core Valuation
+  - name: market_cap
+    unit: currency
+    category: core_valuation
+  - name: pe_ltm
+    unit: "x"
+    category: core_valuation
+  - name: forward_pe
+    unit: "x"
+    category: core_valuation
+  - name: ev_ebitda_ltm
+    unit: "x"
+    category: core_valuation
+  # Core Profitability
+  - name: revenue_ltm
+    unit: currency
+    category: core_profitability
+  - name: ebitda_ltm
+    unit: currency
+    category: core_profitability
+  - name: net_profit_excl_oneoffs
+    unit: currency
+    category: core_profitability
+  - name: operating_margin
+    unit: "%"
+    category: core_profitability
+  - name: roce
+    unit: "%"
+    category: core_profitability
+  - name: roe
+    unit: "%"
+    category: core_profitability
+  # Efficiency
+  - name: utilization_rate
+    unit: "%"
+    category: efficiency
+  - name: offshore_onsite_mix
+    unit: "%"
+    category: efficiency
+  - name: subcontracting_cost_pct_revenue
+    unit: "%"
+    category: efficiency
+  # Talent & Growth
+  - name: attrition_rate_ltm
+    unit: "%"
+    category: talent
+  - name: total_headcount
+    unit: count
+    category: talent
+  - name: revenue_per_employee
+    unit: currency
+    category: talent
+  # Cash Flow
+  - name: operating_cashflow
+    unit: currency
+    category: cash_flow
+  - name: fcf_post_dividend_acquisitions
+    unit: currency
+    category: cash_flow
+  - name: fcf_yield
+    unit: "%"
+    category: cash_flow
+  - name: fcf_to_ebitda_conversion
+    unit: "%"
+    category: cash_flow_quality
+  # Sector-specific
+  - name: pricing_realization_per_hour_day
+    unit: currency
+    category: pricing_stickiness
+  - name: net_revenue_retention
+    unit: "%"
+    category: pricing_stickiness
+  - name: large_deal_wins_value_volume
+    unit: currency
+    category: pricing_stickiness
+  - name: take_rate
+    unit: "%"
+    category: new_age_tech
+  - name: adjusted_ebitda_margin
+    unit: "%"
+    category: new_age_tech
+  - name: customer_acquisition_cost
+    unit: currency
+    category: new_age_tech
+
+qualitative_checks:
+  - non_linear_growth: "Revenue growth without proportional headcount increase; niche digital talent pool; sustained pricing power."
+  - talent_margin_levers: "Pyramid structure (fresher ratio), sub-contracting percentage, offshore/onsite mix as margin control levers."
+  - fx_arbitrage: "Extent to which USD-denominated revenue and INR-cost base act as a natural FX hedge."
+  - human_capital_arbitrage: "How the asset-light, human-capital-arbitrage model translates into observed high ROCE."
+  - talent_risk: "Impact of attrition (replacement cost) and wage inflation (especially cloud/cyber talent) on margins."
+  - client_demand_risk: "Outlook and IT budgets for key client sectors (US/EU BFSI and retail); large-deal-win pipeline and sentiment."
+  - ai_genai_disruption: "Mandatory — impact of AI/GenAI integration on utilization rates and pricing power for core services."
+
+cycle_overlap_checks:
+  - valuation_earnings_cycle: "Is the valuation premium/discount justified by sustainable ROCE stability, or driven purely by the valuation cycle (Stage 3 euphoria)? Is high P/E from genuine ROCE improvement or valuation-cycle expansion?"
+  - credit_capex_cycle: "Assess capex/growth funding needs against the current credit window; quantify resulting FCF constraints and potential debt risk."
+  - policy_profit_cycle: "If enjoying a regulatory moat (PLI, indigenization list), assess political risk and sustainability, especially receivable-day exposure to government counterparties."
+
+niche_pointers:
+  - er_and_d: "Assess whether revenue is stickier than generic IT services; % of revenue from ER&D."
+  - saas: "Assess whether net revenue retention (NRR) is strongly positive; analyze churn rate."
+  - new_age_tech: "Focus on take rate and detailed path to EBITDA breakeven."

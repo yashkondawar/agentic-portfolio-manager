@@ -1,0 +1,55 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 107,
+  "table_index": 2,
+  "bbox": [
+    124.97457368421053,
+    103.69522222222217,
+    555.345605,
+    201.01109999999994
+  ],
+  "rows": [
+    [
+      "Name",
+      "Category",
+      "Position",
+      "Meeting",
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "Held",
+      "Attended"
+    ],
+    [
+      "Smt. Achla Sinha^^",
+      "Independent",
+      "Chairperson",
+      "1",
+      "1"
+    ],
+    [
+      "Shri V. Balasubramanyam,\nDirector(Production)$",
+      "Functional",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Shri P. K .Mishra\nDirector (Commercial)&",
+      "Functional",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Shri R. S. Mahapatro\nDirector (HR)",
+      "Functional",
+      "Member",
+      "1",
+      "1"
+    ]
+  ]
+}

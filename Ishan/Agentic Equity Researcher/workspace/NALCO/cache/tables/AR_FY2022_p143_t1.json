@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 143,
+  "table_index": 1,
+  "bbox": [
+    74.8346,
+    125.54200000000003,
+    549.892175,
+    330.27000000000004
+  ],
+  "rows": [
+    [
+      "Directions u/s 143(5) of the Act",
+      "Auditors’ reply on action taken on the directions",
+      "Impact on Standalone\nFinancial Statements"
+    ],
+    [
+      "Whether the Company has system in place to process\nall the accounting transactions through IT system?\nIf yes, the implications of processing of accounting\ntransactions outside IT system on the integrity of the\naccounts along with the financial implications, if any,\nmay be stated.",
+      "As per the information and explanations given to us, the Company has\na system in place to process all the accounting transactions through\nIT system. SAP-ERP has been implemented for all the processes like\nFinancial Accounting (FI), Controlling (CO), Sales and Distribution\n(SD), Materials Management (MM), etc. Citrix system has been\nimplemented for processing the payroll.\nBased on the information and explanations given to us and audit\nprocedures carried out, no accounting transactions have been processed\nor carried outside the IT system. Therefore, there are no implications on\nthe integrity of the accounts.",
+      "Nil"
+    ],
+    [
+      "Whether there is any restructuring of any existing loan or\ncases of waiver/write off of debts/loans/interest etc., made by a\nlender to the Company due to the Company’s inability to repay\nthe loan? If yes, the financial impact may be stated. Whether such\ncases are properly accounted for?",
+      "Based on the information and explanations given to us and audit\nprocedures carried out, there are no restructuring of any existing loan\nor cases of waiver/write off of debts/loans/interest made by a lender to\nCompany due to the Company’s inability to repay the loan.",
+      "Nil"
+    ],
+    [
+      "Whether funds (grants/subsidy etc.) received or receivable for\nspecific schemes from Central/State Government or its agencies\nwere properly accounted for/utilised as per its term and\nconditions? List the case of deviation.",
+      "Based on the information and explanations given to us and audit\nprocedures carried out, no fund has been received/receivable by the\nCompany from Central/State Government or its agencies for any\nscheme.",
+      "Nil"
+    ]
+  ]
+}

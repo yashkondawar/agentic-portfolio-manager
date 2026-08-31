@@ -1,0 +1,55 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 286,
+  "table_index": 3,
+  "bbox": [
+    51.2736375,
+    572.5980714285714,
+    542.5966222222222,
+    655.4936
+  ],
+  "rows": [
+    [
+      "",
+      "Fair value of plan assets as at",
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      "PRMBS",
+      null,
+      "Gratuity",
+      null
+    ],
+    [
+      null,
+      "31.03.2025",
+      "31.03.2024",
+      "31.03.2025",
+      "31.03.2024"
+    ],
+    [
+      "Investments in Funds:",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "1. Insurance Companies",
+      "198.78",
+      "184.72",
+      "416.73",
+      "465.18"
+    ],
+    [
+      "Total",
+      "198.78",
+      "184.72",
+      "416.73",
+      "465.18"
+    ]
+  ]
+}

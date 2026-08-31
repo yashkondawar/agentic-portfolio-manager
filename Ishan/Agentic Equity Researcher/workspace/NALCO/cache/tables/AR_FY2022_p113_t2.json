@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 113,
+  "table_index": 2,
+  "bbox": [
+    94.75175,
+    531.426,
+    549.5366857142857,
+    569.1560000000001
+  ],
+  "rows": [
+    [
+      "Name\npromoter",
+      "No. of shares of\n(Beginning of the Year)",
+      "% of holding",
+      "Decrease during\nthe year",
+      "Date of\nChange",
+      "Mode",
+      "Share\nbalance",
+      "% of\nholding"
+    ],
+    [
+      "President of India",
+      "94,17,93,011",
+      "51.28",
+      "-",
+      "-",
+      "-",
+      "94,17,93,011",
+      "51.28"
+    ]
+  ]
+}

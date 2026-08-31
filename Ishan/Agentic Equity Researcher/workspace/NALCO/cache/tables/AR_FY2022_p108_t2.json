@@ -1,0 +1,55 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 108,
+  "table_index": 2,
+  "bbox": [
+    95.481,
+    331.461,
+    499.2726,
+    431.26000000000005
+  ],
+  "rows": [
+    [
+      "Members of Share Transfer Committee",
+      "Category of Director",
+      "Position",
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "Held during the tenure"
+    ],
+    [
+      "Shri R. S. Mahapatro, Director (HR)",
+      "Functional",
+      "Chairman",
+      "3"
+    ],
+    [
+      "Shri M. P. Mishra, Director (P&T)",
+      "Functional",
+      "Member",
+      "3"
+    ],
+    [
+      "Shri B. K. Das , Director (Production)",
+      "Functional",
+      "Member",
+      "3"
+    ],
+    [
+      "Shri R. C. Joshi, Director (Finance)*",
+      "Functional",
+      "Member",
+      "1"
+    ],
+    [
+      "Shri S. Samantaray, Director (Commercial)#",
+      "Functional",
+      "Member",
+      "0"
+    ]
+  ]
+}

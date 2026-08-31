@@ -1,0 +1,31 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 207,
+  "table_index": 1,
+  "bbox": [
+    51.27342926829268,
+    87.77894285714287,
+    542.7588214285714,
+    148.67675999999997
+  ],
+  "rows": [
+    [
+      "Particulars",
+      null,
+      "As at 31.03.2025",
+      "As at 31.03.2024"
+    ],
+    [
+      "v)",
+      "The amount of interest accrued and remaining unpaid at the end of the year.",
+      "Nil",
+      "Nil"
+    ],
+    [
+      "vi)",
+      "The amount of further interest remaining due and payable even in the succeeding years, until\nsuch date when the interest due as above are actually paid to the small enterprise, for the purpose\nof disallowance as a deductible expenditure under section 23 of MSME Development Act, 2006.",
+      "Nil",
+      "Nil"
+    ]
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 259,
+  "table_index": 2,
+  "bbox": [
+    51.273670370370375,
+    414.06390000000005,
+    542.9693592592592,
+    587.31645
+  ],
+  "rows": [
+    [
+      "",
+      "As at 31.03.2025",
+      "As at 31.03.2024"
+    ],
+    [
+      "Capital Work-in-progress",
+      "4,908.17",
+      "3,977.37"
+    ],
+    [
+      "Construction materials including in transit",
+      "123.47",
+      "82.95"
+    ],
+    [
+      "",
+      "5,031.64",
+      "4,060.32"
+    ],
+    [
+      "Less: Provision for impairment",
+      "(96.97)",
+      "(98.83)"
+    ],
+    [
+      "Total Capital Work-in-progress",
+      "4,934.67",
+      "3,961.49"
+    ],
+    [
+      "Movement in provision for impairment",
+      null,
+      null
+    ],
+    [
+      "Opening balance",
+      "98.83",
+      "89.50"
+    ],
+    [
+      "Provision made during the year",
+      "-",
+      "9.33"
+    ],
+    [
+      "Provision write back during the year",
+      "1.86",
+      "-"
+    ],
+    [
+      "Closing balance",
+      "96.97",
+      "98.83"
+    ]
+  ]
+}

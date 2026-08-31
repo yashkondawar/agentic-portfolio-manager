@@ -1,0 +1,32 @@
+kpi_id: fii_dii_flows
+scope: macro
+cycle_refs: [fii_dii_capital_flows_cycle]
+formula: >
+  Rolling 3/6/12-month net FII (Foreign Institutional Investor) and DII
+  (Domestic Institutional Investor) flows into Indian equities, expressed
+  as % of market cap or as a z-score against a 5-year distribution. A
+  confirming, not originating, signal per the framework — flows chase
+  returns.
+inputs:
+  - name: Daily/monthly net FII equity flows
+    source: >
+      NSE provisional daily flows (api/fiidiiTradeReact) via
+      afund.data.fii_dii (macro_series FII_NET, INR cr)
+    status: available
+  - name: Daily/monthly net DII equity flows
+    source: >
+      same NSE endpoint via afund.data.fii_dii (macro_series DII_NET,
+      INR cr)
+    status: available
+orientation: value_type
+lookback_years: 8
+cadence: monthly
+# Phase 8: source wired, but FORWARD-ACCUMULATING ONLY — no free bulk
+# historical archive exists for this endpoint, so accumulation starts
+# 2026-07. The flows anchor (afund.cycles.anchors.flows_anchor) stays
+# honestly data_pending until >= 24 complete months of FII_NET exist;
+# rolling 3/6/12m stats become meaningful only after months of daily runs.
+source_status: available
+registry_xref: null
+references_xref:
+  - kpi_interpretation/sentiment_cycle.md

@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 215,
+  "table_index": 2,
+  "bbox": [
+    79.6200875,
+    612.10695,
+    555.340525,
+    697.0731
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Particulars of asset category (Property Plant & Equipment)",
+      "Range of useful life in years"
+    ],
+    [
+      "1",
+      "Buildings",
+      "30-60"
+    ],
+    [
+      "2",
+      "Plant and machinery",
+      "15-40"
+    ],
+    [
+      "3",
+      "Railway siding",
+      "15"
+    ],
+    [
+      "4",
+      "Vehicles",
+      "08 - 10"
+    ],
+    [
+      "5",
+      "Furniture and fixtures",
+      "08 - 10"
+    ],
+    [
+      "6",
+      "Computer equipment",
+      "06"
+    ]
+  ]
+}

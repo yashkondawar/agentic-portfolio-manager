@@ -1,0 +1,125 @@
+# Pharma & Chemicals (Generics, APIs, Specialty Chemicals, CDMO) — KPI/ratio
+# vocabulary and qualitative checklist for the Equity Research / Sectoral
+# Analyst agents.
+# Source: docs/source-material/er-deep-research-prompts.txt, "Pharma & Chemicals Analyst" section.
+
+sector: pharma_chemicals
+description: >
+  Generics, APIs, specialty chemicals, and CDMO/CRAMS. Regulatory
+  compliance (USFDA/DGCI), manufacturing complexity moat, and pipeline
+  strength (Paragraph IV filings) dominate the analytical frame.
+
+quantitative_kpis:
+  # Core Valuation
+  - name: market_cap
+    unit: currency
+    category: core_valuation
+  - name: enterprise_value
+    unit: currency
+    category: core_valuation
+  - name: pe_ltm
+    unit: "x"
+    category: core_valuation
+  - name: forward_pe
+    unit: "x"
+    category: core_valuation
+  - name: ev_ebitda_ltm
+    unit: "x"
+    category: core_valuation
+  # Core Profitability
+  - name: revenue_ltm
+    unit: currency
+    category: core_profitability
+  - name: ebitda_ltm
+    unit: currency
+    category: core_profitability
+  - name: net_profit_excl_oneoffs
+    unit: currency
+    category: core_profitability
+  - name: gross_margin
+    unit: "%"
+    category: core_profitability
+  - name: ebitda_margin
+    unit: "%"
+    category: core_profitability
+  - name: roce
+    unit: "%"
+    category: core_profitability
+  - name: roe
+    unit: "%"
+    category: core_profitability
+  # Balance Sheet
+  - name: net_debt
+    unit: currency
+    category: balance_sheet
+  - name: net_debt_to_ebitda
+    unit: "x"
+    category: balance_sheet
+  - name: rd_spend_pct_sales
+    unit: "%"
+    category: balance_sheet
+  # Growth
+  - name: revenue_growth_rate
+    unit: "%"
+    category: growth
+  - name: expected_future_growth_rate
+    unit: "%"
+    category: growth
+  # Cash Flow
+  - name: operating_cashflow
+    unit: currency
+    category: cash_flow
+  - name: capex
+    unit: currency
+    category: cash_flow
+  - name: fcf_post_dividend_acquisitions
+    unit: currency
+    category: cash_flow
+  - name: fcf_yield
+    unit: "%"
+    category: cash_flow
+  # Sector-specific
+  - name: us_generics_revenue_pct
+    unit: "%"
+    category: segment_mix
+  - name: cdmo_crams_revenue_pct
+    unit: "%"
+    category: segment_mix
+  - name: domestic_formulations_revenue_pct
+    unit: "%"
+    category: segment_mix
+  - name: specialty_chemicals_revenue_pct
+    unit: "%"
+    category: segment_mix
+  - name: api_ksm_integration_pct
+    unit: "%"
+    category: operational_moats
+  - name: rd_intensity
+    unit: "%"
+    category: operational_moats
+  - name: anda_filings_approvals_annual
+    unit: count
+    category: pipeline_regulatory
+  - name: paragraph_iv_filings_total_pending
+    unit: count
+    category: pipeline_regulatory
+
+qualitative_checks:
+  - complexity_moat: "Manufacturing process complexity; shift towards complex injectables or biosimilars; CDMO/CRAMS capability."
+  - backward_integration_moat: "Level of backward integration into key starting materials (KSM) and APIs; potential PLI-scheme benefit."
+  - regulatory_risk_compliance: "Recent USFDA/DGCI warning letters or import alerts for key facilities; quantified revenue/margin impact; management remediation commentary."
+  - pipeline_assessment: "Volume and potential of Paragraph IV filings as an indicator of future high-margin generic launches."
+  - regulatory_price_cap_exposure: "Percentage of domestic sales subject to NPPA (NLEM) price caps."
+  - global_supply_chain_shifts: "Evidence of China+1 policy influencing global innovators shifting CDMO/CRAMS volume or API sourcing."
+  - us_price_erosion: "Trends in US price erosion for the generic segment."
+  - chronic_therapies: "Key chronic therapies dominating domestic sales and their growth stability."
+  - specialty_chemicals_moat: "Active-principles focus and nature of multi-year client validation moats (high switching costs)."
+
+cycle_overlap_checks:
+  - valuation_earnings_cycle: "Is the valuation premium/discount justified by sustainable ROCE stability, or driven purely by the valuation cycle (Stage 3 euphoria)? Is high P/E from genuine ROCE improvement or valuation-cycle expansion?"
+  - credit_capex_cycle: "Assess capex/growth funding needs against the current credit window; quantify resulting FCF constraints and potential debt risk."
+  - policy_profit_cycle: "If enjoying a regulatory moat (PLI, indigenization list), assess political risk and sustainability, especially receivable-day exposure to government counterparties."
+
+niche_pointers:
+  - specialty_chemicals: "Revenue stability and margin profile of CDMO/CRAMS segments vs. core generics/branded business."
+  - paragraph_iv_track_record: "Peer group's Paragraph IV filing success rate over the last 3-5 years."

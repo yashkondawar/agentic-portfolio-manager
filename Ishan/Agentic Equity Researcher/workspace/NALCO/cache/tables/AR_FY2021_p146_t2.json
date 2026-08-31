@@ -1,0 +1,184 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 146,
+  "table_index": 2,
+  "bbox": [
+    48.439,
+    88.12429999999995,
+    546.8366,
+    305.09079999999994
+  ],
+  "rows": [
+    [
+      "2",
+      "Central Excise\nAct, 1944",
+      "Central Excise",
+      "2007-08 to 2013-14",
+      "High Court",
+      "397.58",
+      "0.10"
+    ],
+    [
+      null,
+      null,
+      null,
+      "1999-2000 to 2014-15",
+      "Tribunal",
+      "7.47",
+      "0.39"
+    ],
+    [
+      null,
+      null,
+      null,
+      "2007-08 to 2015-16",
+      "Appellate Authority",
+      "5.40",
+      "0.19"
+    ],
+    [
+      "3",
+      "Finance Act,\n1994",
+      "Service Tax",
+      "2007-08 to 2016-17",
+      "Tribunal",
+      "5.07",
+      "1.96"
+    ],
+    [
+      null,
+      null,
+      null,
+      "2007-08 to 2017-18",
+      "Appellate Authority",
+      "7.67",
+      "1.19"
+    ],
+    [
+      "4",
+      "Customs Act,\n1962",
+      "Customs Duty",
+      "2000-01 to 2012-13",
+      "Tribunal",
+      "102.77",
+      "1.95"
+    ],
+    [
+      null,
+      null,
+      null,
+      "2012-13",
+      "Appellate Authority",
+      "1.70",
+      "0.32"
+    ],
+    [
+      "5",
+      "The Orissa VAT\nAct, 2004",
+      "VAT",
+      "2005-06 to 2009-10",
+      "Tribunal",
+      "12.60",
+      "2.17"
+    ],
+    [
+      null,
+      null,
+      null,
+      "2016-17 to 2017-18",
+      "Appellate Authority",
+      "0.05",
+      "0.00"
+    ],
+    [
+      "6",
+      "The Orissa Sales\nAct, 1947",
+      "OST",
+      "1995-96 to 2002-03",
+      "High Court",
+      "1.63",
+      "0.37"
+    ],
+    [
+      null,
+      null,
+      null,
+      "1992-93 to 2004-05",
+      "Tribunal",
+      "1.00",
+      "0.64"
+    ],
+    [
+      null,
+      null,
+      null,
+      "2003-04",
+      "Revisionary Authority",
+      "1.08",
+      "1.80"
+    ],
+    [
+      "7",
+      "The Orissa\nEntry Tax Act,\n1999",
+      "Entry Tax",
+      "1999-00 to 2010-11",
+      "High Court",
+      "12.89",
+      "6.06"
+    ],
+    [
+      null,
+      null,
+      null,
+      "1999-00 to 2013-14",
+      "Tribunal",
+      "131.52",
+      "54.06"
+    ],
+    [
+      null,
+      null,
+      null,
+      "2004-05 to 2014-15",
+      "Revisionary Authority",
+      "33.47",
+      "5.14"
+    ],
+    [
+      null,
+      null,
+      null,
+      "1999-00 to 2014-15",
+      "Appellate Authority",
+      "43.48",
+      "4.97"
+    ],
+    [
+      "8",
+      "The Central\nSales Act, 1956",
+      "CST",
+      "1991-92",
+      "High Court",
+      "3.49",
+      "3.49"
+    ],
+    [
+      null,
+      null,
+      null,
+      "1992-93 to 2008-09",
+      "Tribunal",
+      "277.52",
+      "77.84"
+    ],
+    [
+      "Total",
+      null,
+      null,
+      null,
+      null,
+      "1209.90",
+      "641.60"
+    ]
+  ]
+}

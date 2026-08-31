@@ -1,0 +1,57 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 86,
+  "table_index": 1,
+  "bbox": [
+    45.41521666666667,
+    207.3086666666667,
+    474.4281,
+    353.939
+  ],
+  "rows": [
+    [
+      "Unit",
+      "Utilisation"
+    ],
+    [
+      "Bauxite Mines",
+      "Overburden utilized for concurrent reclamation of mined out areas"
+    ],
+    [
+      "Alumina Refinery",
+      "Caustic Soda recycled from waste redmud"
+    ],
+    [
+      null,
+      "Ash utilization in Refinery"
+    ],
+    [
+      null,
+      "Recycling of Ash pond water"
+    ],
+    [
+      null,
+      "Recycling of Redmud pond water"
+    ],
+    [
+      "Smelter",
+      "Recycling of Aluminium scrap"
+    ],
+    [
+      null,
+      "Aluminium dross recycled as input to process"
+    ],
+    [
+      null,
+      "Recycling of spent anode"
+    ],
+    [
+      "CPP",
+      "Ash Utilisation in CPP"
+    ],
+    [
+      null,
+      "Recycling of Ash pond water"
+    ]
+  ]
+}

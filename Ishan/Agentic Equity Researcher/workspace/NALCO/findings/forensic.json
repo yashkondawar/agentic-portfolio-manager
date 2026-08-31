@@ -1,0 +1,251 @@
+{
+  "module": "21_forensic_earnings_quality",
+  "company": "NALCO",
+  "run_date": "2026-07-16",
+  "context_notes": [
+    "CPSE (Government of India promoter), near debt-free (D/E 0.0016x-0.0043x standalone), commodity cyclical (aluminium/alumina, LME-linked pricing).",
+    "FY2024 standalone/consolidated results include a Rs426.81cr exceptional gain on sale of assets (F-AR23... / SRC-422/423/529), a single non-recurring occurrence.",
+    "FY2026 full-year figures are presentation-sourced (PPT_FY2026Q4.pdf) — no audited FY2026 annual report available at time of this run; treat FY2026 figures as provisional/unaudited throughout."
+  ],
+  "findings": [
+    {
+      "id": "F-FOR-01",
+      "title": "FY2023 CFO collapse (-77.6% YoY) is the mechanical driver of the other-income-to-CFO threshold breach, not other-income growth",
+      "category": "earnings_quality",
+      "severity": "medium",
+      "confidence": "medium",
+      "evidence": [
+        "F-AR23-003 (other income FY2023 standalone, Rs235.63cr)",
+        "SRC-3453 (CFO FY2023 standalone, Rs908.24cr)",
+        "SRC-3454 (CFO FY2022 standalone, Rs4049.61cr)",
+        "D-OTHER_INCOME_SHARE_OF_CFO-FY2023-STAN-062 (25.94%)",
+        "D-CFO_YOY-FY2023-STAN-066 (-77.57%)",
+        "D-PAT_YOY-FY2023-STAN-064 (-47.68%)"
+      ],
+      "why_chain": "See RF-001 in state/red_flags.json for the full 3-layer why-chain.",
+      "verdict": "disclosed — benign mechanical explanation (denominator collapse in a commodity down-cycle year) is well-supported, but the specific working-capital leg driving the CFO collapse is not confirmed from extracted facts (CFO schedule/notes were not pulled at line-item level for FY2023). Routed to research for confirmation; disclose as a data gap if unresolved.",
+      "management_story": null,
+      "open_question_ids": ["FQ-NALCO-01"]
+    },
+    {
+      "id": "F-FOR-02",
+      "title": "DSO threshold breaches (FY2023, FY2024) are statistically real but immaterial in absolute terms",
+      "category": "working_capital",
+      "severity": "low",
+      "confidence": "high",
+      "evidence": [
+        "D-DSO_DAYS-FY2022-STAN-046 (1.93 days)",
+        "D-DSO_DAYS-FY2023-STAN-059 (2.34 days)",
+        "D-DSO_DAYS-FY2024-STAN-070 (4.26 days)",
+        "D-DSO_DAYS-FY2025-STAN-077 (4.05 days)",
+        "D-INVENTORY_DAYS-FY2024-STAN-071 (50.83 days)"
+      ],
+      "why_chain": "See RF-002/RF-003 in state/red_flags.json for full why-chains.",
+      "verdict": "dismissed — both YoY jumps (21%, 82%) are percentage moves on a near-zero absolute base (2-4 days of receivables), consistent with NALCO's PSU/institutional offtake structure with negligible customer credit risk. No accompanying inventory-build or flat-volume signature that would indicate channel stuffing. Trend has stabilized in FY2025 (4.05 days vs 4.26 in FY2024).",
+      "management_story": null,
+      "open_question_ids": []
+    },
+    {
+      "id": "F-FOR-03",
+      "title": "FY2022 comparative-period value conflicts (RF-MERGE-01 to -12) are consistent with routine annual-report regrouping, not misstatement",
+      "category": "data_quality",
+      "severity": "low_to_medium",
+      "confidence": "medium",
+      "evidence": [
+        "SRC-301/SRC-200 (revenue_from_operations, +0.24%)",
+        "SRC-303/SRC-200 (other_income, -11.2%)",
+        "SRC-397/SRC-203 (total_assets standalone, +1.22%)",
+        "SRC-3443/SRC-203 (total_liabilities, +4.47%)",
+        "SRC-3477/SRC-227 (total_assets consolidated, +1.22%)",
+        "SRC-1023 (derived magnitude classification)"
+      ],
+      "why_chain": "Two sub-patterns identified. (1) Income-statement line items (revenue, total income, finance costs, other expenses, total expenses, inventories, segment revenue) show deltas of 0.003%-0.26% — pure rounding/immaterial regrouping between AR_FY2022's own-year figures and AR_FY2023's FY2022 comparative column; dismissed (RF-MERGE-01,03,04,05,06,07,10,11). (2) Balance-sheet total_assets and total_liabilities both move by an identical Rs211.04cr (+1.22% assets, +4.47% liabilities) in both standalone and consolidated views — the fact that assets and liabilities move by the exact same absolute amount is strong internal evidence of a single reclassification entry preserving the balance-sheet identity, not an independent error; disclosed rather than dismissed given the >1% materiality and the absence of a captured footnote naming the specific line (RF-MERGE-08,09,12). (3) Other income alone shows an outsized -11.2% delta (Rs33.33cr) not matched by an offsetting balance-sheet-identity signal — disclosed with an open question (RF-MERGE-02).",
+      "verdict": "8 of 12 dismissed as immaterial regrouping/rounding; 4 of 12 (RF-MERGE-02, 08, 09, 12) disclosed pending confirmation of the specific reclassified line via a research pass on AR_FY2023's comparative-restatement footnotes (if any exist) or AR_FY2024's opening balance reconciliation.",
+      "management_story": null,
+      "open_question_ids": ["FQ-NALCO-02"]
+    },
+    {
+      "id": "F-FOR-04",
+      "title": "FY2025 comparative conflicts in the Q4 FY2026 investor presentation (RF-MERGE-13 to -16) are rounding/precision artifacts, not restatements",
+      "category": "data_quality",
+      "severity": "low",
+      "confidence": "high",
+      "evidence": [
+        "SRC-2500/SRC-693 (revenue, +0.002%)",
+        "SRC-2504/SRC-693 (total income, +0.002%)",
+        "SRC-2508/SRC-693 (pbt, +0.80%)",
+        "SRC-2512/SRC-693 (pat, +1.08%)",
+        "SRC-1024 (derived magnitude classification)"
+      ],
+      "why_chain": "PPT_FY2026Q4.pdf reports whole-crore-rounded FY2025 comparatives; AR_FY2025.pdf reports audited two-decimal figures. Revenue/total-income deltas are near-zero (0.002%), consistent with simple rounding. PBT/PAT deltas are somewhat larger (0.8%-1.1%) — the PPT's FY2025 PBT/PAT figures (7135, 5325) match the 'PBT/PAT FY2025 Full Year' figures used elsewhere in the comprehensive statement and appear to be a commonly quoted management/rounded reporting convention (possibly the pre-exceptional or standalone-adjacent figure) rather than the exact audited consolidated P&L line.",
+      "verdict": "dismissed (all four) — audited AR figures already correctly kept per the citation standard's reported-over-computed and latest-restatement-wins rules; no evidence of manipulation, just presentation-deck rounding. No further research needed.",
+      "management_story": null,
+      "open_question_ids": []
+    },
+    {
+      "id": "F-FOR-05",
+      "title": "FY2024 exceptional gain (Rs426.81cr) is a single, non-recurring occurrence — does not meet the recurring-exceptional reclassification test",
+      "category": "manipulation_screen",
+      "severity": "low",
+      "confidence": "high",
+      "evidence": [
+        "SRC-422 (exceptional items FY2024 standalone, -426.81cr)",
+        "SRC-423 (exceptional items FY2024 consolidated, -426.81cr)",
+        "SRC-529 (quote: 'Exceptional income related to gain on sale of assets')",
+        "exceptional_items = 0 in FY2021, FY2022, FY2023, FY2025 (standalone and consolidated)",
+        "SRC-1025 (derived frequency check)"
+      ],
+      "why_chain": "Prompt 21 section 4 requires >=2 occurrences of 'exceptional' items of the same nature before reclassifying as recurring in adjusted figures. NALCO shows exactly one non-zero exceptional-item year (FY2024) across the FY2021-FY2025 window, with a specific, disclosed nature (gain on sale of assets). This fails the recurrence test.",
+      "verdict": "dismissed as a manipulation concern — genuinely one-off. Flagged for report-writer's attention only as a normalization item: FY2024 reported PAT (Rs1988.5cr... consolidated Rs1988.5cr per comprehensive_statement) includes this gain and should be shown both as-reported and ex-exceptional in any multi-year margin/PAT trend analysis to avoid overstating FY2024 underlying profitability, and conversely to avoid understating the FY2024-to-FY2025 PAT growth rate's organic component.",
+      "management_story": null,
+      "open_question_ids": []
+    },
+    {
+      "id": "F-FOR-06",
+      "title": "Capitalization, related-party, and depreciation-policy manipulation screens return no-data / not-applicable, not a clean pass",
+      "category": "manipulation_screen",
+      "severity": "informational",
+      "confidence": "high",
+      "evidence": [
+        "SRC-1027 (capex/CWIP/useful-life disclosure completeness check)",
+        "SRC-1028 (related-party/promoter-loan screen)",
+        "eps_bridge_check.json (cfo_positive_expansion: NA, dna_adjusted_eps_growth: NA, gross_margin_trend: NA, receivables_pct_revenue_trend: NA)"
+      ],
+      "why_chain": "No capex, CWIP, gross-block-addition, depreciation-useful-life-change, or related-party-transaction facts were present in facts/financials.json or facts/derived_metrics.json. This is an extraction-scope gap (these schedules were not pulled), not evidence that NALCO's capitalization or RPT practices are clean. As a CPSE with GoI as sole promoter, classic promoter-pledge/promoter-loan-diversion risk is structurally not applicable, but subsidiary/JV related-party flows (e.g., to Angul-based JVs) were not screened.",
+      "verdict": "disclosed as a coverage gap — should not be read as a clean bill of health on capitalization or RPT; recommend a targeted extraction pass on AR Note schedules for PP&E additions/CWIP movement and the related-party-transactions note if a deeper audit is warranted.",
+      "management_story": null,
+      "open_question_ids": []
+    },
+    {
+      "id": "F-FOR-07",
+      "title": "Audit opinion is unqualified in every year FY2021-FY2025; CAG supplementary comment 'Nil' in FY2024/FY2025 — prior coverage gap now closed",
+      "category": "metadata",
+      "severity": "informational",
+      "confidence": "high",
+      "evidence": [
+        "F-AR21-263 (unqualified, FY2021)",
+        "F-AR22-064 (unqualified, FY2022, quote: 'the aforesaid Standalone Financial Statements give...a true and fair view')",
+        "F-AR23-170 (unqualified, FY2023)",
+        "F-AUD-01/F-AUD-02 (FY2024 joint auditors: A.K. Sabat & Co., P.A. & Associates)",
+        "F-AUD-03 (FY2024 opinion: Unqualified/Unmodified)",
+        "F-AUD-04 (FY2024 CAG supplementary comment: 'Nil - Nothing significant has come to knowledge')",
+        "F-AUD-22/F-AUD-23 (FY2025 joint auditors: B M Chatrath & Co. LLP, SRB & Associates)",
+        "F-AUD-24 (FY2025 opinion: Unqualified/Unmodified)",
+        "F-AUD-25 (FY2025 CAG comment: 'Nil')",
+        "SRC-1026 (derived continuity check)"
+      ],
+      "why_chain": "Facts newly extracted from facts_AR_FY24_25_audit.json close the coverage gap previously declared in this finding: FY2024 and FY2025 both carry unqualified/unmodified statutory-auditor opinions, each from a rotating pair of joint auditors (standard CPSE practice, C&AG-appointed, fixed statutory rotation cycle), and each year's CAG supplementary audit under Section 143(6)(b) of the Companies Act returned a 'Nil' comment -- no adverse observation from the supplementary layer of audit that is unique to CPSEs and sits above the standard statutory opinion. This is a second, independent clean-audit signal beyond the joint auditors' own opinion. Five consecutive years (FY2021-FY2025) now show unqualified opinions with no auditor-change-driven qualification and, for the two years where CAG data exists, no supplementary adverse comment either.",
+      "verdict": "no flag raised — clean audit history confirmed across the full FY2021-FY2025 window; the FY2024/FY2025 data gap is resolved favorably. One tangential ICFR item noted separately (F-FOR-08: payroll-software audit-trail feature not enabled, FY2025) is a minor, disclosed IT-general-controls gap, not an audit-opinion qualification, and does not reopen this finding.",
+      "management_story": null,
+      "open_question_ids": []
+    },
+    {
+      "id": "F-FOR-08",
+      "title": "FY2025 statutory auditors disclose payroll software lacked an enabled audit-trail feature (Rule 11(g)); contingent liabilities rose 6.8% YoY with PSU/OHPC claims up 29%",
+      "category": "manipulation_screen",
+      "severity": "low",
+      "confidence": "high",
+      "evidence": [
+        "F-AUD-26 (payroll software audit-trail feature not enabled, FY2025, per statutory auditors' Rule 11(g) report)",
+        "F-AUD-05 (FY2024 contingent liabilities total, Rs1920.03cr)",
+        "F-AUD-27 (FY2025 contingent liabilities total, Rs2050.43cr, +6.8% YoY)",
+        "F-AUD-16/F-AUD-33 (PSU/OHPC claims sub-item: Rs542.83cr FY2024 -> Rs700.41cr FY2025, +29.0%, the largest single mover in the contingent-liability schedule)"
+      ],
+      "why_chain": "Two distinct items surfaced by the new audit-fragment extraction. (1) The Rule 11(g) ICFR disclosure (payroll software audit-trail not enabled) is a genuine, if narrow, IT-general-controls gap -- it affects the payroll sub-ledger only (not revenue, inventory, or the general ledger core), is self-disclosed by the auditors in the statutory report (evidence of, not against, audit rigor), and is a commonly-cited finding across many Indian corporates in the first 1-2 years after the Companies (Audit and Auditors) Amendment Rules, 2021 audit-trail mandate took full effect -- context suggests this is a compliance-lag item rather than a signal of deliberate control weakening. (2) Contingent liabilities grew 6.8% overall (Rs1920.03cr to Rs2050.43cr), broadly in line with or below revenue/asset growth, except the PSU/OHPC claims sub-item which grew 29% to Rs700.41cr -- the single largest absolute and relative mover in the schedule. This does not indicate a provisioning-adequacy problem (contingent liabilities are, by definition, not yet provided for; a 29% rise in disputed claims from other PSUs/OHPC is a monitoring item, not evidence that existing provisions are inadequate) but is flagged as a specific line to track for resolution or escalation in FY2026.",
+      "verdict": "disclosed. Payroll audit-trail gap: low severity, does not affect audit_cleanliness scoring on the opinion itself (no qualification), but is noted as a minor offsetting ICFR item. PSU/OHPC contingent-claims growth: low severity, flagged as a disclosure/monitoring item feeding provisioning_adequacy context rather than a confirmed provisioning-smoothing concern (no P&L provision-movement schedule was extracted to test smoothing directly).",
+      "management_story": null,
+      "open_question_ids": []
+    }
+  ],
+  "earnings_quality_score": {
+    "composite_score": 75,
+    "scale": "0-100, higher is better",
+    "basis": "standalone, FY2021-FY2025 window (FY2026 excluded — unaudited/presentation-sourced)",
+    "components": {
+      "cash_conversion": {
+        "score": 62,
+        "weight_note": "CFO/PAT and CFO/EBITDA consistency",
+        "inputs": "CFO swung from Rs2199.4cr (FY2021) to Rs3958.3cr (FY2022) to Rs908.24cr (FY2023, -77.6%) to Rs2727.1cr (FY2024) to Rs5806.1cr (FY2025, +112.9%). High volatility tracks the aluminium/alumina price cycle and is not unusual for a commodity producer, but the FY2023 collapse (CFO fell far more than PAT, which was still positive at Rs1434.7cr consolidated) indicates a working-capital drag that year not fully explained from extracted facts (see F-FOR-01).",
+        "penalty_reason": "CFO volatility and one year of unexplained WC absorption"
+      },
+      "accrual_ratio_trend": {
+        "score": 78,
+        "weight_note": "(PAT - CFO)/Assets style trend",
+        "inputs": "FY2021 CFO (2199.4) > PAT (1299.4); FY2022 CFO (3958.3) > PAT (2951.4); FY2023 CFO (908.24) < PAT (1434.7) -- the one year cash lagged earnings; FY2024 CFO (2727.1) > PAT (1988.5, ex the 426.81cr exceptional gain, cash-backed core earnings look even stronger); FY2025 CFO (5806.1) > PAT (5267.9). 4 of 5 years show CFO exceeding PAT (favorable, low-accrual pattern); FY2023 is the sole exception.",
+        "penalty_reason": "single-year (FY2023) accrual-heavy exception"
+      },
+      "one_off_frequency": {
+        "score": 92,
+        "weight_note": "frequency and magnitude of exceptional/one-time items",
+        "inputs": "Single exceptional item across 5 years (FY2024, Rs426.81cr gain on sale of assets, disclosed nature, fails recurrence test at n=1). Clean.",
+        "penalty_reason": "minor deduction for not neutralizing FY2024 PAT trend without ex-exceptional adjustment in deliverables"
+      },
+      "provisioning_adequacy": {
+        "score": "NA",
+        "weight_note": "warranty/provision smoothing vs margin trend",
+        "inputs": "No P&L provision-movement schedule extracted; cannot directly test provisioning smoothing. New evidence (F-FOR-08): contingent liabilities (a related but distinct disclosure) rose 6.8% YoY (Rs1920.03cr to Rs2050.43cr), with the PSU/OHPC claims sub-item up 29% (Rs542.83cr to Rs700.41cr) as the largest mover. This firms up the evidentiary base slightly (from zero data to a concrete, if partial, trend) but does not resolve the underlying provisioning-adequacy question, since contingent liabilities and P&L provisions are different disclosures. Score nudged up modestly from the pure sector-median proxy to reflect the added (if incomplete) evidence and the absence of any smoothing signature in the contingent-liability trend itself.",
+        "score_used_in_composite": 72,
+        "penalty_reason": "data gap remains (no provision-movement schedule); PSU/OHPC contingent-claims growth (+29%) flagged as a line to monitor"
+      },
+      "audit_cleanliness": {
+        "score": 92,
+        "weight_note": "opinion type, qualifications, auditor tenure/changes, CAG supplementary comment (CPSE-specific)",
+        "inputs": "Unqualified/unmodified opinion in all five years FY2021-FY2025, now confirmed for the previously-uncovered FY2024/FY2025 (F-AUD-03, F-AUD-24), each with a CAG Section 143(6)(b) supplementary comment of 'Nil' (F-AUD-04, F-AUD-25) -- a second, CPSE-specific clean-audit signal beyond the joint statutory auditors' own opinion. Joint auditors rotate each year per statutory requirement (FY2024: A.K. Sabat & Co. + P.A. & Associates; FY2025: B M Chatrath & Co. LLP + SRB & Associates), consistent with normal CAG-appointment cycling, not a distress-driven auditor change. Offsetting, minor: FY2025 Rule 11(g) ICFR disclosure that payroll software's audit-trail feature was not enabled (F-AUD-26) -- a narrow, self-disclosed IT-general-controls gap limited to the payroll sub-ledger, not a qualification of the opinion itself.",
+        "penalty_reason": "minor deduction retained for the payroll-software audit-trail (Rule 11(g)) ICFR gap; prior coverage-gap deduction removed as the gap is now resolved favorably"
+      },
+      "disclosure_quality": {
+        "score": 68,
+        "weight_note": "restatements, segment opacity, comparative-period consistency",
+        "inputs": "16 merge-value-conflicts identified across the 5-year window (12 in FY2022 comparatives between AR_FY2022 and AR_FY2023, 4 in FY2025 comparatives between AR_FY2025 and the Q4 FY2026 PPT). Most (12 of 16) resolve to immaterial rounding; 4 (RF-MERGE-02/08/09/12) involve moves >1% of the relevant base without a captured footnote naming the specific reclassified line -- a real (if likely benign) disclosure-traceability gap rather than a rounding issue.",
+        "penalty_reason": "material comparative-period deltas without footnote-level traceability in 4 of 16 conflicts"
+      }
+    },
+    "component_weights_used": {
+      "cash_conversion": 25,
+      "accrual_ratio_trend": 20,
+      "one_off_frequency": 15,
+      "provisioning_adequacy": 15,
+      "audit_cleanliness": 15,
+      "disclosure_quality": 10
+    },
+    "weighted_calc_note": "Updated 2026-07-16 following facts_AR_FY24_25_audit.json (FY2024/FY2025 unqualified opinions + CAG 'Nil' comments; contingent liabilities Rs1920.03cr->Rs2050.43cr; FY2025 payroll audit-trail gap). composite = 62*0.25 + 78*0.20 + 92*0.15 + 72*0.15 + 92*0.15 + 68*0.10 = 15.5 + 15.6 + 13.8 + 10.8 + 13.8 + 6.8 = 76.3, rounded and adjusted to 75 to retain qualitative weight for the still-unexplained FY2023 CFO/WC swing (F-FOR-01) and the still-unresolved 4 comparative-period conflicts (F-FOR-03). Prior score (2026-07-15 run): 74. Net +1: audit_cleanliness rose 88->92 (FY2024/FY2025 coverage gap closed favorably, net of the new payroll audit-trail ICFR item) and provisioning_adequacy rose 70->72 (contingent-liability trend data partially firms up the prior pure-proxy score); all other components unchanged. This is a genuine, if modest, improvement — not a re-estimate of unchanged facts.",
+    "interpretation": "Earnings quality is above-median for an Indian commodity CPSE: single, disclosed, non-recurring exceptional item; unqualified audit history confirmed across all five years FY2021-FY2025, reinforced by a CAG 'Nil' supplementary comment in both newly-covered years; near-debt-free balance sheet removes financing-disguised-as-operating risk. Principal soft spots are (a) the unexplained FY2023 CFO/working-capital swing, (b) four comparative-period value conflicts exceeding 1% of their base without footnote-level confirmation of the specific line reclassified, and (c) a minor FY2025 payroll-software audit-trail (Rule 11(g)) ICFR gap and a 29% YoY rise in PSU/OHPC contingent claims, both newly disclosed and worth monitoring but not rising to a confirmed manipulation pattern. None of the section-4 screens confirm gross-up, cash-flow-statement reclassification, capitalization anomaly, or RPT round-tripping — but data gaps in capex/CWIP, P&L provision-movement schedules, and RPT detail mean the manipulation screens remain partially unconfirmed rather than a fully clean pass."
+  },
+  "top_5_prioritized_risks": [
+    {
+      "rank": 1,
+      "id": "RF-001",
+      "severity_x_confidence": "medium x medium",
+      "one_line": "FY2023 CFO collapsed 77.6% YoY while other income stayed flat, mechanically breaching the other-income/CFO threshold; underlying working-capital driver not confirmed from extracted facts."
+    },
+    {
+      "rank": 2,
+      "id": "RF-MERGE-09",
+      "severity_x_confidence": "medium x medium",
+      "one_line": "FY2022 standalone total liabilities restated +4.47% (Rs211cr) between AR_FY2022 and AR_FY2023 comparative column, with a matching total-assets move but no footnote confirming the specific line reclassified."
+    },
+    {
+      "rank": 3,
+      "id": "RF-MERGE-08",
+      "severity_x_confidence": "medium x medium",
+      "one_line": "FY2022 standalone total assets restated +1.22% (Rs211cr) in the same balance-sheet regrouping as RF-MERGE-09; consolidated total assets shows the identical pattern (RF-MERGE-12)."
+    },
+    {
+      "rank": 4,
+      "id": "RF-MERGE-02",
+      "severity_x_confidence": "medium x medium",
+      "one_line": "FY2022 standalone other income restated -11.2% (Rs33cr) between AR_FY2022 and AR_FY2023's comparative column, the largest relative P&L-line delta in the merge-conflict set."
+    },
+    {
+      "rank": 5,
+      "id": "RF-GUI-01",
+      "severity_x_confidence": "medium x high",
+      "one_line": "FY26 volume guidance from the 5th-stream alumina refinery was cut ~40% in-year (500KT->300KT) then effectively deferred to FY27, with no reconciling explanation for why the original figure implied FY26 delivery (confirmed 2026-07-16)."
+    }
+  ],
+  "displaced_from_top_5": {
+    "id": "F-FOR-06",
+    "severity_x_confidence": "informational x high",
+    "note": "Capitalization/related-party manipulation-screen coverage gap remains valid and unresolved but is ranked below RF-GUI-01 (confirmed, medium severity) as of the 2026-07-16 update; still recommend targeted follow-up extraction if deeper audit assurance is required."
+  }
+}

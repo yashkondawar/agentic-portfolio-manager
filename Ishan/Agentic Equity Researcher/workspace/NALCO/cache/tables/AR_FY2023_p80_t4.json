@@ -1,0 +1,25 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 80,
+  "table_index": 4,
+  "bbox": [
+    45.612375,
+    433.1885000000001,
+    549.8111250000001,
+    460.09700000000004
+  ],
+  "rows": [
+    [
+      "S. No.",
+      "State",
+      "Aspirational Districts",
+      "Amount spent (in Crores)"
+    ],
+    [
+      "1",
+      "Odisha",
+      "Koraput",
+      "5.372"
+    ]
+  ]
+}

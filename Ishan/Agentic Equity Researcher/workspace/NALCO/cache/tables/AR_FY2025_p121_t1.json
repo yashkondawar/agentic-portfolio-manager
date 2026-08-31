@@ -1,0 +1,28 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 121,
+  "table_index": 1,
+  "bbox": [
+    68.2815423076923,
+    241.15585000000002,
+    542.7263769230769,
+    285.8996
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Item",
+      "Investment (` in lakh)"
+    ],
+    [
+      "1.",
+      "40 kWp On-Grid roof top solar plant",
+      "16.95"
+    ],
+    [
+      "2.",
+      "Energy efficient Air conditioners",
+      "4.17"
+    ]
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 162,
+  "table_index": 4,
+  "bbox": [
+    45.275400000000005,
+    551.022,
+    549.2326,
+    617.273
+  ],
+  "rows": [
+    [
+      "18.2 Details of shares held by promoters: Amount in ` Crore",
+      null,
+      null
+    ],
+    [
+      "",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      "Promotor’s Name",
+      "Number of % of holding of\nshares held equity shares",
+      "Number of % of holding of\nshares held equity shares"
+    ],
+    [
+      "Government of India",
+      "94,17,93,011 51.28%",
+      "94,17,93,011 51.28%"
+    ],
+    [
+      "Total",
+      "94,17,93,011 51.28%",
+      "94,17,93,011 51.28%"
+    ]
+  ]
+}

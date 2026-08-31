@@ -1,0 +1,63 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 68,
+  "table_index": 3,
+  "bbox": [
+    60.311,
+    287.14433333333335,
+    484.2825,
+    430.2156666666667
+  ],
+  "rows": [
+    [
+      "Equity share capital",
+      "918.32",
+      "918.32"
+    ],
+    [
+      "Reserve & Surplus",
+      "11,636.32",
+      "9,762.38"
+    ],
+    [
+      "Deferred Tax Liability",
+      "868.18",
+      "893.72"
+    ],
+    [
+      "Trade payable",
+      "1,480.71",
+      "977.27"
+    ],
+    [
+      "Borrowings",
+      "20.67",
+      "46.11"
+    ],
+    [
+      "Lease Liabilities",
+      "56.43",
+      "55.97"
+    ],
+    [
+      "Other Financial liabilities",
+      "588.92",
+      "329.98"
+    ],
+    [
+      "Provisions",
+      "387.93",
+      "792.80"
+    ],
+    [
+      "Other Liabilities",
+      "1,320.31",
+      "934.06"
+    ],
+    [
+      "Total",
+      "17,277.79",
+      "14,710.58"
+    ]
+  ]
+}

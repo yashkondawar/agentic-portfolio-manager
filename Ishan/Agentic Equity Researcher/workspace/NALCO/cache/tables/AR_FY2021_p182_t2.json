@@ -1,0 +1,103 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 182,
+  "table_index": 2,
+  "bbox": [
+    71.1161,
+    122.68757142857143,
+    546.7626,
+    303.5769142857143
+  ],
+  "rows": [
+    [
+      "A.",
+      "Raw material",
+      "Year ended\n31.03.2021",
+      "Year ended\n31.03.2020"
+    ],
+    [
+      null,
+      "(1) Caustic soda",
+      "687.62",
+      "935.17"
+    ],
+    [
+      null,
+      "(2) C.P. coke",
+      "351.00",
+      "460.73"
+    ],
+    [
+      null,
+      "(3) C.T. pitch",
+      "130.67",
+      "142.25"
+    ],
+    [
+      null,
+      "(4) Aluminium fluoride",
+      "74.80",
+      "80.58"
+    ],
+    [
+      null,
+      "(5) Lime",
+      "44.14",
+      "51.47"
+    ],
+    [
+      null,
+      "(6) Others",
+      "27.20",
+      "32.28"
+    ],
+    [
+      null,
+      "Total raw materials consumed",
+      "1,315.43",
+      "1,702.48"
+    ],
+    [
+      "B.",
+      "Power and Fuel",
+      "",
+      ""
+    ],
+    [
+      null,
+      "(1) Coal",
+      "1,584.74",
+      "1,667.11"
+    ],
+    [
+      null,
+      "(2) Fuel oil",
+      "576.49",
+      "663.21"
+    ],
+    [
+      null,
+      "(3) Duty on own generation",
+      "415.35",
+      "400.30"
+    ],
+    [
+      null,
+      "(4) Purchase of power",
+      "55.25",
+      "224.47"
+    ],
+    [
+      null,
+      "(5) Power transmission charges",
+      "6.26",
+      "9.51"
+    ],
+    [
+      null,
+      "Total Power and Fuel consumed",
+      "2,638.09",
+      "2,964.60"
+    ]
+  ]
+}

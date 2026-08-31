@@ -1,0 +1,94 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 94,
+  "table_index": 3,
+  "bbox": [
+    68.42317272727273,
+    530.184175,
+    541.9963954545454,
+    661.8374
+  ],
+  "rows": [
+    [
+      "",
+      "FY 2023-24",
+      null,
+      "Remarks",
+      "FY 2022-23",
+      null,
+      "Remarks"
+    ],
+    [
+      null,
+      "Received during\nthe year",
+      "Pending resolution\nat end of year",
+      null,
+      "Received during\nthe year",
+      "Pending resolution\nat end of year",
+      null
+    ],
+    [
+      "Data privacy",
+      "0",
+      "Nil",
+      "",
+      "0",
+      "0",
+      ""
+    ],
+    [
+      "Advertising",
+      "0",
+      "Nil",
+      "",
+      "0",
+      "0",
+      ""
+    ],
+    [
+      "Cyber-security",
+      "0",
+      "Nil",
+      "",
+      "0",
+      "0",
+      ""
+    ],
+    [
+      "Delivery of essential services",
+      "N.A.",
+      "N.A.",
+      "",
+      "N.A.",
+      "N.A.",
+      ""
+    ],
+    [
+      "Restrictive Trade Practices",
+      "0",
+      "Nil",
+      "",
+      "0",
+      "0",
+      ""
+    ],
+    [
+      "Unfair Trade Practices",
+      "0",
+      "Nil",
+      "",
+      "0",
+      "0",
+      ""
+    ],
+    [
+      "Other",
+      "2",
+      "Nil",
+      "",
+      "6",
+      "0",
+      ""
+    ]
+  ]
+}

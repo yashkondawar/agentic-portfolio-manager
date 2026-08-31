@@ -1,0 +1,28 @@
+kpi_id: curve_slope
+scope: macro
+cycle_refs: [interest_rate_liquidity_cycle]
+formula: >
+  Yield Curve Shape = spread between long-term (10Y) and short-term (2Y)
+  India G-Sec yields (10Y minus 2Y). An inverted curve (negative spread)
+  is a classic leading recession indicator.
+inputs:
+  - name: India 2Y G-Sec yield
+    source: >
+      RBI DBIE / FRED — not wired. Phase 8 live check: FRED's short-rate
+      candidate INDIRLTST01STM returns 404 (confirmed missing; see
+      config/sources.yaml macro notes), so no free short-tenor G-Sec
+      series was found and this KPI stays missing.
+    status: missing
+  - name: India 10Y G-Sec yield
+    source: >
+      FRED INDIRLTLT01STM via afund.data.macro_fred (macro_series
+      GSEC_10Y, monthly) — this leg IS available since Phase 8; only the
+      short-tenor leg blocks the spread.
+    status: available
+orientation: value_type
+lookback_years: 18
+cadence: daily
+source_status: missing
+registry_xref: null
+references_xref:
+  - kpi_interpretation/rate_liquidity_cycle.md

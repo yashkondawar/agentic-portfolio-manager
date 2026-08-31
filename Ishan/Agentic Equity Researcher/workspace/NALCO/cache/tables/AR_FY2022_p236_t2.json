@@ -1,0 +1,118 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 236,
+  "table_index": 2,
+  "bbox": [
+    45.52746,
+    500.73350000000005,
+    443.90500000000003,
+    691.1980000000001
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      "As at 31.03.2022"
+    ],
+    [
+      "Claims against the Company not acknowledged as debts",
+      null,
+      ""
+    ],
+    [
+      "a. Demand from statutory authority",
+      null,
+      ""
+    ],
+    [
+      "",
+      "1. Odisha Sales tax",
+      "4.09"
+    ],
+    [
+      null,
+      "2. Central Sales tax",
+      "280.55"
+    ],
+    [
+      null,
+      "3. VAT",
+      "12.64"
+    ],
+    [
+      null,
+      "4. Excise duty",
+      "410.44"
+    ],
+    [
+      null,
+      "5. Custom duty",
+      "102.77"
+    ],
+    [
+      null,
+      "6. Service tax",
+      "14.82"
+    ],
+    [
+      null,
+      "7. Income tax",
+      "223.75"
+    ],
+    [
+      null,
+      "8. Entry tax",
+      "222.21"
+    ],
+    [
+      null,
+      "9. Road tax",
+      "2.65"
+    ],
+    [
+      null,
+      "10. Stamp duty",
+      "0.51"
+    ],
+    [
+      null,
+      "11. Claim From Govt. (NGT)",
+      "109.01"
+    ],
+    [
+      null,
+      "12. Claim From PSUs",
+      "322.92"
+    ],
+    [
+      null,
+      "13. Land acquisition and interest there on",
+      "78.07"
+    ],
+    [
+      null,
+      "14. Dept. of mines Govt. of Odisha",
+      "136.32"
+    ],
+    [
+      null,
+      "15 Water Resources Deptt. Govt. of Odisha for Water Conservation fund",
+      "119.24"
+    ],
+    [
+      "b.",
+      "Claim by contractors/suppliers and others",
+      ""
+    ],
+    [
+      "",
+      "1. Claims of Contractor’s suppliers and others",
+      "338.41"
+    ],
+    [
+      "Total",
+      null,
+      "2,378.40"
+    ]
+  ]
+}

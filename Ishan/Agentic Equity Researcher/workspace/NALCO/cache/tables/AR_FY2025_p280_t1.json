@@ -1,0 +1,85 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 280,
+  "table_index": 1,
+  "bbox": [
+    51.273630000000004,
+    85.4481090909091,
+    542.8708408163266,
+    229.2700857142857
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      "As at 31.03.2024",
+      "Reduction during\nthe year",
+      "Addition during\nthe year",
+      "As at 31.03.2025"
+    ],
+    [
+      "",
+      "11. Stamp duty",
+      "0.51",
+      "-",
+      "-",
+      "0.51"
+    ],
+    [
+      null,
+      "12. Land acquisition and interest thereon",
+      "118.01",
+      "-",
+      "5.14",
+      "123.15"
+    ],
+    [
+      null,
+      "13. Demand from Dept. of mines Govt. of Odisha",
+      "136.32",
+      "-",
+      "-",
+      "136.32"
+    ],
+    [
+      null,
+      "14. Demand from Water Resources Dept. Govt. of\nOdisha for Water Conservation fund",
+      "119.24",
+      "-",
+      "-",
+      "119.24"
+    ],
+    [
+      "b.",
+      "Claim by contractors/suppliers and others",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "1. Claims of Contractor’s suppliers and others",
+      "166.88",
+      "8.24",
+      "8.55",
+      "167.19"
+    ],
+    [
+      null,
+      "2. Claim From PSUs",
+      "542.83",
+      "-",
+      "157.58",
+      "700.41"
+    ],
+    [
+      "Total",
+      null,
+      "1,920.03",
+      "84.01",
+      "214.41",
+      "2,050.43"
+    ]
+  ]
+}

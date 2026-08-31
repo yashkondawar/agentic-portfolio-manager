@@ -1,0 +1,28 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 191,
+  "table_index": 2,
+  "bbox": [
+    112.308,
+    472.22150000000005,
+    549.9354428571429,
+    509.30050000000006
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "As at 31.03.2022",
+      "As at 31.03.2021"
+    ],
+    [
+      "Outstanding at the end of the year",
+      "0.09",
+      "0.01"
+    ],
+    [
+      "Maximum amount due at any time during the year",
+      "0.11",
+      "0.01"
+    ]
+  ]
+}

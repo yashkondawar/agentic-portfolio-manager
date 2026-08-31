@@ -1,0 +1,76 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 191,
+  "table_index": 4,
+  "bbox": [
+    51.273716216216215,
+    575.307,
+    543.1110307692308,
+    673.2402
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "Post retirement medical\nbenefit (PRMBS-funded)",
+      null,
+      "Settling-in-benefit",
+      null,
+      "NALCO benevolent fund\nscheme",
+      null
+    ],
+    [
+      "2022-23",
+      "Increase by",
+      "Decrease by",
+      "Increase by",
+      "Decrease by",
+      "Increase by",
+      "Decrease by"
+    ],
+    [
+      "Impact on amount due to change in Discount rate (-/+0.5%)",
+      "4.95",
+      "5.05",
+      "0.47",
+      "0.46",
+      "0.07",
+      "0.07"
+    ],
+    [
+      "% Change compared to base due to sensitivity [+/(-)%]",
+      "2.89%",
+      "2.95%",
+      "2.95%",
+      "2.89%",
+      "2.71%",
+      "2.76%"
+    ],
+    [
+      "Impact on amount due to change in Salary growth (+/-0.5%)",
+      "-",
+      "-",
+      "0.38",
+      "0.38",
+      "0.06",
+      "0.06"
+    ],
+    [
+      "% Change compared to base due to sensitivity [+/(-)%]",
+      "0.00%",
+      "0.00%",
+      "2.37%",
+      "2.42%",
+      "2.42%",
+      "2.37%"
+    ],
+    [
+      "Impact on amount due to change in Attrition rate (+/-0.5%)",
+      "0.21",
+      "0.21",
+      "0.02",
+      "0.02",
+      "-",
+      "-"
+    ]
+  ]
+}

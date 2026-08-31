@@ -1,0 +1,205 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 236,
+  "table_index": 1,
+  "bbox": [
+    45.52746,
+    79.09950000000003,
+    474.52000000000004,
+    426.5306666666667
+  ],
+  "rows": [
+    [
+      "Deferred tax liabilities\nDeferred tax assets",
+      null,
+      null,
+      "As at 31.03.2022"
+    ],
+    [
+      null,
+      null,
+      null,
+      "1,090.08"
+    ],
+    [
+      null,
+      null,
+      null,
+      "221.90"
+    ],
+    [
+      "",
+      null,
+      null,
+      "868.18"
+    ],
+    [
+      "2020-21",
+      "Opening balance as\nat 01.04.2020",
+      "Recognised in\nprofit or loss",
+      "Recognised in other\ncomprehensive income"
+    ],
+    [
+      "Deferred tax liabilities relating to:",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Property, plant and equipment",
+      "(1,573.82)",
+      "433.37",
+      "-"
+    ],
+    [
+      "Provision for defined benefit obligation (OCI)",
+      "(11.33)",
+      "-",
+      "6.18"
+    ],
+    [
+      "Deferred tax liabilities",
+      "(1,585.15)",
+      "433.37",
+      "6.18"
+    ],
+    [
+      "Deferred tax assets in relation to:",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Provision for compensated absences and other employee benefits",
+      "149.40",
+      "(41.08)",
+      "-"
+    ],
+    [
+      "Provision for defined benefit obligation",
+      "90.82",
+      "(24.70)",
+      "-"
+    ],
+    [
+      "Provision for doubtful debts / advances",
+      "89.02",
+      "(20.01)",
+      "-"
+    ],
+    [
+      "FVTPL financial assets",
+      "2.36",
+      "1.96",
+      "-"
+    ],
+    [
+      "Temporary Difference due to application of section 43B",
+      "188.52",
+      "(187.59)",
+      "-"
+    ],
+    [
+      "Others",
+      "4.42",
+      "(1.24)",
+      "-"
+    ],
+    [
+      "Deferred tax assets",
+      "524.54",
+      "(272.66)",
+      "-"
+    ],
+    [
+      "Deferred tax (liabilities) / assets - [net]",
+      "(1,060.61)",
+      "160.71",
+      "6.18"
+    ],
+    [
+      "2021-22",
+      "Opening balance as\nat 01.04.2020",
+      "Recognised in\nprofit or loss",
+      "Recognised in other\ncomprehensive income"
+    ],
+    [
+      "Deferred tax liabilities relating to:",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Property, plant and equipment",
+      "(1,140.45)",
+      "78.82",
+      "-"
+    ],
+    [
+      "Provision for defined benefit obligation (OCI)",
+      "(5.15)",
+      "-",
+      "(23.30)"
+    ],
+    [
+      "Deferred tax liabilities",
+      "(1,145.60)",
+      "78.82",
+      "(23.30)"
+    ],
+    [
+      "Deferred tax assets in relation to:",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Provision for compensated absences and other employee benefits",
+      "108.32",
+      "(103.54)",
+      "-"
+    ],
+    [
+      "Provision for defined benefit obligation",
+      "66.12",
+      "19.35",
+      "-"
+    ],
+    [
+      "Provision for doubtful debts / advances",
+      "69.01",
+      "(0.32)",
+      "-"
+    ],
+    [
+      "FVTPL financial assets",
+      "4.32",
+      "(0.27)",
+      "-"
+    ],
+    [
+      "Temporary Difference due to application of section 43B",
+      "0.93",
+      "54.80",
+      "-"
+    ],
+    [
+      "Others",
+      "3.18",
+      "-",
+      "-"
+    ],
+    [
+      "Deferred tax assets",
+      "251.88",
+      "(29.98)",
+      "-"
+    ],
+    [
+      "Deferred tax (liabilities) / assets [net]",
+      "(893.72)",
+      "48.84",
+      "(23.30)"
+    ]
+  ]
+}

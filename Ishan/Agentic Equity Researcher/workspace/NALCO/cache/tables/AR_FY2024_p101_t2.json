@@ -1,0 +1,58 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 101,
+  "table_index": 2,
+  "bbox": [
+    79.27367058823529,
+    555.7787083333334,
+    542.7318222222223,
+    672.8581
+  ],
+  "rows": [
+    [
+      "Name & Designation",
+      "Board Meetings",
+      null,
+      "Attendance at\n42nd AGM held\non 21.09.2023",
+      "No. of other\ndirectorships",
+      "Membership in the Committees\nof other Companies",
+      null
+    ],
+    [
+      null,
+      "Held during\nthe tenure",
+      "Attended",
+      null,
+      null,
+      "Membership",
+      "Chairmanship"
+    ],
+    [
+      "Shri S. Patra\nChairman-cum-Managing Director",
+      "7",
+      "7",
+      "Yes",
+      "2",
+      "Nil",
+      "Nil"
+    ],
+    [
+      "Shri R. S. Mahapatro\nDirector (HR)#",
+      "7",
+      "7",
+      "Yes",
+      "Nil",
+      "Nil",
+      "Nil"
+    ],
+    [
+      "Shri M. P. Mishra\nDirector (P&T)$",
+      "1",
+      "1",
+      "NA",
+      "1",
+      "Nil",
+      "Nil"
+    ]
+  ]
+}

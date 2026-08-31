@@ -1,0 +1,169 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 222,
+  "table_index": 1,
+  "bbox": [
+    51.273625,
+    88.35771428571424,
+    542.6701058823529,
+    473.96315999999996
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      "Year ended 31.03.2025",
+      "Year ended 31.03.2024"
+    ],
+    [
+      "(c)",
+      "Other Manufacturing Expenses",
+      null,
+      null
+    ],
+    [
+      "",
+      "(1) Water charges",
+      "40.58",
+      "39.60"
+    ],
+    [
+      null,
+      "(2) Royalty",
+      "242.21",
+      "210.28"
+    ],
+    [
+      null,
+      "(3) Contribution to District Mineral Fund and National Mineral Exploration Trust",
+      "71.73",
+      "63.04"
+    ],
+    [
+      null,
+      "(4) Coal excavation and transportation expenses",
+      "291.27",
+      "230.45"
+    ],
+    [
+      null,
+      "(5) Others",
+      "153.98",
+      "135.78"
+    ],
+    [
+      "(d)",
+      "Freight and handling charges",
+      null,
+      null
+    ],
+    [
+      "",
+      "(1) Incoming materials (Alumina)",
+      "140.03",
+      "130.54"
+    ],
+    [
+      null,
+      "(2) Outgoing materials",
+      "137.05",
+      "141.22"
+    ],
+    [
+      "(e)",
+      "Auditors remuneration and out-of-pocket expenses",
+      null,
+      null
+    ],
+    [
+      "",
+      "(i) As Auditors",
+      "0.60",
+      "0.60"
+    ],
+    [
+      null,
+      "(ii) For Taxation matters",
+      "0.12",
+      "0.12"
+    ],
+    [
+      null,
+      "(iii) For Other services",
+      "0.48",
+      "0.42"
+    ],
+    [
+      null,
+      "(iv) For reimbursement of expenses",
+      "0.12",
+      "0.03"
+    ],
+    [
+      "(f)",
+      "Payment to Cost Auditors",
+      "0.04",
+      "0.04"
+    ],
+    [
+      "(g)",
+      "Security and fire fighting expenses",
+      "176.52",
+      "171.47"
+    ],
+    [
+      "(h)",
+      "Corporate social responsibility expenses [refer note 34.1]",
+      "61.30",
+      "50.54"
+    ],
+    [
+      "(i)",
+      "Administrative and general expenses",
+      "149.69",
+      "132.57"
+    ],
+    [
+      "(j)",
+      "Renewable purchase obligation",
+      "23.12",
+      "(97.71)"
+    ],
+    [
+      "(k)",
+      "Selling and distribution expenses",
+      "22.51",
+      "26.02"
+    ],
+    [
+      "(l)",
+      "Write off of Inventories, Claims etc",
+      "6.75",
+      "4.17"
+    ],
+    [
+      "(m)",
+      "Write off of Property Plant & Equipments",
+      "7.64",
+      "17.46"
+    ],
+    [
+      "(n)",
+      "Bad and doubtful Provisions/ (write back)",
+      "(9.42)",
+      "16.56"
+    ],
+    [
+      "(o)",
+      "Others",
+      "71.03",
+      "89.75"
+    ],
+    [
+      "Total other expenses",
+      null,
+      "2,297.46",
+      "2,048.05"
+    ]
+  ]
+}

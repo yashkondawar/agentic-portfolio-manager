@@ -1,0 +1,38 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 207,
+  "table_index": 1,
+  "bbox": [
+    52.29675,
+    73.95089999999999,
+    543.7495833333334,
+    259.5343
+  ],
+  "rows": [
+    [
+      "Ind AS Nos.",
+      "Nomenclature",
+      "Description"
+    ],
+    [
+      "Ind AS 113",
+      "Fair Value\nMeasurement",
+      "- The Company has adopted the principles of fair value measurement as laid down in the standard while\nmeasuring its financial assets and liabilities.\n- Accounting policy in this regard is disclosed at para 4.2.6. of the Material Accounting Policy Information."
+    ],
+    [
+      "Ind AS 114",
+      "Regulatory Deferral\nAccounts",
+      "- The Company is not subject to any rate regulation, thus the standard is not applicable."
+    ],
+    [
+      "Ind AS 115",
+      "Revenue from\ncontracts with\ncustomers",
+      "- The Company recognises revenue on completion of all its performance obligation relating to the\ncontract with the customers."
+    ],
+    [
+      "Ind AS 116",
+      "Leases",
+      "- The company identifies all leases wherever a contract is, or contains, a lease if it conveys the right to\ncontrol the use of an identified asset (explicitly or implicitly specified in the contract) for a period of\ntime in exchange of consideration, at the inception of the contract.\n- The company recognizes, “Right Of Use” ROU Asset at cost, and the Lease Liability is measured at the\npresent value of all lease payments."
+    ]
+  ]
+}

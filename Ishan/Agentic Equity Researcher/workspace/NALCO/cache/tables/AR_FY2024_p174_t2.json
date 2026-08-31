@@ -1,0 +1,49 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 174,
+  "table_index": 2,
+  "bbox": [
+    51.27368333333334,
+    289.41814999999997,
+    542.9320625,
+    372.31383999999997
+  ],
+  "rows": [
+    [
+      "",
+      "Particulars",
+      "As at 31.03.2024",
+      "As at 31.03.2023"
+    ],
+    [
+      "(a)",
+      "In deposit account ( having original maturity between 3-12 months)",
+      "2,527.41",
+      "1,992.33"
+    ],
+    [
+      null,
+      "Principal",
+      "2,479.00",
+      "1,926.00"
+    ],
+    [
+      null,
+      "Accrued Interest",
+      "48.41",
+      "66.33"
+    ],
+    [
+      "(b)",
+      "Earmarked balance with scheduled banks [refer note 16.B.1]",
+      "4.25",
+      "61.88"
+    ],
+    [
+      "Total other bank balances",
+      null,
+      "2,531.66",
+      "2,054.21"
+    ]
+  ]
+}

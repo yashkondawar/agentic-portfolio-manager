@@ -1,0 +1,104 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 238,
+  "table_index": 2,
+  "bbox": [
+    71.11616285714285,
+    122.68758333333334,
+    546.8366628571428,
+    271.13824999999997
+  ],
+  "rows": [
+    [
+      "B.",
+      "Current",
+      null,
+      "",
+      ""
+    ],
+    [
+      "(i)",
+      "Revenue received in advance",
+      null,
+      "97.27",
+      "94.25"
+    ],
+    [
+      "(ii)",
+      "Statutory and other dues",
+      null,
+      "",
+      ""
+    ],
+    [
+      "",
+      "(a)",
+      "Electricity duty [refer note: 24.2]",
+      "107.47",
+      "589.43"
+    ],
+    [
+      "",
+      "(b)",
+      "Tax deducted and collected at source",
+      "29.35",
+      "21.61"
+    ],
+    [
+      "",
+      "(c)",
+      "Contribution to NEPF trust and NPS",
+      "43.58",
+      "38.17"
+    ],
+    [
+      "",
+      "(d)",
+      "Dues towards stamp duty",
+      "212.78",
+      "212.78"
+    ],
+    [
+      "",
+      "(e)",
+      "Others (Service tax, excise duty etc)",
+      "63.71",
+      "64.91"
+    ],
+    [
+      "(iii)",
+      "Renewable energy purchase obligation [refer note: 24.3]",
+      null,
+      "24.99",
+      "293.82"
+    ],
+    [
+      "(iv)",
+      "Deposits under NEFFARS",
+      null,
+      "25.20",
+      "24.22"
+    ],
+    [
+      "(v)",
+      "Grants for property, plant and equipment",
+      null,
+      "0.51",
+      "0.53"
+    ],
+    [
+      "(vi)",
+      "Other credit balances",
+      null,
+      "0.43",
+      "0.60"
+    ],
+    [
+      "Total other current liabilities",
+      null,
+      null,
+      "605.29",
+      "1,340.32"
+    ]
+  ]
+}

@@ -1,0 +1,25 @@
+kpi_id: cpi_yoy
+scope: macro
+cycle_refs: [inflation_cycle]
+formula: >
+  CPI YoY = year-over-year % change in India's Consumer Price Index
+  (combined), scored against the RBI's inflation target band (4% +/- 2pp)
+  rather than by percentile direction alone — see orientation.
+inputs:
+  - name: India CPI (combined) index
+    source: >
+      FRED INDCPIALLMINMEI via afund.data.macro_fred (macro_series
+      CPI_INDEX -> derived CPI_YOY). STALENESS: the FRED series lags
+      ~12-15 months (latest 2025-03 as of 2026-07), so the inflation
+      anchor (afund.cycles.anchors.inflation_anchor) enforces a 6-month
+      staleness cutoff and reads data_stale until a fresh point lands.
+      The fresh-CPI route is the MOSPI manual import
+      (afund.data.macro_manual, series_code CPI_YOY).
+    status: available
+orientation: goldilocks_type
+lookback_years: 12
+cadence: monthly
+source_status: available
+registry_xref: null
+references_xref:
+  - kpi_interpretation/rate_liquidity_cycle.md

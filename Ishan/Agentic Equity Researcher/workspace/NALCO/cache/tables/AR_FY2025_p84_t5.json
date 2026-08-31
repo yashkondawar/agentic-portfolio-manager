@@ -1,0 +1,53 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 84,
+  "table_index": 5,
+  "bbox": [
+    51.27374642857143,
+    547.1878666666667,
+    542.6273294117647,
+    664.5264999999999
+  ],
+  "rows": [
+    [
+      "Stakeholder\ngroup from\nwhom\ncomplaint is\nreceived",
+      "Grievance Redressal\nMechanism in Place (Yes/No)\n(If yes, then provide web-link\nfor grievance redress policy)",
+      "FY 2024 - 25",
+      null,
+      null,
+      "FY 2023 - 24",
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      "Number of\ncomplaints\nfiled during\nthe year",
+      "Number of\ncomplaints\npending\nresolution\nat close of\nthe year",
+      "Remarks",
+      "Number of\ncomplaints\nfiled during\nthe year",
+      "Number of\ncomplaints\npending\nresolution at\nclose of the\nyear",
+      "Remarks"
+    ],
+    [
+      "Communities",
+      "No",
+      "0",
+      "0",
+      "-",
+      "0",
+      "0",
+      "-"
+    ],
+    [
+      "Investors\n(other than\nshareholders)",
+      "NA",
+      "0",
+      "0",
+      "-",
+      "0",
+      "0",
+      "-"
+    ]
+  ]
+}

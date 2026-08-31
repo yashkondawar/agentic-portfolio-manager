@@ -1,0 +1,103 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 228,
+  "table_index": 1,
+  "bbox": [
+    45.604,
+    56.23400000000004,
+    549.6210000000001,
+    266.6345
+  ],
+  "rows": [
+    [
+      "15. Inventories Amount in ` Crore",
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      null,
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      "(a)\n(b)\n(c)\n(d)\n(e)\n(f)\n(g)",
+      "Raw materials",
+      "306.67",
+      "161.03"
+    ],
+    [
+      null,
+      "Coal and fuel oil",
+      "189.76",
+      "170.82"
+    ],
+    [
+      null,
+      "Carbon Anodes (Intermediaries)",
+      "160.35",
+      "136.67"
+    ],
+    [
+      null,
+      "Work-in-progress",
+      "392.13",
+      "319.04"
+    ],
+    [
+      null,
+      "Finished goods",
+      "462.36",
+      "542.47"
+    ],
+    [
+      null,
+      "Stores and spares",
+      "328.95",
+      "299.23"
+    ],
+    [
+      null,
+      "Others [refer note 15.4]",
+      "-",
+      "16.34"
+    ],
+    [
+      "Total inventories",
+      null,
+      "1,840.22",
+      "1,645.60"
+    ],
+    [
+      "Included above, goods-in-transit:",
+      null,
+      "",
+      ""
+    ],
+    [
+      "",
+      "(i) Raw materials",
+      "30.74",
+      "20.79"
+    ],
+    [
+      null,
+      "(ii) Coal and fuel oil",
+      "16.88",
+      "57.79"
+    ],
+    [
+      null,
+      "(iii) Stores and spares",
+      "15.22",
+      "6.31"
+    ],
+    [
+      "Total goods-in-transit",
+      null,
+      "62.84",
+      "84.89"
+    ]
+  ]
+}

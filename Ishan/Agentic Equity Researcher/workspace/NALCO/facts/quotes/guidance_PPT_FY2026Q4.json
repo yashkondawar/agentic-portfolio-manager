@@ -1,0 +1,110 @@
+[
+  {
+    "id": "GD-PQ4-001",
+    "metric": "capex_bauxite_mining",
+    "guided_value": "3.5",
+    "unit": "MTPA_capacity",
+    "period": "FY2027_onwards",
+    "conditionality": "Likely Opening May 2026: Pottangi Bauxite mines expansion; 111 million tonne reserve",
+    "kind": "guidance",
+    "source": {
+      "src_id": "SRC-691"
+    }
+  },
+  {
+    "id": "GD-PQ4-002",
+    "metric": "capex_refinery",
+    "guided_value": "1",
+    "unit": "MTPA_capacity",
+    "period": "FY2031",
+    "conditionality": "5th Stream Alumina Refinery; Start of Commissioning June 2026; Likely Commissioning Aug 2030",
+    "kind": "guidance",
+    "source": {
+      "src_id": "SRC-691"
+    }
+  },
+  {
+    "id": "GD-PQ4-003",
+    "metric": "capex_smelter",
+    "guided_value": "0.5",
+    "unit": "MTPA_capacity",
+    "period": "FY2032",
+    "conditionality": "Aluminium Smelter expansion; Likely Commissioning Aug 2030 per slide, but revised to Jun 2031 in table",
+    "kind": "guidance",
+    "source": {
+      "src_id": "SRC-691"
+    }
+  },
+  {
+    "id": "GD-PQ4-004",
+    "metric": "capex_power_plant",
+    "guided_value": "1080",
+    "unit": "MW",
+    "period": "FY2032",
+    "conditionality": "Captive Power Plant expansion; Likely Commissioning Jun 2031",
+    "kind": "guidance",
+    "source": {
+      "src_id": "SRC-691"
+    }
+  },
+  {
+    "id": "GD-PQ4-005",
+    "metric": "wind_power_pipeline",
+    "guided_value": "15",
+    "unit": "MW",
+    "period": "FY2027_onwards",
+    "conditionality": "Wind Power in Pipeline",
+    "kind": "guidance",
+    "source": {
+      "src_id": "SRC-694"
+    }
+  },
+  {
+    "id": "GD-PQ4-006",
+    "metric": "solar_power_planned",
+    "guided_value": "7",
+    "unit": "MW",
+    "period": "FY2027_onwards",
+    "conditionality": "Roof Top Solar Power Planned; 1060 kwp Roof Top Solar already installed in FY2026",
+    "kind": "guidance",
+    "source": {
+      "src_id": "SRC-694"
+    }
+  },
+  {
+    "id": "GD-PQ4-007",
+    "metric": "lme_aluminium_price_guidance",
+    "guided_value": "3125",
+    "unit": "USD_per_MT",
+    "period": "CY2026",
+    "conditionality": "LME prices to average around US$ 3125 / MT for CY 2026",
+    "kind": "guidance",
+    "source": {
+      "src_id": "SRC-690"
+    }
+  },
+  {
+    "id": "GD-PQ4-008",
+    "metric": "global_aluminium_demand_growth",
+    "guided_value": "6.3 to 7.2",
+    "unit": "pct_CAGR",
+    "period": "2026_to_2030",
+    "conditionality": "Indian Aluminium demand is expected to grow at a CAGR range of 6.3 to 7.2 per cent till 2030",
+    "kind": "guidance",
+    "source": {
+      "src_id": "SRC-692"
+    }
+  },
+  {
+    "id": "GD-PQ4-009",
+    "metric": "india_gdp_growth_projection",
+    "guided_value": "6.5",
+    "unit": "pct",
+    "period": "FY2026",
+    "conditionality": "GDP Growth Rate projection from IMF (April 2026 revised)",
+    "kind": "company_claim",
+    "source": {
+      "src_id": "SRC-692"
+    }
+  }
+]

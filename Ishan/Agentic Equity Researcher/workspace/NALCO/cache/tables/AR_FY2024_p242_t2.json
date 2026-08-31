@@ -1,0 +1,112 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 242,
+  "table_index": 2,
+  "bbox": [
+    51.27327954545455,
+    260.33937499999996,
+    542.8654911111112,
+    408.0987
+  ],
+  "rows": [
+    [
+      "Sl.\nNo.",
+      "Particulars",
+      null,
+      "Outstanding from the due date of payment",
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "Less than\n6 months",
+      "6 months\n-1 Years",
+      "1-2 Years",
+      "2-3 Years",
+      "More than\n3 Years",
+      "Total"
+    ],
+    [
+      "(i)",
+      "Undisputed Trade receivables- considered good",
+      "As on 31.03.2024",
+      "135.88",
+      "-",
+      "17.62",
+      "-",
+      "-",
+      "153.50"
+    ],
+    [
+      null,
+      null,
+      "As on 31.03.2023",
+      "54.25",
+      "16.97",
+      "20.11",
+      "-",
+      "-",
+      "91.33"
+    ],
+    [
+      "(ii)",
+      "Undisputed Trade receivables- credit impaired",
+      "As on 31.03.2024",
+      "0.71",
+      "3.14",
+      "3.64",
+      "8.28",
+      "5.51",
+      "21.28"
+    ],
+    [
+      null,
+      null,
+      "As on 31.03.2023",
+      "-",
+      "0.55",
+      "7.73",
+      "1.87",
+      "3.64",
+      "13.79"
+    ],
+    [
+      "(iii)",
+      "Disputed Trade receivables- credit impaired",
+      "As on 31.03.2024",
+      "-",
+      "-",
+      "-",
+      "-",
+      "36.28",
+      "36.28"
+    ],
+    [
+      null,
+      null,
+      "As on 31.03.2023",
+      "-",
+      "-",
+      "-",
+      "-",
+      "36.28",
+      "36.28"
+    ],
+    [
+      "Total as on 31.03.2024\nTotal as on 31.03.2023",
+      null,
+      null,
+      "136.59\n54.25",
+      "3.14\n17.52",
+      "21.26\n27.84",
+      "8.28\n1.87",
+      "41.79\n39.92",
+      "211.06\n141.40"
+    ]
+  ]
+}

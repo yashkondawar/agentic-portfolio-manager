@@ -1,0 +1,49 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 90,
+  "table_index": 1,
+  "bbox": [
+    68.28155789473685,
+    73.95089999999999,
+    542.0907684210526,
+    255.2652
+  ],
+  "rows": [
+    [
+      "S.\nNo",
+      "Initiative undertaken",
+      "Details of the initiative (Web-link, if any, may be\nprovided along-with summary)",
+      "Outcome of the\ninitiative"
+    ],
+    [
+      "19.",
+      "Refinery-STP treated water",
+      "STP treated water is used for Horticulture, gardening and\ngreen belt development purpose.",
+      "Fresh water\nconsumption reduced\nfor Horticulture,\ngardening and green belt\ndevelopment purpose."
+    ],
+    [
+      "20.",
+      "Refinery-Sodic Condensate (process liquor\ncondensate)",
+      "Used for Cooling Tower make-up, area hosing and Ash\nslurry pit make-up purpose.",
+      "Fresh water\nconsumption reduced."
+    ],
+    [
+      "21.",
+      "Bauxite mines-Reuse of treated wastewater from\ncanteen and HEMM",
+      "100% reuse of treated wastewater for dust suppression\npurpose inside the mines",
+      "87947 KL of wastewater\nreused"
+    ],
+    [
+      "22.",
+      "Utkal D Coal Mines- Nallah diversion",
+      "Nallah present within the mine lease area was diverted\nalong the mine boundary. This almost reduces the impact of\nmining activities on nallah available in the lease area.",
+      "The water flow in nallah\nwas not disturbed due to\nmining activities."
+    ],
+    [
+      "23.",
+      "Utkal D Coal Mines-Pond",
+      "Small ponds are available in mine lease areas which acts as\nrecharge pond during monsoon season.",
+      "Ground water recharge\ndone during monsoon\nseason."
+    ]
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 190,
+  "table_index": 1,
+  "bbox": [
+    45.854000000000006,
+    460.88000000000005,
+    549.421,
+    691.404
+  ],
+  "rows": [
+    [
+      "Key Audit Matter",
+      "How the matter was addressed in our audit"
+    ],
+    [
+      "1. Carrying value of Property, Plant and Equipment, Intangible assets (including Capital work-in-progress and Intangible Assets under Development)",
+      null
+    ],
+    [
+      "Property, plant and equipment, capital work-in-progress (CWIP),\nintangible assets and Intangible assets under development represent\nsignificant balances recorded in the statement of financial position in\nthe Consolidated Financial Statements.\nThe evaluation of the recoverable amount of these assets requires\nsignificant judgement in determining the key assumptions supporting\nthe expected future cash flows of the business and the utilisation of the\nrelevant assets including impairment provisions related to the assets.\nThere are a number of areas where management judgement impacts\nthe carrying value of property, plant and equipment, intangible assets\nand their respective depreciation profiles. These include the decision to\ncapitalise or expense costs; the asset life review including the impact of\nchanges in the Company’s strategy; and the timeliness of capitalisation,\ndetermination or the measurement and recognition criteria for assets\nretired from active use.",
+      "Our audit procedures relating to the carrying value of property, plant and equipment including\nintangible assets and capital work-in-progress included the following:\n• We evaluated the assumptions made by management in the determination of carrying values and\nuseful lives to ensure that these are consistent with the principles of Indian Accounting Standards\n(Ind AS) 16 Property, Plant and Equipment and Ind AS 38 Intangible Assets.\n• We assessed whether the carrying values and the useful lives were reasonable by challenging\nmanagement’s judgements through comparing the useful lives prescribed in Schedule II to the\nCompanies Act 2013 and the useful lives of certain assets as per the technical assessment of the\nmanagement.\n• We compared the useful lives of each class of asset in the current year to the previous year to\ndetermine whether there were any significant changes in the useful lives of assets, and considered\nthe reasonableness of changes based on our knowledge of the business and the industry.\n• We assessed whether indicators of impairment existed as at 31st March 2023 based on our\nknowledge of the business and the industry and wherever required the provision of impairment\nof assets/CWIP were reviewed.\n• We tested the controls in place over the property, plant and equipment and intangible assets,\nevaluated the appropriateness of capitalisation policies, performed tests of details on costs\ncapitalised and assessed the timeliness of capitalisation including decapitalisation of assets retired\nfrom active use and the application of the asset life.\n• In performing these substantive procedures, we assessed the judgements made by management\nincluding the nature of underlying costs capitalised; the appropriateness of asset lives applied\nin the calculation of depreciation and amortisation; and in assessing the need for accelerated\ndepreciation/amortisation, if required, in the context of impairment."
+    ]
+  ]
+}

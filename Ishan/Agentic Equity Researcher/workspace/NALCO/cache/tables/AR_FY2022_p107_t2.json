@@ -1,0 +1,62 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 107,
+  "table_index": 2,
+  "bbox": [
+    94.8235,
+    551.565,
+    549.3656857142857,
+    651.364
+  ],
+  "rows": [
+    [
+      "Members of CSR & Sustainability Development Committee",
+      "Category of Director",
+      "Position",
+      "Meeting",
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "held",
+      "attended"
+    ],
+    [
+      "Shri Dushyant Upadhyay@",
+      "Independent",
+      "Chairman",
+      "1",
+      "1"
+    ],
+    [
+      "Dr. B. R. Ramakrishna@",
+      "Independent",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Ms. (Dr.) Shatorupa@",
+      "Independent",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Shri R. S. Mahapatro, Director (HR)",
+      "Functional",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Shri B. K. Das, Director (Production)",
+      "Functional",
+      "Member",
+      "1",
+      "1"
+    ]
+  ]
+}

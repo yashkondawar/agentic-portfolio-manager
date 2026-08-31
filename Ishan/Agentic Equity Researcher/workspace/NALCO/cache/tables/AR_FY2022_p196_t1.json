@@ -1,0 +1,77 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 196,
+  "table_index": 1,
+  "bbox": [
+    45.195825,
+    56.972999999999956,
+    173.9222,
+    525.008
+  ],
+  "rows": [
+    [
+      "Ind As",
+      "Nomenclature"
+    ],
+    [
+      "Ind AS 102",
+      "Share Based Payments"
+    ],
+    [
+      "Ind AS 103",
+      "Business Combination"
+    ],
+    [
+      "Ind AS 104",
+      "Insurance Contracts"
+    ],
+    [
+      "Ind AS 105",
+      "Non-Current Assets\nHeld for Sale and\nDiscontinued\nOperations"
+    ],
+    [
+      "Ind AS 106",
+      "Exploration for and\nEvaluation of Mineral\nResources"
+    ],
+    [
+      "Ind AS 107",
+      "Financial Instruments\nDisclosure"
+    ],
+    [
+      "Ind AS 108",
+      "Operating Segments"
+    ],
+    [
+      "Ind AS 109",
+      "Financial Instruments"
+    ],
+    [
+      "Ind AS 110",
+      "Consolidated\nFinancial Statements"
+    ],
+    [
+      "Ind AS 111",
+      "Joint Arrangements"
+    ],
+    [
+      "Ind AS 112",
+      "Disclosure of Interest\nin Other Entities"
+    ],
+    [
+      "Ind AS 113",
+      "Fair Value Measurement"
+    ],
+    [
+      "Ind AS 114",
+      "Regulatory Deferral\nAccounts"
+    ],
+    [
+      "Ind AS 115",
+      "Revenue from contracts\nwith customers"
+    ],
+    [
+      "Ind AS 116",
+      "Leases"
+    ]
+  ]
+}

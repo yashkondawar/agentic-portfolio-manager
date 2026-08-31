@@ -1,0 +1,112 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 157,
+  "table_index": 3,
+  "bbox": [
+    45.7915,
+    327.36800000000005,
+    549.3585,
+    527.561
+  ],
+  "rows": [
+    [
+      "B. Current As at 31.03.2023",
+      null,
+      null,
+      null,
+      "As at 31.03.2022",
+      null,
+      null
+    ],
+    [
+      "Investments in Mutual Funds",
+      "Units in ‘000",
+      "Nav in\nR /unit",
+      "Amount in\nR Crore",
+      "Units in ‘000",
+      "Nav in\nR /unit",
+      "Amount in\nR Crore"
+    ],
+    [
+      "Quoted Investments\nCanara Rebeco Liquid Fund\nBaroda BNP Paribas Liquid Fund\nSBI Liquid Fund\nUnion Liquid Fund",
+      "379\n410\n265\n361",
+      "1,005.50\n1,002.08\n1,136.93\n1,000.79",
+      "38.16\n41.11\n30.16\n36.15",
+      "119\n309\n56\n150",
+      "1,005.50\n1,002.08\n1,075.55\n1,000.79",
+      "12.00\n31.01\n6.00\n15.00"
+    ],
+    [
+      "Total - Other current Investments",
+      "",
+      "",
+      "145.58",
+      "",
+      "",
+      "64.01"
+    ],
+    [
+      "Additional Information",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Aggregate cost of quoted investments",
+      "",
+      "",
+      "145.00",
+      "",
+      "",
+      "64.00"
+    ],
+    [
+      "Aggregate market value of quoted investments",
+      "",
+      "",
+      "145.58",
+      "",
+      "",
+      "64.01"
+    ],
+    [
+      "Aggregate cost of unquoted investments",
+      "",
+      "",
+      "-",
+      "",
+      "",
+      "-"
+    ],
+    [
+      "Aggregate amount of impairment in value of investments",
+      "",
+      "",
+      "-",
+      "",
+      "",
+      "-"
+    ],
+    [
+      "Category-wise classification:\nFinancial assets (quoted investments) mandatorily\nmeasured at fair value through profit & loss (FVTPL)",
+      "",
+      "",
+      "145.58",
+      "",
+      "",
+      "64.01"
+    ],
+    [
+      "",
+      "as on 31.03.2023 145.58",
+      null,
+      null,
+      "As on 31.03.2022 64.01",
+      null,
+      null
+    ]
+  ]
+}

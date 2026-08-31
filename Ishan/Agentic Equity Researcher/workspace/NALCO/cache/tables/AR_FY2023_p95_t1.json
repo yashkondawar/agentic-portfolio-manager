@@ -1,0 +1,69 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 95,
+  "table_index": 1,
+  "bbox": [
+    95.481,
+    380.92600000000004,
+    549.546,
+    524.301
+  ],
+  "rows": [
+    [
+      "Members of Risk Management Committee",
+      "Category of Director",
+      "Position",
+      "Meeting",
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "held",
+      "Attended"
+    ],
+    [
+      "Dr. B. R. Ramakrishna",
+      "Independent",
+      "Chairman",
+      "2",
+      "2"
+    ],
+    [
+      "Adv. G. Kurian",
+      "Independent",
+      "Member",
+      "2",
+      "2"
+    ],
+    [
+      "Dr. A. Narang",
+      "Independent",
+      "Member",
+      "2",
+      "2"
+    ],
+    [
+      "Shri B. K. Das#\nDirector (Production)",
+      "Functional",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Shri R. C. Joshi\nDirector (Finance)",
+      "Functional",
+      "Member",
+      "2",
+      "2"
+    ],
+    [
+      "Shri P. K. Sharma*\nDirector (Production)",
+      "Functional",
+      "Member",
+      "1",
+      "1"
+    ]
+  ]
+}

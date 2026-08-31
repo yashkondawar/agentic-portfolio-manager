@@ -1,0 +1,30 @@
+kpi_id: epfo_payroll
+scope: macro
+cycle_refs: [gdp_business_cycle]
+formula: >
+  EPFO Net Payroll Addition = net new EPF subscribers added per month
+  (gross new enrolments less exits), as published in EPFO's monthly
+  payroll press-release workbook. A formal-sector employment-growth
+  proxy.
+inputs:
+  - name: EPFO net payroll addition, monthly
+    source: >
+      epfindia.gov.in Payroll_Data_EPFO_<Month>_<Year>.xlsx (predictable
+      filename pattern). WORKSTREAM D: confirmed BROKEN — these specific
+      URLs are behind an F5 BIG-IP ASM WAF that returns HTTP 200 with a
+      ~246-byte "Request Rejected" HTML shell (not the real xlsx) on GET;
+      a HEAD request misleadingly returns 200 with no body, masking the
+      block. Confirmed targeted (not domain-wide): two other real PDFs on
+      the same epfindia.gov.in domain fetch successfully with the same
+      session/User-Agent, ruling out a blanket IP ban. No automated route
+      currently works; not wired into afund.data.macro_govt. Fallback:
+      manual download + afund.data.macro_rbi.import_macro_csv (series_code
+      EPFO_NET_PAYROLL) via afund.data.macro_manual's thin-wrapper
+      pattern (no dedicated import_epfo_payroll() wrapper added yet).
+    status: manual
+orientation: goldilocks_type
+lookback_years: 5
+cadence: monthly
+source_status: manual
+registry_xref: null
+references_xref: []

@@ -1,0 +1,78 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 228,
+  "table_index": 2,
+  "bbox": [
+    71.1161,
+    122.6876,
+    547.2345233333333,
+    326.86784
+  ],
+  "rows": [
+    [
+      "A. Non-current",
+      "As at\n31.03.2021",
+      "As at\n31.03.2020"
+    ],
+    [
+      "(a) Considered good - Secured",
+      "—",
+      "—"
+    ],
+    [
+      "(b) Considered good - Unsecured",
+      "—",
+      "—"
+    ],
+    [
+      "(c) Having significant increase in credit risk",
+      "—",
+      "—"
+    ],
+    [
+      "(d) Credit impaired",
+      "37.11",
+      "37.11"
+    ],
+    [
+      "Less: Allowance for doubtful debts (expected credit loss allowance)",
+      "37.11",
+      "37.11"
+    ],
+    [
+      "Non-current trade receivables",
+      "—",
+      "—"
+    ],
+    [
+      "B. Current",
+      "As at\n31.03.2021",
+      "As at\n31.03.2020"
+    ],
+    [
+      "(a) Considered good - Secured",
+      "—",
+      "—"
+    ],
+    [
+      "(b) Considered good - Unsecured",
+      "147.39",
+      "140.09"
+    ],
+    [
+      "(c) Having significant increase in credit risk",
+      "20.24",
+      "—"
+    ],
+    [
+      "Less: Allowance for doubtful debts",
+      "20.24",
+      "—"
+    ],
+    [
+      "Current trade receivables",
+      "147.39",
+      "140.09"
+    ]
+  ]
+}

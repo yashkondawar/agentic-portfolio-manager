@@ -1,0 +1,53 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 180,
+  "table_index": 1,
+  "bbox": [
+    73.951,
+    93.07100000000003,
+    549.553,
+    185.68600000000004
+  ],
+  "rows": [
+    [
+      "Segment Revenue",
+      null,
+      null
+    ],
+    [
+      "Operating Segments",
+      "Year ended 31.03.2023",
+      "Year ended 31.03.2022"
+    ],
+    [
+      "Chemical segment",
+      "5,583.72",
+      "5,384.87"
+    ],
+    [
+      "Aluminium segment",
+      "10,245.79",
+      "10,183.69"
+    ],
+    [
+      "Unallocated",
+      "72.61",
+      "57.83"
+    ],
+    [
+      "Total for operations",
+      "15,902.12",
+      "15,626.39"
+    ],
+    [
+      "Less: Intersegment revenue",
+      "1,647.26",
+      "1,411.81"
+    ],
+    [
+      "Revenue from operations",
+      "14,254.86",
+      "14,214.58"
+    ]
+  ]
+}

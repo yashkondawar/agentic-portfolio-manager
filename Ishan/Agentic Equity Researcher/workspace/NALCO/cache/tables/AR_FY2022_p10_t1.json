@@ -1,0 +1,85 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 10,
+  "table_index": 1,
+  "bbox": [
+    45.312525,
+    87.7663,
+    243.9045,
+    509.16900000000004
+  ],
+  "rows": [
+    [
+      "1.",
+      null
+    ],
+    [
+      "",
+      "Father’s Name"
+    ],
+    [
+      null,
+      "Date of Birth"
+    ],
+    [
+      null,
+      "Date of Appointment"
+    ],
+    [
+      null,
+      "Expertise in specific functional areas"
+    ],
+    [
+      null,
+      "Qualifications"
+    ],
+    [
+      null,
+      "List of outside Directorships held"
+    ],
+    [
+      null,
+      "Member of Committees of the Board"
+    ],
+    [
+      null,
+      "Member of Committees in other companies"
+    ],
+    [
+      "2.",
+      null
+    ],
+    [
+      "",
+      "Father’s Name"
+    ],
+    [
+      null,
+      "Date of Birth"
+    ],
+    [
+      null,
+      "Date of Appointment"
+    ],
+    [
+      null,
+      "Expertise in specific functional areas"
+    ],
+    [
+      null,
+      "Qualifications"
+    ],
+    [
+      null,
+      "List of outside Directorships held"
+    ],
+    [
+      null,
+      "Member of Committees of the Board"
+    ],
+    [
+      null,
+      "Member of Committees in other companies"
+    ]
+  ]
+}

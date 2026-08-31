@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 107,
+  "table_index": 3,
+  "bbox": [
+    124.97457368421053,
+    302.58994999999993,
+    555.345605,
+    380.30209999999994
+  ],
+  "rows": [
+    [
+      "Received From",
+      "Opening Balance",
+      "Received during the\nyear",
+      "Resolved during the\nyear",
+      "Closing Balance"
+    ],
+    [
+      "SEBI",
+      "0",
+      "7",
+      "7",
+      "0"
+    ],
+    [
+      "Stock Exchange",
+      "0",
+      "6",
+      "6",
+      "0"
+    ],
+    [
+      "Individuals",
+      "0",
+      "1,524",
+      "1,524",
+      "0"
+    ],
+    [
+      "TOTAL",
+      "0",
+      "1,537",
+      "1,537",
+      "0"
+    ]
+  ]
+}

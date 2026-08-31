@@ -1,0 +1,61 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 183,
+  "table_index": 1,
+  "bbox": [
+    51.27363076923076,
+    87.77895000000001,
+    542.8273076923077,
+    198.30623999999997
+  ],
+  "rows": [
+    [
+      "",
+      "",
+      "As at 31.03.2024",
+      "As at 31.03.2023"
+    ],
+    [
+      "",
+      "12. Land acquisition and interest thereon",
+      "118.01",
+      "85.55"
+    ],
+    [
+      null,
+      "13. Dept. of mines Govt. of Odisha",
+      "136.32",
+      "136.32"
+    ],
+    [
+      null,
+      "14. Water Resources Deptt. Govt. of Odisha for Water Conservation fund",
+      "119.24",
+      "119.24"
+    ],
+    [
+      "b.",
+      "Claim by contractors/suppliers and others",
+      null,
+      null
+    ],
+    [
+      "",
+      "1. Claims of Contractor’s suppliers and others",
+      "166.88",
+      "359.15"
+    ],
+    [
+      null,
+      "2. Claim from PSUs",
+      "542.83",
+      "423.21"
+    ],
+    [
+      "Total",
+      null,
+      "1,920.03",
+      "2,362.29"
+    ]
+  ]
+}

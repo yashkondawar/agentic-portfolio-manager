@@ -1,0 +1,53 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 146,
+  "table_index": 1,
+  "bbox": [
+    68.2815,
+    73.95079999999996,
+    542.3372333333333,
+    373.8909
+  ],
+  "rows": [
+    [
+      "PORT FACILITIES",
+      null
+    ],
+    [
+      "Visakhapatnam\nOpp. Ore Handling Complex, Port Area,\nVisakhapatnam - 530 001, Andhra Pradesh",
+      null
+    ],
+    [
+      "REGIONAL OFFICES",
+      null
+    ],
+    [
+      "Eastern Region\n1st Floor, J. K. Millennium Centre, 46-D,\nChowringhee Road, Kolkata - 700 071",
+      "Western Region\n215, T.V. Industrial Estate, S.K. Ahire Marg,\nWorli, Mumbai - 400 030"
+    ],
+    [
+      "Northern Region\nCore - 4, 5th Floor, South Tower, District Centre,\nScope Minar, Laxmi Nagar, Delhi - 110 092",
+      "Southern Region\n3E, Century Plaza, 560, Anna Salai,\nTeynampet, Chennai-600 018"
+    ],
+    [
+      "STOCK YARDS",
+      null
+    ],
+    [
+      "Raipur\nM/s. National Aluminium Company Limited\nC/o Ekta Enterprises, Monet Road, Mandir Hasaud,\nRaipur, Chhattisgarh - 492101",
+      "Kolkata\nM/s. National Aluminium Company Limited\nC/o Century Infra limited, Sonai: D & E Block,\nNear Jainkunj, Hyde Road, Khidderpore, Kolkata-700088"
+    ],
+    [
+      "Jaipur\nM/s. National Aluminium Company Limited\nC/o. Om Prakash Agarwal, Khasra 9/2/3, 9/2/4 & 16/2, Gram\nNimeda, Near Bindyaka Industrial Area, Jaipur-302022, Rajasthan.",
+      "Visakhapatnam\nM/s National Aluminium Company Limited C/o Balmer Lawries & Co.\nLimited, Visakhapatnam Port Logistics Ltd., Survey No. 1P/2P, PO: BHPV,\nNear Sheela Nagar Toll Gate (PCR Circle), Visakhapatnam - 530012."
+    ],
+    [
+      "Baddi\nM/s. National Aluminium Company Limited\nC/o. S R Services, 504/447/133, Village: Theda, PO- Manpura\nBaddi-173205, Himachal Pradesh",
+      "Chennai\nM/s. National Aluminium Co. Ltd., C/o. NSIC Ltd., Plot No A12, CMDA\nTruck Terminal, Ponniamanmedu Post, Madhavaram, Chennai-600 110."
+    ],
+    [
+      "New Delhi\nM/s. National Aluminium Company Limited,\nC/o. Supreme Road Transport Pvt. Limited,\nKhasra 45/19/1, Gali No.4, Plot 124, Ground Flr.\nVillage: Tikri Kalan, Netaji Subhash Vihar, New Delhi-110041",
+      null
+    ]
+  ]
+}

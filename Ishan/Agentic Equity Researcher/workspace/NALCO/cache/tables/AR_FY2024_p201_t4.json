@@ -1,0 +1,37 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 201,
+  "table_index": 4,
+  "bbox": [
+    51.273664,
+    608.0988,
+    542.715496,
+    665.74524
+  ],
+  "rows": [
+    [
+      "Name of JV/Associate",
+      "Nature of Transaction",
+      "As at 31.03.2024",
+      "As at 31.03.2023"
+    ],
+    [
+      "Angul Aluminium Park Pvt. Ltd.",
+      "Investment in equity",
+      "16.22",
+      "16.22"
+    ],
+    [
+      "GACL NALCO Alkalis & Chemicals Pvt. Ltd.",
+      "Investment in equity",
+      "276.00",
+      "276.00"
+    ],
+    [
+      "GACL NALCO Alkalis & Chemicals Pvt. Ltd.",
+      "Receivable- Man power assistance",
+      "0.48",
+      "0.77"
+    ]
+  ]
+}

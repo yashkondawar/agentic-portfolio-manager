@@ -1,0 +1,53 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 104,
+  "table_index": 1,
+  "bbox": [
+    94.0015,
+    115.65350000000001,
+    548.4005,
+    176.558
+  ],
+  "rows": [
+    [
+      "Commodity\nName",
+      "Exposure in INR\ntowards the particular\ncommodity",
+      "Exposure in\nQuantity terms\ntowards the\nparticular\ncommodity",
+      "% of such exposure hedged through commodity derivatives",
+      null,
+      null,
+      null,
+      ""
+    ],
+    [
+      null,
+      null,
+      null,
+      "Domestic Market",
+      null,
+      "International Market",
+      null,
+      "Total"
+    ],
+    [
+      null,
+      null,
+      null,
+      "OTC",
+      "Exchange",
+      "OTC",
+      "Exchange",
+      ""
+    ],
+    [
+      "Nil",
+      "Nil",
+      "Nil",
+      "Nil",
+      "Nil",
+      "Nil",
+      "Nil",
+      "Nil"
+    ]
+  ]
+}

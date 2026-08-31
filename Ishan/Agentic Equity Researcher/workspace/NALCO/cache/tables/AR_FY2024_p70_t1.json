@@ -1,0 +1,85 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 70,
+  "table_index": 1,
+  "bbox": [
+    68.28135555555555,
+    116.81874285714288,
+    542.33345,
+    304.2257
+  ],
+  "rows": [
+    [
+      "Monetary",
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "NGRBC\nprinciple",
+      "Name of the regulatory/\nenforcement agencies/\njudicial institutions",
+      "Amount (INR)",
+      "Brief of the Case",
+      "Has an appeal been\npreferred? (Yes/\nNo)"
+    ],
+    [
+      "Penalty / Fine",
+      "Nil",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A."
+    ],
+    [
+      "Settlement",
+      "Nil",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A."
+    ],
+    [
+      "Compounding fee",
+      "Nil",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A."
+    ],
+    [
+      "Non- Monetary",
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "NGRBC\nprinciple",
+      "Name of the regulatory/\nenforcement agencies/\njudicial institutions",
+      "Brief of the Case",
+      "Has an appeal been preferred?\n(Yes/ No)",
+      null
+    ],
+    [
+      "Imprisonment",
+      "Nil",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      null
+    ],
+    [
+      "Punishment",
+      "Nil",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      null
+    ]
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 81,
+  "table_index": 1,
+  "bbox": [
+    60.31933333333333,
+    58.24366666666674,
+    549.9951833333333,
+    164.16000000000008
+  ],
+  "rows": [
+    [
+      "S. No.",
+      "Questions",
+      "P1",
+      "P2",
+      "P3",
+      "P4",
+      "P5",
+      "P6",
+      "P7",
+      "P8",
+      "P9"
+    ],
+    [
+      "1.",
+      "The company has not understood the Principles",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "2.",
+      "The company is not at a stage where it finds itself in a position to formulate\nand implement the policies on specified principles",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "3.",
+      "The company does not have financial or manpower resources available for the task",
+      "NOT APPL ICABLE",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "4.",
+      "It is planned to be done within next 6 months",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "5.",
+      "It is planned to be done within the next 1 year",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "6.",
+      "Any other reason (please specify)",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ]
+  ]
+}

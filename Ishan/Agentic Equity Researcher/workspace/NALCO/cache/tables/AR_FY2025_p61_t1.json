@@ -1,0 +1,49 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 61,
+  "table_index": 1,
+  "bbox": [
+    51.27364,
+    396.37125000000003,
+    542.22636,
+    509.94309999999996
+  ],
+  "rows": [
+    [
+      "Unit",
+      "Name of Internal Auditors"
+    ],
+    [
+      "Corporate Office",
+      "M/s. Agasti & Associates"
+    ],
+    [
+      "M&R Complex and Port Facility",
+      "M/s. B. V. Rao & Co. LLP"
+    ],
+    [
+      "CPP",
+      "M/s. J. B. M. T. Associates"
+    ],
+    [
+      "Smelter & Coal Mines",
+      "M/s. Nag & Associates"
+    ],
+    [
+      "Regional Office - East (Kolkata)",
+      "M/s. J. F. Dastoor & Co."
+    ],
+    [
+      "Regional Office - West (Mumbai)",
+      "M/s. ANPJ & Co."
+    ],
+    [
+      "Regional Office - North (Delhi)",
+      "M/s. Pradeep Gopal & Co."
+    ],
+    [
+      "Regional Office - South (Chennai)",
+      "M/s. Manohar Choudhry & Associates"
+    ]
+  ]
+}

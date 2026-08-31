@@ -1,0 +1,40 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 184,
+  "table_index": 4,
+  "bbox": [
+    93.79303,
+    575.3494999999999,
+    546.83633,
+    697.3231
+  ],
+  "rows": [
+    [
+      "Post retirement Settling- NALCO NALCO Superannuation Gratuity\nmedical benefit in-benefit benevolent retirement gift scheme (Funded)\nfund scheme welfare scheme"
+    ],
+    [
+      "March 31, 2020"
+    ],
+    [
+      "Present value of defined benefit obligation (140.42) (20.59) (2.99) (12.52) (7.26) (632.24)"
+    ],
+    [
+      "Fair value of plan assets — 576.26"
+    ],
+    [
+      "Net liability arising from defined benefit obligation (140.42) (20.59) (2.99) (12.52) (7.26) (55.98)"
+    ],
+    [
+      "March 31, 2021"
+    ],
+    [
+      "Present value of defined benefit obligation (155.35) (19.58) (2.73) (12.38) (7.16) (595.80)"
+    ],
+    [
+      "Fair value of plan assets — 585.17"
+    ],
+    [
+      "Net liability arising from defined benefit obligation (155.35) (19.58) (2.73) (12.38) (7.16) (10.63)"
+    ]
+  ]
+}

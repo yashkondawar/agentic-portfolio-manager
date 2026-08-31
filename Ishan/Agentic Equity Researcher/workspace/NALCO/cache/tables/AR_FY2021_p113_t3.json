@@ -1,0 +1,29 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 113,
+  "table_index": 3,
+  "bbox": [
+    102.29728666666666,
+    540.6895,
+    555.1541533333333,
+    587.0853999999999
+  ],
+  "rows": [
+    [
+      "Day and Date",
+      "Thursday, the 30th September, 2021"
+    ],
+    [
+      "Time",
+      "11.00 a.m."
+    ],
+    [
+      "Deemed Venue",
+      "NALCO Bhawan, P/1, Nayapalli, Bhubaneswar-751 013"
+    ],
+    [
+      "Mode",
+      "Through VC/OAVM"
+    ]
+  ]
+}

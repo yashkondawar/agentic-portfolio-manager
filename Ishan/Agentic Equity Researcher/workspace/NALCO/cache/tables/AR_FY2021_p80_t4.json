@@ -1,0 +1,83 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 80,
+  "table_index": 4,
+  "bbox": [
+    71.11615,
+    423.6451,
+    513.5356416666666,
+    547.4381
+  ],
+  "rows": [
+    [
+      "Specific Consumption per unit of production",
+      "Unit of\nMeasurement",
+      "Norm",
+      "Previous Year\n(FY 2019-20)",
+      "Current Year\n(FY 2020-21)"
+    ],
+    [
+      "Explosive consumption in Bauxite Mines",
+      "Gram/MT",
+      "10",
+      "0 57.9",
+      "69.72"
+    ],
+    [
+      "Coal for steam generation in SPP of Refinery for hydrate production",
+      "Tonne/Tonne",
+      "0.64",
+      "2 0.636",
+      "0.638"
+    ],
+    [
+      "Electrical energy in Alumina Refinery",
+      "KWH/Tonne",
+      "31",
+      "6 317.18",
+      "318"
+    ],
+    [
+      "Aluminium Flouride Consumption in Smelter",
+      "Kg/MT",
+      "1",
+      "9 16.7",
+      "17.6"
+    ],
+    [
+      "Net carbon consumption for hot metal in Smelter",
+      "Kg/MT",
+      "42",
+      "5 423",
+      "424.0"
+    ],
+    [
+      "Alumina for Aluminium production",
+      "Tonne/Tonne",
+      "1.92",
+      "0 1.920",
+      "1.9197"
+    ],
+    [
+      "Fuel oil consumption in CPP",
+      "ml/KWH",
+      "0.8",
+      "0 1.23",
+      "1.614"
+    ],
+    [
+      "Coal consumption in CPP",
+      "Kg/KWH",
+      "0.81",
+      "5 0.806",
+      "0.856"
+    ],
+    [
+      "Auxiliary Power Consumption in CPP",
+      "%",
+      "11.4",
+      "0 11.243",
+      "11.227"
+    ]
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "revenue_growth_consistency": {
+    "status": "FAIL",
+    "value": {
+      "FY2022": 58.72,
+      "FY2023": 0.28,
+      "FY2024": -7.76,
+      "FY2025": 27.67,
+      "FY2026": 6.29
+    },
+    "threshold": 0.0,
+    "note": "revenue YoY growth below 0.0% floor in FY2024"
+  },
+  "eps_growth_20pct": {
+    "status": "PASS",
+    "value": {
+      "FY2025": 164.82
+    },
+    "threshold": 20.0,
+    "note": "EPS YoY growth >= 20.0% in every period with data — consistent rerating candidate"
+  },
+  "gross_margin_trend": {
+    "status": "NA",
+    "value": null,
+    "threshold": 0.0,
+    "note": "insufficient cost-of-materials/purchases/inventory-change data to compute gross margin trend"
+  },
+  "receivables_pct_revenue_trend": {
+    "status": "NA",
+    "value": null,
+    "threshold": 0.0,
+    "note": "insufficient trade_receivables/revenue data to assess trend"
+  },
+  "interest_vs_ebit_growth": {
+    "status": "NA",
+    "value": null,
+    "threshold": 1.0,
+    "note": "no year with both EBIT and finance-cost growth data present to evaluate debt-funding discipline"
+  },
+  "dilution_consecutive": {
+    "status": "NA",
+    "value": null,
+    "threshold": 2,
+    "note": "insufficient weighted_shares data to assess dilution history"
+  },
+  "cfo_positive_expansion": {
+    "status": "NA",
+    "value": null,
+    "threshold": 0.0,
+    "note": "fewer than 3 periods of net_capex data — cannot establish a median to identify expansion years"
+  },
+  "dna_adjusted_eps_growth": {
+    "status": "NA",
+    "value": null,
+    "threshold": 0.0,
+    "note": "insufficient eps_diluted/depreciation_amortization/weighted_shares data to compute a D&A-adjusted EPS series"
+  },
+  "interest_coverage": {
+    "status": "NA",
+    "value": null,
+    "threshold": 3.0,
+    "note": "insufficient pbt/finance_costs data to compute interest coverage"
+  },
+  "_basis": "consolidated",
+  "_periods": [
+    "FY2021",
+    "FY2022",
+    "FY2023",
+    "FY2024",
+    "FY2025",
+    "FY2026"
+  ]
+}

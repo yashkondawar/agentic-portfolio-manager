@@ -1,0 +1,53 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 118,
+  "table_index": 1,
+  "bbox": [
+    68.28164444444444,
+    190.00920000000005,
+    542.38722,
+    252.3646
+  ],
+  "rows": [
+    [
+      "Commodity\nName",
+      "Exposure in INR\ntowards the particular\ncommodity",
+      "Exposure in Quantity\nterms towards the\nparticular commodity",
+      "% of such exposure hedged through commodity derivatives",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "Domestic Market",
+      null,
+      "International Market",
+      null,
+      "Total"
+    ],
+    [
+      null,
+      null,
+      null,
+      "OTC",
+      "Exchange",
+      "OTC",
+      "Exchange",
+      null
+    ],
+    [
+      "Nil",
+      "Nil",
+      "Nil",
+      "Nil",
+      "Nil",
+      "Nil",
+      "Nil",
+      "Nil"
+    ]
+  ]
+}

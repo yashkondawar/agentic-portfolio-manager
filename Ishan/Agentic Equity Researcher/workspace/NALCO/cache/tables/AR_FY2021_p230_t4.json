@@ -1,0 +1,188 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 230,
+  "table_index": 4,
+  "bbox": [
+    71.11619302325582,
+    380.35799999999995,
+    547.2185822222222,
+    685.1021666666666
+  ],
+  "rows": [
+    [
+      "B.",
+      "Current",
+      null,
+      "As at\n31.03.2021",
+      "As at\n31.03.2020"
+    ],
+    [
+      "Advances other than capital advances",
+      null,
+      null,
+      "",
+      ""
+    ],
+    [
+      "(a)",
+      "Claims with statutory authorities",
+      null,
+      "",
+      ""
+    ],
+    [
+      null,
+      "(1)",
+      "Export Incentive Claims",
+      "28.53",
+      "14.33"
+    ],
+    [
+      null,
+      "(2)",
+      "Generation Based Incentive on power generated from renewable source and Renewable energy\ncertificates",
+      "2.94",
+      "3.86"
+    ],
+    [
+      null,
+      "(3)",
+      "VAT, CENVAT and GST Credit Recoverable",
+      "332.80",
+      "345.47"
+    ],
+    [
+      null,
+      "(4)",
+      "Claims receivable from customs, excise and railway authorities",
+      "8.84",
+      "8.79"
+    ],
+    [
+      "(b)",
+      "Prepaid expenses",
+      null,
+      "",
+      ""
+    ],
+    [
+      null,
+      "(1)",
+      "Deferred employee benefits",
+      "2.39",
+      "2.85"
+    ],
+    [
+      null,
+      "(2)",
+      "Other prepaid expenses",
+      "4.91",
+      "5.29"
+    ],
+    [
+      "(c)",
+      "Stamp in hand",
+      null,
+      "0.01",
+      "0.01"
+    ],
+    [
+      "(d)",
+      "Other receivables",
+      null,
+      "1.23",
+      "1.63"
+    ],
+    [
+      "(e)",
+      "Other advances",
+      null,
+      "",
+      ""
+    ],
+    [
+      null,
+      "(1)",
+      "Advances to employees",
+      "29.23",
+      "28.46"
+    ],
+    [
+      null,
+      "(2)",
+      "Advances to suppliers and service providers",
+      "363.20",
+      "395.11"
+    ],
+    [
+      null,
+      "(3)",
+      "Others",
+      "3.84",
+      "2.67"
+    ],
+    [
+      "Gross other current assets",
+      null,
+      null,
+      "777.92",
+      "808.47"
+    ],
+    [
+      "Less: Allowance for bad and doubtful for other currentassets",
+      null,
+      null,
+      "",
+      ""
+    ],
+    [
+      "(a)",
+      "VAT and CENVAT Credit Recoverable",
+      null,
+      "197.81",
+      "197.81"
+    ],
+    [
+      "(b)",
+      "Claims receivable from customs, excise and railway authorities",
+      null,
+      "7.09",
+      "7.09"
+    ],
+    [
+      "(c)",
+      "Other receivables",
+      null,
+      "0.39",
+      "1.00"
+    ],
+    [
+      "(d)",
+      "Advances to suppliers and service providers",
+      null,
+      "2.02",
+      "1.88"
+    ],
+    [
+      "(e)",
+      "Others",
+      null,
+      "1.81",
+      "1.85"
+    ],
+    [
+      "Total allowance for bad and doubtful for other current assets",
+      null,
+      null,
+      "209.12",
+      "209.63"
+    ],
+    [
+      "Total other current assets",
+      null,
+      null,
+      "568.80",
+      "598.84"
+    ]
+  ]
+}

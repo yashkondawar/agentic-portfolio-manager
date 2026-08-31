@@ -1,0 +1,22 @@
+[
+  {
+    "id": "FQ-NALCO-01",
+    "raised_by": "21_forensic_earnings_quality",
+    "route_to": "extraction_deeper",
+    "severity": "medium",
+    "question": "What specific working-capital line(s) drove the FY2023 standalone CFO collapse (Rs4049.61cr FY2022 -> Rs908.24cr FY2023, -77.6% YoY) while PAT remained positive (Rs1434.7cr)? Pull the full CFO reconciliation schedule (Note/Annexure to the Cash Flow Statement, AR_FY2023.pdf) — specifically movements in trade payables, other current liabilities/provisions, and any advance-tax/refund timing — to confirm whether the drag is inventory/receivables-led (already checked, immaterial) or payables/provision-led (not yet checked).",
+    "linked_flags": ["RF-001"],
+    "status": "open",
+    "blocking_finalization": false
+  },
+  {
+    "id": "FQ-NALCO-02",
+    "raised_by": "21_forensic_earnings_quality",
+    "route_to": "extraction_deeper",
+    "severity": "medium",
+    "question": "AR_FY2023.pdf restates FY2022 standalone/consolidated total assets (+1.22%, ~Rs211cr), total liabilities (+4.47%, ~Rs211cr), and other income (-11.2%, ~Rs33cr) versus the figures originally reported in AR_FY2022.pdf. The matching total-assets/total-liabilities delta suggests a single balance-sheet reclassification preserving the accounting identity, but no footnote naming the specific line(s) moved was captured in extraction. Does AR_FY2023.pdf (or AR_FY2024.pdf's opening-balance note) contain a 'regrouped/reclassified' disclosure identifying the specific balance-sheet line(s) affected, and does it explain the other-income delta separately?",
+    "linked_flags": ["RF-MERGE-02", "RF-MERGE-08", "RF-MERGE-09", "RF-MERGE-12"],
+    "status": "open",
+    "blocking_finalization": false
+  }
+]

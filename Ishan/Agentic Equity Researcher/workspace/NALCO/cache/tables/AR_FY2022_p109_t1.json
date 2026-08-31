@@ -1,0 +1,69 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 109,
+  "table_index": 1,
+  "bbox": [
+    72.9688,
+    57.961333333333414,
+    549.50048,
+    169.04600000000005
+  ],
+  "rows": [
+    [
+      "Name",
+      "Category of Director",
+      "Position",
+      "Meeting held",
+      "Meeting attended"
+    ],
+    [
+      "Dr. B. R. Ramakrishna@",
+      "Independent",
+      "Chairman",
+      "1",
+      "1"
+    ],
+    [
+      "Shri Ravi Nath Jha@",
+      "Independent",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Adv. George Kurian@",
+      "Independent",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Dr. Ajay Narang@",
+      "Independent",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Shri Y. P. Chillio@",
+      "Independent",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Ms. (Dr.) Shatorupa@",
+      "Independent",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Adv. Dushyant Upadhyay@",
+      "Independent",
+      "Member",
+      "1",
+      "1"
+    ]
+  ]
+}

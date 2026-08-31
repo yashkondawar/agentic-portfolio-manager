@@ -1,0 +1,83 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 111,
+  "table_index": 3,
+  "bbox": [
+    124.97448000000001,
+    369.47588888888885,
+    555.5813625000001,
+    571.3995
+  ],
+  "rows": [
+    [
+      "Name",
+      "Category",
+      "Position",
+      "Meeting",
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "Held",
+      "attended"
+    ],
+    [
+      "Shri S. Patra\nChairman-cum-Managing Director",
+      "Functional",
+      "Chairman",
+      "1",
+      "1"
+    ],
+    [
+      "Shri A. K. Nayak\nPart-time Official Director^",
+      "Government Nominee",
+      "Member",
+      "1",
+      "0"
+    ],
+    [
+      "Shri V. Balasubramanyam\nDirector (Production)$",
+      "Functional",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Shri S. K. Roy\nDirector (P&T )$$",
+      "Functional",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Shri P. K. Mishra\nDirector (Commercial) &\nDirector (Finance)-Addl. Charge-&",
+      "Functional",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Shri R. S. Mahapatro\nDirector (HR)",
+      "Functional",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Shri M. P. Mishra\nDirector (P&T)*",
+      "Functional",
+      "Member",
+      "0",
+      "0"
+    ],
+    [
+      "Shri B. K. Das\nDirector (Production)#",
+      "Functional",
+      "Member",
+      "0",
+      "0"
+    ]
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 184,
+  "table_index": 4,
+  "bbox": [
+    112.308,
+    602.4180000000001,
+    549.921,
+    690.8215
+  ],
+  "rows": [
+    [
+      "Name of JV/Associate Nature of Transaction",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      "Angul Aluminium Park Pvt Ltd. Investment in equity",
+      "16.22",
+      "16.22"
+    ],
+    [
+      "GACL NALCO Alkalis & Chemicals Pvt. Ltd. Investment in equity",
+      "276.00",
+      "276.00"
+    ],
+    [
+      "GACL NALCO Alkalis & Chemicals Pvt. Ltd. Receivable- Man power assistance",
+      "0.77",
+      "0.70"
+    ],
+    [
+      "GACL NALCO Alkalis & Chemicals Pvt. Ltd. Payable for Purchase of goods",
+      "6.10",
+      "0.00"
+    ],
+    [
+      "Utkarsha Aluminium Dhatu Nigam Limited Investment in equity",
+      "20.00",
+      "20.00"
+    ],
+    [
+      "Khanij Bidesh India Limited Investment in equity",
+      "13.00",
+      "1.00"
+    ]
+  ]
+}

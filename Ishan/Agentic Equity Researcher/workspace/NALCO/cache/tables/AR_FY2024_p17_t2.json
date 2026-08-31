@@ -1,0 +1,67 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 17,
+  "table_index": 2,
+  "bbox": [
+    51.77003684210526,
+    269.51485,
+    542.22636,
+    409.8297
+  ],
+  "rows": [
+    [
+      "Description",
+      "Unit",
+      "Year ending 31.03.2024",
+      "Year ending 31.03.2023"
+    ],
+    [
+      "Export:",
+      null,
+      null,
+      null
+    ],
+    [
+      "Alumina",
+      "MT",
+      "11,11,474",
+      "11,82,054"
+    ],
+    [
+      "Aluminium",
+      "MT",
+      "51,163",
+      "25,214"
+    ],
+    [
+      "Domestic:",
+      null,
+      null,
+      null
+    ],
+    [
+      "Alumina and Hydrate*",
+      "MT",
+      "56,712",
+      "64,583"
+    ],
+    [
+      "Aluminium",
+      "MT",
+      "4,18,946",
+      "4,38,876"
+    ],
+    [
+      "Total Metal Sale",
+      "MT",
+      "4,70,108",
+      "4,64,090"
+    ],
+    [
+      "Total Chemical Sale",
+      "MT",
+      "11,68,186",
+      "12,46,637"
+    ]
+  ]
+}

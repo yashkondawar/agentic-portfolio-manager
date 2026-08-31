@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 107,
+  "table_index": 4,
+  "bbox": [
+    124.97457368421053,
+    433.60915,
+    555.345605,
+    504.4753999999999
+  ],
+  "rows": [
+    [
+      "Type of complaints",
+      "No. of complaints"
+    ],
+    [
+      "Non-receipt of Securities",
+      "18"
+    ],
+    [
+      "Non-receipt of Dividend",
+      "1496"
+    ],
+    [
+      "Non-receipt of Annual Report",
+      "10"
+    ],
+    [
+      "Total",
+      "1,537"
+    ]
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 230,
+  "table_index": 2,
+  "bbox": [
+    51.27365714285715,
+    310.823,
+    542.5194833333334,
+    352.27077499999996
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "As at 31.03.2025",
+      "As at 31.03.2024"
+    ],
+    [
+      "Outstanding at the end of the year",
+      "0.13",
+      "0.14"
+    ],
+    [
+      "Maximum amount due at any time during the year",
+      "0.31",
+      "0.31"
+    ]
+  ]
+}

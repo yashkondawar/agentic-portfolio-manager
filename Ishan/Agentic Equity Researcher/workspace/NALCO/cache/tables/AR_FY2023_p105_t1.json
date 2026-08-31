@@ -1,0 +1,38 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 105,
+  "table_index": 1,
+  "bbox": [
+    94.648,
+    529.8895,
+    549.172,
+    605.892
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "2022-23",
+      "2021-22"
+    ],
+    [
+      "Administrative and office expenses",
+      "118.74",
+      "101.88"
+    ],
+    [
+      "Total expenses",
+      "12,535.50",
+      "10,523.80"
+    ],
+    [
+      "Administrative and office expenses as a % of total expenses",
+      "0.95",
+      "0.97"
+    ],
+    [
+      "Financial expenses",
+      "12.92",
+      "23.13"
+    ]
+  ]
+}

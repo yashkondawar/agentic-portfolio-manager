@@ -1,0 +1,57 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 136,
+  "table_index": 1,
+  "bbox": [
+    51.27363333333333,
+    69.91119999999995,
+    543.22645,
+    679.5558
+  ],
+  "rows": [
+    [
+      "Key Audit Matter",
+      "Response of Auditors in dealing with the matters"
+    ],
+    [
+      "2. Valuation of employees’ defined benefit obligations and other long-term benefits",
+      null
+    ],
+    [
+      "The Company has recognised long-term employee benefit liabilities and\ndefined benefit obligations (net of plan asset against funded gratuity\nobligation).",
+      "Our audit procedures relating to the valuation of employees, defined benefit obligations and\nother long-term benefits included the following:"
+    ],
+    [
+      "The valuation of employee benefit obligations is dependent on market\nconditions and assumptions made. The key audit matter specifically relates to\nthe following key assumptions like discount rate, inflation expectations and\nlife expectancy assumptions. The setting of these assumptions is complex and\nrequires the exercise of significant Management judgement with the support\nof third-party actuary.",
+      "» In testing the valuation, we have examined the reports of external actuarial specialists\nto review the key actuarial assumptions used, both financial and demographic, and\nconsidered the methodology utilised to derive these assumptions.\n» We evaluated the assumptions made by Management and the actuary to ensure that\nthese are consistent with the principles of Ind AS 19 Employee Benefits.\n» Furthermore, we have examined the sensitivity analysis on the key assumptions in\nvaluing the defined benefit obligations."
+    ],
+    [
+      "3. Advances and deposits in respect of tax matters under litigation continuing as assets",
+      null
+    ],
+    [
+      "The Financial Statements disclose other assets, which includes material\nrecoverable claims of direct and indirect tax deposits (net of provision)\nincluding VAT and Cenvat credits which are pending adjustment/adjudication.\nSignificant judgement is required in assessing the nature of these exposures\nand their accounting and disclosure requirements.",
+      "Our audit procedures relating to the advance and deposits in respect of tax matters under\nlitigation continuing as assets included the following:\n» We obtained from Management the details of completed tax assessments and demands\nand appeal orders of the appellate authority.\n» We involved our internal experts to challenge the Management’s underlying assumptions\nin estimating the tax liability and the possible outcome of the disputes.\n» Our internal experts also considered legal precedence and other rulings in evaluating\nManagement’s position on these uncertain tax positions.\n» Additionally, we have considered opinions of legal and tax experts, wherever available,\nto review the nature of the amounts recoverable, the sustainability and the likelihood of\nrecoverability upon final resolution."
+    ],
+    [
+      "4. Valuation of deferred tax assets and liabilities",
+      null
+    ],
+    [
+      "The Company has disclosed deferred tax assets/liabilities in the Financial\nStatements.\nThe Company operates in activities which involves application of various\nprovisions in income tax.\nThe assessment of the valuation of deferred tax assets/liabilities, resulting from\ntemporary differences, and provisions for uncertain tax positions is significant\nto our audit as the calculations are complex and depend on sensitive and\njudgemental assumptions. These include, amongst others, long-term future\nprofitability and local fiscal regulations and developments.",
+      "Our audit procedures relating to the advance and deposits in respect of tax matters under\nlitigation continuing as assets included the following:\n» Ascertained the completeness and accuracy of the deferred tax assets/liabilities and\nrecognizing uncertain tax positions.\n» We challenged and tested the Management’s assessment of the recoverability of the\ndeferred tax assets, and the probability of future cash outflows in respect of deferred tax\nliabilities identified by the Company."
+    ],
+    [
+      "",
+      "» We also assessed the applicable local fiscal regulations and developments, in particular\nthose related to changes in the statutory income tax rate and of the statutes of limitation,\nas these are key assumptions underlying the valuation of the deferred tax assets/\nliabilities.\n» We analysed the tax positions and evaluated the assumptions and methodologies used\nby the Company.\n» In addition, we also focused on the adequacy of the Company’s disclosures as per Ind AS\n12 Income Taxes on deferred tax assets/liabilities and assumptions used."
+    ],
+    [
+      "5. Ascertainment, disclosure and provisioning in respect of contingent liabilities",
+      null
+    ],
+    [
+      "Refer to the Note No. 27 to the standalone financial statements.\nThe Company has material uncertain tax matters, both direct and indirect,\nunder dispute involving material aggregate demand which require significant\njudgement to determine the possible outcome of these disputes.\nAdditionally, the Company has other on-going legal matters relating to\nvarious claims by the Government of Odisha or other agencies constituted by\nthe State Government and by contractors/suppliers which require application\nof Management judgement in order to determine the likely outcome.",
+      "Our audit procedures relating to the ascertainment, disclosure and provisioning in respect of\ncontingent liabilities included the following:\nWe obtained a detailed understanding and evaluated the design and implementation of controls\nthat the Company has established in relation to disclosure and provisioning of contingent\nliabilities in accordance to Ind AS 37 Provisions, Contingent Liability and Contingent Assets.\nRegarding direct and indirect tax contingent liabilities, we undertook following principal\naudit procedures:\n» Assessment of the process and relevant controls implemented to identify tax litigations\nand pending administrative proceedings.\n» Reviewing orders and other communication from tax and other regulatory authorities and\nmanagement responses thereto.\n» Discussion with the Management regarding the status of the most significant disputes and\ninspection of the key relevant documentation.\n» Analysis of opinion received from tax experts where available.\n» Review of the adequacy of the disclosures in the notes to the financial statements."
+    ]
+  ]
+}

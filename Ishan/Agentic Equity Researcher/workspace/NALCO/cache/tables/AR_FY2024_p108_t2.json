@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 108,
+  "table_index": 2,
+  "bbox": [
+    79.27372222222223,
+    189.5541,
+    542.6706842105264,
+    258.6338
+  ],
+  "rows": [
+    [
+      "Received From",
+      "Opening Balance",
+      "Received during the year",
+      "Resolved during the year",
+      "Closing Balance"
+    ],
+    [
+      "SEBI",
+      "0",
+      "4",
+      "4",
+      "0"
+    ],
+    [
+      "Stock Exchange",
+      "0",
+      "3",
+      "3",
+      "0"
+    ],
+    [
+      "Individuals",
+      "0",
+      "1,329",
+      "1,329",
+      "0"
+    ],
+    [
+      "TOTAL",
+      "0",
+      "1,336",
+      "1,336",
+      "0"
+    ]
+  ]
+}

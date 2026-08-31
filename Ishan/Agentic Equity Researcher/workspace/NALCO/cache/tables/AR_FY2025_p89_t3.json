@@ -1,0 +1,91 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 89,
+  "table_index": 3,
+  "bbox": [
+    51.36298571428572,
+    265.2312095238095,
+    542.6475181818182,
+    382.7404
+  ],
+  "rows": [
+    [
+      "Questions",
+      null,
+      "P1",
+      "P2",
+      "P3",
+      "P4",
+      "P5",
+      "P6",
+      "P7",
+      "P8",
+      "P9"
+    ],
+    [
+      "a.",
+      "The entity does not consider the Principles material to its business (Yes/No)",
+      "NA",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "b.",
+      "The entity is not at a stage where it is in a position to formulate and implement\nthe policies on specified principles (Yes/No)",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "c.",
+      "The entity does not have the financial or/human and technical resources available\nfor the task (Yes/No)",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "d.",
+      "It is planned to be done in the next financial year (Yes/No)",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "e.",
+      "Any other reason (please specify)",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  ]
+}

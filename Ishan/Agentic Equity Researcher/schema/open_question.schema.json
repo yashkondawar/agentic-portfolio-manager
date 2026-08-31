@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OpenQuestion",
+  "description": "Gap ledger entry. Modules append; deep-researcher (or extraction) answers; orchestrator routes.",
+  "type": "object",
+  "required": ["id", "question", "origin", "severity", "status", "route"],
+  "properties": {
+    "id": { "type": "string", "description": "Q-###" },
+    "question": { "type": "string" },
+    "why_it_matters": { "type": "string", "description": "which thesis pillar / finding / estimate it blocks" },
+    "origin": { "type": "string", "description": "module that raised it" },
+    "severity": { "enum": ["high", "medium", "low"] },
+    "route": { "enum": ["deep_research_company", "deep_research_sector", "extraction_deeper", "forensic", "user"], "description": "who should answer it" },
+    "status": { "enum": ["open", "in_progress", "answered", "disclosed", "dropped"] },
+    "answer": {
+      "type": ["object", "null"],
+      "properties": {
+        "summary": { "type": "string" },
+        "fact_ids": { "type": "array", "items": { "type": "string" } },
+        "answered_by": { "type": "string" }
+      }
+    },
+    "impacts": { "type": "array", "items": { "type": "string" }, "description": "modules to mark stale when answered" }
+  }
+}

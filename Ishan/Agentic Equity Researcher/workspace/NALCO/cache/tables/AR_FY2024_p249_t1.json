@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 249,
+  "table_index": 1,
+  "bbox": [
+    51.27366153846154,
+    97.44505000000004,
+    542.9763384615385,
+    152.70885
+  ],
+  "rows": [
+    [
+      "",
+      "As at 31.03.2024",
+      "As at 31.03.2023"
+    ],
+    [
+      "Current (secured) ( at amortised cost)",
+      null,
+      null
+    ],
+    [
+      "Liabilities towards bills discounted",
+      "39.16",
+      "47.75"
+    ],
+    [
+      "Total",
+      "39.16",
+      "47.75"
+    ]
+  ]
+}

@@ -1,0 +1,31 @@
+kpi_id: evi
+scope: macro
+cycle_refs: [valuation_cycle]
+formula: >
+  Equity Valuation Index = equal-weighted composite of four normalized
+  sub-scores: P/E, P/B, (G-Sec Yield x P/E), and Market-Cap/GDP. Each
+  sub-score is percentile-ranked over its own history before averaging, so
+  no single ratio's units dominate the composite.
+inputs:
+  - name: Nifty 50 trailing P/E, P/B
+    source: afund.index_data (index_name='NIFTY 50', pe/pb)
+    status: available
+  - name: 10Y India G-Sec yield
+    source: FRED INDIRLTLT01STM via afund.data.macro_fred (macro_series GSEC_10Y, monthly)
+    status: available
+  - name: India market-cap-to-GDP
+    source: derived from index_data mcap (not stored) + MOSPI GDP series
+    status: missing
+orientation: value_type
+lookback_years: 10
+cadence: daily
+# 3 of 4 components computed live (see
+# afund.cycles.assess.compute_and_upsert_composite): index_pe (valuation
+# percentile), index_pb (10y pb percentile via anchors.index_pb_percentile),
+# gsec_yield_x_pe (yield-gap percentile). mcap_gdp is still missing (no GDP
+# series — MOSPI manual route). Partial EVI is disclosed via
+# components_missing in composite_decisions, never presented as full.
+source_status: derivable
+registry_xref: null
+references_xref:
+  - kpi_interpretation/valuation_cycle.md

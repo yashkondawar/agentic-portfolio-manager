@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 70,
+  "table_index": 2,
+  "bbox": [
+    45.335,
+    214.54899999999998,
+    549.8507142857143,
+    335.372
+  ],
+  "rows": [
+    [
+      "",
+      "Yes/ No (If yes, then give details of the mechanism in brief)"
+    ],
+    [
+      "Permanent Workers\n(Non-Executives)",
+      "• The Grievance procedure for Executives and non-executives is available on the intranet of the HR manual under\nthe caption 'CDA rules'.\n• Furthermore, all units, including the corporate office, have a policy in place to prevent, prohibit, and address\nsexual harassment of women in the workplace, in accordance with the requirements of the Sexual Harassment\nof Women at Workplace (Prevention, Prohibition & Redressal) Act, 2013. Internal Complaints Committees have\nbeen established at the production units and corporate office of the company to address complaints related to\nsexual harassment.\n• For non-permanent workers grievances of such workers are generally received and managed by the EIC (Contract\nEngineer-in-charge) or Plant HRD through intervention with their immediate employer, i.e., the contractor."
+    ],
+    [
+      "Other than Permanent Workers",
+      null
+    ],
+    [
+      "Permanent Employees\n(Executives)",
+      null
+    ],
+    [
+      "Other than Permanent Employees",
+      "N.A."
+    ]
+  ]
+}

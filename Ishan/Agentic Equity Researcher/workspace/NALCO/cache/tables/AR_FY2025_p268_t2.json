@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 268,
+  "table_index": 2,
+  "bbox": [
+    51.27365161290323,
+    278.8618,
+    542.5686393939394,
+    381.907925
+  ],
+  "rows": [
+    [
+      "A. Non-current",
+      "As at 31.03.2025",
+      "As at 31.03.2024"
+    ],
+    [
+      "Current Tax Asset (net)",
+      "165.93",
+      "260.11"
+    ],
+    [
+      "Total Non current income tax",
+      "165.93",
+      "260.11"
+    ],
+    [
+      "B. Current",
+      "As at 31.03.2025",
+      "As at 31.03.2024"
+    ],
+    [
+      "Current Tax Asset (net)",
+      "153.37",
+      "238.69"
+    ],
+    [
+      "Current Tax Liabilities (net)",
+      "39.66",
+      "53.98"
+    ],
+    [
+      "Total current tax asset (liabilities)",
+      "113.71",
+      "184.71"
+    ]
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 202,
+  "table_index": 1,
+  "bbox": [
+    52.296782758620694,
+    73.95083999999997,
+    543.8505586206896,
+    115.39867999999998
+  ],
+  "rows": [
+    [
+      "GACL NALCO Alkalis & Chemicals Pvt. Ltd.",
+      "Payable for Purchase of goods",
+      "20.04",
+      "6.10"
+    ],
+    [
+      "Utkarsha Aluminium Dhatu Nigam Limited",
+      "Investment in equity",
+      "20.00",
+      "20.00"
+    ],
+    [
+      "Khanij Bidesh India Limited",
+      "Investment in equity",
+      "40.00",
+      "13.00"
+    ]
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 227,
+  "table_index": 1,
+  "bbox": [
+    64.7505,
+    74.77320000000003,
+    549.7295166666667,
+    299.947
+  ],
+  "rows": [
+    [
+      "Non-current",
+      "As at 31.03.2022",
+      "As at 31.03.2021"
+    ],
+    [
+      "Security deposits",
+      "9.18",
+      "11.24"
+    ],
+    [
+      "Mines closure deposits",
+      "0.56",
+      "-"
+    ],
+    [
+      null,
+      "9.74",
+      "11.24"
+    ],
+    [
+      "Current",
+      "As at 31.03.2022",
+      "As at 31.03.2021"
+    ],
+    [
+      "(a) Advances to employees",
+      "-",
+      "-"
+    ],
+    [
+      "(b) Insurance claims receivables and others",
+      "7.22",
+      "7.22"
+    ],
+    [
+      "(c) Gratuity(funded)",
+      "22.17",
+      "-"
+    ],
+    [
+      "Gross - other current financial assets",
+      "29.39",
+      "7.22"
+    ],
+    [
+      "Less: Allowance for bad and doubtful other current financial assets",
+      "",
+      ""
+    ],
+    [
+      "a) Insurance claims",
+      "7.22",
+      "7.22"
+    ],
+    [
+      "Total allowance for bad and doubtful - other current assets",
+      "7.22",
+      "7.22"
+    ],
+    [
+      "Net other current financial assets",
+      "22.17",
+      "-"
+    ],
+    [
+      "Classification of other current financial assets:",
+      "",
+      ""
+    ],
+    [
+      "Unsecured, considered good",
+      "22.17",
+      "-"
+    ],
+    [
+      "Considered doubtful",
+      "7.22",
+      "7.22"
+    ],
+    [
+      "Gross other current financial assets",
+      "29.39",
+      "7.22"
+    ]
+  ]
+}

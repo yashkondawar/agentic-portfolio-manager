@@ -1,0 +1,68 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 234,
+  "table_index": 2,
+  "bbox": [
+    45.52746,
+    547.8368,
+    458.646,
+    690.0293333333334
+  ],
+  "rows": [
+    [
+      "",
+      "Compensated absences",
+      "Long service rewards"
+    ],
+    [
+      "Balance at 31.03.2020",
+      "427.57",
+      "11.54"
+    ],
+    [
+      "Additional provisions recognised",
+      "126.18",
+      "1.35"
+    ],
+    [
+      "Reductions arising from payments",
+      "(106.42)",
+      "(1.06)"
+    ],
+    [
+      "Changes arising from remeasurement",
+      "(16.96)",
+      "1.3"
+    ],
+    [
+      "Balance at 31.03.2021",
+      "430.37",
+      "13.13"
+    ],
+    [
+      "Additional provisions recognised",
+      "121.28",
+      "1.49"
+    ],
+    [
+      "Reductions arising from payments",
+      "(112.33)",
+      "(0.92)"
+    ],
+    [
+      "Changes arising from remeasurement",
+      "25.62",
+      "(1.22)"
+    ],
+    [
+      "Others [refer note 23.4]",
+      "(445.95)",
+      "-"
+    ],
+    [
+      "Balance at 31.03.2022",
+      "18.99",
+      "12.48"
+    ]
+  ]
+}

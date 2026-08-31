@@ -1,0 +1,73 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 114,
+  "table_index": 2,
+  "bbox": [
+    95.23679999999999,
+    431.97150000000005,
+    479.86514999999997,
+    606.648
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Name of shareholder",
+      "No. of shares"
+    ],
+    [
+      "1.",
+      "ICICI Prudential Midcap 150 Index Fund",
+      "4,05,81,090"
+    ],
+    [
+      "2.",
+      "Rakesh Jhujhunwala",
+      "2,50,00,000"
+    ],
+    [
+      "3.",
+      "Mirae Asset Equity Savings Fund",
+      "1,96,00,999"
+    ],
+    [
+      "4.",
+      "Societe Generale - ODI",
+      "1,95,39,457"
+    ],
+    [
+      "5.",
+      "SBI Magnum Midcap Fund",
+      "1,59,34,762"
+    ],
+    [
+      "6.",
+      "The New India Assurance Company Limited",
+      "1,44,50,689"
+    ],
+    [
+      "7.",
+      "Aditya Birla Sun Life Trustee Private Limited",
+      "1,41,31,192"
+    ],
+    [
+      "8.",
+      "Quant Mutual Fund - Quant Small Cap Fund",
+      "1,39,37,800"
+    ],
+    [
+      "9.",
+      "Life Insurance Corporation of India",
+      "1,31,87,074"
+    ],
+    [
+      "10.",
+      "City of New York Group Trust",
+      "1,27,08,803"
+    ],
+    [
+      "",
+      "TOTAL",
+      "18,90,71,866"
+    ]
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "module": "estimates-builder",
+  "run_date": "2026-07-16",
+  "company": "NALCO",
+  "basis": "consolidated",
+  "findings": [
+    {
+      "id": "F-EST-01",
+      "title": "Base-case FY27E/FY28E EPS is roughly flat vs FY26, well below management's bullish framing",
+      "detail": "Base-case build: revenue INR 19,399cr (FY27E, +8.7% YoY) / INR 19,156cr (FY28E, -1.3% YoY); EBITDA margin fades from FY26's cyclical-peak 48.27% to 44.5% (FY27E) / 43.0% (FY28E); PAT INR 6,016cr / 5,703cr; EPS INR 32.76 / 31.05. Base-case 2yr EPS CAGR (FY26->FY28E) = -0.98%. This reflects (a) metal/alumina prices normalizing off cyclical highs per independent World Bank/Platts anchors rather than management's own guidance, and (b) the 5th-stream alumina refinery ramp being probability-weighted at 0.40/0.55 (not 1.0) given its low guidance credibility and DR1b's unconfirmed-commissioning finding as of Jul-2026.",
+      "evidence": ["EST-001", "EST-002", "EST-003", "EST-004", "EST-005", "EST-006", "EST-007", "EST-008"],
+      "confidence": "medium",
+      "load_bearing": true
+    },
+    {
+      "id": "F-EST-02",
+      "title": "5th-stream/Pottangi volume upside is the single largest swing factor between scenarios",
+      "detail": "Bull case (5th-stream at 100% of guided nameplate, no probability discount; metal $3,200/t, alumina $340/t; margin holds 48-49%) produces FY27E/FY28E EPS of INR 38.11/42.42 and a +15.74% 2yr EPS CAGR. Bear case (zero incremental 5th-stream/Pottangi volume in the horizon, consistent with the ~18-month historical guidance-slip pattern; metal toward Goldman Sachs' ~$2,400/t CY2027 bear case; alumina $260-280/t on deepening Indonesian oversupply; margin compresses to 37-39%; finance cost +30-50% on continued capex-overrun-driven borrowing) produces EPS of INR 24.04/21.26 and a -18.05% 2yr EPS CAGR. The base/bull/bear spread (-0.98% / +15.74% / -18.05%) is driven primarily by the probability weight applied to this one capacity lever, not by price assumptions alone.",
+      "evidence": ["EST-009", "EST-010", "EST-011", "EST-012", "A-1352", "A-1370", "A-1380"],
+      "confidence": "medium",
+      "load_bearing": true
+    },
+    {
+      "id": "F-EST-03",
+      "title": "Variant view: estimates are more conservative than management's implicit guidance flow-through",
+      "detail": "Management's own FY27 price guidance (aluminium $3,000-3,100/t, alumina $300-310/t) sits within/near the independent forecast band used here and is not itself the point of divergence. The key divergence is volume: guidance-analyst scored the 5th-stream/Pottangi timeline as low-credibility (guided volume cut 500kt->300kt->200kt within FY26 alone) and DR1b's Jul-2026 follow-up found commissioning still unconfirmed past the guided Jun-2026 date (commissioning-support tender still pre-bid as of 01-Jul-2026). A naive 100%-guidance-flow-through model would sit closer to our bull case (+15.7% 2yr EPS CAGR); the base case instead sits at -0.98%, reflecting the hard rule that low-credibility guidance never becomes the base case.",
+      "evidence": ["EST-007", "EST-008", "EST-009", "EST-010", "A-1352"],
+      "confidence": "medium",
+      "load_bearing": true
+    },
+    {
+      "id": "F-EST-04",
+      "title": "No confirmed working-capital red flag applies as an estimates drag; capex-overrun pattern applied instead",
+      "detail": "state/red_flags.json contains no confirmed working-capital deterioration: RF-001 (other income/CFO ratio) is adjudicated disclosed/medium/benign (cyclical-denominator effect); RF-002/RF-003 (DSO increases) are dismissed/low/immaterial (day-count moves on a near-zero receivables base); RF-MERGE-01 is dismissed as a data-quality issue. This is explicitly checked and closed as 'not applicable' rather than silently omitted. In its place, the one genuinely confirmed adverse pattern in the ledger -- capex-execution overruns of ~20% historically (F-FUND-04) -- is built into the estimates as an upward bias on the capex/D&A/finance-cost lines in both estimate years, functioning as the estimates-drag role the orchestrator's instruction anticipated.",
+      "evidence": ["A-1363", "A-1364", "A-1368"],
+      "confidence": "high",
+      "load_bearing": true
+    },
+    {
+      "id": "F-EST-05",
+      "title": "Six mandatory sanity gates run; all pass or show an expected, disclosed divergence",
+      "detail": "(1) Capex->gross block->asset turns: 5th-stream capex capitalizes ahead of full-ramp revenue contribution, consistent with F-FUND-03's flagged dilutive-ROCE window -- PASS (expected divergence, disclosed). (2) EPS growth vs PAT growth: identical in both years (no dilution assumed) -- PASS. (3) Margin vs bridge vs band: FY27E/FY28E margins (44.5%/43.0%) sit within the 5-year historical band (~24.9% trough to ~48.3% peak) and track the guidance ledger's Medium-Low margin-bridge achievability score -- PASS. (4) CFO/EBITDA quality: FY25 actual conversion 73.3% (CFO 5,806cr / EBITDA 7,922cr) held flat for estimate years given no confirmed WC drag -- PASS. (5) Estimates-vs-guidance variant view: stated explicitly (see F-EST-03) -- PASS (disclosed, not a failure mode). (6) Capacity-constrained revenue: metal volumes held near-zero organic growth (at rated capacity); alumina 5th-stream contribution capped by an explicit probability weight below full nameplate, never exceeding capacity x ramp -- PASS.",
+      "evidence": ["EST-001", "EST-003", "EST-005", "A-1350", "A-1352", "A-1360", "A-1368"],
+      "confidence": "high",
+      "load_bearing": true
+    },
+    {
+      "id": "F-EST-06",
+      "title": "Forward multiples at CMP sit above the 5-year historical P/E band",
+      "detail": "At CMP INR 361.65, base-case forward P/E is 11.04x (FY27E) and 11.65x (FY28E), both above the FY22-FY26 historical P/E band (min 4.61x, median 7.58x, max 8.66x, computed from fy_avg_price/eps_diluted). Only one international peer forward multiple was located in DR2 research (Alcoa, 10.04x), below NALCO's implied forward multiples; no domestic peer P/E benchmark was found (data gap). This context is provided for the downstream valuation agent only and is explicitly NOT a target price.",
+      "evidence": ["EST-013", "EST-014"],
+      "confidence": "medium",
+      "load_bearing": true
+    }
+  ],
+  "sanity_gates": {
+    "capex_gross_block_asset_turns": "PASS (expected, disclosed divergence during capitalization-ahead-of-ramp window)",
+    "eps_vs_pat_growth_dilution_consistency": "PASS (identical growth rates, no dilution assumed)",
+    "margin_vs_bridge_vs_band": "PASS (44.5%/43.0% within 24.9%-48.3% historical band)",
+    "cfo_ebitda_quality_vs_actual": "PASS (73.3% FY25 actual conversion held; no confirmed WC drag)",
+    "estimates_vs_guidance_variant_view": "PASS (variant view explicitly stated, see F-EST-03)",
+    "capacity_constrained_revenue_check": "PASS (metal at rated capacity; alumina 5th-stream probability-weighted below nameplate)"
+  },
+  "handoff_status": "written and schema-validated: workspace/NALCO/handoff/valuation_handoff.json"
+}

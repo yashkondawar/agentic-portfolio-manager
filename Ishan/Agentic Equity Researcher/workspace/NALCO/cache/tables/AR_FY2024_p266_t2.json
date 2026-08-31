@@ -1,0 +1,108 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 266,
+  "table_index": 2,
+  "bbox": [
+    51.27364,
+    434.95106,
+    543.0162625,
+    676.4774
+  ],
+  "rows": [
+    [
+      "Operating Segments",
+      "Segment revenue",
+      null
+    ],
+    [
+      null,
+      "Year ended 31.03.2024",
+      "Year ended 31.03.2023"
+    ],
+    [
+      "Chemical segment",
+      "5,416.47",
+      "5,585.71"
+    ],
+    [
+      "Aluminium segment",
+      "9,556.53",
+      "10,245.79"
+    ],
+    [
+      "Unallocated",
+      "7.75",
+      "72.61"
+    ],
+    [
+      "Total for operations",
+      "14,980.75",
+      "15,904.11"
+    ],
+    [
+      "Less: Intersegment revenue",
+      "1,831.60",
+      "1,647.26"
+    ],
+    [
+      "Revenue from operations",
+      "13,149.15",
+      "14,256.85"
+    ],
+    [
+      "Operating Segments",
+      "Segment results",
+      null
+    ],
+    [
+      null,
+      "Year ended 31.03.2024",
+      "Year ended 31.03.2023"
+    ],
+    [
+      "Chemical segment",
+      "967.24",
+      "383.59"
+    ],
+    [
+      "Aluminium segment",
+      "1,526.46",
+      "1,778.73"
+    ],
+    [
+      "Segment result before exceptional items, interest and tax",
+      "2,493.70",
+      "2,162.32"
+    ],
+    [
+      "Exceptional Income/(Expenses)",
+      "426.81",
+      "-"
+    ],
+    [
+      "Interest & financing charges",
+      "17.21",
+      "12.92"
+    ],
+    [
+      "Interest and dividend income",
+      "211.08",
+      "204.98"
+    ],
+    [
+      "Other unallocated income net of unallocated expenses",
+      "(330.81)",
+      "(399.39)"
+    ],
+    [
+      "Share of Profit/(loss) of Joint Venture",
+      "(71.49)",
+      "(109.83)"
+    ],
+    [
+      "Profit before tax",
+      "2,712.08",
+      "1,845.16"
+    ]
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 82,
+  "table_index": 1,
+  "bbox": [
+    88.12133333333334,
+    86.8736666666667,
+    462.8809,
+    154.23800000000006
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "Pending from Prev. Year",
+      "Received during the year",
+      "Complaints resolved"
+    ],
+    [
+      "SCORES-SEBI",
+      "Nil",
+      "Nil",
+      "Nil"
+    ],
+    [
+      "Stock Exchanges",
+      "Nil",
+      "1",
+      "1"
+    ],
+    [
+      "Individuals",
+      "Nil",
+      "2,252",
+      "2,252"
+    ],
+    [
+      "TOTAL",
+      "Nil",
+      "2,253",
+      "2,253"
+    ]
+  ]
+}

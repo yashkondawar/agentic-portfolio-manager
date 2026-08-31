@@ -1,0 +1,85 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 199,
+  "table_index": 1,
+  "bbox": [
+    51.273648,
+    232.98250000000002,
+    542.414632,
+    398.7736
+  ],
+  "rows": [
+    [
+      "Non-Current",
+      null,
+      null,
+      null
+    ],
+    [
+      "Particulars",
+      null,
+      "2024-25",
+      "2023-24"
+    ],
+    [
+      "a",
+      "Opening balance",
+      "36.28",
+      "36.28"
+    ],
+    [
+      "b",
+      "Add: Additions (expected credit loss for the year)",
+      "-",
+      "-"
+    ],
+    [
+      "c",
+      "Less: Write off/adjustments",
+      "-",
+      "-"
+    ],
+    [
+      "d",
+      "Closing Balance",
+      "36.28",
+      "36.28"
+    ],
+    [
+      "Current",
+      null,
+      null,
+      null
+    ],
+    [
+      "Particulars",
+      null,
+      "2024-25",
+      "2023-24"
+    ],
+    [
+      "a",
+      "Opening balance",
+      "21.28",
+      "13.79"
+    ],
+    [
+      "b",
+      "Add: Additions (expected credit loss for the year)",
+      "-",
+      "7.49"
+    ],
+    [
+      "c",
+      "Less: Write off/adjustments",
+      "0.69",
+      "-"
+    ],
+    [
+      "d",
+      "Closing Balance",
+      "20.59",
+      "21.28"
+    ]
+  ]
+}

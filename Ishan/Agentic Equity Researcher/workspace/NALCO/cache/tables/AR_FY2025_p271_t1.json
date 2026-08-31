@@ -1,0 +1,41 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 271,
+  "table_index": 1,
+  "bbox": [
+    51.27366153846154,
+    215.94118749999998,
+    542.7682333333333,
+    280.805
+  ],
+  "rows": [
+    [
+      "",
+      "As at 31.03.2025",
+      null,
+      "As at 31.03.2024",
+      null
+    ],
+    [
+      "Promoter’s name",
+      "Number of shares\nheld",
+      "% of holding of equity\nshares",
+      "Number of shares\nheld",
+      "% of holding of equity\nshares"
+    ],
+    [
+      "Government of India",
+      "94,17,93,011",
+      "51.28%",
+      "94,17,93,011",
+      "51.28%"
+    ],
+    [
+      "Total",
+      "94,17,93,011",
+      "51.28%",
+      "94,17,93,011",
+      "51.28%"
+    ]
+  ]
+}

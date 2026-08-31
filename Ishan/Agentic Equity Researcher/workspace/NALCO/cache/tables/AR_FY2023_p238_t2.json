@@ -1,0 +1,103 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 238,
+  "table_index": 2,
+  "bbox": [
+    45.979,
+    287.57300000000004,
+    549.546,
+    477.297
+  ],
+  "rows": [
+    [
+      "A. Raw material",
+      null,
+      "Year ended 31.03.2023",
+      "Year ended 31.03.2022"
+    ],
+    [
+      "",
+      "(1) Caustic soda",
+      "1,463.37",
+      "873.17"
+    ],
+    [
+      null,
+      "(2) C.P. coke",
+      "1,167.81",
+      "693.19"
+    ],
+    [
+      null,
+      "(3) C.T. pitch",
+      "302.72",
+      "225.98"
+    ],
+    [
+      null,
+      "(4) Aluminium fluoride",
+      "107.69",
+      "87.18"
+    ],
+    [
+      null,
+      "(5) Lime",
+      "74.17",
+      "52.24"
+    ],
+    [
+      null,
+      "(6) Others",
+      "56.36",
+      "39.37"
+    ],
+    [
+      "Total raw materials consumed",
+      null,
+      "3,172.12",
+      "1,971.13"
+    ],
+    [
+      "B. Power and Fuel",
+      null,
+      "",
+      ""
+    ],
+    [
+      "",
+      "(1) Coal",
+      "2,521.56",
+      "1,502.24"
+    ],
+    [
+      null,
+      "(2) Fuel oil",
+      "1,054.24",
+      "864.58"
+    ],
+    [
+      null,
+      "(3) Duty on own generation",
+      "376.92",
+      "375.05"
+    ],
+    [
+      null,
+      "(4) Purchase of power",
+      "737.92",
+      "637.96"
+    ],
+    [
+      null,
+      "(5) Power transmission charges",
+      "3.05",
+      "8.65"
+    ],
+    [
+      "Total Power and Fuel consumed",
+      null,
+      "4,693.69",
+      "3,388.48"
+    ]
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 251,
+  "table_index": 5,
+  "bbox": [
+    73.951,
+    351.321,
+    549.8504555555555,
+    430.61600000000004
+  ],
+  "rows": [
+    [
+      "Sl. Nos Nature of transaction with struck-off Company Balance outstanding Relationship with struck-off Company, if any"
+    ],
+    [
+      "1 Investment in securities -"
+    ],
+    [
+      "2 Receivables -"
+    ],
+    [
+      "3 Payables -"
+    ],
+    [
+      "4 Share held by struck off Company# -"
+    ],
+    [
+      "5 Other outstanding balance (to be specified)"
+    ],
+    [
+      "Total -"
+    ]
+  ]
+}

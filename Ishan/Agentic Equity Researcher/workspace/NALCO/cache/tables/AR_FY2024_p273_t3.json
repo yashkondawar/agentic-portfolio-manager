@@ -1,0 +1,62 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 273,
+  "table_index": 3,
+  "bbox": [
+    51.27365,
+    226.62220000000002,
+    542.7777897435898,
+    332.93392857142857
+  ],
+  "rows": [
+    [
+      "Sl.\nNos.",
+      "Nature of transaction with struck-off Company",
+      "Balance outstanding\nas on 31.03.2024",
+      "Balance outstanding\nas on 31.03.2023",
+      "Relationship with struck-off\nCompany, if any"
+    ],
+    [
+      "1",
+      "Investment in securities",
+      "-",
+      "-",
+      ""
+    ],
+    [
+      "2",
+      "Receivables",
+      "-",
+      "-",
+      ""
+    ],
+    [
+      "3",
+      "Payables",
+      "-",
+      "0.22",
+      "For supply of goods/services"
+    ],
+    [
+      "4",
+      "Share held by struck off Company",
+      "40,783 nos. of shares",
+      "44,827 nos. of shares",
+      "Total 9 number of Shareholders"
+    ],
+    [
+      "5",
+      "Other outstanding balance (to be specified)",
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "Total",
+      "-",
+      "0.22",
+      ""
+    ]
+  ]
+}

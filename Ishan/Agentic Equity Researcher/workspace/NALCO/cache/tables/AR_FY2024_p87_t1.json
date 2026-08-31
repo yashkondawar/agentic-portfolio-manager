@@ -1,0 +1,158 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 87,
+  "table_index": 1,
+  "bbox": [
+    68.28148333333333,
+    71.11604999999997,
+    542.6039033333333,
+    479.0314
+  ],
+  "rows": [
+    [
+      "Parameter",
+      "FY 2023-24",
+      "FY 2022-23"
+    ],
+    [
+      "(iii) Other recovery operations",
+      "56,86,763",
+      "0"
+    ],
+    [
+      "Total",
+      "66,37,538",
+      "9,45,147"
+    ],
+    [
+      "For each category of waste generated, total waste disposed by nature of disposal method (in metric tonnes)",
+      null,
+      null
+    ],
+    [
+      "Category of waste (E- waste)",
+      null,
+      null
+    ],
+    [
+      "(i) Incineration",
+      "0",
+      "0"
+    ],
+    [
+      "(ii) Landfilling",
+      "0",
+      "0"
+    ],
+    [
+      "(iii) Other disposal operations",
+      "30.94",
+      "5.356"
+    ],
+    [
+      "Total",
+      "30.94",
+      "5.356"
+    ],
+    [
+      "Category of waste (Bio-medical waste)",
+      null,
+      null
+    ],
+    [
+      "(i) Incineration",
+      "0.025",
+      "0"
+    ],
+    [
+      "(ii) Landfilling",
+      "0.521",
+      "0"
+    ],
+    [
+      "(iii) Other disposal operations",
+      "1.32",
+      "1.78"
+    ],
+    [
+      "Total",
+      "1.866",
+      "1.78"
+    ],
+    [
+      "Category of waste (Battery waste)",
+      null,
+      null
+    ],
+    [
+      "(i) Incineration",
+      "0",
+      "0"
+    ],
+    [
+      "(ii) Landfilling",
+      "0",
+      "0"
+    ],
+    [
+      "(iii) Other disposal operations",
+      "32.154",
+      "29.29"
+    ],
+    [
+      "Total",
+      "32.154",
+      "29.29"
+    ],
+    [
+      "Category of waste (Other Hazardous waste)",
+      null,
+      null
+    ],
+    [
+      "(i) Incineration",
+      "126.429",
+      "124.589"
+    ],
+    [
+      "(ii) Landfilling",
+      "32.2",
+      "47.341"
+    ],
+    [
+      "(iii) Other disposal operations",
+      "19,193.655",
+      "28,556.7"
+    ],
+    [
+      "Total",
+      "19,352.284",
+      "28,728.63"
+    ],
+    [
+      "Category of waste (Other Non-Hazardous waste)",
+      null,
+      null
+    ],
+    [
+      "(i) Incineration",
+      "0",
+      "0"
+    ],
+    [
+      "(ii) Landfilling",
+      "0",
+      "0"
+    ],
+    [
+      "(iii) Other disposal operations",
+      "44,22,065.29",
+      "69,39,754.87"
+    ],
+    [
+      "Total",
+      "44,22,065.29",
+      "69,39,754.87"
+    ]
+  ]
+}

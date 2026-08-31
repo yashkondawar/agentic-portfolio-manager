@@ -1,0 +1,78 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 67,
+  "table_index": 5,
+  "bbox": [
+    51.21606153846154,
+    549.7982499999999,
+    542.5814461538462,
+    665.599
+  ],
+  "rows": [
+    [
+      "S.\nNo.",
+      "Disclosure Questions",
+      "P1",
+      "P2",
+      "P3",
+      "P4",
+      "P5",
+      "P6",
+      "P7",
+      "P8",
+      "P9"
+    ],
+    [
+      null,
+      "Policy and management processes",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "1.",
+      "(a) Whether your entity’s policy/ policies cover\neach principle and its core elements of the\nNGRBCs. (Yes/No)",
+      "Yes",
+      "Yes",
+      "Yes",
+      "Yes",
+      "Yes",
+      "Yes",
+      "Yes",
+      "Yes",
+      "Yes"
+    ],
+    [
+      null,
+      "(b) Has the policy been approved by the Board?\n(Yes/No)",
+      "Yes",
+      "Yes",
+      "Yes",
+      "Yes",
+      "Yes",
+      "Yes",
+      "Yes",
+      "Yes",
+      "Yes"
+    ],
+    [
+      null,
+      "(c) Web Link of the Policies, if available",
+      "https://nalcoindia.com/company/policies-docs/",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 291,
+  "table_index": 2,
+  "bbox": [
+    51.27364,
+    408.73087999999996,
+    542.702321875,
+    502.94315
+  ],
+  "rows": [
+    [
+      "Operating Segments",
+      "Segment Revenue",
+      null
+    ],
+    [
+      null,
+      "Year ended 31.03.2025",
+      "Year ended 31.03.2024"
+    ],
+    [
+      "Chemical segment",
+      "7,607.44",
+      "5,416.47"
+    ],
+    [
+      "Aluminium segment",
+      "11,113.16",
+      "9,556.53"
+    ],
+    [
+      "Unallocated",
+      "21.41",
+      "7.75"
+    ],
+    [
+      "Total for operations",
+      "18,742.01",
+      "14,980.75"
+    ],
+    [
+      "Less: Intersegment revenue",
+      "1,954.38",
+      "1,831.60"
+    ],
+    [
+      "Revenue from operations",
+      "16,787.63",
+      "13,149.15"
+    ]
+  ]
+}

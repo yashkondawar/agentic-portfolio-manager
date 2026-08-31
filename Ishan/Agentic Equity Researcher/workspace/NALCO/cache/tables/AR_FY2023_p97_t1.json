@@ -1,0 +1,69 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 97,
+  "table_index": 1,
+  "bbox": [
+    95.619,
+    60.84700000000004,
+    549.4268,
+    225.199
+  ],
+  "rows": [
+    [
+      "Members of Share Transfer Committee",
+      "Category of Director",
+      "Position",
+      "Meeting",
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "Held",
+      "Attended"
+    ],
+    [
+      "Shri R. S. Mahapatro\nDirector (HR)",
+      "Functional",
+      "Chairman",
+      "10",
+      "9"
+    ],
+    [
+      "Shri M. P. Mishra\nDirector (P&T)",
+      "Functional",
+      "Member",
+      "10",
+      "10"
+    ],
+    [
+      "Shri B. K. Das#\nDirector (Production)",
+      "Functional",
+      "Member",
+      "8",
+      "7"
+    ],
+    [
+      "Shri R. C. Joshi\nDirector (Finance)",
+      "Functional",
+      "Member",
+      "10",
+      "9"
+    ],
+    [
+      "Shri S. Samantaray\nDirector (Commercial)",
+      "Functional",
+      "Member",
+      "10",
+      "8"
+    ],
+    [
+      "Shri P. K. Sharma*\nDirector (Production)",
+      "Functional",
+      "Member",
+      "2",
+      "1"
+    ]
+  ]
+}

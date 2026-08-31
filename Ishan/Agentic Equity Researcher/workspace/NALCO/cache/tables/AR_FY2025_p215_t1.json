@@ -1,0 +1,55 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 215,
+  "table_index": 1,
+  "bbox": [
+    51.273620512820514,
+    88.02894285714287,
+    542.699764102564,
+    175.41740000000001
+  ],
+  "rows": [
+    [
+      "B. Power and Fuel",
+      null,
+      "Year ended 31.03.2025",
+      "Year ended 31.03.2024"
+    ],
+    [
+      "(1)",
+      "Coal [Refer note 30.1]",
+      "1,376.51",
+      "1,687.51"
+    ],
+    [
+      "(2)",
+      "Fuel oil",
+      "1,115.54",
+      "1,058.86"
+    ],
+    [
+      "(3)",
+      "Duty on own generation",
+      "426.26",
+      "416.80"
+    ],
+    [
+      "(4)",
+      "Purchase of power",
+      "231.50",
+      "364.72"
+    ],
+    [
+      "(5)",
+      "Power transmission charges",
+      "16.13",
+      "19.81"
+    ],
+    [
+      "Total Power and Fuel consumed",
+      null,
+      "3,165.94",
+      "3,547.70"
+    ]
+  ]
+}

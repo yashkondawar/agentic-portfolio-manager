@@ -1,0 +1,123 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 220,
+  "table_index": 2,
+  "bbox": [
+    51.27363636363636,
+    293.12319285714284,
+    542.9295657142858,
+    494.3754
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "NALCO retirement\nwelfare scheme",
+      null,
+      "Superannuation gift\nscheme",
+      null,
+      "Gratuity (Funded)",
+      null,
+      "Honour Scheme",
+      null
+    ],
+    [
+      "2024-25",
+      "Increase by",
+      "Decrease by",
+      "Increase by",
+      "Decrease by",
+      "Increase by",
+      "Decrease by",
+      "Increase by",
+      "Decrease by"
+    ],
+    [
+      "Impact on amount due to change in\nDiscount rate (-/+0.5%)",
+      "0.27",
+      "0.27",
+      "0.14",
+      "0.14",
+      "16.43",
+      "15.32",
+      "1.31",
+      "1.22"
+    ],
+    [
+      "% Change compared to base due to\nsensitivity [+/(-)%]",
+      "2.71%",
+      "2.76%",
+      "2.71%",
+      "2.76%",
+      "3.98%",
+      "3.71%",
+      "3.98%",
+      "3.71%"
+    ],
+    [
+      "Impact on amount due to change in\nSalary growth (+/-0.5%)",
+      "-",
+      "-",
+      "-",
+      "-",
+      "2.96",
+      "2.70",
+      "-",
+      "-"
+    ],
+    [
+      "% Change compared to base due to\nsensitivity [+/(-)%]",
+      "-",
+      "-",
+      "-",
+      "-",
+      "0.72%",
+      "0.65%",
+      "-",
+      "-"
+    ],
+    [
+      "Impact on amount due to change in\nAttrition rate (+/-0.5%)",
+      "0.01",
+      "0.01",
+      "0.01",
+      "0.01",
+      "0.12",
+      "0.12",
+      "0.01",
+      "0.01"
+    ],
+    [
+      "% Change compared to base due to\nsensitivity [+/(-)%]",
+      "0.15%",
+      "0.15%",
+      "0.15%",
+      "0.15%",
+      "0.03%",
+      "0.03%",
+      "0.03%",
+      "0.03%"
+    ],
+    [
+      "Impact on amount due to change in\nMoratlity rate (-/+10%)",
+      "0.03",
+      "0.03",
+      "0.01",
+      "0.01",
+      "0.28",
+      "0.28",
+      "0.02",
+      "0.02"
+    ],
+    [
+      "% Change compared to base due to\nsensitivity [+/(-)%]",
+      "0.26%",
+      "0.26%",
+      "0.26%",
+      "0.26%",
+      "0.07%",
+      "0.07%",
+      "0.07%",
+      "0.07%"
+    ]
+  ]
+}

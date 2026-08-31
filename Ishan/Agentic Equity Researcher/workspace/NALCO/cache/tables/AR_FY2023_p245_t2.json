@@ -1,0 +1,63 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 245,
+  "table_index": 2,
+  "bbox": [
+    63.368,
+    318.1365,
+    549.55,
+    443.639
+  ],
+  "rows": [
+    [
+      "Profit before tax",
+      "1,845.16",
+      "3,954.31"
+    ],
+    [
+      "Less: Profit or (loss) of Joint Ventures",
+      "(109.83)",
+      "(0.56)"
+    ],
+    [
+      "Net Profit before tax",
+      "1,954.99",
+      "3,954.87"
+    ],
+    [
+      "Income tax expense thereon @ 25.168%",
+      "492.03",
+      "995.36"
+    ],
+    [
+      "Tax effect of -",
+      "",
+      ""
+    ],
+    [
+      "i) disallowable expenses (permanent difference)",
+      "20.37",
+      "21.26"
+    ],
+    [
+      "ii) expenses allowable in excess of expenditure incurred",
+      "(63.48)",
+      "(16.15)"
+    ],
+    [
+      "iii) adjustment relating to earlier years",
+      "(181.06)",
+      "(9.88)"
+    ],
+    [
+      "iv) others",
+      "142.64",
+      "12.31"
+    ],
+    [
+      "Income tax expense recognised in profit or loss",
+      "410.50",
+      "1,002.90"
+    ]
+  ]
+}

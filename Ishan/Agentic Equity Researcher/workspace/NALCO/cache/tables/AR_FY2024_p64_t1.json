@@ -1,0 +1,25 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 64,
+  "table_index": 1,
+  "bbox": [
+    51.4152347826087,
+    107.38214999999997,
+    543.368048,
+    144.60900000000004
+  ],
+  "rows": [
+    [
+      "S. No.",
+      "Description of Main Activity",
+      "Description of Business Activity",
+      "% of Turnover of the entity"
+    ],
+    [
+      "1",
+      "Manufacturing",
+      "Metal and metal products",
+      "100%"
+    ]
+  ]
+}

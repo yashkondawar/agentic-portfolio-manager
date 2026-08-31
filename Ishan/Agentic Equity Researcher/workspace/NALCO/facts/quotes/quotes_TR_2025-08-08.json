@@ -1,0 +1,1250 @@
+[
+  {
+    "id": "QT-Q1-001",
+    "topics": ["sales_demand_market_share"],
+    "speaker": "Subha Brata Purohit, DGM (Mechanical)",
+    "quote": "Bauxite we have achieved 6.6% growth against corresponding quarter last year.",
+    "context_summary": "Q1 FY26 bauxite production performance vs prior year",
+    "source": {
+      "src_id": "SRC-720"
+    },
+    "period_discussed": "FY2026Q1",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-002",
+    "topics": ["sales_demand_market_share"],
+    "speaker": "Subha Brata Purohit, DGM (Mechanical)",
+    "quote": "Alumina Hydrate there has been a significant jump of 35% against Q1 due to base effect.",
+    "context_summary": "Q1 FY26 alumina hydrate production with base effect noted",
+    "source": {
+      "src_id": "SRC-721"
+    },
+    "period_discussed": "FY2026Q1",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-003",
+    "topics": ["sales_demand_market_share"],
+    "speaker": "Subha Brata Purohit, DGM (Mechanical)",
+    "quote": "In case of metal we have achieved 3% growth and power also 6% growth.",
+    "context_summary": "Q1 FY26 aluminium and power generation growth",
+    "source": {
+      "src_id": "SRC-722"
+    },
+    "period_discussed": "FY2026Q1",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-004",
+    "topics": ["sales_demand_market_share"],
+    "speaker": "Subha Brata Purohit, DGM (Mechanical)",
+    "quote": "In case of Alumina we have achieved significant jump. In case of metal also we have achieved growth of 9%.",
+    "context_summary": "Q1 FY26 alumina and metal sales growth",
+    "source": {
+      "src_id": "SRC-723"
+    },
+    "period_discussed": "FY2026Q1",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-005",
+    "topics": ["sales_demand_market_share"],
+    "speaker": "Subha Brata Purohit, DGM (Mechanical)",
+    "quote": "Domestic sales of metal and alumina, in both cases we have achieved highest ever sales for Q1.",
+    "context_summary": "Domestic sales record for Q1 across metal and alumina",
+    "source": {
+      "src_id": "SRC-724"
+    },
+    "period_discussed": "FY2026Q1",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-006",
+    "topics": ["margins_customers_orderbook"],
+    "speaker": "Subha Brata Purohit, DGM (Mechanical)",
+    "quote": "In case of Alumina we are running at a run rate of around 23 lakh ton. Aluminium 4.6 to 4.7 lakh ton and Bauxite 76 lakh ton.",
+    "context_summary": "Q1 FY26 run rates for key production lines",
+    "source": {
+      "src_id": "SRC-725"
+    },
+    "period_discussed": "FY2026Q1",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-007",
+    "topics": ["product_mix_margin_strategy"],
+    "speaker": "Subha Brata Purohit, DGM (Mechanical)",
+    "quote": "There is growth of 33% in the revenue and the PAT has registered growth of 77% against the corresponding quarter last year.",
+    "context_summary": "Q1 FY26 financial performance: revenue and PAT growth",
+    "source": {
+      "src_id": "SRC-726"
+    },
+    "period_discussed": "FY2026Q1",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-008",
+    "topics": ["corporate_actions"],
+    "speaker": "Subha Brata Purohit, DGM (Mechanical)",
+    "quote": "The company has also recommended Final dividend of Rs.2.50 per share in its last Board meeting.",
+    "context_summary": "Q1 FY26 Board dividend recommendation",
+    "source": {
+      "src_id": "SRC-727"
+    },
+    "period_discussed": "FY2026Q1",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-009",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "Subha Brata Purohit, DGM (Mechanical)",
+    "quote": "LME price fell down to $2,380 per ton because of tariff announcements by US President. Since then LME price has recovered to about $2,560 per ton.",
+    "context_summary": "LME aluminium price movement April-August 2025",
+    "source": {
+      "src_id": "SRC-728"
+    },
+    "period_discussed": "FY2026Q1",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-010",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "Subha Brata Purohit, DGM (Mechanical)",
+    "quote": "LME price going ahead likely impacted by tariff developments which still uncertain.",
+    "context_summary": "LME price outlook subject to tariff uncertainty",
+    "source": {
+      "src_id": "SRC-729"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-011",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "Subha Brata Purohit, DGM (Mechanical)",
+    "quote": "There are new starts in aluminum refining and smelting capacities, primarily in Indonesia and India.",
+    "context_summary": "Capacity additions in aluminium refining and smelting",
+    "source": {
+      "src_id": "SRC-730"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-012",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "Subha Brata Purohit, DGM (Mechanical)",
+    "quote": "Rising oil prices and increase in US dollar index recently. LME price moves inversely with rising oil prices.",
+    "context_summary": "Macro factors affecting LME aluminium prices",
+    "source": {
+      "src_id": "SRC-731"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-013",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "Subha Brata Purohit, DGM (Mechanical)",
+    "quote": "Guinea has cancelled some licenses for bauxite mining. In Ghana also one lease where license was cancelled.",
+    "context_summary": "Bauxite supply disruptions in Guinea and Ghana",
+    "source": {
+      "src_id": "SRC-732"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-014",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "Subha Brata Purohit, DGM (Mechanical)",
+    "quote": "IMF has projected 2.8% growth in April 2025. In July 2025 IMF projected 3% growth.",
+    "context_summary": "Global GDP growth projections April and July 2025",
+    "source": {
+      "src_id": "SRC-733"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-015",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "Subha Brata Purohit, DGM (Mechanical)",
+    "quote": "IMF projected 3% growth for year 2025 and 3.1% growth for year 2026.",
+    "context_summary": "IMF growth projections by year",
+    "source": {
+      "src_id": "SRC-734"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-016",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "Subha Brata Purohit, DGM (Mechanical)",
+    "quote": "Alumina supply was bit downside last year but supply has improved recently. Difference between production and consumption coming little on surplus side.",
+    "context_summary": "Recent alumina supply and demand balance improving",
+    "source": {
+      "src_id": "SRC-735"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-017",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "Subha Brata Purohit, DGM (Mechanical)",
+    "quote": "Aluminum sector has little bit deficit on quarter to quarter basis and annual estimation also little deficit. Supply limited to China cap at 45 million tons currently receiving 43-44 million tons.",
+    "context_summary": "Aluminium supply deficit outlook and China capacity cap",
+    "source": {
+      "src_id": "SRC-736"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-018",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "Subha Brata Purohit, DGM (Mechanical)",
+    "quote": "In H2 of this year and next future years LME prices likely to stay strong.",
+    "context_summary": "LME aluminium price outlook H2 2025 onwards strong",
+    "source": {
+      "src_id": "SRC-737"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-019",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "Subha Brata Purohit, DGM (Mechanical)",
+    "quote": "Our country is fastest growing economy. RBI projected 6.5% growth for this year and 6.7% growth for next year.",
+    "context_summary": "India GDP growth projections by RBI",
+    "source": {
+      "src_id": "SRC-738"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-020",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "Subha Brata Purohit, DGM (Mechanical)",
+    "quote": "Country aiming to be 'Viksit Bharat' by year 2047. To reach 30 trillion economy by 2047 growth rate needs more than 7%.",
+    "context_summary": "India development vision 2047 economic target",
+    "source": {
+      "src_id": "SRC-739"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-021",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "Subha Brata Purohit, DGM (Mechanical)",
+    "quote": "Electrical sector having largest chunk of aluminium 48% share. Transportation and building construction comes next.",
+    "context_summary": "Indian aluminium sectoral demand split",
+    "source": {
+      "src_id": "SRC-740"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-022",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "Subha Brata Purohit, DGM (Mechanical)",
+    "quote": "Ministry of Mines predicted aluminium consumption will reach 8.5 billion tons by 2030.",
+    "context_summary": "India aluminium consumption target 2030",
+    "source": {
+      "src_id": "SRC-741"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-023",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "Subha Brata Purohit, DGM (Mechanical)",
+    "quote": "Indian aluminium growth rate is about 9%. Aluminum consumption growth is around 9%.",
+    "context_summary": "India aluminium sector growth rate",
+    "source": {
+      "src_id": "SRC-742"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-024",
+    "topics": ["governance_related_party"],
+    "speaker": "Subha Brata Purohit, DGM (Mechanical)",
+    "quote": "NALCO is zero-debt company which gives leverage for upcoming projects requiring huge investment.",
+    "context_summary": "NALCO capital structure: zero debt position",
+    "source": {
+      "src_id": "SRC-743"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-025",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "Subha Brata Purohit, DGM (Mechanical)",
+    "quote": "Bauxite mines currently running 7.5 million tons. Already signed lease deed for Pottangi mines 3.5 million tons capacity.",
+    "context_summary": "Bauxite capacity expansion: Pottangi mines",
+    "source": {
+      "src_id": "SRC-744"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-026",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "Subha Brata Purohit, DGM (Mechanical)",
+    "quote": "5th stream refinery expansion will increase capacity by 1 million tons. Mechanical completion targeted by financial year end.",
+    "context_summary": "5th stream refinery: 1 MTpa capacity increment",
+    "source": {
+      "src_id": "SRC-745"
+    },
+    "period_discussed": "FY2026",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-027",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "Subha Brata Purohit, DGM (Mechanical)",
+    "quote": "Physical progress in refinery expansion reaching around 74% to 75% progress.",
+    "context_summary": "5th stream refinery construction progress Q1 FY26",
+    "source": {
+      "src_id": "SRC-746"
+    },
+    "period_discussed": "FY2026Q1",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-028",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "Subha Brata Purohit, DGM (Mechanical)",
+    "quote": "Aluminum smelter and captive power plant at pre-project stages. Plants likely to come by FY 2030.",
+    "context_summary": "Brownfield smelter expansion timeline to FY30",
+    "source": {
+      "src_id": "SRC-747"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-029",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "Subha Brata Purohit, DGM (Mechanical)",
+    "quote": "Bauxite mines rated 5-Star. Recently Panchpatmalli Mines Central/North Block and South Block both rated 5-Star.",
+    "context_summary": "Environmental ratings for NALCO bauxite mines",
+    "source": {
+      "src_id": "SRC-748"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-030",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "Subha Brata Purohit, DGM (Mechanical)",
+    "quote": "Operating 198 MW wind power plant. Currently rooftop solar capacity 1020 KW. Planned to add 7 MW rooftop solar.",
+    "context_summary": "Renewable energy capacity current and planned",
+    "source": {
+      "src_id": "SRC-749"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-031",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "5th stream refinery expansion: all mechanical jobs will be completed by March 26. Try to start commissioning after that and production by June 26.",
+    "context_summary": "5th stream refinery commissioning timeline",
+    "source": {
+      "src_id": "SRC-720"
+    },
+    "period_discussed": "FY2026-FY2027",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-032",
+    "topics": ["margins_customers_orderbook"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Next financial year hoping produce at least 50% of total capacity. Initially around 5 lakhs to 6 lakhs to 10-lakh capacity. Produce around 5 lakhs next financial year 26-27.",
+    "context_summary": "5th stream refinery ramp-up FY27 guidance",
+    "source": {
+      "src_id": "SRC-721"
+    },
+    "period_discussed": "FY2027",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-033",
+    "topics": ["margins_customers_orderbook"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Existing capacity almost over utilizing. Production capacity alumina 22.5 lakh ton around. This year planning do more than that maybe 23 lakhs ton. 100% of rated capacity, more than 100%.",
+    "context_summary": "Existing alumina refinery utilization FY26",
+    "source": {
+      "src_id": "SRC-722"
+    },
+    "period_discussed": "FY2026",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-034",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Russian aluminium was sending to Europe. Europe already imposed sanctions on Russia. Russian aluminium not able to go into European market.",
+    "context_summary": "Russian aluminium export restrictions Europe",
+    "source": {
+      "src_id": "SRC-723"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-035",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Indian Prime Minister signing free trade agreement with UK. Opportunities for Indian aluminium industry to go into UK market.",
+    "context_summary": "India-UK trade opportunity for aluminium sector",
+    "source": {
+      "src_id": "SRC-724"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-036",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "UK market potential for EVs solar panels where usage of aluminium will be there.",
+    "context_summary": "UK demand drivers for aluminium",
+    "source": {
+      "src_id": "SRC-725"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-037",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "US tariff increased to around 50% from 25%.",
+    "context_summary": "US aluminium tariff increase announcement",
+    "source": {
+      "src_id": "SRC-726"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-038",
+    "topics": ["sales_demand_market_share"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Our aluminium especially from Nalco we are not exporting any aluminium as of now. All aluminium is getting consumed in domestic market. Nalco will not be affected by US tariffs.",
+    "context_summary": "NALCO aluminium export exposure to US tariffs",
+    "source": {
+      "src_id": "SRC-727"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-039",
+    "topics": ["sales_demand_market_share"],
+    "speaker": "Jagdish Arora, Director (Projects & Technical)",
+    "quote": "Russia around 1.3 million ton aluminium production. Reduced to just half million tons. Not lowest cost producers. Lowest cost are EGA and Bahrain.",
+    "context_summary": "Russian aluminium production reduction vs competitors",
+    "source": {
+      "src_id": "SRC-728"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-040",
+    "topics": ["costs_efficiency_one_offs"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Q1 we almost at rated capacity producing. This year we will be doing around 4 million ton we will be completing.",
+    "context_summary": "Utkal captive coal mine production FY26 guidance",
+    "source": {
+      "src_id": "SRC-729"
+    },
+    "period_discussed": "FY2026",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-041",
+    "topics": ["costs_efficiency_one_offs"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "No supply disruptions. Sufficient stock of coals in power plants and mines. During monsoon some interruptions in production. Dispatches from mines to power plant going per requirement.",
+    "context_summary": "Captive coal supply continuity through monsoon",
+    "source": {
+      "src_id": "SRC-730"
+    },
+    "period_discussed": "FY2026",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-042",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Pottangi bauxite mines planning start somewhere February March 26. Latest by June 26 planning start.",
+    "context_summary": "Pottangi bauxite mine commissioning timeline",
+    "source": {
+      "src_id": "SRC-731"
+    },
+    "period_discussed": "FY2026",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-043",
+    "topics": ["costs_efficiency_one_offs"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Cost of alumina produced in new 5th stream refinery expansion almost similar to cost producing now. Interest not there, not taking any loan. Depreciation will be loaded but offset by industry technology.",
+    "context_summary": "5th stream refinery cost expectations vs existing plants",
+    "source": {
+      "src_id": "SRC-732"
+    },
+    "period_discussed": "FY2027",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-044",
+    "topics": ["costs_efficiency_one_offs"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Caustic soda consumption lower. Manpower lower. Single line producing 10 lakh tons. Four lines presently producing 20 lakh tons. Advantage of volume with lesser manpower.",
+    "context_summary": "5th stream refinery technology efficiency gains",
+    "source": {
+      "src_id": "SRC-733"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-045",
+    "topics": ["product_mix_margin_strategy"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Alumina realization for this quarter around $400. Was around $416 dollars average.",
+    "context_summary": "Q1 FY26 alumina realization",
+    "source": {
+      "src_id": "SRC-734"
+    },
+    "period_discussed": "FY2026Q1",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-046",
+    "topics": ["costs_efficiency_one_offs"],
+    "speaker": "Pankaj Kumar Sharma, Director (Production)",
+    "quote": "RPO obligation 3 percent of electricity consumption. Due to Ministry of Power guidelines 29.4 percent for 2024-25 and 33 percent for 2025-26.",
+    "context_summary": "RPO obligation increase from 3% to 29.4-33% due to govt norms",
+    "source": {
+      "src_id": "SRC-735"
+    },
+    "period_discussed": "FY2026",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-047",
+    "topics": ["costs_efficiency_one_offs"],
+    "speaker": "Pankaj Kumar Sharma, Director (Production)",
+    "quote": "Purchased e-certificate around Rs.75 crores for year 2024-25 to meet RPO obligation.",
+    "context_summary": "RPO compliance cost Q1 FY26",
+    "source": {
+      "src_id": "SRC-736"
+    },
+    "period_discussed": "FY2026Q1",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-048",
+    "topics": ["costs_efficiency_one_offs"],
+    "speaker": "Srimanta Panda, ED (Finance)",
+    "quote": "Coal transportation cost to captive coal 7.2 lakh far earlier now this quarter 9.89 lakh.",
+    "context_summary": "Captive coal transportation cost increase Q1 FY26",
+    "source": {
+      "src_id": "SRC-737"
+    },
+    "period_discussed": "FY2026Q1",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-049",
+    "topics": ["costs_efficiency_one_offs"],
+    "speaker": "Srimanta Panda, ED (Finance)",
+    "quote": "Transportation cost added Rs.10 to Rs.12 crore. Major things CSR expenses and RPO obligation. General administrative expenses increase Rs.8 crores.",
+    "context_summary": "Q1 FY26 other expenses breakdown increase",
+    "source": {
+      "src_id": "SRC-738"
+    },
+    "period_discussed": "FY2026Q1",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-050",
+    "topics": ["sales_demand_market_share"],
+    "speaker": "Srimanta Panda, ED (Finance)",
+    "quote": "Higher volume movement of alumina refinery to smelter. Increase in transportation cost. Higher export of alumina increased selling distribution expenses.",
+    "context_summary": "Q1 FY26 logistics cost impact from volume growth",
+    "source": {
+      "src_id": "SRC-739"
+    },
+    "period_discussed": "FY2026Q1",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-051",
+    "topics": ["margins_customers_orderbook"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "FY27 aiming five lakh tons from 5th stream because if start June 26 that much volume will be getting. 9 months will be there. Three quarters. 10 lakhs capacity. Three quarters minimum five lakhs should go.",
+    "context_summary": "5th stream refinery FY27 production target confirmation",
+    "source": {
+      "src_id": "SRC-740"
+    },
+    "period_discussed": "FY2027",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-052",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Initially if start June 26 utilization on lower side but slowly maybe within 6 months taking to rated capacity 10 lakhs tons. Takes 3 to 6 months. Chemical process plant will not take lot of time.",
+    "context_summary": "5th stream refinery ramp-up timeline 6-month stabilization",
+    "source": {
+      "src_id": "SRC-741"
+    },
+    "period_discussed": "FY2027",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-053",
+    "topics": ["sales_demand_market_share"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "This year exports will increase. Last year 36 shipments. This year planning 41 or 42 shipments. Will increase by five shipments.",
+    "context_summary": "FY26 alumina export shipment guidance",
+    "source": {
+      "src_id": "SRC-742"
+    },
+    "period_discussed": "FY2026",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-054",
+    "topics": ["sales_demand_market_share"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Last year Calcined Alumina done 20.7 lakh tons. This year planned 22.5 lakh tons. Aiming achieving around 23 lakh tons.",
+    "context_summary": "FY26 alumina production target: 22.5-23 LMT",
+    "source": {
+      "src_id": "SRC-743"
+    },
+    "period_discussed": "FY2026",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-055",
+    "topics": ["sales_demand_market_share"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Last year sold 40,000 domestic market. This year planning 1 lakh or 1,20,000 domestic market. Rest will go to exports.",
+    "context_summary": "FY26 domestic alumina sales target increase",
+    "source": {
+      "src_id": "SRC-744"
+    },
+    "period_discussed": "FY2026",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-056",
+    "topics": ["sales_demand_market_share"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Export maybe around 1 lakh or 1 lakh 50,000 will increase.",
+    "context_summary": "FY26 alumina export volume increase",
+    "source": {
+      "src_id": "SRC-745"
+    },
+    "period_discussed": "FY2026",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-057",
+    "topics": ["sales_demand_market_share"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Total sales volume will be around more than 12.5 lakhs. 12.5 or 12.8 lakhs.",
+    "context_summary": "FY26 total alumina sales guidance",
+    "source": {
+      "src_id": "SRC-746"
+    },
+    "period_discussed": "FY2026",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-058",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Brownfield expansion smelter 0.5 million ton. DPR preparation activities started. Appointment of consultant. Within 2 to 3 months consultant. 7 to 8 months ready with DPR for Board approval.",
+    "context_summary": "Brownfield smelter DPR timeline 7-8 months",
+    "source": {
+      "src_id": "SRC-747"
+    },
+    "period_discussed": "FY2026",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-059",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "Jagdish Arora, Director (Projects & Technical)",
+    "quote": "DPR preparation and activities complete this financial year. Land acquisition held up taken shape. Completed formalities. Final stage of land acquisition. Completing another 4 to 6 months.",
+    "context_summary": "Brownfield smelter land acquisition completion 4-6 months",
+    "source": {
+      "src_id": "SRC-748"
+    },
+    "period_discussed": "FY2026",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-060",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "Jagdish Arora, Director (Projects & Technical)",
+    "quote": "Next financial year start tendering process and on-boarding parties.",
+    "context_summary": "Brownfield smelter tendering to start FY27",
+    "source": {
+      "src_id": "SRC-749"
+    },
+    "period_discussed": "FY2027",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-061",
+    "topics": ["product_mix_margin_strategy"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Whatever sold in export market every month one shipment long-term rest going on spot. Average four shipment per month doing exports.",
+    "context_summary": "Alumina export contract terms Q1 FY26",
+    "source": {
+      "src_id": "SRC-720"
+    },
+    "period_discussed": "FY2026Q1",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-062",
+    "topics": ["product_mix_margin_strategy"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Long-term contracts linked to LME price. Percentage decided. Tender basis whoever giving maximum percentage on LME order given.",
+    "context_summary": "Alumina long-term contract pricing mechanism",
+    "source": {
+      "src_id": "SRC-721"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-063",
+    "topics": ["costs_efficiency_one_offs"],
+    "speaker": "Abhay Kumar Behuria, Director (Finance)",
+    "quote": "Cost of production alumina varying 20 to 21,000. Not total cost. 60% variable cost and balance fixed.",
+    "context_summary": "Q1 FY26 alumina cost of production and composition",
+    "source": {
+      "src_id": "SRC-722"
+    },
+    "period_discussed": "FY2026Q1",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-064",
+    "topics": ["costs_efficiency_one_offs"],
+    "speaker": "Abhay Kumar Behuria, Director (Finance)",
+    "quote": "Will be almost similar kind. Because techno economic performance very good. Expect reduction in cost. Performance parameter improved well. Key consumables caustic soda great control. Expect cost come down end of year.",
+    "context_summary": "FY26 alumina cost outlook: reduction expected",
+    "source": {
+      "src_id": "SRC-723"
+    },
+    "period_discussed": "FY2026",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-065",
+    "topics": ["product_mix_margin_strategy"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Current spot prices averaging $400. First quarter got $460 average. Whatever spot prices currently getting somewhere $400. Expecting coming quarters remain somewhere $400 to $450.",
+    "context_summary": "Alumina spot price outlook FY26",
+    "source": {
+      "src_id": "SRC-724"
+    },
+    "period_discussed": "FY2026",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-066",
+    "topics": ["product_mix_margin_strategy"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Focus increasing production wire rods. Wire rod producing only around one lakh tons per year. Get one new wire rod mill. Control and convert ingot into wire rods.",
+    "context_summary": "Value-added product strategy: wire rod mill expansion",
+    "source": {
+      "src_id": "SRC-725"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-067",
+    "topics": ["product_mix_margin_strategy"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "DPR made earlier. Revising cost estimate and going tendering. Whole activity may take 2 years for mill come.",
+    "context_summary": "Wire rod mill capex timeline 2 years",
+    "source": {
+      "src_id": "SRC-726"
+    },
+    "period_discussed": "general",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-068",
+    "topics": ["product_mix_margin_strategy"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Foil sector aluminium foil. Trying presence. Appointing consultant suggesting what foils make what market. Very small investment 150 to 200 crores required.",
+    "context_summary": "Aluminium foil capex plan: 150-200 cr",
+    "source": {
+      "src_id": "SRC-727"
+    },
+    "period_discussed": "general",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-069",
+    "topics": ["product_mix_margin_strategy"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "2 to 3 years 2 and a half years should have presence increasing wire rods foil segment rolled product units.",
+    "context_summary": "Value-added products target timeline 2-3 years",
+    "source": {
+      "src_id": "SRC-728"
+    },
+    "period_discussed": "general",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-070",
+    "topics": ["product_mix_margin_strategy"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Rolled product units getting annealing furnace coming March 26. Average producing 2,000 tons month will increase 3,000 tons month March 26 onwards.",
+    "context_summary": "Rolled product unit capacity increase FY26",
+    "source": {
+      "src_id": "SRC-729"
+    },
+    "period_discussed": "FY2026",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-071",
+    "topics": ["product_mix_margin_strategy"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Alumina areas special grade alumina fused alumina areas value-added can make. Exploring market. Market there. Setting own units mind.",
+    "context_summary": "Specialty alumina product development strategy",
+    "source": {
+      "src_id": "SRC-730"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-072",
+    "topics": ["product_mix_margin_strategy"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Wire rods get premium 10,000. Contribution difference 5,000 to 6,000. Conversion cost. Rod products premium 30,000 to 35,000 range. Contribution 6,000 to 7,000.",
+    "context_summary": "Value-added product margins and premiums",
+    "source": {
+      "src_id": "SRC-731"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-073",
+    "topics": ["product_mix_margin_strategy"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Contribution both rolled products wire rods. Important insulate ourself LME fluctuations get premium market. Increasing volumes wire rods rolled products foil markets. Foil very good contribution margin.",
+    "context_summary": "Strategic rationale for value-added product expansion",
+    "source": {
+      "src_id": "SRC-732"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-074",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "CAPEX wire rod mill 200 to 300 crores for capacity 1 lakh ton mill. Foil plant low capex 50 crores 60 crores maybe 1,000-ton monthly capacity. Wire rod cost 250 to 300 crores CAPEX.",
+    "context_summary": "Wire rod and foil capex requirements",
+    "source": {
+      "src_id": "SRC-733"
+    },
+    "period_discussed": "general",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-075",
+    "topics": ["product_mix_margin_strategy"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "In wire rods premium from Ingot 10,000 conversion cost Rs.3,500 to 4,000. Additional benefit 6,000 7,000 wire rods depending quality grade.",
+    "context_summary": "Wire rod product margin detailed breakdown",
+    "source": {
+      "src_id": "SRC-734"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-076",
+    "topics": ["product_mix_margin_strategy"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Rolled product premium 30,000 to 35,000 extra premium. Conversion cost. Margins actual after conversion 5,000 to 10,000 depending product sizes.",
+    "context_summary": "Rolled product margin detailed breakdown",
+    "source": {
+      "src_id": "SRC-735"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-077",
+    "topics": ["product_mix_margin_strategy"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Lower sizes 0.3 mm 0.5 mm premium on higher side but productivity goes down. Producing thinner side productivity goes down volume comes down. Balance that.",
+    "context_summary": "Rolled product quality-volume trade-off",
+    "source": {
+      "src_id": "SRC-736"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-078",
+    "topics": ["sales_demand_market_share"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Domestic market aluminium consumption 45 to 50% going into power sector. Infrastructure development power lines government thrust electrification. Demands will be there power sector.",
+    "context_summary": "Domestic aluminium demand drivers power sector",
+    "source": {
+      "src_id": "SRC-737"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-079",
+    "topics": ["sales_demand_market_share"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Solar panels lot solar panels extrusion demand solar panels. EVs lot usage aluminium lightweight metal replacing steel.",
+    "context_summary": "Domestic aluminium demand solar and EV sectors",
+    "source": {
+      "src_id": "SRC-738"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-080",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Domestic GDP growth 5% to 6% projected. Aluminium historically 1.5% of GDP. Grows like that. Aluminium requirement grow 7 to 8% 9%.",
+    "context_summary": "India GDP-aluminium consumption correlation",
+    "source": {
+      "src_id": "SRC-739"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-081",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Going appointing consultant planned manner. 7 MW solar power under tendering. Come within 1 year or 1.5 years small quantity.",
+    "context_summary": "Solar power capex plan 7 MW in 1-1.5 years",
+    "source": {
+      "src_id": "SRC-740"
+    },
+    "period_discussed": "FY2026",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-082",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Wind power area see maybe setting hybrid mode. Wind solar both exploring. Plan 2030 next 4 5 years at least 15% to 20% green power portfolio.",
+    "context_summary": "Renewable energy target 15-20% green power by 2030",
+    "source": {
+      "src_id": "SRC-741"
+    },
+    "period_discussed": "general",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-083",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "Jagdish Arora, Director (Projects & Technical)",
+    "quote": "10 megawatt solar will come in 1 year. 10 megawatt wind power will come 1 or 2 months. Kayathar ready. Clearances September October 25.",
+    "context_summary": "Renewable capacity additions timeline FY26-FY27",
+    "source": {
+      "src_id": "SRC-742"
+    },
+    "period_discussed": "FY2026-FY2027",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-084",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "Jagdish Arora, Director (Projects & Technical)",
+    "quote": "Working hybrid round-the-clock combination solar wind battery storage. 3 4 months fixing road map next few years.",
+    "context_summary": "Renewable energy hybrid strategy roadmap 3-4 months",
+    "source": {
+      "src_id": "SRC-743"
+    },
+    "period_discussed": "FY2026",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-085",
+    "topics": ["costs_efficiency_one_offs"],
+    "speaker": "Abhay Kumar Behuria, Director (Finance)",
+    "quote": "Coal from MCL on fuel supply agreement and own production difference around 400 rupees getting advantages.",
+    "context_summary": "Captive coal vs MCL cost advantage Rs.400 per ton",
+    "source": {
+      "src_id": "SRC-744"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-086",
+    "topics": ["costs_efficiency_one_offs"],
+    "speaker": "Abhay Kumar Behuria, Director (Finance)",
+    "quote": "Transportation cost also because mines very proximate CPP getting advantages. Both advantages in-house coal supply from own mines.",
+    "context_summary": "Captive coal supply logistics advantage",
+    "source": {
+      "src_id": "SRC-745"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-087",
+    "topics": ["costs_efficiency_one_offs"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Aluminium cost around 1,50,000.",
+    "context_summary": "Q1 FY26 aluminium cost of production",
+    "source": {
+      "src_id": "SRC-746"
+    },
+    "period_discussed": "FY2026Q1",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-088",
+    "topics": ["costs_efficiency_one_offs"],
+    "speaker": "Abhay Kumar Behuria, Director (Finance)",
+    "quote": "1,55,000 to 1,60,000 varying within range. Average cost metal. More old product cost may vary. Range 1,55,000 to 1,60,000.",
+    "context_summary": "Aluminium cost of production range FY26",
+    "source": {
+      "src_id": "SRC-747"
+    },
+    "period_discussed": "FY2026",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-089",
+    "topics": ["costs_efficiency_one_offs"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Landed cost caustic soda Q1-FY2024-25 36,300. This quarter FY25-26 44,301. Increased compare Q1 last year.",
+    "context_summary": "Caustic soda cost Q1 FY26 vs Q1 FY25",
+    "source": {
+      "src_id": "SRC-748"
+    },
+    "period_discussed": "FY2026Q1",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-090",
+    "topics": ["costs_efficiency_one_offs"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Total coal requirement 7.2 million ton. Already producing 4 MT internal. 3 to 3.2 MT taking coal India MCL.",
+    "context_summary": "Coal requirement and sourcing FY26",
+    "source": {
+      "src_id": "SRC-749"
+    },
+    "period_discussed": "FY2026",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-091",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "Pankaj Kumar Sharma, Director (Production)",
+    "quote": "Operating two mines. Present validity 2029 and 2031. Will initiate process for renewal.",
+    "context_summary": "Existing bauxite mine lease expiry timeline",
+    "source": {
+      "src_id": "SRC-720"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-092",
+    "topics": ["sales_demand_market_share"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Long-term will on lesser side. Did not get sufficient price not very good. Now aiming go more on spot. Maybe 80% spot and 20 long-term.",
+    "context_summary": "Alumina export contract strategy long-term vs spot",
+    "source": {
+      "src_id": "SRC-721"
+    },
+    "period_discussed": "FY2026",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-093",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "Jagdish Arora, Director (Projects & Technology)",
+    "quote": "New technology supplier already finalized. Another 3 4 months onboard new technology supplier.",
+    "context_summary": "Brownfield smelter technology supplier finalization 3-4 months",
+    "source": {
+      "src_id": "SRC-722"
+    },
+    "period_discussed": "FY2026",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-094",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "Jagdish Arora, Director (Projects & Technology)",
+    "quote": "DPR preparation technology suppliers input required. Fixing DPR preparation technology suppliers finalized onboarded. Almost finalized doing formalities. Being PSU go through process very soon onboarding.",
+    "context_summary": "DPR preparation and technology supplier coordination",
+    "source": {
+      "src_id": "SRC-723"
+    },
+    "period_discussed": "FY2026",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-095",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "Jagdish Arora, Director (Projects & Technology)",
+    "quote": "10 MW project went NCLT now 1.5 megawatt capacity each turbine 6 such turbines. Getting clearances MNRE State Tamil Nadu. This month finalize.",
+    "context_summary": "Wind power project 10MW (6x1.5MW) clearance timeline",
+    "source": {
+      "src_id": "SRC-724"
+    },
+    "period_discussed": "FY2026",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-096",
+    "topics": ["sales_demand_market_share"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Every month maybe 4 shipment doing export. 1,20,000. Some month 5 shipment also. Average 1,20,000. Domestic monthly 20,000 to 25,000 maximum 20,000.",
+    "context_summary": "Alumina export and domestic sales run rate",
+    "source": {
+      "src_id": "SRC-725"
+    },
+    "period_discussed": "FY2026",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-097",
+    "topics": ["sales_demand_market_share"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "15% to 20% total volume going into domestic market.",
+    "context_summary": "Alumina domestic sales as pct of total",
+    "source": {
+      "src_id": "SRC-726"
+    },
+    "period_discussed": "FY2026",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-098",
+    "topics": ["governance_related_party"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "NALCO's performance trying increase volumes. Improve techno-economics. Market not in hand prices demands not in hand. In hand increase volume maximize production increase techno reduce cost.",
+    "context_summary": "NALCO strategic priorities on volumes and costs",
+    "source": {
+      "src_id": "SRC-727"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-099",
+    "topics": ["governance_related_party"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Taking very challenging target this year 10% higher targets all areas. First quarter achieved all targets. Very sure achieving targets. End of year financials very good.",
+    "context_summary": "FY26 targets 10% higher vs prior year",
+    "source": {
+      "src_id": "SRC-728"
+    },
+    "period_discussed": "FY2026",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-100",
+    "topics": ["governance_related_party"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Upward integration own bauxite mines. Downward integration own coal mines 60% coal. JV GACL caustic soda security. Own captive power plant 3 to 3.5 or 3.10 rupees per unit.",
+    "context_summary": "NALCO vertical integration advantages",
+    "source": {
+      "src_id": "SRC-729"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-101",
+    "topics": ["governance_related_party"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Expansion mode. Refinery come next year. Target expedite expansion smelter power plant aiming 3 to 4 year should come.",
+    "context_summary": "Smelter expansion timeline 3-4 years",
+    "source": {
+      "src_id": "SRC-730"
+    },
+    "period_discussed": "general",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-102",
+    "topics": ["governance_related_party"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "Whatever alumina excess alumina should be converted to aluminium.",
+    "context_summary": "Strategic intent convert alumina to aluminium",
+    "source": {
+      "src_id": "SRC-731"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-Q1-103",
+    "topics": ["governance_related_party"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "After that overall turnover company go above 25,000 become Maharatna company that is our target.",
+    "context_summary": "Target turnover >Rs.25,000 cr to become Maharatna",
+    "source": {
+      "src_id": "SRC-732"
+    },
+    "period_discussed": "general",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-Q1-104",
+    "topics": ["governance_related_party"],
+    "speaker": "Brijendra Pratap Singh, CMD",
+    "quote": "With all things going hoping whatever planning be able to do it.",
+    "context_summary": "Closing statement confidence in execution",
+    "source": {
+      "src_id": "SRC-733"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  }
+]

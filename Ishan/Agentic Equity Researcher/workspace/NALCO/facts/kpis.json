@@ -1,0 +1,829 @@
+{
+  "facts": [
+    {
+      "id": "K-ALUMINAREALISATIONPE-FY2022-STAN-001",
+      "metric": "alumina_realisation_per_tonne",
+      "label": "alumina_realisation_per_tonne",
+      "value": 25376.3902,
+      "unit": "INR/tonne",
+      "period": "FY2022",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 2,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED-KPI",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "segment_revenue_chemical / production_alumina * 1e+07   [unit reconciliation, declared in kpi_tree]",
+      "inputs": [
+        "F-AR23-165",
+        "F-AR22-051"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": [
+        "operating_kpi"
+      ]
+    },
+    {
+      "id": "K-ALUMINIUMREALISATION-FY2022-STAN-002",
+      "metric": "aluminium_realisation_per_tonne",
+      "label": "aluminium_realisation_per_tonne",
+      "value": 221384.5652,
+      "unit": "INR/tonne",
+      "period": "FY2022",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 2,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED-KPI",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "segment_revenue_aluminium / production_aluminium * 1e+07   [unit reconciliation, declared in kpi_tree]",
+      "inputs": [
+        "F-AR23-167",
+        "F-AR22-052"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": [
+        "operating_kpi"
+      ]
+    },
+    {
+      "id": "K-CHEMICALSSEGMENTEBIT-FY2020-STAN-003",
+      "metric": "chemicals_segment_ebit_margin",
+      "label": "chemicals_segment_ebit_margin",
+      "value": 13.0467,
+      "unit": "pct",
+      "period": "FY2020",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 2,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED-KPI",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "segment_result_chemicals / segment_revenue_chemicals * 100",
+      "inputs": [
+        "F-AR21-250",
+        "F-AR21-244"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": [
+        "operating_kpi"
+      ]
+    },
+    {
+      "id": "K-CHEMICALSSEGMENTEBIT-FY2021-STAN-004",
+      "metric": "chemicals_segment_ebit_margin",
+      "label": "chemicals_segment_ebit_margin",
+      "value": 16.0929,
+      "unit": "pct",
+      "period": "FY2021",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 2,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED-KPI",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "segment_result_chemicals / segment_revenue_chemicals * 100",
+      "inputs": [
+        "F-AR21-249",
+        "F-AR21-243"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": [
+        "operating_kpi"
+      ]
+    },
+    {
+      "id": "K-CHEMICALSSEGMENTEBIT-FY2024-STAN-005",
+      "metric": "chemicals_segment_ebit_margin",
+      "label": "chemicals_segment_ebit_margin",
+      "value": 17.8574,
+      "unit": "pct",
+      "period": "FY2024",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 2,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED-KPI",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "segment_result_chemicals / segment_revenue_chemicals * 100",
+      "inputs": [
+        "F-AR25B-131",
+        "F-AR25B-127"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": [
+        "operating_kpi"
+      ]
+    },
+    {
+      "id": "K-CHEMICALSSEGMENTEBIT-FY2025-STAN-006",
+      "metric": "chemicals_segment_ebit_margin",
+      "label": "chemicals_segment_ebit_margin",
+      "value": 42.6556,
+      "unit": "pct",
+      "period": "FY2025",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 2,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED-KPI",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "segment_result_chemicals / segment_revenue_chemicals * 100",
+      "inputs": [
+        "F-AR25B-130",
+        "F-AR25B-126"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": [
+        "operating_kpi"
+      ]
+    },
+    {
+      "id": "K-ALUMINIUMSEGMENTEBIT-FY2020-STAN-007",
+      "metric": "aluminium_segment_ebit_margin",
+      "label": "aluminium_segment_ebit_margin",
+      "value": -5.1585,
+      "unit": "pct",
+      "period": "FY2020",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 2,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED-KPI",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "segment_result_aluminium / segment_revenue_aluminium * 100",
+      "inputs": [
+        "F-AR21-252",
+        "F-AR21-246"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": [
+        "operating_kpi"
+      ]
+    },
+    {
+      "id": "K-ALUMINIUMSEGMENTEBIT-FY2021-STAN-008",
+      "metric": "aluminium_segment_ebit_margin",
+      "label": "aluminium_segment_ebit_margin",
+      "value": 13.8529,
+      "unit": "pct",
+      "period": "FY2021",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 2,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED-KPI",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "segment_result_aluminium / segment_revenue_aluminium * 100",
+      "inputs": [
+        "F-AR21-251",
+        "F-AR21-245"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": [
+        "operating_kpi"
+      ]
+    },
+    {
+      "id": "K-ALUMINIUMSEGMENTEBIT-FY2024-STAN-009",
+      "metric": "aluminium_segment_ebit_margin",
+      "label": "aluminium_segment_ebit_margin",
+      "value": 15.973,
+      "unit": "pct",
+      "period": "FY2024",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 2,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED-KPI",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "segment_result_aluminium / segment_revenue_aluminium * 100",
+      "inputs": [
+        "F-AR25B-133",
+        "F-AR25B-129"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": [
+        "operating_kpi"
+      ]
+    },
+    {
+      "id": "K-ALUMINIUMSEGMENTEBIT-FY2025-STAN-010",
+      "metric": "aluminium_segment_ebit_margin",
+      "label": "aluminium_segment_ebit_margin",
+      "value": 36.4029,
+      "unit": "pct",
+      "period": "FY2025",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 2,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED-KPI",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "segment_result_aluminium / segment_revenue_aluminium * 100",
+      "inputs": [
+        "F-AR25B-132",
+        "F-AR25B-128"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": [
+        "operating_kpi"
+      ]
+    },
+    {
+      "id": "K-ALUMINAEXPORTSHAREOF-FY2025-CONS-011",
+      "metric": "alumina_export_share_of_volume",
+      "label": "alumina_export_share_of_volume",
+      "value": 51.2813,
+      "unit": "pct",
+      "period": "FY2025",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 2,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED-KPI",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "sales_alumina_export / production_alumina * 100",
+      "inputs": [
+        "F-PQ1-016",
+        "F-PQ1-007"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": [
+        "operating_kpi"
+      ]
+    },
+    {
+      "id": "K-ALUMINAEXPORTSHAREOF-FY2026Q1-CONS-012",
+      "metric": "alumina_export_share_of_volume",
+      "label": "alumina_export_share_of_volume",
+      "value": 47.5087,
+      "unit": "pct",
+      "period": "FY2026Q1",
+      "period_type": "Q",
+      "basis": "consolidated",
+      "level": 2,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED-KPI",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "sales_alumina_export / production_alumina * 100",
+      "inputs": [
+        "F-PQ1-014",
+        "F-PQ1-005"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": [
+        "operating_kpi"
+      ]
+    },
+    {
+      "id": "K-ALUMINAEXPORTSHAREOF-FY2026Q3-CONS-013",
+      "metric": "alumina_export_share_of_volume",
+      "label": "alumina_export_share_of_volume",
+      "value": 63.2927,
+      "unit": "pct",
+      "period": "FY2026Q3",
+      "period_type": "Q",
+      "basis": "consolidated",
+      "level": 2,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED-KPI",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "sales_alumina_export / production_alumina * 100",
+      "inputs": [
+        "F-PQ3-005",
+        "F-PQ3-002"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": [
+        "operating_kpi"
+      ]
+    },
+    {
+      "id": "K-ALUMINAEXPORTSHAREOF-FY2022-STAN-014",
+      "metric": "alumina_export_share_of_volume",
+      "label": "alumina_export_share_of_volume",
+      "value": 54.4152,
+      "unit": "pct",
+      "period": "FY2022",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 2,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED-KPI",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "sales_alumina_export / production_alumina * 100",
+      "inputs": [
+        "F-AR22-055",
+        "F-AR22-051"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": [
+        "operating_kpi"
+      ]
+    },
+    {
+      "id": "K-POWERANDFUELPCTOFREV-FY2020-STAN-015",
+      "metric": "power_and_fuel_pct_of_revenue",
+      "label": "power_and_fuel_pct_of_revenue",
+      "value": 34.9936,
+      "unit": "pct",
+      "period": "FY2020",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 2,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED-KPI",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "cost_power_fuel / revenue_from_operations * 100",
+      "inputs": [
+        "F-AR21-110",
+        "F-AR21-102"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": [
+        "operating_kpi"
+      ]
+    },
+    {
+      "id": "K-POWERANDFUELPCTOFREV-FY2021-STAN-016",
+      "metric": "power_and_fuel_pct_of_revenue",
+      "label": "power_and_fuel_pct_of_revenue",
+      "value": 29.4568,
+      "unit": "pct",
+      "period": "FY2021",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 2,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED-KPI",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "cost_power_fuel / revenue_from_operations * 100",
+      "inputs": [
+        "F-AR21-109",
+        "F-AR21-101"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": [
+        "operating_kpi"
+      ]
+    },
+    {
+      "id": "K-POWERANDFUELPCTOFREV-FY2022-STAN-017",
+      "metric": "power_and_fuel_pct_of_revenue",
+      "label": "power_and_fuel_pct_of_revenue",
+      "value": 23.8381,
+      "unit": "pct",
+      "period": "FY2022",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 2,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED-KPI",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "cost_power_fuel / revenue_from_operations * 100",
+      "inputs": [
+        "F-AR22-011",
+        "F-AR23-002"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": [
+        "operating_kpi"
+      ]
+    },
+    {
+      "id": "K-POWERANDFUELPCTOFREV-FY2023-STAN-018",
+      "metric": "power_and_fuel_pct_of_revenue",
+      "label": "power_and_fuel_pct_of_revenue",
+      "value": 32.9269,
+      "unit": "pct",
+      "period": "FY2023",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 2,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED-KPI",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "cost_power_fuel / revenue_from_operations * 100",
+      "inputs": [
+        "F-AR23-009",
+        "F-AR23-001"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": [
+        "operating_kpi"
+      ]
+    },
+    {
+      "id": "K-POWERANDFUELPCTOFREV-FY2024-STAN-019",
+      "metric": "power_and_fuel_pct_of_revenue",
+      "label": "power_and_fuel_pct_of_revenue",
+      "value": 26.9805,
+      "unit": "pct",
+      "period": "FY2024",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 2,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED-KPI",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "cost_power_fuel / revenue_from_operations * 100",
+      "inputs": [
+        "F-AR25-010",
+        "F-AR24-001"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": [
+        "operating_kpi"
+      ]
+    },
+    {
+      "id": "K-POWERANDFUELPCTOFREV-FY2025-STAN-020",
+      "metric": "power_and_fuel_pct_of_revenue",
+      "label": "power_and_fuel_pct_of_revenue",
+      "value": 18.8588,
+      "unit": "pct",
+      "period": "FY2025",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 2,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED-KPI",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "cost_power_fuel / revenue_from_operations * 100",
+      "inputs": [
+        "F-AR25-009",
+        "F-AR25-001"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": [
+        "operating_kpi"
+      ]
+    },
+    {
+      "id": "K-CHEMICALEBITCONTRIBU-FY2021-STAN-022",
+      "metric": "chemical_ebit_contribution",
+      "label": "chemical_ebit_contribution",
+      "value": 42.2869,
+      "unit": "pct",
+      "period": "FY2021",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 2,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED-KPI",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "chemical segment ebit / total segment ebit * 100",
+      "inputs": [
+        "F-AR21-249"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": [
+        "operating_kpi"
+      ]
+    },
+    {
+      "id": "K-ALUMINIUMEBITCONTRIB-FY2021-STAN-024",
+      "metric": "aluminium_ebit_contribution",
+      "label": "aluminium_ebit_contribution",
+      "value": 57.7131,
+      "unit": "pct",
+      "period": "FY2021",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 2,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED-KPI",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "aluminium segment ebit / total segment ebit * 100",
+      "inputs": [
+        "F-AR21-251"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": [
+        "operating_kpi"
+      ]
+    },
+    {
+      "id": "K-CHEMICALSEGMENTEBITM-FY2022-STAN-025",
+      "metric": "chemicals_segment_ebit_margin",
+      "label": "chemicals_segment_ebit_margin",
+      "value": 20.9655,
+      "unit": "pct",
+      "period": "FY2022",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 2,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED-KPI",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "chemical segment ebit / chemical segment revenue * 100  [keyword library — tree inputs unresolved for this period]",
+      "inputs": [
+        "F-AR22-048",
+        "F-AR22-046"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": [
+        "operating_kpi"
+      ]
+    },
+    {
+      "id": "K-CHEMICALEBITCONTRIBU-FY2022-STAN-026",
+      "metric": "chemical_ebit_contribution",
+      "label": "chemical_ebit_contribution",
+      "value": 25.7129,
+      "unit": "pct",
+      "period": "FY2022",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 2,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED-KPI",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "chemical segment ebit / total segment ebit * 100",
+      "inputs": [
+        "F-AR22-048"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": [
+        "operating_kpi"
+      ]
+    },
+    {
+      "id": "K-ALUMINIUMSEGMENTEBIT-FY2022-STAN-027",
+      "metric": "aluminium_segment_ebit_margin",
+      "label": "aluminium_segment_ebit_margin",
+      "value": 31.9845,
+      "unit": "pct",
+      "period": "FY2022",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 2,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED-KPI",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "aluminium segment ebit / aluminium segment revenue * 100  [keyword library — tree inputs unresolved for this period]",
+      "inputs": [
+        "F-AR22-049",
+        "F-AR23-167"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": [
+        "operating_kpi"
+      ]
+    },
+    {
+      "id": "K-ALUMINIUMEBITCONTRIB-FY2022-STAN-028",
+      "metric": "aluminium_ebit_contribution",
+      "label": "aluminium_ebit_contribution",
+      "value": 74.2871,
+      "unit": "pct",
+      "period": "FY2022",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 2,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED-KPI",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "aluminium segment ebit / total segment ebit * 100",
+      "inputs": [
+        "F-AR22-049"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": [
+        "operating_kpi"
+      ]
+    },
+    {
+      "id": "K-CHEMICALEBITCONTRIBU-FY2024-STAN-030",
+      "metric": "chemical_ebit_contribution",
+      "label": "chemical_ebit_contribution",
+      "value": 38.7873,
+      "unit": "pct",
+      "period": "FY2024",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 2,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED-KPI",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "chemical segment ebit / total segment ebit * 100",
+      "inputs": [
+        "F-AR25B-131"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": [
+        "operating_kpi"
+      ]
+    },
+    {
+      "id": "K-ALUMINIUMEBITCONTRIB-FY2024-STAN-032",
+      "metric": "aluminium_ebit_contribution",
+      "label": "aluminium_ebit_contribution",
+      "value": 61.2127,
+      "unit": "pct",
+      "period": "FY2024",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 2,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED-KPI",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "aluminium segment ebit / total segment ebit * 100",
+      "inputs": [
+        "F-AR25B-133"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": [
+        "operating_kpi"
+      ]
+    },
+    {
+      "id": "K-CHEMICALEBITCONTRIBU-FY2025-STAN-034",
+      "metric": "chemical_ebit_contribution",
+      "label": "chemical_ebit_contribution",
+      "value": 44.5099,
+      "unit": "pct",
+      "period": "FY2025",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 2,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED-KPI",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "chemical segment ebit / total segment ebit * 100",
+      "inputs": [
+        "F-AR25B-130"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": [
+        "operating_kpi"
+      ]
+    },
+    {
+      "id": "K-ALUMINIUMEBITCONTRIB-FY2025-STAN-036",
+      "metric": "aluminium_ebit_contribution",
+      "label": "aluminium_ebit_contribution",
+      "value": 55.4901,
+      "unit": "pct",
+      "period": "FY2025",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 2,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED-KPI",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "aluminium segment ebit / total segment ebit * 100",
+      "inputs": [
+        "F-AR25B-132"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": [
+        "operating_kpi"
+      ]
+    }
+  ],
+  "skipped": [
+    "kpi_tree 'alumina_ebit_per_tonne': inputs ['segment_result_chemicals', 'production_alumina'] did not resolve in any period",
+    "kpi_tree 'aluminium_ebit_per_tonne': inputs ['segment_result_aluminium', 'production_aluminium'] did not resolve in any period",
+    "kpi_tree 'alumina_capacity_utilisation': marked computable:false (a capacity fact in the SAME unit as production. `capacity_alumina` (F-AR22-068) is recorded as value 2275 with unit 'lakh TPA', which is wrong — 2275 is thousand-TPA (2.275 MTPA), consistent with `alumina_refinery_capacity_current` = 2.1 MTPA (F-PQ1-066). Dividing 2,122,000 tonnes by 2275 yields 93,275%, so this must not be computed until the capacity fact's unit is corrected by re-extraction.)",
+    "kpi_tree 'aluminium_capacity_utilisation': marked computable:false (same unit defect as above: `capacity_aluminium_smelter` (F-AR22-069) is 460 with unit 'lakh TPA' where 460 is thousand-TPA (0.46 MTPA per F-PQ1-067).)",
+    "kpi_tree 'cost_of_production_per_tonne': marked computable:false (no cash-cost-of-production fact was extracted for either segment. The AR gives cost lines in aggregate, not per segment per tonne. This is a signature KPI of ferrous_non_ferrous_metals.md and the most important single gap in this run.)",
+    "kpi_tree 'captive_rm_share': marked computable:false (no fact quantifies captive vs purchased bauxite or captive vs purchased coal as a share of requirement. Bauxite is understood to be ~100% captive and coal partly so, but 'understood' is not a fact record.)",
+    "kpi_tree 'roce': marked computable:false (already computed upstream — `roce` exists in facts/derived_metrics.json, produced by tools/compute_ratios.py. Its inputs (`ebit`, `capital_employed`) are not separate fact records, so restating it as a kpi_tree quotient duplicates work and resolves to nothing. Read it from derived_metrics.json; kept here as a `health` KPI so the tree still names what matters, per prompts/03's coverage rule.)",
+    "kpi_tree 'net_debt_to_ebitda': marked computable:false (inputs `net_debt` and `capital_employed`-style aggregates are not extracted as standalone fact records; `ebitda` exists only for FY2025 onward (F-... consolidated). compute_ratios.py is the right owner for leverage ratios. Marked false so the gap is named rather than emitted as an unresolved-input skip.)",
+    "per-unit economics (realization/tonne, EBIT/tonne, utilization) not computed from the keyword library — provide state/business_model.json kpi_tree with unit-matched inputs so these compute reliably",
+    "segment analytics FY2023 standalone: 2 segment revenue fact(s) (aluminium, chemical) but NO segment EBIT/result fact — margin and contribution not computable, so this period is ABSENT from the segment series. Extract segment results for FY2023.",
+    "library/tree merge: 2 library fact(s) folded into a tree KPI to fill periods the tree could not resolve; 6 exact duplicate(s) dropped",
+    "signature KPI 'ebitda_per_tonne_inr' (playbook 'ferrous_non_ferrous_metals') not computed — prompts/03 must place it in the kpi_tree with named inputs, or mark it computable:false naming the missing input",
+    "signature KPI 'cost_of_production_per_tonne_inr' (playbook 'ferrous_non_ferrous_metals') not computed — prompts/03 must place it in the kpi_tree with named inputs, or mark it computable:false naming the missing input",
+    "signature KPI 'capacity_utilisation_pct' (playbook 'ferrous_non_ferrous_metals') not computed — prompts/03 must place it in the kpi_tree with named inputs, or mark it computable:false naming the missing input",
+    "signature KPI 'captive_rm_pct' (playbook 'ferrous_non_ferrous_metals') not computed — prompts/03 must place it in the kpi_tree with named inputs, or mark it computable:false naming the missing input"
+  ],
+  "signature_kpi_coverage": {
+    "playbook": "ferrous_non_ferrous_metals",
+    "declared": 5,
+    "covered": 1,
+    "missing": 4
+  }
+}

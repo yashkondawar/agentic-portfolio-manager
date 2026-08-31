@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 243,
+  "table_index": 1,
+  "bbox": [
+    51.273665625,
+    181.80282857142856,
+    542.8826,
+    246.22091999999998
+  ],
+  "rows": [
+    [
+      "Particulars",
+      null,
+      "2023-24",
+      "2022-23"
+    ],
+    [
+      "a",
+      "Opening balance",
+      "0.09",
+      "0.09"
+    ],
+    [
+      "b",
+      "Add: Additions",
+      "-",
+      "-"
+    ],
+    [
+      "c",
+      "Less: Write off/adjustments",
+      "0.01",
+      "-"
+    ],
+    [
+      "d",
+      "Closing Balance",
+      "0.08",
+      "0.09"
+    ]
+  ]
+}

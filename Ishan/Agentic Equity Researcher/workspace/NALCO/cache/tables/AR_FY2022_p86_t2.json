@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 86,
+  "table_index": 2,
+  "bbox": [
+    60.736,
+    626.9726666666667,
+    426.4892,
+    691.337
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Category",
+      "No. of complaints filed\nduring the F.Y. 2021-22"
+    ],
+    [
+      "1",
+      "Child labour/ forced labour/ involuntary labour",
+      "Nil"
+    ],
+    [
+      "2",
+      "Sexual harassment",
+      "01"
+    ],
+    [
+      "3",
+      "Discriminatory employment",
+      "Nil"
+    ]
+  ]
+}

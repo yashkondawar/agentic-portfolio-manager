@@ -1,0 +1,118 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 230,
+  "table_index": 3,
+  "bbox": [
+    71.11619302325582,
+    188.04925000000003,
+    547.2185822222222,
+    368.9385833333333
+  ],
+  "rows": [
+    [
+      "A.",
+      "Non-current",
+      null,
+      "As at\n31.03.2021",
+      "As at\n31.03.2020"
+    ],
+    [
+      "(a)",
+      "Capital advances",
+      null,
+      "240.61",
+      "197.18"
+    ],
+    [
+      "(b)",
+      "Advances other than capital advance:",
+      null,
+      "",
+      ""
+    ],
+    [
+      "",
+      "Advance with public authorities",
+      null,
+      "",
+      ""
+    ],
+    [
+      "",
+      "(1)",
+      "Customs, excise, sales tax, port trusts etc.",
+      "170.60",
+      "216.66"
+    ],
+    [
+      "",
+      "(2)",
+      "Deposits with Income Tax Authority (net)",
+      "326.80",
+      "285.55"
+    ],
+    [
+      "",
+      "(3)",
+      "Other Government authorities",
+      "3.52",
+      "2.18"
+    ],
+    [
+      "(c)",
+      "Others",
+      null,
+      "",
+      ""
+    ],
+    [
+      "",
+      "Prepaid expenses",
+      null,
+      "",
+      ""
+    ],
+    [
+      "",
+      "(1)",
+      "Deferred employee benefits",
+      "16.63",
+      "18.29"
+    ],
+    [
+      "Gross other non-current assets",
+      null,
+      null,
+      "758.16",
+      "719.86"
+    ],
+    [
+      "Less: Allowance for bad and doubtful for other non-current assets",
+      null,
+      null,
+      "",
+      ""
+    ],
+    [
+      "(a)",
+      "Capital advances",
+      null,
+      "0.26",
+      "0.26"
+    ],
+    [
+      "Total allowance for bad and doubtful for other non-current assets",
+      null,
+      null,
+      "0.26",
+      "0.26"
+    ],
+    [
+      "Total other non-current assets",
+      null,
+      null,
+      "757.90",
+      "719.60"
+    ]
+  ]
+}

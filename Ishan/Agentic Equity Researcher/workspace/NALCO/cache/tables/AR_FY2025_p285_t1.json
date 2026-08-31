@@ -1,0 +1,73 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 285,
+  "table_index": 1,
+  "bbox": [
+    51.273663636363636,
+    95.26409999999998,
+    542.5830757575758,
+    248.96077499999996
+  ],
+  "rows": [
+    [
+      "",
+      "Year ended 31.03.2025",
+      "Year ended 31.03.2024"
+    ],
+    [
+      "Service Cost:",
+      null,
+      null
+    ],
+    [
+      "-Current Service cost",
+      "(40.67)",
+      "(42.46)"
+    ],
+    [
+      "-Past Service Cost and (gain)/loss from settlements",
+      "(4.54)",
+      "47.60"
+    ],
+    [
+      "-Net Interest expense",
+      "(9.93)",
+      "(8.98)"
+    ],
+    [
+      "Components of defined benefit costs recognised in statement of profit & loss",
+      "(55.14)",
+      "(3.84)"
+    ],
+    [
+      "Remeasurement of the net defined benefit liability:",
+      null,
+      null
+    ],
+    [
+      "Return on the net defined benefit liability",
+      "5.00",
+      "2.08"
+    ],
+    [
+      "Actuarial (Gains)/losses arising from changes in financial assumptions",
+      "(21.98)",
+      "(10.08)"
+    ],
+    [
+      "Actuarial (Gains)/losses arising from experience assumptions",
+      "3.04",
+      "15.66"
+    ],
+    [
+      "Components of defined benefit costs recognised in other comprehensive income",
+      "(13.94)",
+      "7.66"
+    ],
+    [
+      "Total",
+      "(69.08)",
+      "3.82"
+    ]
+  ]
+}

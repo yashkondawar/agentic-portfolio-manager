@@ -1,0 +1,28 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 196,
+  "table_index": 2,
+  "bbox": [
+    116.47088947368421,
+    134.40331999999992,
+    547.4660952380951,
+    178.26115999999993
+  ],
+  "rows": [
+    [
+      "Name of Trust Nature of Transaction",
+      "Year ended\n31.03.2021",
+      "Year ended\n31.03.2020"
+    ],
+    [
+      "NEPF Trust PF-Contribution",
+      "485.86",
+      "431.1"
+    ],
+    [
+      "NEGG Trust Funding of shortfall",
+      "55.98",
+      "57.35"
+    ]
+  ]
+}

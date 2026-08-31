@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 104,
+  "table_index": 2,
+  "bbox": [
+    116.47041666666667,
+    133.79783333333333,
+    548.0269888888889,
+    204.15559999999994
+  ],
+  "rows": [
+    [
+      "Member of Audit Committee",
+      "Category",
+      "Position",
+      "Meeting",
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "Held",
+      "Attended"
+    ],
+    [
+      "Smt. Achla Sinha^^",
+      "Independent",
+      "Chairperson",
+      "2",
+      "2"
+    ],
+    [
+      "Shri N. N. Sharma@@",
+      "Independent",
+      "Member",
+      "2",
+      "2"
+    ],
+    [
+      "Shri V. Balasubramanyam,\nDirector(Production)$",
+      "Functional",
+      "Member",
+      "2",
+      "2"
+    ]
+  ]
+}

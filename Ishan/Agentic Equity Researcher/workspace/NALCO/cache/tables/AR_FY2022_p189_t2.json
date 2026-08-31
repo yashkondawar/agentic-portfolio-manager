@@ -1,0 +1,41 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 189,
+  "table_index": 2,
+  "bbox": [
+    92.093,
+    432.25000000000006,
+    549.74162,
+    474.34200000000004
+  ],
+  "rows": [
+    [
+      "USD impact EURO impact",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "Year ended",
+      "Year ended",
+      "Year ended",
+      "Year ended"
+    ],
+    [
+      "",
+      "31.03.2022",
+      "31.03.2021",
+      "31.03.2022",
+      "31.03.2021"
+    ],
+    [
+      "Impact on profit or loss for the year",
+      "11.7",
+      "27.7",
+      "2.14",
+      "1.48"
+    ]
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 226,
+  "table_index": 4,
+  "bbox": [
+    48.43890357142857,
+    574.640723076923,
+    546.3808235294118,
+    682.5701384615385
+  ],
+  "rows": [
+    [
+      "Net asset of the Joint Venture",
+      "37.01",
+      "36.75",
+      "1.57",
+      "1.58",
+      "37.49",
+      "36.48",
+      "685.10",
+      "596.96"
+    ],
+    [
+      "Proportion of the Group’s ownership interest in JV (%)",
+      "50%",
+      "50%",
+      "40%",
+      "40%",
+      "49%",
+      "49%",
+      "40%",
+      "40%"
+    ],
+    [
+      "Proportion of the Group’s ownership interest in JV (INR)",
+      "18.50",
+      "18.37",
+      "0.63",
+      "0.63",
+      "18.37",
+      "17.87",
+      "274.04",
+      "238.78"
+    ],
+    [
+      "Add:- additional subscription of share warrant/advance\nagainst equity",
+      "—",
+      "—",
+      "—",
+      "—",
+      "—",
+      "—",
+      "—",
+      "—"
+    ],
+    [
+      "Add:- goodwill on acquisition",
+      "—",
+      "—",
+      "—",
+      "—",
+      "—",
+      "—",
+      "",
+      "—"
+    ],
+    [
+      "Less:- unrealised profit",
+      "—",
+      "—",
+      "—",
+      "—",
+      "—",
+      "—",
+      "",
+      "—"
+    ],
+    [
+      "Group’s share in the net asset of JV",
+      "18.50",
+      "18.37",
+      "0.63",
+      "0.63",
+      "18.37",
+      "17.87",
+      "274.04",
+      "238.78"
+    ],
+    [
+      "Carrying amt of the Group’s interest in JV",
+      "18.50",
+      "18.37",
+      "0.63",
+      "0.63",
+      "18.37",
+      "17.87",
+      "274.04",
+      "238.78"
+    ]
+  ]
+}

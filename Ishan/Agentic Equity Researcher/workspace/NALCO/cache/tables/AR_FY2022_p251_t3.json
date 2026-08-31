@@ -1,0 +1,28 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 251,
+  "table_index": 3,
+  "bbox": [
+    112.308,
+    214.18800000000005,
+    549.8504555555555,
+    253.15100000000004
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "Year ended 31.03.2022",
+      "Year ended 31.03.2021"
+    ],
+    [
+      "Purchase of goods and services from CPSEs/ Govt. undertakings",
+      "3,443.02",
+      "2,388.83"
+    ],
+    [
+      "Sale of goods to CPSEs and Govt. undertakings",
+      "1,695.29",
+      "1,194.72"
+    ]
+  ]
+}

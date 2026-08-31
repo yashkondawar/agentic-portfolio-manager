@@ -1,0 +1,73 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 276,
+  "table_index": 1,
+  "bbox": [
+    51.27363636363636,
+    89.37619999999998,
+    542.5317833333334,
+    242.3721
+  ],
+  "rows": [
+    [
+      "",
+      "Compensated absences\n(funded)",
+      "Long service\nrewards",
+      "NEFFARS"
+    ],
+    [
+      "Balance as at 31.03.2023",
+      "39.82",
+      "12.95",
+      "23.01"
+    ],
+    [
+      "Additional provisions recognised",
+      "80.64",
+      "1.51",
+      "19.06"
+    ],
+    [
+      "Reductions arising from payments",
+      "(75.11)",
+      "(2.18)",
+      "(20.93)"
+    ],
+    [
+      "Changes arising from remeasurement",
+      "5.48",
+      "1.34",
+      "-"
+    ],
+    [
+      "Balance as at 31.03.2024",
+      "50.83",
+      "13.62",
+      "21.14"
+    ],
+    [
+      "Additional provisions recognised",
+      "75.42",
+      "1.59",
+      "21.00"
+    ],
+    [
+      "Reductions arising from payments",
+      "(90.63)",
+      "(1.26)",
+      "(17.99)"
+    ],
+    [
+      "Changes arising from remeasurement",
+      "3.70",
+      "1.99",
+      "-"
+    ],
+    [
+      "Balance as at 31.03.2025",
+      "39.32",
+      "15.94",
+      "24.15"
+    ]
+  ]
+}

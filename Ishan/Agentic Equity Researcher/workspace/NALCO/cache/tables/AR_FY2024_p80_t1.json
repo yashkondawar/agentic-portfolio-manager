@@ -1,0 +1,41 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 80,
+  "table_index": 1,
+  "bbox": [
+    68.28139130434782,
+    73.95089999999999,
+    542.4250115384615,
+    292.4145
+  ],
+  "rows": [
+    [
+      "Stakeholder\nGroup",
+      "Whether identified\nas Vulnerable\n&Marginalized\nGroup (Yes/No)",
+      "Channels of\ncommunication\n(Email, SMS,\nNewspaper,\nPamphlets,\nAdvertisement,\nCommunity Meetings,\nNotice Board,\nWebsite), Others",
+      "Frequency of\nengagement\n(Annually/Half\nyearly/ Quarterly\n/ others – please\nspecify)",
+      "Purpose and scope of engagement including\nkey topics and concerns raised during such\nengagement"
+    ],
+    [
+      "Customers",
+      "No",
+      "Website, emails, Letters,\nMeetings, conference,\nSurveys",
+      "Regular and Need-\nbased",
+      "Commercial matters, Policy issues, market\nconditions, complaints & grievances"
+    ],
+    [
+      "Employees",
+      "No",
+      "Discussion forums\nwith Associations and\nUnions, Emails, Letters,\nSurveys,",
+      "Regular",
+      "benefits and remunerations, Performance rating\nand recognition, Career growth, Training and skill\ndevelopment, Safe and healthy working condition,\nwelfare measures"
+    ],
+    [
+      "Value Chain\nPartners\n(Suppliers, Vendors,\nContractors)",
+      "Partly",
+      "Website, Mobile Apps,\nEmail, Letters, vendor\nMeet",
+      "Regular and need\nbased",
+      "Special privilege to MSE units, Transparency &\nanticorruption practices, Simplified procedure &\ntimely payment, Terms & conditions of purchase,\nSpeedy liquidation of disputes & redressal of\ngrievances."
+    ]
+  ]
+}

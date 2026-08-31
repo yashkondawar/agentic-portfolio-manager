@@ -1,0 +1,141 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 255,
+  "table_index": 2,
+  "bbox": [
+    51.27363076923076,
+    421.05005,
+    542.5911600000001,
+    661.0548285714285
+  ],
+  "rows": [
+    [
+      "",
+      "",
+      "As at 31.03.2023",
+      "Reduction during\nthe year",
+      "Addition during\nthe year",
+      "As at 31.03.2024"
+    ],
+    [
+      "a.",
+      "Demand by statutory authority",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "1. Odisha Sales tax",
+      "3.71",
+      "(0.32)",
+      "0.38",
+      "3.77"
+    ],
+    [
+      null,
+      "2. Central Sales tax",
+      "277.52",
+      "(0.46)",
+      "-",
+      "277.06"
+    ],
+    [
+      null,
+      "3. VAT",
+      "0.69",
+      "-",
+      "-",
+      "0.69"
+    ],
+    [
+      null,
+      "4. Excise duty",
+      "410.44",
+      "(401.93)",
+      "10.76",
+      "19.27"
+    ],
+    [
+      null,
+      "5. Custom duty",
+      "102.67",
+      "-",
+      "81.01",
+      "183.68"
+    ],
+    [
+      null,
+      "6. Service tax",
+      "13.08",
+      "(3.81)",
+      "4.79",
+      "14.06"
+    ],
+    [
+      null,
+      "7. GST",
+      "-",
+      "-",
+      "34.15",
+      "34.15"
+    ],
+    [
+      null,
+      "8. Income tax",
+      "210.27",
+      "(19.84)",
+      "4.83",
+      "195.26"
+    ],
+    [
+      null,
+      "9. Entry tax",
+      "217.28",
+      "(111.63)",
+      "-",
+      "105.65"
+    ],
+    [
+      null,
+      "10. Road tax",
+      "2.65",
+      "-",
+      "-",
+      "2.65"
+    ],
+    [
+      null,
+      "11. Stamp duty",
+      "0.51",
+      "-",
+      "-",
+      "0.51"
+    ],
+    [
+      null,
+      "12. Land acquisition and interest thereon",
+      "85.55",
+      "(9.72)",
+      "42.18",
+      "118.01"
+    ],
+    [
+      null,
+      "13. Demand from Dept. of mines Govt. of Odisha",
+      "136.32",
+      "-",
+      "-",
+      "136.32"
+    ],
+    [
+      null,
+      "14. Demand from Water Resources Deptt. Govt. of\nOdisha for Water Conservation fund",
+      "119.24",
+      "-",
+      "-",
+      "119.24"
+    ]
+  ]
+}

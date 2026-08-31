@@ -1,0 +1,25 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 8,
+  "table_index": 1,
+  "bbox": [
+    68.2815,
+    73.95079999999996,
+    542.8776,
+    482.7529
+  ],
+  "rows": [
+    [
+      "",
+      "4) Alternatively, the user can directly access e-Voting page by providing Demat Account Number and PAN No.\nfrom a link https://evoting.cdslindia.com/Evoting/EvotingLogin\n5) The system will authenticate the user by sending OTP on registered Mobile & Email as recorded in the Demat\nAccount. After successful authentication, user will be able to see the e-Voting option where the e-Voting is in\nprogress, and also able to directly access the system of all e-Voting Service Providers. Click on BIGSHARE\nand you will be re-directed to i-Vote website for casting your vote during the remote e-voting period."
+    ],
+    [
+      "Individual shareholders\nholding securities in demat\nmode with NSDL",
+      "1) If you are already registered for NSDL IDeAS facility, please visit the e-Services website of NSDL. Open\nweb browser by typing the following URL: https://eservices.nsdl.com either on a Personal Computer\nor on a mobile. Once the home page of e-Services is launched, click on the “Beneficial Owner” icon\nunder “Login” which is available under ‘IDeAS’ section. A new screen will open. You will have to enter\nyour User ID and Password. After successful authentication, you will be able to see e-Voting services.\nClick on “Access to e-Voting” under e-Voting services and you will be able to see e-Voting page. Click\non company name or e-Voting service provider name BIGSHARE and you will be re-directed to i-Vote\nwebsite for casting your vote during the remote e-Voting period or joining virtual meeting & voting\nduring the meeting. Additionally, there are also links provided to access the website of other e-Voting\nService Providers, so that the user can visit the e-Voting service providers’ website directly. For joining\nthe meeting click on “VIEW EVENT DETAILS (CURRENT)” under ‘EVENTS’ option, select event for\nwhich you desire to attend the AGM under the dropdown option, click on the option ‘VOTE NOW’\non right hand side top corner, you need to click on “VC/OAVM” link placed beside the “VIDEO\nCONFERENCE LINK” option.\n2) If the user is not registered for IDeAS e-Services, option to register is available at\nhttps://eservices.nsdl.com. Select “Register Online for IDeAS Portal” or click at\nhttps://eservices.nsdl.com/SecureWeb/IdeasDirectReg.jsp\n3) Visit the e-Voting website of NSDL. Open web browser by typing the following URL:\nhttps://www.evoting.nsdl.com either on a Personal Computer or on a mobile. Once the home page of\ne-Voting system is launched, click on the icon “Login” which is available under ‘Shareholder/Member’\nsection. A new screen will open. You will have to enter your User ID (i.e. your sixteen digit demat\naccount number held with NSDL), Password/OTP and a Verification Code as shown on the screen. After\nsuccessful authentication, you will be redirected to NSDL Depository site wherein you can see e-Voting\npage. Click on company name or e-Voting service provider name BIGSHARE and you will be redirected\nto i-Vote website for casting your vote during the remote e-Voting period or joining virtual meeting &\nvoting during the meeting."
+    ],
+    [
+      "Individual shareholders\n(holding securities in\ndemat mode) login\nthrough their Depository\nParticipants",
+      "You can also login using the login credentials of your demat account through your Depository Participant registered\nwith NSDL/CDSL for e-Voting facility. After Successful login, you will be able to see e-Voting option. Once you\nclick on e-Voting option, you will be redirected to NSDL/CDSL Depository site after successful authentication,\nwherein you can see e-Voting feature. Click on company name or e-Voting service provider name and you will be\nredirected to e-Voting service provider website for casting your vote during the remote e-Voting period or joining\nvirtual meeting & voting during the meeting."
+    ]
+  ]
+}

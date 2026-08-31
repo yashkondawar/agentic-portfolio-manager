@@ -1,0 +1,199 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 222,
+  "table_index": 1,
+  "bbox": [
+    45.477459999999994,
+    76.61800000000005,
+    468.984,
+    418.0273333333334
+  ],
+  "rows": [
+    [
+      "User right",
+      "Computer software",
+      "Mining rights",
+      "Licenses"
+    ],
+    [
+      "Cost or deemed cost\nBalance as at 31.03.2020 79.79",
+      "11.24",
+      "288.39",
+      "10.25"
+    ],
+    [
+      "Additions -",
+      "0.13",
+      "91.36",
+      "1.30"
+    ],
+    [
+      "Disposals -",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Balance as at 31.3.2021 79.79",
+      "11.37",
+      "379.75",
+      "11.55"
+    ],
+    [
+      "Additions 0.39",
+      "1.90",
+      "27.05",
+      "-"
+    ],
+    [
+      "Disposals -",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Balance as at 31.03.2022 80.18",
+      "13.27",
+      "406.80",
+      "11.55"
+    ],
+    [
+      "Accumulated depreciation and impairment",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Balance as at 31.03.2020 11.28",
+      "7.70",
+      "51.22",
+      "9.24"
+    ],
+    [
+      "Depreciation Expense 4.00",
+      "1.76",
+      "52.83",
+      "1.25"
+    ],
+    [
+      "Impairment Expense -",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Disposals -",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Balance as at 31.3.2021 15.28",
+      "9.46",
+      "104.05",
+      "10.49"
+    ],
+    [
+      "Depreciation Expense 4.01",
+      "1.35",
+      "25.74",
+      "0.15"
+    ],
+    [
+      "Impairment Expense -",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Disposals -",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Balance as at 31.03.2022 19.29",
+      "10.81",
+      "129.79",
+      "10.64"
+    ],
+    [
+      "User right",
+      "Computer software",
+      "Mining rights",
+      "Licenses"
+    ],
+    [
+      "Carrying amount",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Balance as at 31.03.2020 68.51",
+      "3.54",
+      "237.17",
+      "1.01"
+    ],
+    [
+      "Additions/Adjustments -",
+      "0.13",
+      "91.36",
+      "1.30"
+    ],
+    [
+      "Disposals -",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Depreciation Expense 4.00",
+      "1.76",
+      "52.83",
+      "1.25"
+    ],
+    [
+      "Impairment Expense -",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Balance as at 31.3.2021 64.51",
+      "1.91",
+      "275.70",
+      "1.06"
+    ],
+    [
+      "Additions 0.39",
+      "1.90",
+      "27.05",
+      "-"
+    ],
+    [
+      "Disposals -",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Depreciation Expense 4.01",
+      "1.35",
+      "25.74",
+      "0.15"
+    ],
+    [
+      "Impairment Expense -",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Balance as at 31.03.2022 60.89",
+      "2.46",
+      "277.01",
+      "0.91"
+    ]
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 189,
+  "table_index": 2,
+  "bbox": [
+    79.6201,
+    135.187625,
+    555.124,
+    274.78084999999993
+  ],
+  "rows": [
+    [
+      "",
+      "Year ended\n31.03.2021",
+      "Year ended\n31.03.2020"
+    ],
+    [
+      "Current tax\nIn respect of current year",
+      "204.02",
+      "152.27"
+    ],
+    [
+      "In respect of prior years",
+      "(26.32)",
+      "(0.87)"
+    ],
+    [
+      "",
+      "177.70",
+      "151.40"
+    ],
+    [
+      "",
+      "",
+      ""
+    ],
+    [
+      "Deferred tax\nIn respect of current year",
+      "(160.71)",
+      "(63.39)"
+    ],
+    [
+      "Others (MAT credit entitlement)",
+      "—",
+      "—"
+    ],
+    [
+      "",
+      "(160.71)",
+      "(63.39)"
+    ],
+    [
+      "Total income tax expense recognised in current year",
+      "16.99",
+      "88.01"
+    ]
+  ]
+}

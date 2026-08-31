@@ -1,0 +1,200 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 58,
+  "table_index": 1,
+  "bbox": [
+    45.327459999999995,
+    84.59800000000001,
+    488.251,
+    691.404
+  ],
+  "rows": [
+    [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      null,
+      "6",
+      "7",
+      null
+    ],
+    [
+      "Sl.\nNo.",
+      "Name of the Project",
+      "Item from the\nlist of activities\nin Schedule\nVII to the Act",
+      "Local\narea\n(Yes/ No)",
+      "Location of the project",
+      null,
+      "Amount\nspent\nfor the\nproject",
+      "Mode of\nimplementation\n– Direct\n(Yes/ No)",
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      "State",
+      "District",
+      null,
+      null,
+      "Name"
+    ],
+    [
+      "1",
+      "Re-opening of District Covid\nHealth Centre (DCHC) at\nNabarangpur (recurring\nexpenditure)",
+      "Item-i (iv)",
+      "No",
+      "Odisha",
+      "Nabrangpur",
+      "107.73",
+      "No",
+      "NALCO\nFoundation"
+    ],
+    [
+      "2",
+      "Infrastructural development\nof District Covid Health\nCentre (DCHC) at\nNabarangpur (One time\nexpenditure)",
+      "Item-i (iv)",
+      "No",
+      "Odisha",
+      "Nabrangpur",
+      "54.47",
+      "No",
+      "NALCO\nFoundation"
+    ],
+    [
+      "3",
+      "Supply of medical equipment\nto Saheed Laxman Nayak\nMedical College & Hospital,\nKoraput",
+      "Item-i (iv)",
+      "Yes",
+      "Odisha",
+      "Koraput",
+      "114.20",
+      "Yes",
+      "NA"
+    ],
+    [
+      "4",
+      "Support for District Covid\nHealth Centre (DCHC) at\nESI Hospital, Banarpal, Angul",
+      "Item-i (iv)",
+      "Yes",
+      "Odisha",
+      "Angul",
+      "276.23",
+      "No",
+      "NALCO\nFoundation"
+    ],
+    [
+      "5",
+      "Supply of 200 oxygen\nconcentrator to District\nAdministrations",
+      "Item-i (iv)",
+      "Yes",
+      "Odisha",
+      "Angul &\nKoraput",
+      "0.00",
+      "Yes",
+      "NA"
+    ],
+    [
+      "6",
+      "Support to the State in\nCovid-19 management by\nsupplying DG sets to oxygen\nfilling stations",
+      "Item-i (iv)",
+      "No",
+      "Pan Odisha",
+      "-",
+      "30.70",
+      "No",
+      "NALCO\nFoundation"
+    ],
+    [
+      "7",
+      "Supply of face mask &\nsanitizer to District\nAdministration, Koraput",
+      "Item-i (iv)",
+      "Yes",
+      "Odisha",
+      "Koraput",
+      "1.82",
+      "No",
+      "NALCO\nFoundation"
+    ],
+    [
+      "8",
+      "Supply of face mask &\nsanitizer to District\nAdministration, Angul",
+      "Item-i (iv)",
+      "Yes",
+      "Odisha",
+      "Koraput",
+      "1.33",
+      "No",
+      "NALCO\nFoundation"
+    ],
+    [
+      "9",
+      "Supply of medical oxygen\ncylinder to hospitals in Vizag",
+      "Item-i (iv)",
+      "Yes",
+      "Andhra Pradesh",
+      "V isakhapatnam",
+      "5.00",
+      "No",
+      "NALCO\nFoundation"
+    ],
+    [
+      "10",
+      "Supply of medical oxygen\ngenerators to hospitals in\nDharwad district of\nKarnataka State",
+      "Item-i (iv)",
+      "No",
+      "Karnataka",
+      "Dharwad",
+      "120.70",
+      "No",
+      "NALCO\nFoundation"
+    ],
+    [
+      "11",
+      "Rapid Antigen Test (RAT)\nin periphery villages of S&P\nComplex, Angul",
+      "Item-i (iv)",
+      "Yes",
+      "Odisha",
+      "Angul",
+      "4.25",
+      "No",
+      "NALCO\nFoundation"
+    ],
+    [
+      "12",
+      "Supply of BiPAP machines\nand Jumbo Oxygen Cylinders\nto local Hospital, Jeypore",
+      "Item-i (iv)",
+      "Yes",
+      "Odisha",
+      "Koraput",
+      "0.00",
+      "No",
+      "NALCO\nFoundation"
+    ],
+    [
+      "13",
+      "Supply of Rapid Antigen\nKits to District\nAdministration, Angul",
+      "Item-i (iv)",
+      "Yes",
+      "Odisha",
+      "Angul",
+      "16.60",
+      "No",
+      "NALCO\nFoundation"
+    ],
+    [
+      "14",
+      "Water supply arrangement\nto Kakiriguma Police station",
+      "Item-i (vi)",
+      "Yes",
+      "Odisha",
+      "Koraput",
+      "0.40",
+      "Yes",
+      "NA"
+    ]
+  ]
+}

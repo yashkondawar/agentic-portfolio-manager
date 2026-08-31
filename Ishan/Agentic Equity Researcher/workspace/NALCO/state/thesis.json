@@ -1,0 +1,154 @@
+{
+  "module": "33_thesis_synthesis",
+  "wave": "6a THESIS",
+  "company": "National Aluminium Company Limited",
+  "ticker": "NATIONALUM.NS",
+  "as_of": "2026-08-03",
+  "sector_family": "commodities_energy",
+  "sector_playbook": "ferrous_non_ferrous_metals",
+
+  "_provenance": "Rewritten 2026-08-03 into the shape schema/thesis.schema.json requires. The prior file (backed up outside the workspace) predated the schema and was missing 6 of its 9 required fields — as_of, return_decomposition, archetype, pillars, must_be_true, monitorables — which tools/validate_state.py now catches by construction. The REDUCE conclusion is retained because the arithmetic below independently reproduces it from the fact store; what was missing was a published derivation, not the verdict. Sector method: prompts/sector_playbooks/ferrous_non_ferrous_metals.md. Business model: state/business_model.json. Ticker corrected to NATIONALUM.NS — the prior file said 'NALCO', and tools/market_data.py returns nothing for that symbol.",
+
+  "return_decomposition": {
+    "metric": "EPS",
+    "current_multiple": 11.42,
+    "target_multiple": 8.4,
+    "current_metric": 31.67,
+    "target_year_metric": 31.05,
+    "metric_growth_pct": -1.95,
+    "multiple_change_pct": -26.46,
+    "expected_return_pct": -27.9,
+    "multiple_share_pct": 93.0,
+    "valuation_base_year": "FY2028E",
+    "rolled_forward": false,
+    "unrolled_target_context": "FY2028E is the last year the workspace's own estimates cover (facts/estimates.json: PAT 5,702.8 cr), so the base is the estimate horizon rather than a year chosen to flatter the target. On the nearer FY2027E base (EPS 32.76, PAT 6,015.9 cr) the same 8.4x gives TP ~275 and a -23.9% return. The direction and rough magnitude do not depend on the base year, which is the check `docs/ER_CORPUS_FINDINGS.md` §4 asks for.",
+    "derivation": "CMP 361.7 = market_cap 66,421.8 cr / 183.6632 cr shares, both from facts/market_data.json (pulled 2026-07-15). Current multiple 11.42x = 361.7 / FY2026A EPS 31.67, where FY2026A PAT is 5,816 cr consolidated (F-PQ4-029). Target 8.4x x FY2028E EPS 31.05 = TP 260.8.",
+    "why_the_target_multiple": "8.4x is **the top of NALCO's own realised 5-year P/E band**, not an assumption. findings/peer_valuation.json reconstructs the band on FY-average price against standalone EPS as 4.1x (FY2021, trough) to 8.4x (FY2024, peak), median ~6.3x [SRC-1300..SRC-1306]. Using the band's PEAK is the most generous anchor available from evidence; the median 6.3x would give TP ~196 and a -45.9% return. Two further facts make holding the current 11.42x hard to defend: the band has never touched double digits in five years, and FY2025 — the year with the highest EPS (28.99) and the highest EBITDA margin (44.6%) of the period — traded at only ~6.3x, i.e. the market itself discounted that profit surge as unsustainable in real time. Separately, the playbook's mid-cycle rule points the same way: FY2026 EBITDA of 8,613 cr (F-PQ4-017) is the series maximum, above FY2025's 7,922 cr (F-PQ4-018), so holding a peak multiple on a peak base would be exactly the peak-on-peak error the sector playbook names as its most common failure. **The commodity assumption this implies, published per the playbook's requirement: modest mean reversion in LME aluminium and in the alumina percentage-of-LME tender realisation from FY2026 levels — not a collapse.** If the alumina cycle instead extends, the multiple need not compress and this thesis is wrong; see monitorables.",
+    "band_discrepancy_noted": "The superseded thesis file described the band as '4.6x-8.7x (median ~7.6x)'. Its own cited source, findings/peer_valuation.json, says 4.1x-8.4x with a median of ~6.3x. The module output is treated as authoritative here and the prose figure is discarded. Worth recording because the prose version was more favourable to the stock at every point of the band."
+  },
+
+  "archetype": {
+    "primary": "cyclical-peak",
+    "secondary": "de-rating",
+    "forced_rerating": true,
+    "evidence": "Four independent signals place the earnings base at a cycle high rather than on a growth path. (1) FY2026 EBITDA 8,613 cr is the maximum of the available series and the workspace's own estimates then decline — FY2027E PAT 6,015.9 cr, FY2028E 5,702.8 cr, so the base case is flat-to-DOWN. (2) The company is structurally net long alumina (state/business_model.json: ~2.1 MTPA refinery against a 0.46 MTPA smelter, ~94% of alumina volume exported), so earnings are levered to an alumina price that has been unusually strong. (3) The stock at 361.7 sits against a 52-week range of 179.93-445.15, i.e. it has already re-rated hard, so multiple and metric peaked together — the textbook cyclical-peak signature. (4) The current 11.42x sits above the entire realised 5-year band of 4.1x-8.4x. `forced_rerating` is true because multiple_share_pct is 93%, far above config.thesis.rerate_share_threshold_pct of 40: this is overwhelmingly a multiple thesis and the re-rating checklist applies whatever it is called. The direction here is a DE-rating, which the 40% rule governs symmetrically.",
+    "skepticism_weight": 4,
+    "alternatives_rejected": [
+      { "archetype": "capex-to-cashflow", "why_not": "The 5th-stream refinery (+1.0 MTPA, guided March 2026 commissioning) is real and would ordinarily fit. Rejected as primary because the incremental output is surplus-to-smelter export alumina, so it amplifies the cyclical exposure at issue rather than diversifying it — and because delivery on this specific lever is poor: the FY2023 AR targeted January 2025 for the same stream. Volume growth into a mean-reverting price is not a capex-to-cashflow thesis." },
+      { "archetype": "cyclical-recovery", "why_not": "Directionally inverted. Recovery requires a base at or near a trough; FY2026 EBITDA is the series maximum." },
+      { "archetype": "quality-compounder", "why_not": "The playbook is explicit that a price-taker compounds only if its cost-curve position is permanent. The captive-bauxite advantage is real but its durability is unevidenced in this run — cost_of_production_per_tonne and captive_rm_pct are both uncomputable (see facts/kpis.json skips), so the claim has no number behind it." },
+      { "archetype": "deep-value-sotp", "why_not": "Net cash and a low-cost alumina leg make this tempting, but 11.42x forward on peak earnings is not a discount to any defensible asset floor, and replacement cost per tonne was not obtainable." }
+    ]
+  },
+
+  "pillars": [
+    {
+      "claim": "The earnings base is at a cycle high, and the run's own estimate set says so: FY2026 EBITDA 8,613 cr is the series maximum, and base-case PAT goes 5,816 cr (FY2026A) -> 6,015.9 cr (FY2027E) -> 5,702.8 cr (FY2028E), i.e. flat-to-down across the horizon rather than growing.",
+      "evidence_refs": ["F-PQ4-017", "F-PQ4-018", "F-PQ4-029", "facts/estimates.json:pat FY2027", "facts/estimates.json:pat FY2028"],
+      "falsifiable_because": "One upgrade cycle lifting FY2028E PAT above FY2026A breaks it. The observable trigger is two consecutive quarters of alumina realisation above the FY2026 average."
+    },
+    {
+      "claim": "The current multiple is outside the company's own five-year realised range. CMP implies 11.42x against a band of 4.1x-8.4x (median ~6.3x) that has never reached double digits — and FY2025, the year with the highest EPS and the highest EBITDA margin of the period, traded at only ~6.3x.",
+      "evidence_refs": ["SRC-1300", "SRC-1301", "SRC-1302", "SRC-1306", "SRC-1307", "findings/peer_valuation.json:pe_band.band_read"],
+      "falsifiable_because": "A structural step-up in sustainable EPS, or a named and dated catalyst for a permanent re-rating, would justify a multiple outside the historical band. Neither is in evidence — peer_valuation records no confirmed re-rating catalyst, and the estimates show a negative 2-year EPS CAGR."
+    },
+    {
+      "claim": "NALCO is net long alumina rather than an aluminium producer: a ~2.1 MTPA refinery against a 0.46 MTPA smelter, with ~94% of alumina volume exported. That is where the margin sits (FY2025 Chemical segment result 3,245.0 cr on 7,607.44 cr revenue = 42.7%, against Aluminium's 4,045.51 cr on 11,113.16 cr = 36.4%) and it is also where the risk concentrates.",
+      "evidence_refs": ["F-AR22-055", "F-AR22-057", "F-AR25B-126", "F-AR25B-130", "F-AR25B-128", "F-AR25B-132", "state/business_model.json:net_position"],
+      "falsifiable_because": "If the 5th stream were absorbed domestically, or the smelter expanded to consume refinery output, the tilt would narrow. It does not: the announced +0.5 MTPA smelter expansion is guided FY2029-30, well after the refinery addition, so the tilt widens first."
+    },
+    {
+      "claim": "The cost-curve advantage — the only durable edge available to a price-taker — is NOT evidenced in this run. Cash cost of production per tonne was never extracted and captive raw-material share is unquantified, so the low-cost claim rests on reputation rather than on a number.",
+      "evidence_refs": ["facts/kpis.json:skipped[cost_of_production_per_tonne]", "facts/kpis.json:skipped[captive_rm_share]", "state/business_model.json:extraction_feedback"],
+      "falsifiable_because": "Extracting the AR's cost-of-production disclosure, or building it from consumption-per-tonne of bauxite, caustic, power and coke, settles it either way. This pillar is a disclosed gap rather than a claim about the business, and it is why the skepticism weight is 4 rather than 3."
+    },
+    {
+      "claim": "Project delivery is weak on precisely the lever FY2027-28 estimates depend on. The FY2023 AR targeted January 2025 for the 5th-stream refinery and May 2025 for the associated power plant; both have slipped to 2026.",
+      "evidence_refs": ["project_timeline_5th_stream_refinery_fy2023_target", "project_timeline_power_plant_fy2023_target", "mgmt_guidance_5th_stream_commissioning"],
+      "falsifiable_because": "First production by the guided April 2026 breaks it. A further slip past Q2FY27 confirms it."
+    }
+  ],
+
+  "must_be_true": [
+    { "condition": "The earnings base is at or near a cycle peak (cyclical-peak condition 1).",
+      "status": "established",
+      "why": "FY2026 EBITDA 8,613 cr is the maximum of the available series (F-PQ4-017 vs F-PQ4-018), and the estimate set declines thereafter." },
+    { "condition": "The multiple is also elevated, so metric and multiple can fall together (condition 2).",
+      "status": "established",
+      "why": "11.42x sits above the entire realised 5-year band of 4.1x-8.4x, median ~6.3x [SRC-1300..1306]. Initially recorded as `partial` on the assumption that no band had been reconstructed; findings/peer_valuation.json does reconstruct one per fiscal year with sources, so the condition is met on evidence." },
+    { "condition": "The cycle position is stated explicitly and the target's implied commodity assumption is published (playbook requirement).",
+      "status": "established",
+      "why": "Published in return_decomposition.why_the_target_multiple: modest mean reversion in LME aluminium and in the alumina percentage-of-LME realisation, not a collapse." },
+    { "condition": "No structural change is under way that would break the historical cycle relationship (condition 3).",
+      "status": "partial",
+      "why": "The 5th stream is a ~48% addition to refinery capacity, which IS a structural change to volume and cuts against a pure peak call on earnings-power grounds even as it reinforces the exposure. Held partial deliberately rather than resolved in the thesis's favour." },
+    { "condition": "The balance sheet can absorb a trough without a dilutive raise (this sector's real equity risk).",
+      "status": "established",
+      "why": "Near-debt-free; the prior run recorded D/E of 0.0016x-0.0043x with no confirmed accounting manipulation (forensic composite 75/100, five consecutive unqualified audits). This is what caps the rating at REDUCE rather than SELL." },
+    { "condition": "The cost position is durable enough that a trough is survivable at positive margin.",
+      "status": "unestablished",
+      "why": "Cannot be evidenced — cost of production per tonne is uncomputable in this run (pillar 4). The single most important open item in the thesis, and the reason confidence is medium." }
+  ],
+
+  "monitorables": [
+    { "what": "Alumina realisation as a percentage of LME on export tenders",
+      "threshold": "two consecutive quarters at or above the FY2026 average",
+      "consequence": "The peak framing fails; revisit toward ADD. The fastest route to being proven wrong." },
+    { "what": "LME aluminium price",
+      "threshold": "sustained above the FY2026 average for two consecutive quarters",
+      "consequence": "Same as above — the FY2026 base was not a peak, and the de-rating premise weakens." },
+    { "what": "Forward P/E against the realised 4.1x-8.4x band",
+      "threshold": "a sustained re-rating above 8.4x accompanied by a NAMED and dated catalyst",
+      "consequence": "If the multiple holds above the band with a mechanism attached, the de-rating premise is wrong. Absent a mechanism, a multiple above the band is the thesis, not a refutation of it." },
+    { "what": "5th-stream refinery first production",
+      "threshold": "commercial production by 30 June 2026 (guided April 2026)",
+      "consequence": "On time, pillar 5 breaks and FY2028E volume firms. A slip past Q2FY27 confirms the delivery concern and lowers FY2028E." },
+    { "what": "Utkal captive coal despatch",
+      "threshold": "below ~4 mt in FY2026 as guided",
+      "consequence": "Shortfall is replaced with e-auction coal at a premium and the smelter spread compresses first. Power and fuel as a % of revenue is the tell — it is computable and already in facts/kpis.json for FY2020-FY2025." },
+    { "what": "Cash cost of production per tonne, once disclosed or derivable",
+      "threshold": "any credible number, in either direction",
+      "consequence": "Resolves must_be_true condition 6 and pillar 4. A genuinely top-quartile cost position lowers the skepticism weight and the rating should be revisited." },
+    { "what": "Segment result disclosure for FY2023",
+      "threshold": "extraction of segment_result_chemicals and segment_result_aluminium for FY2023",
+      "consequence": "Closes the FY2023 hole in the segment-margin series that compute_kpis.py now reports as a named skip rather than dropping silently." }
+  ],
+
+  "variant_view": {
+    "vs_guidance": "Management guides to volume — the 5th stream (+1.0 MTPA), Pottangi from April 2026, Utkal coal toward ~4 mt. We do not dispute the volume. We dispute that volume growth into a mean-reverting alumina price produces earnings growth, and the workspace's own estimates agree with us rather than with the implied guidance narrative: FY2028E PAT sits below FY2026A.",
+    "vs_consensus": null,
+    "reverse_read": "At CMP 361.7 the market pays 11.42x FY2026A EPS for a business whose own base case has EPS falling ~2% over two years, and it pays it at a multiple the stock has not reached once in five years. To justify the current price on FY2028E EPS of 31.05, the multiple must hold at ~11.6x through a downcycle in the company's primary product — roughly 38% above the top of its realised band. That is the bet, stated plainly.",
+    "no_variant_view": false,
+    "strongest_argument_against": "The market may be pricing balance-sheet optionality and a genuine cost-structure moat rather than mispricing cyclical earnings. NALCO is near-debt-free with captive bauxite and a coal ramp that is the best-delivered item in its guidance ledger, and its FY2025 standalone EBITDA margin of 44.6% is closely in line with Hindalco's India-upstream 45.6% — i.e. operating quality in the current cycle is not the weak point. If the cost position is genuinely top-quartile, which this run could not verify, a band-top multiple is too harsh. We hold REDUCE while flagging that this counter-argument turns entirely on the one number we could not obtain."
+  },
+
+  "rating": {
+    "value": "REDUCE",
+    "derivation": "Bottom-up, in the order prompts/33 step 7 specifies. (1) Expected return over the horizon: -27.9%, decomposed as -1.95% from EPS and -26.46% from the multiple (see return_decomposition), using the most generous evidence-based multiple available — the top of the realised band. (2) Archetype skepticism weight 4 (cyclical-peak) means partial evidence earns no directional credit, so must_be_true condition 4 (`partial`) is not counted in the thesis's favour. (3) Haircut for confirmed findings: governance is Amber with an active fined LODR compliance breach, and project delivery is poor on the key lever; both widen the downside rather than change its sign. (4) Widening for disclosed data gaps: the missing cost-of-production evidence and the absent peer-multiple set are material, and are why confidence is medium rather than high. (5) Mapped to config.rating.scale = [BUY, ADD, REDUCE, SELL]: a negative return of this size on a peak-cycle base maps to REDUCE.",
+    "not_higher_because": "Expected return is materially negative on the run's own estimates even at the top of the historical multiple band, and the earnings base is at a series maximum. ADD would require the estimate set to turn up, or a named catalyst for a multiple permanently outside the five-year band, or the cost-curve position to be evidenced. None is present.",
+    "not_lower_because": "SELL would require impairment risk or a balance sheet that cannot absorb a trough. Neither applies: NALCO is near-debt-free, the assets are integrated and long-lived, audits have been unqualified for five consecutive years, and the alumina leg earned a 42.7% segment margin as recently as FY2025. A cyclical de-rating from a high base is a REDUCE, not a SELL.",
+    "confidence": "medium",
+    "capped_by": "The uncomputable cash cost of production per tonne. Until that is evidenced, neither the bear case (a trough at negative margin) nor the bull case (a permanent top-quartile position) can be resolved, so confidence cannot be high in either direction."
+  },
+
+  "fair_value_context": {
+    "range_inr": [196, 275],
+    "basis": "Low: median realised multiple 6.3x x FY2028E EPS 31.05 = 196. High: band-top 8.4x x FY2027E EPS 32.76 = 275. Central case 8.4x x FY2028E = 261. Indicative band only — the formal target price is the downstream scenario engine's output, per handoff/valuation_handoff.json.",
+    "cmp_at_derivation": 361.7,
+    "caveat": "Anchored to the company's OWN realised multiple band, not to a peer-anchored multiple, because no usable peer multiple set was obtained in this run — the largest disclosed gap of the NALCO run and still open. findings/peer_valuation.json records why the obvious comparators fail on comparability: Hindalco is Novelis-dominated (blended EBITDA margin ~13.9% against NALCO's upstream-only 44.6%) and is included for scale context only, while Vedanta is alumina-SHORT and therefore on the opposite side of NALCO's core exposure. Own-history anchoring is a weaker method than the playbook prefers, and is disclosed as such."
+  },
+
+  "redteam": {
+    "verdict": "survives_with_qualifications",
+    "material_challenges_count": 6,
+    "high_severity_challenges": [
+      "The peak framing rests on a ~5-year EBITDA series, not a full cycle; a longer history could show FY2026 is not a peak.",
+      "With multiple_share_pct at 93%, essentially the entire thesis is the target multiple — so the choice of anchor carries the whole argument and must be defended, not asserted.",
+      "must_be_true condition 6 (durable cost position) is unestablished, which on a skepticism weight of 4 arguably warrants lower confidence than 'medium'.",
+      "No peer-anchored multiple exists, so the valuation rests on own-history only — the weakest of the four justification families in docs/ER_CORPUS_FINDINGS.md §4."
+    ],
+    "disconfirming_exhibit": "Chemical segment EBIT margin of 42.7% in FY2025 (F-AR25B-130 / F-AR25B-126), alongside NALCO's FY2025 standalone EBITDA margin of 44.6% being in line with Hindalco's India-upstream 45.6% — evidence that the alumina leg's profitability is genuinely high-quality and cuts against a purely cyclical reading of the base.",
+    "rounds": 1,
+    "resolution_note": "Written back by module 33 on its mandatory post-red-team pass (prompts/33 step 7b), which owns this block — module 34 owns findings/thesis_redteam.json and is forbidden from editing state/thesis.json. Resolutions: challenge 2 was accepted and materially changed the thesis — the target multiple was re-anchored from an asserted 9.5x 'mid-cycle' figure to 8.4x, the top of the company's own realised band, with the median 6.3x published alongside as the harsher alternative; this is what moved must_be_true condition 2 from partial to established. Challenge 4 was accepted and is disclosed in fair_value_context.caveat with the specific comparability reasons the peer set fails. Challenge 3 was accepted in part: confidence stays 'medium' but `capped_by` now names the missing cost number explicitly. Challenge 1 was noted and NOT resolved — the supplied document set does not reach back further, and that is recorded as a limitation rather than argued away."
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 16,
+  "table_index": 3,
+  "bbox": [
+    303.307,
+    111.49599999999998,
+    547.3258571428571,
+    366.1575454545454
+  ],
+  "rows": [
+    [
+      "PARTICULARS",
+      "UNIT",
+      "2020-21"
+    ],
+    [
+      "PHYSICAL",
+      null,
+      null
+    ],
+    [
+      "Bauxite",
+      "MT",
+      "73,65,001"
+    ],
+    [
+      "Alumina Hydrate",
+      "MT",
+      "20,85,500"
+    ],
+    [
+      "Aluminium",
+      "MT",
+      "4,18,522"
+    ],
+    [
+      "Power (net)",
+      "MU",
+      "6,440"
+    ],
+    [
+      "Wind Power",
+      "MU",
+      "285"
+    ],
+    [
+      "FINANCIAL",
+      null,
+      null
+    ],
+    [
+      "Export Turnover",
+      "₹ in crore",
+      "5,162"
+    ],
+    [
+      "Gross Sales",
+      "₹ in crore",
+      "8,869"
+    ],
+    [
+      "Profit Before Tax",
+      "₹ in crore",
+      "1,317"
+    ],
+    [
+      "Profit After Tax",
+      "₹ in crore",
+      "1,300"
+    ],
+    [
+      "Earning",
+      "Per Share",
+      "6.97"
+    ],
+    [
+      "Book Value",
+      "per Share",
+      "58.15"
+    ],
+    [
+      "Dividend",
+      "₹ per share",
+      "3.50"
+    ]
+  ]
+}

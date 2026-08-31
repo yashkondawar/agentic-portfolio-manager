@@ -1,0 +1,49 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 102,
+  "table_index": 2,
+  "bbox": [
+    93.79325714285714,
+    573.4000666666666,
+    546.836575,
+    683.4466
+  ],
+  "rows": [
+    [
+      "Name",
+      "Remuneration for the year 2020-21 (₹)",
+      null,
+      null
+    ],
+    [
+      null,
+      "All elements of remuneration",
+      "Other benefits",
+      "Total"
+    ],
+    [
+      "Shri S. Patra\nChairman-cum-Managing Director",
+      "48,72,253",
+      "6,854",
+      "48,79,098"
+    ],
+    [
+      "Shri V. Balasubramanyam\nDirector(Production)$",
+      "54,06,893",
+      "38,17,118",
+      "92,24,011"
+    ],
+    [
+      "Shri S. K. Roy\nDirector(P&T)$$",
+      "36,60,245",
+      "34,51,031",
+      "71,11,276"
+    ],
+    [
+      "Shri P. K. Mishra\nDirector(Commercial) & Director (Finance) – Addl. Charge&",
+      "66,99,718",
+      "36,38,216",
+      "1,03,37,934"
+    ]
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 37,
+  "table_index": 2,
+  "bbox": [
+    79.62004999999999,
+    476.54799999999994,
+    300.47270000000003,
+    594.8829999999999
+  ],
+  "rows": [
+    [
+      "",
+      "Requests",
+      "First\nAppeals"
+    ],
+    [
+      "Under Process as on 01.04.2020",
+      "25",
+      "01"
+    ],
+    [
+      "Received during the year (including cases\ntransferred from other Public Authority)",
+      "282",
+      "50"
+    ],
+    [
+      "No. of cases transferred to other Public\nAuthorities",
+      "01",
+      "0"
+    ],
+    [
+      "Decisions where requests/ appeals rejected",
+      "111",
+      "0"
+    ],
+    [
+      "Decisions where requests/appeals accepted\nand settled",
+      "210",
+      "51"
+    ],
+    [
+      "Under Process as on 31.03.2021",
+      "27",
+      "0"
+    ]
+  ]
+}

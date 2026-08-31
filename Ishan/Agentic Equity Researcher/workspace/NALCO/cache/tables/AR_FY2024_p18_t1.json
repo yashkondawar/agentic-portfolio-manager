@@ -1,0 +1,88 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 18,
+  "table_index": 1,
+  "bbox": [
+    51.303117647058826,
+    468.96600000000007,
+    542.7104705882352,
+    647.1458
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "2023-24",
+      "2022-23"
+    ],
+    [
+      "Revenue from Operations",
+      "13,149.15",
+      "14,256.85"
+    ],
+    [
+      "Other Income",
+      "250.71",
+      "233.64"
+    ],
+    [
+      "Total Income",
+      "13,399.86",
+      "14,490.49"
+    ],
+    [
+      "Cost of raw materials consumed",
+      "2,791.89",
+      "3,172.12"
+    ],
+    [
+      "Power & Fuel",
+      "3,547.70",
+      "4,693.69"
+    ],
+    [
+      "Employee benefits expenses",
+      "2,034.06",
+      "1,832.06"
+    ],
+    [
+      "Other expenses*",
+      "1,919.80",
+      "2,121.83"
+    ],
+    [
+      "Depreciation & amortization expenses",
+      "749.65",
+      "715.80"
+    ],
+    [
+      "Total expenses",
+      "11,043.10",
+      "12,535.50"
+    ],
+    [
+      "Profit Before Exceptional items",
+      "2,356.76",
+      "1,954.99"
+    ],
+    [
+      "Exceptional items: Income/(Expenditure)",
+      "426.81",
+      "-"
+    ],
+    [
+      "Profit Before Tax",
+      "2,783.57",
+      "1,954.99"
+    ],
+    [
+      "Tax expenses",
+      "723.62",
+      "410.50"
+    ],
+    [
+      "Profit After Tax",
+      "2,059.95",
+      "1,544.49"
+    ]
+  ]
+}

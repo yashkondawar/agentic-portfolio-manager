@@ -1,0 +1,37 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 92,
+  "table_index": 1,
+  "bbox": [
+    68.2813888888889,
+    112.88800000000003,
+    542.7840222222222,
+    182.60209999999995
+  ],
+  "rows": [
+    [
+      "S.\nNo.",
+      "State",
+      "Aspirational District",
+      "Amount spent - In INR"
+    ],
+    [
+      "1",
+      "Odisha",
+      "Koraput",
+      "2,640.96"
+    ],
+    [
+      "2",
+      "Odisha",
+      "Kalahandi",
+      "10.00"
+    ],
+    [
+      "3",
+      "Odisha",
+      "Nabarangpur",
+      "28.91"
+    ]
+  ]
+}

@@ -1,0 +1,281 @@
+
+AI native fund Info:
+I'll research this properly — looking at what real institutional players (not GitHub hobby projects) are actually doing with AI/agentic architectures in investment management, plus the regulatory and practical failure modes specific to India + multi-asset long-only mandates.This is a live, fast-moving category right now, not a hypothetical one — so there's good ground truth to learn from. Let me lay out what I found in three buckets: what your design already gets right (validated by real institutional practice), what's structurally missing, and what the actual risk record looks like — plus alternative philosophies other serious players have chosen instead.
+Your architecture is closer to "how things actually work" than to a novelty
+The specialist-agents-plus-debate-plus-independent-risk-plus-final-approver structure you've described isn't an invention — it's converging with what institutions are actually building. An academic framework out of Columbia/NYU called TradingAgents formalizes almost exactly this: separate analyst agents, bull/bear researcher agents that debate, a trader agent that synthesizes, an independent risk team, and a fund-manager agent for final approval — explicitly modeled on how a real trading floor is organized rather than one model doing everything because no real firm operates with a single person handling fundamental research, technical analysis, sentiment, risk, and execution simultaneously, and structured multi-agent debate has been shown to outperform single-agent decision-making in this research. At the institutional end, Man Group's quant unit (Man Numeric) runs an internal system nicknamed AlphaGPT that digs through data, writes code for candidate signals, and backtests them the way its human researchers would, with several dozen AI-generated signals already cleared by the investment committee for live deployment — but, tellingly, humans still vet every output, and the firm is explicit that hallucination remains a real, unresolved issue even at that scale. Bridgewater has a dedicated unit, AIA Labs, built on the thesis that markets are shaped by causal relationships spanning economics, policy, and behavior that are too complex for any human team to track exhaustively, and that traditional statistical systems lack the causal understanding needed to separate real insight from pattern-matching. And a recent Mercer survey of 131 asset managers found the industry has moved past pure experimentation, but adoption is heavily skewed toward augmentation, not autonomy: 74% use AI for operational work, 69% use it as a "co-pilot," and only 6% let AI make final investment decisions. Your instinct to have the Fund Manager agent suggest to a human rather than execute autonomously puts you in that mainstream, evidence-backed camp rather than the unproven fringe.
+Gaps worth closing before this is investable
+No adversarial/devil's-advocate function. Research → Opinion → Allocator → Fund Manager is a single-direction pipeline. Without a structurally independent bear-case or "kill this thesis" agent, the Opinion agent risks just amplifying whatever framing the Research agent already settled on — confirmation bias compounding across the chain. This is precisely what the bull/bear debate structure in TradingAgents is designed to prevent.
+No regime-detection layer. Trending vs. mean-reverting vs. crisis regimes change which strategies and KPIs are even valid. Two Sigma's own researchers flag a subtle but serious version of this: when pre-trained LLMs are used in forecasting pipelines, backtests that predate the model's knowledge cutoff can look deceptively good because the model implicitly "knows" about major regime shifts like the pandemic or the AI boom, making it hard to judge true robustness to genuinely unseen regimes. Your stack needs an explicit mechanism for "has the regime broken my model's assumptions" — not just historical backtests.
+No invalidation/thesis-decay tracking. A spec for this kind of system (from a YC research-for-startups writeup) suggests every recommendation should carry an evidence chain, confidence weighting, a competing-thesis summary, and explicit invalidation criteria — so positions are reviewed against pre-stated conditions rather than indefinitely, with full audit logging, versioned strategy changes, and human-override logging built in by design. Your description has no equivalent "what would make me wrong" mechanism.
+No execution/liquidity-cost layer, even though you don't need tick-level speed — Indian smallcaps, REITs, and silver ETFs can still have real slippage and impact cost that a pure research-to-allocation pipeline won't see until it's live.
+No explicit model-risk/"who watches the agents" function — drift in agent quality, hallucination rate, or scraped-data integrity (including prompt-injection risk from adversarial web content) needs its own owner, not an assumption that the Risk Management agent will catch it incidentally.
+No data-source diversification requirement. If your whole research stack sits on one LLM vendor and one set of scraped sources, you've built a single point of correlated failure — and regulators are already naming this explicitly (see below).
+No backtesting/walk-forward discipline specified. This matters more, not less, with agentic systems: letting AI agents generate large numbers of hypotheses and backtest them easily can exacerbate overfitting — you'll find "winning" strategies by chance unless you build in out-of-sample testing and statistical correction as a first-class component, not an afterthought.
+No stated legal wrapper, which sounds like a planning detail but actually reshapes the whole system (more below).
+What the actual track record says
+It's worth being clear-eyed here because the empirical record of autonomous AI-driven funds is weak, not just "early." EquBot's AIEQ — the widely-cited "world's first AI-managed ETF" — returned 6.7% annually from November 2017 to June 2023 with materially higher volatility than Vanguard's broad market index, which returned 11.2%, placing it in the 97th percentile of underperformance according to Morningstar. Sentient Technologies raised $143 million for evolutionary-algorithm trading strategies, returned 4% in 2017 and 0% in 2018, and was liquidated. The Rogers AI Global Macro ETF operated for just over a year before shutting down having made virtually no profit, and the broader Eurekahedge AI Hedge Fund Index substantially underperformed both the S&P 500 and MSCI World from 2011 to 2020. A peer-reviewed review of ML-driven funds concluded bluntly that there is no conclusive evidence of any ML-driven investment fund delivering spectacular returns at scale, with market data instead indicating substantial underperformance against benchmarks. None of this proves the LLM-agent generation can't do better — the tools are genuinely different now — but it's the right prior to hold, and it's why even the newest fully-autonomous entrants (Standard Signal, Lumenai) are explicit in their own materials that they have no track record and that model error, data bias, system malfunction, cybersecurity vulnerabilities, and regime shifts not captured by training data are named risks, with human portfolio managers retaining ultimate oversight and responsibility — i.e., even the most aggressive "fully agentic" funds keep a human backstop.
+Beyond the historical record, two risks are specific to your design choice of having agents feed each other's outputs:
+Hallucination compounding through the chain. This isn't solved by frontier models — Man Group says so explicitly about their own production system. In a pipeline where a Data Collector feeds a News/Macro agent, which feeds an Opinion agent, which feeds an Allocator, a single fabricated "fact" early in the chain (a misattributed earnings number, a hallucinated policy detail) can silently size a real position downstream unless every hop enforces source-grounding and citation discipline.
+Objective misspecification inside the agent stack. Two Sigma's leadership raised a subtler concern than hallucination: the real risk with capable agents isn't that they're too weak, but that they relentlessly optimize whatever proxy objective they're given, and any objective function we design is only an imperfect stand-in for what we actually want. If your Fund Manager agent's "conviction" is really just optimizing for backtested Sharpe or some internal consensus score, it can be very confidently wrong in a way that looks like rigor.
+The India-specific regulatory picture matters more than it might seem
+Three things landed in the last 12 months that directly bear on this build:
+SEBI's overhauled algo-trading framework reaches full effect April 1, 2026, and it draws a sharp line between "white box" algos (transparent, replicable logic — light registration) and "black box" algos (opaque logic), where the provider must register as a SEBI Research Analyst and maintain a detailed research report for every strategy, and any change to the logic requires re-registration as an entirely new algo. An LLM-driven decision stack is, almost by definition, a black box under this test unless you can produce a documented, defensible rationale per signal. The practical hinge point: retail traders below 10 orders per second using their own logic for personal/family use don't need separate registration, and pure manual order placement through a broker's app is outside scope entirely — so whether your Fund Manager agent recommends (human clicks buy) versus executes via API is the difference between "compliance-light personal tool" and "regulated black-box algo."
+SEBI's June 2025 consultation paper on AI/ML in securities markets explicitly names concentration risk and herding behaviour as emerging risks alongside lack of explainability and model failure, and proposes control measures including provider diversification and enhanced human oversight — directly validating the "don't put everything on one vendor" gap above.
+RBI's FREE-AI framework (August 2025) and SEBI's parallel guidance both push board-approved governance, audit trails, and explainability as expected practice across six pillars — infrastructure, policy, capacity, governance, protection, and assurance — well ahead of hard enforcement. Building these in now is cheaper than retrofitting.
+And separately from AI rules entirely: if this is ever meant to manage anyone's money but your own, India requires registering as a SEBI Category III AIF — minimum ₹20 crore fund corpus, ₹1 crore minimum investor commitment, a separate investment-manager entity with NISM-certified key personnel, an independent valuer, a custodian, and leverage capped at 2x NAV. That's a fundamentally different build than a personal systematic-investing tool, and it's worth deciding which one this is before the agent architecture solidifies, because it changes data sourcing, governance, and what the Fund Manager agent is even allowed to do unsupervised.
+One more practical gap: your "web scraping, crawling" data layer is a real legal exposure, not just an engineering detail. Most financial news sites, screeners, and data platforms have terms of service that restrict automated scraping and redistribution; building the fact-collection layer on unlicensed scraping is both a ToS/IP risk and operationally fragile (sites change layout, rate-limit, block bots). Paid API access (exchange data, AMFI, licensed vendors) is less exciting but far more durable.
+Other philosophies worth knowing about, since you asked what alternatives exist
+Numerai's crowdsourced meta-model: instead of building specialist agents in-house, thousands of independent data scientists submit models against obfuscated data, and Numerai blends them statistically into one "Meta Model." Its flagship fund's net asset value grew from roughly $60 million to $550 million over three years, with a 25.45% net return in 2024, and JPMorgan Asset Management committed up to $500 million in hedge fund capacity to it. The bet here is that diversity of independently-built models reduces correlated blind spots in a way a closed agent stack on one or two LLM providers can't.
+"AI for idea generation, rules-based for deployment" (Man Group's actual production approach): let agents generate and code candidate signals at high volume, but keep what's actually deployed transparent and economically interpretable, with humans vetting before anything goes live — preserving explainability for regulators while still getting the throughput benefit of agentic research.
+Buy-vs-build for the plumbing layer: vendors like LinqAlpha (multi-agent platform turning research and market intelligence into a searchable knowledge base across equities, macro, credit, and multi-asset workflows, now used by more than 70 financial institutions across North America, Europe, and Asia), Arcesium Intelligence, and Anthropic's own Claude for Financial Services (connecting to FactSet, PitchBook, and Morningstar via MCP) are productizing exactly the data-ingestion-plus-agent-orchestration layer you're describing. Worth a build-vs-buy look before assuming the whole stack needs to be built from scratch.
+The fully autonomous extreme (Standard Signal, Lumenai): genuinely letting the agent stack decide and execute with minimal human override. This is the newest and least-proven end of the spectrum — worth knowing it exists, but it's also the mode with the weakest historical track record (AIEQ, Sentient, Rogers AI Global Macro all sat closer to this end).
+If it's useful, I can go deeper on any one slice next — the SEBI/AIF registration question if you're thinking about third-party capital, the specific India data-vendor landscape, or the academic multi-agent debate literature in more technical detail.
+Prompt: So lets rephrase it; Focus India but open to global both top down bottom up approaches, I don't want it to become completely autonomous system definitely it will be a human in the loop system which can 1. Perform grunt work of research, processing, creating ideas which fits in one or more strategies (will be given), criticize ideas (inluding maths and excel models), follow risk and check risks, finally create asset allocation, and the fund manager would check everything again and finally recommend what to do with whole fund (new position, add to existing, reduce existing, exit, hold, check risk management across asset classes and market caps indies and mutual funds and individual stocks while having memory and auto-research architecture (runs monthly or quarterly to improve everything including prompts and structure or steps etc., making sure memory plays role aslo I'll give some other expert level data as well or existing specific strategy fund manager's decisions to make sure you have enough baseline to compare) I'm consciously keeping out backtesting part for now but that is future scope. The system should serve both purposes of asset allocation and stock selection.
+Please create a plan and architecture considering gaps you mentioned in last response (except for legal and backtesting and all of this vision)
+Architecture: I'll build this as a structured architecture document since it's something you'll want to reference and iterate on as you flesh out individual agents later, rather than something to scroll through once in chat.A few judgment calls worth flagging since they affect how the rest of this gets built: I folded regime-detection into the News/Macro agent rather than making it a 14th agent, to avoid sprawl — pull it out separately if you'd rather it stand alone. I also added a "monitor only / insufficient conviction" sixth option to the Fund Manager's five actions, since forcing conviction into new/add/reduce/exit/hold every time tends to manufacture false confidence — easy to drop if you'd rather keep it binary. And Research Head's "no recommendations" rule is written as a hard prompt-level constraint across Equity/Commodity/Sectoral Analysts, not just a convention, since that line is exactly where scope tends to leak in practice.
+The document is built to be edited in place — Section 4 (Registry schema) and Section 10 (what you need to supply) are the two places that'll need your actual strategy definitions and calibration data before this becomes usable, and Section 3 has each agent in self-contained subsections so we can flesh out any one of them into actual instructions without touching the rest.
+Where would you want to go next — drafting the real instructions for a specific agent (Critique and Fund Manager are probably the highest-leverage ones to get right first), building out the Registry with your actual strategies, or designing the Memory retrieval logic in more detail?
+AI-Native Investment Platform — Architecture Blueprint (v0.1)
+India-first, globally aware. Human-in-the-loop by design.
+
+0. Scope and how to read this
+This document specifies the agents, data flows, memory design, and self-improvement loop for a research-and-decision-support platform — not an autonomous trading system. Every box below is a role, not necessarily a separate codebase or a separate model call; how many actually become distinct LLM agents versus functions within a shared agent is an implementation choice for later.
+Two things are deliberately out of scope here, per your instruction, even though they were flagged in the prior review: the legal/regulatory wrapper (fund registration, AI-governance compliance) and backtesting methodology. Both have natural attachment points in this architecture, noted briefly where relevant, but neither is designed here.
+One framing point worth stating up front: this is one pipeline that serves two outputs, not two systems. The same chain — Idea Generation through Fund Manager — produces individual stock selection calls (buy this smallcap, trim that REIT) and fund-level asset allocation calls (shift 5% from equities to gold, increase cash). They differ in altitude, not in process. Top-down (macro/regime view down to instruments) and bottom-up (screened company-level signal up to thematic relevance) are two entry doors into that same pipeline, converging before Risk and Allocation ever see them.
+Section 9 maps each previously identified structural gap to exactly where it's handled below, so you can audit that nothing was dropped.
+
+1. Design principles
+These are the constraints that shaped every choice that follows. If a future addition to the system violates one of these, that's a reason to stop and reconsider, not a reason to make an exception.
+A human approves capital decisions; the system does not. Agents recommend, escalate, and flag. Only a human action moves money, opens a position, or changes a position. Section 7 enumerates exactly where this gate sits at each stage.
+Every output is traceable. A claim without a source, or a recommendation without a reasoning chain back to data, is a defect — not an acceptable side effect of "AI judgment."
+No idea is actionable until it's falsifiable. Every thesis carries a stated invalidation condition — a price level, a KPI breach, a macro trigger — written down at the moment the idea is born, not improvised later when the position is already underwater.
+Critique is structurally separate from creation. The agent that builds a thesis is never the agent asked to find its flaws. This is the single biggest fix from the prior gap review and is treated as a hard separation, not a courtesy step.
+Top-down and bottom-up justify themselves in the same format. Neither gets a shortcut into the portfolio; both must produce a strategy-tagged, falsifiable candidate before Risk or Allocation will look at them.
+The system may revise its own prompts and workflow — slowly, with evidence, and only with sign-off. Self-improvement is itself human-in-the-loop. Nothing about "auto-research" means autonomous.
+No single data source, news vendor, or model provider is load-bearing for a position-sizing decision. Diversify by default; treat single-source numbers as lower-confidence until corroborated.
+
+2. System map
+flowchart TD
+    REG[("Strategy and Rules<br/>Registry")]
+    MEM[("Memory and Knowledge<br/>System")]
+
+    A["Data Collector Agent"] --> B["News and Macro Agent<br/>(incl. Regime and Cycle Lens)"]
+    B --> C["Research Head<br/>(Equity / Commodity /<br/>Sectoral Analysts)"]
+    C --> D["Idea Generation<br/>(Top-Down and Bottom-Up)"]
+    D --> E["Opinion / Synthesis Agent"]
+    E --> F["Critique Agent<br/>(Narrative and Quant Red-Team)"]
+    F --> G["Risk Management Agent"]
+    G --> H["Asset Allocator Agent"]
+    H --> I["Fund Manager Agent"]
+    I --> J{{"HUMAN<br/>Approve / Modify / Reject"}}
+
+    REG -.->|rules| D
+    REG -.->|rules| G
+    REG -.->|rules| H
+
+    A -.- MEM
+    E -.- MEM
+    F -.- MEM
+    I -.- MEM
+    J -.->|logs outcome| MEM
+
+    K["Meta-Research Agent<br/>(Monthly / Quarterly)"]
+    MEM -.->|reviewed by| K
+    K -.->|proposes changes| REG
+Two things aren't drawn as boxes because they aren't pipeline stages: the Orchestrator ("the brain" you described) is the invisible hand sequencing every arrow above — deciding which agent runs when, with what context, and when to interrupt the flow and escalate to you — and the Strategy and Rules Registry is a governed knowledge store, not an agent with opinions. Everything downstream reads from it; nothing downstream may act outside it.
+Reading the diagram top to bottom: facts get collected, then contextualized against macro and regime, then researched in depth, then turned into candidate ideas from both directions (top-down and bottom-up), then synthesized into a view, then deliberately attacked by an independent critic, then checked against hard risk limits, then sized and sequenced into a portfolio change, then reasoned through one final time by the Fund Manager — and only then does it reach you. Whatever you decide gets logged back into Memory, which is what the Meta-Research Agent reviews on its own schedule to propose — never apply — changes to the Registry and to other agents' instructions.
+
+3. Agent specifications
+3.1 Orchestrator ("the Brain")
+Mandate: Owns no investment opinions of its own. Decides which agents to invoke, in what order, with what context, for a given trigger — a scheduled review, a new data event, a manual query, an idea submitted bottom-up, a position monitoring cycle. Manages long-running background tasks (an overnight news sweep) separately from interactive session tasks. Escalates to you whenever an agent reports low confidence, conflicting signals, or a limit breach, rather than letting the pipeline silently continue.
+Inputs: trigger type, current Registry state, Memory. Outputs: task routing and session/run logs. Boundary: never generates research, opinion, or recommendation content itself.
+3.2 Strategy and Rules Registry (knowledge store, not an agent)
+Mandate: The single source of truth for what the system is allowed to do and how it judges anything. Holds: strategy definitions (objective, eligible universe by asset class/market cap/country, entry and exit logic, position sizing rule, capital ceiling), KPI and ratio sets per asset class and sector — a bank's KPI set is not a REIT's is not a commodity ETF's — and mandate-level risk limits (long-only is already a given; max single position, max sector/country/currency exposure, cash floor and ceiling).
+Inputs: supplied by you initially; refined over time only via Meta-Research proposals that you approve. Outputs: structured rules every downstream agent queries before acting. Boundary: if a candidate idea doesn't map to any defined strategy, it is logged but not actioned until you either assign it to an existing strategy or approve a new one. This is where "predefined strategies, predefined KPIs and ratios, predefined rules and instructions" lives structurally.
+3.3 Data Collector Agent
+Mandate: Numeric and factual extraction only — no narrative, no opinion. Pulls structured data: company financials and ratios, index and sector figures, macro prints, fund flows, ownership data. Tags every figure with source, timestamp, and a reliability tier.
+Inputs: the Registry's KPI definitions (what to collect, for what universe), scheduled pulls plus on-demand requests from other agents. Outputs: structured fact tables — by company, sector, macro series, currency, commodity — never prose. Boundary: must not infer or interpret; flags conflicting figures across sources instead of silently picking one. Design note (gap addressed): any figure feeding a position-sizing decision needs at least two independent sources; single-source numbers are explicitly tagged low-confidence. This is the fix for the data-source-diversification gap.
+3.4 News and Macro Agent (including Regime and Cycle Lens)
+Mandate: Real-time and scheduled capture of news and macro events for India plus the global linkages that move it — Fed policy, China growth, crude, the dollar index, global risk sentiment. Also maintains a standing "regime read" — where we currently sit in the rate cycle, liquidity cycle, risk-on/off mood, and sector rotation phase — refreshed every cycle rather than re-derived from scratch each time it's needed.
+Inputs: scheduled crawls and feeds, Data Collector's macro fact tables. Outputs: structured news/macro briefs plus a maintained "current regime" object other agents reference directly. Boundary: reports what's happening and the regime context; does not draw company-level investment conclusions — that's downstream. Design note (gap addressed): this is the regime-detection layer that was missing from the original design. It's folded into this agent rather than spun out as a fourteenth agent so the regime read stays continuously fresh and is always referenced by Risk's correlation view (Section 8), not treated as a one-off analysis.
+3.5 Research Head, Equity Research, Commodity Research, Sectoral Analysts
+Mandate: Research Head is a dispatcher. Any agent — Idea Generation, Opinion, Critique, Fund Manager — can query it for a deep dive, and it routes to the right specialist: Equity Research for company-level work, Commodity Research for gold, silver, and broader commodities, Sectoral Analysts for sector-specific context such as banking provisioning norms, REIT distributable-income rules, or IT services pricing cycles. This is pure information-crunching, exactly as you specified: no recommendations, no opinions.
+Inputs: ad hoc queries from any other agent, Data Collector facts, News/Macro briefs. Outputs: structured, sourced research notes with sector-aware KPI context. Boundary: the "no recommendation" rule is enforced at the prompt level for every specialist under this umbrella, not left as an informal convention. Design note: this preserves your original design — a research function any other agent can call — exactly. It's a shared service, not a pipeline stage with a fixed position in the sequence.
+3.6 Idea Generation (Top-Down entry and Bottom-Up entry)
+Mandate: Converts research, macro, and regime context into candidate, strategy-tagged ideas. The top-down path runs from regime/macro/sector view to a thematic tilt to candidate instruments. The bottom-up path runs from screening or research flags at the instrument level — a valuation dislocation, a KPI inflection, a special situation — checked afterward for thematic fit. Both converge into one common output object.
+Inputs: Research Head outputs, the current regime read, the Registry (which strategies exist and what they require). Outputs: a candidate-idea object: instrument, suggested direction, strategy tag(s), the supporting KPI thesis, and a mandatory invalidation condition. Boundary: a candidate idea without a strategy tag and a stated invalidation condition is incomplete and cannot proceed downstream. Design note (gap addressed): invalidation tracking starts here, at the idea's birth, rather than being added after the fact. This is also exactly where Principle 5 — top-down and bottom-up converging into one pipeline — is implemented.
+3.7 Opinion / Synthesis Agent
+Mandate: As you originally described — forms the connective "house view" across levels: macro, country, currency, sector, company, both isolated (what's happening in steel, on its own terms) and combined (what a weaker rupee plus higher crude together mean for steel margins). Synthesizes Idea Generation's candidates against this broader context to sharpen or soften a thesis.
+Inputs: candidate ideas, research notes, macro/regime briefs. Outputs: a structured opinion brief per idea or theme: the view, the supporting logic, a confidence tier, and an explicit note on which assumptions are doing the most work. Boundary: opinion is not a recommendation. It informs Critique and Risk next; it does not size a position or approve an action.
+3.8 Critique Agent — Narrative mode and Quant/Model mode
+Mandate: A structurally independent challenge function, run under a separate persona instructed to find flaws, not confirm them. Narrative mode runs a first-principles check, builds the bear case, and asks what the most likely alternative explanation is — catching circular reasoning or narrative momentum standing in for evidence. Quant/Model mode audits any maths or spreadsheet behind a thesis: formula errors, unit mistakes, unrealistic growth or margin assumptions, sensitivity to the single most aggressive input, circularity inside a DCF or comps build.
+Inputs: Opinion briefs, candidate ideas, and any model or spreadsheet attached to a thesis. Outputs: a structured critique — specific flaws found, or "no material flaw found, here is the strongest counter-argument regardless" — a competing-thesis summary, and a revised confidence read. Boundary: must produce a genuine counter-view even when it agrees with the original thesis. A critique that only ever rubber-stamps is a quality failure, flagged for the Meta-Research Agent to investigate. Design note (gap addressed): this directly implements "criticize ideas, including maths and excel models," and is the single largest structural fix from the prior review. Because the agent that proposes an idea is never the agent that validates it, confirmation-bias chains can't silently form.
+3.9 Risk Management Agent
+Mandate: A cross-cutting risk view across asset class, market cap, country, currency, and vehicle — including look-through: if a stock is held directly and also sits inside two mutual funds' holdings, the real concentration is the sum, not three separate small positions. Continuously monitors live positions against their own stated invalidation conditions (set at idea birth in 3.6) and flags breaches. Enforces every mandate-level limit from the Registry — long-only, single-name/sector/country/currency caps, cash floor.
+Inputs: candidate ideas (pre-trade check), the current portfolio (ongoing check), Registry limits, look-through holdings data for any mutual fund positions. Outputs: a risk read per idea — cleared, cleared with conditions, or blocked, with reasons — plus a standing portfolio risk dashboard covering concentration, correlation, currency exposure, and liquidity/capacity flags, especially for smallcap names. Boundary: can veto an idea from proceeding to Allocation, but a veto is not itself an approval mechanism for anything else — it only blocks. Design note (gap addressed): explicit invalidation monitoring and cross-vehicle look-through are both built in here, closing two gaps at once — thesis-decay tracking, and the stock-plus-mutual-fund concentration problem that's invisible unless someone looks through fund holdings.
+3.10 Asset Allocator Agent
+Mandate: Decides what to invest in, how much, and through which vehicle — direct stock, sector or asset ETF, or mutual fund (for example, expressing a thematic view through a well-chosen active fund where stock-picking edge is weak, versus direct stocks where company-specific conviction is strong) — how much cash to hold, and how capital is split across strategies, not just across instruments.
+Inputs: risk-cleared ideas, the current portfolio, Registry capital ceilings, cash policy. Outputs: a proposed allocation change-set, by instrument and vehicle and by strategy, with sizing rationale attached. Boundary: proposes; does not finalize. Finalization belongs to Fund Manager plus you.
+3.11 Fund Manager Agent
+Mandate: Final synthesis. Reviews the entire chain — Opinion, Critique's counter-view, Risk's read, Allocator's proposal, and Memory (has a comparable situation, sector, or thesis pattern come up before, and how did it resolve) — and produces one of: new position, add to existing, reduce existing, exit, hold, or monitor only / insufficient conviction. Reasoning is explicit every time: a first-principles restatement of the thesis, the strongest counter-argument and why it does or doesn't change the conclusion, and a stated conviction level.
+Inputs: everything upstream, plus Memory — particularly the calibration data you supply (what would a respected external manager likely do here, and where and why might this system differ). Outputs: a structured recommendation packet for you: action, instrument(s), size, strategy tag, conviction level, evidence chain, the competing view, the invalidation condition, and — where relevant — how this compares to the external calibration baseline. Boundary: recommends, never executes. If conviction sits below a stated threshold, the only permitted output is "monitor / insufficient conviction" — manufactured conviction is explicitly disallowed. Design note: "monitor only" is an addition beyond the five actions you listed (new/add/reduce/exit/hold), included because a system instructed to always have conviction in one of five committal actions will eventually fabricate conviction it doesn't have. Drop it if you'd rather force a binary call every time.
+3.12 Human Checkpoint
+The explicit, non-skippable gate. Fully enumerated in Section 7 rather than repeated here.
+3.13 Meta-Research / Self-Improvement Agent
+Mandate: On a fixed monthly or quarterly cadence, reviews Memory's episodic record — what was recommended, what you actually did, what happened afterward — against the external calibration data you supply, looking for systematic patterns rather than single misses. For example: "Fund Manager consistently overweights conviction on turnaround theses relative to the calibration set," or "Critique's quant mode rarely catches currency-translation errors in commodity models." Produces a change proposal: specific prompt edits, Registry refinements, or workflow changes.
+Inputs: all of Memory, your supplied calibration data, the current version of every agent's instructions and the Registry. Outputs: a versioned "proposed changes" report — never applied automatically. Boundary: cannot edit its own or any other agent's instructions directly. Every proposal is reviewed and explicitly approved, modified, or rejected by you, and that decision is itself logged to Memory, so the system also remembers what it suggested and you declined, and doesn't repeat the same rejected proposal next quarter. Design note (gap addressed): this is your "auto-research architecture" requirement, and it doubles as the fix for the missing model-risk/agent-QA function — "is the system improving or developing a bad habit" becomes a scheduled, evidence-based question instead of something only noticed informally.
+
+4. Strategy and Rules Registry — schema
+Field
+What it captures
+Strategy name / ID
+Unique identifier
+Objective / philosophy
+One paragraph — e.g., "quality compounders at a reasonable price, India large/midcap"
+Eligible universe
+Asset class, market-cap band, country/currency, sector inclusions and exclusions
+Required KPI set
+Asset-class specific — e.g., banks: NIM, GNPA, CASA, credit cost; REITs: distributable income, occupancy, WALE, cap rate; commodity ETFs: tracking error, premium/discount, storage cost; companies generally: ROCE, FCF conversion, leverage
+Entry criteria
+Quantitative thresholds plus qualitative conditions
+Exit / trim criteria
+Including the specific invalidation triggers for this strategy
+Position sizing rule
+Max single position, scaling rule
+Capital ceiling
+Max share of the fund this strategy may hold
+Review cadence
+How often positions under this strategy are re-examined
+An idea can be tagged to more than one strategy at once. When that happens, Idea Generation should say so explicitly, and Fund Manager should surface it if the strategies would actually disagree on the action — a Value-tagged read saying "add" while a Momentum-tagged read on the same name says "trim" is useful information about the market, not a conflict to be silently resolved into one answer.
+
+5. Memory and knowledge architecture
+Memory here means specific stores with specific read/write contracts — not "save everything," which just produces retrieval noise later.
+Store
+What it holds
+Written by
+Read mainly by
+Episodic / Decision Log
+Every recommendation, every action you take on it (approve / modify / reject / ignore), and the outcome tracked over time
+Fund Manager (recommendation), your action at the checkpoint, Orchestrator (outcome over time)
+Meta-Research, Fund Manager (precedent lookup)
+Thesis and Invalidation Tracker
+Per live position: original thesis, conviction, and the specific invalidation condition, with current status — intact, watch, or breached
+Idea Generation (at birth), Risk (status updates)
+Risk, Fund Manager, Meta-Research
+Knowledge Base
+Durable sector/company/macro notes that don't need re-deriving each cycle — a REIT's lease structure, a bank's provisioning history
+Research Head and specialists
+All research and idea agents
+Lessons and Heuristics
+Distilled, human-reviewed patterns — e.g., "we are systematically early on rate-cut beneficiaries by about one quarter"
+Proposed by Meta-Research, confirmed by you
+Fund Manager, Critique
+Calibration Set
+Externally supplied expert or fund-manager decisions and data, indexed by situation type
+You
+Fund Manager (real-time comparison), Meta-Research (systematic comparison)
+Retrieval should be scoped, not exhaustive: each agent pulls only the memory slices tagged to the current instrument, sector, or macro situation. Feeding the Fund Manager the entire history on every call buries the genuinely relevant precedent in noise.
+
+6. Core workflows
+6.1 Scheduled review cycle. Orchestrator triggers on schedule. Data Collector and News/Macro refresh. Research Head updates affected notes. Risk checks every live position against its invalidation condition and the Registry's limits. If nothing material has changed, a short digest reaches you; if something material has changed, the full pipeline below runs.
+6.2 New idea intake (top-down or bottom-up). An idea is born in Idea Generation with a strategy tag and invalidation condition already attached → Opinion synthesizes it against current context → Critique attacks it on both narrative and quant grounds → Risk checks it against limits and look-through exposure → Allocator proposes sizing and vehicle → Fund Manager reasons through the full chain and produces a recommendation packet → you decide → the decision and its eventual outcome are logged to Memory.
+6.3 Position monitoring. On every cycle, Risk checks each live position's invalidation condition. A breach or "watch" status escalates with full context — not a bare "sell signal," but the reasoning behind it. Fund Manager re-reasons the position rather than mechanically exiting on a trigger. You decide.
+6.4 Quarterly self-improvement cycle. Meta-Research pulls Memory and the calibration set → identifies systematic patterns, not one-off misses → drafts a change proposal with before/after language and rationale → you review it → approved changes are versioned into the Registry or an agent's instructions; rejected or modified changes are logged with your reasoning, so the same already-declined suggestion doesn't resurface unchanged next quarter.
+
+7. Human-in-the-loop map
+Stage
+Runs automatically
+Requires your action
+Data, news, research refresh
+Yes, on schedule
+No — auditable anytime
+Idea generation and strategy tagging
+Yes
+No, unless it conflicts with the Registry — then flagged
+Opinion / synthesis
+Yes
+No
+Critique (narrative and quant)
+Yes
+No
+Risk check, pre-trade and ongoing
+Yes, continuous
+No — but a blocked or breached status always escalates to you
+Allocation proposal
+Yes
+No
+Fund Manager recommendation
+Yes
+No — this is the packet that reaches you
+Action on the fund (new / add / reduce / exit / hold)
+Never
+Always — your explicit approve / modify / reject
+Order execution
+Never
+Always you or your existing broker process — outside this system by design
+Registry changes
+Never
+Always — proposed by Meta-Research, approved by you
+Agent prompt / instruction changes
+Never
+Always — same approval gate
+
+8. Cross-asset, cross-vehicle, cross-cap risk handling
+Four things need explicit handling beyond standard position-level risk. Look-through holdings: a position held directly and also embedded inside two mutual funds is one real exposure, not three small ones — Risk needs the funds' underlying holdings, not just their category, to compute this correctly. Smallcap liquidity and capacity: position size should be checked against average daily traded value, not only against fund NAV — a position that's 1% of the fund can still be a meaningful share of a smallcap's daily volume. Currency and country exposure aggregation: an India-focused mandate still carries crude and dollar sensitivity through its sector mix, and any global sleeve adds direct currency exposure that should be tracked as its own line rather than buried inside equity risk. Correlation in stress: asset classes that look uncorrelated in calm markets — gold, equities, REITs — often move together in a genuine liquidity event. Risk's correlation view should reference the Regime and Cycle Lens (3.4) rather than relying on a single static correlation matrix.
+
+9. How this addresses the gaps identified in the prior review
+Gap
+Where it's addressed
+No adversarial / devil's-advocate function
+Critique Agent (3.8), structurally separated from idea creation
+No regime-detection layer
+Regime and Cycle Lens inside the News and Macro Agent (3.4), referenced by Risk's correlation view (Section 8)
+No invalidation / thesis-decay tracking
+Built in at idea birth (3.6), monitored continuously by Risk (3.9), stored in the Thesis and Invalidation Tracker (Section 5)
+No model-risk / "who watches the agents" function
+Meta-Research's scheduled review (3.13), plus Critique's own quality flag when it never finds a flaw (3.8)
+No data-source diversification requirement
+Data Collector's multi-source and reliability-tier design (3.3)
+No execution / liquidity-cost layer
+Folded into Risk and Allocator as a sizing constraint (Section 8) — a constraint, not a full execution system, consistent with not needing tick-level speed
+Backtesting discipline
+Intentionally excluded here per your instruction. Natural home later: validating Registry rules against the Episodic Decision Log once enough live history accumulates
+Legal / regulatory wrapper
+Intentionally excluded here per your instruction
+
+10. What you need to supply to operationalize this
+Input
+Why it's needed
+Suggested form
+Strategy definitions
+The Registry has no content otherwise
+One entry per strategy, per Section 4's schema
+KPI/ratio sets per asset class and sector
+Data Collector and Research need to know what "the facts" are for a bank versus a REIT versus a commodity ETF
+A short table per asset class/sector
+Mandate-level risk limits
+Risk's hard ceilings — max position, sector/country/currency exposure, cash floor
+A short policy note
+Initial universe definition
+Which exchanges, countries, and asset classes are in scope from day one versus later phases
+A simple inclusion list
+External calibration data
+The comparison baseline for Fund Manager and Meta-Research
+Situation description plus what the reference manager or strategy did, and why if available — quality over volume
+Review cadence preference
+Sets the Orchestrator's schedule in 6.1
+Daily scan, weekly digest, monthly deep dive, or your own preference
+
+11. Suggested build sequence
+Registry plus Data Collector plus Memory skeleton (Episodic Log and Knowledge Base). Nothing else is testable without these.
+Research Head and sectoral specialists, plus News/Macro. Get the understanding layer working and review its quality before stacking decision layers on top of it.
+Idea Generation plus Opinion. Start seeing candidate ideas with no risk or allocation attached yet, purely to calibrate quality.
+Critique plus Risk. Add the challenge and constraint layers once you trust what's being generated.
+Allocator plus Fund Manager plus the full human checkpoint flow. The first end-to-end recommendation.
+Meta-Research loop. Switch this on only once you have at least one full quarter of Episodic Log data and your calibration set to review against.
+Each phase should run in shadow — observing without acting on its output — before you rely on it for real decisions, including phase 5. This is a lighter-weight check than formal backtesting, and complements it rather than replacing it once that's in scope.
+
+This is v0.1, written to be revised once real strategy definitions and calibration data are in hand. Natural next steps from here: drafting the actual instructions/prompt for any one agent in detail, building out the Registry schema with your real strategies, or working through the Memory retrieval logic more precisely.
+
+
+

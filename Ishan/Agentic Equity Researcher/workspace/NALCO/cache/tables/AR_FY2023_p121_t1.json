@@ -1,0 +1,41 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 121,
+  "table_index": 1,
+  "bbox": [
+    46.02066666666667,
+    45.60500000000002,
+    549.5876666666667,
+    691.404
+  ],
+  "rows": [
+    [
+      "Key Audit Matter",
+      "How the matter was addressed in our audit"
+    ],
+    [
+      "2.Valuation of employees’ defined benefit obligations and other long-term benefits",
+      null
+    ],
+    [
+      "The Company has recognised long-term employee benefit liabilities and defined\nbenefit obligations (net of plan asset against funded gratuity obligation).\nThe valuation of employee benefit obligations is dependent on market conditions\nand assumptions made. The key audit matter specifically relates to the following key\nassumptions like discount rate, inflation expectations and life expectancy assumptions.\nThe setting of these assumptions is complex and requires the exercise of significant\nManagement judgement with the support of third party actuary.",
+      "Our audit procedures relating to the valuation of employees, defined benefit obligations\nand other long-term benefits included the following:\n• In testing the valuation, we have examined the reports of external actuarial\nspecialists to review the key actuarial assumptions used, both financial and\ndemographic, and considered the methodology utilised to derive these\nassumptions.\n• We evaluated the assumptions made by management and the actuary to ensure\nthat these are consistent with the principles of Ind AS 19 Employee Benefits.\n• Furthermore, we have examined the sensitivity analysis on the key assumptions in\nvaluing the defined benefit obligations."
+    ],
+    [
+      "3. Ascertainment, disclosure and provisioning in respect of contingent liabilities",
+      null
+    ],
+    [
+      "The Company disclosed contingent liabilities in the Financial Statements.\nThe Company has material uncertain tax matters, both direct and indirect, under\ndispute involving material aggregate demand which require significant judgement to\ndetermine the possible outcome of these disputes.\nAdditionally, the Company has other on-going legal matters relating to various claims\nby the Government of Odisha or other agencies constituted by the State Government\nand by contractors/suppliers which require application of Management judgement in\norder to determine the likely outcome.",
+      "Our audit procedures relating to the ascertainment, disclosure and provisioning in\nrespect of contingent liabilities included the following:\nWe obtained a detailed understanding and evaluated the design and implementation\nof controls that the Company has established in relation to disclosure and provisioning\nof contingent liabilities in accordance to Ind AS 37 Provisions, Contingent Liability and\nContingent Assets.\nRegarding direct and indirect tax contingent liabilities, we undertook following\nprincipal audit procedures:\n• Assessment of the process and relevant controls implemented to identify tax\nlitigations and pending administrative proceedings.\n• Assessment of assumptions used in the evaluation of potential tax risks performed\nby the tax department of the Company considering the legal precedence and other\nrulings in similar cases.\n• Discussion with the management regarding the status of the most significant\ndisputes and inspection of the key relevant documentation.\n• Analysis of opinion received from tax experts where available.\n• Review of the adequacy of the disclosures in the notes to the financial statements.\nIn assessing the potential exposures of the Company in respect of other contingent\nliabilities, we have:\n• assessed the design and implementation of controls in relation to the monitoring\nof known exposures;\n• referred Board and other meeting minutes to identify areas subject to Company’s\nconsideration;\n• consulted with the Company’s internal legal advisors in understanding on-going\nand potential legal matters impacting the Company;\n• reviewed available legal opinions from experts; and\n• reviewed the proposed accounting and disclosure of actual and potential legal\nliabilities."
+    ],
+    [
+      "4. Advances and deposits in respect of tax matters under litigation continuing as assets",
+      null
+    ],
+    [
+      "The Financial Statements disclose other assets, which includes material recoverable\nclaims of direct and indirect tax deposits (net of provision) including VAT and Cenvat\ncredits which are pending adjustment/ adjudication.\nSignificant judgement is required in assessing the nature of these exposures and their\naccounting and disclosure requirements.",
+      "Our audit procedures relating to the advance and deposits in respect of tax matters\nunder litigation continuing as assets included the following:\n• We obtained from management the details of completed tax assessments and\ndemands and appeal orders of the appellate authority.\n• We involved our internal experts to challenge the management’s underlying\nassumptions in estimating the tax liability and the possible outcome of the\ndisputes.\n• Our internal experts also considered legal precedence and other rulings in\nevaluating management’s position on these uncertain tax positions.\n• Additionally, we have considered opinions of legal and tax experts, wherever\navailable, to review the nature of the amounts recoverable, the sustainability and\nthe likelihood of recoverability upon final resolution."
+    ]
+  ]
+}

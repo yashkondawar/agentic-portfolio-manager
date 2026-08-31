@@ -1,0 +1,121 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 159,
+  "table_index": 3,
+  "bbox": [
+    45.429,
+    380.56500000000005,
+    549.1445,
+    570.7535
+  ],
+  "rows": [
+    [
+      "12 - Other financial assets Amount in ` Crore",
+      null,
+      null,
+      null
+    ],
+    [
+      "A.",
+      "Non-current",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      null,
+      "Security deposits",
+      "16.72",
+      "9.18"
+    ],
+    [
+      null,
+      "Mines closure deposits [refer note 12.2]",
+      "4.83",
+      "0.56"
+    ],
+    [
+      null,
+      "Total other non-current financial assets",
+      "21.55",
+      "9.74"
+    ],
+    [
+      "B.",
+      "Current",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      "",
+      "(a) Advances to employees",
+      "22.84",
+      "24.96"
+    ],
+    [
+      null,
+      "(b) Insurance claims receivables and others",
+      "7.22",
+      "7.22"
+    ],
+    [
+      null,
+      "(c) Gratuity(funded)",
+      "26.74",
+      "22.17"
+    ],
+    [
+      null,
+      "Gross - other current financial assets",
+      "56.80",
+      "54.35"
+    ],
+    [
+      null,
+      "Less: Allowance for bad and doubtful other current financial assets",
+      "",
+      ""
+    ],
+    [
+      null,
+      "a) Insurance claims",
+      "7.22",
+      "7.22"
+    ],
+    [
+      null,
+      "Total allowance for bad and doubtful - other current assets",
+      "7.22",
+      "7.22"
+    ],
+    [
+      null,
+      "Net other current financial assets",
+      "49.58",
+      "47.13"
+    ],
+    [
+      null,
+      "Classification of other current financial assets:",
+      "",
+      ""
+    ],
+    [
+      null,
+      "Unsecured, considered good",
+      "49.58",
+      "47.13"
+    ],
+    [
+      null,
+      "Unsecured, considered doubtful",
+      "7.22",
+      "7.22"
+    ],
+    [
+      null,
+      "Gross other current financial assets",
+      "56.80",
+      "54.35"
+    ]
+  ]
+}

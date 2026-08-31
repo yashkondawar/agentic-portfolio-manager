@@ -1,0 +1,69 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 272,
+  "table_index": 1,
+  "bbox": [
+    51.273715384615386,
+    73.95085714285712,
+    542.757324137931,
+    194.9327142857143
+  ],
+  "rows": [
+    [
+      "Other equity",
+      "Reserves and Surplus",
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      "Capital redemption\nreserve",
+      "General reserve",
+      "Retained earnings",
+      "Total"
+    ],
+    [
+      "Profit for the year",
+      "-",
+      "-",
+      "5,267.94",
+      "5,267.94"
+    ],
+    [
+      "Other comprehensive income (net of taxes)",
+      "-",
+      "-",
+      "(13.95)",
+      "(13.95)"
+    ],
+    [
+      "Total comprehensive income for the year",
+      "-",
+      "-",
+      "5,253.99",
+      "5,253.99"
+    ],
+    [
+      "Final dividend for the previous year",
+      "-",
+      "-",
+      "(367.33)",
+      "(367.33)"
+    ],
+    [
+      "Interim dividend for the year",
+      "-",
+      "-",
+      "(1,469.31)",
+      "(1,469.31)"
+    ],
+    [
+      "Balance as at 31.03.2025",
+      "370.30",
+      "7,942.98",
+      "8,573.84",
+      "16,887.12"
+    ]
+  ]
+}

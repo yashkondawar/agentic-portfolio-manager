@@ -1,0 +1,38 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 206,
+  "table_index": 4,
+  "bbox": [
+    51.27356666666667,
+    427.19519999999994,
+    542.65391875,
+    496.025
+  ],
+  "rows": [
+    [
+      "B. Current",
+      "As at 31.03.2025",
+      "As at 31.03.2024"
+    ],
+    [
+      "Creditors for supplies and services",
+      null,
+      null
+    ],
+    [
+      "- Dues to micro and small enterprises",
+      "122.45",
+      "175.29"
+    ],
+    [
+      "- Others",
+      "615.65",
+      "545.67"
+    ],
+    [
+      "Total current trade payables",
+      "738.10",
+      "720.96"
+    ]
+  ]
+}

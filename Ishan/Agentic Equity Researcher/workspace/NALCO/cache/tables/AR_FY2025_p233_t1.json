@@ -1,0 +1,25 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 233,
+  "table_index": 1,
+  "bbox": [
+    51.273700000000005,
+    494.23109999999997,
+    543.2263,
+    675.4982
+  ],
+  "rows": [
+    [
+      "Key Audit Matter",
+      "Response of Auditors in dealing with the matters"
+    ],
+    [
+      "1. Carrying value of Property, Plant and Equipment, Capital work-in-progress, Intangible assets and Intangible Assets under Development",
+      null
+    ],
+    [
+      "Property, plant and equipment, capital work-in-progress, intangible\nassets and Intangible assets under development represent\nsignificant balances recorded in the statement of financial position.\nThe evaluation of the recoverable amount of these assets requires\nsignificant judgement in determining the key assumptions\nsupporting the expected future cash flows of the business and the\nutilisation of the relevant assets including impairment provisions\nrelated to the assets.\nThere are a number of areas where Management judgement impacts\nthe carrying value of property, plant and equipment, intangible\nassets and their respective depreciation profiles. These include\nthe decision to capitalise or expense costs; the asset life review\nincluding the impact of changes in the Company’s strategy; and\nthe timeliness of capitalisation, determination or the measurement\nand recognition criteria for assets retired from active use",
+      "Our audit procedures included the following\n• We evaluated the assumptions made by Management in the determination of\ncarrying values and useful lives to ensure that these are consistent with the\nprinciples of Indian Accounting Standards (Ind AS) 16 Property, Plant and\nEquipment and Ind AS 38 Intangible Assets.\n• We assessed whether the carrying values and the useful lives were reasonable\nby challenging Management’s judgements through comparing the useful lives\nprescribed in Schedule II to the Companies Act, 2013 and the useful lives of\ncertain assets as per the technical assessment of the Management.\n• We compared the useful lives of each class of asset in the current year to the\nprevious year to determine whether there were any significant changes in the\nuseful lives of assets, and considered the reasonableness of changes based on\nour knowledge of the business and the industry."
+    ]
+  ]
+}

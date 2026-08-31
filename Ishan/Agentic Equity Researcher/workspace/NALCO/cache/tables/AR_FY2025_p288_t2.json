@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 288,
+  "table_index": 2,
+  "bbox": [
+    51.27364615384616,
+    404.57809999999995,
+    542.5770607142857,
+    509.78537500000004
+  ],
+  "rows": [
+    [
+      "",
+      "Year ended 31.03.2025",
+      "Year ended 31.03.2024"
+    ],
+    [
+      "Finance cost",
+      null,
+      null
+    ],
+    [
+      "a. Interest expenses on lease liabilities",
+      "4.08",
+      "4.08"
+    ],
+    [
+      "b. Interest on shortfall in payment of advance income tax",
+      "31.87",
+      "4.21"
+    ],
+    [
+      "c. Unwinding Interest on CCDs & financial gurantee [refer note 9.1 & 22.1]",
+      "6.37",
+      "-"
+    ],
+    [
+      "d. Others [refer note 33.1]",
+      "16.65",
+      "8.92"
+    ],
+    [
+      "Total finance cost",
+      "58.97",
+      "17.21"
+    ]
+  ]
+}

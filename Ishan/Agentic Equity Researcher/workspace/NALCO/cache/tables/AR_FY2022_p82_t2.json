@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 82,
+  "table_index": 2,
+  "bbox": [
+    45.58188333333334,
+    314.2453333333334,
+    303.301,
+    690.8700000000001
+  ],
+  "rows": [
+    [
+      "Unit",
+      "Products",
+      "Environmental Concerns",
+      "Risks"
+    ],
+    [
+      "Alumina\nRefinery",
+      "Calcined\nAlumina",
+      "a. Air Pollution\nb Water Pollution\nc. Land contamination",
+      "1. Air Pollution:\ni) Stack Emission\nii) Dust in Calcined\nAlumina, Bauxite, Coal\nand Ash handling areas"
+    ],
+    [
+      null,
+      null,
+      null,
+      "2. Water Pollution\ni) Waste effluent\nii) Sewage & Waste water\niii) Surface Runoff water"
+    ],
+    [
+      null,
+      null,
+      null,
+      "3. Land Contamination\ni) Lime grit\nii) Red mud\niii) Ash"
+    ],
+    [
+      "Smelter",
+      "Aluminium",
+      "• Air pollution\n• Water pollution\n• Land contamination",
+      "1. Air Pollution\ni) Fluoride & particulate\nemission from the\nFTP/FTC stacks due to\npot operation.\nii) Generation of PFC\nduring anode effect,\ndetailed below*"
+    ]
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 290,
+  "table_index": 1,
+  "bbox": [
+    51.27362000000001,
+    365.79314999999997,
+    542.5141090909091,
+    491.516325
+  ],
+  "rows": [
+    [
+      "",
+      "Year ended\n31.03.2025",
+      "Year ended\n31.03.2024"
+    ],
+    [
+      "Current tax",
+      null,
+      null
+    ],
+    [
+      "In respect of current year",
+      "1858.73",
+      "763.49"
+    ],
+    [
+      "In respect of prior years",
+      "1.98",
+      "76.22"
+    ],
+    [
+      "",
+      "1,860.71",
+      "839.71"
+    ],
+    [
+      "Deferred tax",
+      null,
+      null
+    ],
+    [
+      "In respect of current year",
+      "(50.28)",
+      "(116.09)"
+    ],
+    [
+      "",
+      "(50.28)",
+      "(116.09)"
+    ],
+    [
+      "Total income tax expense recognised in current year",
+      "1,810.43",
+      "723.62"
+    ]
+  ]
+}

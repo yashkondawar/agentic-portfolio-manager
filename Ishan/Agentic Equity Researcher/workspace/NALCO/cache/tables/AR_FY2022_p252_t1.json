@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 252,
+  "table_index": 1,
+  "bbox": [
+    74.305,
+    92.54320000000007,
+    515.4636,
+    156.83220000000006
+  ],
+  "rows": [
+    [
+      "Name of the entity in\nthe Group",
+      "Net Assets i.e total assets\nminus total liabilities",
+      null,
+      "Share in profit\nand loss",
+      null,
+      "Share in other\ncomprehensive income",
+      null,
+      null
+    ],
+    [
+      "",
+      "As % of\nconsolidated\nnet assets",
+      "Amount",
+      "As % of\nconsolidated\nprofit or loss",
+      "Amount",
+      "As % of\nconsolidated other\ncomprehensive\nincome",
+      "Amount",
+      "As % of total\ncomprehensive\nincome"
+    ]
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 170,
+  "table_index": 2,
+  "bbox": [
+    45.448883333333335,
+    315.03765000000004,
+    463.6323333333333,
+    382.836
+  ],
+  "rows": [
+    [
+      "(a)",
+      "",
+      "As at 31.03.2022"
+    ],
+    [
+      null,
+      "Balances with banks",
+      ""
+    ],
+    [
+      null,
+      "(1) Balance with scheduled banks",
+      ""
+    ],
+    [
+      null,
+      "(i) In current account",
+      "412.80"
+    ],
+    [
+      "Total cash and cash equivalents",
+      null,
+      "412.80"
+    ]
+  ]
+}

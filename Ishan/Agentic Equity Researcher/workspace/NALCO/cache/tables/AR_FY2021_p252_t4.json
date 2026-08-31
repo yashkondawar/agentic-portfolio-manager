@@ -1,0 +1,85 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 252,
+  "table_index": 4,
+  "bbox": [
+    93.7934,
+    274.4821666666666,
+    546.8366705882353,
+    421.1135833333333
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      "As at\n31.03.2021",
+      "As at\n31.03.2020"
+    ],
+    [
+      "Financial Assets",
+      null,
+      null,
+      null
+    ],
+    [
+      "Measured at fair value through profit or loss (FVTPL)",
+      null,
+      null,
+      null
+    ],
+    [
+      "(a)",
+      "Mandatorily measured:",
+      "",
+      ""
+    ],
+    [
+      "",
+      "(i) Investments in mutual funds",
+      "248.38",
+      "55.01"
+    ],
+    [
+      "",
+      "(ii) Forward contract on foreign currency",
+      "Nil",
+      "Nil"
+    ],
+    [
+      "Measured at Amortised cost",
+      null,
+      null,
+      null
+    ],
+    [
+      "(a)",
+      "Cash and bank balances",
+      "213.52",
+      "18.47"
+    ],
+    [
+      "(b)",
+      "Other financial assets at amortised cost",
+      "2,122.56",
+      "2,501.54"
+    ],
+    [
+      "",
+      null,
+      "2,584.46",
+      "2,575.02"
+    ],
+    [
+      "Financial Liabilities",
+      null,
+      null,
+      null
+    ],
+    [
+      "Measured at Amortised cost",
+      null,
+      "1,409.30",
+      "1,282.48"
+    ]
+  ]
+}

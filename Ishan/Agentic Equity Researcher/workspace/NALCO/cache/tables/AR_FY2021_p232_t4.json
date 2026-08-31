@@ -1,0 +1,61 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 232,
+  "table_index": 4,
+  "bbox": [
+    93.7935,
+    572.2511666666666,
+    547.3528739130435,
+    684.1494999999999
+  ],
+  "rows": [
+    [
+      "",
+      "As at 31.03.2021",
+      null,
+      "As at 31.03.2020"
+    ],
+    [
+      null,
+      "Number of\nshares held",
+      "% of holding of\nequity shares",
+      "Number of % of holding of\nshares held equity shares"
+    ],
+    [
+      "Fully paid equity shares",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Government of India",
+      "94,17,93,011",
+      "51.28%",
+      "96,07,93,011 51.50%"
+    ],
+    [
+      "Life Insurance Corporation of India",
+      "10,41,04,003",
+      "5.67%",
+      "9,41,04,003 5.04%"
+    ],
+    [
+      "ICICI Prudential Infrastructure Fund",
+      "6,14,34,544",
+      "3.34%",
+      "11,00,27,027 5.90%"
+    ],
+    [
+      "Others",
+      "72,93,00,229",
+      "39.71%",
+      "70,06,93,457 37.56%"
+    ],
+    [
+      "Total",
+      "1,83,66,31,787",
+      "100.00%",
+      "1,86,56,17,498 100.00%"
+    ]
+  ]
+}

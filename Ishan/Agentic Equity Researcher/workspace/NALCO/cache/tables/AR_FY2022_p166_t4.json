@@ -1,0 +1,78 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 166,
+  "table_index": 4,
+  "bbox": [
+    45.549328571428575,
+    546.92845,
+    461.528125,
+    691.529
+  ],
+  "rows": [
+    [
+      "A.",
+      "Non-current",
+      "As at 31.03.2022"
+    ],
+    [
+      null,
+      "(a) Considered good - Secured",
+      "-"
+    ],
+    [
+      null,
+      "(b) Considered good - Unsecured",
+      "-"
+    ],
+    [
+      null,
+      "(c) Having significant increase in credit risk",
+      "-"
+    ],
+    [
+      null,
+      "(d) Credit impaired",
+      "36.90"
+    ],
+    [
+      null,
+      "Less: Allowance for credit impaired",
+      "36.90"
+    ],
+    [
+      "Non-current trade receivables",
+      null,
+      "-"
+    ],
+    [
+      "B.",
+      "Current",
+      "As at 31.03.2022"
+    ],
+    [
+      null,
+      "(a) Considered good - Secured",
+      "-"
+    ],
+    [
+      null,
+      "(b) Considered good - Unsecured",
+      "75.25"
+    ],
+    [
+      null,
+      "(c) Having significant increase in credit risk",
+      "20.24"
+    ],
+    [
+      null,
+      "Less: Allowance for doubtful debts",
+      "20.24"
+    ],
+    [
+      "Current trade receivables",
+      null,
+      "75.25"
+    ]
+  ]
+}

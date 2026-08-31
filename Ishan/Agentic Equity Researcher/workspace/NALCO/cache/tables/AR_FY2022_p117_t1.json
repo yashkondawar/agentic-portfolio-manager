@@ -1,0 +1,38 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 117,
+  "table_index": 1,
+  "bbox": [
+    94.752,
+    465.16450000000003,
+    549.71156,
+    541.167
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "2021-22",
+      "2020-21"
+    ],
+    [
+      "Administrative and office expenses",
+      "101.88",
+      "103.23"
+    ],
+    [
+      "Total expenses",
+      "10,523.36",
+      "7,785.87"
+    ],
+    [
+      "Administrative and office expenses as a % of total expenses",
+      "0.97",
+      "1.33"
+    ],
+    [
+      "Financial expenses",
+      "23.12",
+      "7.08"
+    ]
+  ]
+}

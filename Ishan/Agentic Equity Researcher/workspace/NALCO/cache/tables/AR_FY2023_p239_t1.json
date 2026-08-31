@@ -1,0 +1,158 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 239,
+  "table_index": 1,
+  "bbox": [
+    45.979,
+    79.17400000000004,
+    549.546,
+    443.51450000000006
+  ],
+  "rows": [
+    [
+      "",
+      "Year ended 31.03.2023",
+      "Year ended 31.03.2022"
+    ],
+    [
+      "Finished goods",
+      "",
+      ""
+    ],
+    [
+      "Opening stock",
+      "",
+      ""
+    ],
+    [
+      "(1) Bauxite",
+      "18.54",
+      "4.34"
+    ],
+    [
+      "(2) Chemical",
+      "253.91",
+      "232.28"
+    ],
+    [
+      "(3) Aluminium",
+      "270.02",
+      "227.81"
+    ],
+    [
+      "Total opening stock of finished goods",
+      "542.47",
+      "464.43"
+    ],
+    [
+      "Less:",
+      "",
+      ""
+    ],
+    [
+      "Closing stock",
+      "",
+      ""
+    ],
+    [
+      "(1) Bauxite",
+      "26.99",
+      "18.54"
+    ],
+    [
+      "(2) Chemical",
+      "198.82",
+      "253.91"
+    ],
+    [
+      "(3) Aluminium",
+      "236.55",
+      "270.02"
+    ],
+    [
+      "Total Closing stock of finished goods",
+      "462.36",
+      "542.47"
+    ],
+    [
+      "(Accretion)/Depletion in finished goods",
+      "80.11",
+      "(78.04)"
+    ],
+    [
+      "Intermediaries",
+      "",
+      ""
+    ],
+    [
+      "Opening stock",
+      "",
+      ""
+    ],
+    [
+      "Anodes",
+      "113.19",
+      "100.83"
+    ],
+    [
+      "Others",
+      "23.48",
+      "17.74"
+    ],
+    [
+      "Total opening stock of intermediaries",
+      "136.67",
+      "118.57"
+    ],
+    [
+      "Less: Closing stock",
+      "",
+      ""
+    ],
+    [
+      "Anodes",
+      "143.00",
+      "113.19"
+    ],
+    [
+      "Others",
+      "17.35",
+      "23.48"
+    ],
+    [
+      "Total closing stock of intermediaries",
+      "160.35",
+      "136.67"
+    ],
+    [
+      "(Accretion)/depletion in intermediaries",
+      "(23.68)",
+      "(18.10)"
+    ],
+    [
+      "Work in process",
+      "",
+      ""
+    ],
+    [
+      "Opening stock",
+      "319.04",
+      "298.35"
+    ],
+    [
+      "Less: Closing stock",
+      "392.13",
+      "319.04"
+    ],
+    [
+      "(Accretion)/depletion in work in process",
+      "(73.09)",
+      "(20.69)"
+    ],
+    [
+      "Total (Accretion)/Depletion in inventory",
+      "(16.66)",
+      "(116.83)"
+    ]
+  ]
+}

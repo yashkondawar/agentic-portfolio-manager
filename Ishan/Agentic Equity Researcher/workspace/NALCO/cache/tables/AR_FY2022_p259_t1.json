@@ -1,0 +1,67 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 259,
+  "table_index": 1,
+  "bbox": [
+    275.4606,
+    113.60180000000003,
+    549.679675,
+    273.04280000000006
+  ],
+  "rows": [
+    [
+      "1.",
+      "Bauxite Mines",
+      "Panchpatmalli",
+      "68,25,000 TPY (North & Central Block)\n31,50,000 TPY (South Block)"
+    ],
+    [
+      "2.",
+      "Alumina Refinery",
+      "Damanjodi",
+      "21,00,000 TPY (Normative Capacity)"
+    ],
+    [
+      "3.",
+      "Smelter Plant",
+      "Angul",
+      "4,60,000 TPY"
+    ],
+    [
+      "4.",
+      "Captive Power Plant",
+      "Angul",
+      "1,200 MW"
+    ],
+    [
+      "5.",
+      "Port Facilities",
+      "Visakhapatnam",
+      "14,00,000 TPY (Alumina Export /\nCaustic Soda Lye Import)"
+    ],
+    [
+      null,
+      null,
+      "Gandikotta, A.P.",
+      "50.4 MW"
+    ],
+    [
+      null,
+      null,
+      "Ludarva, Jaisalmer,\nRajasthan",
+      "47.6 MW"
+    ],
+    [
+      null,
+      null,
+      "Devikot, Jaisalmer,\nRajasthan",
+      "50.0 MW"
+    ],
+    [
+      null,
+      null,
+      "Sangli, Maharashtra",
+      "50.4 MW"
+    ]
+  ]
+}

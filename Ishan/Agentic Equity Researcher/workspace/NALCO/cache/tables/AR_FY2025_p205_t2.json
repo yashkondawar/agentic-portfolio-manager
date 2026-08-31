@@ -1,0 +1,118 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 205,
+  "table_index": 2,
+  "bbox": [
+    51.27364444444444,
+    202.8698571428572,
+    543.0010785714286,
+    431.9627142857143
+  ],
+  "rows": [
+    [
+      "Other equity",
+      "Reserves and Surplus",
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      "Capital redemption\nreserve",
+      "General reserve",
+      "Retained earnings",
+      "Total"
+    ],
+    [
+      "Balance as at 01.04.2023",
+      "370.30",
+      "7,942.86",
+      "4,006.97",
+      "12,320.13"
+    ],
+    [
+      "Profit for the year",
+      "-",
+      "-",
+      "2,059.95",
+      "2,059.95"
+    ],
+    [
+      "Other comprehensive income (net of taxes)",
+      "-",
+      "-",
+      "7.91",
+      "7.91"
+    ],
+    [
+      "Total comprehensive income for the year",
+      "-",
+      "-",
+      "2,067.86",
+      "2,067.86"
+    ],
+    [
+      "Final dividend for the previous year",
+      "-",
+      "-",
+      "(183.66)",
+      "(183.66)"
+    ],
+    [
+      "Interim dividend for the year",
+      "-",
+      "-",
+      "(550.99)",
+      "(550.99)"
+    ],
+    [
+      "Balance as at 31.03.2024",
+      "370.30",
+      "7,942.86",
+      "5,340.18",
+      "13,653.34"
+    ],
+    [
+      "Profit for the year",
+      "-",
+      "-",
+      "5,324.67",
+      "5,324.67"
+    ],
+    [
+      "Other comprehensive income (net of taxes)",
+      "-",
+      "-",
+      "(13.93)",
+      "(13.93)"
+    ],
+    [
+      "Total comprehensive income for the year",
+      "-",
+      "-",
+      "5,310.74",
+      "5,310.74"
+    ],
+    [
+      "Final dividend for the previous year",
+      "-",
+      "-",
+      "(367.33)",
+      "(367.33)"
+    ],
+    [
+      "Interim dividend for the year",
+      "-",
+      "-",
+      "(1,469.31)",
+      "(1,469.31)"
+    ],
+    [
+      "Balance as at 31.03.2025",
+      "370.30",
+      "7,942.86",
+      "8,814.28",
+      "17,127.44"
+    ]
+  ]
+}

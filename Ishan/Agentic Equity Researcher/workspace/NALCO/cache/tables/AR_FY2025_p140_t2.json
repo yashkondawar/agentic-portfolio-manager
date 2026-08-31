@@ -1,0 +1,85 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 140,
+  "table_index": 2,
+  "bbox": [
+    68.28144444444445,
+    444.836,
+    542.5759103448275,
+    615.4648
+  ],
+  "rows": [
+    [
+      "Sl.\nNo.",
+      "Name of shareholder",
+      "No. of shares",
+      "%of holding"
+    ],
+    [
+      "1.",
+      "Life Insurance Corporation of India",
+      "5,78,93,358",
+      "3.15"
+    ],
+    [
+      "2.",
+      "Bharat 22 ETF",
+      "4,41,48,492",
+      "2.40"
+    ],
+    [
+      "3.",
+      "SBI Large & Midcap Fund",
+      "2,00,00,000",
+      "1.08"
+    ],
+    [
+      "4.",
+      "Life Insurance Corporation Of India - P & GS Fund",
+      "1,59,74,920",
+      "0.87"
+    ],
+    [
+      "5.",
+      "SBI Life Insurance Co. Ltd",
+      "1,30,70,875",
+      "0.71"
+    ],
+    [
+      "6.",
+      "Vanguard Total International Stock Index Fund",
+      "1,26,74,608",
+      "0.70"
+    ],
+    [
+      "7.",
+      "Mirae Asset Large & Midcap Fund",
+      "1,24,24,271",
+      "0.68"
+    ],
+    [
+      "8.",
+      "Vanguard Emerging Markets Stock Index Fund, A Series of Vanguard International\nEquity Index Funds",
+      "1,13,16,816",
+      "0.61"
+    ],
+    [
+      "9.",
+      "The New India Assurance Company Limited",
+      "1,12,28,245",
+      "0.61"
+    ],
+    [
+      "10.",
+      "PIMCO Equity Series: PIMCO RAE Emerging Markets Fund",
+      "1,03,76,365",
+      "0.57"
+    ],
+    [
+      "",
+      "TOTAL",
+      "20,91,07,950",
+      "11.38"
+    ]
+  ]
+}

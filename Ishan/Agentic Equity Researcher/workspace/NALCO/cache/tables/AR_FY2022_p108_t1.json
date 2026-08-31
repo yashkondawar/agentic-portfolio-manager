@@ -1,0 +1,55 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 108,
+  "table_index": 1,
+  "bbox": [
+    95.481,
+    133.423,
+    487.9341,
+    233.22200000000004
+  ],
+  "rows": [
+    [
+      "Members of Technology Committee",
+      "Category of Director",
+      "Position",
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "held"
+    ],
+    [
+      "Shri Y. P. Chillio@",
+      "Independent",
+      "Chairman",
+      "1"
+    ],
+    [
+      "Adv. George Kurian@",
+      "Independent",
+      "Member",
+      "1"
+    ],
+    [
+      "Dr. Ajay Narang@",
+      "Independent",
+      "Member",
+      "1"
+    ],
+    [
+      "Shri M. P. Mishra, Director (P&T)",
+      "Functional",
+      "Member",
+      "1"
+    ],
+    [
+      "Shri B. K. Das, Director (Production)",
+      "Functional",
+      "Member",
+      "1"
+    ]
+  ]
+}

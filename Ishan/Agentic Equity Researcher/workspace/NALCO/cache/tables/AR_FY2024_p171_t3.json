@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 171,
+  "table_index": 3,
+  "bbox": [
+    51.273689473684215,
+    450.03189999999995,
+    542.7649631578947,
+    495.972525
+  ],
+  "rows": [
+    [
+      "A. Non current",
+      "As at 31.03.2024",
+      "As at 31.03.2023"
+    ],
+    [
+      "Security deposits",
+      "10.38",
+      "16.72"
+    ],
+    [
+      "Mines closure deposits [refer note 12.2]",
+      "7.43",
+      "4.83"
+    ],
+    [
+      "Total other non-current financial assets",
+      "17.81",
+      "21.55"
+    ]
+  ]
+}

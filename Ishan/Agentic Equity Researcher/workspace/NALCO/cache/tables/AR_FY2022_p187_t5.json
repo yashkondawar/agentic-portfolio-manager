@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 187,
+  "table_index": 5,
+  "bbox": [
+    73.951,
+    538.975,
+    549.6869,
+    611.7335
+  ],
+  "rows": [
+    [
+      "Material non-cash expenditure",
+      null,
+      null
+    ],
+    [
+      "",
+      "Year ended 31.03.2022",
+      "Year ended 31.03.2021"
+    ],
+    [
+      "Chemical segment",
+      "(244.48)",
+      "(9.24)"
+    ],
+    [
+      "Aluminium segment",
+      "(182.75)",
+      "(12.33)"
+    ],
+    [
+      "Unallocated",
+      "36.97",
+      "(1.60)"
+    ],
+    [
+      "",
+      "(390.26)",
+      "(23.17)"
+    ]
+  ]
+}

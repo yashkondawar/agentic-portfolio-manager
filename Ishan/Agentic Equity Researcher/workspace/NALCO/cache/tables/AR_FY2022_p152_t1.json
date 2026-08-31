@@ -1,0 +1,41 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 152,
+  "table_index": 1,
+  "bbox": [
+    74.768,
+    99.46200000000006,
+    408.064,
+    232.19100000000003
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Particulars of asset category (Property Plant & Equipment)"
+    ],
+    [
+      "1",
+      "Buildings"
+    ],
+    [
+      "2",
+      "Plant and machinery"
+    ],
+    [
+      "3",
+      "Railway siding"
+    ],
+    [
+      "4",
+      "Vehicles"
+    ],
+    [
+      "5",
+      "Furniture and fixtures"
+    ],
+    [
+      "6",
+      "Computer & peripherals"
+    ]
+  ]
+}

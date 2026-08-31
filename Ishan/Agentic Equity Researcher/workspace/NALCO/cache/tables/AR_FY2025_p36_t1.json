@@ -1,0 +1,67 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 36,
+  "table_index": 1,
+  "bbox": [
+    51.2737,
+    104.05180000000001,
+    542.6326147058824,
+    240.85284000000001
+  ],
+  "rows": [
+    [
+      "Description",
+      "Unit",
+      "Year ended\n31.03.2025",
+      "Year ended\n31.03.2024"
+    ],
+    [
+      "Export:",
+      null,
+      null,
+      null
+    ],
+    [
+      "Alumina",
+      "MT",
+      "10,64,881",
+      "11,12,216"
+    ],
+    [
+      "Aluminium",
+      "MT",
+      "6,114",
+      "51,163"
+    ],
+    [
+      "Domestic:",
+      null,
+      null,
+      null
+    ],
+    [
+      "Alumina and Hydrate*",
+      "MT",
+      "41,204",
+      "55,970"
+    ],
+    [
+      "Aluminium",
+      "MT",
+      "4,54,600",
+      "4,18,946"
+    ],
+    [
+      "Total Metal Sale",
+      "MT",
+      "4,60,714",
+      "4,70,108"
+    ],
+    [
+      "Total Chemical Sale",
+      "MT",
+      "11,06,085",
+      "11,68,186"
+    ]
+  ]
+}

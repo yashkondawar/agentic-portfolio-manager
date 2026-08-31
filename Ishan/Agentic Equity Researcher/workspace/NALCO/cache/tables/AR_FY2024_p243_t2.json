@@ -1,0 +1,121 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 243,
+  "table_index": 2,
+  "bbox": [
+    51.273665625,
+    284.4891,
+    542.8826,
+    523.60072
+  ],
+  "rows": [
+    [
+      "A.",
+      "Non current",
+      "As at 31.03.2024",
+      "As at 31.03.2023"
+    ],
+    [
+      "",
+      "Security deposits",
+      "10.38",
+      "16.72"
+    ],
+    [
+      null,
+      "Mines closure deposits [refer note 12.2]",
+      "7.43",
+      "4.83"
+    ],
+    [
+      null,
+      "Total other non-current financial assets",
+      "17.81",
+      "21.55"
+    ],
+    [
+      "B.",
+      "Current",
+      "As at 31.03.2024",
+      "As at 31.03.2023"
+    ],
+    [
+      "",
+      "(a) Advances to employees",
+      "21.22",
+      "22.84"
+    ],
+    [
+      null,
+      "(b) Insurance claims receivables and others",
+      "9.34",
+      "7.22"
+    ],
+    [
+      null,
+      "(c) Gratuity (funded)",
+      "18.75",
+      "26.74"
+    ],
+    [
+      null,
+      "(d) Claim receivable from Trust [refer note 12.4]",
+      "36.31",
+      "-"
+    ],
+    [
+      null,
+      "Gross - other current financial assets",
+      "85.62",
+      "56.80"
+    ],
+    [
+      null,
+      "Less: Allowance for bad and doubtful other current financial assets",
+      null,
+      null
+    ],
+    [
+      null,
+      "a) Insurance claims",
+      "7.22",
+      "7.22"
+    ],
+    [
+      null,
+      "Total allowance for bad and doubtful - other current assets",
+      "7.22",
+      "7.22"
+    ],
+    [
+      null,
+      "Net other current financial assets",
+      "78.40",
+      "49.58"
+    ],
+    [
+      null,
+      "Classification of other current financial assets:",
+      null,
+      null
+    ],
+    [
+      null,
+      "Unsecured, considered good",
+      "78.40",
+      "49.58"
+    ],
+    [
+      null,
+      "Unsecured, considered doubtful",
+      "7.22",
+      "7.22"
+    ],
+    [
+      null,
+      "Gross other current financial assets",
+      "85.62",
+      "56.80"
+    ]
+  ]
+}

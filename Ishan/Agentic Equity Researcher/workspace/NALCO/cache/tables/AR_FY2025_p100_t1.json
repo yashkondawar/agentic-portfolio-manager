@@ -1,0 +1,143 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 100,
+  "table_index": 1,
+  "bbox": [
+    67.56774,
+    73.95084285714282,
+    542.1265500000001,
+    201.75099999999995
+  ],
+  "rows": [
+    [
+      "Category",
+      "FY 2024-25",
+      null,
+      null,
+      null,
+      null,
+      "FY 2023-24",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      "Total (A)",
+      "Equal to\nMinimum Wage",
+      null,
+      "More than Minimum\nWage",
+      null,
+      "Total\n(D)",
+      "Equal to Minimum\nWage",
+      null,
+      "More than\nMinimum Wage",
+      null
+    ],
+    [
+      null,
+      null,
+      "No. (B)",
+      "% (B/A)",
+      "No. (C)",
+      "% (C/A)",
+      null,
+      "No. (E)",
+      "% (E/D)",
+      "No. (F)",
+      "% (F/D)"
+    ],
+    [
+      "WORKERS",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Permanent (Non-Executives)",
+      "3,022",
+      "NA",
+      "-",
+      "3,022",
+      "100%",
+      "3,272",
+      "NA",
+      "-",
+      "3,272",
+      "100%"
+    ],
+    [
+      "Male",
+      "2,800",
+      "NA",
+      "-",
+      "2,800",
+      "100%",
+      "3,042",
+      "NA",
+      "-",
+      "3,042",
+      "100%"
+    ],
+    [
+      "Female",
+      "222",
+      "NA",
+      "-",
+      "222",
+      "100%",
+      "230",
+      "NA",
+      "-",
+      "230",
+      "100%"
+    ],
+    [
+      "Other than Permanent",
+      "15,125",
+      "NA",
+      "-",
+      "15,125",
+      "100%",
+      "12,648",
+      "NA",
+      "-",
+      "12,648",
+      "100%"
+    ],
+    [
+      "Male",
+      "14,254",
+      "NA",
+      "-",
+      "14,254",
+      "100%",
+      "11,843",
+      "NA",
+      "-",
+      "11,843",
+      "100%"
+    ],
+    [
+      "Female",
+      "871",
+      "NA",
+      "-",
+      "871",
+      "100%",
+      "805",
+      "NA",
+      "-",
+      "805",
+      "100%"
+    ]
+  ]
+}

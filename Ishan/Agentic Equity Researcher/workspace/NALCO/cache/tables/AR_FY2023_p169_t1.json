@@ -1,0 +1,244 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 169,
+  "table_index": 1,
+  "bbox": [
+    45.979,
+    59.353000000000065,
+    549.546,
+    420.153
+  ],
+  "rows": [
+    [
+      "26 - Deferred tax liabilities Amount in ` Crore",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      null,
+      null,
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      "Deferred tax liabilities",
+      null,
+      null,
+      "1,064.19",
+      "1,090.08"
+    ],
+    [
+      "Deferred tax assets",
+      null,
+      null,
+      "106.42",
+      "221.90"
+    ],
+    [
+      "",
+      null,
+      null,
+      "957.77",
+      "868.18"
+    ],
+    [
+      "2021-22",
+      "Opening balance as\nat 01.04.2021",
+      "Recognised in\nprofit or loss",
+      "Recognised in other\ncomprehensive income",
+      "Closing balance\nas at 31.03.2022"
+    ],
+    [
+      "Deferred tax liabilities relating to:",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Property, plant and equipment",
+      "(1,140.45)",
+      "78.82",
+      "-",
+      "(1,061.63)"
+    ],
+    [
+      "Provision for defined benefit obligation (OCI)",
+      "(5.15)",
+      "-",
+      "(23.30)",
+      "(28.45)"
+    ],
+    [
+      "Deferred tax liabilities",
+      "(1,145.60)",
+      "78.82",
+      "(23.30)",
+      "(1,090.08)"
+    ],
+    [
+      "Deferred tax assets in relation to:",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Provision for compensated absences and other employee benefits",
+      "108.32",
+      "(103.54)",
+      "-",
+      "4.78"
+    ],
+    [
+      "Provision for defined benefit obligation",
+      "66.12",
+      "19.35",
+      "-",
+      "85.47"
+    ],
+    [
+      "Provision for doubtful debts / advances",
+      "69.01",
+      "(0.32)",
+      "-",
+      "68.69"
+    ],
+    [
+      "FVTPL financial assets",
+      "4.32",
+      "(0.27)",
+      "-",
+      "4.05"
+    ],
+    [
+      "Temporary Difference due to application of section 43B",
+      "0.93",
+      "54.80",
+      "-",
+      "55.73"
+    ],
+    [
+      "Others",
+      "3.18",
+      "-",
+      "-",
+      "3.18"
+    ],
+    [
+      "Deferred tax assets",
+      "251.88",
+      "(29.98)",
+      "-",
+      "221.90"
+    ],
+    [
+      "Deferred tax (liabilities) / assets - [net]",
+      "(893.72)",
+      "48.84",
+      "(23.30)",
+      "(868.18)"
+    ],
+    [
+      "2022-23",
+      "Opening balance as\nat 01.04.2022",
+      "Recognised in\nprofit or loss",
+      "Recognised in other\ncomprehensive income",
+      "Closing balance as\nat 31.03.2023"
+    ],
+    [
+      "Deferred tax liabilities relating to:",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Property, plant and equipment",
+      "(1,061.63)",
+      "(0.61)",
+      "-",
+      "(1,062.24)"
+    ],
+    [
+      "Provision for defined benefit obligation (OCI)",
+      "(28.45)",
+      "-",
+      "26.50",
+      "(1.95)"
+    ],
+    [
+      "Deferred tax liabilities",
+      "(1,090.08)",
+      "(0.61)",
+      "26.50",
+      "(1,064.19)"
+    ],
+    [
+      "Deferred tax assets in relation to:",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Provision for compensated absences and other employee benefits",
+      "4.78",
+      "(4.78)",
+      "-",
+      "0.00"
+    ],
+    [
+      "Provision for defined benefit obligation",
+      "85.47",
+      "(64.32)",
+      "-",
+      "21.15"
+    ],
+    [
+      "Provision for doubtful debts / advances",
+      "68.69",
+      "(0.60)",
+      "-",
+      "68.09"
+    ],
+    [
+      "FVTPL financial assets",
+      "4.05",
+      "9.04",
+      "-",
+      "13.09"
+    ],
+    [
+      "Temporary Difference due to application of section 43B",
+      "55.73",
+      "(54.82)",
+      "-",
+      "0.91"
+    ],
+    [
+      "Others",
+      "3.18",
+      "-",
+      "-",
+      "3.18"
+    ],
+    [
+      "Deferred tax assets",
+      "221.90",
+      "(115.48)",
+      "-",
+      "106.42"
+    ],
+    [
+      "Deferred tax (liabilities) / assets [net]",
+      "(868.18)",
+      "(116.09)",
+      "26.50",
+      "(957.77)"
+    ]
+  ]
+}

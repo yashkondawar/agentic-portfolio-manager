@@ -1,0 +1,79 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 178,
+  "table_index": 4,
+  "bbox": [
+    51.27368205128205,
+    517.8090571428571,
+    542.8047475000001,
+    669.78408
+  ],
+  "rows": [
+    [
+      "B. Current",
+      null,
+      "As at 31.03.2024",
+      "As at 31.03.2023"
+    ],
+    [
+      "(a)",
+      "Unpaid dividends",
+      "4.02",
+      "4.25"
+    ],
+    [
+      "(b)",
+      "Creditors for other liabilities",
+      null,
+      null
+    ],
+    [
+      "",
+      "(1) Creditors for capital supplies and services",
+      null,
+      null
+    ],
+    [
+      null,
+      "- Dues to micro and small enterprises",
+      "36.11",
+      "17.53"
+    ],
+    [
+      null,
+      "- Others",
+      "478.80",
+      "382.67"
+    ],
+    [
+      null,
+      "(2) Security deposits from customers",
+      "5.50",
+      "3.49"
+    ],
+    [
+      null,
+      "(3) Refund due to customers",
+      "36.68",
+      "39.92"
+    ],
+    [
+      null,
+      "(4) Liabilities for discount on sales to customers",
+      "174.57",
+      "172.44"
+    ],
+    [
+      null,
+      "(5) Employees’ recoveries",
+      "0.11",
+      "0.11"
+    ],
+    [
+      "Total other current financial liabilities",
+      null,
+      "735.79",
+      "620.41"
+    ]
+  ]
+}

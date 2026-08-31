@@ -1,0 +1,97 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 201,
+  "table_index": 1,
+  "bbox": [
+    51.27365161290323,
+    87.89895000000001,
+    542.7462032258065,
+    282.75275999999997
+  ],
+  "rows": [
+    [
+      "B.",
+      "Current",
+      "As at 31.03.2025",
+      "As at 31.03.2024"
+    ],
+    [
+      "",
+      "(a) Advances to employees",
+      "21.35",
+      "21.22"
+    ],
+    [
+      null,
+      "(b) Insurance claims receivables and others",
+      "7.22",
+      "9.34"
+    ],
+    [
+      null,
+      "(c) Gratuity(funded)",
+      "3.40",
+      "18.75"
+    ],
+    [
+      null,
+      "(d) Claim receivable from Trust [refer note 12.4]",
+      "41.90",
+      "36.31"
+    ],
+    [
+      null,
+      "Gross - other current financial assets",
+      "73.87",
+      "85.62"
+    ],
+    [
+      null,
+      "Less: Allowance for bad and doubtful other current financial assets",
+      null,
+      null
+    ],
+    [
+      null,
+      "a) Insurance claims",
+      "7.22",
+      "7.22"
+    ],
+    [
+      null,
+      "Total allowance for bad and doubtful - other current assets",
+      "7.22",
+      "7.22"
+    ],
+    [
+      null,
+      "Net other current financial assets",
+      "66.65",
+      "78.40"
+    ],
+    [
+      null,
+      "Classification of other current financial assets:",
+      null,
+      null
+    ],
+    [
+      null,
+      "Considered good, unsecured",
+      "66.65",
+      "78.40"
+    ],
+    [
+      null,
+      "Considered doubtful, unsecured",
+      "7.22",
+      "7.22"
+    ],
+    [
+      null,
+      "Gross other current financial assets",
+      "73.87",
+      "85.62"
+    ]
+  ]
+}

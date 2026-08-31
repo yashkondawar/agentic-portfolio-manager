@@ -1,0 +1,69 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 96,
+  "table_index": 1,
+  "bbox": [
+    95.1955,
+    84.13900000000001,
+    549.2605000000001,
+    225.81300000000005
+  ],
+  "rows": [
+    [
+      "Members of CSR & Sustainability Development Committee",
+      "Category of Director",
+      "Position",
+      "Meeting",
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "held",
+      "attended"
+    ],
+    [
+      "Shri D. Upadhyay",
+      "Independent",
+      "Chairman",
+      "2",
+      "2"
+    ],
+    [
+      "Dr. B. R. Ramakrishna",
+      "Independent",
+      "Member",
+      "2",
+      "2"
+    ],
+    [
+      "Ms. (Dr.) Shatorupa",
+      "Independent",
+      "Member",
+      "2",
+      "2"
+    ],
+    [
+      "Shri R. S. Mahapatro\nDirector (HR)",
+      "Functional",
+      "Member",
+      "2",
+      "2"
+    ],
+    [
+      "Shri B. K. Das#\nDirector (Production)",
+      "Functional",
+      "Member",
+      "2",
+      "2"
+    ],
+    [
+      "Shri P. K. Sharma*\nDirector (Production)",
+      "Functional",
+      "Member",
+      "0",
+      "NA"
+    ]
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 183,
+  "table_index": 2,
+  "bbox": [
+    74.03433333333332,
+    236.471,
+    549.73185,
+    532.475
+  ],
+  "rows": [
+    [
+      "32. Employee benefits expense Amount in ` Crore"
+    ],
+    [
+      "Movements in the fair value of the plan assets are as follows:"
+    ],
+    [
+      "Gratuity\n(Funded)"
+    ],
+    [
+      "Opening fair value of plan assets as at April 01, 2020 576.26"
+    ],
+    [
+      "Interest income 45.23"
+    ],
+    [
+      "Remeasurement gains/(losses)"
+    ],
+    [
+      "Return on plan assets (excluding amounts included in net interest income) (1.78)"
+    ],
+    [
+      "Others"
+    ],
+    [
+      "Contribution from the employer 58.68"
+    ],
+    [
+      "Benefits paid (93.22)"
+    ],
+    [
+      "Closing fair value of plan assets as at March 31, 2021 585.17"
+    ],
+    [
+      "Interest income 40.96"
+    ],
+    [
+      "Remeasurement gains/(losses)"
+    ],
+    [
+      "Return on plan assets (excluding amounts included in net interest income) 4.68"
+    ],
+    [
+      "Others -"
+    ],
+    [
+      "Contribution from the employer 6.61"
+    ],
+    [
+      "Contribution from plan participant -"
+    ],
+    [
+      "Assets distributed on settlements -"
+    ],
+    [
+      "Assets acquired in a business combination -"
+    ],
+    [
+      "Exchange differences on foreign plans -"
+    ],
+    [
+      "Benefits paid (82.56)"
+    ],
+    [
+      "Others -"
+    ],
+    [
+      "Closing fair value of plan assets as at March 31, 2022 554.86"
+    ]
+  ]
+}

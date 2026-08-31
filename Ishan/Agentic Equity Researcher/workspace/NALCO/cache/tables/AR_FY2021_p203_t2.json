@@ -1,0 +1,25 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 203,
+  "table_index": 2,
+  "bbox": [
+    56.942925,
+    88.12414999999993,
+    555.3407,
+    279.98839999999996
+  ],
+  "rows": [
+    [
+      "Key Audit Matter",
+      "How the matter was addressed in our audit"
+    ],
+    [
+      "5. Valuation of deferred tax assets and liabilities",
+      null
+    ],
+    [
+      "The Company has disclosed in Note 23 deferred tax liability\n(net of deferred tax asset) as on 31st March, 2021 ₹ 893.72\ncrore (2019-20 : ₹ 1060.61 crore).\nThe Company operates in activities which involves\napplication of multiple income tax provisions.\nThe assessment of the valuation of deferred tax assets/\nliability, resulting from timing differences, and provisions\nfor uncertain tax positions is significant to our audit as\nthe calculations are complex and depend on sensitive and\njudgmental assumptions. These include, amongst others,\nlong-term future profitability and local fiscal regulations and\ndevelopments.",
+      "Our audit procedures relating to the advance and deposits in respect of tax matters under litigation\ncontinuing as assets included the following:\n• Ascertained the completeness and accuracy of the deferred tax assets/liabilities and recognizing\nuncertain tax positions.\n• We challenged and tested the Management’s assessment of the recoverability of the deferred tax\nassets, and the probability of future cash outflows in respect deferred tax liabilities identified by the\nCompany.\n• We also assessed the applicable local fiscal regulations and developments, in particular those\nrelated to changes in the statutory income tax rate and of the statutes of limitation, as these are key\nassumptions underlying the valuation of the deferred tax assets/liabilities.\n• We analysed the tax positions and evaluated the assumptions and methodologies used by the\nCompany.\n• In addition, we also focused on the adequacy of the Company’s disclosures as per Ind AS 12 Income\nTaxes on deferred tax assets/liabilities and assumptions used.\nBased on the above procedures performed, we are satisfied that the methodology and assumptions\napplied in relation to determining the deferred tax assets and liabilities are acceptable."
+    ]
+  ]
+}

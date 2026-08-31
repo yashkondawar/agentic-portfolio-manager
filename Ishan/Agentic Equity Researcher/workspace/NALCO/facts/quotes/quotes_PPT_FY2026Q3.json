@@ -1,0 +1,134 @@
+[
+  {
+    "id": "QT-PQ3-001",
+    "topics": [
+      "industry_macro_regulatory"
+    ],
+    "speaker": "Company (presentation disclaimer)",
+    "quote": "LME Aluminium prices are likely to be impacted by geopolitical crisis, LME stocks movements, contagion from base metals, US$ movements, smelter curtailments, supply-side constraints, and demand growth in EVs, renewables, grid, solar, packaging, construction.",
+    "context_summary": "LME price risk factors and demand drivers",
+    "source": {
+      "src_id": "SRC-668"
+    },
+    "period_discussed": "FY2026",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-PQ3-002",
+    "topics": [
+      "industry_macro_regulatory"
+    ],
+    "speaker": "Company (slide commentary)",
+    "quote": "Indian Aluminium consumption is growing at CAGR of around 9% in last 05 years.",
+    "context_summary": "Historical Indian aluminium demand growth",
+    "source": {
+      "src_id": "SRC-670"
+    },
+    "period_discussed": "general",
+    "kind": "statement",
+    "flags": [
+      "company_claim"
+    ]
+  },
+  {
+    "id": "QT-PQ3-003",
+    "topics": [
+      "industry_macro_regulatory"
+    ],
+    "speaker": "Company (Industry Outlook slide)",
+    "quote": "Indian Aluminium demand is expected to grow at a CAGR range of 6.3 to 7.2 per cent till 2030.",
+    "context_summary": "Forecast Indian demand growth CAGR",
+    "source": {
+      "src_id": "SRC-670"
+    },
+    "period_discussed": "general",
+    "kind": "guidance",
+    "flags": [
+      "company_claim"
+    ]
+  },
+  {
+    "id": "QT-PQ3-004",
+    "topics": [
+      "capex_depreciation_utilization"
+    ],
+    "speaker": "Company (Business Highlights – Major Projects slide)",
+    "quote": "Pottangi Bauxite expansion (111 million tonne reserve) with capacity 3.5 MTPA, likely opening May 2026.",
+    "context_summary": "Bauxite mine expansion commissioning date",
+    "source": {
+      "src_id": "SRC-672"
+    },
+    "period_discussed": "FY2026",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-PQ3-005",
+    "topics": [
+      "capex_depreciation_utilization"
+    ],
+    "speaker": "Company (Business Highlights – Major Projects slide)",
+    "quote": "5th Stream Alumina Refinery with capacity 1 MTPA, likely commissioning June 2026.",
+    "context_summary": "Alumina refinery capacity addition commissioning date",
+    "source": {
+      "src_id": "SRC-672"
+    },
+    "period_discussed": "FY2026",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-PQ3-006",
+    "topics": [
+      "capex_depreciation_utilization"
+    ],
+    "speaker": "Company (Business Highlights – Major Projects slide)",
+    "quote": "Aluminium Smelter with capacity 0.5 MTPA, likely commissioning August 2030.",
+    "context_summary": "Smelter capacity expansion commissioning date",
+    "source": {
+      "src_id": "SRC-672"
+    },
+    "period_discussed": "general",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-PQ3-007",
+    "topics": [
+      "capex_depreciation_utilization"
+    ],
+    "speaker": "Company (Business Highlights – Major Projects slide)",
+    "quote": "Captive Power Plant with capacity 1,080 MW, likely commissioning June 2031.",
+    "context_summary": "CPP capacity addition commissioning date",
+    "source": {
+      "src_id": "SRC-672"
+    },
+    "period_discussed": "general",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-PQ3-008",
+    "topics": [
+      "industry_macro_regulatory"
+    ],
+    "speaker": "Company (LME Price Trend slide)",
+    "quote": "LME prices to average around US$ 2670/MT for CY 2026.",
+    "context_summary": "Management guidance on LME aluminium price for 2026",
+    "source": {
+      "src_id": "SRC-668"
+    },
+    "period_discussed": "general",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-PQ3-009",
+    "topics": [
+      "opex_rnd_talent"
+    ],
+    "speaker": "Company (Responsible & Resilient slide)",
+    "quote": "CSR Budget FY 2025-26: Rs. 91.19 crore allocated across education, healthcare, water & sanitation, livelihood, heritage & culture, and rural development.",
+    "context_summary": "Annual CSR commitment",
+    "source": {
+      "src_id": "SRC-673"
+    },
+    "period_discussed": "FY2026",
+    "kind": "statement"
+  }
+]

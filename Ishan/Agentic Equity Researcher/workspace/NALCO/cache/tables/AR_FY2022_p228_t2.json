@@ -1,0 +1,128 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 228,
+  "table_index": 2,
+  "bbox": [
+    45.30506,
+    390.4394500000001,
+    463.7845,
+    685.576
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      "As at 31.03.2022"
+    ],
+    [
+      "(a)",
+      "Raw materials",
+      "161.03"
+    ],
+    [
+      null,
+      "(1) Cost",
+      "161.03"
+    ],
+    [
+      null,
+      "(2) Less: Provision",
+      ""
+    ],
+    [
+      "(b)",
+      "Coal and fuel oil",
+      "170.82"
+    ],
+    [
+      null,
+      "(1) Cost",
+      "170.82"
+    ],
+    [
+      null,
+      "(2) Less: Provision",
+      ""
+    ],
+    [
+      "(c)",
+      "Carbon Anodes (Intermediaries)",
+      "136.67"
+    ],
+    [
+      null,
+      "(1) Cost",
+      "136.67"
+    ],
+    [
+      null,
+      "(2) Less: Provision",
+      ""
+    ],
+    [
+      "(d)",
+      "Work-in-progress",
+      "319.04"
+    ],
+    [
+      null,
+      "(1) Cost",
+      "319.04"
+    ],
+    [
+      null,
+      "(2) Less: Provision",
+      ""
+    ],
+    [
+      "(e)",
+      "Finished goods",
+      "542.47"
+    ],
+    [
+      null,
+      "(1) Cost",
+      "542.47"
+    ],
+    [
+      null,
+      "(2) Less: Provision",
+      ""
+    ],
+    [
+      "(f)",
+      "Stores and spares",
+      "299.23"
+    ],
+    [
+      null,
+      "(1) Cost",
+      "299.23"
+    ],
+    [
+      null,
+      "(2) Less: Provision",
+      ""
+    ],
+    [
+      "(g)",
+      "Scraps",
+      "16.91"
+    ],
+    [
+      null,
+      "(1) Cost",
+      "16.91"
+    ],
+    [
+      null,
+      "(2) Less: Provision",
+      ""
+    ],
+    [
+      "Total inventories",
+      null,
+      "1,646.17"
+    ]
+  ]
+}

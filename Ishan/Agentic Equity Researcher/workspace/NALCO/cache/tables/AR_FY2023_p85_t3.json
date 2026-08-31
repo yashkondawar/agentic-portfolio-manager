@@ -1,0 +1,38 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 85,
+  "table_index": 3,
+  "bbox": [
+    74.34259999999999,
+    450.59666666666675,
+    549.5626,
+    528.3130000000001
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Item",
+      "Investment (` in lakh)"
+    ],
+    [
+      "1.",
+      "Graphitization of Cathode blocks in 44 pots.",
+      "4,000.00"
+    ],
+    [
+      "2.",
+      "Replacement of 374 nos. of old motors (Ranging from 0.55 KW up to 55 KW) with Energy efficient IE3 Motors.",
+      "90.94"
+    ],
+    [
+      "3.",
+      "Two driers were replaced by Energy efficient driers.",
+      "31.80"
+    ],
+    [
+      "4.",
+      "Screw compressor was replaced with similar capacity centrifugal compressor.",
+      "144.78"
+    ]
+  ]
+}

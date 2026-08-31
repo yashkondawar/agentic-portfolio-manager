@@ -1,0 +1,45 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 43,
+  "table_index": 2,
+  "bbox": [
+    60.76925,
+    616.5360000000001,
+    549.296,
+    684.917
+  ],
+  "rows": [
+    [
+      "Total Amount Spent for the\nFinancial Year (R in Lakh)",
+      "Amount Unspent (in R)",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      "Total Amount transferred to Unspent\nCSR Account as per section 135(6)",
+      null,
+      "Amount transferred to any fund specified under Schedule VII\nas per second proviso to section 135(5)",
+      null,
+      null
+    ],
+    [
+      null,
+      "Amount",
+      "Date of transfer",
+      "Name of the Fund",
+      "Amount",
+      "Date of transfer"
+    ],
+    [
+      "3,954.44",
+      "NA",
+      "NA",
+      "NA",
+      "NA",
+      "NA"
+    ]
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 192,
+  "table_index": 1,
+  "bbox": [
+    112.308,
+    89.54500000000007,
+    464.031,
+    128.71000000000004
+  ],
+  "rows": [
+    [
+      "Name of Trust Nature of Transaction",
+      "Year ended 31.03.2022"
+    ],
+    [
+      "NEPF Trust PF-Contribution",
+      "543.71"
+    ],
+    [
+      "NEGG Trust Funding of shortfall",
+      "6.61"
+    ]
+  ]
+}

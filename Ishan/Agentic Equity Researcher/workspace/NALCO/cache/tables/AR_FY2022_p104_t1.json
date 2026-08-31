@@ -1,0 +1,55 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 104,
+  "table_index": 1,
+  "bbox": [
+    93.793,
+    71.70866666666677,
+    483.8907,
+    166.25300000000004
+  ],
+  "rows": [
+    [
+      "Members of Audit Committee",
+      "Category of Director",
+      "Position",
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "held"
+    ],
+    [
+      "Dr. Ajay Narang@",
+      "Independent",
+      "Chairman",
+      "1"
+    ],
+    [
+      "Dr. B. R. Ramakrishna@",
+      "Independent",
+      "Member",
+      "1"
+    ],
+    [
+      "Shri Dushyant Upadhyay@",
+      "Independent",
+      "Member",
+      "1"
+    ],
+    [
+      "Shri Y. P. Chillio@",
+      "Independent",
+      "Member",
+      "1"
+    ],
+    [
+      "Shri B. K. Das",
+      "Functional",
+      "Member",
+      "1"
+    ]
+  ]
+}

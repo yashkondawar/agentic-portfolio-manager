@@ -1,0 +1,134 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 264,
+  "table_index": 1,
+  "bbox": [
+    51.27364137931035,
+    87.77893571428572,
+    542.60043125,
+    278.0817230769231
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "UDANL",
+      null,
+      "KABIL",
+      null,
+      "AAPPL",
+      null,
+      "GNAL",
+      null
+    ],
+    [
+      null,
+      "As at\n31.03.2025",
+      "As at\n31.03.2024",
+      "As at\n31.03.2025",
+      "As at\n31.03.2024",
+      "As at\n31.03.2025",
+      "As at\n31.03.2024",
+      "As at\n31.03.2025",
+      "As at\n31.03.2024"
+    ],
+    [
+      "Revenue",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "1,084.13",
+      "776.11"
+    ],
+    [
+      "Profit or loss from continuing operations",
+      "1.54",
+      "1.04",
+      "(7.73)",
+      "(1.39)",
+      "(0.92)",
+      "(3.50)",
+      "(134.90)",
+      "(174.33)"
+    ],
+    [
+      "Other comprehensive income for the year",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "(0.06)",
+      "0.01"
+    ],
+    [
+      "Total comprehensive income for the year",
+      "1.54",
+      "1.04",
+      "(7.73)",
+      "(1.39)",
+      "(0.92)",
+      "(3.50)",
+      "134.96",
+      "174.32"
+    ],
+    [
+      "The above profit / (loss) for the year include the following:",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Depreciation and amortisation",
+      "0.10",
+      "0.10",
+      "1.54",
+      "-",
+      "0.36",
+      "4.99",
+      "103.81",
+      "97.51"
+    ],
+    [
+      "Interest Income",
+      "2.22",
+      "1.93",
+      "5.67",
+      "4.51",
+      "0.73",
+      "1.06",
+      "3.51",
+      "11.75"
+    ],
+    [
+      "Interest expenses",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "0.03",
+      "144.19",
+      "139.88"
+    ],
+    [
+      "Income tax expense/(income)",
+      "0.40",
+      "0.40",
+      "(0.06)",
+      "(0.44)",
+      "2.40",
+      "1.23",
+      "-",
+      "-"
+    ]
+  ]
+}

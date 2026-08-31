@@ -1,0 +1,62 @@
+{
+  "module": "23_valuation_moat_peers",
+  "company": "NALCO",
+  "open_questions": [
+    {
+      "id": "OQ-VAL-01",
+      "question": "Are NALCO's domestic peers (Hindalco, Vedanta Aluminium) currently trading at valuation multiples (PE, EV/EBITDA, P/B) comparable to, above, or below NALCO's CMP multiples? Not pulled in this DR2 pass.",
+      "severity": "high",
+      "why_it_matters": "This module's peer premium/discount table could only compare operating margins (not market multiples) for NALCO's two closest domestic peers -- the single largest gap in the valuation cross-section. Without this, the strongest read available is an international comparison (Alcoa) that is a weaker like-for-like match than the domestic peers would be.",
+      "owner": "deep-researcher (DR2 refresh)",
+      "src_context": ["F-EXT-1216", "F-EXT-1217", "F-EXT-1218", "F-EXT-1219", "F-EXT-1220"]
+    },
+    {
+      "id": "OQ-VAL-02",
+      "question": "Is NALCO's 'world's lowest-cost alumina/bauxite producer' claim still true on any current (2025/2026) independent third-party cost-curve ranking? The most recent independently-sourced ranking located (Wood Mackenzie) is FY2019-vintage.",
+      "severity": "medium",
+      "why_it_matters": "This is a moat- and premium-justifying claim frequently repeated by the company; it cannot currently be verified or falsified against a live external benchmark, and both closer peers (Hindalco 'first decile', Vedanta 'lower quartile' targeting) have more recent self-characterizations, making NALCO's stale claim comparatively weaker evidence, not stronger.",
+      "owner": "deep-researcher (DR2 refresh) / governance-analyst cross-check",
+      "src_context": ["F-EXT-1215"]
+    },
+    {
+      "id": "OQ-VAL-03",
+      "question": "What is NALCO's specific EU export volume/revenue exposure, and how much of the industry-wide 41.7% YTD India-to-EU unwrought aluminium export decline (CBAM-linked) is attributable to NALCO specifically versus other Indian exporters?",
+      "severity": "medium",
+      "why_it_matters": "CBAM is flagged as a structural, ongoing headwind for India's aluminium exporters generally, but this module could not size NALCO's specific exposure -- alumina segment is described as ~90% export-weighted (mostly non-EU per available facts), but the metal/downstream EU mix specifically is unquantified in the current fact set.",
+      "owner": "deep-researcher (DR2 refresh) / fundamental-analyst (segment export mix)",
+      "src_context": ["F-EXT-1226", "F-EXT-1227"]
+    },
+    {
+      "id": "OQ-VAL-04",
+      "question": "What does estimates-builder's FY2027-FY2029 EPS path look like, and does it support or contradict this module's reverse-read conclusion that CMP implies a ~2x sustained EPS step-up versus the FY2025 peak?",
+      "severity": "high",
+      "why_it_matters": "This module's 'what's priced in' analysis is a DCF-substitute sanity check, not a full estimates reconciliation. The actual forward-estimates series (not yet available to this module at time of writing) is the direct next test of whether the current multiple is justified or not -- this is the single highest-priority follow-up for the synthesis/estimates stage.",
+      "owner": "estimates-builder",
+      "src_context": ["SRC-1319", "F-FUND-01", "F-FUND-02"]
+    },
+    {
+      "id": "OQ-VAL-05",
+      "question": "What explains the near-total convergence of NALCO's CMP-implied multiples (12.5x PE, 7.7-8.4x EV/EBITDA) with Alcoa's (12.60x trailing PE, 8.33x EV/EBITDA, as of 26-Jun-2026), given NALCO's smaller scale, single-country concentration, cyclically peak current earnings, and comparatively illiquid free float versus a large diversified US-listed peer?",
+      "severity": "high",
+      "why_it_matters": "No evidenced catalyst (index inclusion, credit-rating action, confirmed capacity-expansion DPR approval, PSU-theme rotation) was found in this fact set to explain this convergence. It is flagged as an anomaly requiring either a specific re-rating catalyst to be identified, or treatment as an unexplained valuation risk.",
+      "owner": "deep-researcher / peer-valuation-analyst (next iteration)",
+      "src_context": ["F-EXT-1221", "F-EXT-1222", "F-VAL-07"]
+    },
+    {
+      "id": "OQ-VAL-06",
+      "question": "Can a full per-tonne cost-bucket breakdown (raw material %, power/fuel %, employee %, other) be obtained at a segment level comparable to Vedanta's/Hindalco's disclosed cost-of-production figures, to complete the unit-economics comparison?",
+      "severity": "low",
+      "why_it_matters": "Current unit-economics section relies on a small number of point-in-time cost figures (alumina/metal cost of production, caustic soda consumption) rather than a full cost-structure percentage breakdown; a fuller breakdown would sharpen the cost-position dimension of the business-quality rating.",
+      "owner": "doc-extractor (next AR/annexure pass) / fundamental-analyst",
+      "src_context": ["guidance.json GD-Q4-024", "guidance.json GD-Q4-025"]
+    },
+    {
+      "id": "OQ-VAL-07",
+      "question": "What is the true remaining tenure on NALCO's Panchpatmali bauxite mining leases, given the internal management self-correction on a concall and an unresolved DR1-B external-source discrepancy on lease-expiry dates?",
+      "severity": "medium",
+      "why_it_matters": "The regulatory/access-barrier dimension of the moat matrix (scored 6/10) rests significantly on the durability of these captive mining leases; an unresolved ambiguity on expiry dates caps confidence in that score and in the overall moat trajectory read.",
+      "owner": "governance-analyst / deep-researcher (DR1-B follow-up)",
+      "src_context": ["governance.json concall_behaviour QT-Q2-041"]
+    }
+  ]
+}

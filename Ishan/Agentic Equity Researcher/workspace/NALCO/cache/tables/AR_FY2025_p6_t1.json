@@ -1,0 +1,58 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 6,
+  "table_index": 1,
+  "bbox": [
+    68.28144999999999,
+    277.93994000000004,
+    542.72636,
+    448.5028
+  ],
+  "rows": [
+    [
+      "Type of holder",
+      "Process to be followed",
+      null
+    ],
+    [
+      "Physical",
+      "For availing the following investor services, send a written request in the prescribed form(s) [to be downloaded from\nwww.nalcoindia.com] to the RTA of the Company, M/s. Bigshare Services Pvt. Ltd. either by email to sujit@bigshareonline.\ncom/vikas@bigshareonline.com or by post to M/s. Bigshare Services Private Limited, Office No. S6-2, 6th Floor, Pinnacle\nBusiness Park, Next to Ahura Centre, Mahakali Caves Road, Andheri (East), Mumbai-400093.",
+      null
+    ],
+    [
+      null,
+      "Form for availing investor services to register PAN, email address, bank details and other KYC details or\nchanges / update thereof for securities held in physical mode.",
+      "Form ISR-1"
+    ],
+    [
+      null,
+      "Update signature of securities holder.",
+      "Form ISR-2"
+    ],
+    [
+      null,
+      "For nomination as provided in Rule 19(1) of the Companies (Share Capital and Debentures) Rules, 2014.",
+      "Form SH-13"
+    ],
+    [
+      null,
+      "Declaration to opt out.",
+      "Form ISR-3"
+    ],
+    [
+      null,
+      "Cancellation of nomination by the holder(s) (along with ISR-3) / Change of nominee.",
+      "Form SH-14"
+    ],
+    [
+      null,
+      "Form for requesting issue of duplicate certificate and other service requests for shares / debentures / bonds,\netc., held in physical form.",
+      "Form ISR-4"
+    ],
+    [
+      "Demat",
+      "Please contact your DP and register your email address, bank account details and other particulars in your demat account, as\nper the process advised by your DP.",
+      null
+    ]
+  ]
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "id": "OQ-GOV-01",
+    "question": "Are there any SEBI, ED, SFIO, CBI, NCLT/IBBI orders, MCA charge defaults, or DIN disqualifications on record against NALCO, its directors (Brijendra Pratap Singh, Abhay Kumar Behuria, Jagdish Arora, or other board members), or its material subsidiaries/JVs (per MCA21/SEBI enforcement registries)?",
+    "why_it_matters": "Gates the legal_regulatory sub-score (20% weight) at Green vs Amber/Red per rubric; document-only extraction found no adverse fact, but that is an absence-of-evidence result, not an independent clearance.",
+    "severity": "high",
+    "routed_to": "deep_research_company",
+    "status": "open — attempted twice (original DR1 + DR1-B follow-up, 2026-07-16), both returned absence-of-evidence only; SEBI enforcement-order/NCLT/NCLAT portals are interactive/form-driven and not queryable via search/fetch tooling used. Recommend a direct browser-driven docket query by party name if this must be upgraded to certified-clean. See F-EXT-1157."
+  },
+  {
+    "id": "OQ-GOV-02",
+    "question": "What did the C&AG (Comptroller and Auditor General) supplementary audit under Section 143(6) of the Companies Act 2013 find for NALCO for FY2021-FY2025? Were there any CAG comments, qualifications, or para observations appended to the statutory auditor's report in any year?",
+    "why_it_matters": "CAG supplementary audit is a CPSE-specific governance mechanism absent for private companies; a CAG adverse para would be material to the accounting sub-score even if the statutory auditor's opinion is unqualified. No CAG-specific fact was extracted from any AR on hand.",
+    "severity": "high",
+    "routed_to": "deep_research_company",
+    "status": "answered (company-disclosed tier) — facts/fragments/facts_AR_FY24_25_audit.json confirms CAG supplementary-audit comment 'Nil — Nothing significant has come to knowledge' for both FY2024 [F-AUD-04] and FY2025 [F-AUD-25], per the company's own AR disclosure. Externally, DR1-B (F-EXT-1158) could not independently corroborate or contradict this via a fetched CAG report PDF — a CAG 'Report No. 18 of 2025, Union Government (Commercial)' exists in CAG's report list but its content re: NALCO was not fetched/confirmed. Residual open item: direct fetch of that CAG PDF."
+  },
+  {
+    "id": "OQ-GOV-03",
+    "question": "What were the statutory auditor's opinions (qualified/unqualified/adverse/disclaimer) and total contingent liabilities for FY2024 and FY2025? These are not present in facts/financials.json despite AR_FY2024.pdf and AR_FY2025.pdf being in the input manifest.",
+    "why_it_matters": "Directly gates the accounting sub-score (35% weight, largest component); FY2021-FY2023 are clean but the two most recent years are an extraction gap, not a confirmed clean result.",
+    "severity": "high",
+    "routed_to": "re_extraction_not_research — recommend doc-extractor re-run on AR_FY2024.pdf/AR_FY2025.pdf auditor's report and Note on contingent liabilities/commitments",
+    "status": "answered/resolved — facts/fragments/facts_AR_FY24_25_audit.json confirms unqualified opinions for FY2024 [F-AUD-03] and FY2025 [F-AUD-24]; contingent liabilities FY2024 Rs.1,920.03cr [F-AUD-05], FY2025 Rs.2,050.43cr [F-AUD-27]. Also surfaced a FY2025 payroll-software audit-trail control-deficiency disclosure [F-AUD-26] — not a qualification, but noted for completeness. Accounting sub-score's provisional gate is closed."
+  },
+  {
+    "id": "OQ-GOV-04",
+    "question": "What is NALCO's quarterly promoter (Government of India) shareholding trend for the last 4+ quarters, and is there any announced or rumoured OFS/disinvestment under DIPAM for NALCO?",
+    "why_it_matters": "CPSE-specific disinvestment/OFS risk is a distinct overhang from pledge risk (which is N/A for a sovereign promoter); relevant to promoter-shareholding-trend deliverable and to the equity story (supply overhang risk), not currently answerable from facts on hand.",
+    "severity": "medium",
+    "routed_to": "deep_research_company",
+    "status": "partially answered — no OFS/disinvestment for NALCO found (F-EXT-1154); only live 2026 CPSE OFS in this space is NLC India, an unrelated entity. GoI unencumbered-shares status reconfirmed for FY2026. Promoter holding ~51.3% (Jun-2026 qtr) per secondary aggregator (F-EXT-1153), consistent with the 51.28% baseline — no material shift, but exact % still not read from a directly-fetched primary shareholding-pattern PDF (index page located, PDF not fetched). Residual open item: direct PDF fetch to upgrade corroboration to primary."
+  },
+  {
+    "id": "OQ-GOV-05",
+    "question": "What is the full board composition (independent directors, GoI-nominee directors, part-time official/non-official directors), their tenure/appointment dates, and any DIN-related flags? Do any board members have LinkedIn-stated roles that diverge from AR-stated roles/tenure?",
+    "why_it_matters": "Rubric's governance sub-criterion explicitly weighs 'independent board' composition; not extracted in facts/financials.json (only transcript-speaker names for 3 executive directors were available). Also needed for the management-table LinkedIn-discrepancy check called for in the module deliverables.",
+    "severity": "medium",
+    "routed_to": "deep_research_company",
+    "status": "ANSWERED — ADVERSE FINDING (upgrades severity from medium to high in retrospect). F-EXT-1155 (confidence high, 4 corroborating sources): NALCO's own FY2026 Annual Secretarial Compliance Report admits the board fell short of the SEBI LODR Reg. 17(1) minimum 50%-independent-director requirement during parts of FY2026, after three independent directors (Trupti Kamlesh Patel, Ajay Narang, Patel Sanjaykumar) ceased 31-Mar-2026 on tenure expiry without named replacements — also degrading Audit Committee/NRC/Stakeholders Relationship Committee composition. BSE and NSE each fined NALCO Rs.5,42,800 (total Rs.10,85,600) via notices dated 27-Feb-2026; NALCO requested a waiver (17-Mar-2026) citing GoI's exclusive control over ID appointments — waiver outcome not yet reported. This reframes the prior 'routine tenure expiry, governance watch item' characterization to an active, disclosed, penalized compliance gap; now load-bearing in the governance and legal_regulatory sub-scores. LinkedIn-discrepancy check still not performed — remains open at low priority given the more material finding above."
+  },
+  {
+    "id": "OQ-GOV-06",
+    "question": "What does external press/media coverage (last 3-5 years) say about NALCO's governance, board appointments, or any controversy — and does independent secondary-source coverage corroborate or contradict the clean-audit picture from the AR filings?",
+    "why_it_matters": "Rubric requires a media/reputation red-flag category; no DR1 external-facts output was available to this module at run time (no workspace/NALCO/research/ output found).",
+    "severity": "medium",
+    "routed_to": "deep_research_company",
+    "status": "partially answered — new item surfaced: a 2026 CBI probe (F-EXT-1156, confidence medium) into recruitment-fraud allegations at NALCO's Bhubaneswar office/Haradghana site (~20 people allegedly promised/given jobs without an official advertisement); NALCO's public rebuttal frames the CBI visit as routine verification of an unverified external complaint (no raid/seizure), not a confirmed adverse finding against management. Combined with the BSE/NSE fine (OQ-GOV-05), this pass surfaces materially more governance texture than the original 'no adverse finding' conclusion. Residual open item: CBI probe outcome (ongoing/closed status not confirmed)."
+  }
+]

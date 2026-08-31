@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 97,
+  "table_index": 1,
+  "bbox": [
+    74.201,
+    248.58866666666668,
+    549.52774,
+    306.742
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Item",
+      "Investment (` in lakh)"
+    ],
+    [
+      "1.",
+      "Use of fuel additive",
+      "09.60"
+    ],
+    [
+      "2.",
+      "Installation of Roof top Solar Power Plant (130 KWp)",
+      "78.44"
+    ],
+    [
+      "3.",
+      "Installation of Roof top Solar Power Plant (50 KWp)",
+      "25.00"
+    ]
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 84,
+  "table_index": 1,
+  "bbox": [
+    68.2815,
+    73.95089999999999,
+    542.1261000000001,
+    161.20640000000003
+  ],
+  "rows": [
+    [
+      "Parameter",
+      "FY 2023-24",
+      "FY 2022-23"
+    ],
+    [
+      "Water Intensity per rupee of turnover\n(Total water consumption / Revenue from operations)",
+      "0.00038",
+      "0.00031"
+    ],
+    [
+      "Water Intensity per rupee of turnover adjusted for Purchasing Power Parity (PPP)\n(Total water consumption / Revenue from operations adjusted for PPP)",
+      "0.00871",
+      "0.00719"
+    ],
+    [
+      "Water intensity in terms of physical output\n(Alumina Production in MT)",
+      "23.43",
+      "20.97"
+    ]
+  ]
+}

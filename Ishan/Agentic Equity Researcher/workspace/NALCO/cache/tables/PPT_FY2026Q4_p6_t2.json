@@ -1,0 +1,53 @@
+{
+  "doc": "PPT_FY2026Q4.pdf",
+  "page": 6,
+  "table_index": 2,
+  "bbox": [
+    88.56,
+    321.5866666666667,
+    720.0,
+    478.54352941176467
+  ],
+  "rows": [
+    [
+      "mation in this docu\nSales\ninformation obtain",
+      "ment is being pr\nQ4/ 25-26\ned from sources",
+      "ovided by the C\nQ3/ 25-26\nbelieved to be",
+      "ompany and is s\nQ4 / 24-25\nreliable but doe",
+      "ubject to change\n% change\ns not guarantee\nagainst CPLY",
+      "without notice\nFY 24-25\nits accuracy or c"
+    ],
+    [
+      "Alumina – Export",
+      "305.13",
+      "363.3",
+      "334.31",
+      "(-) 8.7",
+      "1064.6"
+    ],
+    [
+      "Alumina –\nDomestic",
+      "38.23",
+      "39.6",
+      "12.36",
+      "(+) 209.3",
+      "41.4"
+    ],
+    [
+      "Metal – Export",
+      "6.11",
+      "7.1",
+      "0",
+      "-",
+      "6.1"
+    ],
+    [
+      "Metal - Domestic",
+      "116.07",
+      "119.3",
+      "126.19",
+      "(-) 8.0",
+      "454.6"
+    ]
+  ]
+}

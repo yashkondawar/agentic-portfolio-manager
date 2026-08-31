@@ -1,0 +1,53 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 44,
+  "table_index": 4,
+  "bbox": [
+    51.273716666666665,
+    472.8301714285714,
+    542.5673157894737,
+    576.094
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Short particulars of\nthe property or asset(s)\n[including complete address\nand location of the property]",
+      "Pin code of the\nproperty or\nasset(s)",
+      "Date of\nCreation",
+      "Amount of\nCSR amount\nspent",
+      "Details of entity / Authority/ beneficiary of\nthe registered owner",
+      null,
+      null
+    ],
+    [
+      "(1)",
+      "(2)",
+      "(3)",
+      "(4)",
+      "(5)",
+      "(6)",
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      "CSR Registered\nNumber, if\napplicable",
+      "Name",
+      "Registered\nAddress"
+    ],
+    [
+      "1.",
+      "NA",
+      "NA",
+      "NA",
+      "0",
+      "NA",
+      "NA",
+      "NA"
+    ]
+  ]
+}

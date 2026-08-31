@@ -1,0 +1,91 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 198,
+  "table_index": 2,
+  "bbox": [
+    51.27340909090909,
+    488.81622857142855,
+    542.5964444444445,
+    668.4232400000001
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      "As at 31.03.2025",
+      "As at 31.03.2024"
+    ],
+    [
+      "A.",
+      "Non-current",
+      null,
+      null
+    ],
+    [
+      null,
+      "(a) Considered good - Secured",
+      "-",
+      "-"
+    ],
+    [
+      null,
+      "(b) Considered good - Unsecured",
+      "-",
+      "-"
+    ],
+    [
+      null,
+      "(c) Credit impaired",
+      "36.28",
+      "36.28"
+    ],
+    [
+      null,
+      "Less: Allowance for credit loss",
+      "36.28",
+      "36.28"
+    ],
+    [
+      "Non-current trade receivables",
+      null,
+      "-",
+      "-"
+    ],
+    [
+      "B.",
+      "Current",
+      null,
+      null
+    ],
+    [
+      null,
+      "(a) Considered good - Secured",
+      "-",
+      "-"
+    ],
+    [
+      null,
+      "(b) Considered good - Unsecured",
+      "186.39",
+      "153.50"
+    ],
+    [
+      null,
+      "(c) Credit impaired",
+      "20.59",
+      "21.28"
+    ],
+    [
+      null,
+      "Less: Allowance for credit loss",
+      "20.59",
+      "21.28"
+    ],
+    [
+      "Current trade receivables",
+      null,
+      "186.39",
+      "153.50"
+    ]
+  ]
+}

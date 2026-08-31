@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python tools/*)",
+      "Bash(python -m pip install -r tools/requirements.txt)",
+      "Bash(node tools/*)",
+      "Read(//d/Claude code directory/ER Agent/Agentic Equity Researcher/**)",
+      "WebFetch(domain:nseindia.com)",
+      "WebFetch(domain:bseindia.com)",
+      "WebFetch(domain:sebi.gov.in)",
+      "WebFetch(domain:mca.gov.in)",
+      "WebFetch(domain:nclt.gov.in)",
+      "WebFetch(domain:rbi.org.in)",
+      "WebFetch(domain:screener.in)",
+      "WebFetch(domain:bsmedia.business-standard.com)",
+      "WebFetch(domain:mailcontent.icicidirect.com)",
+      "WebFetch(domain:icicidirect.com)",
+      "WebFetch(domain:images.assettype.com)",
+      "WebFetch(domain:simplehai.axisdirect.in)",
+      "WebFetch(domain:jmflresearch.com)",
+      "WebFetch(domain:dalal-broacha.com)",
+      "WebFetch(domain:investmentguruindia.com)",
+      "WebFetch(domain:barodaetrade.com)",
+      "WebFetch(domain:kotaksecurities.com)",
+      "WebFetch(domain:reliancesmartmoney.com)",
+      "WebFetch(domain:nirmalbang.com)",
+      "WebFetch(domain:smifs.com)",
+      "WebFetch(domain:rathi.com)",
+      "WebSearch"
+    ]
+  }
+}

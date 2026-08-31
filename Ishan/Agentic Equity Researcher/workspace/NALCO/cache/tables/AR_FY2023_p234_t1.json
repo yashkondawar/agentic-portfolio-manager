@@ -1,0 +1,85 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 234,
+  "table_index": 1,
+  "bbox": [
+    45.9165,
+    54.35800000000006,
+    549.5775000000001,
+    204.85733333333334
+  ],
+  "rows": [
+    [
+      "(3) Movement of other Provisions",
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "Asset restoration obligation",
+      "Legal and Constructive Obligation",
+      "Peripheral Development Expenses"
+    ],
+    [
+      "Balance at 31.03.2021",
+      "37.42",
+      "41.72",
+      "30.47"
+    ],
+    [
+      "Additional provisions recognised",
+      "0.11",
+      "12.53",
+      "-"
+    ],
+    [
+      "Reductions arising from payments",
+      "-",
+      "(4.95)",
+      "(0.17)"
+    ],
+    [
+      "Unwinding of discount",
+      "3.06",
+      "0.15",
+      "-"
+    ],
+    [
+      "Balance at 31.03.2022",
+      "40.59",
+      "49.45",
+      "30.30"
+    ],
+    [
+      "Additional provisions recognised",
+      "0.30",
+      "2.97",
+      "-"
+    ],
+    [
+      "Reductions arising from payments",
+      "0.43",
+      "(0.69)",
+      "(0.25)"
+    ],
+    [
+      "Unwinding of discount",
+      "2.90",
+      "0.28",
+      "-"
+    ],
+    [
+      "Others",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Balance at 31.03.2023",
+      "44.22",
+      "52.01",
+      "30.05"
+    ]
+  ]
+}

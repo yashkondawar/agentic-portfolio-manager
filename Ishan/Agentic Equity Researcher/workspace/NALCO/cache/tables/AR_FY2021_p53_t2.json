@@ -1,0 +1,255 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 53,
+  "table_index": 2,
+  "bbox": [
+    56.94290833333333,
+    139.20384999999993,
+    555.347725,
+    673.2128
+  ],
+  "rows": [
+    [
+      "(1)",
+      "(2)",
+      "(3)",
+      "(4)",
+      "(5)",
+      "(6)",
+      "(7)",
+      "(8)",
+      "(9)"
+    ],
+    [
+      "Sl.\nNo.",
+      "Project\nID",
+      "Name of the Project",
+      "Financial Year\nin which the\nproject was\ncommenced",
+      "Project\nduration",
+      "Total amount\nallocated for\nthe project",
+      "Amount spent\non the project\nin the reporting\nFinancial Year",
+      "Cumulative amount\nspent at the end of\nreporting Financial\nyear",
+      "Status of\nthe Project-\nCompleted/\nOngoing"
+    ],
+    [
+      "1",
+      "_",
+      "Open Defecation Free (ODF) programme in\n05 villages of S&P Complex, Angul",
+      "2017-18",
+      "5 years",
+      "491.13",
+      "50.00",
+      "253.41",
+      "Ongoing"
+    ],
+    [
+      "2",
+      "_",
+      "Pipe water supply to village Girang",
+      "2018-19",
+      "4 years",
+      "313.00",
+      "0.00",
+      "200.00",
+      "Ongoing"
+    ],
+    [
+      "3",
+      "_",
+      "Renovation of Pipe drinking water supply to\n11 villages due to fluoride content in the water",
+      "2018-19",
+      "4 years",
+      "1050.00",
+      "0.00",
+      "248.66",
+      "Ongoing"
+    ],
+    [
+      "4",
+      "_",
+      "Installation of Tube well in 15 periphery\nvillages / School & institution of Damanjodi",
+      "2018-19",
+      "3 years",
+      "20.87",
+      "2.01",
+      "22.88",
+      "Completed"
+    ],
+    [
+      "5",
+      "_",
+      "Installation of Tube well in 10 villages of\nPottangi",
+      "2018-19",
+      "3 years",
+      "13.92",
+      "1.51",
+      "8.46",
+      "Completed"
+    ],
+    [
+      "6",
+      "_",
+      "Water Supply Network Including Repair/\nRenovation of Bore well at village\nGopiballavpur",
+      "2018-19",
+      "3 years",
+      "20.36",
+      "5.36",
+      "20.36",
+      "Completed"
+    ],
+    [
+      "7",
+      "_",
+      "Provision & installation of Aqua guard at\ndifferent place of Damanjodi",
+      "2019-20",
+      "2 years",
+      "1.00",
+      "0.84",
+      "0.84",
+      "Completed"
+    ],
+    [
+      "8",
+      "_",
+      "Operation Battery operated vehicle from\nJagannath Ballav Matha to Shri Jagannath\nTemple.",
+      "2017-18",
+      "5 yrs.",
+      "648.00",
+      "84.55",
+      "226.48",
+      "Ongoing"
+    ],
+    [
+      "9",
+      "_",
+      "Providing 12 Nos. of Clean water post in\nVarious places of Puri.",
+      "2017-18",
+      "5 years",
+      "54.68",
+      "4.14",
+      "40.49",
+      "Ongoing"
+    ],
+    [
+      "10",
+      "_",
+      "Electrification and renovation work at Gandhi\nPark and other places of Puri after cyclone\nFANI.",
+      "2019-20",
+      "2 years",
+      "49.00",
+      "48.89",
+      "48.89",
+      "Completed"
+    ],
+    [
+      "11",
+      "_",
+      "Construction of classrooms at Sri\nRamakrishna Shishu Vidyamandir, Khalari",
+      "2019-20",
+      "2 years",
+      "7.00",
+      "6.99",
+      "6.99",
+      "Completed"
+    ],
+    [
+      "12",
+      "_",
+      "Construction of Multi-purpose hall and\nboundary wall & at Rajib Gandhi High\nSchool.",
+      "2019-20",
+      "2 years",
+      "20.00",
+      "19.99",
+      "19.99",
+      "Completed"
+    ],
+    [
+      "13",
+      "_",
+      "Construction of dining hall at Thuria High\nschool (Residential school)",
+      "2019-20",
+      "2 years",
+      "12.00",
+      "11.98",
+      "11.98",
+      "Completed"
+    ],
+    [
+      "14",
+      "_",
+      "Construction of classroom at Kilar school",
+      "2019-20",
+      "2 years",
+      "6.00",
+      "5.92",
+      "5.92",
+      "Completed"
+    ],
+    [
+      "15",
+      "_",
+      "Construction of classroom at Chougaon\nsevashram",
+      "2019-20",
+      "2 years",
+      "2.66",
+      "2.38",
+      "2.38",
+      "Completed"
+    ],
+    [
+      "16",
+      "_",
+      "Construction of boundary wall at GP High\nschool, Korada",
+      "2019-20",
+      "2 years",
+      "10.00",
+      "9.43",
+      "9.93",
+      "Completed"
+    ],
+    [
+      "17",
+      "_",
+      "Skill Development through NSDC at Angul,\nKoraput, Khurda and RPL training",
+      "2017-18",
+      "4 years",
+      "260.02",
+      "0.00",
+      "221.68",
+      "Completed"
+    ],
+    [
+      "18",
+      "_",
+      "Skill development & vocational training of\nyouths belonging to poor, BPL families at\nGwalior",
+      "2018-19",
+      "3 years",
+      "61.20",
+      "0.00",
+      "57.90",
+      "Completed"
+    ],
+    [
+      "19",
+      "_",
+      "Livelihood intervention through SHGs at\nPottangi",
+      "2018-19",
+      "3 years",
+      "20.00",
+      "19.92",
+      "19.92",
+      "Completed"
+    ],
+    [
+      "20",
+      "_",
+      "Youth Leadership Training programme\n(YLTP) through Art of Living at Damanjodi\n& Pottangi",
+      "2018-19",
+      "3 years",
+      "22.86",
+      "9.61",
+      "20.96",
+      "Completed"
+    ]
+  ]
+}

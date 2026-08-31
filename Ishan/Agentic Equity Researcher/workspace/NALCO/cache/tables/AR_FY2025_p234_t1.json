@@ -1,0 +1,53 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 234,
+  "table_index": 1,
+  "bbox": [
+    51.27363636363636,
+    73.95085,
+    542.7902153846154,
+    674.9698
+  ],
+  "rows": [
+    [
+      "Key Audit Matter",
+      "Response of Auditors in dealing with the matters"
+    ],
+    [
+      "",
+      "• We assessed whether indicators of impairment existed as at 31st March 2025\nbased on our knowledge of the business and the industry and wherever\nrequired the provision of impairment of assets/CWIP were reviewed.\n• We tested the controls in place over the property, plant and equipment and\nintangible assets, evaluated the appropriateness of capitalisation policies,\nperformed tests of details on costs capitalised and assessed the timeliness of\ncapitalisation including decapitalisation of assets retired from active use and\nthe application of the asset life.\n• In performing these substantive procedures, we assessed the judgements\nmade by Management including the nature of underlying costs capitalised;\nthe appropriateness of asset lives applied in the calculation of depreciation\nand amortisation; and in assessing the need for accelerated depreciation/\namortisation, if required, in the context of impairment."
+    ],
+    [
+      "2. Valuation of employees’ defined benefit obligations and other long-term benefits",
+      null
+    ],
+    [
+      "The Company has recognised long-term employee benefit liabilities\nand defined benefit obligations (net of plan asset against funded\ngratuity obligation).\nThe valuation of employee benefit obligations is dependent on\nmarket conditions and assumptions made. The key audit matter\nspecifically relates to the following key assumptions like discount\nrate, inflation expectations and life expectancy assumptions. The\nsetting of these assumptions is complex and requires the exercise\nof significant Management judgement with the support of third-\nparty actuary",
+      "Our audit procedures relating to the valuation of employees, defined benefit\nobligations and other long-term benefits included the following:\n• In testing the valuation, we have examined the reports of external actuarial\nspecialists to review the key actuarial assumptions used, both financial and\ndemographic, and considered the methodology utilised to derive these\nassumptions.\n• We evaluated the assumptions made by Management and the actuary to ensure\nthat these are consistent with the principles of Ind AS 19 Employee Benefits.\n• Furthermore, we have examined the sensitivity analysis on the key assumptions\nin valuing the defined benefit obligations."
+    ],
+    [
+      "3. Advances and deposits in respect of tax matters under litigation continuing as assets",
+      null
+    ],
+    [
+      "The Financial Statements disclose other assets, which includes\nmaterial recoverable claims of direct and indirect tax deposits\n(net of provision) including VAT and CENVAT credits which are\npending adjustment/ adjudication.\nSignificant judgement is required in assessing the nature of these\nexposures and their accounting and disclosure requirements.",
+      "Our audit procedures relating to the advance and deposits in respect of tax matters\nunder litigation continuing as assets included the following:\n• We obtained from Management the details of completed tax assessments and\ndemands and appeal orders of the appellate authority.\n• We involved our internal experts to challenge the Management’s underlying\nassumptions in estimating the tax liability and the possible outcome of the\ndisputes.\n• Our internal experts also considered legal precedence and other rulings in\nevaluating Management’s position on these uncertain tax positions.\n• Additionally, we have considered opinions of legal and tax experts, wherever\navailable, to review the nature of the amounts recoverable, the sustainability\nand the likelihood of recoverability upon final resolution."
+    ],
+    [
+      "4. Valuation of deferred tax assets and liabilities",
+      null
+    ],
+    [
+      "The Company has disclosed deferred tax assets/liabilities in the\nFinancial Statements.\nThe Company operates in activities which involves application of\nvarious provisions in income tax.\nThe assessment of the valuation of deferred tax assets/liabilities,\nresulting from temporary differences, and provisions for uncertain\ntax positions is significant to our audit as the calculations are\ncomplex and depend on sensitive and judgemental assumptions.\nThese include, amongst others, long-term future profitability and\nlocal fiscal regulations and developments.",
+      "Our audit procedures relating to the advance and deposits in respect of tax matters\nunder litigation continuing as assets included the following:\n• Ascertained the completeness and accuracy of the deferred tax assets/liabilities\nand recognizing uncertain tax positions.\n• We challenged and tested the Management’s assessment of the recoverability of\nthe deferred tax assets, and the probability of future cash outflows in respect of\ndeferred tax liabilities identified by the Company."
+    ],
+    [
+      "5. Ascertainment, disclosure and provisioning in respect of contingent liabilities",
+      null
+    ],
+    [
+      "The Company has material uncertain tax matters, both direct\nand indirect, under dispute involving material aggregate demand\nwhich require significant judgement to determine the possible\noutcome of these disputes.",
+      "Our audit procedures relating to the ascertainment, disclosure and provisioning in\nrespect of contingent liabilities included the following:\nWe obtained a detailed understanding and evaluated the design and implementation\nof controls that the Company has established in relation to disclosure and\nprovisioning of contingent liabilities in accordance to Ind AS 37 Provisions,\nContingent Liability and Contingent Assets."
+    ]
+  ]
+}

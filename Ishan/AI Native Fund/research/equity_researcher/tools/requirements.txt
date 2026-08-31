@@ -1,0 +1,88 @@
+# Native-mode deterministic tools — the KEY-FREE install.
+#
+# Nothing in this file needs an API key. That is the point: the whole default
+# pipeline (CONVERT -> COMPUTE -> validators, plus BSE+Screener fetch and the
+# corpus toolchain) runs on these alone.
+#
+#   python -m pip install -r tools/requirements.txt
+#   python tools/preflight.py --deps-only     # checks that every import below resolves
+#
+# DO NOT add pydantic / tenacity / google-genai / tavily / ddgs here. Those are the
+# opt-in web-search-fallback extras in tools/disclosure_fetcher/requirements.txt.
+# tools/disclosure_fetcher/tests/test_offline.py asserts that key-free mode never
+# imports them, and it skips its two web-fallback scenarios when they are absent.
+#
+# Install status is deliberately NOT asserted here any more. A previous header
+# claimed "verified installed <date>" and was wrong twice: once when the repo moved
+# and the interpreter changed (markitdown/pdfplumber/pypdf/pandas/yfinance/openpyxl
+# had silently vanished, breaking step 0.5 CONVERT, the market-data pull and the
+# xlsx export), and again on 2026-08-03 when `bse` below was declared but absent —
+# which is what made the offline test unrunnable. A comment cannot know what is
+# installed; run the preflight check instead.
+
+# --- Step 0 INTAKE: market data -------------------------------------------
+yfinance>=0.2            # tools/market_data.py — prices, mcap, returns, index data
+pandas>=2.0              # NOT imported directly by any tool in this repo. Pinned anyway
+                         # because yfinance hard-requires it (pandas>=1.3.0) and hands
+                         # DataFrames across that boundary, so the floor should be ours
+                         # rather than whatever the resolver happens to pick; markitdown's
+                         # xls/xlsx extras want it too. Keeping it is the deliberate
+                         # choice — dropping it would leave the yfinance data path's
+                         # contract implicit.
+
+# --- Step 0.5 CONVERT: documents -> markdown + tables (zero tokens) --------
+markitdown>=0.1.6        # tools/convert_docs.py — PDF/office -> markdown
+pdfplumber>=0.11.10      # tools/convert_docs.py — per-page table extraction
+pypdf>=6.0               # tools/convert_docs.py page-anchor fallback (page-by-page split),
+                         # and tools/er_corpus/fetch_corpus.py imports it directly.
+                         # FLOOR RECONCILIATION: tools/disclosure_fetcher/requirements.txt
+                         # declares pypdf>=5.0.0 (looser, vendored from the fund repo).
+                         # >=6.0 satisfies that, so a combined install is consistent and
+                         # THIS is the effective floor. Raise both together or neither.
+
+# --- Step 3 COMPUTE: derived facts, ratios, exports, validators -----------
+openpyxl>=3.1            # tools/export_financials_xlsx.py
+pyyaml>=6.0              # config readers. There are now six, not one:
+                         #   tools/validate_sector_registry.py  config/sector_registry.yaml
+                         #   tools/compute_kpis.py              --sector-registry (signature-KPI coverage)
+                         #   tools/compute_ratios.py            --family skip_ratios
+                         #   tools/eps_bridge_check.py          config/eps_bridge_thresholds.yaml + registry
+                         #   tools/validate_state.py            schema + registry checks
+                         #   tools/preflight.py                 runs all of the above
+                         # Not optional: config/sector_registry.yaml IS the sector
+                         # routing contract, and nothing routes without reading it.
+
+# --- Step 0 FETCH (optional stage, but still key-free) --------------------
+# tools/disclosure_fetcher/ — BSE (primary) + Screener.in (bonus), no API key.
+# See tools/disclosure_fetcher/README.md. The Gemini/Tavily/DuckDuckGo fallback is
+# opt-in via --enable-web-fallback and lives in that folder's requirements.txt.
+bse>=3.3.0               # BSE announcements API client
+beautifulsoup4>=4.12.0   # Screener.in scraping
+lxml>=5.0.0              # bs4 parser backend
+python-dateutil>=2.9.0   # fiscal-quarter math in disclosure_fetcher/utils.py
+python-dotenv>=1.0.0     # reads tools/disclosure_fetcher/.env when present
+
+# --- Shared HTTP ---------------------------------------------------------
+requests>=2.31.0         # NOT optional, and NOT only a fetch-stage dependency. Used by
+                         # disclosure_fetcher (downloader, screener_source,
+                         # company_resolver, pipeline) AND by the corpus toolchain
+                         # tools/er_corpus/{discover,fetch_corpus}.py. It previously sat
+                         # under the "Step 0 FETCH (optional)" header, which implied the
+                         # corpus tools were optional too — they are a separate stage that
+                         # runs independently of any company run.
+
+# --- tools/er_corpus/ (corpus toolchain — no dependencies of its own) -----
+# discover -> fetch -> convert -> profile -> digest. Deterministic, zero tokens.
+# It adds nothing to this file, but it does not stand alone either: it reaches
+# markitdown / pdfplumber indirectly by importing tools/convert_docs.py
+# (`import convert_docs as cd` in fetch_corpus.py, reusing its convert_markdown()),
+# and uses requests and pypdf directly. So this file is sufficient to run it —
+# worth stating, because nothing in that folder's own imports reveals the
+# convert_docs indirection.
+
+# --- API-mode extraction path only (optional; heavy) ---------------------
+# Install only when using api_mode/, which is a documented scaffold: modules 33/34
+# are NOT implemented there (see api_mode/README).
+# docling
+# langextract
+# anthropic

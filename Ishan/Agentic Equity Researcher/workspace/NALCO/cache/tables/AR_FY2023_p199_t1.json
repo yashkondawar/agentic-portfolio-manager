@@ -1,0 +1,73 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 199,
+  "table_index": 1,
+  "bbox": [
+    45.854,
+    63.87200000000007,
+    549.421,
+    562.269
+  ],
+  "rows": [
+    [
+      "Notes",
+      "Year ended 31.03.2023",
+      "Year ended 31.03.2022"
+    ],
+    [
+      "I Revenue from operations 29\nII Other Income 30\nIII Total Income (I + II)\nIV EXPENSES\n(a) Cost of raw materials consumed 31\n(b) Cost of power and fuel consumed 31\n(c) Changes in inventories of finished goods and work-in-progress 32\n(d) Employee benefits expense 33\n(e) Finance costs 34\n(f) Depreciation, amortisation and impairment expenses\n(i) Property Plant and Equipment - Depreciation 5\n(ii) Property Plant and Equipment - Impairment 5\n(iii) Intangible Assets - Amortisation 7\n(g) Other expenses 35\nTotal expenses (IV)\nV Profit/(loss) before exceptional items and tax (III - IV)\nVI Exceptional Items\nVII Share of Profit/(loss) of Joint Ventures\nVIII Profit before tax (V - VI + VII)\nIX Tax Expense\n(a) Current tax 36\n(i) Current year\n(ii) Earlier years\n(b) Deferred tax 36\nX Profit for the year (VIII - IX)\nXI Other comprehensive income\n(i) Items that will not be reclassified to profit or loss\n- Remeasurement gains / (losses) on defined benefit plans\n(ii) Income tax relating to items that will not be reclassified to profit or loss 36\nOther comprehensive income for the year (net of tax) (XI)\nXII Total comprehensive income for the year (X+XI)\n[comprising profit and other comprehensive income for the period]\nXIII Earnings per equity share:\n(i) Basic (in `) 38\n(ii) Diluted (in `) 38",
+      "14,254.86\n235.63",
+      "14,214.58\n264.09"
+    ],
+    [
+      null,
+      "14,490.49",
+      "14,478.67"
+    ],
+    [
+      null,
+      "3,172.12\n4,693.69\n(16.66)\n1,832.06\n12.92\n584.24\n100.31\n31.25\n2,125.57",
+      "1,971.13\n3,388.48\n(116.83)\n2,355.80\n23.13\n567.72\n237.62\n31.25\n2,065.50"
+    ],
+    [
+      null,
+      "12,535.50",
+      "10,523.80"
+    ],
+    [
+      null,
+      "1,954.99\n-\n(109.83)",
+      "3,954.87\n-\n(0.56)"
+    ],
+    [
+      null,
+      "1,845.16\n475.47\n(181.06)\n116.09",
+      "3,954.31\n1,061.63\n(9.88)\n(48.85)"
+    ],
+    [
+      null,
+      "1,434.66",
+      "2,951.41"
+    ],
+    [
+      null,
+      "31.15\n26.50",
+      "47.25\n(23.30)"
+    ],
+    [
+      null,
+      "57.65",
+      "23.95"
+    ],
+    [
+      null,
+      "1,492.31",
+      "2,975.36"
+    ],
+    [
+      null,
+      "7.81\n7.81",
+      "16.07\n16.07"
+    ]
+  ]
+}

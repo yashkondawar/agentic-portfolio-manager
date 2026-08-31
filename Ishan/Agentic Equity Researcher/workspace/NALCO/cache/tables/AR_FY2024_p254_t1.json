@@ -1,0 +1,76 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 254,
+  "table_index": 1,
+  "bbox": [
+    51.273620512820514,
+    87.77893750000001,
+    542.649276923077,
+    212.1221428571429
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      null,
+      "As at 31.03.2024",
+      "As at 31.03.2023"
+    ],
+    [
+      "Deferred tax assets in relation to:",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Provision for defined benefit obligation",
+      "21.15",
+      "(2.25)",
+      "-",
+      "18.90"
+    ],
+    [
+      "Provision for doubtful debts / advances",
+      "68.09",
+      "4.69",
+      "-",
+      "72.78"
+    ],
+    [
+      "FVTPL financial assets",
+      "13.09",
+      "22.40",
+      "-",
+      "35.49"
+    ],
+    [
+      "Temporary Difference due to application of section 43B",
+      "0.91",
+      "0.01",
+      "-",
+      "0.92"
+    ],
+    [
+      "Others",
+      "3.18",
+      "-",
+      "-",
+      "3.18"
+    ],
+    [
+      "Deferred tax assets",
+      "106.42",
+      "24.85",
+      "-",
+      "131.27"
+    ],
+    [
+      "Deferred tax (liabilities) / assets [net]",
+      "(957.77)",
+      "116.09",
+      "0.25",
+      "(841.43)"
+    ]
+  ]
+}

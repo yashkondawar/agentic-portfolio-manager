@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 113,
+  "table_index": 2,
+  "bbox": [
+    102.29728666666666,
+    144.02999999999997,
+    555.1541533333333,
+    201.12649999999996
+  ],
+  "rows": [
+    [
+      "Description of results",
+      "Date of meeting",
+      "Newspapers",
+      "Publication date"
+    ],
+    [
+      "1st Qtr.- (Apr-June, 2020)",
+      "04.09.2020",
+      "Business Line (English) and Samaja (Odia)",
+      "05.09.2020"
+    ],
+    [
+      "2nd Qtr.- (July-Sept., 2020)",
+      "11.11.2020",
+      "Financial Express (English) and Sambad (Odia)",
+      "12.11.2020"
+    ],
+    [
+      "3rd Qtr.- (Oct- Dec., 2020)",
+      "12.02.2021",
+      "Business Standard (English) and Dharitri (Odia)",
+      "13.02.2021"
+    ],
+    [
+      "4th Qtr. (Jan.–March, 2021 and year 2020-21)",
+      "28.06.2021",
+      "Economic Times (English) and Prameya (Odia)",
+      "29.06.2021."
+    ]
+  ]
+}

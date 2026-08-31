@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 100,
+  "table_index": 2,
+  "bbox": [
+    94.17633333333333,
+    254.89150000000004,
+    549.7238333333333,
+    371.309
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "Stock Exchanges where shares are listed",
+      null
+    ],
+    [
+      null,
+      "BSE Limited",
+      "National Stock Exchange of India Ltd."
+    ],
+    [
+      "Address",
+      "Phiroze Jeejeebhoy Towers, Dalal Street,\nMUMBAI - 400 001",
+      "Exchange Plaza, Bandra-Kurla Complex,\nBandra East, MUMBAI - 400 051"
+    ],
+    [
+      "Scrip code",
+      "532234",
+      "NATIONALUM"
+    ],
+    [
+      "Traded from",
+      "19.10.1992",
+      "28.04.1999"
+    ],
+    [
+      "Stock code (ISIN)",
+      "INE 139A01034",
+      "INE 139A01034"
+    ],
+    [
+      "Payment of Listing Fees for 2023-24",
+      "Paid on 27.04.2023",
+      "Paid on 19.04.2023"
+    ]
+  ]
+}

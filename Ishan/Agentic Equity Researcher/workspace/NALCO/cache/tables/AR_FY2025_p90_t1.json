@@ -1,0 +1,85 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 90,
+  "table_index": 1,
+  "bbox": [
+    68.28132333333333,
+    73.95082857142854,
+    542.5847666666667,
+    285.5286
+  ],
+  "rows": [
+    [
+      "Monetary",
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "NGRBC\nprinciple",
+      "Name of the regulatory/\nenforcement agencies/\njudicial institutions",
+      "Amount (INR)",
+      "Brief of the Case",
+      "Has an appeal been preferred?\n(Yes/ No)"
+    ],
+    [
+      "Penalty/ Fine",
+      "Principle 1",
+      "1. BSE Limited\n2. N ational Stock\nExchange of India Ltd",
+      "1. R s.6,63,160/-\n(including GST\n@ 18%) by BSE\n2. R s.6,63,160/-\n(including GST\n@ 18%) by NSE",
+      "Non-compliances\nwith the provisions\nof Regulation 17(1),\n18(1), 19/19(1)/19(2)\nand 20/20(2)/20(2A)\nof SEBI (LODR)\nRegulations, 2015",
+      "Yes.\nSince appointment of Independent\nDirectors is beyond the control of the\nCompany, request has been made to\nboth the Stock Exchanges for waiver\nof fines imposed on the company."
+    ],
+    [
+      "Settlement",
+      "Nil",
+      "NA",
+      "NA",
+      "NA",
+      "NA"
+    ],
+    [
+      "Compounding fee",
+      "Nil",
+      "NA",
+      "NA",
+      "NA",
+      "NA"
+    ],
+    [
+      "Non- Monetary",
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "NGRBC\nprinciple",
+      "Name of the regulatory/\nenforcement agencies/\njudicial institutions",
+      "Brief of the Case",
+      "Has an appeal been preferred?\n(Yes/ No)",
+      null
+    ],
+    [
+      "Imprisonment",
+      "Nil",
+      "NA",
+      "NA",
+      "NA",
+      null
+    ],
+    [
+      "Punishment",
+      "Nil",
+      "NA",
+      "NA",
+      "NA",
+      null
+    ]
+  ]
+}

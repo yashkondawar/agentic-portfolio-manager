@@ -1,0 +1,125 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 243,
+  "table_index": 1,
+  "bbox": [
+    51.273599999999995,
+    97.44510000000002,
+    542.7264,
+    361.8468
+  ],
+  "rows": [
+    [
+      "A.",
+      "Equity share capital",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "Balance as at 01.04.2023 918.32\nChanges during the year -\nBalance as at 31.03.2024 918.32\nChanges during the year -\nBalance as at 31.03.2025 918.32",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "B.",
+      "Other equity",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "Other equity",
+      "Reserves and surplus",
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      "Capital redemption\nreserve",
+      "General reserve",
+      "Retained\nearnings",
+      "Total"
+    ],
+    [
+      null,
+      "Balance as on 01.04.2023",
+      "370.30",
+      "7,942.98",
+      "3,894.77",
+      "12,208.05"
+    ],
+    [
+      null,
+      "Profit for the year\nOther comprehensive income (net of taxes)",
+      "-\n-",
+      "-\n-",
+      "1,988.46\n7.91",
+      "1,988.46\n7.91"
+    ],
+    [
+      null,
+      "Total comprehensive income for the year - -",
+      null,
+      null,
+      "1,996.37",
+      "1,996.37"
+    ],
+    [
+      null,
+      "Final dividend for the previous year\nInterim dividend for the year",
+      "-",
+      "-",
+      "(183.66)\n(550.99)",
+      "(183.66)\n(550.99)"
+    ],
+    [
+      null,
+      "Balance as at 31.03.2024",
+      "370.30",
+      "7,942.98",
+      "5,156.49",
+      "13,469.77"
+    ],
+    [
+      null,
+      "Profit for the year\nOther comprehensive income (net of taxes)",
+      "-\n-",
+      "-\n-",
+      "5,267.94\n(13.95)",
+      "5,267.94\n(13.95)"
+    ],
+    [
+      null,
+      "Total comprehensive income for the year",
+      "-",
+      "-",
+      "5,253.99",
+      "5,253.99"
+    ],
+    [
+      null,
+      "Final dividend for the previous year\nInterim dividend for the year",
+      "-\n-",
+      "-\n-",
+      "(367.33)\n(1,469.31)",
+      "(367.33)\n(1,469.31)"
+    ],
+    [
+      null,
+      "Balance as at 31.03.2025",
+      "370.30",
+      "7,942.98",
+      "8,573.84",
+      "16,887.12"
+    ]
+  ]
+}

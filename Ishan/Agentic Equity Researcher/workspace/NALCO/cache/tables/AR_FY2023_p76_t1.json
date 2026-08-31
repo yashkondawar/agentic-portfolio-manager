@@ -1,0 +1,37 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 76,
+  "table_index": 1,
+  "bbox": [
+    45.62075,
+    55.89700000000005,
+    549.9657500000001,
+    116.39600000000007
+  ],
+  "rows": [
+    [
+      "Parameter",
+      "Unit",
+      "GHG Emissions\nFY 2022-23",
+      "GHG Emissions\nFY 2021-22"
+    ],
+    [
+      "Total Scope 1 emissions",
+      "MTCO Equivalent\n2",
+      "1,01,99,426",
+      "1,03,42,032"
+    ],
+    [
+      "Total Scope 2 emissions",
+      "MTCO Equivalent\n2",
+      "9,86,969",
+      "11,32,426"
+    ],
+    [
+      "Total Scope 1 and Scope 2 emissions per rupee of turnover",
+      "MTCO Eq./ R\n2",
+      "0.000079",
+      "0.000082"
+    ]
+  ]
+}

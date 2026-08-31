@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 79,
+  "table_index": 1,
+  "bbox": [
+    74.68,
+    88.60300000000001,
+    348.995,
+    141.12800000000004
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Particulars",
+      "Details"
+    ],
+    [
+      "1",
+      "DIN Number",
+      "08984700"
+    ],
+    [
+      "2",
+      "Name",
+      "Shri Bijay Kumar Das"
+    ],
+    [
+      "3",
+      "Designation",
+      "Director (Production)"
+    ]
+  ]
+}

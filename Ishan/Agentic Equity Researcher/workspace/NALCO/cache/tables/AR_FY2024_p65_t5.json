@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 65,
+  "table_index": 5,
+  "bbox": [
+    51.273675000000004,
+    564.13275,
+    542.3567257142857,
+    675.3878
+  ],
+  "rows": [
+    [
+      "S.\nNo.",
+      "Name of the holding /\nsubsidiary / associate companies\n/ joint ventures (A)",
+      "Indicate whether holding/\nSubsidiary/ Associate/ Joint\nVenture",
+      "% Of shares held by\nlisted entity",
+      "Does the entity indicated in column A,\nparticipate in the Business Responsibility\ninitiatives of the listed entity? (Yes/No)"
+    ],
+    [
+      "1",
+      "Utkarsha Aluminium Dhatu\nNigam Limited",
+      "Associate",
+      "50",
+      "No"
+    ],
+    [
+      "2",
+      "Khanij Bidesh India Limited",
+      "Associate",
+      "40",
+      "No"
+    ],
+    [
+      "3",
+      "Angul Aluminium Park Private\nLimited",
+      "Associate",
+      "49",
+      "No"
+    ],
+    [
+      "4",
+      "GACL-NALCO Alkalies &\nChemicals Private Limited",
+      "Associate",
+      "40",
+      "No"
+    ]
+  ]
+}

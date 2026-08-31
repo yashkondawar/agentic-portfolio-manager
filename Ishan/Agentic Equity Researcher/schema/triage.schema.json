@@ -1,0 +1,118 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "triage.schema.json",
+  "title": "Triage decisions — state/triage.json",
+  "description": "Output of prompts/02_triage_rules.md, written once after intake. Consumed by prompts/03 (KPI-tree seeding from the playbook's signature_kpis), tools/compute_kpis.py (--playbook), tools/compute_ratios.py (--family), prompts/31 (which sector pack AND tier-2 playbook to read) and prompts/41 (which standard exhibit set to draw from). Until 2026-08-03 this shape was consumed by four modules and validated by nothing, so a triage file could omit the playbook slug and every downstream consumer would silently degrade.",
+  "type": "object",
+  "required": ["run_date", "sector", "data_mode", "decisions"],
+  "additionalProperties": true,
+  "properties": {
+    "run_date": {
+      "type": "string",
+      "description": "ISO date the triage ran (YYYY-MM-DD)."
+    },
+    "ticker": { "type": "string" },
+    "sector": {
+      "type": "object",
+      "description": "T2 classification. The family/playbook pair is the routing contract; both must resolve against config/sector_registry.yaml, which tools/validate_state.py checks.",
+      "required": ["family", "playbook", "playbook_status", "confidence"],
+      "additionalProperties": true,
+      "properties": {
+        "family": {
+          "type": "string",
+          "description": "A families.* slug from config/sector_registry.yaml."
+        },
+        "playbook": {
+          "type": ["string", "null"],
+          "description": "A playbooks.* slug from config/sector_registry.yaml, or null when no sub-sector matched. As of 2026-08-03 all 32 playbooks are status: authored, so null should be rare and means the classifier found nothing — not that the playbook is unwritten."
+        },
+        "playbook_status": {
+          "type": "string",
+          "enum": ["authored", "pending"],
+          "description": "Mirrors the registry entry's status at classification time. `pending` means triage degraded to the family pack; no registry entry currently uses it."
+        },
+        "confidence": {
+          "type": "string",
+          "enum": ["high", "medium", "low"],
+          "description": "high = >=3 distinct registry keywords all pointing to one playbook; medium = 1-2 keywords, or matches across two playbooks in one family; low = no keyword match, or matches spanning two families. Record `low` honestly — a confidently wrong classification routes the whole run down the wrong KPI tree."
+        },
+        "matched_keywords": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "The registry keywords that actually matched. Evidence for the confidence score."
+        },
+        "rejected_alternatives": {
+          "type": "array",
+          "description": "Playbooks considered and rejected, each with a reason. Makes the classification inspectable rather than asserted.",
+          "items": {
+            "type": "object",
+            "required": ["playbook", "why_not"],
+            "properties": {
+              "playbook": { "type": "string" },
+              "why_not": { "type": "string" }
+            }
+          }
+        },
+        "secondary_playbooks": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Multi-segment companies: playbooks of the non-primary segments. Deep research applies the primary fully and pulls only the KPI table from these."
+        },
+        "bfsi_statements": {
+          "type": "boolean",
+          "description": "Set from families.<family>.bfsi_statements. True switches extraction to the BFSI addendum in prompts/10 and makes compute_ratios.py suppress families.bfsi.skip_ratios."
+        },
+        "generic_reason": {
+          "type": ["string", "null"],
+          "enum": ["uncovered_subsector", "conglomerate", "low_confidence", null],
+          "description": "Required in spirit when playbook == 'generic': which of the three situations landed here, per prompts/sector_playbooks/generic.md. Collapsing them is the main way a generic run produces a weak note."
+        },
+        "recheck": {
+          "type": "object",
+          "description": "T2-RECHECK: the mandatory re-classification after module 03 writes state/business_model.json. If it disagrees with the first pass, the recheck is adopted and the KPI tree is marked stale.",
+          "additionalProperties": true,
+          "properties": {
+            "ran": { "type": "boolean" },
+            "agreed": { "type": "boolean" },
+            "family": { "type": ["string", "null"] },
+            "playbook": { "type": ["string", "null"] },
+            "reason": { "type": "string" }
+          }
+        }
+      }
+    },
+    "data_mode": {
+      "type": "string",
+      "enum": ["normal", "sparse"],
+      "description": "T7. `sparse` routes through prompts/70_sparse_data_playbook.md, which matters more in sparse mode, not less."
+    },
+    "research_order": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "T3 scheduling: the order DR1/DR2 and the analysis waves were planned in. The order may vary per company; the reason it varied must be traceable (CLAUDE.md rule 4)."
+    },
+    "decisions": {
+      "type": "array",
+      "minItems": 1,
+      "description": "One entry per triage rule fired. This is the audit trail that makes 'dynamic, not a flow' explainable — every branch records what it examined and why it chose.",
+      "items": {
+        "type": "object",
+        "required": ["rule", "decision", "reason"],
+        "additionalProperties": true,
+        "properties": {
+          "rule": {
+            "type": "string",
+            "pattern": "^T[0-9]+(-[A-Z]+)?$",
+            "description": "Rule id from prompts/02, e.g. T1, T2, T7, or T2-RECHECK."
+          },
+          "decision": { "type": "string" },
+          "reason": { "type": "string" },
+          "inputs_examined": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

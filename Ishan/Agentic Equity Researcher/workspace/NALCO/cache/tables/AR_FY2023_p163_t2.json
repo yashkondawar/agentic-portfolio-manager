@@ -1,0 +1,125 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 163,
+  "table_index": 2,
+  "bbox": [
+    45.894400000000005,
+    147.9430000000001,
+    549.4613999999999,
+    345.56500000000005
+  ],
+  "rows": [
+    [
+      "19.1 Movement in other equity Amount in ` Crore",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Reserves and Surplus",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Other equity",
+      "Capital redemption\nreserve",
+      "General reserve",
+      "Retained earnings",
+      "Total"
+    ],
+    [
+      "Balance as at 01.04.2021",
+      "370.30",
+      "7,942.86",
+      "1,449.22",
+      "9,762.38"
+    ],
+    [
+      "Profit for the year",
+      "-",
+      "-",
+      "2,951.97",
+      "2,951.97"
+    ],
+    [
+      "Other comprehensive income (net of taxes)",
+      "-",
+      "-",
+      "23.95",
+      "23.95"
+    ],
+    [
+      "Total comprehensive income for the year",
+      "-",
+      "-",
+      "2,975.92",
+      "2,975.92"
+    ],
+    [
+      "Final dividend for the previous year",
+      "-",
+      "-",
+      "(183.66)",
+      "(183.66)"
+    ],
+    [
+      "Interim dividend for the year",
+      "-",
+      "-",
+      "(918.32)",
+      "(918.32)"
+    ],
+    [
+      "Balance as at 31.03.2022",
+      "370.30",
+      "7,942.86",
+      "3,323.16",
+      "11,636.32"
+    ],
+    [
+      "Profit for the year",
+      "-",
+      "-",
+      "1,544.49",
+      "1,544.49"
+    ],
+    [
+      "Other comprehensive income (net of taxes)",
+      "-",
+      "-",
+      "57.65",
+      "57.65"
+    ],
+    [
+      "Total comprehensive income for the year",
+      "-",
+      "-",
+      "1,602.14",
+      "1,602.14"
+    ],
+    [
+      "Final dividend for the previous year",
+      "-",
+      "-",
+      "(275.49)",
+      "(275.49)"
+    ],
+    [
+      "Interim dividend for the year",
+      "-",
+      "-",
+      "(642.83)",
+      "(642.83)"
+    ],
+    [
+      "Balance as at 31.03.2023",
+      "370.30",
+      "7,942.86",
+      "4,006.98",
+      "12,320.13"
+    ]
+  ]
+}

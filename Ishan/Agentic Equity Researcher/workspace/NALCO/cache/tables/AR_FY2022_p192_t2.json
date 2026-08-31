@@ -1,0 +1,25 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 192,
+  "table_index": 2,
+  "bbox": [
+    112.308,
+    143.274,
+    464.031,
+    181.27950000000004
+  ],
+  "rows": [
+    [
+      "Name of Trust Nature of Transaction",
+      "As at 31.03.2022"
+    ],
+    [
+      "NEPF Trust PF-Contribution payable",
+      "30.34"
+    ],
+    [
+      "NEGG Trust Funding of shortfall payable",
+      "-22.18"
+    ]
+  ]
+}

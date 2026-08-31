@@ -1,0 +1,129 @@
+# Generic — fallback KPI/ratio vocabulary and qualitative checklist for any
+# company/sector without a dedicated sector file yet.
+# Source: docs/source-material/er-deep-research-prompts.txt, "Generic prompt" section.
+
+sector: generic
+description: >
+  Fallback KPI set for companies/sectors not yet covered by a dedicated
+  sector file (bfsi, consumer_retail, commodities_energy, it_technology,
+  pharma_chemicals, auto_engineering, infra_capital_goods).
+
+quantitative_kpis:
+  # Valuation
+  - name: market_cap
+    unit: currency
+    category: valuation
+  - name: enterprise_value
+    unit: currency
+    category: valuation
+  - name: pe_ltm
+    unit: "x"
+    category: valuation
+  - name: forward_pe
+    unit: "x"
+    category: valuation
+  - name: ev_ebitda_ltm
+    unit: "x"
+    category: valuation
+  - name: price_to_book
+    unit: "x"
+    category: valuation
+  - name: fcf_yield
+    unit: "%"
+    category: valuation
+  # Profitability
+  - name: revenue_ltm
+    unit: currency
+    category: profitability
+  - name: ebitda_ltm
+    unit: currency
+    category: profitability
+  - name: net_profit_excl_oneoffs
+    unit: currency
+    category: profitability
+  - name: eps_diluted
+    unit: currency
+    category: profitability
+  - name: earnings_yield
+    unit: "%"
+    category: profitability
+  - name: gross_margin
+    unit: "%"
+    category: profitability
+  - name: ebitda_margin
+    unit: "%"
+    category: profitability
+  - name: net_margin
+    unit: "%"
+    category: profitability
+  - name: roce
+    unit: "%"
+    category: profitability
+  - name: roe
+    unit: "%"
+    category: profitability
+  # Balance Sheet
+  - name: net_debt
+    unit: currency
+    category: balance_sheet
+  - name: debt_to_equity
+    unit: "x"
+    category: balance_sheet
+  - name: net_debt_to_ebitda
+    unit: "x"
+    category: balance_sheet
+  - name: order_book_value
+    unit: currency
+    category: balance_sheet
+  # Growth
+  - name: profit_growth_rate
+    unit: "%"
+    category: growth
+  - name: expected_future_growth_rate
+    unit: "%"
+    category: growth
+  # Cash Flow
+  - name: operating_cashflow
+    unit: currency
+    category: cash_flow
+  - name: capex
+    unit: currency
+    category: cash_flow
+  - name: fcf_pre_dividend_acquisitions
+    unit: currency
+    category: cash_flow
+  - name: fcf_post_dividend_acquisitions
+    unit: currency
+    category: cash_flow
+  - name: fcf_to_ebitda_conversion
+    unit: "%"
+    category: cash_flow_quality
+  # Sector-specific (illustrative — analyst should identify >=3 relevant
+  # industry-specific ratios per the source prompt, e.g. SSSG for QSR,
+  # ASK-CASK for airlines, EBITDA per unit/tonne for manufacturing)
+  - name: industry_specific_ratio_1
+    unit: "varies"
+    category: sector_specific
+  - name: industry_specific_ratio_2
+    unit: "varies"
+    category: sector_specific
+  - name: industry_specific_ratio_3
+    unit: "varies"
+    category: sector_specific
+
+qualitative_checks:
+  - competitive_differentiation: "Key strategic and supply-chain advantages vs. peers — sourcing/pricing power, proprietary technology, distribution moat (incl. Tier 2/3 city penetration)."
+  - industry_voice: "What key competitors' management are saying about the industry, future, and major trends (transcripts/presentations, tone analysis)."
+  - moat_analysis_india_specific: "Nature and sustainability of economic moat — regulatory moat (PLI, licensing, tariffs) or distribution moat."
+  - porters_five_forces: "For each of the five forces, gather 2-3 cited evidence points supporting a high/medium/low-pressure rating."
+  - industry_economics_drivers: "Key demand drivers (macro, demographic, policy) and pricing determinants (input costs, commodity/FX/tariff data); sensitivity matrix (pass-through sector?) and operating leverage check."
+  - headwinds_tailwinds: "3-5 recent growth forecasts, tailwinds, and headwinds (last 6 months) from credible sources; leading economic indicators relevant to the sector (PMI, freight indices, etc.)."
+  - risk_analysis_india_specific: "Electoral/policy risk (sudden tax/subsidy changes) and counterparty risk (government receivables) specific to the sector."
+
+cycle_overlap_checks:
+  - valuation_earnings_cycle: "Is the valuation premium/discount justified by sustainable ROCE stability, or driven purely by the valuation cycle (Stage 3 euphoria)? Is high P/E from genuine ROCE improvement or valuation-cycle expansion?"
+  - credit_capex_cycle: "Assess capex/growth funding needs against the current credit window; quantify resulting FCF constraints and potential debt risk."
+  - policy_profit_cycle: "If enjoying a regulatory moat (PLI, indigenization list), assess political risk and sustainability, especially receivable-day exposure to government counterparties."
+
+niche_pointers:
+  - industry_specific_ratios: "Identify and include at least 3 critical industry-specific ratios not otherwise captured here (e.g. SSSG for QSR, ASK-CASK for airlines, EBITDA per unit/tonne for manufacturing)."

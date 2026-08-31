@@ -1,0 +1,67 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 84,
+  "table_index": 1,
+  "bbox": [
+    51.27374642857143,
+    73.95088333333332,
+    542.6273294117647,
+    153.40930000000003
+  ],
+  "rows": [
+    [
+      "S. No",
+      "Particulars",
+      "Total (A)",
+      "Male",
+      null,
+      "Female",
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "No. (B)",
+      "% (B / A)",
+      "No. (C)",
+      "% (C / A)"
+    ],
+    [
+      "DIFFERENTLY ABLED WORKERS",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "4.",
+      "Permanent (F)",
+      "56",
+      "49",
+      "87.5%",
+      "7",
+      "12.5%"
+    ],
+    [
+      "5.",
+      "Other than Permanent (G)",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    [
+      "6.",
+      "Total differently abled workers (F+G)",
+      "56",
+      "49",
+      "87.5%",
+      "7",
+      "12.5%"
+    ]
+  ]
+}

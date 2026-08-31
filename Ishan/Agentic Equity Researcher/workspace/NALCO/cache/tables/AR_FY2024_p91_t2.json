@@ -1,0 +1,40 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 91,
+  "table_index": 2,
+  "bbox": [
+    68.28131764705883,
+    246.8432,
+    542.8865882352941,
+    329.51539999999994
+  ],
+  "rows": [
+    [
+      "S. No.",
+      "Name of Project\nfor which R&R is\nongoing",
+      "State",
+      "District",
+      "No. of Project\nAffected Families\n(PAFs)",
+      "% of PAFs covered\nby R&R",
+      "Amount paid to PAFs\nin the FY (In INR)"
+    ],
+    [
+      "1",
+      "Utkal-D Coal Mines",
+      "Odisha",
+      "Angul",
+      "No of PDF - 137 No\nof PAF - 235",
+      "100 % PDF*",
+      "91,00,46,398"
+    ],
+    [
+      "2",
+      "Utkal-E Coal Mines",
+      "Odisha",
+      "Angul",
+      "No of PDF-400\nNo of PAF-979",
+      "100 % PDF",
+      "71,33,47,606"
+    ]
+  ]
+}

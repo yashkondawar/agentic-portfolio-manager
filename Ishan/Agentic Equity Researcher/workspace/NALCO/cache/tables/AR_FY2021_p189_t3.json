@@ -1,0 +1,68 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 189,
+  "table_index": 3,
+  "bbox": [
+    79.6201,
+    296.4693,
+    555.124,
+    436.7843
+  ],
+  "rows": [
+    [
+      "Profit before tax",
+      "1,316.52",
+      "226.24"
+    ],
+    [
+      "Income tax expense thereon @ 25.168% (previous year 34.944%) :",
+      "331.34",
+      "79.06"
+    ],
+    [
+      "Tax effect of -\ni) income exempt from taxation",
+      "",
+      "(2.66)"
+    ],
+    [
+      null,
+      "—",
+      null
+    ],
+    [
+      "ii) disallowable expenses (permanent difference)",
+      "6.78",
+      "13.97"
+    ],
+    [
+      "iii) expenses allowable in excess of expenditure incurred",
+      "(55.24)",
+      "(31.96)"
+    ],
+    [
+      "iv) effect of concessions (research and development and other allowances)",
+      "—",
+      "(0.47)"
+    ],
+    [
+      "v) difference for long-term capital gains",
+      "—",
+      "(0.04)"
+    ],
+    [
+      "vi) Adjustment relating to earlier years",
+      "(26.32)",
+      "(26.80)"
+    ],
+    [
+      "vii) others",
+      "(239.57)",
+      "56.91"
+    ],
+    [
+      "Income tax expense recognised in profit or loss",
+      "16.99",
+      "88.01"
+    ]
+  ]
+}

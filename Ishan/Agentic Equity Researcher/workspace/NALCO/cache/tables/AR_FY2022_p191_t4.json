@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 191,
+  "table_index": 4,
+  "bbox": [
+    112.308,
+    612.9765,
+    549.9354428571429,
+    691.5285000000001
+  ],
+  "rows": [
+    [
+      "Name of JV/Associate Nature of Transaction",
+      "As at 31.03.2022",
+      "As at 31.03.2021"
+    ],
+    [
+      "Angul Aluminium Park Pvt Ltd. Investment in equity",
+      "16.22",
+      "16.22"
+    ],
+    [
+      "GACL NALCO Alkalis & Chemicals Pvt. Ltd. Investment in equity",
+      "276.00",
+      "276.00"
+    ],
+    [
+      "Utkarsha Aluminium Dhatu Nigam Limited Investment in equity",
+      "20.00",
+      "20.00"
+    ],
+    [
+      "Khanij Bidesh India Limited Investment in equity",
+      "1.00",
+      "1.00"
+    ],
+    [
+      "GACL NALCO Alkalis & Chemicals Pvt. Ltd. Receivable - Man power assistance",
+      "0.70",
+      "0.70"
+    ]
+  ]
+}

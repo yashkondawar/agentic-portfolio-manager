@@ -1,0 +1,53 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 224,
+  "table_index": 1,
+  "bbox": [
+    51.27364137931035,
+    89.43600000000004,
+    542.5625515151515,
+    190.91752499999998
+  ],
+  "rows": [
+    [
+      "",
+      "Year ended\n31.03.2025",
+      "Year ended\n31.03.2024"
+    ],
+    [
+      "Tax on remeasurement gain or loss of defined benefit obligations",
+      null,
+      null
+    ],
+    [
+      "- Current Tax",
+      "-",
+      "-"
+    ],
+    [
+      "- Deferred Tax",
+      "0.01",
+      "0.25"
+    ],
+    [
+      "Total income tax recognised in other comprehensive income",
+      "0.01",
+      "0.25"
+    ],
+    [
+      "Bifurcation of the income tax recognised in other comprehensive income into:",
+      null,
+      null
+    ],
+    [
+      "Items that will be reclassified to profit or loss",
+      "-",
+      "-"
+    ],
+    [
+      "Items that will not be reclassified to profit or loss",
+      "0.01",
+      "0.25"
+    ]
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 44,
+  "table_index": 1,
+  "bbox": [
+    68.28155384615384,
+    67.2893,
+    542.5673157894737,
+    136.54930000000002
+  ],
+  "rows": [
+    [
+      "Total Amount Spent for\nthe Financial Year.\n(in ` lakh)",
+      "Amount Unspent (in `)",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      "Total Amount transferred to Unspent CSR\nAccount as per section 135(6)",
+      null,
+      "Amount transferred to any fund specified under Schedule VII as per\nsecond proviso to section 135(5)",
+      null,
+      null
+    ],
+    [
+      null,
+      "Amount",
+      "Date of transfer",
+      "Name of the Fund",
+      "Amount",
+      "Date of transfer"
+    ],
+    [
+      "5,053.82",
+      "NA",
+      "NA",
+      "NA",
+      "NA",
+      "NA"
+    ]
+  ]
+}

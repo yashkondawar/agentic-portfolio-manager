@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 110,
+  "table_index": 2,
+  "bbox": [
+    68.28162272727273,
+    248.8929,
+    542.4696375,
+    306.3188
+  ],
+  "rows": [
+    [
+      "S. No.",
+      "State",
+      "Aspirational District",
+      "Amount spent - (₹ in lakh)"
+    ],
+    [
+      "1",
+      "Odisha",
+      "Koraput",
+      "2,549.24"
+    ],
+    [
+      "2",
+      "Odisha",
+      "Malkangiri",
+      "124.70"
+    ],
+    [
+      "3",
+      "Odisha",
+      "Nabarangpur",
+      "125.30"
+    ],
+    [
+      "4",
+      "Andhra Pradesh",
+      "Visakhapatnam",
+      "34.62"
+    ]
+  ]
+}

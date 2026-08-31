@@ -1,0 +1,37 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 200,
+  "table_index": 4,
+  "bbox": [
+    51.273647058823535,
+    617.0070000000001,
+    542.6606888888889,
+    672.7604799999999
+  ],
+  "rows": [
+    [
+      "A.",
+      "Non current",
+      "As at 31.03.2025",
+      "As at 31.03.2024"
+    ],
+    [
+      "",
+      "Security deposits",
+      "9.31",
+      "10.38"
+    ],
+    [
+      null,
+      "Mines closure deposits [refer note 12.2]",
+      "10.41",
+      "7.43"
+    ],
+    [
+      null,
+      "Total other non-current financial assets",
+      "19.72",
+      "17.81"
+    ]
+  ]
+}

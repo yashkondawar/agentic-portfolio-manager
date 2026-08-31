@@ -1,0 +1,2046 @@
+{
+  "facts": [
+    {
+      "id": "D-NET_MARGIN-FY2021-CONS-001",
+      "metric": "net_margin",
+      "label": "net_margin",
+      "value": 14.5092,
+      "unit": "pct",
+      "period": "FY2021",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "pat/revenue*100",
+      "inputs": [
+        "F-AR22C-022",
+        "F-AR22C-002"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-ROE-FY2021-CONS-002",
+      "metric": "roe",
+      "label": "roe",
+      "value": 12.1679,
+      "unit": "pct",
+      "period": "FY2021",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "pat/avg_equity*100",
+      "inputs": [
+        "F-AR22C-022",
+        "F-AR22C-033"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-ASSET_TURNOVER-FY2021-CONS-003",
+      "metric": "asset_turnover",
+      "label": "asset_turnover",
+      "value": 0.6089,
+      "unit": "x",
+      "period": "FY2021",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "revenue/avg_total_assets",
+      "inputs": [
+        "F-AR22C-002",
+        "F-AR22C-031"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-OTHER_INCOME_PCT_REVENUE-FY2021-CONS-004",
+      "metric": "other_income_pct_revenue",
+      "label": "other_income_pct_revenue",
+      "value": 1.6369,
+      "unit": "pct",
+      "period": "FY2021",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "other_income/revenue*100",
+      "inputs": [
+        "F-AR22C-004",
+        "F-AR22C-002"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-NET_MARGIN-FY2022-CONS-005",
+      "metric": "net_margin",
+      "label": "net_margin",
+      "value": 20.7633,
+      "unit": "pct",
+      "period": "FY2022",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "pat/revenue*100",
+      "inputs": [
+        "F-AR22C-021",
+        "F-AR23-174"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-ROE-FY2022-CONS-006",
+      "metric": "roe",
+      "label": "roe",
+      "value": 25.4088,
+      "unit": "pct",
+      "period": "FY2022",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "pat/avg_equity*100",
+      "inputs": [
+        "F-AR22C-021",
+        "F-AR22C-032"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-ASSET_TURNOVER-FY2022-CONS-007",
+      "metric": "asset_turnover",
+      "label": "asset_turnover",
+      "value": 0.883,
+      "unit": "x",
+      "period": "FY2022",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "revenue/avg_total_assets",
+      "inputs": [
+        "F-AR23-174",
+        "F-AR23-178"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-REVENUE_FROM_OPERATIONS_YOY-FY2022-CONS-008",
+      "metric": "revenue_from_operations_yoy",
+      "label": "revenue_from_operations_yoy",
+      "value": 58.7194,
+      "unit": "pct",
+      "period": "FY2022",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "revenue_from_operations yoy",
+      "inputs": [
+        "F-AR23-174"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-PAT_YOY-FY2022-CONS-009",
+      "metric": "pat_yoy",
+      "label": "pat_yoy",
+      "value": 127.1346,
+      "unit": "pct",
+      "period": "FY2022",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "pat yoy",
+      "inputs": [
+        "F-AR22C-021"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-TOTAL_ASSETS_YOY-FY2022-CONS-010",
+      "metric": "total_assets_yoy",
+      "label": "total_assets_yoy",
+      "value": 18.8844,
+      "unit": "pct",
+      "period": "FY2022",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "total_assets yoy",
+      "inputs": [
+        "F-AR23-178"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-OTHER_INCOME_PCT_REVENUE-FY2022-CONS-011",
+      "metric": "other_income_pct_revenue",
+      "label": "other_income_pct_revenue",
+      "value": 2.0924,
+      "unit": "pct",
+      "period": "FY2022",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "other_income/revenue*100",
+      "inputs": [
+        "F-AR22C-003",
+        "F-AR23-174"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-NET_MARGIN-FY2023-CONS-012",
+      "metric": "net_margin",
+      "label": "net_margin",
+      "value": 10.0644,
+      "unit": "pct",
+      "period": "FY2023",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "pat/revenue*100",
+      "inputs": [
+        "F-AR23-175",
+        "F-AR23-173"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-ASSET_TURNOVER-FY2023-CONS-013",
+      "metric": "asset_turnover",
+      "label": "asset_turnover",
+      "value": 0.8119,
+      "unit": "x",
+      "period": "FY2023",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "revenue/avg_total_assets",
+      "inputs": [
+        "F-AR23-173",
+        "F-AR23-177"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-REVENUE_FROM_OPERATIONS_YOY-FY2023-CONS-014",
+      "metric": "revenue_from_operations_yoy",
+      "label": "revenue_from_operations_yoy",
+      "value": 0.2834,
+      "unit": "pct",
+      "period": "FY2023",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "revenue_from_operations yoy",
+      "inputs": [
+        "F-AR23-173"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-PAT_YOY-FY2023-CONS-015",
+      "metric": "pat_yoy",
+      "label": "pat_yoy",
+      "value": -51.3907,
+      "unit": "pct",
+      "period": "FY2023",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "pat yoy",
+      "inputs": [
+        "F-AR23-175"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-TOTAL_ASSETS_YOY-FY2023-CONS-016",
+      "metric": "total_assets_yoy",
+      "label": "total_assets_yoy",
+      "value": 0.8008,
+      "unit": "pct",
+      "period": "FY2023",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "total_assets yoy",
+      "inputs": [
+        "F-AR23-177"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-NET_MARGIN-FY2024-CONS-017",
+      "metric": "net_margin",
+      "label": "net_margin",
+      "value": 15.1223,
+      "unit": "pct",
+      "period": "FY2024",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "pat/revenue*100",
+      "inputs": [
+        "F-AR25B-014",
+        "F-AR25B-002"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-ROE-FY2024-CONS-018",
+      "metric": "roe",
+      "label": "roe",
+      "value": 13.8202,
+      "unit": "pct",
+      "period": "FY2024",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "pat/avg_equity*100",
+      "inputs": [
+        "F-AR25B-014",
+        "F-AR25B-022"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-ASSET_TURNOVER-FY2024-CONS-019",
+      "metric": "asset_turnover",
+      "label": "asset_turnover",
+      "value": 0.7134,
+      "unit": "x",
+      "period": "FY2024",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "revenue/avg_total_assets",
+      "inputs": [
+        "F-AR25B-002",
+        "F-AR25B-020"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-OTHER_INCOME_SHARE_OF_CFO-FY2024-CONS-020",
+      "metric": "other_income_share_of_cfo",
+      "label": "other_income_share_of_cfo",
+      "value": 9.1933,
+      "unit": "pct",
+      "period": "FY2024",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "other_income/cfo*100",
+      "inputs": [
+        "F-AR25B-004",
+        "F-AR25B-024"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-REVENUE_FROM_OPERATIONS_YOY-FY2024-CONS-021",
+      "metric": "revenue_from_operations_yoy",
+      "label": "revenue_from_operations_yoy",
+      "value": -7.7567,
+      "unit": "pct",
+      "period": "FY2024",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "revenue_from_operations yoy",
+      "inputs": [
+        "F-AR25B-002"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-PAT_YOY-FY2024-CONS-022",
+      "metric": "pat_yoy",
+      "label": "pat_yoy",
+      "value": 38.6015,
+      "unit": "pct",
+      "period": "FY2024",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "pat yoy",
+      "inputs": [
+        "F-AR25B-014"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-TOTAL_ASSETS_YOY-FY2024-CONS-023",
+      "metric": "total_assets_yoy",
+      "label": "total_assets_yoy",
+      "value": 9.125,
+      "unit": "pct",
+      "period": "FY2024",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "total_assets yoy",
+      "inputs": [
+        "F-AR25B-020"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-OTHER_INCOME_PCT_REVENUE-FY2024-CONS-024",
+      "metric": "other_income_pct_revenue",
+      "label": "other_income_pct_revenue",
+      "value": 1.9067,
+      "unit": "pct",
+      "period": "FY2024",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "other_income/revenue*100",
+      "inputs": [
+        "F-AR25B-004",
+        "F-AR25B-002"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-NET_MARGIN-FY2025-CONS-025",
+      "metric": "net_margin",
+      "label": "net_margin",
+      "value": 31.3799,
+      "unit": "pct",
+      "period": "FY2025",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "pat/revenue*100",
+      "inputs": [
+        "F-AR25B-013",
+        "F-AR25B-001"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-ROE-FY2025-CONS-026",
+      "metric": "roe",
+      "label": "roe",
+      "value": 32.7267,
+      "unit": "pct",
+      "period": "FY2025",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "pat/avg_equity*100",
+      "inputs": [
+        "F-AR25B-013",
+        "F-AR25B-021"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-ASSET_TURNOVER-FY2025-CONS-027",
+      "metric": "asset_turnover",
+      "label": "asset_turnover",
+      "value": 0.7972,
+      "unit": "x",
+      "period": "FY2025",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "revenue/avg_total_assets",
+      "inputs": [
+        "F-AR25B-001",
+        "F-AR25B-019"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-OTHER_INCOME_SHARE_OF_CFO-FY2025-CONS-028",
+      "metric": "other_income_share_of_cfo",
+      "label": "other_income_share_of_cfo",
+      "value": 6.1489,
+      "unit": "pct",
+      "period": "FY2025",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "other_income/cfo*100",
+      "inputs": [
+        "F-AR25B-003",
+        "F-AR25B-023"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-REVENUE_FROM_OPERATIONS_YOY-FY2025-CONS-029",
+      "metric": "revenue_from_operations_yoy",
+      "label": "revenue_from_operations_yoy",
+      "value": 27.6708,
+      "unit": "pct",
+      "period": "FY2025",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "revenue_from_operations yoy",
+      "inputs": [
+        "F-AR25B-001"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-PAT_YOY-FY2025-CONS-030",
+      "metric": "pat_yoy",
+      "label": "pat_yoy",
+      "value": 164.9256,
+      "unit": "pct",
+      "period": "FY2025",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "pat yoy",
+      "inputs": [
+        "F-AR25B-013"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-TOTAL_ASSETS_YOY-FY2025-CONS-031",
+      "metric": "total_assets_yoy",
+      "label": "total_assets_yoy",
+      "value": 18.9609,
+      "unit": "pct",
+      "period": "FY2025",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "total_assets yoy",
+      "inputs": [
+        "F-AR25B-019"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-CFO_YOY-FY2025-CONS-032",
+      "metric": "cfo_yoy",
+      "label": "cfo_yoy",
+      "value": 112.9057,
+      "unit": "pct",
+      "period": "FY2025",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "cfo yoy",
+      "inputs": [
+        "F-AR25B-023"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-OTHER_INCOME_PCT_REVENUE-FY2025-CONS-033",
+      "metric": "other_income_pct_revenue",
+      "label": "other_income_pct_revenue",
+      "value": 2.1266,
+      "unit": "pct",
+      "period": "FY2025",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "other_income/revenue*100",
+      "inputs": [
+        "F-AR25B-003",
+        "F-AR25B-001"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-NET_MARGIN-FY2026-CONS-034",
+      "metric": "net_margin",
+      "label": "net_margin",
+      "value": 32.5954,
+      "unit": "pct",
+      "period": "FY2026",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "pat/revenue*100",
+      "inputs": [
+        "F-PQ4-029",
+        "F-PQ4-001"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-REVENUE_FROM_OPERATIONS_YOY-FY2026-CONS-035",
+      "metric": "revenue_from_operations_yoy",
+      "label": "revenue_from_operations_yoy",
+      "value": 6.2866,
+      "unit": "pct",
+      "period": "FY2026",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "revenue_from_operations yoy",
+      "inputs": [
+        "F-PQ4-001"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-PAT_YOY-FY2026-CONS-036",
+      "metric": "pat_yoy",
+      "label": "pat_yoy",
+      "value": 10.4037,
+      "unit": "pct",
+      "period": "FY2026",
+      "period_type": "FY",
+      "basis": "consolidated",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "pat yoy",
+      "inputs": [
+        "F-PQ4-029"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-ASSET_TURNOVER-FY2021-STAN-037",
+      "metric": "asset_turnover",
+      "label": "asset_turnover",
+      "value": 0.6088,
+      "unit": "x",
+      "period": "FY2021",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "revenue/avg_total_assets",
+      "inputs": [
+        "F-AR21-101",
+        "F-AR21-189"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-INVENTORY_DAYS-FY2021-STAN-038",
+      "metric": "inventory_days",
+      "label": "inventory_days",
+      "value": 60.1685,
+      "unit": "days",
+      "period": "FY2021",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "inventory/revenue*365",
+      "inputs": [
+        "F-AR21-169",
+        "F-AR21-101"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-DEBT_EQUITY-FY2021-STAN-039",
+      "metric": "debt_equity",
+      "label": "debt_equity",
+      "value": 0.0043,
+      "unit": "x",
+      "period": "FY2021",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "total_borrowings/equity",
+      "inputs": [
+        "F-AR21-211",
+        "F-AR21-195"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-OTHER_INCOME_PCT_REVENUE-FY2021-STAN-040",
+      "metric": "other_income_pct_revenue",
+      "label": "other_income_pct_revenue",
+      "value": 1.6369,
+      "unit": "pct",
+      "period": "FY2021",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "other_income/revenue*100",
+      "inputs": [
+        "F-AR21-103",
+        "F-AR21-101"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-FINANCE_COSTS_PCT_REVENUE-FY2021-STAN-041",
+      "metric": "finance_costs_pct_revenue",
+      "label": "finance_costs_pct_revenue",
+      "value": 0.0791,
+      "unit": "pct",
+      "period": "FY2021",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "finance_costs/revenue*100",
+      "inputs": [
+        "F-AR21-115",
+        "F-AR21-101"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-NET_MARGIN-FY2022-STAN-042",
+      "metric": "net_margin",
+      "label": "net_margin",
+      "value": 20.7672,
+      "unit": "pct",
+      "period": "FY2022",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "pat/revenue*100",
+      "inputs": [
+        "F-AR22-022",
+        "F-AR23-002"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-ROE-FY2022-STAN-043",
+      "metric": "roe",
+      "label": "roe",
+      "value": 25.4093,
+      "unit": "pct",
+      "period": "FY2022",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "pat/avg_equity*100",
+      "inputs": [
+        "F-AR22-022",
+        "F-AR22-034"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-ROCE-FY2022-STAN-044",
+      "metric": "roce",
+      "label": "roce",
+      "value": 34.1428,
+      "unit": "pct",
+      "period": "FY2022",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "(pbt+fin)/avg(equity+debt)*100",
+      "inputs": [
+        "F-AR22-019",
+        "F-AR23-016",
+        "F-AR22-034",
+        "F-AR22-038"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-ASSET_TURNOVER-FY2022-STAN-045",
+      "metric": "asset_turnover",
+      "label": "asset_turnover",
+      "value": 0.8829,
+      "unit": "x",
+      "period": "FY2022",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "revenue/avg_total_assets",
+      "inputs": [
+        "F-AR23-002",
+        "F-AR23-098"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-DSO_DAYS-FY2022-STAN-046",
+      "metric": "dso_days",
+      "label": "dso_days",
+      "value": 1.9323,
+      "unit": "days",
+      "period": "FY2022",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "receivables/revenue*365",
+      "inputs": [
+        "F-AR22-031",
+        "F-AR23-002"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-INVENTORY_DAYS-FY2022-STAN-047",
+      "metric": "inventory_days",
+      "label": "inventory_days",
+      "value": 42.2555,
+      "unit": "days",
+      "period": "FY2022",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "inventory/revenue*365",
+      "inputs": [
+        "F-AR23-076",
+        "F-AR23-002"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-DEBT_EQUITY-FY2022-STAN-048",
+      "metric": "debt_equity",
+      "label": "debt_equity",
+      "value": 0.0016,
+      "unit": "x",
+      "period": "FY2022",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "total_borrowings/equity",
+      "inputs": [
+        "F-AR22-038",
+        "F-AR22-034"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-INTEREST_COVERAGE-FY2022-STAN-049",
+      "metric": "interest_coverage",
+      "label": "interest_coverage",
+      "value": 171.9844,
+      "unit": "x",
+      "period": "FY2022",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "(pbt+fin)/finance_costs",
+      "inputs": [
+        "F-AR22-019",
+        "F-AR23-016"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-OTHER_INCOME_SHARE_OF_CFO-FY2022-STAN-050",
+      "metric": "other_income_share_of_cfo",
+      "label": "other_income_share_of_cfo",
+      "value": 6.5214,
+      "unit": "pct",
+      "period": "FY2022",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "other_income/cfo*100",
+      "inputs": [
+        "F-AR23-004",
+        "F-AR23-155"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-REVENUE_FROM_OPERATIONS_YOY-FY2022-STAN-051",
+      "metric": "revenue_from_operations_yoy",
+      "label": "revenue_from_operations_yoy",
+      "value": 58.7194,
+      "unit": "pct",
+      "period": "FY2022",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "revenue_from_operations yoy",
+      "inputs": [
+        "F-AR23-002"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-TOTAL_ASSETS_YOY-FY2022-STAN-052",
+      "metric": "total_assets_yoy",
+      "label": "total_assets_yoy",
+      "value": 18.8861,
+      "unit": "pct",
+      "period": "FY2022",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "total_assets yoy",
+      "inputs": [
+        "F-AR23-098"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-OTHER_INCOME_PCT_REVENUE-FY2022-STAN-053",
+      "metric": "other_income_pct_revenue",
+      "label": "other_income_pct_revenue",
+      "value": 1.8579,
+      "unit": "pct",
+      "period": "FY2022",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "other_income/revenue*100",
+      "inputs": [
+        "F-AR23-004",
+        "F-AR23-002"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-FINANCE_COSTS_PCT_REVENUE-FY2022-STAN-054",
+      "metric": "finance_costs_pct_revenue",
+      "label": "finance_costs_pct_revenue",
+      "value": 0.1627,
+      "unit": "pct",
+      "period": "FY2022",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "finance_costs/revenue*100",
+      "inputs": [
+        "F-AR23-016",
+        "F-AR23-002"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-NET_MARGIN-FY2023-STAN-055",
+      "metric": "net_margin",
+      "label": "net_margin",
+      "value": 10.8348,
+      "unit": "pct",
+      "period": "FY2023",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "pat/revenue*100",
+      "inputs": [
+        "F-AR23-039",
+        "F-AR23-001"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-ROE-FY2023-STAN-056",
+      "metric": "roe",
+      "label": "roe",
+      "value": 11.976,
+      "unit": "pct",
+      "period": "FY2023",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "pat/avg_equity*100",
+      "inputs": [
+        "F-AR23-039",
+        "F-AR23-103"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-ROCE-FY2023-STAN-057",
+      "metric": "roce",
+      "label": "roce",
+      "value": 15.247,
+      "unit": "pct",
+      "period": "FY2023",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "(pbt+fin)/avg(equity+debt)*100",
+      "inputs": [
+        "F-AR23-031",
+        "F-AR23-015",
+        "F-AR23-103"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-ASSET_TURNOVER-FY2023-STAN-058",
+      "metric": "asset_turnover",
+      "label": "asset_turnover",
+      "value": 0.8093,
+      "unit": "x",
+      "period": "FY2023",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "revenue/avg_total_assets",
+      "inputs": [
+        "F-AR23-001",
+        "F-AR23-097"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-DSO_DAYS-FY2023-STAN-059",
+      "metric": "dso_days",
+      "label": "dso_days",
+      "value": 2.3385,
+      "unit": "days",
+      "period": "FY2023",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "receivables/revenue*365",
+      "inputs": [
+        "F-AR23-079",
+        "F-AR23-001"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-INVENTORY_DAYS-FY2023-STAN-060",
+      "metric": "inventory_days",
+      "label": "inventory_days",
+      "value": 47.1194,
+      "unit": "days",
+      "period": "FY2023",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "inventory/revenue*365",
+      "inputs": [
+        "F-AR23-075",
+        "F-AR23-001"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-INTEREST_COVERAGE-FY2023-STAN-061",
+      "metric": "interest_coverage",
+      "label": "interest_coverage",
+      "value": 152.315,
+      "unit": "x",
+      "period": "FY2023",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "(pbt+fin)/finance_costs",
+      "inputs": [
+        "F-AR23-031",
+        "F-AR23-015"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-OTHER_INCOME_SHARE_OF_CFO-FY2023-STAN-062",
+      "metric": "other_income_share_of_cfo",
+      "label": "other_income_share_of_cfo",
+      "value": 25.9436,
+      "unit": "pct",
+      "period": "FY2023",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "other_income/cfo*100",
+      "inputs": [
+        "F-AR23-003",
+        "F-AR23-154"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-REVENUE_FROM_OPERATIONS_YOY-FY2023-STAN-063",
+      "metric": "revenue_from_operations_yoy",
+      "label": "revenue_from_operations_yoy",
+      "value": 0.2834,
+      "unit": "pct",
+      "period": "FY2023",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "revenue_from_operations yoy",
+      "inputs": [
+        "F-AR23-001"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-PAT_YOY-FY2023-STAN-064",
+      "metric": "pat_yoy",
+      "label": "pat_yoy",
+      "value": -47.6793,
+      "unit": "pct",
+      "period": "FY2023",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "pat yoy",
+      "inputs": [
+        "F-AR23-039"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-TOTAL_ASSETS_YOY-FY2023-STAN-065",
+      "metric": "total_assets_yoy",
+      "label": "total_assets_yoy",
+      "value": 1.4287,
+      "unit": "pct",
+      "period": "FY2023",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "total_assets yoy",
+      "inputs": [
+        "F-AR23-097"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-CFO_YOY-FY2023-STAN-066",
+      "metric": "cfo_yoy",
+      "label": "cfo_yoy",
+      "value": -77.5722,
+      "unit": "pct",
+      "period": "FY2023",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "cfo yoy",
+      "inputs": [
+        "F-AR23-154"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-OTHER_INCOME_PCT_REVENUE-FY2023-STAN-067",
+      "metric": "other_income_pct_revenue",
+      "label": "other_income_pct_revenue",
+      "value": 1.653,
+      "unit": "pct",
+      "period": "FY2023",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "other_income/revenue*100",
+      "inputs": [
+        "F-AR23-003",
+        "F-AR23-001"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-FINANCE_COSTS_PCT_REVENUE-FY2023-STAN-068",
+      "metric": "finance_costs_pct_revenue",
+      "label": "finance_costs_pct_revenue",
+      "value": 0.0906,
+      "unit": "pct",
+      "period": "FY2023",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "finance_costs/revenue*100",
+      "inputs": [
+        "F-AR23-015",
+        "F-AR23-001"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-ASSET_TURNOVER-FY2024-STAN-069",
+      "metric": "asset_turnover",
+      "label": "asset_turnover",
+      "value": 0.7078,
+      "unit": "x",
+      "period": "FY2024",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "revenue/avg_total_assets",
+      "inputs": [
+        "F-AR24-001",
+        "F-AR25-096"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-DSO_DAYS-FY2024-STAN-070",
+      "metric": "dso_days",
+      "label": "dso_days",
+      "value": 4.2609,
+      "unit": "days",
+      "period": "FY2024",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "receivables/revenue*365",
+      "inputs": [
+        "F-AR25-080",
+        "F-AR24-001"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-INVENTORY_DAYS-FY2024-STAN-071",
+      "metric": "inventory_days",
+      "label": "inventory_days",
+      "value": 50.8346,
+      "unit": "days",
+      "period": "FY2024",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "inventory/revenue*365",
+      "inputs": [
+        "F-AR25-076",
+        "F-AR24-001"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-REVENUE_FROM_OPERATIONS_YOY-FY2024-STAN-072",
+      "metric": "revenue_from_operations_yoy",
+      "label": "revenue_from_operations_yoy",
+      "value": -7.7567,
+      "unit": "pct",
+      "period": "FY2024",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "revenue_from_operations yoy",
+      "inputs": [
+        "F-AR24-001"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-TOTAL_ASSETS_YOY-FY2024-STAN-073",
+      "metric": "total_assets_yoy",
+      "label": "total_assets_yoy",
+      "value": 9.4703,
+      "unit": "pct",
+      "period": "FY2024",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "total_assets yoy",
+      "inputs": [
+        "F-AR25-096"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-OTHER_INCOME_PCT_REVENUE-FY2024-STAN-074",
+      "metric": "other_income_pct_revenue",
+      "label": "other_income_pct_revenue",
+      "value": 1.9067,
+      "unit": "pct",
+      "period": "FY2024",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "other_income/revenue*100",
+      "inputs": [
+        "F-AR25-004",
+        "F-AR24-001"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-FINANCE_COSTS_PCT_REVENUE-FY2024-STAN-075",
+      "metric": "finance_costs_pct_revenue",
+      "label": "finance_costs_pct_revenue",
+      "value": 0.1309,
+      "unit": "pct",
+      "period": "FY2024",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "finance_costs/revenue*100",
+      "inputs": [
+        "F-AR25-016",
+        "F-AR24-001"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-ASSET_TURNOVER-FY2025-STAN-076",
+      "metric": "asset_turnover",
+      "label": "asset_turnover",
+      "value": 0.7892,
+      "unit": "x",
+      "period": "FY2025",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "revenue/avg_total_assets",
+      "inputs": [
+        "F-AR25-001",
+        "F-AR25-095"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-DSO_DAYS-FY2025-STAN-077",
+      "metric": "dso_days",
+      "label": "dso_days",
+      "value": 4.0525,
+      "unit": "days",
+      "period": "FY2025",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "receivables/revenue*365",
+      "inputs": [
+        "F-AR25-079",
+        "F-AR25-001"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-INVENTORY_DAYS-FY2025-STAN-078",
+      "metric": "inventory_days",
+      "label": "inventory_days",
+      "value": 41.5022,
+      "unit": "days",
+      "period": "FY2025",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "inventory/revenue*365",
+      "inputs": [
+        "F-AR25-075",
+        "F-AR25-001"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-REVENUE_FROM_OPERATIONS_YOY-FY2025-STAN-079",
+      "metric": "revenue_from_operations_yoy",
+      "label": "revenue_from_operations_yoy",
+      "value": 27.6708,
+      "unit": "pct",
+      "period": "FY2025",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "revenue_from_operations yoy",
+      "inputs": [
+        "F-AR25-001"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-TOTAL_ASSETS_YOY-FY2025-STAN-080",
+      "metric": "total_assets_yoy",
+      "label": "total_assets_yoy",
+      "value": 19.0739,
+      "unit": "pct",
+      "period": "FY2025",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "total_assets yoy",
+      "inputs": [
+        "F-AR25-095"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-OTHER_INCOME_PCT_REVENUE-FY2025-STAN-081",
+      "metric": "other_income_pct_revenue",
+      "label": "other_income_pct_revenue",
+      "value": 2.1266,
+      "unit": "pct",
+      "period": "FY2025",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "other_income/revenue*100",
+      "inputs": [
+        "F-AR25-003",
+        "F-AR25-001"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    },
+    {
+      "id": "D-FINANCE_COSTS_PCT_REVENUE-FY2025-STAN-082",
+      "metric": "finance_costs_pct_revenue",
+      "label": "finance_costs_pct_revenue",
+      "value": 0.3513,
+      "unit": "pct",
+      "period": "FY2025",
+      "period_type": "FY",
+      "basis": "standalone",
+      "level": 1,
+      "parent": null,
+      "source": {
+        "src_id": "DERIVED",
+        "quote": null
+      },
+      "method": "computed",
+      "formula": "finance_costs/revenue*100",
+      "inputs": [
+        "F-AR25-015",
+        "F-AR25-001"
+      ],
+      "confidence": "high",
+      "load_bearing": false,
+      "flags": []
+    }
+  ],
+  "skipped": [
+    "ebitda FY2021 consolidated: missing pbt/dep/fin/oi and texp route",
+    "ebitda FY2022 consolidated: missing pbt/dep/fin/oi and texp route",
+    "ebitda FY2023 consolidated: missing pbt/dep/fin/oi and texp route",
+    "ebitda FY2024 consolidated: missing pbt/dep/fin/oi and texp route",
+    "ebitda FY2025 consolidated: missing pbt/dep/fin/oi and texp route",
+    "ebitda FY2026 consolidated: missing pbt/dep/fin/oi and texp route",
+    "ebitda FY2020 standalone: missing pbt/dep/fin/oi and texp route",
+    "ebitda FY2021 standalone: missing pbt/dep/fin/oi and texp route",
+    "ebitda FY2022 standalone: missing pbt/dep/fin/oi and texp route",
+    "ebitda FY2023 standalone: missing pbt/dep/fin/oi and texp route",
+    "ebitda FY2024 standalone: missing pbt/dep/fin/oi and texp route",
+    "ebitda FY2025 standalone: missing pbt/dep/fin/oi and texp route"
+  ]
+}

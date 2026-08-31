@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 94,
+  "table_index": 2,
+  "bbox": [
+    68.28144999999999,
+    276.162,
+    542.8726,
+    456.8018
+  ],
+  "rows": [
+    [
+      "",
+      "Yes/ No (If yes, then give details of the mechanism in brief)"
+    ],
+    [
+      "Permanent Workers*",
+      "• To enhance transparency and improve employee welfare, an Online Grievance Portal was launched on\n19.03.2025. This platform has been developed to ensure the prompt and effective redressal of day-to-day\ngrievances raised by NALCO employees.\n• The portal provides a structured, workflow-based system for grievance submission, escalation, tracking, and\nresolution. It ensures a seamless and timely mechanism for addressing employee concerns while maintaining\ntransparency and accountability at each stage of the grievance handling process.\n• Importantly, the Online Grievance Portal is fully aligned with the Approved Grievance Procedure applicable\nto both Executives and Non-Executives, ensuring uniformity, fairness, and adherence to organizational\npolicies.\n• Furthermore, all units, including the corporate office, have a policy in place to prevent, prohibit, and address\nsexual harassment of women in the workplace, in accordance with the requirements of the Sexual Harassment\nof Women at Workplace (Prevention, Prohibition & Redressal) Act, 2013. Internal Complaints Committees\nhave been established at the production units and corporate office of the company to address complaints\nrelated to sexual harassment.\nFor non-permanent workers grievances of such workers are generally received and managed by the EIC (Contract\nEngineer-in-charge) or Plant HRD through intervention with their immediate employer, i.e., the contractor."
+    ],
+    [
+      "Other than Permanent\nWorkers**",
+      null
+    ],
+    [
+      "Permanent Employees***",
+      null
+    ],
+    [
+      "Other than Permanent\nEmployees****",
+      null
+    ]
+  ]
+}

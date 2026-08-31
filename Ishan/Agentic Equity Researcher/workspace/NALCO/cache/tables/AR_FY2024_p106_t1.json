@@ -1,0 +1,90 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 106,
+  "table_index": 1,
+  "bbox": [
+    68.42318333333333,
+    469.87888888888887,
+    542.8681615384615,
+    651.7185
+  ],
+  "rows": [
+    [
+      "Members of Audit Committee",
+      "Category of Director",
+      "Position",
+      "Meeting",
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "Held",
+      "Attended"
+    ],
+    [
+      "Dr. A. Narang",
+      "Independent",
+      "Chairman",
+      "8",
+      "8"
+    ],
+    [
+      "Dr. B. R. Ramakrishna",
+      "Independent",
+      "Member",
+      "8",
+      "8"
+    ],
+    [
+      "Adv. D. Upadhyay\n[upto 24.05.2023 (AN)]",
+      "Independent",
+      "Member",
+      "2",
+      "2"
+    ],
+    [
+      "Shri Y. P. Chillio\n[upto 24.05.2023 (AN]",
+      "Independent",
+      "Member",
+      "2",
+      "2"
+    ],
+    [
+      "Adv. G. Kurian\n[w.e.f. 24.05.2023 (AN)]",
+      "Independent",
+      "Member",
+      "6",
+      "6"
+    ],
+    [
+      "Shri S. R. Patel\n[w.e.f. 24.05.2023(AN)]",
+      "Independent",
+      "Member",
+      "6",
+      "6"
+    ],
+    [
+      "Shri P. K. Sharma\nDirector (Production)",
+      "Functional",
+      "Member",
+      "8",
+      "8"
+    ],
+    [
+      "Shri S. Samantaray\n[w.e.f. 24.05.2023(AN)]",
+      "Functional",
+      "Member",
+      "6",
+      "6"
+    ],
+    [
+      "Shri R. C. Joshi\nDirector (Finance)",
+      "Functional",
+      "Special invitee",
+      "8",
+      "8"
+    ]
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 64,
+  "table_index": 5,
+  "bbox": [
+    51.4152347826087,
+    581.4352916666667,
+    543.368048,
+    671.8108999999998
+  ],
+  "rows": [
+    [
+      "S. No",
+      "Particulars",
+      "Total (A)",
+      "Male",
+      null,
+      "Female",
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "No. (B)",
+      "% (B / A)",
+      "No. (C)",
+      "% (C / A)"
+    ],
+    [
+      "EMPLOYEES",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "1.",
+      "Permanent (D)",
+      "1,586",
+      "1,495",
+      "94%",
+      "91",
+      "6%"
+    ],
+    [
+      "2.",
+      "Other Than Permanent (E)",
+      "Nil",
+      "Nil",
+      "Nil",
+      "Nil",
+      "Nil"
+    ],
+    [
+      "3.",
+      "Total Employees (D+E)",
+      "1,586",
+      "1,495",
+      "94%",
+      "91",
+      "6%"
+    ]
+  ]
+}

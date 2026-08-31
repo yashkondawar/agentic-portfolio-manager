@@ -1,0 +1,85 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 23,
+  "table_index": 3,
+  "bbox": [
+    334.80674999999997,
+    288.97366666666665,
+    555.3505263157895,
+    498.7903333333333
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "Calendar\nYear 2019",
+      "Calendar\nYear 2020",
+      "Calendar\nYear 2021\n(Projected)"
+    ],
+    [
+      "Alumina",
+      null,
+      null,
+      null
+    ],
+    [
+      "Global Demand (Million MT)",
+      "123.26",
+      "126.77",
+      "130.65"
+    ],
+    [
+      "Global Supply (Million MT)",
+      "123.85",
+      "127.01",
+      "131.88"
+    ],
+    [
+      "Balance [Surplus/(Defi cit)]",
+      "0.59",
+      "0.24",
+      "1.23"
+    ],
+    [
+      "Aluminium Metal",
+      null,
+      null,
+      null
+    ],
+    [
+      "Global Demand (Million MT)",
+      "64.57",
+      "62.80",
+      "68.24*"
+    ],
+    [
+      "Global Supply (Million MT)",
+      "63.22",
+      "64.76",
+      "68.19*"
+    ],
+    [
+      "Balance [Surplus/(Defi cit)]",
+      "(1.34)",
+      "1.96",
+      "0.05*"
+    ],
+    [
+      "Price Trend",
+      "FY 2019-20",
+      "FY 2020-21",
+      "FY 2021-22\n(till June,\n2021)"
+    ],
+    [
+      "LME Price (USD per MT)",
+      "1,749",
+      "1,802",
+      "2,399"
+    ],
+    [
+      "Alumina Price Index\n(as % of LME Price)",
+      "17.3%",
+      "15.1%",
+      "11.5%"
+    ]
+  ]
+}

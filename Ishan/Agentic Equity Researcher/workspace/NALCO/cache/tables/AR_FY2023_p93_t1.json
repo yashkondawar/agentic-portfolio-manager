@@ -1,0 +1,62 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 93,
+  "table_index": 1,
+  "bbox": [
+    93.793,
+    578.4555,
+    549.171,
+    690.27
+  ],
+  "rows": [
+    [
+      "Members of Nomination and Remuneration Committee",
+      "Category of Director",
+      "Position",
+      "Meeting",
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "held",
+      "attended"
+    ],
+    [
+      "Ms. (Dr.) Shatorupa",
+      "Independent",
+      "Chairperson",
+      "3",
+      "3"
+    ],
+    [
+      "Shri R. N. Jha",
+      "Independent",
+      "Member",
+      "3",
+      "3"
+    ],
+    [
+      "Shri Y. P. Chillio",
+      "Independent",
+      "Member",
+      "3",
+      "3"
+    ],
+    [
+      "Shri R. S. Mahapatro\nDirector (HR)",
+      "Functional",
+      "Invitee",
+      "3",
+      "3"
+    ],
+    [
+      "Shri R. C. Joshi\nDirector (Finance)",
+      "Functional",
+      "Invitee",
+      "3",
+      "3"
+    ]
+  ]
+}

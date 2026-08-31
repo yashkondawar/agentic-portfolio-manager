@@ -1,0 +1,91 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 173,
+  "table_index": 2,
+  "bbox": [
+    51.27361904761905,
+    497.95304999999996,
+    542.7264285714286,
+    677.56
+  ],
+  "rows": [
+    [
+      "",
+      "",
+      "As at 31.03.2024",
+      "As at 31.03.2023"
+    ],
+    [
+      "(a)",
+      "Raw materials",
+      "188.96",
+      "306.67"
+    ],
+    [
+      "(b)",
+      "Coal and fuel oil",
+      "150.28",
+      "189.76"
+    ],
+    [
+      "(c)",
+      "Carbon Anodes (Intermediaries)",
+      "216.77",
+      "160.35"
+    ],
+    [
+      "(d)",
+      "Work-in-progress",
+      "406.39",
+      "392.13"
+    ],
+    [
+      "(e)",
+      "Finished goods",
+      "537.73",
+      "462.36"
+    ],
+    [
+      "(f)",
+      "Stores and spares",
+      "329.59",
+      "328.95"
+    ],
+    [
+      "Total inventories",
+      null,
+      "1,829.72",
+      "1,840.22"
+    ],
+    [
+      "Included above, goods-in-transit:",
+      null,
+      null,
+      null
+    ],
+    [
+      "(i)",
+      "Raw materials",
+      "53.57",
+      "30.74"
+    ],
+    [
+      "(ii)",
+      "Coal and fuel oil",
+      "48.96",
+      "16.88"
+    ],
+    [
+      "(iii)",
+      "Stores and spares",
+      "9.57",
+      "15.22"
+    ],
+    [
+      "Total goods-in-transit",
+      null,
+      "112.10",
+      "62.84"
+    ]
+  ]
+}

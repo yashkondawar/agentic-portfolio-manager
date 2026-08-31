@@ -1,0 +1,53 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 240,
+  "table_index": 1,
+  "bbox": [
+    45.414575,
+    78.58255000000003,
+    458.646,
+    169.178
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      "Year ended 31.03.2022"
+    ],
+    [
+      "(a)",
+      "Salaries and wages, including bonus",
+      "1,938.42"
+    ],
+    [
+      "(b)",
+      "Contribution to provident and other funds",
+      ""
+    ],
+    [
+      null,
+      "1) Provident fund",
+      "115.87"
+    ],
+    [
+      null,
+      "2) Gratuity",
+      "30.01"
+    ],
+    [
+      null,
+      "3) Post employment pension scheme",
+      "104.00"
+    ],
+    [
+      "(c)",
+      "Staff welfare expenses",
+      "167.50"
+    ],
+    [
+      "",
+      "Total employee benefit expense",
+      "2,355.80"
+    ]
+  ]
+}

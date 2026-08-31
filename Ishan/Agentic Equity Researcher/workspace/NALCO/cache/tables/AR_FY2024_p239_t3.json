@@ -1,0 +1,123 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 239,
+  "table_index": 3,
+  "bbox": [
+    51.27364285714286,
+    492.0421928571429,
+    542.7264333333334,
+    658.7515846153846
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "UDANL",
+      null,
+      "KABIL",
+      null,
+      "AAPPL",
+      null,
+      "GNAL",
+      null
+    ],
+    [
+      null,
+      "As at\n31.03.2024",
+      "As at\n31.03.2023",
+      "As at\n31.03.2024",
+      "As at\n31.03.2023",
+      "As at\n31.03.2024",
+      "As at\n31.03.2023",
+      "As at\n31.03.2024",
+      "As at\n31.03.2023"
+    ],
+    [
+      "Non- current assets",
+      "9.83",
+      "10.11",
+      "7.55",
+      "-",
+      "91.10",
+      "88.72",
+      "1,812.12",
+      "1,838.48"
+    ],
+    [
+      "Current asset",
+      "30.26",
+      "29.00",
+      "90.57",
+      "32.15",
+      "11.93",
+      "21.74",
+      "488.71",
+      "596.57"
+    ],
+    [
+      "Non- current liabilties",
+      "-",
+      "-",
+      "-",
+      "-",
+      "66.39",
+      "36.37",
+      "1,508.84",
+      "1,572.64"
+    ],
+    [
+      "Current liabilties",
+      "0.64",
+      "0.71",
+      "0.17",
+      "0.31",
+      "0.63",
+      "1.14",
+      "561.72",
+      "457.81"
+    ],
+    [
+      "The above amounts of assets and liabilities includes the following:",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Cash and cash equivalents",
+      "29.40",
+      "28.26",
+      "0.11",
+      "6.17",
+      "10.50",
+      "20.09",
+      "0.08",
+      "5.82"
+    ],
+    [
+      "Current financials liabilities (excluding\ntrade payables and provisions)",
+      "-",
+      "-",
+      "-",
+      "-",
+      "0.01",
+      "0.01",
+      "440.01",
+      "341.69"
+    ],
+    [
+      "Non- current financial liabilities\n(excluding trade payables and provisions)",
+      "-",
+      "-",
+      "-",
+      "-",
+      "33.05",
+      "33.05",
+      "1,508.84",
+      "1,572.64"
+    ]
+  ]
+}

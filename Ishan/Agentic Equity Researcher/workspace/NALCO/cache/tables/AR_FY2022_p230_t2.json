@@ -1,0 +1,37 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 230,
+  "table_index": 2,
+  "bbox": [
+    45.45955,
+    211.85655000000008,
+    463.407,
+    301.76500000000004
+  ],
+  "rows": [
+    [
+      "",
+      "Number of shares"
+    ],
+    [
+      "Balance as at 31.03.2020",
+      "1,86,56,17,498"
+    ],
+    [
+      "Changes during the year\nBuy-back of shares",
+      "(2,89,85,711)"
+    ],
+    [
+      "Balance as at 31.03.2021",
+      "1,83,66,31,787"
+    ],
+    [
+      "Changes during the year",
+      "-"
+    ],
+    [
+      "Balance as at 31.03.2022",
+      "1,83,66,31,787"
+    ]
+  ]
+}

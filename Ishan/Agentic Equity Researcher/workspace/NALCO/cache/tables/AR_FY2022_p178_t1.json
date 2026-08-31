@@ -1,0 +1,153 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 178,
+  "table_index": 1,
+  "bbox": [
+    45.52746,
+    314.40360000000004,
+    491.52799999999996,
+    551.1136666666667
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      "As at 31.03.2021",
+      "Reduction during the year",
+      "Addition during the year"
+    ],
+    [
+      "a.",
+      "Demand by statutory authority",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "1. Odisha Sales tax",
+      "3.72",
+      "-",
+      "0.38"
+    ],
+    [
+      null,
+      "2. Central Sales tax",
+      "281.01",
+      "(0.46)",
+      "-"
+    ],
+    [
+      null,
+      "3. VAT",
+      "12.64",
+      "-",
+      "-"
+    ],
+    [
+      null,
+      "4. Excise duty",
+      "410.44",
+      "(397.48)",
+      "397.48"
+    ],
+    [
+      null,
+      "5. Custom duty",
+      "104.47",
+      "(1.70)",
+      "-"
+    ],
+    [
+      null,
+      "6. Service tax",
+      "21.98",
+      "(9.23)",
+      "2.07"
+    ],
+    [
+      null,
+      "7. Income tax",
+      "162.66",
+      "(24.49)",
+      "85.58"
+    ],
+    [
+      null,
+      "8. Entry tax",
+      "221.37",
+      "(4.10)",
+      "4.94"
+    ],
+    [
+      null,
+      "9. Road tax",
+      "2.65",
+      "-",
+      "-"
+    ],
+    [
+      null,
+      "10. Stamp duty",
+      "0.51",
+      "-",
+      "-"
+    ],
+    [
+      null,
+      "11. Claim From Govt. (NGT)",
+      "62.30",
+      "-",
+      "46.71"
+    ],
+    [
+      null,
+      "12. Claim From PSUs",
+      "247.59",
+      "-",
+      "75.33"
+    ],
+    [
+      null,
+      "13. Land acquisition and interest there on",
+      "73.73",
+      "- -",
+      "4.34"
+    ],
+    [
+      null,
+      "14. Demand from Dept. of mines Govt. of Odisha",
+      "136.32",
+      "-",
+      "-"
+    ],
+    [
+      null,
+      "15. Demand from Water Resources Deptt. Govt. of Odisha for\nWater Conservation fund",
+      "119.24",
+      "-",
+      "-"
+    ],
+    [
+      "b.",
+      "Claim by contractors/suppliers and others",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "1. Claims of Contractor’s suppliers and others",
+      "292.85",
+      "(6.79)",
+      "52.35"
+    ],
+    [
+      null,
+      "Total",
+      "2,153.48",
+      "(444.25)",
+      "669.18"
+    ]
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 195,
+  "table_index": 3,
+  "bbox": [
+    51.27364137931035,
+    558.7831199999999,
+    542.7026258064516,
+    673.385225
+  ],
+  "rows": [
+    [
+      "Operating Segments",
+      "Segment Results",
+      null
+    ],
+    [
+      null,
+      "Year ended 31.03.2024",
+      "Year ended 31.03.2023"
+    ],
+    [
+      "Chemical segment",
+      "967.24",
+      "383.59"
+    ],
+    [
+      "Aluminium segment",
+      "1,526.46",
+      "1,778.73"
+    ],
+    [
+      "Segment result before exceptional items, interest and tax",
+      "2,493.70",
+      "2,162.32"
+    ],
+    [
+      "Exceptional Income/(Expenses)",
+      "426.81",
+      "-"
+    ],
+    [
+      "Interest & financing charges",
+      "17.21",
+      "12.92"
+    ],
+    [
+      "Interest and dividend income",
+      "211.08",
+      "204.98"
+    ],
+    [
+      "Other unallocated income net of unallocated expenses",
+      "(330.81)",
+      "(399.39)"
+    ],
+    [
+      "Profit before tax",
+      "2,783.57",
+      "1,954.99"
+    ]
+  ]
+}

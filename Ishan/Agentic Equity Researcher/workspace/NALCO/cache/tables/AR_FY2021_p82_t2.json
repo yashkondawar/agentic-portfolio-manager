@@ -1,0 +1,68 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 82,
+  "table_index": 2,
+  "bbox": [
+    71.11618333333334,
+    513.1048,
+    546.83655,
+    697.0731
+  ],
+  "rows": [
+    [
+      "Unit",
+      "Utilisation",
+      "Percentage"
+    ],
+    [
+      "Bauxite Mines",
+      "Overburden utilized for concurrent reclamation of mined out areas",
+      "100%"
+    ],
+    [
+      "Alumina Refinery",
+      "Caustic Soda recycled from waste red mud",
+      "12.81%"
+    ],
+    [
+      null,
+      "Ash utilization in Refinery",
+      "101.47%"
+    ],
+    [
+      null,
+      "Recycling of Ash pond water",
+      "92.22%"
+    ],
+    [
+      null,
+      "Recycling of Red Mud pond water",
+      "114.52%"
+    ],
+    [
+      "Smelter",
+      "Recycling of Aluminium scrap",
+      "100%"
+    ],
+    [
+      null,
+      "Aluminium dross recycled as input to process",
+      "61%"
+    ],
+    [
+      null,
+      "Recycling of spent anode",
+      "100%"
+    ],
+    [
+      "CPP",
+      "Ash utilisation in CPP",
+      "75.69%"
+    ],
+    [
+      null,
+      "Recycling of Ash pond water",
+      "100%"
+    ]
+  ]
+}

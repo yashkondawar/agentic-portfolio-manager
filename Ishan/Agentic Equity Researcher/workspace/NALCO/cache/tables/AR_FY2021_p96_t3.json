@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 96,
+  "table_index": 3,
+  "bbox": [
+    71.11608260869566,
+    369.8641,
+    547.354232,
+    475.9228
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Item",
+      "Investment\n(in lakh rupees)"
+    ],
+    [
+      "1.",
+      "Replacement of conventional heating elements with advanced profile heating elements in Boiler-2",
+      "42.36"
+    ],
+    [
+      "2.",
+      "Replacement of existing IE1 class motors with IE2/IE3 class motors",
+      "45.77"
+    ],
+    [
+      "3.",
+      "Replacement of conventional 70W light fittings with 40W LED lights",
+      "23"
+    ],
+    [
+      "4.",
+      "Replacement of old and low efficiency ACs by 3 star and above rated energy efficient ACs.",
+      "14.65"
+    ],
+    [
+      "5.",
+      "Installation of Roof top Solar Power Plant (2X20 kWp)",
+      "41.23"
+    ]
+  ]
+}

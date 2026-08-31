@@ -1,0 +1,133 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 52,
+  "table_index": 2,
+  "bbox": [
+    48.439,
+    88.1241666666666,
+    547.7492933333334,
+    351.44059999999996
+  ],
+  "rows": [
+    [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      null,
+      "6",
+      "7",
+      "8",
+      null
+    ],
+    [
+      "Sl.\nNo.",
+      "Name of the Project",
+      "Item from\nthe list of\nactivities in\nSchedule VII\nto the Act",
+      "Local\narea (Yes/\nNo)",
+      "Location of the project",
+      null,
+      "Amount\nspent for the\nproject",
+      "Mode of\nimplementa\ntion – Direct\n(Yes/ No)",
+      "Mode of implementation –\nThrough implementing agency",
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      "State",
+      "District",
+      null,
+      null,
+      "Name",
+      "CSR\nregistration\nNo."
+    ],
+    [
+      "62",
+      "Construction of Club building\n(Maa Hingula Football\nPlayers Welfare Association)\nBalaramprasad, Angul.",
+      "Item-vii",
+      "Yes",
+      "Odisha",
+      "Angul",
+      "5.38",
+      "Yes",
+      "NALCO\nFoundation",
+      "NA"
+    ],
+    [
+      "63",
+      "Construction of RCC road inside\nthe Ambagaon village, Damanjodi",
+      "Item-x",
+      "Yes",
+      "Odisha",
+      "Koraput",
+      "14.61",
+      "No",
+      "NALCO\nFoundation",
+      "NA"
+    ],
+    [
+      "64",
+      "Renovation of old community\ncentre and construction of new\ncommunity centre cum kalyan\nmandap in Ambagaon village\nDamanjodi",
+      "Item-x",
+      "Yes",
+      "Odisha",
+      "Koraput",
+      "9.44",
+      "No",
+      "NALCO\nFoundation",
+      "NA"
+    ],
+    [
+      "65",
+      "Developmental activities in LSP\nCorridor (Lean-slurry project),\nAngul",
+      "Item-x",
+      "Yes",
+      "Odisha",
+      "Angul",
+      "29.20",
+      "Yes",
+      "NA",
+      "NA"
+    ],
+    [
+      "66",
+      "Developmental activities in\nUTKAL D/E Coal Mines area,\nChhendipada",
+      "Item-x",
+      "Yes",
+      "Odisha",
+      "Angul",
+      "2.55",
+      "Yes",
+      "NA",
+      "NA"
+    ],
+    [
+      "67",
+      "Black topping of road from\nNALCO Thana Chhak to IAPL\nsquare via Canal Road , Angul",
+      "Item-x",
+      "Yes",
+      "Odisha",
+      "Angul",
+      "100.88",
+      "Yes",
+      "NA",
+      "NA"
+    ],
+    [
+      "",
+      "Total",
+      "",
+      "",
+      "",
+      "",
+      "2,465.34",
+      "",
+      "",
+      ""
+    ]
+  ]
+}

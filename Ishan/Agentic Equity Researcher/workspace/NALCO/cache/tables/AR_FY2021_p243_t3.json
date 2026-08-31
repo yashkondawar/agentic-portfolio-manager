@@ -1,0 +1,83 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 243,
+  "table_index": 3,
+  "bbox": [
+    124.9744,
+    431.64214999999996,
+    555.3406,
+    601.11215
+  ],
+  "rows": [
+    [
+      "",
+      "Year ended\n31.03.2021",
+      "Year ended\n31.03.2020"
+    ],
+    [
+      "Service Cost:",
+      "",
+      ""
+    ],
+    [
+      "-Current Service cost",
+      "(52.67)",
+      "(54.67)"
+    ],
+    [
+      "-Past Service Cost and (gain)/loss from settlements",
+      "16.10",
+      "12.19"
+    ],
+    [
+      "-Net Interest expense",
+      "(5.11)",
+      "(11.97)"
+    ],
+    [
+      "Components of defined benefit costs recognised in profit or loss",
+      "(41.68)",
+      "(54.45)"
+    ],
+    [
+      "Remeasurement of the net defined benefit liability:",
+      "",
+      ""
+    ],
+    [
+      "Return on the net defined benefit liability",
+      "(1.78)",
+      "5.12"
+    ],
+    [
+      "Actuarial (Gains)/losses arising from changes in financial assumptions",
+      "5.10",
+      "(45.79)"
+    ],
+    [
+      "Actuarial (Gains)/losses arising from experience assumptions",
+      "14.31",
+      "23.08"
+    ],
+    [
+      "Others",
+      "",
+      ""
+    ],
+    [
+      "Adjustments for restrictions on the defined benefit asset",
+      "",
+      ""
+    ],
+    [
+      "Components of defined benefit costs recognised in other comprehensive income",
+      "17.63",
+      "(17.59)"
+    ],
+    [
+      "Total",
+      "(24.05)",
+      "(72.04)"
+    ]
+  ]
+}

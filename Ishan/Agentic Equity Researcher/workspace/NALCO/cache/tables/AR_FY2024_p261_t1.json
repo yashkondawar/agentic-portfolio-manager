@@ -1,0 +1,94 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 261,
+  "table_index": 1,
+  "bbox": [
+    51.27351212121212,
+    95.83105,
+    542.7593848484848,
+    244.96800000000002
+  ],
+  "rows": [
+    [
+      "",
+      "Post retirement\nmedical benefit\n(PRMBS-\nfunded)",
+      "Settling-\nin-benefit",
+      "NALCO\nbenevolent\nfund scheme",
+      "NALCO\nretirement\nwelfare scheme",
+      "Superan-\nnuation gift\nscheme",
+      "Gratuity\n(Funded)"
+    ],
+    [
+      "March 31, 2023",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Present value of defined benefit obligation",
+      "(171.28)",
+      "(15.88)",
+      "(2.51)",
+      "(10.98)",
+      "(5.85)",
+      "(483.42)"
+    ],
+    [
+      "Fair value of plan assets",
+      "160.85",
+      "",
+      "",
+      "",
+      "",
+      "510.14"
+    ],
+    [
+      "Net liability arising from defined benefit\nobligation",
+      "(10.43)",
+      "(15.88)",
+      "(2.51)",
+      "(10.98)",
+      "(5.85)",
+      "26.72"
+    ],
+    [
+      "March 31, 2024",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Present value of defined benefit obligation",
+      "(189.52)",
+      "(14.79)",
+      "(2.49)",
+      "(10.70)",
+      "(5.57)",
+      "(446.43)"
+    ],
+    [
+      "Fair value of plan assets",
+      "184.72",
+      "",
+      "",
+      "",
+      "",
+      "465.18"
+    ],
+    [
+      "Net liability arising from defined benefit obligation",
+      "(4.80)",
+      "(14.79)",
+      "(2.49)",
+      "(10.70)",
+      "(5.57)",
+      "18.75"
+    ]
+  ]
+}

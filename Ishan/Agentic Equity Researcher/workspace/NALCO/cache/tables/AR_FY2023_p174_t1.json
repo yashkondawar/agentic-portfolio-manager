@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 174,
+  "table_index": 1,
+  "bbox": [
+    74.128,
+    419.562,
+    549.5500000000001,
+    498.06450000000007
+  ],
+  "rows": [
+    [
+      "Valuation as at",
+      null,
+      null
+    ],
+    [
+      "",
+      "31.03.2023",
+      "31.03.2022"
+    ],
+    [
+      "Discount rate(s)",
+      "7.17%",
+      "7.00%"
+    ],
+    [
+      "Expected rate(s) of salary increase",
+      "6.65%",
+      "6.65%"
+    ],
+    [
+      "Mortality",
+      "IALM 2012-2014\nULTIMATE",
+      "IALM 2012-2014\nULTIMATE"
+    ],
+    [
+      "Attrition Rate",
+      "1%",
+      "1%"
+    ]
+  ]
+}

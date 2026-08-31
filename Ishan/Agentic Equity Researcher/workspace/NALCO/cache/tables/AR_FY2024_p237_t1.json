@@ -1,0 +1,85 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 237,
+  "table_index": 1,
+  "bbox": [
+    51.273625,
+    99.03599999999994,
+    542.7264375,
+    283.8139
+  ],
+  "rows": [
+    [
+      "Sl. Nos.",
+      "Particulars",
+      "",
+      "Amount",
+      "Suspended from",
+      "Details of the Projects"
+    ],
+    [
+      "(a)",
+      "Mines & Refinery",
+      "As on 31.03.2024",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      null,
+      null,
+      "As on 31.03.2023",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "(b)",
+      "Smelter & Power\n(Coal handling plant\nincluding railway\nsidings)",
+      "As on 31.03.2024",
+      "6.71",
+      "-",
+      "- ₹ 1.55 crore Due to change in strategy of coal transportation\nand handing, suspended from 01.04.2020.\n- Boiler Quick Access Aluminium Scaffolding worth of ₹ 5.16\ncrore could not be installed due to safety issue, suspended\nfrom 01.04.2023."
+    ],
+    [
+      null,
+      null,
+      "As on 31.03.2023",
+      "1.55",
+      "-",
+      "Due to change in strategy of coal transportation and handing."
+    ],
+    [
+      "(c)",
+      "Others",
+      "As on 31.03.2024",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      null,
+      null,
+      "As on 31.03.2023",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Total as on 31.03.2024",
+      null,
+      null,
+      "6.71",
+      "-",
+      "-"
+    ],
+    [
+      "Total as on 31.03.2023",
+      null,
+      null,
+      "1.55",
+      "-",
+      "-"
+    ]
+  ]
+}

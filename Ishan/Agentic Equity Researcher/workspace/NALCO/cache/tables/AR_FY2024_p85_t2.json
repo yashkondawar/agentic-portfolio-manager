@@ -1,0 +1,55 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 85,
+  "table_index": 2,
+  "bbox": [
+    68.28146551724137,
+    442.0531,
+    541.9064137931034,
+    618.8355
+  ],
+  "rows": [
+    [
+      "Parameter",
+      "Unit",
+      "FY 2023-24",
+      "FY 2022-23"
+    ],
+    [
+      "Total Scope 1 emissions\n(Break-up of the GHG into CO2, CH4, N2O, HFCs, PFCs, SF6, NF3, if available)",
+      "MTCO2e",
+      "1,10,40,113",
+      "1,01,99,426"
+    ],
+    [
+      "Total Scope 2 emissions\n(Break-up of the GHG into CO2, CH4, N2O, HFCs, PFCs, SF6, NF3, if available)",
+      "MTCO2e",
+      "4,52,210",
+      "9,86,969"
+    ],
+    [
+      "Total Scope 1 and Scope 2 emission intensity per rupee of turnover\n(Total Scope 1 and Scope 2 GHG emissions / Revenue from operations)",
+      "MTCO2e",
+      "0.000088",
+      "0.000079"
+    ],
+    [
+      "Total Scope 1 and Scope 2 emission intensity per rupee of turnover adjusted for\nPurchasing Power Parity (PPP)\n(Total Scope 1 and Scope 2 GHG emission / Revenue from operations adjusted for PPP)",
+      "",
+      "0.002012",
+      "0.001807"
+    ],
+    [
+      "Total Scope 1 and Scope 2 emission intensity in terms of physical output\n(Alumina Production in MT)",
+      "MTCO2e /\nMetric Tonnes",
+      "5.410698",
+      "5.268453"
+    ],
+    [
+      "Total Scope 1 and Scope 2 emission intensity\n(optional) –in terms of physical output ( MT of cast Aluminium metal from smelter)",
+      "MTCO2e /\nMetric Tonnes",
+      "19.14",
+      "18.84"
+    ]
+  ]
+}

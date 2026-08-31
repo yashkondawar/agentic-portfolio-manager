@@ -1,0 +1,37 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 66,
+  "table_index": 2,
+  "bbox": [
+    51.27366153846154,
+    479.732,
+    542.9127928571428,
+    670.8656
+  ],
+  "rows": [
+    [
+      "S.\nNo.",
+      "Material issue\nidentified",
+      "Indicate\nwhether risk\nor opportunity\n(R/O)",
+      "Rationale for identifying\nthe risk / opportunity",
+      "In case of risk, approach to adapt or\nmitigate",
+      "Financial implications of\nthe risk or opportunity\n(Indicate positive or\nnegative implications)"
+    ],
+    [
+      "1",
+      "Handling of\n● Red mud\n● Fly Ash",
+      "R",
+      "Government Regulations,\nEnvironmental & Societal\nConcerns; Business\nContinuity",
+      "● Construction of Red mud expansion\nPond-2\n● Lean Slurry Ash disposal to abandon\nmine void\n● Push for fly ash utilization in brick &\ncement making etc",
+      "Negative"
+    ],
+    [
+      "2",
+      "Control of Air\nPollution",
+      "R",
+      "Government Regulations,\nEnvironmental & Societal\nConcerns",
+      "● ESPs for boiler stacks of CPP &\nRefinery and FTPs for Smelter\nPotlines to control particulate\nmatters and fluoride emissions.\n● Augmentation of ESPs at the refinery\n● On-line Fugitive Fluoride\nMonitoring systems in Smelter\nPotlines.",
+      "Negative"
+    ]
+  ]
+}

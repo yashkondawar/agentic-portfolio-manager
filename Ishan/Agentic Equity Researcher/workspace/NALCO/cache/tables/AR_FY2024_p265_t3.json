@@ -1,0 +1,53 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 265,
+  "table_index": 3,
+  "bbox": [
+    51.273634782608696,
+    573.70315,
+    542.7545173913044,
+    670.120225
+  ],
+  "rows": [
+    [
+      "Profit before tax",
+      "2,712.08",
+      "1,845.16"
+    ],
+    [
+      "Income tax expense thereon @ 25.168%",
+      "682.58",
+      "464.39"
+    ],
+    [
+      "Tax effect of -",
+      null,
+      null
+    ],
+    [
+      "i) disallowable expenses (permanent difference)",
+      "15.14",
+      "20.37"
+    ],
+    [
+      "ii) expenses allowable in excess of expenditure incurred",
+      "(15.04)",
+      "(63.48)"
+    ],
+    [
+      "iii) Adjustment relating to earlier years",
+      "76.22",
+      "(181.06)"
+    ],
+    [
+      "iv) others",
+      "(53.27)",
+      "142.64"
+    ],
+    [
+      "Income tax expense recognised in profit or loss",
+      "705.63",
+      "382.86"
+    ]
+  ]
+}

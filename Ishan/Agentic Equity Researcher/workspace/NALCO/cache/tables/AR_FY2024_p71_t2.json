@@ -1,0 +1,79 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 71,
+  "table_index": 2,
+  "bbox": [
+    68.28147058823528,
+    206.62895000000003,
+    541.8906823529412,
+    368.75
+  ],
+  "rows": [
+    [
+      "Parameter",
+      "Metrics",
+      "FY 2023-24",
+      "FY 2022-23"
+    ],
+    [
+      "Concentration of\nPurchases",
+      "a. Purchases from trading houses as % of total purchases",
+      "0.25%",
+      "0.46%"
+    ],
+    [
+      null,
+      "b. Number of trading houses where purchases are made from",
+      "35",
+      "24"
+    ],
+    [
+      null,
+      "c. Purchases from top 10 trading houses as % of total purchases from trading houses",
+      "91.93%",
+      "81.7%"
+    ],
+    [
+      "Concentration of Sales",
+      "a. Sales to dealers /distributors as % of total sales",
+      "N.A.",
+      "N.A."
+    ],
+    [
+      null,
+      "b. Number of dealers /distributors to whom sales are made",
+      "N.A.",
+      "N.A."
+    ],
+    [
+      null,
+      "c. Sales to top 10 dealers/ distributors as % of total sales to dealers /distributors",
+      "N.A.",
+      "N.A."
+    ],
+    [
+      "Share of RPTs in",
+      "a. Purchases (Purchases with related parties /Total Purchases)",
+      "6.56%",
+      "1.32%"
+    ],
+    [
+      null,
+      "b. Sales (Sales to related parties / Total Sales)",
+      "Nil",
+      "Nil"
+    ],
+    [
+      null,
+      "c. Loans & advances (Loans & advances given to related parties / Total loans & advances)",
+      "0.13%",
+      "0.10%"
+    ],
+    [
+      null,
+      "f. Investments (Investments in related parties / Total Investments made)",
+      "67%",
+      "69%"
+    ]
+  ]
+}

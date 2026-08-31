@@ -1,0 +1,38 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 226,
+  "table_index": 2,
+  "bbox": [
+    51.273732,
+    216.43310000000005,
+    542.4124178571428,
+    294.86285
+  ],
+  "rows": [
+    [
+      "",
+      "Year ended 31.03.2025",
+      "Year ended 31.03.2024"
+    ],
+    [
+      "Profit for the year attributable to Owners of the Company",
+      "5,324.67",
+      "2,059.95"
+    ],
+    [
+      "Earnings used in the calculation of basic & diluted earnings per share",
+      "5,324.67",
+      "2,059.95"
+    ],
+    [
+      "",
+      "As at 31.03.2025",
+      "As at 31.03.2024"
+    ],
+    [
+      "Weighted average number of equity shares used in calculation of basic & diluted\nearnings per share",
+      "1,83,66,31,787",
+      "1,83,66,31,787"
+    ]
+  ]
+}

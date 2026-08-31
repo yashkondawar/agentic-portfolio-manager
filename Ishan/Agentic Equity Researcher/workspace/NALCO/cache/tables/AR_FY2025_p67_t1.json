@@ -1,0 +1,49 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 67,
+  "table_index": 1,
+  "bbox": [
+    51.27365714285715,
+    460.71785,
+    542.2264857142857,
+    567.13368
+  ],
+  "rows": [
+    [
+      "Description",
+      "FY 2024-25",
+      "FY 2023-24",
+      "Change (%)"
+    ],
+    [
+      "Aluminium Production (’000 MT)",
+      "4,236.59",
+      "4,192.98",
+      "1.04%"
+    ],
+    [
+      "Aluminium Domestic Sales (’000 MT)",
+      "2,485.29",
+      "2,211.48",
+      "12.38%"
+    ],
+    [
+      "Aluminium Export Sales (’000 MT)",
+      "1,750.86",
+      "1,986.15",
+      "(11.85%)"
+    ],
+    [
+      "Aluminium Imports of Metal / Products/Scrap (‘000 MT)",
+      "3,012.31",
+      "2,737.13",
+      "10.05%"
+    ],
+    [
+      "Total aluminium consumption (’000 MT)",
+      "5,497.60",
+      "4,948.62",
+      "11.09%"
+    ]
+  ]
+}

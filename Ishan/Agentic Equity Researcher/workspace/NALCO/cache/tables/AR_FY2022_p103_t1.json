@@ -1,0 +1,61 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 103,
+  "table_index": 1,
+  "bbox": [
+    94.043,
+    58.51266666666667,
+    549.6146444444445,
+    229.35600000000005
+  ],
+  "rows": [
+    [
+      "Name",
+      "Remuneration for the year 2021-22 (`)",
+      null,
+      null
+    ],
+    [
+      null,
+      "All elements of\nremuneration",
+      "Other benefits",
+      "Total"
+    ],
+    [
+      "Shri S. Patra\nChairman-cum-Managing Director",
+      "53,58,322",
+      "22,60,866",
+      "76,19,188"
+    ],
+    [
+      "Shri R. S. Mahapatro\nDirector (HR)",
+      "49,89,893",
+      "9,18,305",
+      "59,08,198"
+    ],
+    [
+      "Shri M. P. Mishra\nDirector (P&T)",
+      "52,60,811",
+      "12,15,408",
+      "64,76,219"
+    ],
+    [
+      "Shri B. K. Das\nDirector (Production)",
+      "65,18,186",
+      "12,19,848",
+      "77,38,034"
+    ],
+    [
+      "Shri R. C. Joshi\nDirector (Finance)*",
+      "8,47,636",
+      "1,724",
+      "8,49,360"
+    ],
+    [
+      "Shri S. Samantaray\nDirector (Commercial)#",
+      "1,50,219",
+      "1,103",
+      "1,51,322"
+    ]
+  ]
+}

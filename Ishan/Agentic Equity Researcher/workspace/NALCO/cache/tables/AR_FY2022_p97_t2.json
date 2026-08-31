@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 97,
+  "table_index": 2,
+  "bbox": [
+    74.201,
+    335.29,
+    549.52774,
+    456.151
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Item",
+      "Investment (` in lakh)"
+    ],
+    [
+      "1.",
+      "TG #5 Internal Steam Path Cleaning",
+      "10.00"
+    ],
+    [
+      "2.",
+      "Provision of Standby PHE in Calciner C",
+      "22.00"
+    ],
+    [
+      "3.",
+      "Reduction in filter water and energy consumption in DM Plant by recirculating the service rinse water of\nMB-I, II & III to Degasser Tank",
+      "0.30"
+    ],
+    [
+      "4.",
+      "Reduction of steam wastages through venting from safety valves",
+      "06.00"
+    ],
+    [
+      "5.",
+      "630 KVA 11/0.415 kV Energy Efficient Lighting Transformer",
+      "14.82"
+    ],
+    [
+      "6.",
+      "Use of additive to decrease HFO consumption in Calcination Plant",
+      "361.00"
+    ]
+  ]
+}

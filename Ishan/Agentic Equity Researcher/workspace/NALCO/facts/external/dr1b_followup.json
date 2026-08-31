@@ -1,0 +1,384 @@
+{
+  "source_registry_additions": {
+    "SRC-1150": {
+      "doc": "web",
+      "kind": "trade_press",
+      "page": null,
+      "locator": "TenderShark listing 'NALCO Damanjodi Alumina Refinery Expansion: Civil, Structural and Piping Works for 5th Stream Commissioning' — tender ePublished 24-Jun-2026, pre-bid meeting 01-Jul-2026 at Alumina Refinery Plant",
+      "period": "2026-06-24",
+      "url": "https://www.tendershark.com/details/odisha-tender/national-aluminium-company-limited/f51be4c9-cf02-4c0c-893b-4449901e20ce",
+      "accessed": "2026-07-16",
+      "corroboration": "secondary"
+    },
+    "SRC-1151": {
+      "doc": "web",
+      "kind": "trade_press",
+      "page": null,
+      "locator": "MTDCNC 'NALCO Reviews Progress of 5th Stream Expansion Project at Damanjodi Refinery' — on-site leadership review of construction progress/infra/readiness, May 2026",
+      "period": "2026-05",
+      "url": "https://mtdcnc.com/news/mtdcnc/nalco-reviews-progress-of-5th-stream-expansion-project-at-damanjodi-refinery/",
+      "accessed": "2026-07-16",
+      "corroboration": "secondary"
+    },
+    "SRC-1152": {
+      "doc": "web",
+      "kind": "trade_press_search_summary",
+      "page": null,
+      "locator": "Aggregated web-search summary (multiple trade sources) stating '5th stream due to commission June 2026, adding 2 lakh tonnes capacity for FY27' — no single primary company release located confirming actual commissioning event as of access date",
+      "period": "2026-07",
+      "url": "https://www.projectstoday.ai/News/Nalco-to-add-fifth-stream-to-Damanjodi-refinery",
+      "accessed": "2026-07-16",
+      "corroboration": "secondary"
+    },
+    "SRC-1153": {
+      "doc": "web",
+      "kind": "trade_press",
+      "page": null,
+      "locator": "constructionworld.in 'Dilip Buildcon Wins Rs 50 Billion NALCO Bauxite Mine Contract' — NALCO Board approved MDO contract award 9-Dec-2025, base mining charge Rs.423/tonne, 25-year term; Phase 1 (3yr EPC, OLCC/roads/water intake, Rs.1,750 cr, 7 mt bauxite) + Phase 2 (22yr, 77 mt bauxite, Rs.3,250 cr)",
+      "period": "2025-12-09",
+      "url": "https://www.constructionworld.in/energy-infrastructure/coal-and-mining/dilip-buildcon-wins-rs-50-billion-nalco-bauxite-mine-contract/82261",
+      "accessed": "2026-07-16",
+      "corroboration": "secondary"
+    },
+    "SRC-1154": {
+      "doc": "web",
+      "kind": "trade_press",
+      "page": null,
+      "locator": "alcircle.com 'NALCO's Pottangi aim: starting up bauxite mines in Odisha by June 2026' — CMD-stated target, Dec-2025 vintage (same as SRC-1108, re-confirmed)",
+      "period": "2025-12",
+      "url": "https://www.alcircle.com/news/nalcos-pottangi-aim-starting-up-bauxite-mines-in-odisha-by-june-2026-116512",
+      "accessed": "2026-07-16",
+      "corroboration": "secondary"
+    },
+    "SRC-1155": {
+      "doc": "web",
+      "kind": "trade_press",
+      "page": null,
+      "locator": "Business Standard 'Nalco plans to start Pottangi bauxite mines in Odisha by mid-2026'",
+      "period": "2025-12-07",
+      "url": "https://www.business-standard.com/companies/news/nalco-plans-to-start-pottangi-bauxite-mines-in-odisha-by-mid-2026-125120700151_1.html",
+      "accessed": "2026-07-16",
+      "corroboration": "secondary"
+    },
+    "SRC-1156": {
+      "doc": "web",
+      "kind": "aggregator_market_data_site",
+      "page": null,
+      "locator": "Search-engine aggregated summary citing NALCO shareholding as of June-2026 quarter: promoters 51.3%, FII 22%, DII 11.2%, public 15.5% — no single named primary source page captured verbatim in the AI overview; treated as unverified pending direct PDF confirmation",
+      "period": "Q1FY2027 (Jun-2026 qtr)",
+      "url": "https://stock-financials.valuestocks.in/en/nalco-promoter-shareholding",
+      "accessed": "2026-07-16",
+      "corroboration": "unverified"
+    },
+    "SRC-1157": {
+      "doc": "web",
+      "kind": "company_investor_page",
+      "page": null,
+      "locator": "NALCO Investor Services — Shareholding Pattern page; page lists 41 quarterly shareholding-pattern PDF filings 2016-2026; latest listed filing is 'Shareholding-Pattern-30.06.2026.pdf' posted 09-Jul-2026 (PDF content/exact promoter % not extractable via fetch — page is a document index, not inline data)",
+      "period": "Q1FY2027 (Jun-2026 qtr)",
+      "url": "https://nalcoindia.com/investor-services/shareholding-pattern/",
+      "accessed": "2026-07-16",
+      "corroboration": "primary_index_pdf_not_fetched"
+    },
+    "SRC-1158": {
+      "doc": "web",
+      "kind": "trade_press",
+      "page": null,
+      "locator": "scanx.trade 'President of India confirms no encumbrance on Nalco shares in FY26' — promoter (President of India) shares unencumbered, confirmed for FY ended 31-Mar-2026",
+      "period": "FY2026",
+      "url": "https://scanx.trade/stock-market-news/companies/president-of-india-confirms-no-encumbrance-on-nalco-shares-in-fy26/42182002",
+      "accessed": "2026-07-16",
+      "corroboration": "secondary"
+    },
+    "SRC-1159": {
+      "doc": "web",
+      "kind": "trade_press",
+      "page": null,
+      "locator": "psuwatch.com 'NALCO announces the appointment of 7 Independent Directors on its Board' — historical appointment-batch item (date within article not confirmed current in this pass; flagged for date verification)",
+      "period": "undated_in_snippet",
+      "url": "https://psuwatch.com/nalco-announces-the-appointment-of-7-independent-directors-on-its-board",
+      "accessed": "2026-07-16",
+      "corroboration": "secondary"
+    },
+    "SRC-1160": {
+      "doc": "web",
+      "kind": "trade_press",
+      "page": null,
+      "locator": "scanx.trade 'NALCO Announces Cessation of Three Independent Directors Effective March 31, 2026' — Trupti Kamlesh Patel, Dr. Ajay Narang, Patel Sanjaykumar ceased 31-Mar-2026 on tenure expiry",
+      "period": "2026-03-31",
+      "url": "https://scanx.trade/stock-market-news/companies/nalco-announces-cessation-of-three-independent-directors-effective-march-31-2026/36542981",
+      "accessed": "2026-07-16",
+      "corroboration": "secondary"
+    },
+    "SRC-1161": {
+      "doc": "web",
+      "kind": "trade_press",
+      "page": null,
+      "locator": "alcircle.com 'NALCO reports governance compliance challenges in FY2026 secretarial review' — per NALCO's own Annual Secretarial Compliance Report (year ended 31-Mar-2026): board did not fully meet >=50% non-executive-director requirement; required independent-director count not available during parts of FY2026; shortfalls affected Audit Committee, Nomination & Remuneration Committee, Stakeholders Relationship Committee composition; company attributes to GoI appointment control and sought stock-exchange fine waivers",
+      "period": "FY2026",
+      "url": "https://www.alcircle.com/news/nalco-reports-governance-compliance-challenges-in-fy2026-secretarial-review-118551",
+      "accessed": "2026-07-16",
+      "corroboration": "secondary_summarizing_company_disclosure"
+    },
+    "SRC-1162": {
+      "doc": "web",
+      "kind": "trade_press",
+      "page": null,
+      "locator": "psuconnect.in 'NALCO Fined by SEBI for Board Composition Non-Compliance; Response in Process'",
+      "period": "2026-02/03",
+      "url": "https://www.psuconnect.in/psu-news/nalco-fined-by-sebi-for-board-composition-non-compliance-response-in-process",
+      "accessed": "2026-07-16",
+      "corroboration": "secondary"
+    },
+    "SRC-1163": {
+      "doc": "web",
+      "kind": "trade_press",
+      "page": null,
+      "locator": "psuconnect.in 'NALCO Appeals Against Rs.5.42 Lakh Fine Imposed by BSE & NSE' — BSE and NSE each imposed Rs.5,42,800 (incl. 18% GST) via notices dated 27-Feb-2026 for non-compliance with SEBI LODR Regulation 17(1) (board composition, min. 50% independent directors) for quarter ended 31-Dec-2025; total Rs.10,85,600. NALCO letter dated 17-Mar-2026 to BSE/NSE requests waiver, citing GoI control over ID appointments; response/waiver outcome not yet reported",
+      "period": "2026-02-27",
+      "url": "https://www.psuconnect.in/psu-news/nalco-requests-waiver-of-rs-5-42-lakh-fine-imposed-by-bse-nse",
+      "accessed": "2026-07-16",
+      "corroboration": "secondary_referencing_exchange_notice"
+    },
+    "SRC-1164": {
+      "doc": "web",
+      "kind": "trade_press",
+      "page": null,
+      "locator": "odishatv.in 'CBI starts probe into job fraud allegations at NALCO office in Bhubaneswar' — CBI inquiry following complaints that ~20 people were allegedly promised/given jobs at NALCO Haradghana without official advertisement; described as recruitment-fraud allegation investigation, not an adverse finding against NALCO management itself",
+      "period": "2026",
+      "url": "https://odishatv.in/odisha/cbi-starts-probe-into-job-fraud-allegations-at-nalco-office-in-bhubaneswar-10516147",
+      "accessed": "2026-07-16",
+      "corroboration": "secondary"
+    },
+    "SRC-1165": {
+      "doc": "web",
+      "kind": "trade_press",
+      "page": null,
+      "locator": "odishatv.in 'NALCO clarifies on CBI visit: No Raid, No Seizure, Reports Misleading' — company statement that CBI visit was routine verification of an unverified external complaint re: recruitment procedure, not a raid/seizure; NALCO disputes sensationalized press framing",
+      "period": "2026",
+      "url": "https://odishatv.in/odisha/nalco-clarifies-on-cbi-visit-no-raid-no-seizure-reports-misleading-10517220",
+      "accessed": "2026-07-16",
+      "corroboration": "secondary_company_rebuttal"
+    },
+    "SRC-1166": {
+      "doc": "web",
+      "kind": "regulator_search_negative_result",
+      "page": null,
+      "locator": "General web search for 'NALCO SEBI order OR NCLT OR NCLAT 2026' returned only generic NCLT/NCLAT portal homepages and unrelated case-search utility pages — no NALCO-specific SEBI enforcement order or NCLT/NCLAT case surfaced. Direct site-restricted queries of sebi.gov.in enforcement-orders search and nclt.gov.in/nclat.nic.in case-search (which require interactive form submission, not indexable by search engines) were not executable via the search/fetch tooling available in this pass",
+      "period": "2026-07-16",
+      "url": "https://nclt.gov.in/order-date-wise",
+      "accessed": "2026-07-16",
+      "corroboration": "unverified_absence_of_evidence"
+    },
+    "SRC-1167": {
+      "doc": "web",
+      "kind": "regulator_search_negative_result",
+      "page": null,
+      "locator": "CAG (cag.gov.in) audit-report search for NALCO/National Aluminium 2025-2026: only a historical Performance Audit (covering FY2012-13 to FY2016-17, production-inefficiency findings, ~Rs.1,086.63 cr foregone contribution from smelter power shortfall) was identified; a 'Report No. 18 of 2025, Union Government (Commercial)' exists but no NALCO-specific Section 143(6) supplementary-audit para for FY2023-FY2025 was located in the search snippets or CAG report-list pages reviewed. Direct PDF content of Report No. 18/2025 was not fetched in this pass",
+      "period": "2025-2026",
+      "url": "https://cag.gov.in/uploads/download_audit_report/2025/Report-No.-18-of-2025,-Union-Government(Commercial)-06a2ba46ba3bfa0.02468565.pdf",
+      "accessed": "2026-07-16",
+      "corroboration": "unverified_absence_of_evidence"
+    },
+    "SRC-1168": {
+      "doc": "web",
+      "kind": "trade_press",
+      "page": null,
+      "locator": "univest.in / psuconnect.in Q4/FY26 results coverage — NALCO FY26 audited consolidated PAT Rs.5,815.76 cr, revenue from operations Rs.17,843.05 cr, total income Rs.18,508.88 cr, 3rd interim dividend Rs.2/share (cumulative FY26 dividend Rs.10.50/share), Q4 standalone PAT Rs.1,718 cr — no cash/investment balance-sheet figure disclosed in this press coverage",
+      "period": "FY2026",
+      "url": "https://scanx.trade/stock-market-news/companies/nalco-announces-audited-financial-results-for-fy26-and-declares-third-interim-dividend/39092839",
+      "accessed": "2026-07-16",
+      "corroboration": "secondary"
+    },
+    "SRC-1169": {
+      "doc": "web",
+      "kind": "trade_press",
+      "page": null,
+      "locator": "Search-aggregated summary citing 'cash and cash equivalents stood at Rs.7,586.55 crore in H1 FY26, highest in company history' and separately 'strong cash balance of approximately INR 7,900 crore' (zero-debt framing) — these are H1FY26/interim-period figures, not a confirmed FY26 (Mar-2026) year-end closing balance; no FY26-year-end cash/investment figure matching or contradicting the Rs.20,000 cr management projection was located",
+      "period": "H1FY2026 (interim)",
+      "url": "https://www.multibagg.ai/deep-dive/blogs/88220-nalco-q2-h1-fy26-performance_NATIONALUM_Q2_FY26_MBEQU3940",
+      "accessed": "2026-07-16",
+      "corroboration": "secondary_interim_period_only"
+    },
+    "SRC-1170": {
+      "doc": "web",
+      "kind": "trade_press",
+      "page": null,
+      "locator": "aninews.in / Tribune 'Govt announces OFS in NLC India, to sell up to 3 pc stake at Rs 303 per share' — confirms the only active June-2026 CPSE OFS in this space is NLC India, not NALCO; no NALCO OFS/disinvestment announcement located",
+      "period": "2026-06-08",
+      "url": "https://aninews.in/news/business/govt-announces-ofs-in-nlc-india-to-sell-up-to-3-pc-stake-at-rs-303-per-share20260608212222/",
+      "accessed": "2026-07-16",
+      "corroboration": "secondary"
+    }
+  },
+  "facts": [
+    {
+      "id": "F-EXT-1150",
+      "statement": "As of access date (16-Jul-2026), no primary company press release confirming actual commissioning of the Damanjodi 5th-stream alumina refinery (+1 MTPA) was located. Instead, a related tender for 'Miscellaneous Civil, Structural and Piping works for ASSISTING the commissioning' was ePublished 24-Jun-2026 with a pre-bid meeting 01-Jul-2026 — i.e., commissioning-support works were still being tendered in late June/early July 2026, and a May-2026 site review described evaluating 'construction progress, infrastructure development, and overall project readiness' (forward-looking language, not a completion statement).",
+      "type": "fact",
+      "confidence": "medium",
+      "impacts": [
+        "22_management_guidance",
+        "20_fundamental_analysis",
+        "estimates-builder"
+      ],
+      "load_bearing": false,
+      "source": {
+        "src_id": "SRC-1150",
+        "src_ids_additional": [
+          "SRC-1151",
+          "SRC-1152"
+        ]
+      }
+    },
+    {
+      "id": "F-EXT-1151",
+      "statement": "The re-guided June-2026 commissioning target for the 5th-stream refinery appears NOT to have been confirmed as achieved as of the access date; the presence of a commissioning-support tender still in pre-bid stage in early July 2026 is inconsistent with a completed June-2026 commissioning, though it does not rule out a partial/phased start. No Q1 FY2027 transcript or investor presentation (expected ~Aug-2026) was available to confirm status definitively.",
+      "type": "opinion/interpretation",
+      "confidence": "medium",
+      "impacts": [
+        "22_management_guidance",
+        "20_fundamental_analysis",
+        "estimates-builder",
+        "peer-valuation-analyst"
+      ],
+      "load_bearing": false,
+      "source": {
+        "src_id": "SRC-1150",
+        "src_ids_additional": [
+          "SRC-1151"
+        ]
+      }
+    },
+    {
+      "id": "F-EXT-1152",
+      "statement": "Pottangi bauxite mine: NALCO's Board approved the MDO contract award to Dilip Buildcon on 9-Dec-2025 (base mining charge Rs.423/tonne, 25-year term; Phase 1 EPC ~Rs.1,750 cr covering OLCC/roads/water intake and 7 mt bauxite handling over 3 years; Phase 2 ~Rs.3,250 cr covering 77 mt bauxite over 22 years). Management (CMD) reiterated a target to start mining 'by June 2026' as of a Dec-2025 statement. No post-April-2026 press release confirming actual mining commencement was located in this pass.",
+      "type": "fact",
+      "confidence": "medium",
+      "impacts": [
+        "22_management_guidance",
+        "20_fundamental_analysis",
+        "estimates-builder"
+      ],
+      "load_bearing": false,
+      "source": {
+        "src_id": "SRC-1153",
+        "src_ids_additional": [
+          "SRC-1154",
+          "SRC-1155"
+        ]
+      }
+    },
+    {
+      "id": "F-EXT-1153",
+      "statement": "GoI (President of India) shareholding: the NALCO investor-relations shareholding-pattern index page (primary source) confirms a Q1FY2027 (quarter ended 30-Jun-2026) shareholding-pattern PDF was filed and posted 09-Jul-2026 — the most recent of 41 quarterly filings 2016-2026 — but the exact promoter percentage was not extractable from the page (document index only, PDF not fetched). A secondary aggregator states promoter holding at 51.3% for the Jun-2026 quarter (FII 22%, DII 11.2%, public 15.5%), consistent with the 51.28% figure used in the original DR1 pass, but this remains a secondary/unverified-tier corroboration, not a directly-read primary PDF figure.",
+      "type": "fact",
+      "confidence": "medium",
+      "impacts": [
+        "24_governance_analysis"
+      ],
+      "load_bearing": false,
+      "source": {
+        "src_id": "SRC-1156",
+        "src_ids_additional": [
+          "SRC-1157"
+        ]
+      }
+    },
+    {
+      "id": "F-EXT-1154",
+      "statement": "No OFS or disinvestment transaction for NALCO was found. The only CPSE OFS active around this period is NLC India (up to 3% stake, floor price Rs.303/share, opened 8-9 Jun-2026) — a different, unrelated CPSE. GoI unencumbered-shareholding confirmation for NALCO (President of India shares, no pledge) for FY ended 31-Mar-2026 was separately corroborated.",
+      "type": "fact",
+      "confidence": "high",
+      "impacts": [
+        "24_governance_analysis"
+      ],
+      "load_bearing": false,
+      "source": {
+        "src_id": "SRC-1170",
+        "src_ids_additional": [
+          "SRC-1158"
+        ]
+      }
+    },
+    {
+      "id": "F-EXT-1155",
+      "statement": "Board composition / independent-director vacancy CONFIRMED as an active, disclosed, and penalized compliance gap (upgrades the prior DR1 'routine tenure-expiry, governance watch item' framing to an active governance red flag). Per NALCO's own FY2026 Annual Secretarial Compliance Report (as reported by trade press): the board did not meet the SEBI LODR Regulation 17(1) requirement of >=50% independent directors during parts of FY2026, following the 31-Mar-2026 cessation of three independent directors (Trupti Kamlesh Patel, Ajay Narang, Patel Sanjaykumar) without replacements yet named. This also affected Audit Committee, Nomination & Remuneration Committee, and Stakeholders Relationship Committee composition. BSE and NSE each fined NALCO Rs.5,42,800 (total Rs.10,85,600, incl. 18% GST) via notices dated 27-Feb-2026 for the Q3FY26 (quarter ended 31-Dec-2025) non-compliance. NALCO requested a fine waiver (letter dated 17-Mar-2026) citing that ID appointments are controlled by the President of India/Administrative Ministry, outside company control; waiver outcome not yet reported as of access date.",
+      "type": "fact",
+      "confidence": "high",
+      "impacts": [
+        "24_governance_analysis",
+        "report-writer"
+      ],
+      "load_bearing": true,
+      "source": {
+        "src_id": "SRC-1161",
+        "src_ids_additional": [
+          "SRC-1162",
+          "SRC-1163",
+          "SRC-1160"
+        ]
+      }
+    },
+    {
+      "id": "F-EXT-1156",
+      "statement": "CBI opened a probe (2026) into recruitment-fraud allegations at NALCO's Bhubaneswar office/Haradghana site — complaints alleged ~20 people were promised/given jobs without an official advertisement. NALCO's public response states the CBI visit was a routine verification of an unverified external complaint (no raid, no document seizure), and that press characterization as a 'raid' is misleading. This reads as an external recruitment-fraud/impersonation-scheme complaint under CBI review, not a confirmed adverse finding against NALCO management or an admission of wrongdoing by the company; status of the CBI inquiry (ongoing/closed) not confirmed in this pass.",
+      "type": "fact",
+      "confidence": "medium",
+      "impacts": [
+        "24_governance_analysis",
+        "report-writer"
+      ],
+      "load_bearing": true,
+      "source": {
+        "src_id": "SRC-1164",
+        "src_ids_additional": [
+          "SRC-1165"
+        ]
+      }
+    },
+    {
+      "id": "F-EXT-1157",
+      "statement": "No SEBI enforcement order, NCLT/NCLAT case, or IBBI proceeding specifically naming NALCO or its current directors was located via general web search in this pass. This remains an absence-of-evidence result, not a certified docket-level clean scan: SEBI's enforcement-order search and NCLT/NCLAT case-search portals require interactive form submission (case number/party name lookup) that is not indexable by search engines and was not directly queried via fetch in this pass.",
+      "type": "fact",
+      "confidence": "low",
+      "impacts": [
+        "24_governance_analysis"
+      ],
+      "load_bearing": false,
+      "source": {
+        "src_id": "SRC-1166"
+      }
+    },
+    {
+      "id": "F-EXT-1158",
+      "statement": "No NALCO-specific CAG Section 143(6) supplementary-audit para for FY2023-FY2025 was located. The only NALCO-specific CAG finding surfaced (already logged in original DR1 pass) is a Performance Audit covering FY2012-13 to FY2016-17 (production-inefficiency, ~Rs.1,086.63 cr foregone contribution from a smelter power shortfall) — outside the FY2023-FY2025 window and an operational, not accounting/fraud, finding. A CAG 'Report No. 18 of 2025, Union Government (Commercial)' exists in CAG's report list but its PDF content (and whether it references NALCO) was not fetched/confirmed in this pass. This remains an unresolved absence-of-evidence result, consistent with the company's own claim of a clean CAG history but not independently verified against the primary CAG document.",
+      "type": "fact",
+      "confidence": "low",
+      "impacts": [
+        "24_governance_analysis"
+      ],
+      "load_bearing": false,
+      "source": {
+        "src_id": "SRC-1167"
+      }
+    },
+    {
+      "id": "F-EXT-1159",
+      "statement": "FY2026 (year ended 31-Mar-2026) audited consolidated results confirmed: PAT Rs.5,815.76 cr, revenue from operations Rs.17,843.05 cr, total income Rs.18,508.88 cr, cumulative FY26 dividend Rs.10.50/share (3rd interim Rs.2/share), Q4 standalone PAT Rs.1,718 cr — materially matching the Q4 PPT figures used in the fundamental-analyst's original pass (revenue 17,843 cr, PAT 5,816 cr rounding). No FY26 year-end cash/investment balance-sheet figure was found in press coverage of the results; the only cash figures located (Rs.7,586.55 cr per one source, ~Rs.7,900 cr per another) are explicitly H1FY26/interim-period figures, not the FY26 year-end closing balance, so management's Rs.20,000 cr+ FY26 year-end cash/investments projection could not be directly corroborated or refuted from external sources in this pass.",
+      "type": "fact",
+      "confidence": "medium",
+      "impacts": [
+        "20_fundamental_analysis",
+        "estimates-builder"
+      ],
+      "load_bearing": false,
+      "source": {
+        "src_id": "SRC-1168",
+        "src_ids_additional": [
+          "SRC-1169"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 130,
+  "table_index": 2,
+  "bbox": [
+    79.2737,
+    584.548888888889,
+    542.4523,
+    667.4443
+  ],
+  "rows": [
+    [
+      "Members of Stakeholders Relationship\nCommittee",
+      "Category of Director",
+      "Position",
+      "Meeting",
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "Held",
+      "Attended"
+    ],
+    [
+      "From 01.04.2024 to 09.11.2024",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Adv. George Kurian (upto 09.06.2024)",
+      "Independent",
+      "Chairman",
+      "0",
+      "0"
+    ],
+    [
+      "Shri R. N. Jha",
+      "Independent",
+      "Chairman",
+      "1",
+      "1"
+    ],
+    [
+      "Shri Y. P. Chillio",
+      "Independent",
+      "Member",
+      "1",
+      "1"
+    ]
+  ]
+}

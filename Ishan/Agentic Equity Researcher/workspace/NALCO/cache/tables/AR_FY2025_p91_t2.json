@@ -1,0 +1,31 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 91,
+  "table_index": 2,
+  "bbox": [
+    68.423175,
+    384.0371,
+    541.8052124999999,
+    675.8219
+  ],
+  "rows": [
+    [
+      "",
+      "Current\nFinancial Year",
+      "Previous\nFinancial Year",
+      "Details of improvements in environmental and social impacts"
+    ],
+    [
+      "R & D",
+      "5.51%",
+      "11.77%",
+      "• Leakage detection system in ash slurry line (Water Conservation / Pollution Control)\n• Coal Spontaneous Combustion early detection system (Energy Savings)\n• Downstream processing of High Silica bearing bauxite liquor for recovery of silica with possible\nproduct-based utilization (Process efficiency / Energy saving)\n• Production of Ferro-Titanium alloy from Bauxite residue by recovery and matrix change of the metal\nvalues (Recycling)\n• Kinetic Study of Digestion Desilication (Process efficiency / Energy saving)\n• Detailed energy audit of the cast house furnace to increase furnace efficiency (Energy saving)\n• Kinetic study on precipitation of Bayer process at NALCO refinery (Process efficiency / Energy saving)\n• Development of activated alumina and treatment of fluoride contaminated water & waste water\n(Recycle / Water Conservation)\n• Characterization of different scales and studies on their utilization (Process efficiency / Energy saving)\n• Setting up of Pilot Demonstration plant for Recovery of Alumina from Fly Ash (Recycling / Reuse/\nPollution Control)"
+    ],
+    [
+      "Capex",
+      "4.11%",
+      "6.11%",
+      "• Promotion of renewable energy\n• Monitoring discharge outside plant boundary and water quality\n• Use of pond ash\n• Monitoring and control of CO generation at boiler outlet\n• Water conservation / arrest of water leakage\n• Arrest of dust\n• Emission control\n• Energy saving\n• Reuse\n• Effluent control\n• Water conservation & recycling"
+    ]
+  ]
+}

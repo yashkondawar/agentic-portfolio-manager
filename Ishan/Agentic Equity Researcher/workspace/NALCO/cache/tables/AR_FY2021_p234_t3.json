@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 234,
+  "table_index": 3,
+  "bbox": [
+    71.116185,
+    188.29925000000003,
+    547.1655137931034,
+    267.56716666666665
+  ],
+  "rows": [
+    [
+      "A.",
+      "Non-current",
+      null,
+      "As at\n31.03.2021",
+      "As at\n31.03.2020"
+    ],
+    [
+      null,
+      "(1)",
+      "Creditors for supplies and services",
+      "",
+      ""
+    ],
+    [
+      null,
+      null,
+      "— Dues to micro and small enterprises",
+      "—",
+      "—"
+    ],
+    [
+      null,
+      null,
+      "— Others",
+      "37.70",
+      "22.69"
+    ],
+    [
+      null,
+      "Total non-current trade payables",
+      null,
+      "37.70",
+      "22.69"
+    ]
+  ]
+}

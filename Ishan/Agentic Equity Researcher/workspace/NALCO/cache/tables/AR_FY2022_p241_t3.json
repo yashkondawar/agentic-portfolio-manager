@@ -1,0 +1,193 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 241,
+  "table_index": 3,
+  "bbox": [
+    74.069,
+    398.8020000000001,
+    549.75285,
+    691.404
+  ],
+  "rows": [
+    [
+      "",
+      "Post retirement\nmedical benefit",
+      "Settling-in-\nbenefit",
+      "NALCO\nbenevolent fund\nscheme",
+      "NALCO\nretirement\nwelfare scheme",
+      "Superannuation\ngift scheme",
+      "Gratuity\n(Funded)"
+    ],
+    [
+      "March 31, 2021",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Present value of defined benefit obligation",
+      "(155.35)",
+      "(19.58)",
+      "(2.73)",
+      "(12.38)",
+      "(7.16)",
+      "(595.80)"
+    ],
+    [
+      "Fair value of plan assets",
+      "-",
+      "",
+      "",
+      "",
+      "",
+      "585.17"
+    ],
+    [
+      "Net liability arising from defined benefit obligation",
+      "(155.35)",
+      "(19.58)",
+      "(2.73)",
+      "(12.38)",
+      "(7.16)",
+      "(10.63)"
+    ],
+    [
+      "March 31, 2022",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Present value of defined benefit obligation",
+      "(162.31)",
+      "(17.51)",
+      "(2.63)",
+      "(11.78)",
+      "(6.53)",
+      "(532.70)"
+    ],
+    [
+      "Fair value of plan assets",
+      "-",
+      "",
+      "",
+      "",
+      "",
+      "554.86"
+    ],
+    [
+      "Net liability arising from defined benefit obligation",
+      "(162.31)",
+      "(17.51)",
+      "(2.63)",
+      "(11.78)",
+      "(6.53)",
+      "22.16"
+    ],
+    [
+      "Movements in the present value of the defined benefit obligations are as follows:",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "Post retirement\nmedical benefit",
+      "Settling-in-\nbenefit",
+      "NALCO\nbenevolent fund\nscheme",
+      "NALCO\nretirement\nwelfare scheme",
+      "Superannuation\ngift scheme",
+      "Gratuity\n(Funded)"
+    ],
+    [
+      "Opening defined benefit obligations as at\nApril 01, 2020",
+      "(140.42)",
+      "(20.59)",
+      "(2.99)",
+      "(12.52)",
+      "(7.26)",
+      "(632.24)"
+    ],
+    [
+      "Current service cost",
+      "-",
+      "(3.14)",
+      "-",
+      "-",
+      "-",
+      "(49.53)"
+    ],
+    [
+      "Interest Cost",
+      "(9.06)",
+      "(1.26)",
+      "(0.17)",
+      "(0.75)",
+      "(0.45)",
+      "(38.65)"
+    ],
+    [
+      "Remeasurement (gains)/losses",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Actuarial (Gains)/losses arising from changes\nin financial assumptions",
+      "0.98",
+      "0.03",
+      "0.01",
+      "0.06",
+      "0.05",
+      "3.97"
+    ],
+    [
+      "Actuarial (Gains)/losses arising from experience assumptions",
+      "(13.11)",
+      "2.36",
+      "(0.44)",
+      "(1.50)",
+      "(0.43)",
+      "27.43"
+    ],
+    [
+      "Benefits paid",
+      "6.26",
+      "3.02",
+      "0.86",
+      "2.33",
+      "0.93",
+      "93.22"
+    ],
+    [
+      "Others",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Closing defined benefit obligation as at March 31, 2021",
+      "(155.35)",
+      "(19.58)",
+      "(2.73)",
+      "(12.38)",
+      "(7.16)",
+      "(595.80)"
+    ]
+  ]
+}

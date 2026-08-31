@@ -1,0 +1,28 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 231,
+  "table_index": 6,
+  "bbox": [
+    51.3445,
+    594.9970500000001,
+    542.6418692307692,
+    642.0053
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "As at 31.03.2025",
+      "As at 31.03.2024"
+    ],
+    [
+      "Advance/(Payable) for purchase of goods and services from CPSEs/ Govt. undertakings",
+      "53.48",
+      "106.40"
+    ],
+    [
+      "Receivable/(Advance) for sale of goods to CPSEs and Govt. undertakings",
+      "(98.68)",
+      "(46.39)"
+    ]
+  ]
+}

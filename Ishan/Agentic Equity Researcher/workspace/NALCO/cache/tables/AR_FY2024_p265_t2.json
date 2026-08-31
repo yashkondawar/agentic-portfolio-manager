@@ -1,0 +1,58 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 265,
+  "table_index": 2,
+  "bbox": [
+    51.273634782608696,
+    451.41799999999995,
+    542.7545173913044,
+    561.6510000000001
+  ],
+  "rows": [
+    [
+      "",
+      "Year ended 31.03.2024",
+      "Year ended 31.03.2023"
+    ],
+    [
+      "Current tax",
+      null,
+      null
+    ],
+    [
+      "In respect of current year",
+      "763.49",
+      "475.47"
+    ],
+    [
+      "In respect of prior years",
+      "76.22",
+      "(181.06)"
+    ],
+    [
+      "",
+      "839.71",
+      "294.41"
+    ],
+    [
+      "Deferred tax",
+      null,
+      null
+    ],
+    [
+      "In respect of current year",
+      "(116.09)",
+      "116.09"
+    ],
+    [
+      "",
+      "(116.09)",
+      "116.09"
+    ],
+    [
+      "Total income tax expense recognised in current year",
+      "723.62",
+      "410.50"
+    ]
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 239,
+  "table_index": 2,
+  "bbox": [
+    51.27364285714286,
+    316.2800571428571,
+    542.7264333333334,
+    456.77568
+  ],
+  "rows": [
+    [
+      "Name of the joint venture",
+      "Principal Activity and place of business",
+      "Proportion of ownership interest / voting\nrights held by the Company",
+      null
+    ],
+    [
+      null,
+      null,
+      "As at 31.03.2024",
+      "As at 31.03.2023"
+    ],
+    [
+      "(a) Utkarsha Aluminium\nDhatu Nigam Limited",
+      "Manufacture, market, sell, buy, trade, distribute, import and export\nof all high end aluminium alloy products including scrap to fulfil\nthe requirement of critical, strategic and other sectors, Hyderabad",
+      "50.00%",
+      "50.00%"
+    ],
+    [
+      "(b) Khanij Bidesh India\nLimited",
+      "Identify, explore, acquire, develop, mine, process, procure and sell\nstrategic minerals outside India",
+      "40.00%",
+      "40.00%"
+    ],
+    [
+      "(c) Angul Aluminium Park\nPrivate Limited",
+      "Promoting aluminium specific downstream in Angul, Odisha.",
+      "49.00%",
+      "49.00%"
+    ],
+    [
+      "(d) GACL-NALCO Alkalies &\nChemicals Private Limited",
+      "Production of cuastic soda, Vadodara, Gujarat, India",
+      "40.00%",
+      "40.00%"
+    ]
+  ]
+}

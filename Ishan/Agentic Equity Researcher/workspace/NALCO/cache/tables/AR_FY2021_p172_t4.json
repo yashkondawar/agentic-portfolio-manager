@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 172,
+  "table_index": 4,
+  "bbox": [
+    71.1161,
+    499.6732399999999,
+    546.586556,
+    588.72408
+  ],
+  "rows": [
+    [
+      "",
+      "As at\n31.03.2021",
+      "As at\n31.03.2020"
+    ],
+    [
+      "(a) In deposit account ( having original maturity between 3-12 months)",
+      "1,463.00",
+      "1,404.55"
+    ],
+    [
+      "Principal",
+      "1,446.00",
+      "1,358.00"
+    ],
+    [
+      "Accrued Interest",
+      "17.00",
+      "46.55"
+    ],
+    [
+      "(b) Earmarked balance with scheduled banks",
+      "73.26",
+      "557.51"
+    ],
+    [
+      "Total other bank balances",
+      "1,536.26",
+      "1,962.06"
+    ]
+  ]
+}

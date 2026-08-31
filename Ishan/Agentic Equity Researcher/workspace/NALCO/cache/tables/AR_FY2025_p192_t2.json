@@ -1,0 +1,133 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 192,
+  "table_index": 2,
+  "bbox": [
+    51.048633333333335,
+    323.1259,
+    542.5467923076923,
+    667.3969272727272
+  ],
+  "rows": [
+    [
+      "Description of the Property",
+      "Freehold/\nLeasehold",
+      "Gross\ncarrying\nvalue",
+      "Title deeds held in the\nname of",
+      "Whether title deed holder\nis a promoter, director\nor relative of promoter/\ndirector or employee of\npromoter/director",
+      "Property\nheld since\nwhich date",
+      "Reason for not being held\nin the name of Company",
+      "Whether\ndisputed"
+    ],
+    [
+      "PPE",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Land",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "23.93 Acres of Land at\nKoraput District of Odisha",
+      "Freehold",
+      "0.10",
+      "Govt. of Odisha",
+      "No",
+      "1982-83",
+      "Pending Registration",
+      "No"
+    ],
+    [
+      "554.05 Acres of Land at\nKoraput District of Odisha",
+      "Leasehold",
+      "0.25",
+      "Govt. of Odisha",
+      "No",
+      "1982-83",
+      "Execution of Lease\nAgreement is pending",
+      "No"
+    ],
+    [
+      "46.90 Acres of Land at\nAngul district of Odisha",
+      "Freehold",
+      "0.33",
+      "Industrial Development\nCorporation of Odisha\n(IDCO)",
+      "No",
+      "1987-88",
+      "Pending Registration",
+      "No"
+    ],
+    [
+      "48.27 Acres of Land at\nAngul district of Odisha",
+      "Freehold",
+      "0.57",
+      "Respective Land owners",
+      "No",
+      "1987-88",
+      "Land is in the possession\nof the Company. Transfer\nof land in the name of the\nCompany is in the process.",
+      "No"
+    ],
+    [
+      "56.50 Acres of Land at\nAngul district of Odisha",
+      "Freehold",
+      "-",
+      "Respective Land owners",
+      "No",
+      "1993-94",
+      "Land is in the possession\nof the Company. Transfer\nof land in the name of the\nCompany is in the process.",
+      "No"
+    ],
+    [
+      "599.69 Acres of Land at\nAngul district of Odisha",
+      "Leasehold",
+      "1.38",
+      "Industrial Development\nCorporation of Odisha\n(IDCO)",
+      "No",
+      "1987-88",
+      "Execution of Lease\nAgreement is pending",
+      "No"
+    ],
+    [
+      "1.69 Acres of Land at\nAngul district of Odisha",
+      "Leasehold",
+      "-",
+      "Industrial Development\nCorporation of Odisha\n(IDCO)",
+      "No",
+      "2018-19",
+      "Communal/Gochhar Land",
+      "No"
+    ],
+    [
+      "16.60 Acres of Land at\nAngul district of Odisha",
+      "Leasehold",
+      "-",
+      "Industrial Development\nCorporation of Odisha\n(IDCO)",
+      "No",
+      "2020-21",
+      "Communal/Gochhar Land",
+      "No"
+    ],
+    [
+      "25.69 Acres of Land at\nAngul district of Odisha",
+      "Leasehold",
+      "-",
+      "Industrial Development\nCorporation of Odisha\n(IDCO)",
+      "No",
+      "2022-23",
+      "Communal/Gochhar Land",
+      "No"
+    ]
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 83,
+  "table_index": 2,
+  "bbox": [
+    79.62008181818182,
+    410.90004999999996,
+    555.3406727272727,
+    466.40799999999996
+  ],
+  "rows": [
+    [
+      "Sl.\nNo.",
+      "Category",
+      "No. of complaints filed during the F.Y.\n2020-21",
+      "No. of complaints pending as on\n31.03.2021"
+    ],
+    [
+      "1.",
+      "Child labour/ forced labour/ involuntary labour",
+      "Nil",
+      "Nil"
+    ],
+    [
+      "2.",
+      "Sexual harassment",
+      "Nil",
+      "Nil"
+    ],
+    [
+      "3.",
+      "Discriminatory employment",
+      "Nil",
+      "Nil"
+    ]
+  ]
+}

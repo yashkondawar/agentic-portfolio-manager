@@ -1,0 +1,85 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 170,
+  "table_index": 1,
+  "bbox": [
+    51.27351212121212,
+    129.57460000000003,
+    542.7263060606061,
+    295.36568
+  ],
+  "rows": [
+    [
+      "Non-Current",
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "Particulars",
+      "2023-24",
+      "2022-23"
+    ],
+    [
+      "a",
+      "Opening balance",
+      "36.28",
+      "36.90"
+    ],
+    [
+      "b",
+      "Add: Additions (expected credit loss for the year)",
+      "-",
+      "-"
+    ],
+    [
+      "c",
+      "Less: Write off/adjustments",
+      "-",
+      "0.62"
+    ],
+    [
+      "d",
+      "Closing Balance",
+      "36.28",
+      "36.28"
+    ],
+    [
+      "Current",
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "Particulars",
+      "2023-24",
+      "2022-23"
+    ],
+    [
+      "a",
+      "Opening balance",
+      "13.79",
+      "20.24"
+    ],
+    [
+      "b",
+      "Add: Additions (expected credit loss for the year)",
+      "7.49",
+      "13.79"
+    ],
+    [
+      "c",
+      "Less: Write off/adjustments",
+      "-",
+      "20.24"
+    ],
+    [
+      "d",
+      "Closing Balance",
+      "21.28",
+      "13.79"
+    ]
+  ]
+}

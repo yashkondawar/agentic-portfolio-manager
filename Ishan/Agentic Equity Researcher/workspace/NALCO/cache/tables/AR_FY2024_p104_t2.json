@@ -1,0 +1,73 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 104,
+  "table_index": 2,
+  "bbox": [
+    68.28145238095237,
+    425.7598857142857,
+    543.0009727272728,
+    649.1998
+  ],
+  "rows": [
+    [
+      "Name",
+      "Sitting Fees (`)",
+      null,
+      "Total (`)"
+    ],
+    [
+      null,
+      "Board Meetings",
+      "Committee Meetings",
+      null
+    ],
+    [
+      "Shri R. N. Jha\nPart-time Non-official (Independent) Director",
+      "2,52,000",
+      "2,70,000",
+      "5,22,000"
+    ],
+    [
+      "Dr. B. R. Ramakrishna\nPart-time Non-official (Independent) Director",
+      "2,52,000",
+      "5,13,000",
+      "7,65,000"
+    ],
+    [
+      "Adv. G. Kurian\nPart-time Non-official (Independent) Director",
+      "2,52,000",
+      "3,51,000",
+      "6,03,000"
+    ],
+    [
+      "Dr. A. Narang\nPart-time Non-official (Independent) Director",
+      "2,52,000",
+      "5,67,000",
+      "8,19,000"
+    ],
+    [
+      "Shri Y. P. Chillio\nPart-time Non-official (Independent) Director",
+      "2,52,000",
+      "2,43,000",
+      "4,95,000"
+    ],
+    [
+      "Ms. (Dr.) Shatorupa\nPart-time Non-official (Independent) Director",
+      "2,52,000",
+      "4,32,000",
+      "6,84,000"
+    ],
+    [
+      "Adv. D. Upadhyay\nPart-time Non-official (Independent) Director",
+      "2,52,000",
+      "4,32,000",
+      "6,84,000"
+    ],
+    [
+      "Shri S. R. Patel\nPart-time Non-official (Independent) Director",
+      "2,52,000",
+      "4,86,000",
+      "7,38,000"
+    ]
+  ]
+}

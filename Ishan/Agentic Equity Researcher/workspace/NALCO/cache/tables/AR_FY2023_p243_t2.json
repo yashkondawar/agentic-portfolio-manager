@@ -1,0 +1,103 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 243,
+  "table_index": 2,
+  "bbox": [
+    45.74575,
+    252.58100000000002,
+    549.68775,
+    380.01800000000003
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "N ALCO retirement\nwelfare scheme",
+      null,
+      "Superannuation\ngift scheme",
+      null,
+      "Gratuity (Funded)",
+      null
+    ],
+    [
+      "2021-22",
+      "Increase by",
+      "Decrease by",
+      "Increase by",
+      "Decrease by",
+      "Increase by",
+      "Decrease by"
+    ],
+    [
+      "Impact on amount due to change in Discount rate (-/+0.5%)",
+      "0.32",
+      "0.33",
+      "0.18",
+      "0.18",
+      "17.57",
+      "16.45"
+    ],
+    [
+      "% Change compared to base due to sensitivity [+/(-)%]",
+      "2.71%",
+      "2.76%",
+      "2.71%",
+      "2.76%",
+      "3.30%",
+      "3.09%"
+    ],
+    [
+      "Impact on amount due to change in Salary growth (+/-0.5%)",
+      "0.29",
+      "0.28",
+      "0.16",
+      "0.15",
+      "3.90",
+      "16.45"
+    ],
+    [
+      "% Change compared to base due to sensitivity [+/(-)%]",
+      "2.42%",
+      "2.37%",
+      "2.42%",
+      "2.37%",
+      "0.73%",
+      "3.09%"
+    ],
+    [
+      "Impact on amount due to change in Attrition rate (+/-0.5%)",
+      "0.02",
+      "0.02",
+      "0.01",
+      "0.01",
+      "0.11",
+      "16.45"
+    ],
+    [
+      "% Change compared to base due to sensitivity [+/(-)%]",
+      "0.15%",
+      "0.15%",
+      "0.15%",
+      "0.15%",
+      "0.02%",
+      "3.09%"
+    ],
+    [
+      "Impact on amount due to change in Moratlity rate (-/+10%)",
+      "0.03",
+      "0.03",
+      "0.02",
+      "0.02",
+      "0.50",
+      "0.50"
+    ],
+    [
+      "% Change compared to base due to sensitivity [+/(-)%]",
+      "0.26%",
+      "0.26%",
+      "0.26%",
+      "0.26%",
+      "0.09%",
+      "0.09%"
+    ]
+  ]
+}

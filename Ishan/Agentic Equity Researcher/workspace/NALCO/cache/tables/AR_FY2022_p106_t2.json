@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 106,
+  "table_index": 2,
+  "bbox": [
+    94.043,
+    415.09866666666676,
+    472.0935,
+    482.35900000000004
+  ],
+  "rows": [
+    [
+      "Received From",
+      "Opening Balance",
+      "Received during the year",
+      "Resolved during the year"
+    ],
+    [
+      "SEBI",
+      "0",
+      "0",
+      "0"
+    ],
+    [
+      "Stock Exchange",
+      "0",
+      "1",
+      "1"
+    ],
+    [
+      "Individuals",
+      "0",
+      "2,252",
+      "2,252"
+    ],
+    [
+      "TOTAL",
+      "0",
+      "2,253",
+      "2,253"
+    ]
+  ]
+}

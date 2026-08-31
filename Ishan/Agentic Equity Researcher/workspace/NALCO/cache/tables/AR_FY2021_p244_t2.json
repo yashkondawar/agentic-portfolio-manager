@@ -1,0 +1,28 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 244,
+  "table_index": 2,
+  "bbox": [
+    116.47074827586206,
+    112.21859999999992,
+    546.6385724137931,
+    198.11509999999998
+  ],
+  "rows": [
+    [
+      "Net liability arising from defined (140.42) (20.59) (2.99) (12.52) (7.26) (55.98)\nbenefit obligation"
+    ],
+    [
+      "March 31, 2021"
+    ],
+    [
+      "Present value of defined benefit (155.35) (19.58) (2.73) (12.38) (7.16) (595.80)\nobligation"
+    ],
+    [
+      "Fair value of plan assets — 585.17"
+    ],
+    [
+      "Net liability arising from defined (155.35) (19.58) (2.73) (12.38) (7.16) (10.63)\nbenefit obligation"
+    ]
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 69,
+  "table_index": 2,
+  "bbox": [
+    51.369815384615386,
+    219.20894499999994,
+    542.8497590909091,
+    261.8248
+  ],
+  "rows": [
+    [
+      "11.",
+      "Has the entity carried out independent\nassessment/ evaluation of the working of its\npolicies by an external agency? (Yes/No).",
+      "P1",
+      "P2",
+      "P3",
+      "P4",
+      "P5",
+      "P6",
+      "P7",
+      "P8",
+      "P9"
+    ],
+    [
+      null,
+      null,
+      "No",
+      "No",
+      "No",
+      "No",
+      "No",
+      "No",
+      "No",
+      "No",
+      "No"
+    ]
+  ]
+}

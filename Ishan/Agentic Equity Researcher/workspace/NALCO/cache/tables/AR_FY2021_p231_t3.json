@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 231,
+  "table_index": 3,
+  "bbox": [
+    79.620192,
+    414.43708571428573,
+    555.400648,
+    495.5509142857142
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      "As at\n31.03.2021",
+      "As at\n31.03.2020"
+    ],
+    [
+      "(a)",
+      "Balances with banks",
+      "",
+      ""
+    ],
+    [
+      "",
+      "(1) Balance with scheduled banks",
+      "",
+      ""
+    ],
+    [
+      "",
+      "(i) In current account",
+      "213.52",
+      "18.47"
+    ],
+    [
+      "Total cash and cash equivalents",
+      null,
+      "213.52",
+      "18.47"
+    ]
+  ]
+}

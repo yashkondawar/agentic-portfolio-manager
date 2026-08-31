@@ -1,0 +1,61 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 141,
+  "table_index": 2,
+  "bbox": [
+    68.28132000000001,
+    566.8471875,
+    543.01885,
+    628.2388
+  ],
+  "rows": [
+    [
+      "Commodity\nName",
+      "Nature\nof Risk",
+      "Unit of\nMeasurement",
+      "Exposure in INR/\nCrore towards\nthe particular\ncommodity",
+      "Exposure in Quantity\nterms towards\nthe particular\ncommodity",
+      "% of such exposure hedged through commodity derivatives",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      "Domestic Market",
+      null,
+      "International Market",
+      null,
+      "Total"
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      "OTC",
+      "Exchange",
+      "OTC",
+      "Exchange",
+      null
+    ],
+    [
+      "Aluminium",
+      "Sale",
+      "MT",
+      "11,042.22",
+      "4,60,714",
+      "Nil",
+      "Nil",
+      "Nil",
+      "Nil",
+      "Nil"
+    ]
+  ]
+}

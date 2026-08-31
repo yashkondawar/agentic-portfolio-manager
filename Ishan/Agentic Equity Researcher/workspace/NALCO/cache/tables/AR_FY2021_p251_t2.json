@@ -1,0 +1,55 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 251,
+  "table_index": 2,
+  "bbox": [
+    102.29727727272729,
+    121.96879999999999,
+    555.4001238095237,
+    228.0275714285714
+  ],
+  "rows": [
+    [
+      "Depreciation and amortisation Additions to non-current assets",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "Year ended\n31.03.2021",
+      "Year ended\n31.03.2020",
+      "Year ended\n31.03.2021",
+      "Year ended\n31.03.2020"
+    ],
+    [
+      "Chemical segment",
+      "268.03",
+      "216.70",
+      "(110.26)",
+      "322.21"
+    ],
+    [
+      "Aluminium segment",
+      "271.53",
+      "250.52",
+      "(53.24)",
+      "59.61"
+    ],
+    [
+      "Unallocated",
+      "66.26",
+      "62.61",
+      "575.81",
+      "61.74"
+    ],
+    [
+      "Total for operations",
+      "605.82",
+      "529.83",
+      "412.31",
+      "443.56"
+    ]
+  ]
+}

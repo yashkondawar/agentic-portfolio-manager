@@ -1,0 +1,37 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 84,
+  "table_index": 2,
+  "bbox": [
+    51.27374642857143,
+    177.6822857142857,
+    542.6273294117647,
+    230.1855
+  ],
+  "rows": [
+    [
+      "",
+      "Total (A)",
+      "No. and percentage of Females",
+      null
+    ],
+    [
+      null,
+      null,
+      "No.(B)",
+      "%(B/A)"
+    ],
+    [
+      "Board of Directors*",
+      "8",
+      "0",
+      "0"
+    ],
+    [
+      "Key Management Personnel",
+      "1",
+      "0",
+      "0"
+    ]
+  ]
+}

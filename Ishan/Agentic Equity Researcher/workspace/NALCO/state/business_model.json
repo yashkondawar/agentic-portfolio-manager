@@ -1,0 +1,475 @@
+{
+  "module": "03_business_model_and_value_chain",
+  "wave": "1.5 BIZMODEL",
+  "run_date": "2026-08-03",
+  "ticker": "NATIONALUM.NS",
+  "note": "Built retrospectively on 2026-08-03 from the already-extracted fact store (facts/financials.json) and cache/markdown, to prove the v2 spine end-to-end. In a normal run this file is written at wave 1.5, BEFORE extraction, so it can steer extraction depth. Written after the fact here, it inherits whatever extraction already captured — which is exactly why several kpi_tree entries below are computable:false with the missing input named. Provenance for the sector method: prompts/sector_playbooks/ferrous_non_ferrous_metals.md.",
+  "identity": {
+    "summary": "NALCO mines bauxite, refines it into alumina, and smelts a minority of that alumina into primary aluminium, selling both alumina (largely exported, priced off a percentage of LME) and aluminium metal (priced off LME plus premia). It earns a conversion spread on a globally priced commodity it cannot price, so its economics are cost position plus the LME.",
+    "listing": "NSE/BSE; ticker NATIONALUM.NS (NOT 'NALCO.NS' — tools/market_data.py returns nothing for the wrong symbol and fails silently)",
+    "reporting_segments": [
+      "Chemical (alumina + hydrate)",
+      "Aluminium (metal)"
+    ],
+    "basis_note": "Standalone is primary. The segment note, production and capacity tables are all standalone; consolidated adds only small JV/associate effects. Triage T3 recorded that both reportable segments sit in one aluminium value chain.",
+    "promoter_type": "PSU — Government of India majority shareholder"
+  },
+  "value_chain": [
+    {
+      "node": "Bauxite mining",
+      "position": "own",
+      "detail": "Panchpatmali captive mine, ~7.5 MTPA current capacity; FY2022 production 7,511,075 t. Pottangi is the next lease, guided to operationalise April 2026.",
+      "evidence": [
+        "F-AR22-050",
+        "F-PQ1-065"
+      ]
+    },
+    {
+      "node": "Alumina refining",
+      "position": "own",
+      "detail": "Damanjodi refinery, ~2.1 MTPA current capacity; FY2022 alumina production 2,122,000 t. A 5th stream adds ~1.0 MTPA, guided March 2026 commissioning / April 2026 production.",
+      "evidence": [
+        "F-AR22-051",
+        "F-PQ1-066",
+        "F-PQ3-042"
+      ]
+    },
+    {
+      "node": "Captive power",
+      "position": "own",
+      "detail": "1,200 MW captive thermal plant at Angul plus 198.4 MW wind. Coal is the exposure: Utkal coal blocks guided to ~4 mt in FY2026. Power and fuel was INR 3,388.48 cr in FY2022.",
+      "evidence": [
+        "F-AR22-070",
+        "F-AR22-011"
+      ]
+    },
+    {
+      "node": "Aluminium smelting",
+      "position": "own",
+      "detail": "Angul smelter, ~0.46 MTPA; FY2022 production 460,000 t — i.e. the smelter consumes under half the refinery's alumina output.",
+      "evidence": [
+        "F-AR22-052",
+        "F-PQ1-067"
+      ]
+    },
+    {
+      "node": "Alumina sales",
+      "position": "sell_into",
+      "detail": "Predominantly EXPORT, on tenders priced as a percentage of LME aluminium. FY2022 export 1,154,691 t vs domestic 77,995 t — a ~94% export share, which is the single most important structural fact about this company.",
+      "evidence": [
+        "F-AR22-055",
+        "F-AR22-057"
+      ]
+    },
+    {
+      "node": "Aluminium metal sales",
+      "position": "sell_into",
+      "detail": "Domestic and export sales of ingots/wire rod/rolled products, priced off LME plus regional premium, less discounts.",
+      "evidence": [
+        "F-AR22-047"
+      ]
+    }
+  ],
+  "margin_pool": {
+    "narrative": "The rent sits at ALUMINA REFINING, not at smelting. NALCO owns a captive bauxite mine feeding a refinery whose cash cost sits in the low quartiles of the global cost curve, and it sells the surplus alumina — roughly three-quarters of refinery output — into an export market priced off LME. Smelting, by contrast, converts that same alumina plus 1,200 MW of coal-fired power into metal at a spread that a domestic private peer with cheaper power can beat. So the economic engine is: a low-cost, long-position alumina business subsidising a structurally average smelter. FY2025 makes it visible — Chemical segment result INR 3,245.0 cr on revenue INR 7,607.44 cr (42.7% margin) against Aluminium's INR 4,045.51 cr on INR 11,113.16 cr (36.4%), and the Chemical margin swings far harder with alumina price.",
+    "owns_bottleneck": true,
+    "bottleneck_reason": "Captive bauxite at a grade and strip ratio that a non-integrated refiner cannot replicate, plus a lease it already holds. The durability question is the lease pipeline (Pottangi) and coal, not the refinery."
+  },
+  "net_position": {
+    "long": [
+      "alumina price (surplus alumina sold into export tenders as a % of LME)",
+      "LME aluminium",
+      "captive bauxite grade"
+    ],
+    "short": [
+      "thermal coal (captive power)",
+      "caustic soda",
+      "CP coke and pitch",
+      "freight"
+    ],
+    "exposed_to": [
+      "LME aluminium price",
+      "alumina percentage-of-LME tender realisation",
+      "USD/INR (export receipts)",
+      "coal availability from Utkal blocks and e-auction premia",
+      "mining lease and forest clearance timelines",
+      "carbon/CBAM on exports"
+    ],
+    "single_most_important_tilt": "NET LONG ALUMINA. The refinery is ~2.1 MTPA against a 0.46 MTPA smelter, so roughly three-quarters of alumina output is sold rather than converted, and ~94% of that is exported. NALCO is therefore better described as a low-cost alumina exporter with a smelter attached than as an aluminium producer — and the Emkay benchmark's whole thesis was exactly this phrase."
+  },
+  "kpi_tree": [
+    {
+      "kpi": "alumina_realisation_per_tonne",
+      "kind": "driver",
+      "unit": "INR/tonne",
+      "computable": true,
+      "scale": 10000000,
+      "inputs": [
+        "segment_revenue_chemical",
+        "production_alumina"
+      ],
+      "why_it_matters": "The long leg's price. Against the alumina index and the percentage-of-LME tender convention, this separates spread from volume.",
+      "source_of_inputs": "segment note (INR_cr) + production table (tonnes); scale 1e7 converts INR_cr/tonne to INR/tonne",
+      "in_sensitivity_table": true
+    },
+    {
+      "kpi": "aluminium_realisation_per_tonne",
+      "kind": "driver",
+      "unit": "INR/tonne",
+      "computable": true,
+      "scale": 10000000,
+      "inputs": [
+        "segment_revenue_aluminium",
+        "production_aluminium"
+      ],
+      "why_it_matters": "The metal leg's price; check against LME plus premium to see whether a realisation gain is price or premium.",
+      "source_of_inputs": "segment note + production table; scale 1e7 as above",
+      "in_sensitivity_table": true
+    },
+    {
+      "kpi": "alumina_ebit_per_tonne",
+      "kind": "driver",
+      "unit": "INR/tonne",
+      "computable": true,
+      "scale": 10000000,
+      "inputs": [
+        "segment_result_chemicals",
+        "production_alumina"
+      ],
+      "why_it_matters": "The sector's single number (ferrous_non_ferrous_metals.md): EBITDA/EBIT per tonne. Chart against the alumina index — if it tracks price 1:1 there is no operating story to pay for.",
+      "source_of_inputs": "segment result + production; scale 1e7",
+      "in_sensitivity_table": true
+    },
+    {
+      "kpi": "aluminium_ebit_per_tonne",
+      "kind": "driver",
+      "unit": "INR/tonne",
+      "computable": true,
+      "scale": 10000000,
+      "inputs": [
+        "segment_result_aluminium",
+        "production_aluminium"
+      ],
+      "why_it_matters": "Unit profitability of the metal leg; the Emkay benchmark's Exhibit 20 is exactly this series for alumina vs aluminium over a decade.",
+      "source_of_inputs": "segment result + production; scale 1e7",
+      "in_sensitivity_table": true
+    },
+    {
+      "kpi": "chemicals_segment_ebit_margin",
+      "kind": "driver",
+      "unit": "pct",
+      "computable": true,
+      "inputs": [
+        "segment_result_chemicals",
+        "segment_revenue_chemicals"
+      ],
+      "why_it_matters": "The alumina leg's margin, and the swing factor in consolidated earnings.",
+      "source_of_inputs": "segment note"
+    },
+    {
+      "kpi": "aluminium_segment_ebit_margin",
+      "kind": "driver",
+      "unit": "pct",
+      "computable": true,
+      "inputs": [
+        "segment_result_aluminium",
+        "segment_revenue_aluminium"
+      ],
+      "why_it_matters": "The metal leg's margin; the gap to the Chemical margin is the 'net long alumina' thesis in one number.",
+      "source_of_inputs": "segment note"
+    },
+    {
+      "kpi": "alumina_export_share_of_volume",
+      "kind": "moat",
+      "unit": "pct",
+      "computable": true,
+      "inputs": [
+        "sales_alumina_export",
+        "production_alumina"
+      ],
+      "why_it_matters": "Quantifies the net-long-alumina tilt and the USD/CBAM exposure that comes with it.",
+      "source_of_inputs": "sales table + production table (both tonnes, so no scale needed)"
+    },
+    {
+      "kpi": "power_and_fuel_pct_of_revenue",
+      "kind": "health",
+      "unit": "pct",
+      "computable": true,
+      "inputs": [
+        "cost_power_fuel",
+        "revenue_from_operations"
+      ],
+      "why_it_matters": "The short leg. Energy is the largest controllable cost line for an integrated smelter; this is where coal availability shows up.",
+      "source_of_inputs": "P&L"
+    },
+    {
+      "kpi": "alumina_capacity_utilisation",
+      "kind": "driver",
+      "unit": "pct",
+      "computable": false,
+      "missing_input": "a capacity fact in the SAME unit as production. `capacity_alumina` (F-AR22-068) is recorded as value 2275 with unit 'lakh TPA', which is wrong — 2275 is thousand-TPA (2.275 MTPA), consistent with `alumina_refinery_capacity_current` = 2.1 MTPA (F-PQ1-066). Dividing 2,122,000 tonnes by 2275 yields 93,275%, so this must not be computed until the capacity fact's unit is corrected by re-extraction.",
+      "inputs": [
+        "production_alumina",
+        "capacity_alumina"
+      ],
+      "why_it_matters": "Operating leverage and the swing variable through the 5th-stream ramp. A signature KPI for this playbook, so its absence is reported rather than hidden.",
+      "source_of_inputs": "AR capacity table — needs a unit fix",
+      "extraction_deeper": true
+    },
+    {
+      "kpi": "aluminium_capacity_utilisation",
+      "kind": "driver",
+      "unit": "pct",
+      "computable": false,
+      "missing_input": "same unit defect as above: `capacity_aluminium_smelter` (F-AR22-069) is 460 with unit 'lakh TPA' where 460 is thousand-TPA (0.46 MTPA per F-PQ1-067).",
+      "inputs": [
+        "production_aluminium",
+        "capacity_aluminium_smelter"
+      ],
+      "why_it_matters": "The smelter runs near nameplate, so utilisation is a check on outages rather than a growth driver — but it must be shown, not assumed.",
+      "source_of_inputs": "AR capacity table — needs a unit fix",
+      "extraction_deeper": true
+    },
+    {
+      "kpi": "cost_of_production_per_tonne",
+      "kind": "driver",
+      "unit": "INR/tonne",
+      "computable": false,
+      "missing_input": "no cash-cost-of-production fact was extracted for either segment. The AR gives cost lines in aggregate, not per segment per tonne. This is a signature KPI of ferrous_non_ferrous_metals.md and the most important single gap in this run.",
+      "inputs": [
+        "cost_of_production_alumina",
+        "production_alumina"
+      ],
+      "why_it_matters": "Cost-curve position is the only durable edge for a price-taker. Without it the cost-quartile claim cannot be evidenced at all.",
+      "source_of_inputs": "would need the AR's cost-of-production disclosure or a build-up from power/caustic/bauxite consumption per tonne",
+      "extraction_deeper": true
+    },
+    {
+      "kpi": "captive_rm_share",
+      "kind": "moat",
+      "unit": "pct",
+      "computable": false,
+      "missing_input": "no fact quantifies captive vs purchased bauxite or captive vs purchased coal as a share of requirement. Bauxite is understood to be ~100% captive and coal partly so, but 'understood' is not a fact record.",
+      "inputs": [
+        "captive_bauxite_consumed",
+        "total_bauxite_consumed"
+      ],
+      "why_it_matters": "The registry's `captive_rm_pct` signature KPI — the integration measure, and the thing that makes the cost position durable or temporary. Needs the lease/linkage expiry dates alongside it.",
+      "source_of_inputs": "AR mining and fuel notes",
+      "extraction_deeper": true
+    },
+    {
+      "kpi": "roce",
+      "kind": "health",
+      "unit": "pct",
+      "computable": false,
+      "inputs": [
+        "ebit",
+        "capital_employed"
+      ],
+      "why_it_matters": "The Emkay benchmark's alumina-segment RoCE of 36% (FY15) is what made the segment-level story legible; segment RoCE beats consolidated here.",
+      "source_of_inputs": "derived_metrics.json",
+      "missing_input": "already computed upstream — `roce` exists in facts/derived_metrics.json, produced by tools/compute_ratios.py. Its inputs (`ebit`, `capital_employed`) are not separate fact records, so restating it as a kpi_tree quotient duplicates work and resolves to nothing. Read it from derived_metrics.json; kept here as a `health` KPI so the tree still names what matters, per prompts/03's coverage rule.",
+      "owner": "tools/compute_ratios.py -> facts/derived_metrics.json"
+    },
+    {
+      "kpi": "net_debt_to_ebitda",
+      "kind": "health",
+      "unit": "x",
+      "computable": false,
+      "inputs": [
+        "net_debt",
+        "ebitda"
+      ],
+      "why_it_matters": "This sector's equity risk is refinancing at the trough. NALCO is net cash, which is itself a thesis point — but it must be stated at mid-cycle EBITDA, not spot.",
+      "source_of_inputs": "derived_metrics.json",
+      "missing_input": "inputs `net_debt` and `capital_employed`-style aggregates are not extracted as standalone fact records; `ebitda` exists only for FY2025 onward (F-... consolidated). compute_ratios.py is the right owner for leverage ratios. Marked false so the gap is named rather than emitted as an unresolved-input skip.",
+      "owner": "tools/compute_ratios.py -> facts/derived_metrics.json"
+    }
+  ],
+  "unit_economics": {
+    "denominator": "per_tonne",
+    "denominator_note": "Matches `unit_denominator: per_tonne` for playbook `ferrous_non_ferrous_metals` in config/sector_registry.yaml.",
+    "lines_to_track": [
+      "revenue per tonne, by segment (alumina, aluminium)",
+      "EBIT per tonne, by segment",
+      "cash cost of production per tonne, by segment — NOT YET COMPUTABLE, see kpi_tree",
+      "power and fuel cost per tonne of aluminium"
+    ],
+    "exact_facts_to_divide": {
+      "alumina_realisation_per_tonne": [
+        "segment_revenue_chemical",
+        "production_alumina",
+        "x1e7"
+      ],
+      "aluminium_realisation_per_tonne": [
+        "segment_revenue_aluminium",
+        "production_aluminium",
+        "x1e7"
+      ],
+      "alumina_ebit_per_tonne": [
+        "segment_result_chemicals",
+        "production_alumina",
+        "x1e7"
+      ],
+      "aluminium_ebit_per_tonne": [
+        "segment_result_aluminium",
+        "production_aluminium",
+        "x1e7"
+      ]
+    },
+    "known_limitation": "Production facts were extracted for FY2022 only (F-AR22-050/051/052, standalone). FY2024 carries the same quantities under different metric names (`alumina_hydrate_production_mt`, `aluminium_production_mt`, basis 'na') and FY2025/FY2026 under a third naming convention in '000T on a consolidated basis. So per-tonne series resolve for FY2022 and then break. Fixing this is a naming-normalisation task for extraction, and it is the reason the per-unit KPIs below emit for one year rather than five."
+  },
+  "swing_drivers": [
+    {
+      "name": "Alumina realisation as a percentage of LME",
+      "current_level_ref": "F-AR22-055 / F-AR23-164",
+      "direction": "+1% on alumina realisation lifts Chemical segment result roughly 1:1 on ~2.1 MTPA of output, with no cost offset",
+      "type": "exogenous",
+      "in_sensitivity_table": true
+    },
+    {
+      "name": "LME aluminium price",
+      "current_level_ref": "F-AR22-047",
+      "direction": "drives both legs; the metal leg 1:1 on 0.46 MTPA and the alumina leg indirectly via the percentage-of-LME tender formula",
+      "type": "exogenous",
+      "in_sensitivity_table": true
+    },
+    {
+      "name": "Coal cost and availability (captive Utkal blocks vs e-auction)",
+      "current_level_ref": "F-AR22-011",
+      "direction": "power and fuel is the largest controllable cost; a shortfall in captive coal replaces it with e-auction coal at a premium and compresses the smelter spread first",
+      "type": "company_influenceable",
+      "in_sensitivity_table": true
+    },
+    {
+      "name": "5th-stream refinery commissioning and ramp (+1.0 MTPA)",
+      "current_level_ref": "mgmt_guidance_5th_stream_commissioning (March 2026 commissioning, April 2026 production)",
+      "direction": "adds ~48% to refinery capacity, all of it surplus-to-smelter and therefore export alumina — it amplifies the net-long-alumina tilt rather than diversifying it",
+      "type": "company_influenceable",
+      "in_sensitivity_table": true
+    },
+    {
+      "name": "USD/INR",
+      "current_level_ref": "facts/market_data.json",
+      "direction": "~94% of alumina volume is exported, so a weaker rupee is a direct realisation tailwind",
+      "type": "exogenous",
+      "in_sensitivity_table": true
+    }
+  ],
+  "research_seeds": {
+    "questions": [
+      {
+        "q": "Global alumina supply-demand balance for CY2026-27: refinery capacity in operation, announced additions, curtailments, against demand — split China vs rest of world.",
+        "informs": "Alumina realisation as a percentage of LME"
+      },
+      {
+        "q": "Where does Damanjodi sit on the global alumina cash-cost curve, by quartile, and what specifically puts it there (bauxite grade, strip ratio, captive power, freight)?",
+        "informs": "Alumina realisation as a percentage of LME"
+      },
+      {
+        "q": "What is the prevailing percentage-of-LME at which Indian alumina export tenders are clearing, and how has that percentage moved over 5 years?",
+        "informs": "Alumina realisation as a percentage of LME"
+      },
+      {
+        "q": "LME aluminium forward curve and consensus deck for FY2027-28; inventory on LME/SHFE.",
+        "informs": "LME aluminium price"
+      },
+      {
+        "q": "Utkal coal block ramp: sanctioned capacity, actual despatch, and the e-auction premium NALCO would pay for any shortfall.",
+        "informs": "Coal cost and availability"
+      },
+      {
+        "q": "CBAM exposure: what share of NALCO's alumina and metal exports is EU-bound, and what is the estimated per-tonne cost from 2026?",
+        "informs": "USD/INR and alumina realisation"
+      },
+      {
+        "q": "Pottangi lease status — clearances obtained, remaining, and realistic first-production date against the guided April 2026.",
+        "informs": "5th-stream commissioning and ramp"
+      },
+      {
+        "q": "Peer multiples: P/E, EV/EBITDA and EV/tonne of capacity for Hindalco, Vedanta and the global alumina/aluminium set, with the cycle position of the earnings base stated.",
+        "informs": "valuation — module 23/31"
+      }
+    ],
+    "peer_set": [
+      {
+        "peer": "Hindalco Industries",
+        "market": "domestic",
+        "comparability_delta": "Integrated but Novelis-dominated — majority of EBITDA is downstream rolled products in the US/EU, so the aluminium-cycle beta is far lower. Not a clean read-across."
+      },
+      {
+        "peer": "Vedanta Ltd",
+        "market": "domestic",
+        "comparability_delta": "Largest Indian primary smelter but alumina-SHORT (buys third-party alumina), so it is on the opposite side of NALCO's core exposure. The most informative peer precisely for that reason."
+      },
+      {
+        "peer": "Hindustan Zinc",
+        "market": "domestic",
+        "comparability_delta": "Same promoter-group structure and PSU-adjacent history, different metal. Useful only for capital-allocation and dividend-policy comparison."
+      },
+      {
+        "peer": "Alcoa Corp",
+        "market": "international",
+        "comparability_delta": "The closest global analogue for a bauxite-alumina-aluminium integrated producer with surplus alumina; USD reporting and different power mix."
+      },
+      {
+        "peer": "Norsk Hydro",
+        "market": "international",
+        "comparability_delta": "Integrated with hydro power — a structurally lower-carbon, lower-cost energy position, so it sets the benchmark NALCO's coal-fired power is measured against."
+      },
+      {
+        "peer": "South32",
+        "market": "international",
+        "comparability_delta": "Alumina-long diversified miner; its alumina segment disclosure is a good source for cost-curve and realisation benchmarking."
+      },
+      {
+        "peer": "Chalco (Aluminum Corp of China)",
+        "market": "international",
+        "comparability_delta": "Sets the marginal cost and the export behaviour that drives the alumina balance; state-linked, so its capacity decisions are not purely economic."
+      }
+    ]
+  },
+  "business_model_summary": [
+    "NALCO mines bauxite, refines ~2.1 MTPA of alumina, and smelts only ~0.46 MTPA into metal — so roughly three-quarters of alumina output is sold, ~94% of it exported on percentage-of-LME tenders.",
+    "Single most important structural tilt: NET LONG ALUMINA. It is a low-cost alumina exporter with a smelter attached, not an aluminium producer.",
+    "The rent sits at refining, on captive Panchpatmali bauxite; the smelter's spread is average and coal-exposed.",
+    "Three KPIs that matter most: alumina EBIT per tonne; alumina realisation as a percentage of LME; power and fuel per tonne of aluminium.",
+    "Three swing drivers: alumina percentage-of-LME realisation; LME aluminium; captive coal availability (Utkal).",
+    "The 5th stream (+1.0 MTPA, guided April 2026) amplifies the alumina tilt rather than diversifying it.",
+    "Balance sheet is net cash — unusual for the sector, and a real thesis point, but it must be stated against mid-cycle EBITDA.",
+    "Biggest data gap: no cash cost of production per tonne was extracted, so the cost-curve claim cannot yet be evidenced."
+  ],
+  "extraction_feedback": [
+    {
+      "open_question": "Extract cash cost of production per tonne for the Chemical (alumina) and Aluminium segments from each AR's cost disclosure, or build it from consumption-per-tonne of bauxite, caustic, power and coke.",
+      "route": "extraction_deeper",
+      "document": "AR_FY2023/FY2024/FY2025 cost notes",
+      "why": "cost_of_production_per_tonne is a signature KPI of ferrous_non_ferrous_metals.md and is currently uncomputable"
+    },
+    {
+      "open_question": "Re-extract capacity_alumina and capacity_aluminium_smelter with correct units. Both are recorded as 'lakh TPA' where the values (2275, 460) are thousand-TPA, which makes every utilisation calculation off by ~1000x.",
+      "route": "extraction_deeper",
+      "document": "AR_FY2022 capacity table, cross-check the investor deck's MTPA figures",
+      "why": "capacity_utilisation_pct is a signature KPI and is currently marked computable:false solely because of this unit error"
+    },
+    {
+      "open_question": "Normalise production metric names across years. FY2022 uses production_alumina/production_aluminium (tonnes, standalone); FY2024 uses alumina_hydrate_production_mt/aluminium_production_mt (basis 'na'); FY2025+ uses *_fy2025_full_year in '000T (consolidated). Per-tonne series therefore resolve for one year only.",
+      "route": "extraction_deeper",
+      "document": "all ARs + quarterly decks",
+      "why": "blocks the entire per-unit economics trend, which is the layer prompts/20 now mandates"
+    },
+    {
+      "open_question": "Extract segment_result_chemicals and segment_result_aluminium for FY2022 and FY2023. FY2023 has segment REVENUE only (F-AR23-164/166), so no FY2023 segment margin can be computed and the year drops out of the trend.",
+      "route": "extraction_deeper",
+      "document": "AR_FY2023 segment note",
+      "why": "the FY2023 hole in the segment series; compute_kpis.py now emits a named skip for it rather than dropping the period silently"
+    },
+    {
+      "open_question": "Quantify captive vs purchased bauxite and coal as a share of requirement, with lease and linkage expiry dates.",
+      "route": "extraction_deeper",
+      "document": "AR mining and fuel notes",
+      "why": "captive_rm_pct signature KPI, and the durability test the playbook demands for any cost-curve claim"
+    }
+  ]
+}

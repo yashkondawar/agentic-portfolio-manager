@@ -1,0 +1,58 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 276,
+  "table_index": 1,
+  "bbox": [
+    51.27364,
+    91.61699999999996,
+    543.22636,
+    661.619
+  ],
+  "rows": [
+    [
+      "Ind AS Nos.",
+      "Nomenclature",
+      "Description"
+    ],
+    [
+      "Ind AS 1",
+      "Presentation of Financial\nStatement",
+      "- The Financial Statements of the Company have been prepared in accordance with the Indian\nAccounting Standards and presented in the format prescribed under Schedule III to the Companies\nAct 2013, following the guidelines set out in Ind AS 1.\n- The measurement basis used in preparing the financial statements and accounting policies adopted\nhave been disclosed.\n- Information as required by Ind ASs (also discussed below against respective Ind AS) that are not\npresented elsewhere in the Financial Statements have been disclosed as Notes to it.\nThe Notes to the Financial Statement also provides the information that is not presented elsewhere\nin the financial statements, but is relevant to an understanding of any of them."
+    ],
+    [
+      "Ind AS 2",
+      "Inventories",
+      "- Accounting policy adopted in measuring inventories including the cost formula used is disclosed\nat para 3.10 of the Material Accounting Policy Informations placed at Notes 3 of the Financial\nStatements.\n- Disclosure in respect of classification of inventories and their carrying amounts, amount of inventory\nrecognised as expenses, amount of any write-down of inventories recognised as an expense and\ninventory pledged has been made at note 15."
+    ],
+    [
+      "Ind AS 7",
+      "Statement of Cash Flow",
+      "- The cash flow statement using indirect method, whereby the indirect method, whereby profit or loss\nis adjusted for the effects of transactions of a non-cash nature, any deferrals or accruals of past or\nfuture operating cash receipts or payments, and items of income or expense associated with investing\nor financing cash flows.\n- The cash flows are segregated into operating, investing and financing activities."
+    ],
+    [
+      "Ind AS 8",
+      "Accounting Policies,\nChange in Accounting\nEstimates & Errors",
+      "- Any change in accounting policy is applied retrospectively, unless impracticable, adjusting the\nopening balance of each affected component of equity for the earliest prior period presented and the\nother comparative amounts disclosed for each prior period presented.\n- Any Change in accounting estimate which gives rise to changes in assets and liabilities, or relates\nto an item of equity, is recognised by adjusting the carrying amount of the related asset, liability or\nequity item in the period of the change.\n- On discovery of any prior period error(s) with an impact of `50 crore during a period, the error is\ncorrected retrospectively as guided by the standard."
+    ],
+    [
+      "Ind AS 10",
+      "Events after Reporting\nPeriod",
+      "- The Company adjusts the amounts recognised in its financial statements to reflect the adjusting\nevents after the reporting period.\n- Dividends declared after the reporting period are not recognised as a liability at the end of the period.\nHowever, suitable disclosure is made to this effect at Note :19.3."
+    ],
+    [
+      "Ind AS 11",
+      "Construction Contracts",
+      "This standard is applicable in preparing the financial statements of contractors which are into\nthe construction business. Not being a contractor for construction of any asset, Ind AS 11 is not\napplicable to the Company."
+    ],
+    [
+      "Ind AS 12",
+      "Income Taxes",
+      "- Relationship between tax expenses and accounting profit is explained through a numerical\nreconciliation between tax expense and the product of accounting profit multiplied by the applicable\ntax rate at Note 36.\n- Current tax and deferred tax relating to items that are recognised in other comprehensive income and\ndirectly in equity are recognised in other comprehensive income and equity respectively. Disclosures\nare made at Note 37."
+    ],
+    [
+      "Ind AS 16",
+      "Property, Plant &\nEquipment",
+      "- Measurement basis, useful life and method of depreciation followed for each class of property, plant\nand equipment has been discussed at Para 3.1 of the Material Accounting Policy Information.\n- A reconciliation between opening carrying value and the closing carrying value stating addition\nduring the period, disposals and depreciation expenses is placed at note 5."
+    ]
+  ]
+}

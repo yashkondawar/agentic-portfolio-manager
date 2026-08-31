@@ -1,0 +1,85 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 17,
+  "table_index": 5,
+  "bbox": [
+    335.7715,
+    379.21900000000005,
+    549.7625,
+    653.5210000000001
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "Calendar\nYear 2021",
+      "Calendar\nYear 2022",
+      "Calendar\nYear 2023\n(Projected)"
+    ],
+    [
+      "Alumina",
+      null,
+      null,
+      null
+    ],
+    [
+      "Global Demand\n(Million MT)",
+      "130.77",
+      "134.01",
+      "133.46*"
+    ],
+    [
+      "Global Supply\n(Million MT)",
+      "131.5",
+      "134.36",
+      "133.47*"
+    ],
+    [
+      "Balance\n[Surplus/(Deficit)]",
+      "0.73",
+      "0.35",
+      "0.01*"
+    ],
+    [
+      "Aluminium Metal",
+      null,
+      null,
+      null
+    ],
+    [
+      "Global Demand\n(Million MT)",
+      "68.97",
+      "69.14",
+      "68.88*"
+    ],
+    [
+      "Global Supply\n(Million MT)",
+      "67.41",
+      "68.94",
+      "69.53*"
+    ],
+    [
+      "Balance\n[Surplus/(Deficit)]",
+      "-1.56",
+      "-0.200",
+      "0.650*"
+    ],
+    [
+      "Price Trend",
+      "FY\n2021-22",
+      "FY\n2022-23",
+      "FY 2023-24\n(till May,\n2023)"
+    ],
+    [
+      "LME Price\n(USD per MT)",
+      "2,769",
+      "2,490",
+      "2,304"
+    ],
+    [
+      "Alumina Price Index\n(as % of LME Price)",
+      "12.90%",
+      "13.90%",
+      "15.10%"
+    ]
+  ]
+}

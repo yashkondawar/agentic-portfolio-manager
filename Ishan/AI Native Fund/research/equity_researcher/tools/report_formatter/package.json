@@ -1,0 +1,11 @@
+{
+  "name": "er-report-formatter",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Deterministic docx-js rendering engine for the Agentic Equity Researcher FORMAT stage. Turns per-note content modules into institutional-style .docx. Engine (reportStyle.js) and CLI (build_reports.js) are the zero-judgment part; the markdown->content.js extraction is an LLM judgment task done by the report-writer agent per the equity-research-formatter skill.",
+  "type": "commonjs",
+  "bin": { "er-format": "build_reports.js" },
+  "dependencies": {
+    "docx": "^9.0.0"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 80,
+  "table_index": 2,
+  "bbox": [
+    71.11615,
+    88.12414999999993,
+    546.8364799999999,
+    260.34
+  ],
+  "rows": [
+    [
+      "Unit",
+      "Products",
+      "Environmental Concerns",
+      "Risks",
+      "Opportunities /\nMitigation Measures"
+    ],
+    [
+      "Mines",
+      "Bauxite",
+      "• Air Pollution\n• Water Pollution\n• Noise pollution\n• Solid waste pollution\n• Land Degradation",
+      "3) Noise pollution:\ni) Noise during blasting and\noperation of heavy vehicles.",
+      "3) Noise pollution:\ni) Suitable blast design including delayed blasting using NONEL\ndetonators to minimize the generation of noise.\nii) Peripheral plantation to prevent propagation of noise.\niii) Selection of suitable equipment generating less noise,\nprovision of noise proof cabins in HEMMs and provision of\nPPEs to workers."
+    ],
+    [
+      null,
+      null,
+      null,
+      "4) Solid waste pollution:\ni) Overburden material from\nexcavation of minerals.",
+      "4) Solid Waste Pollution:\ni) 100% reuse of top soil and overburden for back filling of\nmined out areas."
+    ],
+    [
+      null,
+      null,
+      null,
+      "5) Land Degradation:\ni) Excavation of overburden\nand ore material by blasting\nand use of machinery.",
+      "5) Land Degradation:\ni) Concurrent mining and backfilling of mined out areas.\nii) Rehabilitation of mined out area with extensive plantation to\nconvert the barren land into a forest."
+    ]
+  ]
+}

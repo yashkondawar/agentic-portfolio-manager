@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 204,
+  "table_index": 2,
+  "bbox": [
+    51.273664,
+    242.6969,
+    542.5533777777778,
+    325.8547
+  ],
+  "rows": [
+    [
+      "",
+      "Number of shares",
+      "Amount ` in Crore"
+    ],
+    [
+      "Balance as at 01.04.2023",
+      "1,83,66,31,787",
+      "918.32"
+    ],
+    [
+      "Changes during the year",
+      "-",
+      "-"
+    ],
+    [
+      "Balance as at 31.03.2024",
+      "1,83,66,31,787",
+      "918.32"
+    ],
+    [
+      "Changes during the year",
+      "-",
+      "-"
+    ],
+    [
+      "Balance as at 31.03.2025",
+      "1,83,66,31,787",
+      "918.32"
+    ]
+  ]
+}

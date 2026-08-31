@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 230,
+  "table_index": 3,
+  "bbox": [
+    45.838,
+    227.872,
+    549.405,
+    307.163
+  ],
+  "rows": [
+    [
+      "19. Other equity Amount in ` Crore",
+      null,
+      null
+    ],
+    [
+      "",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      "(a) Capital redemption reserves",
+      "370.30",
+      "370.30"
+    ],
+    [
+      "(b) General reserve",
+      "7,942.98",
+      "7,942.98"
+    ],
+    [
+      "(c) Retained earnings",
+      "3,894.78",
+      "3,320.79"
+    ],
+    [
+      "Total",
+      "12,208.06",
+      "11,634.07"
+    ]
+  ]
+}

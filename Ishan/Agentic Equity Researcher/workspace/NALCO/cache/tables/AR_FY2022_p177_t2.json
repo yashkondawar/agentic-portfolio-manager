@@ -1,0 +1,118 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 177,
+  "table_index": 2,
+  "bbox": [
+    62.9291,
+    499.10245000000003,
+    549.7912200000001,
+    691.529
+  ],
+  "rows": [
+    [
+      null,
+      "As at 31.03.2022",
+      "As at 31.03.2021"
+    ],
+    [
+      null,
+      "",
+      ""
+    ],
+    [
+      "Demand from statutory authority",
+      "",
+      ""
+    ],
+    [
+      "1. Odisha Sales tax",
+      "4.09",
+      "3.72"
+    ],
+    [
+      "2. Central Sales tax",
+      "280.55",
+      "281.01"
+    ],
+    [
+      "3. VAT",
+      "12.64",
+      "12.64"
+    ],
+    [
+      "4. Excise duty",
+      "410.44",
+      "410.44"
+    ],
+    [
+      "5. Custom duty",
+      "102.77",
+      "104.47"
+    ],
+    [
+      "6. Service tax",
+      "14.82",
+      "21.98"
+    ],
+    [
+      "7. Income tax",
+      "223.75",
+      "162.66"
+    ],
+    [
+      "8. Entry tax",
+      "222.21",
+      "221.37"
+    ],
+    [
+      "9. Road tax",
+      "2.65",
+      "2.65"
+    ],
+    [
+      "10. Stamp duty",
+      "0.51",
+      "0.51"
+    ],
+    [
+      "11. Claim From Govt. (NGT)",
+      "109.01",
+      "62.30"
+    ],
+    [
+      "12. Claim From PSUs",
+      "322.92",
+      "247.59"
+    ],
+    [
+      "13. Land acquisition and interest there on",
+      "78.07",
+      "73.73"
+    ],
+    [
+      "14. Dept. of mines Govt. of Odisha",
+      "136.32",
+      "136.32"
+    ],
+    [
+      "15 Water Resources Deptt. Govt. of Odisha for Water Conservation fund",
+      "119.24",
+      "119.24"
+    ],
+    [
+      "Claim by contractors/suppliers and others",
+      "",
+      ""
+    ],
+    [
+      "1. Claims of Contractor’s suppliers and others",
+      "338.41",
+      "292.85"
+    ],
+    [
+      "Total",
+      "2,378.40",
+      "2,153.48"
+    ]
+  ]
+}

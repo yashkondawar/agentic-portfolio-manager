@@ -1,0 +1,29 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 232,
+  "table_index": 1,
+  "bbox": [
+    45.6676625,
+    76.71200000000005,
+    424.29179999999997,
+    124.20200000000006
+  ],
+  "rows": [
+    [
+      "",
+      "As at 31.03.2022"
+    ],
+    [
+      "Non-current lease liability",
+      "50.91"
+    ],
+    [
+      "Current lease liability",
+      "5.52"
+    ],
+    [
+      "Total Lease liabilities",
+      "56.43"
+    ]
+  ]
+}

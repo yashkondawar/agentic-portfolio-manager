@@ -1,0 +1,132 @@
+{
+  "module": "34_thesis_redteam",
+  "wave": "6b REDTEAM",
+  "company": "National Aluminium Company Limited",
+  "ticker": "NATIONALUM.NS",
+  "as_of": "2026-08-03",
+  "attacking": "state/thesis.json (module 33, wave 6a)",
+  "stance": "Adversarial. The job is to break our own thesis, not to confirm it. This file is written in a separate context from module 33 and does NOT edit state/thesis.json — module 33 owns that file and writes the resolution back on its mandatory post-red-team pass (prompts/33 step 7b).",
+
+  "verdict": "survives_with_qualifications",
+  "material_challenges_count": 6,
+  "rounds": 1,
+  "round_note": "One 33 -> 34 -> 33 round trip completed, per config.thesis.redteam_min_rounds = 1. The trip was not cosmetic: challenge C2 changed the target multiple and challenge C4 changed the disclosed caveat, so the thesis that ships is not the thesis that arrived.",
+
+  "opinion_vs_analysis_audit": {
+    "reference": "docs/OPINION_VS_ANALYSIS.md §4 — all 15 checks, each returning pass / fail / n_a with evidence. A fail names the offending sentence or exhibit.",
+    "checks": [
+      { "n": 1, "check": "Every load-bearing claim traces to a fact record with a source", "verdict": "pass",
+        "evidence": "Each pillar carries evidence_refs to real fact ids (F-PQ4-017, F-AR25B-130, SRC-1300..1306). Pillar 4 is explicitly a disclosed GAP rather than a claim, and is labelled as such." },
+      { "n": 2, "check": "Expected return is decomposed into metric growth vs multiple change", "verdict": "pass",
+        "evidence": "return_decomposition: -1.95% metric, -26.46% multiple, multiple_share_pct 93%. Published on page one of the thesis rather than buried." },
+      { "n": 3, "check": "If the multiple does the work, the re-rating bar is met", "verdict": "pass",
+        "evidence": "multiple_share_pct 93% > 40% threshold, and archetype.forced_rerating is set true with cyclical-peak/de-rating named. The mechanism is stated (multiple sits above a five-year realised band with no catalyst) and the falsifier is a monitorable (a sustained re-rating above 8.4x WITH a named catalyst)." },
+      { "n": 4, "check": "The target multiple is justified against something external, not asserted", "verdict": "pass",
+        "evidence": "PASSES ONLY AFTER C2. The first draft asserted 9.5x as 'mid-cycle discipline' with no anchor — that was a fail. It is now 8.4x = the top of the company's own realised 5-year band, sourced per fiscal year [SRC-1300..1306], with the median 6.3x published as the alternative. Own-history anchoring is still weaker than peer anchoring; see C4." },
+      { "n": 5, "check": "A rolled-forward valuation base is disclosed with the un-rolled comparison", "verdict": "pass",
+        "evidence": "rolled_forward: false, and unrolled_target_context gives the FY2027E alternative (TP 275, -23.9%) so the reader can see the conclusion is not a base-year artefact." },
+      { "n": 6, "check": "Peer comparisons are economically comparable", "verdict": "pass",
+        "evidence": "No peer multiple is used, and the reason is disclosed rather than hidden: Hindalco is Novelis-dominated (~13.9% blended EBITDA margin vs NALCO's upstream 44.6%) and Vedanta is alumina-short. Declining to use an incomparable peer is the correct behaviour; asserting one would have failed this check." },
+      { "n": 7, "check": "Management claims are attributed, not adopted", "verdict": "pass",
+        "evidence": "variant_view.vs_guidance explicitly accepts the volume guidance and disputes only the earnings inference, and the guidance items are tagged to mgmt_guidance_* facts." },
+      { "n": 8, "check": "The base case is not sitting at the bull end on a majority of drivers", "verdict": "pass",
+        "evidence": "The base case is the workspace's existing estimate set (FY2027E/FY2028E PAT), which is flat-to-DOWN. The thesis is bearish while using an estimate set it did not construct — the opposite of the failure this check hunts." },
+      { "n": 9, "check": "Data gaps are disclosed, not silently filled", "verdict": "pass",
+        "evidence": "Pillar 4 and must_be_true condition 6 name the missing cost-of-production number; fair_value_context.caveat names the missing peer set; facts/kpis.json carries 15 named skips including 4 unmet signature KPIs." },
+      { "n": 10, "check": "At least one disconfirming exhibit is present", "verdict": "pass",
+        "evidence": "redteam.disconfirming_exhibit in the thesis names the FY2025 Chemical segment margin of 42.7% and the 44.6% vs 45.6% Hindalco-upstream comparison — both of which cut against a purely cyclical reading. Per prompts/34 this check fails by default until an exhibit is NAMED, and it is." },
+      { "n": 11, "check": "The rating is derived, not asserted, and appears once", "verdict": "pass",
+        "evidence": "rating.derivation walks the five steps of prompts/33 step 7 with the effect of each, plus not_higher_because / not_lower_because bounding it on both sides." },
+      { "n": 12, "check": "Falsifiers are thresholded and dated, not vague", "verdict": "pass",
+        "evidence": "All seven monitorables carry an explicit threshold and a consequence; three carry dates (30 June 2026, Q2FY27, FY2026)." },
+      { "n": 13, "check": "Banned reasoning patterns absent", "verdict": "pass",
+        "evidence": "See banned_reasoning_scan below — nothing found." },
+      { "n": 14, "check": "Cycle position is stated for a cyclical business", "verdict": "pass",
+        "evidence": "Stated three times, with evidence: FY2026 EBITDA is the series maximum; the archetype is cyclical-peak; the implied commodity assumption is published." },
+      { "n": 15, "check": "Conflict signals disclosed (recent listing, RHP reliance, etc.)", "verdict": "n_a",
+        "evidence": "Long-listed PSU; no RHP reliance, no recent listing, no placement. Nothing to disclose." }
+    ],
+    "result": "15 checks: 14 pass, 0 fail, 1 n/a. Check 4 passes only because C2 was accepted and acted on — it was a fail on the first draft."
+  },
+
+  "banned_reasoning_scan": {
+    "patterns_searched": [
+      "discount to peers assumed to narrow with no mechanism",
+      "premium justified by 'quality' without the return metric to support it",
+      "growth extrapolated from a single favourable year",
+      "'strong'/'robust'/'well-positioned' doing argumentative work",
+      "a correct outcome used to validate the reasoning that produced it",
+      "guidance restated as forecast"
+    ],
+    "found": [],
+    "note": "Nothing found. The thesis is bearish, so the usual discount-narrowing failure mode (docs/ER_CORPUS_FINDINGS.md §6) does not arise in its normal direction. Its mirror image WAS checked: 'the multiple must revert because it looks high' would be the bearish equivalent of circular reasoning. It survives because a mechanism is named (the multiple sits above a five-year realised band that never reached double digits, including in the highest-EPS year) and a falsifier is thresholded (a sustained move above 8.4x with a named catalyst)."
+  },
+
+  "challenges": [
+    { "id": "C1", "severity": "high",
+      "challenge": "The peak framing rests on roughly five years of EBITDA, not a full commodity cycle. Aluminium cycles run longer than that. FY2026 could be a mid-cycle print in a longer upswing rather than a peak, in which case both the earnings base and the multiple are defensible.",
+      "attacks": "pillar 1, must_be_true condition 1, archetype.primary",
+      "resolution": "NOT RESOLVED — accepted as a limitation. The supplied document set (ARs FY2021-FY2025 plus FY2026 quarterlies) does not reach further back, and module 33 recorded this rather than arguing around it. The honest statement is that the peak claim is made on the available window and would be stronger with a 10-15 year series.",
+      "where_answered": "thesis.redteam.resolution_note; must_be_true condition 1 remains `established` on the available series only" },
+
+    { "id": "C2", "severity": "high",
+      "challenge": "multiple_share_pct is 93%, so the target multiple IS the thesis. The first draft picked 9.5x and justified it as 'mid-cycle discipline' — an assertion, not an anchor. A 93%-multiple thesis resting on an unanchored number is exactly the failure docs/OPINION_VS_ANALYSIS.md check 4 exists to catch, and it would have been indefensible under challenge.",
+      "attacks": "return_decomposition.target_multiple, and therefore the entire expected return",
+      "resolution": "RESOLVED, and it changed the thesis. Module 33 re-anchored the target to 8.4x — the top of the company's own realised 5-year P/E band from findings/peer_valuation.json [SRC-1300..1306] — and published the median 6.3x as the harsher alternative. Expected return moved from -18.4% to -27.9%, i.e. the correction made the thesis MORE bearish, not less. It also surfaced that the superseded thesis prose had quoted the band as '4.6x-8.7x, median 7.6x' when its own source says 4.1x-8.4x, median 6.3x — a discrepancy now recorded in return_decomposition.band_discrepancy_noted.",
+      "where_answered": "return_decomposition.why_the_target_multiple; must_be_true condition 2 upgraded partial -> established" },
+
+    { "id": "C3", "severity": "high",
+      "challenge": "must_be_true condition 6 (durable cost position) is UNESTABLISHED, and on a skepticism weight of 4 the archetype's own rule says partial evidence earns no credit. An unestablished condition on the sector's single most important variable arguably caps confidence at 'low', not 'medium'.",
+      "attacks": "rating.confidence, pillar 4",
+      "resolution": "PARTIALLY RESOLVED. Confidence stays 'medium' on the grounds that the missing number cuts BOTH ways — it is equally unavailable to the bull case, and the rating does not depend on the cost position being bad, only on the multiple being above its band. But `rating.capped_by` now names the missing number explicitly as the binding constraint, so a reader can see precisely what would move confidence.",
+      "where_answered": "rating.capped_by; must_be_true condition 6; pillar 4" },
+
+    { "id": "C4", "severity": "high",
+      "challenge": "There is no peer-anchored multiple at all. Own-history anchoring is the weakest of the four justification families in docs/ER_CORPUS_FINDINGS.md §4, and a five-year own-band can itself be regime-dependent — if the market's willingness to pay for Indian PSU commodity names has structurally changed, the band is not a valid anchor.",
+      "attacks": "fair_value_context, return_decomposition.why_the_target_multiple",
+      "resolution": "RESOLVED AS DISCLOSED, not fixed. No comparable peer set exists in this run: findings/peer_valuation.json documents why the obvious comparators fail (Hindalco Novelis-dominated at ~13.9% blended margin; Vedanta alumina-short and therefore on the opposite side of the core exposure). The regime-change objection is not refutable with the data available and is now stated in fair_value_context.caveat. Obtaining Alcoa / Norsk Hydro / South32 alumina-segment multiples is the named next step, already in business_model.json research_seeds.",
+      "where_answered": "fair_value_context.caveat; state/business_model.json research_seeds question 8" },
+
+    { "id": "C5", "severity": "medium",
+      "challenge": "The 5th stream adds ~48% to refinery capacity. A thesis that calls this a cyclical peak while acknowledging a near-50% volume addition is in tension with itself: volume growth of that size can offset a price decline entirely, which would make FY2028E estimates too low rather than too high.",
+      "attacks": "archetype.primary, pillar 1, must_be_true condition 4",
+      "resolution": "ACKNOWLEDGED and left as a live tension rather than resolved in the thesis's favour. must_be_true condition 4 is held at `partial` precisely for this reason, and capex-to-cashflow is recorded in archetype.alternatives_rejected with the tension named rather than dismissed. The counter is that the delivery record on this specific project is poor (targeted January 2025 in the FY2023 AR, now 2026) and that the incremental tonnes are export alumina, so they increase price exposure at the same time as volume.",
+      "where_answered": "must_be_true condition 4; archetype.alternatives_rejected[capex-to-cashflow]; monitorable on 5th-stream first production" },
+
+    { "id": "C6", "severity": "medium",
+      "challenge": "Steel-manned opposite rating — the best case for ADD or BUY, argued properly. NALCO is near-debt-free with captive bauxite, its FY2025 standalone EBITDA margin of 44.6% is in line with Hindalco's India-upstream 45.6% (so operating quality is not the weak point), the coal ramp is the best-delivered item in its guidance ledger, and it is about to add 48% to refinery capacity into a market where alumina has been structurally tight. If the cost position is top-quartile — unverified but plausible given captive bauxite AND captive power — then a mid-single-digit historical multiple reflects an old regime of poor capital allocation that the current capex cycle is ending, and 11.4x is a re-rating to a deserved level rather than an excess.",
+      "attacks": "the rating itself",
+      "resolution": "CONSIDERED AND REJECTED, but only on the arithmetic. Every element of the bull case is accepted as factually correct. It is rejected because it requires the multiple to hold ~38% above the top of a five-year band on an EPS base the company's own estimates show declining — and because the one number that would substantiate the cost-position claim (cash cost per tonne) is unavailable. The bull case is recorded verbatim in variant_view.strongest_argument_against so the reader can weigh it, and rating.confidence is medium rather than high largely because of it.",
+      "where_answered": "variant_view.strongest_argument_against; rating.confidence; rating.capped_by" }
+  ],
+
+  "archetype_failure_mode_attack": {
+    "archetype": "cyclical-peak",
+    "standard_failure_mode": "Calling the peak too early. Cyclical peaks are identifiable in hindsight and notoriously not in real time; a peak call made one or two years early looks identical to being wrong, and the opportunity cost of a REDUCE through a continuing upcycle is large.",
+    "does_it_land": "PARTIALLY. The thesis is exposed to exactly this — if the alumina cycle extends through FY2028, the rating is early and wrong. Two things limit the damage rather than eliminate it: the call rests on a multiple outside its realised band (an observable, not a forecast) more than on a commodity-price forecast, and the two fastest falsifiers are explicit, thresholded monitorables on realisation and LME. What the thesis does NOT have is a time bound — it does not say how long it would hold REDUCE before conceding the cycle extended. That is a real weakness and is noted here rather than papered over.",
+    "recommended_mitigation": "Add a time-bounded review trigger to the monitorables on the next pass: e.g. if alumina realisation has not mean-reverted by end-FY2027, treat the peak framing as falsified regardless of the multiple."
+  },
+
+  "pre_mortem": {
+    "question": "It is 2028 and this REDUCE was wrong. What happened?",
+    "most_likely_path": "Alumina stayed tight — Guinea/Chinese supply disruption, or a structural bauxite constraint — so the percentage-of-LME tender realisation held near FY2026 levels instead of reverting. The 5th stream commissioned close to schedule and added ~1.0 MTPA of export alumina into that tight market, so FY2028 EPS came in materially ABOVE the 31.05 the estimate set carried, not below. With earnings rising, the 11.4x multiple was never the anomaly the thesis took it for; the market had simply repriced NALCO for a structurally better alumina franchise, and the five-year band was a legacy artefact of a weaker regime. The specific error would be treating an own-history multiple band as a valid anchor across a regime change — which is challenge C4, unresolved.",
+    "second_path": "The cost position turns out to be genuinely top-quartile (captive bauxite plus captive power plus Utkal coal at ~57% of fuel need), so trough margins stay comfortably positive and the stock never de-rates to a cyclical multiple because the market stops treating it as a pure cyclical. This is the bull case in C6, and it is unfalsifiable with the current data — which is the honest reason confidence is medium."
+  },
+
+  "peer_comparability_audit": {
+    "peer_multiple_used": false,
+    "finding": "The thesis correctly declines to use a peer multiple. Checked the available comparators against the economic-comparability test: Hindalco fails on business mix (Novelis-dominated, ~13.9% blended EBITDA margin against NALCO's upstream-only 44.6%) and is usable for scale context only; Vedanta fails on exposure direction (alumina-SHORT, so it sits on the opposite side of NALCO's defining position — informative as a contrast, invalid as a multiple comp); Hindustan Zinc fails on metal. No international alumina-segment multiples were obtained. Declining to publish an incomparable peer table is the correct call and is what docs/ER_CORPUS_FINDINGS.md §7.1 asks for; the gap is disclosed rather than filled.",
+    "residual_risk": "Own-history anchoring only. See C4."
+  },
+
+  "high_severity_challenges_summary": [
+    "C1 peak framing rests on ~5 years, not a full cycle — NOT RESOLVED, disclosed as a limitation",
+    "C2 target multiple was asserted, not anchored — RESOLVED, re-anchored to the realised band top and the thesis became more bearish",
+    "C3 unestablished cost position arguably caps confidence lower — PARTIALLY RESOLVED via rating.capped_by",
+    "C4 no peer-anchored multiple; own-band may be regime-dependent — RESOLVED AS DISCLOSED"
+  ],
+
+  "what_would_change_the_verdict": "A reconstructed 10-15 year multiple and EBITDA series (addressing C1), or any credible cash-cost-per-tonne figure (addressing C3 and pillar 4), or alumina-segment multiples for Alcoa / Norsk Hydro / South32 (addressing C4). Any one of the three would move this from `survives_with_qualifications` toward either `survives` or `not_established` — at present the thesis is defensible on the evidence available and explicitly incomplete on the evidence that is not.",
+
+  "note_to_orchestrator": "Verdict is survives_with_qualifications, so the thesis is publishable and module 33's post-red-team pass has already written its resolutions back into state/thesis.json's redteam block. Four high-severity challenges must be answered in the final note, not dropped — prompts/41 §9 requires the verdict, the challenge count and the resolution of each high-severity item to appear in the note's data-gaps section, and templates/final_note_template.md now has the slot for it."
+}

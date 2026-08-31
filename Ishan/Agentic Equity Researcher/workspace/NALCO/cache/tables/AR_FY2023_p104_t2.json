@@ -1,0 +1,25 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 104,
+  "table_index": 2,
+  "bbox": [
+    94.0015,
+    196.55250000000007,
+    548.4005,
+    248.49000000000007
+  ],
+  "rows": [
+    [
+      "Instrument Type",
+      "Rating/Outlook"
+    ],
+    [
+      "Short-Term Bank Facilities",
+      "IND A1+"
+    ],
+    [
+      "Long-Term Bank Facilities",
+      "IND AAA/Stable"
+    ]
+  ]
+}

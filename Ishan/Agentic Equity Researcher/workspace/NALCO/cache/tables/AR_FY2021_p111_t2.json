@@ -1,0 +1,34 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 111,
+  "table_index": 2,
+  "bbox": [
+    124.97448000000001,
+    88.12414999999993,
+    555.5813625000001,
+    144.0861
+  ],
+  "rows": [
+    [
+      "Name",
+      "Category",
+      "Position",
+      "Meeting held",
+      "Meeting attended"
+    ],
+    [
+      "Shri P. K. Mishra\nDirector (Commercial)&",
+      "Functional",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Shri R. S. Mahapatro\nDirector (HR)",
+      "Functional",
+      "Member",
+      "1",
+      "1"
+    ]
+  ]
+}

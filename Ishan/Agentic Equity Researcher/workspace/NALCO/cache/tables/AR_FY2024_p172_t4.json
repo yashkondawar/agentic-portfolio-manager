@@ -1,0 +1,103 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 172,
+  "table_index": 4,
+  "bbox": [
+    51.27365,
+    450.0540571428572,
+    542.797209375,
+    669.9310800000001
+  ],
+  "rows": [
+    [
+      "A. Non-current",
+      null,
+      "As at 31.03.2024",
+      "As at 31.03.2023"
+    ],
+    [
+      "(a)",
+      "Capital advances",
+      "345.18",
+      "547.81"
+    ],
+    [
+      "(b)",
+      "Advances other than capital advance:",
+      null,
+      null
+    ],
+    [
+      "",
+      "Advance with Govt. authorities",
+      null,
+      null
+    ],
+    [
+      null,
+      "(1) Customs, excise, sales tax, GST, port trusts etc.",
+      "244.55",
+      "226.59"
+    ],
+    [
+      null,
+      "(2) Other Government authorities",
+      "9.87",
+      "6.04"
+    ],
+    [
+      "(c)",
+      "Others",
+      null,
+      null
+    ],
+    [
+      "",
+      "Prepaid expenses",
+      null,
+      null
+    ],
+    [
+      null,
+      "(1) Deferred employee benefits [refer Note 11.1]",
+      "22.39",
+      "21.93"
+    ],
+    [
+      "Gross other non-current assets",
+      null,
+      "621.99",
+      "802.37"
+    ],
+    [
+      "Less: Allowance for bad and doubtful for other non-current assets",
+      null,
+      null,
+      null
+    ],
+    [
+      "(a)",
+      "Capital advances",
+      "0.01",
+      "0.01"
+    ],
+    [
+      "(b)",
+      "Advances with Excise authority",
+      "0.24",
+      "0.24"
+    ],
+    [
+      "Total allowance for bad and doubtful for other non-current assets",
+      null,
+      "0.25",
+      "0.25"
+    ],
+    [
+      "Total other non-current assets",
+      null,
+      "621.74",
+      "802.12"
+    ]
+  ]
+}

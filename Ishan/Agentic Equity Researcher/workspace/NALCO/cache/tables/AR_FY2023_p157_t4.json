@@ -1,0 +1,97 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 157,
+  "table_index": 4,
+  "bbox": [
+    45.7915,
+    532.914,
+    549.3585,
+    691.529
+  ],
+  "rows": [
+    [
+      "10 A - Trade receivables Amount in ` Crore",
+      null,
+      null,
+      null
+    ],
+    [
+      "A.",
+      "Non-current",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      null,
+      "(a) Considered good - Secured",
+      "-",
+      "-"
+    ],
+    [
+      null,
+      "(b) Considered good - Unsecured",
+      "-",
+      "-"
+    ],
+    [
+      null,
+      "(c) Having significant increase in credit risk",
+      "-",
+      "-"
+    ],
+    [
+      null,
+      "(d) Credit impaired",
+      "36.28",
+      "36.90"
+    ],
+    [
+      null,
+      "Less: Allowance for doubtful debts",
+      "36.28",
+      "36.90"
+    ],
+    [
+      "Non-current trade receivables",
+      null,
+      "-",
+      "-"
+    ],
+    [
+      "B.",
+      "Current",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      null,
+      "(a) Considered good - Secured",
+      "-",
+      "-"
+    ],
+    [
+      null,
+      "(b) Considered good - Unsecured",
+      "91.33",
+      "75.25"
+    ],
+    [
+      null,
+      "(c) Having significant increase in credit risk",
+      "13.79",
+      "20.24"
+    ],
+    [
+      null,
+      "Less: Allowance for doubtful debts",
+      "13.79",
+      "20.24"
+    ],
+    [
+      "Current trade receivables",
+      null,
+      "91.33",
+      "75.25"
+    ]
+  ]
+}

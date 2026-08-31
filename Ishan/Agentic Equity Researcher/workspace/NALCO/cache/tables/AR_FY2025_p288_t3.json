@@ -1,0 +1,49 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 288,
+  "table_index": 3,
+  "bbox": [
+    51.27364615384616,
+    581.8340000000001,
+    542.5770607142857,
+    660.95
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      "Year ended 31.03.2025",
+      "Year ended 31.03.2024"
+    ],
+    [
+      "(a)",
+      "Stores and spares consumed",
+      "406.42",
+      "410.19"
+    ],
+    [
+      "(b)",
+      "Repair and maintenance to",
+      null,
+      null
+    ],
+    [
+      "",
+      "(1) Buildings",
+      "52.94",
+      "53.58"
+    ],
+    [
+      null,
+      "(2) Machinery",
+      "220.50",
+      "195.94"
+    ],
+    [
+      null,
+      "(3) Others",
+      "30.25",
+      "25.39"
+    ]
+  ]
+}

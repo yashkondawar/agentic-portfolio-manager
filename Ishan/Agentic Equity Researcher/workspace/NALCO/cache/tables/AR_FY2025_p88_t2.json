@@ -1,0 +1,49 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 88,
+  "table_index": 2,
+  "bbox": [
+    248.27955,
+    413.9215,
+    540.5302909090909,
+    521.2328
+  ],
+  "rows": [
+    [
+      "Name",
+      "DIN",
+      "Nature of Directorship",
+      "Designation"
+    ],
+    [
+      "Shri S. R. Patel",
+      "09545270",
+      "Part-time Non-official (Independent)\nDirector",
+      "Chairman"
+    ],
+    [
+      "Shri P. K. Sharma",
+      "10041341",
+      "Director (Production)",
+      "Member"
+    ],
+    [
+      "Shri Jagdish Arora",
+      "10347268",
+      "Director (P&T) and Director (HR)-\nAddl. charge",
+      "Member"
+    ],
+    [
+      "Ms. (Dr.) Shatorupa",
+      "09396503",
+      "Part-time Non-official (Independent)\nDirector",
+      "Member"
+    ],
+    [
+      "Adv. D. Upadhyay",
+      "09397101",
+      "Part-time Non-official (Independent)\nDirector",
+      "Member"
+    ]
+  ]
+}

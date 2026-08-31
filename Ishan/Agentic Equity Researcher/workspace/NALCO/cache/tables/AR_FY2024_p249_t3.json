@@ -1,0 +1,49 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 249,
+  "table_index": 3,
+  "bbox": [
+    51.27366153846154,
+    322.35582857142856,
+    542.9763384615385,
+    416.75
+  ],
+  "rows": [
+    [
+      "B. Current",
+      null,
+      "As at 31.03.2024",
+      "As at 31.03.2023"
+    ],
+    [
+      "",
+      "Creditors for supplies and services",
+      null,
+      null
+    ],
+    [
+      null,
+      "- Dues to micro and small enterprises",
+      "175.29",
+      "145.47"
+    ],
+    [
+      null,
+      "- Others",
+      "665.70",
+      "634.04"
+    ],
+    [
+      null,
+      "Accrued wages and salaries",
+      "655.26",
+      "483.83"
+    ],
+    [
+      "Total current trade payables",
+      null,
+      "1,496.25",
+      "1,263.34"
+    ]
+  ]
+}

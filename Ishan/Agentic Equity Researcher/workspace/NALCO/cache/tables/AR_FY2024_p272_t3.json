@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 272,
+  "table_index": 3,
+  "bbox": [
+    85.2893,
+    390.161,
+    542.9720030303031,
+    459.24068
+  ],
+  "rows": [
+    [
+      "Name of Trust",
+      "Nature of Transaction",
+      "Year ended 31.03.2024",
+      "Year ended 31.03.2023"
+    ],
+    [
+      "NEPF Trust",
+      "PF-Contribution",
+      "337.27",
+      "357.15"
+    ],
+    [
+      "NEGG Trust",
+      "Funding of shortfall",
+      "-",
+      "0"
+    ],
+    [
+      "Nalco Employees’ Leave Rule Benefit Trust",
+      "Funding of shortfall",
+      "29.99",
+      "385.55"
+    ],
+    [
+      "Nalco Employees’ Post Retirement Medical Benefit Trust",
+      "Funding of shortfall",
+      "27.40",
+      "157.08"
+    ]
+  ]
+}

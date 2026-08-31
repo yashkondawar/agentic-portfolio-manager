@@ -1,0 +1,58 @@
+{
+  "pass": "DR1-B targeted follow-up",
+  "access_date": "2026-07-16",
+  "searches_used": 16,
+  "searches_budget": 15,
+  "answers": {
+    "OQ-GUI-03": {
+      "status": "partial",
+      "answer": "No primary confirmation of actual commissioning; commissioning-support tender still pre-bid stage late June/early July 2026, suggesting not-yet-complete.",
+      "fact_refs": ["F-EXT-1150", "F-EXT-1151"]
+    },
+    "OQ-GUI-02": {
+      "status": "partial",
+      "answer": "MDO contract to Dilip Buildcon Board-approved 9-Dec-2025 (resolves tender status); mining-start not yet confirmed post-Apr-2026.",
+      "fact_refs": ["F-EXT-1152"]
+    },
+    "OQ-GOV-01": {
+      "status": "unresolved",
+      "answer": "General web search found no NALCO SEBI/NCLT/NCLAT matches; interactive dockets not queryable via search/fetch tooling.",
+      "fact_refs": ["F-EXT-1157"]
+    },
+    "OQ-DR1-5": {
+      "status": "unresolved",
+      "answer": "Same tooling limitation as prior pass; true docket-level SEBI/NCLT query still not executed.",
+      "fact_refs": ["F-EXT-1157"]
+    },
+    "OQ-GOV-02": {
+      "status": "unresolved",
+      "answer": "No NALCO-specific CAG Sec 143(6) para for FY23-25 found; CAG Report 18/2025 PDF not fetched to confirm.",
+      "fact_refs": ["F-EXT-1158"]
+    },
+    "OQ-GOV-04": {
+      "status": "answered",
+      "answer": "No NALCO OFS found; only NLC India has a live 2026 OFS, unrelated CPSE; promoter unencumbered reconfirmed.",
+      "fact_refs": ["F-EXT-1154", "F-EXT-1158-not-applicable"]
+    },
+    "OQ-DR1-2": {
+      "status": "partial",
+      "answer": "Primary shareholding-pattern index confirms Q1FY27 filing exists (51.3% secondary-sourced); PDF itself not read.",
+      "fact_refs": ["F-EXT-1153"]
+    },
+    "OQ-GOV-05": {
+      "status": "answered",
+      "answer": "Board fell short of 50% independent-director SEBI LODR rule in FY26; BSE/NSE fined NALCO Rs.10.86 lakh; waiver sought.",
+      "fact_refs": ["F-EXT-1155"]
+    },
+    "OQ-GOV-06": {
+      "status": "partial",
+      "answer": "New 2026 CBI recruitment-fraud probe surfaced at Bhubaneswar office; company disputes raid framing, outcome pending.",
+      "fact_refs": ["F-EXT-1156"]
+    },
+    "OQ-GUI-04": {
+      "status": "unresolved",
+      "answer": "FY26 audited PAT/revenue confirmed matching PPT; no FY26 year-end cash figure found, only H1 interim figures.",
+      "fact_refs": ["F-EXT-1159"]
+    }
+  }
+}

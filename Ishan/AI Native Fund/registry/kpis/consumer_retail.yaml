@@ -1,0 +1,131 @@
+# Consumer & Retail (FMCG, Discretionary, Durables) — KPI/ratio vocabulary
+# and qualitative checklist for the Equity Research / Sectoral Analyst agents.
+# Source: docs/source-material/er-deep-research-prompts.txt, "Consumer & Retail Analyst" section.
+
+sector: consumer_retail
+description: >
+  FMCG, consumer discretionary, and durables. Pricing power, distribution
+  moat (especially rural reach), premiumization, and monsoon/rural-income
+  sensitivity are the dominant analytical lenses.
+
+quantitative_kpis:
+  # Core Valuation
+  - name: market_cap
+    unit: currency
+    category: core_valuation
+  - name: enterprise_value
+    unit: currency
+    category: core_valuation
+  - name: pe_ltm
+    unit: "x"
+    category: core_valuation
+  - name: forward_pe
+    unit: "x"
+    category: core_valuation
+  - name: ev_ebitda_ltm
+    unit: "x"
+    category: core_valuation
+  # Core Profitability
+  - name: revenue_ltm
+    unit: currency
+    category: core_profitability
+  - name: ebitda_ltm
+    unit: currency
+    category: core_profitability
+  - name: net_profit_excl_oneoffs
+    unit: currency
+    category: core_profitability
+  - name: gross_margin
+    unit: "%"
+    category: core_profitability
+  - name: ebitda_margin
+    unit: "%"
+    category: core_profitability
+  - name: net_margin
+    unit: "%"
+    category: core_profitability
+  - name: roce
+    unit: "%"
+    category: core_profitability
+  - name: roe
+    unit: "%"
+    category: core_profitability
+  # Working Capital
+  - name: working_capital_days
+    unit: days
+    category: working_capital
+  - name: inventory_days
+    unit: days
+    category: working_capital
+  - name: payables_receivables_days
+    unit: days
+    category: working_capital
+  - name: inventory_pct_of_sales
+    unit: "%"
+    category: working_capital
+  # Cash Flow
+  - name: operating_cashflow
+    unit: currency
+    category: cash_flow
+  - name: capex
+    unit: currency
+    category: cash_flow
+  - name: fcf_post_dividend_acquisitions
+    unit: currency
+    category: cash_flow
+  - name: fcf_yield
+    unit: "%"
+    category: cash_flow
+  - name: fcf_to_ebitda_conversion
+    unit: "%"
+    category: cash_flow_quality
+  # Growth
+  - name: revenue_growth_rate
+    unit: "%"
+    category: growth
+  - name: expected_future_growth_rate
+    unit: "%"
+    category: growth
+  # Sector-specific consumption
+  - name: volume_growth
+    unit: "%"
+    category: consumption
+  - name: value_growth
+    unit: "%"
+    category: consumption
+  - name: ad_promo_spend_pct_of_sales
+    unit: "%"
+    category: consumption
+  # Retail / QSR
+  - name: same_store_sales_growth
+    unit: "%"
+    category: retail_qsr
+  - name: store_count_expansion_rate_yoy
+    unit: "%"
+    category: retail_qsr
+  # Durables / discretionary
+  - name: inventory_turnover_ratio
+    unit: "x"
+    category: durables_discretionary
+  - name: channel_mix_pct_of_sales
+    unit: "%"
+    category: durables_discretionary
+
+qualitative_checks:
+  - pricing_power: "Gross-margin expansion capacity across peers."
+  - distribution_moat: "Rural reach and last-mile logistics efficiency."
+  - brand_strength_dtc: "DTC success and cannibalization risk between online and traditional retail channels."
+  - moat_sustainability: "Sustainability of distribution moat and last-mile logistics efficiency, especially for e-commerce/Q-commerce."
+  - porters_five_forces: "Bargaining power of suppliers (agri-commodities, crude derivatives) on COGS; rivalry via marketing spend and discounting."
+  - monsoon_rural_demand: "Correlate peer sales (especially FMCG) with Southwest Monsoon data, farm income, and consumption sentiment; rural income sensitivity vs. MSP data."
+  - growth_pricing_elasticity: "Balance of volume growth vs. premiumization; consumer pricing elasticity for core categories."
+
+cycle_overlap_checks:
+  - valuation_earnings_cycle: "Is the valuation premium/discount justified by sustainable ROCE stability, or driven purely by the valuation cycle (Stage 3 euphoria)? Is high P/E from genuine ROCE improvement or valuation-cycle expansion?"
+  - credit_capex_cycle: "Assess capex/growth funding needs against the current credit window; quantify resulting FCF constraints and potential debt risk."
+  - policy_profit_cycle: "If enjoying a regulatory moat (PLI, indigenization list), assess political risk and sustainability, especially receivable-day exposure to government counterparties."
+
+niche_pointers:
+  - qsr: "Same-store sales growth (SSSG) trends."
+  - consumer_durables_discretionary: "Correlate performance with US/EU housing/retail trends; demand volatility."
+  - liquor_beverages: "Impact of state-wise pricing and taxation on margins and business strategy."

@@ -1,0 +1,49 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 209,
+  "table_index": 1,
+  "bbox": [
+    51.27366857142857,
+    89.10000000000002,
+    542.72636,
+    169.09956
+  ],
+  "rows": [
+    [
+      "B. Current",
+      null,
+      "As at 31.03.2025",
+      "As at 31.03.2024"
+    ],
+    [
+      "(b)",
+      "Other Provisions",
+      null,
+      null
+    ],
+    [
+      "",
+      "(1) Site restoration obligation [Refer: Note 23.4]",
+      "6.92",
+      "0.83"
+    ],
+    [
+      null,
+      "(2) Legal and constructive obligations [Refer: Note 23.6]",
+      "106.86",
+      "71.33"
+    ],
+    [
+      null,
+      "(3) Peripheral development expenses [Refer: Note 23.3]",
+      "30.00",
+      "30.05"
+    ],
+    [
+      "Total current provisions",
+      null,
+      "235.91",
+      "173.39"
+    ]
+  ]
+}

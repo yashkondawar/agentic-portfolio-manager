@@ -1,0 +1,83 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 174,
+  "table_index": 2,
+  "bbox": [
+    74.128,
+    531.48,
+    549.5500000000001,
+    691.2455
+  ],
+  "rows": [
+    [
+      "",
+      "Year ended 31.03.2023",
+      "Year ended 31.03.2022"
+    ],
+    [
+      "Service Cost :",
+      "",
+      ""
+    ],
+    [
+      "-Current Service cost",
+      "(43.29)",
+      "(35.10)"
+    ],
+    [
+      "-Past Service Cost and (gain)/loss from settlements",
+      "42.22",
+      "17.36"
+    ],
+    [
+      "-Net Interest expense",
+      "(9.10)",
+      "(10.91)"
+    ],
+    [
+      "Components of defined benefit costs recognised in statement of profit & loss",
+      "(10.17)",
+      "(28.65)"
+    ],
+    [
+      "Remeasurement of the net defined benefit liability:",
+      "",
+      ""
+    ],
+    [
+      "Return on the net defined benefit liability",
+      "(1.35)",
+      "4.68"
+    ],
+    [
+      "Actuarial (Gains)/losses arising from changes in financial assumptions",
+      "8.71",
+      "24.61"
+    ],
+    [
+      "Actuarial (Gains)/losses arising from experience assumptions",
+      "23.79",
+      "17.96"
+    ],
+    [
+      "Others",
+      "",
+      ""
+    ],
+    [
+      "Adjustments for restrictions on the defined benefit asset",
+      "",
+      ""
+    ],
+    [
+      "Components of defined benefit costs recognised in other comprehensive income",
+      "31.15",
+      "47.25"
+    ],
+    [
+      "Total",
+      "20.98",
+      "18.60"
+    ]
+  ]
+}

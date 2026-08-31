@@ -1,0 +1,53 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 223,
+  "table_index": 2,
+  "bbox": [
+    51.27362222222222,
+    543.3199999999999,
+    542.7263777777778,
+    648.808
+  ],
+  "rows": [
+    [
+      "Profit before tax",
+      "7,135.10",
+      "2,783.57"
+    ],
+    [
+      "Income tax expense thereon @ 25.168%",
+      "1,795.76",
+      "700.57"
+    ],
+    [
+      "Tax effect of:",
+      null,
+      null
+    ],
+    [
+      "i) Disallowable expenses (permanent difference)",
+      "21.90",
+      "15.14"
+    ],
+    [
+      "ii) Expenses allowable in excess of expenditure incurred",
+      "(8.50)",
+      "(15.04)"
+    ],
+    [
+      "iii) Adjustment relating to earlier years",
+      "1.98",
+      "76.22"
+    ],
+    [
+      "iv) Others",
+      "(0.71)",
+      "(53.27)"
+    ],
+    [
+      "Income tax expense recognised in profit or loss",
+      "1,810.43",
+      "723.62"
+    ]
+  ]
+}

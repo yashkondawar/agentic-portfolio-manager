@@ -1,0 +1,151 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 237,
+  "table_index": 2,
+  "bbox": [
+    45.7915,
+    210.33300000000003,
+    549.8295,
+    488.85150000000004
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      "Year ended 31.03.2023",
+      "Year ended 31.03.2022"
+    ],
+    [
+      "I.",
+      "Revenue from Contract with customers",
+      "",
+      ""
+    ],
+    [
+      null,
+      "(a) Sale of products",
+      "",
+      ""
+    ],
+    [
+      null,
+      "1) Export:",
+      "",
+      ""
+    ],
+    [
+      null,
+      "i) Chemical",
+      "3,642.61",
+      "3,664.61"
+    ],
+    [
+      null,
+      "ii) Aluminium",
+      "574.15",
+      "2,699.54"
+    ],
+    [
+      null,
+      "2) Domestic:",
+      "",
+      ""
+    ],
+    [
+      null,
+      "i) Chemical",
+      "265.46",
+      "278.47"
+    ],
+    [
+      null,
+      "ii) Aluminium",
+      "9,626.61",
+      "7,370.62"
+    ],
+    [
+      null,
+      "(b) Sale of power",
+      "",
+      ""
+    ],
+    [
+      null,
+      "i) Wind Power [Refer note no. 29.3]",
+      "62.03",
+      "45.74"
+    ],
+    [
+      null,
+      "Total Revenue from Contract with customers",
+      "14,170.86",
+      "14,058.98"
+    ],
+    [
+      "II.",
+      "Other operating income",
+      "",
+      ""
+    ],
+    [
+      null,
+      "(a) Export Incentives",
+      "",
+      ""
+    ],
+    [
+      null,
+      "i) Chemical",
+      "35.90",
+      "36.11"
+    ],
+    [
+      null,
+      "ii) Aluminium",
+      "17.03",
+      "66.49"
+    ],
+    [
+      null,
+      "(b) Incentives on Renewable Energy",
+      "",
+      ""
+    ],
+    [
+      null,
+      "i) Renewable Energy certificates",
+      "7.09",
+      "8.11"
+    ],
+    [
+      null,
+      "ii) Generation based incentives",
+      "3.49",
+      "3.98"
+    ],
+    [
+      null,
+      "(c) Own manufactured goods internally used /capitalised",
+      "10.51",
+      "7.14"
+    ],
+    [
+      null,
+      "(d) Income from internally generated scrap",
+      "9.98",
+      "33.77"
+    ],
+    [
+      "Total Other operating income",
+      null,
+      "84.00",
+      "155.60"
+    ],
+    [
+      "Revenue from operations",
+      null,
+      "14,254.86",
+      "14,214.58"
+    ]
+  ]
+}

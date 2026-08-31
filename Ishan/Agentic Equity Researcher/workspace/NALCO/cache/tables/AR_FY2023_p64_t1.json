@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 64,
+  "table_index": 1,
+  "bbox": [
+    60.274375,
+    58.217500000000086,
+    549.986625,
+    125.89200000000005
+  ],
+  "rows": [
+    [
+      "",
+      "Total",
+      "No. and percentage of Females",
+      null
+    ],
+    [
+      null,
+      "(A)",
+      "No. (B)",
+      "% (B / A)"
+    ],
+    [
+      "Board of Directors",
+      "16",
+      "2",
+      "12.5"
+    ],
+    [
+      "Key Management Personnel",
+      "7*",
+      "0",
+      "0"
+    ],
+    [
+      "* Six Functional Directors are included in both Board of Directors and KMPs.",
+      null,
+      null,
+      null
+    ]
+  ]
+}

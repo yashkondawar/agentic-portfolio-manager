@@ -1,0 +1,31 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 79,
+  "table_index": 1,
+  "bbox": [
+    45.479000000000006,
+    45.196000000000026,
+    549.6115000000001,
+    302.58500000000004
+  ],
+  "rows": [
+    [
+      "Sl. No",
+      "Initiative undertaken",
+      "Details of the initiative (Web-link, if any, may be provided along-with summary)",
+      "Outcome of the initiative"
+    ],
+    [
+      "8",
+      "Rainwater harvesting &\nConservation",
+      "At Mines, Rainwater harvesting ponds have been constructed for collection of rainwater\nand use for plantation, etc. with a total storage capacity of appx. 65880 cubic meters. An\nin-situ peripheral barrier has been constructed all around the mine pit which prevents\nany rainwater from going down below the valley. The entire runoff from the mining pit\npercolates into the ground thus recharging the ground water. At Alumina Refinery, four\nnos. of roof-top rainwater harvesting projects are operational.\nAt the Captive Power Plant (CPP), a Rainwater Harvesting and Recycling system has\nbeen implemented. This system includes a pond with a capacity of 50,000 m3 and two\npumps with a combined capacity of 500 m3. The harvested and recycled rainwater is\nutilized for replenishing the Fire hydrant Fore bay of RCPH-1 and for various plant\npurposes.\nFurther, roof-top rainwater harvesting systems have been installed at the CW pump\nhouse and RCPH.",
+      "Water withdrawal from\nsource reduced"
+    ],
+    [
+      "9",
+      "Surface run-off\nand waste-water\nmanagement at Smelter",
+      "Treated water from the Ion-Exchange De-fluoridation plant is utilized for plantation\nand cooling of anodes in the Carbon area. Additionally, the treated water from the\nEmrion Nano De-fluoridation plant serves as makeup water for cooling purposes.\nNon-fluorinated surface run-off from various areas is collected in a Twin sump (Zero\nDischarge sump) is then recycled for horticulture use, vehicle washing, and civil\nconstruction, preventing any discharge of water.\nAn important initiative has been undertaken to augment the capacity of the Emrion\nNano De-Fluoridation Plant from 1.0 MLD (million liters per day) to 2.0 MLD. This\ninitiative is the first of its kind in the world on such a large scale, featuring zero reject\nand negligible sludge generation.",
+      "Water withdrawal from\nsource reduced due to\nrecycling of wastewater."
+    ]
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 42,
+  "table_index": 1,
+  "bbox": [
+    51.27363636363636,
+    235.81705,
+    542.2263636363637,
+    411.9649
+  ],
+  "rows": [
+    [
+      "Unit",
+      "Name of Internal Auditors"
+    ],
+    [
+      "Corporate Office, Bhubaneswar",
+      "M/s. Agasti & Associates"
+    ],
+    [
+      "M&R Complex, Damanjodi and Port Facility, Visakhapatnam",
+      "M/s. B. V. Rao & Co. LLP"
+    ],
+    [
+      "CPP, Angul",
+      "M/s. J. B. M. T. Associates"
+    ],
+    [
+      "Smelter, Angul",
+      "M/s. C. K. Prusty & Associates"
+    ],
+    [
+      "Coal Mines",
+      "M/s. C. K. Prusty & Associates"
+    ],
+    [
+      "Regional Office - East (Kolkata)",
+      "M/s. J. F. Dastoor & Co."
+    ],
+    [
+      "Regional Office - West (Mumbai)",
+      "M/s. ANPJ & Co."
+    ],
+    [
+      "Regional Office - North (Delhi)",
+      "M/s. Pradeep Gopal & Co."
+    ],
+    [
+      "Regional Office - South (Chennai)",
+      "M/s. Manohar Choudhry & Associates"
+    ]
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 168,
+  "table_index": 2,
+  "bbox": [
+    99.82396399999999,
+    151.48728571428566,
+    546.7699705882353,
+    372.50147999999996
+  ],
+  "rows": [
+    [
+      "Name of the joint venture",
+      "Principal Activity and place of business",
+      "Proportion of ownership interest /\nvoting rights held by the Company",
+      null
+    ],
+    [
+      "(a) Utkarsha Aluminium\nDhatu Nigam Limited",
+      "Manufacture, market, sell, buy, trade, distribute, import and export\nof all high end aluminium alloy products including scrap to fulfil the\nrequirement of critical, strategic and other sectors",
+      "50.00%",
+      "50.00%"
+    ],
+    [
+      "(b) Khanij Bidesh India\nLimited",
+      "Identify, explore, acquire, develop, mine, process, procure and sell strategic\nminerals outside India",
+      "40.00%",
+      "40.00%"
+    ],
+    [
+      "(c) Angul Aluminium Park\nPrivate Limited",
+      "Promoting aluminium specific downstream in Odisha, Bhubaneswar,\nOdisha.",
+      "49.00%",
+      "49.00%"
+    ],
+    [
+      "(d) GACL-NALCO Alkalies &\nChemicals Private Limited",
+      "Production of caustic soda, Vadodara, Gujarat.",
+      "40.00%",
+      "40.00%"
+    ],
+    [
+      "Unquoted investments",
+      null,
+      null,
+      null
+    ],
+    [
+      "Odisha Capital Market & Enterprises Limited.\n(2,89,000 shares of ₹ 1 each fully paid up)",
+      null,
+      "0.03",
+      "0.03"
+    ],
+    [
+      "Total - Investments in other entities",
+      null,
+      "0.03",
+      "0.03"
+    ],
+    [
+      "Total - investments in equity instruments",
+      null,
+      "313.25",
+      "277.25"
+    ],
+    [
+      "Additional information",
+      null,
+      null,
+      null
+    ],
+    [
+      "Aggregate carrying amount of unquoted investments",
+      null,
+      "313.25",
+      "277.25"
+    ]
+  ]
+}

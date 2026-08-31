@@ -1,0 +1,121 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 241,
+  "table_index": 1,
+  "bbox": [
+    51.27361428571429,
+    88.24379,
+    542.8858785714285,
+    312.5395
+  ],
+  "rows": [
+    [
+      "",
+      "As at 31.03.2024",
+      null,
+      null,
+      "As at 31.03.2023",
+      null,
+      null
+    ],
+    [
+      "Investments in Mutual Funds",
+      "Units in ‘000",
+      "NAV\nin `/unit",
+      "Amount in `\nCrore",
+      "Units in\n‘000",
+      "NAV\nin `/unit",
+      "Amount in `\nCrore"
+    ],
+    [
+      "Union Liquid Fund",
+      "481",
+      "1,000.79",
+      "48.18",
+      "361",
+      "1,000.79",
+      "36.15"
+    ],
+    [
+      "Total - Other current Investments",
+      "-",
+      "-",
+      "172.91",
+      "-",
+      "-",
+      "145.58"
+    ],
+    [
+      "Additional Information",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Aggregate cost of quoted investments",
+      "",
+      "",
+      "164.00",
+      "",
+      "",
+      "145.00"
+    ],
+    [
+      "Aggregate market value of quoted investments",
+      "",
+      "",
+      "172.91",
+      "",
+      "",
+      "145.58"
+    ],
+    [
+      "Aggregate cost of unquoted investments",
+      "",
+      "",
+      "-",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Aggregate amount of impairment in value of\ninvestments",
+      "",
+      "",
+      "-",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Category-wise classification:",
+      "As at 31.03.2024",
+      null,
+      null,
+      "As at 31.03.2023",
+      null,
+      null
+    ],
+    [
+      "Financial assets (quoted investments)-\nmandatorily measured at fair value through\n-profit & loss (FVTPL)",
+      "172.91",
+      null,
+      null,
+      "145.58",
+      null,
+      null
+    ],
+    [
+      "",
+      "172.91",
+      null,
+      null,
+      "145.58",
+      null,
+      null
+    ]
+  ]
+}

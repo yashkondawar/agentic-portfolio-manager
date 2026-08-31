@@ -1,0 +1,76 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 92,
+  "table_index": 1,
+  "bbox": [
+    93.793,
+    71.70866666666677,
+    549.171,
+    218.86800000000005
+  ],
+  "rows": [
+    [
+      "Members of Audit Committee",
+      "Category of Director",
+      "Position",
+      "Meeting",
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "held attended",
+      null
+    ],
+    [
+      "Dr. A. Narang",
+      "Independent",
+      "Chairman",
+      "7",
+      "7"
+    ],
+    [
+      "Dr. B. R. Ramakrishna",
+      "Independent",
+      "Member",
+      "7",
+      "7"
+    ],
+    [
+      "Shri D. Upadhyay",
+      "Independent",
+      "Member",
+      "7",
+      "7"
+    ],
+    [
+      "Shri Y. P. Chillio",
+      "Independent",
+      "Member",
+      "7",
+      "6"
+    ],
+    [
+      "Shri B. K. Das#\nDirector (Production)",
+      "Functional",
+      "Member",
+      "5",
+      "5"
+    ],
+    [
+      "Shri P. K. Sharma*\nDirector (Production)",
+      "Functional",
+      "Member",
+      "2",
+      "2"
+    ],
+    [
+      "Shri R. C. Joshi\nDirector (Finance)",
+      "Functional",
+      "Special invitee",
+      "7",
+      "7"
+    ]
+  ]
+}

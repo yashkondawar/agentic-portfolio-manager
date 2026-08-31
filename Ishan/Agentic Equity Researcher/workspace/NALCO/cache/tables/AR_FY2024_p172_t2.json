@@ -1,0 +1,28 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 172,
+  "table_index": 2,
+  "bbox": [
+    51.27365,
+    298.14,
+    542.797209375,
+    339.58777499999997
+  ],
+  "rows": [
+    [
+      "A. Non-current",
+      "As at 31.03.2024",
+      "As at 31.03.2023"
+    ],
+    [
+      "Current Tax Asset (net)",
+      "260.11",
+      "634.49"
+    ],
+    [
+      "Total Non-current income tax",
+      "260.11",
+      "634.49"
+    ]
+  ]
+}

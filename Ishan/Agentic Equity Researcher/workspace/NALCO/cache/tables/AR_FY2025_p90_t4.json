@@ -1,0 +1,41 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 90,
+  "table_index": 4,
+  "bbox": [
+    68.28132333333333,
+    535.0408749999999,
+    542.5847666666667,
+    583.2848
+  ],
+  "rows": [
+    [
+      "",
+      "FY 2024-25",
+      null,
+      "FY 2023-24",
+      null
+    ],
+    [
+      null,
+      "Number",
+      "Remarks",
+      "Number",
+      "Remarks"
+    ],
+    [
+      "Number of complaints received in relation to issues of Conflict of Interest of the Directors",
+      "0",
+      "NA",
+      "0",
+      "NA"
+    ],
+    [
+      "Number of complaints received in relation to issues of Conflict of Interest of the KMPs",
+      "0",
+      "NA",
+      "0",
+      "NA"
+    ]
+  ]
+}

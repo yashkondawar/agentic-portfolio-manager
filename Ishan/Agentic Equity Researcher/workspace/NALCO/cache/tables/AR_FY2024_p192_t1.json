@@ -1,0 +1,49 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 192,
+  "table_index": 1,
+  "bbox": [
+    51.27365161290323,
+    87.03099999999995,
+    543.0048129032258,
+    147.35709999999995
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "Post retirement medical\nbenefit (PRMBS-funded)",
+      null,
+      "Settling-in-benefit",
+      null,
+      "NALCO benevolent fund\nscheme",
+      null
+    ],
+    [
+      "% Change compared to base due to sensitivity [+/(-)%]",
+      "0.12%",
+      "0.12%",
+      "0.12%",
+      "0.12%",
+      "0.15%",
+      "0.15%"
+    ],
+    [
+      "Impact on amount due to change in Moratlity rate (-/+10%)",
+      "0.79",
+      "0.79",
+      "0.07",
+      "0.07",
+      "0.01",
+      "0.01"
+    ],
+    [
+      "% Change compared to base due to sensitivity [+/(-)%]",
+      "0.46%",
+      "0.46%",
+      "0.46%",
+      "0.46%",
+      "0.26%",
+      "0.26%"
+    ]
+  ]
+}

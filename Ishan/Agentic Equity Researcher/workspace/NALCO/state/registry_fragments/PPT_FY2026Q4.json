@@ -1,0 +1,56 @@
+{
+  "SRC-689": {
+    "doc": "PPT_FY2026Q4.pdf",
+    "kind": "presentation",
+    "page": 6,
+    "locator": "Physical Performance - Production and Sales tables; Production volumes for Bauxite, Alumina Hydrate, Metal, Thermal Power with Q4/FY26 comparatives; Sales tables for Alumina (export/domestic) and Metal (export/domestic)",
+    "period": "FY2026Q4 + FY2026 + FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-690": {
+    "doc": "PPT_FY2026Q4.pdf",
+    "kind": "presentation",
+    "page": 8,
+    "locator": "Financial Highlights Q4 - Full P&L table with Q4 FY2026, Q4 FY2025 columns; Net Sales, Revenue from Operations, Other Income, EBITDA, Depreciation, Finance Cost, PBT, PAT; LME price guidance to average USD 3125/MT for CY2026",
+    "period": "FY2026Q4 + FY2025Q4 + CY2026_guidance",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-691": {
+    "doc": "PPT_FY2026Q4.pdf",
+    "kind": "presentation",
+    "page": 13,
+    "locator": "Business Highlights - Major Projects; Capex guidance with commissioning timelines: Pottangi Bauxite 3.5 MTPA (May 2026), 5th Stream Alumina Refinery 1 MTPA (June 2026 start, Aug 2030 commissioning), Aluminium Smelter expansion 0.5 MTPA (Aug 2030/Jun 2031), Captive Power Plant 1080 MW (Jun 2031)",
+    "period": "FY2027_onwards_capex_milestones",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-692": {
+    "doc": "PPT_FY2026Q4.pdf",
+    "kind": "presentation",
+    "page": 11,
+    "locator": "Industry Outlook - Global and India; Global GDP Growth projection 3.1% for 2026; Indian Aluminium demand CAGR range 6.3-7.2% till 2030; India consumption growth drivers (Power, Transportation, Packaging, Consumer Durables); Global aluminium and alumina production/consumption scenario",
+    "period": "FY2026_and_2026_2030_outlook",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-693": {
+    "doc": "PPT_FY2026Q4.pdf",
+    "kind": "presentation",
+    "page": 9,
+    "locator": "Financial Highlights FY 2025-26 - Full Year Financials; Revenue from Operation 17,843 cr, Net Sales 17,729 cr, EBITDA (excl. Exceptional) 8,613 cr, PBT 7,767 cr, PAT 5,816 cr with FY2025 comparatives and YoY growth rates; Operating Expenses, Depreciation, Finance Cost",
+    "period": "FY2026 + FY2025",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-694": {
+    "doc": "PPT_FY2026Q4.pdf",
+    "kind": "presentation",
+    "page": 14,
+    "locator": "Responsible & Resilient - Environmental and CSR metrics; Wind Power 198 MW installed, 307 MU generated in FY2026, 15 MW in pipeline; Roof Top Solar 1060 kwp installed, 7 MW planned; Plantation 187,969 in FY2026; CSR Expenditure ₹8076.65 lakh, Obligation ₹7913.00 lakh",
+    "period": "FY2026",
+    "url": null,
+    "accessed": null
+  }
+}

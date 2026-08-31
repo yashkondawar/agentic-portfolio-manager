@@ -1,0 +1,148 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 76,
+  "table_index": 2,
+  "bbox": [
+    45.62075,
+    292.37700000000007,
+    549.9657500000001,
+    673.8290000000001
+  ],
+  "rows": [
+    [
+      "Parameter",
+      "FY 2022-23",
+      "FY 2021-22"
+    ],
+    [
+      "Total Waste generated (in metric tons)",
+      null,
+      null
+    ],
+    [
+      "Plastic waste (A)",
+      "0.00",
+      "0.00"
+    ],
+    [
+      "E-waste (B)",
+      "14.16",
+      "14.69"
+    ],
+    [
+      "Bio-medical waste (C)",
+      "1.78",
+      "1.88"
+    ],
+    [
+      "Construction and demolition waste (D)",
+      "10.00",
+      "8.00"
+    ],
+    [
+      "Battery waste (E)",
+      "27.03",
+      "36.43"
+    ],
+    [
+      "Radioactive waste (F)",
+      "0.00",
+      "0.00"
+    ],
+    [
+      "Other Hazardous waste. As per Hazardous waste Authorization granted by OSPCB",
+      "94,016.60",
+      "86,324.3"
+    ],
+    [
+      "Other Non-hazardous waste generated (H). Overburden, Red mud. Lime grit, fly ash,\nferrous & non-ferrous scrap, refractory bricks, mixed debris",
+      "74,01,597.38",
+      "75,77,180.15"
+    ],
+    [
+      "Total (A+B + C + D + E + F + G + H)",
+      "74,95,666.95",
+      "76,63,565.44"
+    ],
+    [
+      "For each category of waste generated, total waste recovered through recycling, re-using or other recovery operations (in metric tonnes)",
+      null,
+      null
+    ],
+    [
+      "Category of waste (Construction & Demolition waste)",
+      null,
+      null
+    ],
+    [
+      "(i) Recycled",
+      "0",
+      "0"
+    ],
+    [
+      "(ii) Re-used (Road development/other civil works)",
+      "10",
+      "8"
+    ],
+    [
+      "(iii) Other recovery operations",
+      "0",
+      "0"
+    ],
+    [
+      "Total",
+      "10",
+      "8"
+    ],
+    [
+      "Category of waste (Other Hazardous waste)",
+      null,
+      null
+    ],
+    [
+      "(i) Recycled (spent anode, dross, empty chemical containers etc.)",
+      "82,804.59",
+      "73,775.18"
+    ],
+    [
+      "(ii) Re-used",
+      "30",
+      "0"
+    ],
+    [
+      "(iii) Other recovery operations",
+      "0",
+      "0"
+    ],
+    [
+      "Total",
+      "82,834.59",
+      "73,775.18"
+    ],
+    [
+      "Category of waste (Other Non-Hazardous waste)",
+      null,
+      null
+    ],
+    [
+      "(i) Recycled",
+      "0",
+      "0"
+    ],
+    [
+      "(ii) Re-used (Road development/other civil works)",
+      "9,45,147",
+      "9,69,546"
+    ],
+    [
+      "(iii) Other recovery operations",
+      "0",
+      "0"
+    ],
+    [
+      "Total",
+      "9,45,147",
+      "9,69,546"
+    ]
+  ]
+}

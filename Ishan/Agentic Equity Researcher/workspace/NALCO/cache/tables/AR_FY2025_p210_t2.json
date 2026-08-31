@@ -1,0 +1,49 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 210,
+  "table_index": 2,
+  "bbox": [
+    51.27364285714286,
+    438.73685,
+    542.1943466666667,
+    523.85316
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Particulars",
+      "2024-25",
+      "2023-24"
+    ],
+    [
+      "1",
+      "Balance at the beginning of the year",
+      "211.02",
+      "101.54"
+    ],
+    [
+      "2",
+      "Revenue recognised during the year against opening contract liabilities",
+      "(185.60)",
+      "(61.37)"
+    ],
+    [
+      "3",
+      "Advance reclassified to financial liability during the year against opening liabilities",
+      "(24.49)",
+      "(39.60)"
+    ],
+    [
+      "4",
+      "Advance received against which revenue has not been recognised",
+      "148.80",
+      "210.45"
+    ],
+    [
+      "5",
+      "Balance at the end of the year",
+      "149.73",
+      "211.02"
+    ]
+  ]
+}

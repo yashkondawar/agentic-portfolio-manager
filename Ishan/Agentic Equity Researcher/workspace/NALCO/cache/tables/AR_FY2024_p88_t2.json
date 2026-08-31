@@ -1,0 +1,29 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 88,
+  "table_index": 2,
+  "bbox": [
+    68.28140625,
+    319.1362,
+    542.5152375,
+    366.2264
+  ],
+  "rows": [
+    [
+      "Name and brief details of project",
+      "EIA Notification No.",
+      "Date",
+      "Whether conducted by\nindependent external\nagency (Yes / No)",
+      "Results communicated\nin public domain.\n(Yes / No)",
+      "Relevant\nWeb link"
+    ],
+    [
+      "Nil",
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  ]
+}

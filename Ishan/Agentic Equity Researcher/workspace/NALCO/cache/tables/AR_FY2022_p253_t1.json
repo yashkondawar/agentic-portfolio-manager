@@ -1,0 +1,121 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 253,
+  "table_index": 1,
+  "bbox": [
+    73.951,
+    81.88800000000003,
+    549.854275,
+    236.77400000000006
+  ],
+  "rows": [
+    [
+      "Sl. Nos",
+      "Ratios",
+      "Numerator",
+      "Denominator",
+      "31.03.2022",
+      "31.03.2021",
+      "Variance"
+    ],
+    [
+      "1",
+      "Current Ratio",
+      "Current Asset Total",
+      "Current Liability Total",
+      "2",
+      "2",
+      "0%"
+    ],
+    [
+      "2",
+      "Debt-Equity Ratio1",
+      "Total Debt",
+      "Shareholders Equity",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "3",
+      "Debt Service Coverage Ratio",
+      "Earning available for Debt Service",
+      "Interest + Instalments",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "4",
+      "Return on Equity Ratio2",
+      "Net profit after tax less Pref. dividend",
+      "Equity Shareholder’s fund",
+      "24%",
+      "12%",
+      "93%"
+    ],
+    [
+      "5",
+      "Inventory turnover ratio²",
+      "Sales",
+      "Average Inventory",
+      "9",
+      "6",
+      "61%"
+    ],
+    [
+      "6",
+      "Trade Receivables turnover ratio³",
+      "Credit Sale",
+      "Average trade receivable",
+      "0.59",
+      "0.35",
+      "68%"
+    ],
+    [
+      "7",
+      "Trade payables turnover ratio",
+      "Annual credit purchase",
+      "Average account payable",
+      "4.36",
+      "4.09",
+      "7%"
+    ],
+    [
+      "8",
+      "Net capital turnover ratio²",
+      "Sale",
+      "Net Asset or Capital employed",
+      "1.31",
+      "0.89",
+      "47%"
+    ],
+    [
+      "9",
+      "Net profit ratio²",
+      "Net profit",
+      "Sale",
+      "21%",
+      "15%",
+      "43%"
+    ],
+    [
+      "10",
+      "Return on Capital employed²",
+      "Earning before interest and tax (EBIT)",
+      "Capital employed",
+      "37%",
+      "13%",
+      "178%"
+    ],
+    [
+      "11",
+      "Return on investment2",
+      "Net profit",
+      "Equity fund",
+      "24%",
+      "12%",
+      "93%"
+    ]
+  ]
+}

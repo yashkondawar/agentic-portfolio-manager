@@ -1,0 +1,22 @@
+kpi_id: india_vix
+scope: macro
+cycle_refs: [sentiment_behavioral_cycle, volatility_risk_regime_cycle]
+formula: >
+  India VIX = NSE's implied-volatility index derived from Nifty index
+  option order-book prices (annualized expected volatility over the next
+  30 calendar days). NOT percentile-inverted before scoring — see
+  orientation.
+inputs:
+  - name: India VIX daily close
+    source: >
+      NSE via afund.data.india_vix (macro_series INDIA_VIX; `nse` library
+      historical endpoint, chunked to dodge the ~145-row server-side
+      response cap, yfinance ^INDIAVIX fallback; 10y backfilled 2016-2026)
+    status: available
+orientation: fear_type
+lookback_years: 10
+cadence: daily
+source_status: available
+registry_xref: null
+references_xref:
+  - kpi_interpretation/sentiment_cycle.md

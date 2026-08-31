@@ -1,0 +1,29 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 64,
+  "table_index": 4,
+  "bbox": [
+    51.4152347826087,
+    386.89775,
+    543.368048,
+    450.9292
+  ],
+  "rows": [
+    [
+      "Locations",
+      "FY- 2023-24"
+    ],
+    [
+      null,
+      "Number"
+    ],
+    [
+      "National (No. of States)",
+      "23"
+    ],
+    [
+      "International (No. of Countries)",
+      "13"
+    ]
+  ]
+}

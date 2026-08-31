@@ -1,0 +1,40 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 80,
+  "table_index": 2,
+  "bbox": [
+    45.612375,
+    155.10950000000008,
+    549.8111250000001,
+    241.82900000000006
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Name of Project for\nwhich R&R is ongoing",
+      "State",
+      "District",
+      "No. of Project\nAffected Families (PAFs)",
+      "% of PAFs\ncovered by R&R",
+      "Amounts paid to PAFs\nin the FY (In INR)"
+    ],
+    [
+      "1",
+      "Utkal D Coal Mines",
+      "Odisha",
+      "Angul",
+      "No of PDF - 137\nNo of PAF - 235",
+      "100 % PDF*",
+      "180.00 Crores deposited\nwith District authority\nfor Disbursal."
+    ],
+    [
+      "2",
+      "Utkal E Coal Mines",
+      "Odisha",
+      "Angul",
+      "No of PDF-400\nNo of PAF-979",
+      "100 % PDF",
+      "RPDAC for Utkal E\nMines completed\nProceedings is awaited."
+    ]
+  ]
+}

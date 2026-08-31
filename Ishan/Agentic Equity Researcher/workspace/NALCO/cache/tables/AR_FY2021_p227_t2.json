@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 227,
+  "table_index": 2,
+  "bbox": [
+    102.00318235294118,
+    137.95684999999995,
+    554.9706846153846,
+    261.02322499999997
+  ],
+  "rows": [
+    [
+      "Unquoted investments",
+      "As at\n31.03.2021",
+      "As at\n31.03.2020"
+    ],
+    [
+      "Odisha Capital Market & Enterprises Limited.",
+      "0.03",
+      "0.03"
+    ],
+    [
+      "(2,89,000 shares of ₹ 1 each fully paid up)",
+      "",
+      ""
+    ],
+    [
+      "Total - Investments in other entities",
+      "0.03",
+      "0.03"
+    ],
+    [
+      "Total - investments in equity instruments",
+      "311.56",
+      "275.68"
+    ],
+    [
+      "Additional information",
+      null,
+      null
+    ],
+    [
+      "Aggregate carrying amount of unquoted investments",
+      "311.56",
+      "275.68"
+    ]
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 98,
+  "table_index": 3,
+  "bbox": [
+    68.281475,
+    527.8562000000001,
+    543.18567,
+    677.4742
+  ],
+  "rows": [
+    [
+      "Sl.\nNo.",
+      "Item",
+      "Investment\n(` in lakh)"
+    ],
+    [
+      "1.",
+      "Graphitisation of Pot (Pot Relining).",
+      "985"
+    ],
+    [
+      "2.",
+      "Replacement of old screw compressor by energy efficient centrifugal compressor in old compressor\nhouse.",
+      "144.78"
+    ],
+    [
+      "3.",
+      "Installation of 3X75KW VFD for cold water pump motors of Cooling Tower-3 of CH-A",
+      "21.52"
+    ],
+    [
+      "4.",
+      "Installation of VFD for Homogenising Furnace#1 Mobile Cooler Assembly of CH-A (45KW-4 nos.)",
+      "12.45"
+    ],
+    [
+      "5.",
+      "Installation of Microporous Board in Holding to caster launder of Line#2 of Rolling Plant.",
+      "3.48"
+    ],
+    [
+      "6.",
+      "Replacement of oversized hot well pumps of Cooling Tower-I (EE) for Cast House-B along with IE 3\nmotor and VFD panel.",
+      "33"
+    ]
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 194,
+  "table_index": 1,
+  "bbox": [
+    45.258325,
+    56.97300000000007,
+    174.1722,
+    691.403
+  ],
+  "rows": [
+    [
+      "Ind As",
+      "Nomenclature"
+    ],
+    [
+      "Ind AS 1",
+      "Presentation of\nFinancial Statement"
+    ],
+    [
+      "Ind AS 2",
+      "Inventories"
+    ],
+    [
+      "Ind AS 7",
+      "Statement of Cash Flow"
+    ],
+    [
+      "Ind AS 8",
+      "Accounting Policies,\nChange in Accounting\nEstimates & Errors"
+    ],
+    [
+      "Ind AS 10",
+      "Events after Reporting\nPeriod"
+    ],
+    [
+      "Ind AS 11",
+      "Construction Contracts"
+    ],
+    [
+      "Ind AS 12",
+      "Income Taxes"
+    ],
+    [
+      "Ind AS 16",
+      "Property, Plant &\nEquipment"
+    ],
+    [
+      "Ind AS 19",
+      "Employee Benefits"
+    ]
+  ]
+}

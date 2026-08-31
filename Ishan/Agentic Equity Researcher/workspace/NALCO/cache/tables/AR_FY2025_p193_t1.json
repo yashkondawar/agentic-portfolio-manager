@@ -1,0 +1,123 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 193,
+  "table_index": 1,
+  "bbox": [
+    51.27363333333333,
+    87.01909999999998,
+    542.7797708333334,
+    302.5592181818182
+  ],
+  "rows": [
+    [
+      "Description of the Property",
+      "Freehold/\nLeasehold",
+      "Gross\ncarrying\nvalue",
+      "Title deeds held in the\nname of",
+      "Whether title deed holder\nis a promoter, director\nor relative of promoter/\ndirector or employee of\npromoter/director",
+      "Property\nheld since\nwhich date",
+      "Reason for not being held\nin the name of Company",
+      "Whether\ndisputed"
+    ],
+    [
+      "4.36 Acres of Land at Angul\ndistrict of Odisha",
+      "Leasehold",
+      "-",
+      "Industrial Development\nCorporation of Odisha\n(IDCO)",
+      "No",
+      "2022-23",
+      "Communal/Gochhar Land",
+      "No"
+    ],
+    [
+      "0.66 Acres of Land at\nDhenkanal district of Odisha",
+      "Leasehold",
+      "0.09",
+      "Industrial Development\nCorporation of Odisha\n(IDCO)",
+      "No",
+      "1987-88",
+      "Execution of Lease\nAgreement is pending",
+      "No"
+    ],
+    [
+      "Building",
+      "-",
+      "-",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Investment Property",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Land",
+      "-",
+      "-",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Building",
+      "-",
+      "-",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Non - Current asset held for sale",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Land",
+      "-",
+      "-",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Building",
+      "-",
+      "-",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Others",
+      "-",
+      "-",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ]
+  ]
+}

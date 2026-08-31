@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 172,
+  "table_index": 1,
+  "bbox": [
+    45.47086,
+    76.64425,
+    463.799,
+    142.75400000000002
+  ],
+  "rows": [
+    [
+      "",
+      "As at 31.03.2022"
+    ],
+    [
+      "(a) Capital redemption reserves",
+      "370.30"
+    ],
+    [
+      "(b) General reserve",
+      "7,942.86"
+    ],
+    [
+      "(c) Retained earnings",
+      "3,323.16"
+    ],
+    [
+      "Total",
+      "11,636.32"
+    ]
+  ]
+}

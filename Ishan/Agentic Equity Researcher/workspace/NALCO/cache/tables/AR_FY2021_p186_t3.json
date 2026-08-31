@@ -1,0 +1,38 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 186,
+  "table_index": 3,
+  "bbox": [
+    93.79330000000002,
+    390.6966,
+    546.4824333333332,
+    447.793075
+  ],
+  "rows": [
+    [
+      "Fair value of plan assets as at",
+      null,
+      null
+    ],
+    [
+      "",
+      "31.03.2021",
+      "31.03.2020"
+    ],
+    [
+      "Investments in Funds:",
+      "",
+      ""
+    ],
+    [
+      "1. Insurance Companies",
+      "585.17",
+      "576.26"
+    ],
+    [
+      "Total",
+      "585.17",
+      "576.26"
+    ]
+  ]
+}

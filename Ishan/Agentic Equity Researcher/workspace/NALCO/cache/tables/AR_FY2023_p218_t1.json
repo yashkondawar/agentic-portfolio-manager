@@ -1,0 +1,19 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 218,
+  "table_index": 1,
+  "bbox": [
+    45.604,
+    56.66000000000008,
+    549.171,
+    218.70950000000005
+  ],
+  "rows": [
+    [
+      "6 - Capital work-in-progress (CWIP) Amount in ` Crore"
+    ],
+    [
+      "As at As at\n31.03.2023 31.03.2022\nCapital Work-in-progress 2,769.92 1,700.54\nConstruction materials including in transit 64.53 110.99\n2,834.45 1,811.53\nLess: Provision for impairment (89.50) (48.11)\nTotal Capital Work-in-progress 2,744.95 1,763.42\nAmount in ` Crore\nMovement in provision for impairment As at As at\n31.03.2023 31.03.2022\nOpening balance 48.11 0.55\nProvision made during the year 41.39 47.56\nProvision write back during the year - -\nClosing balance 89.50 48.11"
+    ]
+  ]
+}

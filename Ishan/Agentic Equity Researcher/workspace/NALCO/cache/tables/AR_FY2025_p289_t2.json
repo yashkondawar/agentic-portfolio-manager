@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 289,
+  "table_index": 2,
+  "bbox": [
+    51.273625,
+    603.98205,
+    542.85679375,
+    659.24585
+  ],
+  "rows": [
+    [
+      "",
+      "Year ended 31.03.2025",
+      "Year ended 31.03.2024"
+    ],
+    [
+      "Exceptional items",
+      null,
+      null
+    ],
+    [
+      "- Additional Royality",
+      "-",
+      "(426.81)"
+    ],
+    [
+      "Total exceptional items",
+      "-",
+      "(426.81)"
+    ]
+  ]
+}

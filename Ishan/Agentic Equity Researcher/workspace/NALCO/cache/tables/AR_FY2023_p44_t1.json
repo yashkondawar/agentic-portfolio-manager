@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 44,
+  "table_index": 1,
+  "bbox": [
+    61.161,
+    57.57250000000005,
+    549.421,
+    170.6790000000001
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Particular",
+      "Amount (in R)"
+    ],
+    [
+      "(1)",
+      "(2)",
+      "(3)"
+    ],
+    [
+      "(i)",
+      "Two percent of average net profit of the company as per sub-section (5) of the section 135",
+      "36,64,40,000"
+    ],
+    [
+      "(ii)",
+      "Total amount spent for the Financial Year",
+      "39,54,43,778"
+    ],
+    [
+      "(iii)",
+      "Excess amount spent for the financial year [(ii)-(i)]",
+      "2,90,03,778"
+    ],
+    [
+      "(iv)",
+      "Surplus arising out of the CSR projects or programmes or activities of the previous financial years, if any",
+      "NIL"
+    ],
+    [
+      "(v)",
+      "Amount available for set off in succeeding financial years [(iii)-(iv)]",
+      "NIL"
+    ]
+  ]
+}

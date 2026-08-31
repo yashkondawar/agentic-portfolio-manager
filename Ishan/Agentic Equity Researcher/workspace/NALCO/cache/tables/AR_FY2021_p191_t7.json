@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 191,
+  "table_index": 7,
+  "bbox": [
+    79.619265625,
+    543.7796999999999,
+    555.2306,
+    616.79308
+  ],
+  "rows": [
+    [
+      "36.2 Basic Earnings per Share",
+      null,
+      null
+    ],
+    [
+      "The Earnings and weighted average number of equity shares used in the calculation of basic earnings per share are as follows",
+      null,
+      null
+    ],
+    [
+      "Amount in ₹ Crore",
+      null,
+      null
+    ],
+    [
+      "",
+      "Year ended\n31.03.2021",
+      "Year ended\n31.03.2020"
+    ],
+    [
+      "Profit for the year attributable to Owners of the Company",
+      "1,299.53",
+      "138.23"
+    ],
+    [
+      "Earnings used in the calculation of basic earnings per share",
+      "1,299.53",
+      "138.23"
+    ]
+  ]
+}

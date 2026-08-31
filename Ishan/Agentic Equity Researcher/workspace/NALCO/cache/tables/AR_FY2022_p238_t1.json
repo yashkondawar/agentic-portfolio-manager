@@ -1,0 +1,108 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 238,
+  "table_index": 1,
+  "bbox": [
+    45.52746,
+    79.10000000000002,
+    473.10200000000003,
+    291.27700000000004
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      "Year ended 31.03.2022"
+    ],
+    [
+      "(a)",
+      "Sale of products",
+      ""
+    ],
+    [
+      null,
+      "1) Export:",
+      ""
+    ],
+    [
+      null,
+      "i) Alumina",
+      "3,664.61"
+    ],
+    [
+      null,
+      "ii) Aluminium",
+      "2,699.54"
+    ],
+    [
+      null,
+      "2) Domestic:",
+      ""
+    ],
+    [
+      null,
+      "i) Alumina",
+      "278.47"
+    ],
+    [
+      null,
+      "ii) Aluminium",
+      "7,370.62"
+    ],
+    [
+      "(b)",
+      "Sale of power",
+      ""
+    ],
+    [
+      null,
+      "i) Wind Power [Refer note no. 28.1]",
+      "45.74"
+    ],
+    [
+      "(c)",
+      "Other operating income",
+      "121.83"
+    ],
+    [
+      null,
+      "Export Incentives",
+      ""
+    ],
+    [
+      null,
+      "i) Alumina",
+      "36.11"
+    ],
+    [
+      null,
+      "ii) Aluminium [Refer note no. 28.2]",
+      "66.49"
+    ],
+    [
+      null,
+      "2) Incentives on Renewable Energy",
+      ""
+    ],
+    [
+      null,
+      "i) Renewable Energy certificates",
+      "8.11"
+    ],
+    [
+      null,
+      "ii) Generation based incentives",
+      "3.98"
+    ],
+    [
+      null,
+      "3) Own manufactured goods internally used /capitalised",
+      "7.14"
+    ],
+    [
+      "Revenue from operations",
+      null,
+      "14,180.81"
+    ]
+  ]
+}

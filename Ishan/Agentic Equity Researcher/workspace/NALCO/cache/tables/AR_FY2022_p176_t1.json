@@ -1,0 +1,63 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 176,
+  "table_index": 1,
+  "bbox": [
+    45.50246,
+    65.85283333333336,
+    436.535,
+    195.25333333333336
+  ],
+  "rows": [
+    [
+      "",
+      "Asset restoration obligation",
+      "Legal and Constructive Obligation"
+    ],
+    [
+      "Balance at 31.03.2020",
+      "34.17",
+      "31.08"
+    ],
+    [
+      "Additional provisions recognised",
+      "0.70",
+      "14.67"
+    ],
+    [
+      "Reductions arising from payments",
+      "-",
+      "(4.08)"
+    ],
+    [
+      "Unwinding of discount",
+      "2.55",
+      "0.05"
+    ],
+    [
+      "Balance at 31.03.2021",
+      "37.42",
+      "41.72"
+    ],
+    [
+      "Additional provisions recognised",
+      "0.11",
+      "12.53"
+    ],
+    [
+      "Reductions arising from payments",
+      "-",
+      "(4.95)"
+    ],
+    [
+      "Unwinding of discount",
+      "3.06",
+      "0.15"
+    ],
+    [
+      "Balance at 31.03.2022",
+      "40.59",
+      "49.45"
+    ]
+  ]
+}

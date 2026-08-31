@@ -1,0 +1,117 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 253,
+  "table_index": 1,
+  "bbox": [
+    74.659,
+    130.40700000000004,
+    549.837,
+    336.50600000000003
+  ],
+  "rows": [
+    [
+      "Description",
+      null,
+      "Joint ventures",
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      "Utkarsha Aluminium\nDhatu Nigam Limited",
+      "Khanij Bidesh\nIndia Limited",
+      "Angul Aluminium\nPark Pvt. Ltd.",
+      "GACL NALCO Alkalies\n& Chemicals Pvt. Ltd."
+    ],
+    [
+      "1.",
+      "Latest audited Balance Sheet Date",
+      "31.03.2023",
+      "31.03.2022",
+      "31.03.2022",
+      "31.03.2023"
+    ],
+    [
+      "2.",
+      "Shares of Associate/ Joint Ventures held by\nthe company on the year end",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      null,
+      "Nos.",
+      "2,00,00,000",
+      "10,00,000",
+      "1,62,23,900",
+      "27,60,00,000"
+    ],
+    [
+      null,
+      "Amount of Investment in Associates / Joint Venture (`)",
+      "20,00,00,000",
+      "1,00,00,000",
+      "16,22,39,000",
+      "2,76,00,00,000"
+    ],
+    [
+      null,
+      "Extend of Holding %",
+      "50.00%",
+      "40.00%",
+      "49.00%",
+      "40.00%"
+    ],
+    [
+      "3.",
+      "Description of how there is significant influence",
+      "[refer note 42.2]",
+      "[refer note 42.2]",
+      "[refer note 42.2]",
+      "[refer note 42.2]"
+    ],
+    [
+      "4.",
+      "Reason why the associate / joint venture is\nnot consolidated",
+      "-",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "5.",
+      "Networth attributable to share holding as per latest\naudited Balance sheet (`)",
+      "19,20,00,000",
+      "12,73,60,000",
+      "19,35,50,000",
+      "1,61,84,00,000"
+    ],
+    [
+      "6.",
+      "Profit /(Loss) for the year (`)",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      null,
+      "i. Considered in Consolidation",
+      "39,00,000",
+      "14,00,000",
+      "34,00,000",
+      "(1,10,72,00,000)"
+    ],
+    [
+      null,
+      "ii. Not Considered in Consolidation",
+      "-",
+      "-",
+      "-",
+      "-"
+    ]
+  ]
+}

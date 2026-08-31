@@ -1,0 +1,62 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 109,
+  "table_index": 2,
+  "bbox": [
+    124.97421176470588,
+    163.9000555555555,
+    528.2243111111111,
+    298.7544
+  ],
+  "rows": [
+    [
+      "Name",
+      "Category",
+      "Position",
+      "Meeting",
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "Held",
+      "Attended"
+    ],
+    [
+      "Shri V. Balasubramanyam,\nDirector(Production)$",
+      "Functional",
+      "Chairman",
+      "1",
+      "1"
+    ],
+    [
+      "Shri S. K .Roy\nDirector (P&T)$$",
+      "Functional",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Shri P. K. Mishra\nDirector (Commercial) & (Finance) Addl. Charge &",
+      "Functional",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Shri M. P. Mishra, Director (P&T) & Director\n(Finance)-Addl. Charge*",
+      "Functional",
+      "Member",
+      "—",
+      "—"
+    ],
+    [
+      "Shri B. K. Das, Director (Production) & Director\n(Commercial)-Addl. Charge#",
+      "Functional",
+      "Member",
+      "—",
+      "—"
+    ]
+  ]
+}

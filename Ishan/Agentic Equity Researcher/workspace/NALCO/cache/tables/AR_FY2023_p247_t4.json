@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 247,
+  "table_index": 4,
+  "bbox": [
+    73.90366666666667,
+    398.723,
+    549.5233999999999,
+    454.97700000000003
+  ],
+  "rows": [
+    [
+      "",
+      "Year ended 31.03.2023",
+      "Year ended 31.03.2022"
+    ],
+    [
+      "Profit for the year attributable to Owners of the Company",
+      "1,434.66",
+      "2,951.41"
+    ],
+    [
+      "Earnings used in the calculation of basic earnings per share",
+      "1,434.66",
+      "2,951.41"
+    ],
+    [
+      "Weighted average number of equity shares used in calculation of basic earnings per share",
+      "As at 31.03.2023\n1,83,66,31,787",
+      "As at 31.03.2022\n1,83,66,31,787"
+    ]
+  ]
+}

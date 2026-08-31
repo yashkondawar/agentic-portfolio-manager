@@ -1,0 +1,103 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 99,
+  "table_index": 2,
+  "bbox": [
+    68.28141379310345,
+    402.87393000000003,
+    542.71666875,
+    529.6567
+  ],
+  "rows": [
+    [
+      "Category",
+      "FY 2024-25",
+      null,
+      null,
+      "FY 2023-24",
+      null,
+      null
+    ],
+    [
+      null,
+      "Total (A)",
+      "No. of employees /\nworkers covered (B)",
+      "% (B/A)",
+      "Total (C)",
+      "No. of employees\n/Workers covered (D)",
+      "% (D/C)"
+    ],
+    [
+      "EMPLOYEES",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Permanent",
+      "1,781",
+      "75",
+      "4.2%",
+      "1,586",
+      "43",
+      "3%"
+    ],
+    [
+      "Other than permanent",
+      "0",
+      "0",
+      "0",
+      "0",
+      "NA",
+      "-"
+    ],
+    [
+      "Total Employees",
+      "1,781",
+      "75",
+      "4.2%",
+      "1,586",
+      "43",
+      "3%"
+    ],
+    [
+      "WORKERS",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Permanent",
+      "3,022",
+      "31",
+      "1.03%",
+      "3,272",
+      "33",
+      "1%"
+    ],
+    [
+      "Other than permanent",
+      "15,125",
+      "0",
+      "0",
+      "12,648",
+      "0",
+      "0"
+    ],
+    [
+      "Total Workers",
+      "18,147",
+      "31",
+      "0.17%",
+      "15,920",
+      "33",
+      "1%"
+    ]
+  ]
+}

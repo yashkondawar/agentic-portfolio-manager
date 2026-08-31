@@ -1,0 +1,97 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 182,
+  "table_index": 2,
+  "bbox": [
+    51.273620512820514,
+    475.43285000000003,
+    542.7680512820514,
+    670.8266799999999
+  ],
+  "rows": [
+    [
+      "",
+      "",
+      "As at 31.03.2024",
+      "As at 31.03.2023"
+    ],
+    [
+      "Claims against the Company not acknowledged as debts",
+      null,
+      null,
+      null
+    ],
+    [
+      "a.",
+      "Demand from statutory authority",
+      null,
+      null
+    ],
+    [
+      "",
+      "1. Odisha Sales tax",
+      "3.77",
+      "3.71"
+    ],
+    [
+      null,
+      "2. Central Sales tax",
+      "277.06",
+      "277.52"
+    ],
+    [
+      null,
+      "3. VAT",
+      "0.69",
+      "0.69"
+    ],
+    [
+      null,
+      "4. Excise duty",
+      "19.27",
+      "410.44"
+    ],
+    [
+      null,
+      "5. Custom duty",
+      "183.68",
+      "102.67"
+    ],
+    [
+      null,
+      "6. Service tax",
+      "14.06",
+      "13.08"
+    ],
+    [
+      null,
+      "7. GST",
+      "34.15",
+      "-"
+    ],
+    [
+      null,
+      "8. Income tax",
+      "195.26",
+      "210.27"
+    ],
+    [
+      null,
+      "9. Entry tax",
+      "105.65",
+      "217.28"
+    ],
+    [
+      null,
+      "10. Road tax",
+      "2.65",
+      "2.65"
+    ],
+    [
+      null,
+      "11. Stamp duty",
+      "0.51",
+      "0.51"
+    ]
+  ]
+}

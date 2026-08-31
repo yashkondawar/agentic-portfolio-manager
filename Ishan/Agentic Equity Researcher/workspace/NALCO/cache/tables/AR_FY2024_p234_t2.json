@@ -1,0 +1,79 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 234,
+  "table_index": 2,
+  "bbox": [
+    51.27364444444444,
+    519.87,
+    542.7263555555555,
+    676.4190749999999
+  ],
+  "rows": [
+    [
+      "Description of the Property",
+      null,
+      "Freehold/\nLeasehold",
+      "Gross\ncarrying\nvalue",
+      "Title deeds held in the\nname of",
+      "Whether title deed holder\nis a promoter, director\nor relative of promoter/\ndirector or employee of\npromoter/director",
+      "Property\nheld since\nwhich\ndate",
+      "Reason for not being held in\nthe name of Company",
+      "Whether\ndisputed"
+    ],
+    [
+      "PPE",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "Land",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      "11.09 Acres of Land\nat Koraput District of\nOdisha",
+      "Freehold",
+      "0.06",
+      "Govt. of Odisha",
+      "No",
+      "1982-83",
+      "Pending Registration",
+      "No"
+    ],
+    [
+      null,
+      "554.05 Acres of Land\nat Koraput District of\nOdisha",
+      "Leasehold",
+      "0.25",
+      "Govt. of Odisha",
+      "No",
+      "1982-83",
+      "Execution of Lease Agreement\nis pending",
+      "No"
+    ],
+    [
+      null,
+      "46.90 Acres of Land at\nAngul district of Odisha",
+      "Freehold",
+      "0.33",
+      "Industrial Development\nCorporation of Odisha\n(IDCO)",
+      "No",
+      "1987-88",
+      "Pending Registration",
+      "No"
+    ]
+  ]
+}

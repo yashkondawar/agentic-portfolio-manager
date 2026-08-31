@@ -1,0 +1,69 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 140,
+  "table_index": 1,
+  "bbox": [
+    75.328,
+    264.40600000000006,
+    503.6998,
+    430.333
+  ],
+  "rows": [
+    [
+      "Description of Property",
+      "Gross\nCarrying\nvalue (` Crores)",
+      "Held in name of",
+      "Whether promoter,\ndirector or\ntheir relative",
+      "Period held",
+      "Reason for not\nbeing held in\nname of Company"
+    ],
+    [
+      "19.74 Acres of Freehold land\nat Koraput district of Odisha",
+      "0.11",
+      "Govt. of Odisha",
+      "No",
+      "1982-83",
+      "Pending Registration"
+    ],
+    [
+      "46.90 Acres of Freehold land\nat Angul district of Odisha",
+      "0.33",
+      "Industrial Development\nCorporation of Odisha",
+      "No",
+      "1987-88",
+      "Pending Registration"
+    ],
+    [
+      "845.94 Acres of Leasehold land\nat Koraput district of Odisha",
+      "0.35",
+      "Govt. of Odisha",
+      "No",
+      "1982-83",
+      "Pending Registration"
+    ],
+    [
+      "656.05 Acres of Leasehold land\nat Angul district of Odisha",
+      "1.47",
+      "Industrial Development\nCorporation of Odisha",
+      "No",
+      "1987-88",
+      "Pending Registration"
+    ],
+    [
+      "94.7 Acres of Leasehold land\nat Angul district of Odisha",
+      "16.50",
+      "Industrial Development\nCorporation of Odisha",
+      "No",
+      "2021-22",
+      "Pending Registration"
+    ],
+    [
+      "0.66 Acres of Leasehold land\nat Dhenkanal district of Odisha",
+      "0.09",
+      "Industrial Development\nCorporation of Odisha",
+      "No",
+      "1987-88",
+      "Pending Registration"
+    ]
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 184,
+  "table_index": 2,
+  "bbox": [
+    51.273632432432436,
+    185.8279,
+    543.0012837837838,
+    266.47832
+  ],
+  "rows": [
+    [
+      "",
+      "",
+      "As at 31.03.2024",
+      "As at 31.03.2023"
+    ],
+    [
+      "a)",
+      "Estimated amount of Contracts remaining to be executed on capital account and not provided\nfor",
+      "2538.84",
+      "3690.17"
+    ],
+    [
+      "b)",
+      "Other Commitments",
+      null,
+      null
+    ],
+    [
+      null,
+      "- Export obligation for import of capital goods under Export Promotion Capital Goods Scheme.",
+      "205.17",
+      "244.51"
+    ],
+    [
+      "Total",
+      null,
+      "2,744.01",
+      "3,934.68"
+    ]
+  ]
+}

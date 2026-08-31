@@ -1,0 +1,21 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 226,
+  "table_index": 1,
+  "bbox": [
+    74.659,
+    73.82600000000002,
+    463.461,
+    141.04100000000005
+  ],
+  "rows": [
+    [
+      "Customers Customer Category",
+      "As at 31.03.2022"
+    ],
+    [
+      "a. APSPDCL Wind Power\nb. NTPC Vidyut Vyapar Nigam Ltd Wind Power\nc. Gupta Power Infrastructure Ltd Wind Power\nd. RDPPC, Devikot, Rajasthan Wind Power\ne. Dubai Aluminium PJSC Alumina",
+      "49%\n13%\n12%\n-\n-"
+    ]
+  ]
+}

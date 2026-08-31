@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 102,
+  "table_index": 2,
+  "bbox": [
+    94.88871428571429,
+    238.29550000000003,
+    549.1901428571429,
+    276.026
+  ],
+  "rows": [
+    [
+      "Name\npromoter",
+      "No. of shares of\n(Beginning of the Year)",
+      "% of holding",
+      "Decrease during\nthe year",
+      "Date of\nChange",
+      "Mode",
+      "Share\nbalance",
+      "% of\nholding"
+    ],
+    [
+      "President of India",
+      "94,17,93,011",
+      "51.28",
+      "-",
+      "-",
+      "-",
+      "94,17,93,011",
+      "51.28"
+    ]
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 180,
+  "table_index": 6,
+  "bbox": [
+    73.951,
+    593.4875,
+    549.553,
+    639.7964999999999
+  ],
+  "rows": [
+    [
+      "",
+      "Year ended 31.03.2023",
+      "Year ended 31.03.2022"
+    ],
+    [
+      "Chemical segment (Hydrate and Alumina)",
+      "3,908.07",
+      "3,943.08"
+    ],
+    [
+      "Aluminium segment (Aluminium)",
+      "10,200.76",
+      "10,070.16"
+    ],
+    [
+      "",
+      "14,108.83",
+      "14,013.24"
+    ]
+  ]
+}

@@ -1,0 +1,24 @@
+kpi_id: gold_to_nifty
+scope: macro
+cycle_refs: [commodity_cycle, valuation_cycle]
+formula: >
+  Gold-to-Nifty Ratio = Gold price (INR/gram or per 10g) / Nifty 50 level.
+  A cross-asset relative-value read: rising ratio means gold has
+  outperformed equities over the window and vice versa. Also feeds the
+  Parabolic Return Compression Rule check on gold specifically (>~20-30yr
+  of average annual gold return compressed into a few months is a
+  structural Phase-1 trim signal regardless of narrative).
+inputs:
+  - name: Gold price (INR)
+    source: afund.daily_prices (GOLDBEES proxy)
+    status: derivable
+  - name: Nifty 50 level
+    source: afund.index_data (index_name='NIFTY 50', close)
+    status: available
+orientation: value_type
+lookback_years: 20
+cadence: daily
+source_status: derivable
+registry_xref: null
+references_xref:
+  - kpi_interpretation/valuation_cycle.md

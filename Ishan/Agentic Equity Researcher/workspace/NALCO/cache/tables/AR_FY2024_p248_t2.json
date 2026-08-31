@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 248,
+  "table_index": 2,
+  "bbox": [
+    51.27367857142857,
+    520.4782,
+    542.8671827586207,
+    570.9547
+  ],
+  "rows": [
+    [
+      "",
+      "As at 31.03.2024",
+      "As at 31.03.2023"
+    ],
+    [
+      "Non-current lease liability",
+      "51.00",
+      "50.99"
+    ],
+    [
+      "Current lease liability",
+      "6.22",
+      "5.87"
+    ],
+    [
+      "Total Lease liabilities",
+      "57.22",
+      "56.86"
+    ]
+  ]
+}

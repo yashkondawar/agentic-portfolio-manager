@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 99,
+  "table_index": 1,
+  "bbox": [
+    68.2813947368421,
+    89.43600000000004,
+    542.3053684210527,
+    197.89139999999998
+  ],
+  "rows": [
+    [
+      "Sl.\nNo.",
+      "Item",
+      "Investment\n(` in lakh)"
+    ],
+    [
+      "1.",
+      "Renovation & Modernization of existing Air Preheater in Unit-2 & 4.",
+      "811.67"
+    ],
+    [
+      "2.",
+      "Revamping of Cooling Tower in Unit-8",
+      "337.49"
+    ],
+    [
+      "3.",
+      "De-staging of existing Condensate Extraction Pump (CEP-B) from 7 stages to 6 stages completed in Unit-8",
+      "2.70"
+    ],
+    [
+      "4.",
+      "Chemical cleaning of condensers in Unit #8",
+      "14.00"
+    ],
+    [
+      "5.",
+      "Implementation of Variable Voltage Variable Frequency Drive (VVVFD) panel in cooling tower fans of #1 to #5",
+      "208.97"
+    ]
+  ]
+}

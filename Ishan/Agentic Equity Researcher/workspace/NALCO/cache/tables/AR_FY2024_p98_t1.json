@@ -1,0 +1,23 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 98,
+  "table_index": 1,
+  "bbox": [
+    68.281475,
+    278.1271,
+    543.18567,
+    316.876
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Item",
+      "Investment\n(` in lakh)"
+    ],
+    [
+      "1.",
+      "50.76 KWp On-Grid roof top solar plant",
+      "23.5"
+    ]
+  ]
+}

@@ -1,0 +1,265 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 242,
+  "table_index": 1,
+  "bbox": [
+    51.273610810810816,
+    104.05519999999997,
+    542.6066717948719,
+    538.7078333333334
+  ],
+  "rows": [
+    [
+      "",
+      "",
+      "Notes",
+      "Year ended 31.03.2025",
+      "Year ended 31.03.2024"
+    ],
+    [
+      "I",
+      "Revenue from operations",
+      "28",
+      "16,787.63",
+      "13,149.15"
+    ],
+    [
+      "II",
+      "Other Income",
+      "29",
+      "357.01",
+      "250.71"
+    ],
+    [
+      "III",
+      "Total Income (I + II)",
+      "",
+      "17,144.64",
+      "13,399.86"
+    ],
+    [
+      "IV",
+      "Expenses",
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "(a) Cost of raw materials consumed",
+      "30",
+      "2,063.32",
+      "2,791.89"
+    ],
+    [
+      null,
+      "(b) Cost of power and fuel consumed",
+      "30",
+      "3,165.94",
+      "3,547.70"
+    ],
+    [
+      null,
+      "(c) Changes in inventories of finished goods and work-in-progress",
+      "31",
+      "(90.20)",
+      "(146.05)"
+    ],
+    [
+      null,
+      "(d) Employee benefits expense",
+      "32",
+      "1,786.47",
+      "2,034.65"
+    ],
+    [
+      null,
+      "(e) Finance costs",
+      "33",
+      "58.97",
+      "17.21"
+    ],
+    [
+      null,
+      "(f) Depreciation, amortisation and impairment expenses",
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      "(i) Property Plant and Equipment - Depreciation",
+      "5",
+      "650.00",
+      "728.69"
+    ],
+    [
+      null,
+      "(ii) Property Plant and Equipment - Impairment",
+      "5",
+      "28.52",
+      "(11.62)"
+    ],
+    [
+      null,
+      "(iii) Intangible Assets - Amortisation",
+      "7",
+      "49.06",
+      "32.58"
+    ],
+    [
+      null,
+      "(g) Other expenses",
+      "34",
+      "2,297.46",
+      "2,048.05"
+    ],
+    [
+      "",
+      "Total expenses (IV)",
+      "",
+      "10,009.54",
+      "11,043.10"
+    ],
+    [
+      "V",
+      "Profit before exceptional items and tax (III - IV)",
+      "",
+      "7,135.10",
+      "2,356.76"
+    ],
+    [
+      "VI",
+      "Exceptional Items",
+      "35",
+      "-",
+      "(426.81)"
+    ],
+    [
+      "VII",
+      "Share of Profit/(loss) of Joint Ventures",
+      "",
+      "(56.73)",
+      "(71.49)"
+    ],
+    [
+      "VIII",
+      "Profit before tax (V-VI + VII)",
+      "",
+      "7,078.37",
+      "2,712.08"
+    ],
+    [
+      "IX",
+      "Tax Expense",
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "(a) Current tax",
+      "36",
+      "",
+      ""
+    ],
+    [
+      null,
+      "(i) Current year",
+      "",
+      "1,858.73",
+      "763.49"
+    ],
+    [
+      null,
+      "(ii) Earlier years",
+      "",
+      "1.98",
+      "76.22"
+    ],
+    [
+      null,
+      "(b) Deferred tax",
+      "36",
+      "(50.28)",
+      "(116.09)"
+    ],
+    [
+      "X",
+      "Profit for the year (VIII - IX)",
+      "",
+      "5,267.94",
+      "1,988.46"
+    ],
+    [
+      "XI",
+      "Other comprehensive income",
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "(i) Items that will not be reclassified to profit or loss",
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      "- Remeasurement gains / (losses) on defined benefit plans",
+      "",
+      "(13.94)",
+      "7.66"
+    ],
+    [
+      null,
+      "- Remeasurement gains / (losses) of joint venture on defined benefit plans",
+      "",
+      "(0.02)",
+      "-"
+    ],
+    [
+      null,
+      "(ii) Income tax relating to items that will not be reclassified to profit or loss",
+      "36",
+      "0.01",
+      "0.25"
+    ],
+    [
+      null,
+      "Other comprehensive income for the year (net of tax)",
+      "",
+      "(13.95)",
+      "7.91"
+    ],
+    [
+      "XII",
+      "Total comprehensive income for the year (XI + X) [comprising profit and other\ncomprehensive income for the period]",
+      "",
+      "5,253.99",
+      "1,996.37"
+    ],
+    [
+      "XIII",
+      "Earnings per equity share:",
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "(i) Basic (in `)",
+      "38",
+      "28.68",
+      "10.83"
+    ],
+    [
+      null,
+      "(ii) Diluted (in `)",
+      "38",
+      "28.68",
+      "10.83"
+    ]
+  ]
+}

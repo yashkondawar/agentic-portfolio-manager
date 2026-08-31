@@ -1,0 +1,61 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 242,
+  "table_index": 2,
+  "bbox": [
+    71.1161,
+    124.1048333333333,
+    546.8366,
+    225.05916666666658
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      "Year ended\n31.03.2021",
+      "Year ended\n31.03.2020"
+    ],
+    [
+      "(a)",
+      "Salaries and wages, including bonus",
+      "1,544.25",
+      "1,585.52"
+    ],
+    [
+      "(b)",
+      "Contribution to provident and other funds",
+      "",
+      ""
+    ],
+    [
+      "",
+      "1) Provident fund",
+      "120.10",
+      "129.45"
+    ],
+    [
+      "",
+      "2) Gratuity",
+      "42.85",
+      "52.09"
+    ],
+    [
+      "",
+      "3) Post employment pension scheme",
+      "107.03",
+      "114.00"
+    ],
+    [
+      "(c)",
+      "Staff welfare expenses",
+      "116.01",
+      "113.01"
+    ],
+    [
+      "Total employee benefit expense",
+      null,
+      "1,930.24",
+      "1,994.07"
+    ]
+  ]
+}

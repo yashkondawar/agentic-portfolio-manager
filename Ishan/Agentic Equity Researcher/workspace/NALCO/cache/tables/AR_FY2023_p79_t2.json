@@ -1,0 +1,68 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 79,
+  "table_index": 2,
+  "bbox": [
+    45.479000000000006,
+    496.192,
+    549.6115000000001,
+    627.341
+  ],
+  "rows": [
+    [
+      "S. No.",
+      "Name of the trade and industry chambers / associations",
+      "Reach of trade and industry chambers/ associations (State/National)"
+    ],
+    [
+      "1",
+      "Aluminium Association of India",
+      "National"
+    ],
+    [
+      "2",
+      "Confederation of Indian Industry",
+      "National"
+    ],
+    [
+      "3",
+      "Standing Conference of Public Enterprise (SCOPE)",
+      "National"
+    ],
+    [
+      "4",
+      "Chemicals and Allied Products Export Promotion Council (CAPEXIL)",
+      "National"
+    ],
+    [
+      "5",
+      "Federation of Indian Mineral Industries",
+      "National"
+    ],
+    [
+      "6",
+      "Federation of Indian Export Organisations, New Delhi",
+      "National"
+    ],
+    [
+      "7",
+      "National Institute of Personnel Management (NIPM)",
+      "National"
+    ],
+    [
+      "8",
+      "International Chamber of Commerce",
+      "National"
+    ],
+    [
+      "9",
+      "Indian Chamber of Commerce (ICC)",
+      "National"
+    ],
+    [
+      "10",
+      "Indian National Committee- World Mining Congress",
+      "National"
+    ]
+  ]
+}

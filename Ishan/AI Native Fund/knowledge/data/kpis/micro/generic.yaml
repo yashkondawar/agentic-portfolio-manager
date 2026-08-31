@@ -1,0 +1,67 @@
+# Generic (fallback) micro KPI deep-definitions. Lean by design: formula +
+# sourcing + xref only. Qualitative framing lives in
+# registry/kpis/generic.yaml and knowledge/references/sectors/generic.md —
+# not repeated here. Used for any company/sector not covered by one of the
+# other 7 dedicated sector files.
+sector: generic
+registry_ref: registry/kpis/generic.yaml
+kpis:
+  - kpi_id: generic_pe_ltm
+    scope: sector
+    cycle_refs: [valuation_cycle]
+    formula: "P/E (LTM) = Share Price / Trailing 12M EPS"
+    inputs:
+      - name: Share price, trailing EPS
+        source: afund.daily_prices + afund.financials_quarterly (eps)
+        status: available
+    orientation: value_type
+    lookback_years: 8
+    cadence: daily
+    source_status: available
+    registry_xref: "kpis/generic.yaml#pe_ltm"
+    references_xref: [sectors/generic.md, kpi_interpretation/valuation_cycle.md]
+
+  - kpi_id: generic_roce
+    scope: sector
+    cycle_refs: [earnings_margin_cycle]
+    formula: "ROCE = EBIT / Capital Employed (Total Assets - Current Liabilities)"
+    inputs:
+      - name: "EBIT (proxy: operating_profit), capital employed"
+        source: afund.financials_quarterly (operating_profit) + raw_json balance-sheet detail
+        status: derivable
+    orientation: value_type
+    lookback_years: 8
+    cadence: quarterly
+    source_status: derivable
+    registry_xref: "kpis/generic.yaml#roce"
+    references_xref: [sectors/generic.md]
+
+  - kpi_id: generic_net_debt_to_ebitda
+    scope: sector
+    cycle_refs: [credit_debt_cycle]
+    formula: "Net Debt/EBITDA = (Total Debt - Cash & Equivalents) / Trailing 12M EBITDA"
+    inputs:
+      - name: Total debt, cash, EBITDA
+        source: afund.financials_quarterly (ebitda) + raw_json balance-sheet detail
+        status: derivable
+    orientation: fear_type
+    lookback_years: 8
+    cadence: quarterly
+    source_status: derivable
+    registry_xref: "kpis/generic.yaml#net_debt_to_ebitda"
+    references_xref: [sectors/generic.md, kpi_interpretation/credit_cycle.md]
+
+  - kpi_id: generic_fcf_yield
+    scope: sector
+    cycle_refs: [valuation_cycle]
+    formula: "FCF Yield = Free Cash Flow per Share / Share Price"
+    inputs:
+      - name: Free cash flow, share price
+        source: afund.financials_quarterly.raw_json (cash-flow detail not a dedicated column) + afund.daily_prices
+        status: derivable
+    orientation: value_type
+    lookback_years: 8
+    cadence: quarterly
+    source_status: derivable
+    registry_xref: "kpis/generic.yaml#fcf_yield"
+    references_xref: [sectors/generic.md]

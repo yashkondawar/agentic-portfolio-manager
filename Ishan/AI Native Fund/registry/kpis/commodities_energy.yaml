@@ -1,0 +1,128 @@
+# Commodities & Energy (Metals, Cement, Oil & Gas, Power) — KPI/ratio
+# vocabulary and qualitative checklist for the Equity Research / Sectoral
+# Analyst agents.
+# Source: docs/source-material/er-deep-research-prompts.txt, "Commodities & Energy Analyst" section.
+
+sector: commodities_energy
+description: >
+  Metals, cement, oil & gas, and power. Cost-curve positioning, backward
+  integration, and price-taker dynamics dominate; capital allocation
+  discipline across the cycle is the key qualitative differentiator.
+
+quantitative_kpis:
+  # Core Valuation
+  - name: market_cap
+    unit: currency
+    category: core_valuation
+  - name: enterprise_value
+    unit: currency
+    category: core_valuation
+  - name: pe_ltm
+    unit: "x"
+    category: core_valuation
+  - name: forward_pe
+    unit: "x"
+    category: core_valuation
+  - name: ev_ebitda_ltm
+    unit: "x"
+    category: core_valuation
+  # Core Profitability
+  - name: revenue_ltm
+    unit: currency
+    category: core_profitability
+  - name: ebitda_ltm
+    unit: currency
+    category: core_profitability
+  - name: net_profit_excl_oneoffs
+    unit: currency
+    category: core_profitability
+  - name: gross_margin
+    unit: "%"
+    category: core_profitability
+  - name: ebitda_margin
+    unit: "%"
+    category: core_profitability
+  - name: roce
+    unit: "%"
+    category: core_profitability
+  - name: roe
+    unit: "%"
+    category: core_profitability
+  # Balance Sheet
+  - name: net_debt
+    unit: currency
+    category: balance_sheet
+  - name: net_debt_to_ebitda
+    unit: "x"
+    category: balance_sheet
+  - name: capex
+    unit: currency
+    category: balance_sheet
+  - name: interest_coverage_ratio
+    unit: "x"
+    category: balance_sheet
+  # Growth
+  - name: revenue_growth_rate
+    unit: "%"
+    category: growth
+  - name: production_capacity_utilization
+    unit: "%"
+    category: growth
+  # Cash Flow
+  - name: operating_cashflow
+    unit: currency
+    category: cash_flow
+  - name: fcf_post_dividend_acquisitions
+    unit: currency
+    category: cash_flow
+  - name: fcf_yield
+    unit: "%"
+    category: cash_flow
+  - name: dividend_payout_ratio
+    unit: "%"
+    category: cash_flow
+  - name: fcf_to_ebitda_conversion
+    unit: "%"
+    category: cash_flow_quality
+  - name: ebitda_per_unit_tonne
+    unit: currency
+    category: cash_flow_quality
+  # Sector-specific
+  - name: cost_of_production_per_unit
+    unit: currency
+    category: cost_curve
+  - name: gross_spread_per_unit
+    unit: currency
+    category: cost_curve
+  - name: captive_power_pct_of_total_energy
+    unit: "%"
+    category: integration
+  - name: backward_integration_pct
+    unit: "%"
+    category: integration
+  - name: realization_per_barrel_mmbtu
+    unit: currency
+    category: oil_gas
+  - name: exploration_development_expenditure_pct_revenue
+    unit: "%"
+    category: oil_gas
+
+qualitative_checks:
+  - global_cost_curve_positioning: "1st quartile vs. 3rd quartile positioning; degree of integration (mine/well to finished product) against volatile intermediate Indian spot markets."
+  - cost_structure_moat: "Role of backward integration (captive mines/power) in mitigating dominant cost inputs (energy, coal/power); quantify cost differential vs. peers."
+  - capital_allocation_strategy: "Debt reduction vs. growth capex vs. buybacks/dividends during peak cycles."
+  - price_taker_dynamics: "Cost-curve management efficiency given price-taker status; spread (realization minus cost) trends."
+  - trade_policy_moats: "Sustainability of local moats from trade policy (anti-dumping duty, regulatory hurdles)."
+  - ppa_terms: "For power/renewables — average PPA terms and tariff certainty."
+  - demand_visibility: "Correlation with government capex / infra spending (e.g., National Infrastructure Pipeline)."
+  - cement_regional_pricing: "High freight costs make cement hyper-local; compare regional pricing power among peers."
+  - esg_compliance_risk: "Carbon taxes, pollution norms, and potential impact on future cost structures."
+
+cycle_overlap_checks:
+  - valuation_earnings_cycle: "Is the valuation premium/discount justified by sustainable ROCE stability, or driven purely by the valuation cycle (Stage 3 euphoria)? Is high P/E from genuine ROCE improvement or valuation-cycle expansion?"
+  - credit_capex_cycle: "Assess capex/growth funding needs against the current credit window; quantify resulting FCF constraints and potential debt risk."
+  - policy_profit_cycle: "If enjoying a regulatory moat (PLI, indigenization list), assess political risk and sustainability, especially receivable-day exposure to government counterparties."
+
+niche_pointers:
+  - city_gas_distribution: "Impact of APM gas allocation (low-cost sourcing) on margins vs. peers reliant on market gas."
+  - oil_gas_upstream: "Direct sensitivity of profitability to Brent crude prices and cess/tax regulatory changes."

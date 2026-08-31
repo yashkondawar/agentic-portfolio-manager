@@ -1,0 +1,73 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 61,
+  "table_index": 1,
+  "bbox": [
+    60.594,
+    185.45900000000006,
+    549.421,
+    547.793
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Particulars",
+      "2022-23",
+      "2021-22"
+    ],
+    [
+      "I\nII\nIII",
+      "Total annual procurement (in value) (*) (in ` crore)\nTotal value of goods and services procured from MSEs (Including MSEs owned by SC/ST entrepreneurs) (in ` crore)\nTotal value of goods and services procured from only MSEs owned by SC/ST entrepreneurs (in ` crore)",
+      "3,212.99\n960.00\n11.50",
+      "2,286.37\n713.80\n5.94"
+    ],
+    [
+      "IV\nV\nVI",
+      "Total value of goods and services procured from only MSEs owned by women entrepreneurs (in ` crore)\n% of procurement from MSEs (Including MSEs owned by SC/ST & women entrepreneurs) out of total procurement\n% of procurement from only MSEs owned by SC/ST entrepreneurs out of total procurement",
+      "32.01\n29.88\n0.36",
+      "33.21\n31.22\n0.26"
+    ],
+    [
+      "VII\nVIII\nIX",
+      "% of procurement from only MSEs owned by women entrepreneurs out of total procurement\nTotal number of vendor development programmes for MSEs\nWhether annual procurement plan for purchases from MSEs are uploaded on the official website",
+      "1.00\n10\nYes",
+      "1.45\n07\nYes"
+    ],
+    [
+      "X",
+      "Whether targets reported in Annual Report",
+      "Yes",
+      "Yes"
+    ],
+    [
+      "* This value excluded procurement of Coal, Fuel oil, Caustic soda, ALF3, Synthetic flocculants, Steel, Cement, Bearings, Lubricants, Grease, Proprietary items,\nimported items and contracts for professional services/consultancy services/major turnkey contracts/contracts linked to specific technology.",
+      null,
+      null,
+      null
+    ],
+    [
+      "Details of Nodal Officers of NALCO for procurements to be made from MSEs",
+      null,
+      null,
+      null
+    ],
+    [
+      "(A) Name of the Unit: Corporate Office, Bhubaneswar, Odisha\nNodal Officer: Shri Bibhu Datta Mohanty, GGM(Materials)\nNALCO Bhawan, P/1, Nayapalli, Bhubaneswar- 751013\nMobile: 9437561995, e-mail: bibhu.mohanty@nalcoindia.co.in",
+      null,
+      null,
+      null
+    ],
+    [
+      "(B) Name of the Unit: Smelter & Power Complex, Angul, Odisha\nNodal Officer: Shri Pravat Kumar Biswas, GGM(Materials)\nSmelter Plant, NALCO Nagar, Angul- 759145\nMobile: 9437083779, e-mail: pravat.biswas@nalcoindia.co.in",
+      null,
+      null,
+      null
+    ],
+    [
+      "(C) Name of the Unit: Mines & Refinery Complex, Damanjodi, Odisha\nNodal Officer: Shri Swarupananda Mishra, GM(Materials)\nAlumina Refinery, NALCO, Damanjodi- 763008\nMobile: 9437043184, e-mail: swarupananda.mishra@nalcoindia.co.in",
+      null,
+      null,
+      null
+    ]
+  ]
+}

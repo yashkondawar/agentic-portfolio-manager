@@ -1,0 +1,62 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 134,
+  "table_index": 1,
+  "bbox": [
+    79.27365,
+    104.27077777777772,
+    542.5258608695652,
+    219.33680000000004
+  ],
+  "rows": [
+    [
+      "Members of Share Transfer Committee",
+      "Category of Director",
+      "Position",
+      "Meeting",
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "Held",
+      "Attended"
+    ],
+    [
+      "Director (Finance)",
+      "Functional",
+      "Chairman",
+      "2",
+      "2"
+    ],
+    [
+      "Director (Commercial)",
+      "Functional",
+      "Member",
+      "2",
+      "2"
+    ],
+    [
+      "Director (Production)",
+      "Functional",
+      "Member",
+      "2",
+      "2"
+    ],
+    [
+      "Director (P&T)",
+      "Functional",
+      "Member",
+      "2",
+      "1"
+    ],
+    [
+      "Director (HR)@ (w.e.f. 02.01.2025)",
+      "Functional",
+      "Member",
+      "0",
+      "0"
+    ]
+  ]
+}

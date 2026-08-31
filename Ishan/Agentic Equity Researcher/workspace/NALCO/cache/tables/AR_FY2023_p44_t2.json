@@ -1,0 +1,85 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 44,
+  "table_index": 2,
+  "bbox": [
+    61.161,
+    190.95050000000003,
+    549.421,
+    321.482
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Preceding\nFinancial Year(s)",
+      "Amount transferred\nto Unspent CSR\nAccount under\nsub-section (6)\nof section 135\n(in R)",
+      "Balance Amount\nin Unspent CSR\nAccount under\nsub- section (6)\nof section 135\n(in R)",
+      "Amount\nspent in\nthe Financial\nYear (in Rs.)",
+      "Am ount transfer red to a Fund a s\nspecifi ed under Sch edule VII as sec ond\np roviso to sub- section (5) per\nof section 135, if any",
+      null,
+      null,
+      "Amount\nremaining\nto be spent\nin succeeding\nfinancial\nyear (in R)",
+      "Deficiency,\nif any"
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      "Amount (in R)",
+      "",
+      "Date of transfer",
+      null,
+      null
+    ],
+    [
+      "1",
+      "2019-20",
+      "NIL",
+      "NIL",
+      "39,71,35,000",
+      "NA",
+      "NIL",
+      "NA",
+      "NIL",
+      "NIL"
+    ],
+    [
+      "2",
+      "2020-21",
+      "NIL",
+      "NIL",
+      "35,00,00,000",
+      "NA",
+      "NIL",
+      "NA",
+      "NIL",
+      "NIL"
+    ],
+    [
+      "3",
+      "2021-22",
+      "NIL",
+      "NIL",
+      "36,91,38,000",
+      "NA",
+      "NIL",
+      "NA",
+      "NIL",
+      "NIL"
+    ],
+    [
+      "",
+      "Total",
+      "NIL",
+      "NIL",
+      "1,11,62,73,000",
+      "NA",
+      "NIL",
+      "NA",
+      "NIL",
+      ""
+    ]
+  ]
+}

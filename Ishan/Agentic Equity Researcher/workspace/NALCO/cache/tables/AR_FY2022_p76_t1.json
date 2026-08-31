@@ -1,0 +1,83 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 76,
+  "table_index": 1,
+  "bbox": [
+    60.594,
+    126.51970000000006,
+    514.3297,
+    448.035
+  ],
+  "rows": [
+    [
+      "(A)",
+      null,
+      null
+    ],
+    [
+      "(B)",
+      null,
+      null
+    ],
+    [
+      "(C)",
+      null,
+      null
+    ],
+    [
+      "Sl. No.",
+      "Particulars",
+      "2021-22"
+    ],
+    [
+      "I",
+      "R\nTotal annual procurement (In value) (*) (In crore)",
+      "2,286.37"
+    ],
+    [
+      "II",
+      "R\nTotal value of goods & services procured from MSEs (Including MSEs owned by SC/ST entrepreneurs) (In crore)",
+      "713.80"
+    ],
+    [
+      "III",
+      "R\nTotal value of goods & services procured from only MSEs owned by SC/ST entrepreneurs (In crore)",
+      "5.94"
+    ],
+    [
+      "IV",
+      "R\nTotal value of goods & services procured from only MSEs owned by women entrepreneurs (In crore)",
+      "33.21"
+    ],
+    [
+      "V",
+      "% of procurement from MSEs (Including MSEs owned by SC/ST & women entrepreneurs) out of total procurement",
+      "31.22"
+    ],
+    [
+      "VI",
+      "% of procurement from only MSEs owned by SC/ST entrepreneurs out of total procurement",
+      "0.26"
+    ],
+    [
+      "VII",
+      "% of procurement from only MSEs owned by women entrepreneurs out of total procurement",
+      "1.45"
+    ],
+    [
+      "VIII",
+      "Total number of Vendor Development programmes for MSEs",
+      "07"
+    ],
+    [
+      "IX",
+      "Whether Annual Procurement Plan for purchases from MSEs are uploaded on the official website",
+      "Yes"
+    ],
+    [
+      "X",
+      "Whether targets reported in Annual Report",
+      "Yes"
+    ]
+  ]
+}

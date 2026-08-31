@@ -1,0 +1,25 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 88,
+  "table_index": 1,
+  "bbox": [
+    68.28140625,
+    243.09285,
+    542.5152375,
+    294.8631
+  ],
+  "rows": [
+    [
+      "S.\nNo.",
+      "Location of operations/offices",
+      "Type of operations",
+      "Whether the conditions of environmental approval / clearance\nare being complied with? (Y/N)\nIf no, the reasons thereof and corrective action taken, if any."
+    ],
+    [
+      "1",
+      "Panchaptmali Bauxite Mine, Damanjodi,\nDist. - Koraput, Odisha",
+      "Mining of bauxite",
+      "Yes"
+    ]
+  ]
+}

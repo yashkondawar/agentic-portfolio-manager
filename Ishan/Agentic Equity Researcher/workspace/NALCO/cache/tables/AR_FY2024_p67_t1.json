@@ -1,0 +1,37 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 67,
+  "table_index": 1,
+  "bbox": [
+    51.21606153846154,
+    74.279,
+    542.5814461538462,
+    318.4219
+  ],
+  "rows": [
+    [
+      "S.\nNo.",
+      "Material issue\nidentified",
+      "Indicate\nwhether risk\nor opportunity\n(R/O)",
+      "Rationale for identifying\nthe risk / opportunity",
+      "In case of risk, approach to adapt or\nmitigate",
+      "Financial implications of\nthe risk or opportunity\n(Indicate positive or\nnegative implications)"
+    ],
+    [
+      "3",
+      "Handling of bulk\nHazardous Waste\n● SPL\nAluminium\nDross",
+      "Both R & O",
+      "Government Regulations,\nEnvironmental & Societal\nConcerns",
+      "● SPL carbon portion is disposed of\nto an external agency authorized\nby OSPCB for the utilization of its\nenergy value.\n● Permission for disposal of refractory\n& mixed portion of SPL in\nCHWTSDF obtained from OSPCB\n& process initiated\n● Dross is recycled in-house and\nalso sold to authorized recyclers by\nOSPCB.",
+      "Negative"
+    ],
+    [
+      "4",
+      "Renewable and\nclean energy",
+      "O",
+      "RPO obligations; Climate-\nchange concerns",
+      "● Operating the existing 198 MW\nWind Power Plants and 850 KWp\nRooftop Solar installations.\n● During the year, 57.92 MU Wind\nPower from own WPP Gandikota\nand also, 30.76 MU return banking\nwind power from GRIDCO\nconsumed at production sites",
+      "Positive"
+    ]
+  ]
+}

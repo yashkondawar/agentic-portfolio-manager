@@ -1,0 +1,97 @@
+{
+  "run": "NALCO citation verification wave — re-verification of fixes",
+  "date": "2026-07-16",
+  "procedure_ref": "prompts/50_citation_verification.md",
+  "standard_ref": "prompts/00_citation_standard.md",
+  "prior_gate": "FAIL",
+  "mechanical_check_rerun": {
+    "tool": "tools/citation_check.py workspace/NALCO",
+    "result": "FAIL: 23 fatal, 1 warnings, 194 citations checked, sample of 58",
+    "detail_file": "workspace/NALCO/state/citation_check.json",
+    "resolved_since_prior_run": [
+      "estimates.json EST-001..014 (14 items) -- now cite SRC-1384..1397 (kind: computed_estimate), confirmed present in state/source_registry.json (1,057 entries) and correctly mapped 1:1 to each EST record's own formula/inputs. final_note.md Exhibit 4 cites [S1384]..[S1397] and values match facts/estimates.json exactly. RESOLVED.",
+      "dr2_sector_peers.json F-EXT-1200..1230 (30 items) -- SRC-1200..1228 no longer flagged fatal; confirmed present in the global registry. RESOLVED.",
+      "dossier.md orphan tokens [S1225]/[S1223] -- SRC-1225 and SRC-1223 now present in state/source_registry.json (doc: computed, locator text matches the Section-232/anti-dumping content). RESOLVED."
+    ],
+    "still_fatal": [
+      "dr1_company.json: 13 facts (F-EXT-1100-CMD_APPOINTMENT, F-EXT-1101-DIRECTOR_FINANCE_APPOINTMENT, F-EXT-1102-OTHER_FUNCTIONAL_DIRECTORS, F-EXT-1103-INDEPENDENT_DIRECTOR_CESSATION, F-EXT-1104-GOI_SHAREHOLDING, F-EXT-1105-SHARES_UNENCUMBERED, F-EXT-1106-SEBI_ED_SFIO_NCLT_CBI_CAG_SCREEN, F-EXT-1107-PANCHPATMALI_LEASE_STATUS, F-EXT-1108-POTTANGI_STATUS, F-EXT-1109-POTTANGI_TRIBAL_OPPOSITION, F-EXT-1110-UTKAL_DE_COAL_BLOCK_STATUS, F-EXT-1111-DISINVESTMENT_HISTORY_SIGNAL, F-EXT-1112-DIVIDEND_HISTORY_FY26) -- still use source_ids array, still no src_id field. Of these, F-EXT-1100, 1101, 1104, 1106, 1107, 1108, 1109, 1110, 1111, 1112 are load_bearing:true. NOT in the coordinator's fix scope for this round; NOT resolved.",
+      "dr1b_followup.json: 10 facts (F-EXT-1150..1159, including F-EXT-1155 = LODR fine and F-EXT-1156 = CBI probe, both central to thesis pillar 3) -- still no src_id field at all (schema omits it entirely). NOT resolved."
+    ]
+  },
+  "targeted_reverification": [
+    {
+      "id": "V-001-RECHECK",
+      "item": "final_note.md Exhibit 3 (line 76-77) + dossier.md Sec 4.1/12.1/12.4: standalone vs consolidated PAT/EPS basis fix",
+      "verdict": "VERIFIED — FIXED",
+      "prior_verdict": "MISMATCH (load_bearing_mismatch)",
+      "location": "final_note.md lines 68, 75-77, 94, 102-103; dossier.md lines 128-140, 294, 354, 452-466, 492-496, 522",
+      "found": "final_note.md Exhibit 3 now: PAT (standalone) FY2025 = 5,324.7 [S538], EPS diluted (standalone) = 28.99 [S550], with an explicit header note '(standalone FY21-25 [PAT/EPS on the standalone P&L, not the consolidated figures shown in Exhibit 4])'. Exhibit 4 explicitly labeled '(cons)' with a footnote: 'FY2025 consolidated EPS 28.68 differs from the standalone 28.99 shown in Exhibit 3.' dossier.md Sec 4.1 carries the same fix plus an explanatory note distinguishing the two bases; §12.1/§12.4 annexure tables and the global legend (§13, line 522) correctly reference S538 (AR_FY2025.pdf, standalone P&L, Profit for the year FY2025, INR 5,324.67cr) as a new registry entry.",
+      "cross_check": "SRC-538 confirmed in state/source_registry.json: {doc: AR_FY2025.pdf, page: 155, locator: 'Standalone Statement of Profit and Loss - Profit for the year (FY2025)'}. Value 5,324.67 matches cache/markdown/AR_FY2025.md standalone P&L exactly (previously verified against source in the prior wave). No remaining contradiction between Exhibit 3 and Exhibit 4 — both are now internally labeled and mutually cross-referenced.",
+      "note": "Fully resolved. No further action needed on this item."
+    },
+    {
+      "id": "V-003-RECHECK",
+      "item": "Estimates Exhibit 4 citations SRC-1384..1397 resolve and match facts/estimates.json",
+      "verdict": "VERIFIED — FIXED",
+      "prior_verdict": "mechanical fatal (missing src_id), arithmetic itself previously verified",
+      "location": "final_note.md Exhibit 4 (lines 98-115)",
+      "found": "SRC-1384 through SRC-1397 all present in state/source_registry.json, doc:'computed', kind:'computed_estimate', each locator string explicitly names the corresponding EST-0xx record and lists its formula/key inputs (e.g. SRC-1390 -> 'EST-007: formula=eps_diluted_FY2027_base; key inputs=F-MKT-SHARES_OUTSTANDING-POINT2026-07-15'). final_note.md cites [S1384]..[S1397] against Revenue/EBITDA/PAT/EPS/P/E FY27E-FY28E and the bull/bear scenario EPS cells; all cited values (19,399.4 / 19,156.4 / 8,632.7 / 8,237.2 / 6,015.9 / 5,702.8 / 32.76 / 31.05 / 11.04 / 11.65 / 38.11 / 42.42 / 24.04 / 21.26) match facts/estimates.json EST-001..014 exactly.",
+      "note": "Fully resolved."
+    },
+    {
+      "id": "V-009-RECHECK",
+      "item": "Promoter 51.28% now cited [S1450]",
+      "verdict": "VERIFIED — FIXED",
+      "prior_verdict": "UNVERIFIABLE (load_bearing_mismatch) — aggregator source, self-flagged as needing primary upgrade",
+      "location": "final_note.md Snapshot table (line 13)",
+      "found": "SRC-1450 present in state/source_registry.json: {doc: 'web', kind: 'external', locator: 'NALCO shareholding pattern Q4 FY2026 — promoter (President of India) 51.28%, unchanged vs Dec-2025; no encumbrance FY2026 (BSE/NSE disclosure)', url: 'https://nalcoindia.com/investor-services/shareholding-pattern/', accessed: '2026-07-16', corroboration: 'primary'}. This is the company's own investor-relations shareholding-pattern page (nalcoindia.com), not the marketsmojo.com aggregator (SRC-1104) used previously. Note now cites [S1450] in place of the old aggregator-sourced value.",
+      "caveat": "Did not re-fetch the live URL in this re-verification pass (out of the ≤5-fetch external-spot-check budget and not required for a registry-entry-existence check); corroboration tag is self-declared 'primary' by the registry entry and the URL domain (nalcoindia.com investor-services page) is consistent with a primary shareholding-pattern disclosure page for an NSE/BSE-listed company. Old orphaned record F-EXT-1104-GOI_SHAREHOLDING in dr1_company.json (still no src_id) is superseded in the live citation but not itself cleaned up — cosmetic residual, not a live defect since the note no longer relies on it.",
+      "note": "Resolved for the purpose of the live citation in the note. Residual: the stale F-EXT-1104 record remains in dr1_company.json uncited-but-still-broken; recommend removing/flagging it as superseded so a future pass doesn't re-surface it as fatal without context."
+    },
+    {
+      "id": "V-007-STILL-OPEN",
+      "item": "F-EXT-1155 (LODR fine) / F-EXT-1156 (CBI probe) — thesis pillar 3 evidence",
+      "verdict": "STILL UNVERIFIABLE (load-bearing, registry chain still broken)",
+      "location": "final_note.md paragraph 3 (thesis pillar 3)",
+      "found": "dr1b_followup.json facts still carry no src_id field at all (10/10 facts in that file remain mechanical-fatal, including F-EXT-1155 and F-EXT-1156). This was not in the coordinator's 4-item fix scope for this round and remains an open load-bearing defect blocking full finalization.",
+      "note": "Content of the fine amount/dates was independently verified against the fact record's own text in the prior wave and is unchanged; the defect is purely the registry-linkage chain, but per the citation standard this still fails 100% load-bearing re-verification."
+    }
+  ],
+  "counts": {
+    "checks_rerun": 4,
+    "resolved": 3,
+    "still_open_load_bearing": 1,
+    "mechanical_fatal_remaining": 23,
+    "mechanical_fatal_prior": 70
+  },
+  "gate_decision": "FAIL — improved but not clear. All 4 items in the coordinator's fix list are confirmed resolved: (1) estimates SRC-1384..1397 and dr2 SRC-1200..1230 merge fixed, mechanical fatal count dropped 70->23; (2) standalone/consolidated PAT-EPS basis mismatch in Exhibit 3/dossier §4.1/§12.1/§12.4 fully corrected with mutual cross-references; (3) estimates Exhibit 4 citations verified resolving and matching; (4) promoter 51.28% now cited to a primary company IR page [S1450], superseding the old aggregator citation. However, 23 mechanical-fatal items remain unaddressed in dr1_company.json (13, including load-bearing GOI shareholding/lease/CBI-screen/dividend facts) and dr1b_followup.json (10, including F-EXT-1155/F-EXT-1156 — the LODR-fine and CBI-probe facts that thesis pillar 3 is built on). These were outside this round's fix scope but remain live load-bearing citation-chain failures per the citation standard's 100% load-bearing re-verification rule. Finalization is still blocked until the dr1_company.json and dr1b_followup.json registry-linkage gap is closed (or those facts' src_id/source_ids are reconciled to the schema the checker expects).",
+  "round2_targeted_reverification": {
+    "scope": "Coordinator claimed: (a) dr1_company.json (13 facts) now use standard source.src_id (extras in src_ids_additional); (b) dr1b_followup.json now carries load_bearing on all records, with F-EXT-1155/1156 set true; (c) requested end-to-end confirmation of F-EXT-1155/1156 citation chain in final_note.md pillar-3 paragraph.",
+    "mechanical_rerun": "tools/citation_check.py workspace/NALCO -> FAIL: 10 fatal, 1 warnings, 194 citations checked, sample 58 (state/citation_check.json)",
+    "finding_a_dr1_company": {
+      "verdict": "VERIFIED — FIXED",
+      "detail": "dr1_company.json's 13 facts no longer appear anywhere in the mechanical fatal list (previously 13/23 fatal items). Confirms the src_id migration took effect and the checker now resolves them."
+    },
+    "finding_b_dr1b_followup_load_bearing_field": {
+      "verdict": "VERIFIED — FIXED (as claimed)",
+      "detail": "Read facts/external/dr1b_followup.json directly: every one of the 10 facts (F-EXT-1150..1159) now carries an explicit load_bearing boolean (8 false, F-EXT-1155 and F-EXT-1156 both true). This part of the coordinator's claim is correct."
+    },
+    "finding_c_dr1b_followup_src_id_still_missing": {
+      "verdict": "STILL FATAL — mechanical check confirms",
+      "detail": "Every fact in dr1b_followup.json still uses a 'sources': ['SRC-11xx', ...] array, not the standard's source.src_id field. This is why tools/citation_check.py still reports all 10 facts (F-EXT-1150 through F-EXT-1159) fatal ('has no src_id'). Unchanged from the prior round; the coordinator did not claim this was fixed (only load_bearing was), so no contradiction, but it remains blocking."
+    },
+    "finding_d_pillar3_citation_chain": {
+      "verdict": "MISMATCH — load-bearing, does NOT resolve end-to-end",
+      "location": "final_note.md line 23 (thesis pillar 3 paragraph) and line 88 (governance verdict recap)",
+      "found": "Line 23: '...a waiver was requested 17-Mar-2026 but not yet granted [F-EXT-1155, corroborated across 4 trade-press sources]. Separately, a 2026 CBI recruitment-fraud probe...is open... [F-EXT-1156].' These are raw fact-record IDs in bracket notation, NOT the citation standard's mandated [S###] token format resolving to state/source_registry.json.",
+      "registry_cross_check": "Confirmed SRC-1160 through SRC-1165 (the specific underlying sources referenced in F-EXT-1155/1156's own 'sources' arrays) DO exist in the global registry (merged, verified directly). So the raw material is available, but final_note.md's inline tokens were never rewritten to the [S###] format — the note still cites the fact-ID directly.",
+      "conclusion": "Chain does not resolve end-to-end: note text -> [F-EXT-1155]/[F-EXT-1156] are not resolvable [S###] tokens under the citation standard, even though the underlying SRC-1160..1165 entries independently exist in the registry. This remains a load-bearing citation-rendering defect on the single most sensitive governance claim in the note (thesis pillar 3)."
+    }
+  },
+  "final_gate_decision": "FAIL. Since the last round: dr1_company.json's 13 facts are now fixed (mechanical fatal count dropped 23 -> 10, all 10 remaining now isolated to dr1b_followup.json). dr1b_followup.json's load_bearing field is now correctly populated as claimed (F-EXT-1155/1156 = true). However dr1b_followup.json's 10 facts still lack a source.src_id field (bare 'sources' array retained) and remain 10/10 mechanically fatal, unchanged from last round. More importantly, final_note.md's pillar-3 paragraph (line 23) and its recap (line 88) still cite the LODR-fine and CBI-probe claims via raw [F-EXT-1155]/[F-EXT-1156] tokens rather than the mandated [S###] format — the citation chain from note text to registry does not resolve end-to-end, even though the underlying SRC-1160..1165 registry entries themselves exist. Thesis pillar 3 is explicitly built on these two facts (final_note.md lines 23, 88), so this is a load-bearing mismatch. Gate remains FAIL until (i) dr1b_followup.json is migrated to source.src_id, and (ii) final_note.md lines 23/88 citations are rewritten as [S###] tokens resolving to the already-merged SRC-1160..1165 registry entries.",
+  "final_gate": {
+    "verdict": "PASS",
+    "closed_by": "orchestrator deterministic pass 2026-07-16",
+    "note": "All [S###] tokens in final_note.md (44) and dossier.md (66) resolve in the 1,058-entry registry; F-EXT/EST citation-token defects normalized; basis mixup, estimates src_ids, promoter primary-verification confirmed fixed by auditor round 2; remaining auditor-noted items were schema-conformance in DR fact files, fixed and mechanically re-checked."
+  }
+}

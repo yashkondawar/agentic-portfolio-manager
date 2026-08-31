@@ -1,0 +1,53 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 256,
+  "table_index": 1,
+  "bbox": [
+    51.273632432432436,
+    85.44810000000001,
+    543.0299225000001,
+    164.15634285714285
+  ],
+  "rows": [
+    [
+      "",
+      "",
+      "As at 31.03.2023",
+      "Reduction during\nthe year",
+      "Addition during\nthe year",
+      "As at 31.03.2024"
+    ],
+    [
+      "b.",
+      "Claim by contractors/suppliers and others",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "1. Claims of Contractor’s suppliers and others",
+      "359.15",
+      "(204.19)",
+      "11.92",
+      "166.88"
+    ],
+    [
+      null,
+      "2. Claim From PSUs",
+      "423.21",
+      "(3.79)",
+      "123.41",
+      "542.83"
+    ],
+    [
+      "Total",
+      null,
+      "2,362.29",
+      "(755.69)",
+      "313.43",
+      "1,920.03"
+    ]
+  ]
+}

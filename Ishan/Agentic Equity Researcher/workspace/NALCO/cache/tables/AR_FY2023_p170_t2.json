@@ -1,0 +1,73 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 170,
+  "table_index": 2,
+  "bbox": [
+    45.979,
+    561.51,
+    549.546,
+    675.3715
+  ],
+  "rows": [
+    [
+      "28 - Commitments Amount in ` Crore",
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      null,
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      "a) Estimated amount of Contracts remaining to be executed on capital account and not provided for",
+      null,
+      "3,690.17",
+      "3,404.69"
+    ],
+    [
+      "b) Other Commitments",
+      null,
+      "",
+      ""
+    ],
+    [
+      "",
+      "(1) Amount payable to the Government of India but not yet due for payment for allocation of Utkal D & E coal block.",
+      "Nil",
+      "Nil"
+    ],
+    [
+      null,
+      "(2) Export obligation for import of capital goods under Export Promotion Capital Goods Scheme.",
+      "244.51",
+      "463.94"
+    ],
+    [
+      null,
+      "(3) Estimated amount of commitment to Govt. of Odisha for allotment of Pottangi Bauxite Mines",
+      "Nil",
+      "Nil"
+    ],
+    [
+      null,
+      "(4) Estimated amount of commitment to Govt. of India (MoEFFC) for 5th Stream Refinery project.",
+      "Nil",
+      "Nil"
+    ],
+    [
+      null,
+      "(5) Corporate environment responsibility (CER) for capital investments",
+      "Nil",
+      "6.00"
+    ],
+    [
+      null,
+      "Total",
+      "3,934.68",
+      "3,874.63"
+    ]
+  ]
+}

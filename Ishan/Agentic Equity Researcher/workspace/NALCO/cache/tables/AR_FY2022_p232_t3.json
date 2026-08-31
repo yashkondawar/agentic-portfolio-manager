@@ -1,0 +1,29 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 232,
+  "table_index": 3,
+  "bbox": [
+    45.6676625,
+    251.68650000000002,
+    424.29179999999997,
+    301.71950000000004
+  ],
+  "rows": [
+    [
+      "Current (secured) ( at amortised cost)",
+      "As at 31.03.2022"
+    ],
+    [
+      "Liabilities towards bills discounted",
+      "20.67"
+    ],
+    [
+      "Total other current financial liabilities",
+      "20.67"
+    ],
+    [
+      "20.1 Secured by hypothecation of inventories and trade receivable",
+      ""
+    ]
+  ]
+}

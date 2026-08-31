@@ -1,0 +1,138 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 169,
+  "table_index": 1,
+  "bbox": [
+    64.9631,
+    78.06135,
+    549.6412200000001,
+    418.302
+  ],
+  "rows": [
+    [
+      "Current",
+      "As at 31.03.2022",
+      "As at 31.03.2021"
+    ],
+    [
+      "Advances other than capital advances",
+      "",
+      ""
+    ],
+    [
+      "(a) Claims with statutory authorities",
+      "",
+      ""
+    ],
+    [
+      "(1) Export Incentive Claims",
+      "71.42",
+      "28.53"
+    ],
+    [
+      "(2) Generation Based Incentive on power generated from renewable source and\nRenewable energy certificates",
+      "5.10",
+      "2.94"
+    ],
+    [
+      "(3) VAT, CENVAT and GST Credit Recoverable",
+      "295.64",
+      "332.80"
+    ],
+    [
+      "(4) Claims receivable from customs, excise and railway authorities",
+      "7.68",
+      "8.84"
+    ],
+    [
+      "(b) Prepaid expenses",
+      "",
+      ""
+    ],
+    [
+      "(1) Deferred employee benefits [ refer Note 11.1]",
+      "2.04",
+      "2.39"
+    ],
+    [
+      "(2) Other prepaid expenses",
+      "9.34",
+      "4.91"
+    ],
+    [
+      "(c) Stamp in hand",
+      "0.01",
+      "0.01"
+    ],
+    [
+      "(d) Other receivables",
+      "1.07",
+      "1.23"
+    ],
+    [
+      "(e) Other advances",
+      "",
+      ""
+    ],
+    [
+      "(1) Advances to employees",
+      "38.22",
+      "29.23"
+    ],
+    [
+      "(2) Advances to suppliers and service providers",
+      "656.34",
+      "363.20"
+    ],
+    [
+      "(3) Others",
+      "4.16",
+      "3.84"
+    ],
+    [
+      "Gross other current assets",
+      "1,091.02",
+      "777.92"
+    ],
+    [
+      "Less: Allowance for bad and doubtful for other current assets",
+      "",
+      ""
+    ],
+    [
+      "(a) VAT and CENVAT Credit Recoverable",
+      "197.81",
+      "197.81"
+    ],
+    [
+      "(b) Claims receivable from customs, excise and railway authorities",
+      "5.98",
+      "7.09"
+    ],
+    [
+      "(c) Other receivables",
+      "0.36",
+      "0.39"
+    ],
+    [
+      "(d) Advances to suppliers and service providers",
+      "2.02",
+      "2.02"
+    ],
+    [
+      "(e) Others",
+      "1.82",
+      "1.81"
+    ],
+    [
+      "Total allowance for bad and doubtful for other current assets",
+      "207.99",
+      "209.12"
+    ],
+    [
+      "Total other current assets",
+      "883.03",
+      "568.80"
+    ]
+  ]
+}

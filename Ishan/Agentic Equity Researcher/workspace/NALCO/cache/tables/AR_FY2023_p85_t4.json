@@ -1,0 +1,38 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 85,
+  "table_index": 4,
+  "bbox": [
+    74.34259999999999,
+    549.8563333333334,
+    549.5626,
+    639.9550000000002
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Item",
+      "Investment (` in lakh)"
+    ],
+    [
+      "1.",
+      "Renovation & Modernization of existing Air-Preheater in Unit-5.",
+      "404.00"
+    ],
+    [
+      "2.",
+      "Installation and commissioning of booster pump for ESP internal washing in place of high capacity\nfirefighting pump for effective cleaning.",
+      "17.03"
+    ],
+    [
+      "3.",
+      "Chemical cleaning of condensers in Unit # 7",
+      "12.90"
+    ],
+    [
+      "4.",
+      "The old inefficient HPH-6 in Unit-5 has been replaced with new HPH.",
+      "204.30"
+    ]
+  ]
+}

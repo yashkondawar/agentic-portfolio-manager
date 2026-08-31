@@ -1,0 +1,34 @@
+kpi_id: yield_gap
+scope: macro
+cycle_refs: [valuation_cycle]
+formula: >
+  Yield Gap / BEER = 10Y G-Sec yield x Nifty trailing P/E. (A "Modified
+  Yield Gap" substitutes the 1Y G-Sec yield.) Equivalent framing: compare
+  the equity earnings yield (1/PE) against the bond yield directly.
+inputs:
+  - name: Nifty 50 trailing P/E
+    source: afund.index_data (index_name='NIFTY 50', pe)
+    status: available
+  - name: 10Y India G-Sec yield
+    source: FRED INDIRLTLT01STM via afund.data.macro_fred (macro_series GSEC_10Y, monthly)
+    status: available
+orientation: value_type
+lookback_years: 15
+cadence: daily
+# Phase 8: 10Y G-Sec yield sourced from FRED (monthly, ~1-2 month
+# publication lag — the yield leg lags the daily P/E leg; disclosed in the
+# anchor note). Computed by afund.cycles.anchors.yield_gap_anchor as
+# (yield% / 100) x index P/E, the scaling consistent with the 1.40/1.70
+# thresholds below (verified live: 7.02% x 20.92 / 100 = 1.469).
+source_status: available
+# Framework allocation-band triggers (references/methodology/
+# cycle_positioning_framework.md sections 2.4/5.1): <1.40 = deeply
+# undervalued (max-equity band), >1.70 = severely overvalued (defensive).
+# DRAFT — inherited from source material, back-test before use.
+thresholds:
+  deep_value_below: 1.40
+  euphoria_above: 1.70
+registry_xref: null
+references_xref:
+  - kpi_interpretation/valuation_cycle.md
+  - methodology/cycle_positioning_framework.md

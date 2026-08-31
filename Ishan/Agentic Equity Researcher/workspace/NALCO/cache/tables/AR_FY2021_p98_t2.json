@@ -1,0 +1,67 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 98,
+  "table_index": 2,
+  "bbox": [
+    116.47045,
+    393.49505,
+    546.83664,
+    546.3222999999999
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Name of Director",
+      "DIN",
+      "Date of Appointment"
+    ],
+    [
+      "Functional Directors",
+      null,
+      null,
+      null
+    ],
+    [
+      "1.",
+      "Shri Sridhar Patra\nChairman-cum-Managing Director",
+      "06500954",
+      "17.12.2019"
+    ],
+    [
+      "2.",
+      "Shri Radhashyam Mahapatro\nDirector(HR)",
+      "07248972",
+      "01.01.2020"
+    ],
+    [
+      "3.",
+      "Shri Manasa Prasad Mishra\nDirector (P&T) & Director (Finance)-Addl. Charge*",
+      "08951624",
+      "01.11.2020"
+    ],
+    [
+      "4.",
+      "Shri Bijay Kumar Das\nDirector (Production) & Director (Commercial)-Addl. Charge#",
+      "08984700",
+      "01.12.2020"
+    ],
+    [
+      "Part-time Official Directors$",
+      null,
+      null,
+      null
+    ],
+    [
+      "5.",
+      "Shri Satendra Singh, IAS^",
+      "05195060",
+      "05.08.2020"
+    ],
+    [
+      "6.",
+      "Shri Sanjay Lohiya, IAS@",
+      "07151125",
+      "09.11.2020"
+    ]
+  ]
+}

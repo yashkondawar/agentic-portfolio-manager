@@ -1,0 +1,513 @@
+{
+  "source_registry_additions": {
+    "SRC-1100": {
+      "doc": "web",
+      "kind": "company_press_release",
+      "page": null,
+      "locator": "NALCO 'Shri Brijendra Pratap Singh takes over as CMD of NALCO'",
+      "period": "2026-07-16",
+      "url": "https://nalcoindia.com/pre-rel/shri-brijendra-pratap-singh-takes-over-as-cmd-of-nalco/",
+      "accessed": "2026-07-16",
+      "corroboration": "primary"
+    },
+    "SRC-1101": {
+      "doc": "web",
+      "kind": "trade_press",
+      "page": null,
+      "locator": "alcircle.com 'Brijendra Pratap Singh selected as next Chairman-cum-MD of NALCO'",
+      "period": "2026-07-16",
+      "url": "https://www.alcircle.com/news/brijendra-pratap-singh-selected-as-next-chairman-cum-md-of-nalco-112013",
+      "accessed": "2026-07-16",
+      "corroboration": "secondary"
+    },
+    "SRC-1102": {
+      "doc": "web",
+      "kind": "company_press_release",
+      "page": null,
+      "locator": "NALCO 'Shri Abhay Kumar Behuria assumes charge as Director (Finance), NALCO'",
+      "period": "2026-07-16",
+      "url": "https://nalcoindia.com/pre-rel/shri-abhay-kumar-behuria-assumes-charge-as-director-finance-nalco/",
+      "accessed": "2026-07-16",
+      "corroboration": "primary"
+    },
+    "SRC-1103": {
+      "doc": "web",
+      "kind": "trade_press",
+      "page": null,
+      "locator": "psuconnect.in 'Abhay Kumar Behuria appointed as Director (Finance) of NALCO'",
+      "period": "2026-07-16",
+      "url": "https://www.psuconnect.in/new-faces-in-psus/abhay-kumar-behuria-appointed-as-director-finance-of-nalco",
+      "accessed": "2026-07-16",
+      "corroboration": "secondary"
+    },
+    "SRC-1104": {
+      "doc": "web",
+      "kind": "aggregator_market_data_site",
+      "page": null,
+      "locator": "shareholding pattern summary (promoter 51.28%) — market data aggregator, quarter Dec2025-Mar2026",
+      "period": "Q4FY2026",
+      "url": "https://www.marketsmojo.com/stocks-analysis/natl-aluminium-359296-0",
+      "accessed": "2026-07-16",
+      "corroboration": "unverified"
+    },
+    "SRC-1105": {
+      "doc": "web",
+      "kind": "company_press_release",
+      "page": null,
+      "locator": "NALCO 'NALCO Pays Rs. 988.88 crore as dividend to Government of India for FY 2024-25'",
+      "period": "FY2025",
+      "url": "https://nalcoindia.com/pre-rel/nalco-pays-rs-988-88-crore-as-dividend-to-government-of-india-for-fy-2024-25/",
+      "accessed": "2026-07-16",
+      "corroboration": "primary"
+    },
+    "SRC-1106": {
+      "doc": "web",
+      "kind": "govt_records_secondary_ref",
+      "page": null,
+      "locator": "Odisha Government mining lease extension order references (Panchpatmali North-Central to 16.11.2032, South Block to 19.07.2029) as cited in IBM Bauxite Yearbook 2019 chapter",
+      "period": "as of 2019-2020",
+      "url": "https://ibm.gov.in/writereaddata/files/10012020172018Bauxite_2019_AR.pdf",
+      "accessed": "2026-07-16",
+      "corroboration": "primary"
+    },
+    "SRC-1107": {
+      "doc": "web",
+      "kind": "trade_press",
+      "page": null,
+      "locator": "Business Standard 'NALCO edges higher after signing Bauxite mining lease with Odisha Govt' (Pottangi lease deed, 697.979 ha, 3.5 mtpa capacity, 111 mt reserve, ~32 yr mine life)",
+      "period": "2024-06-14",
+      "url": "https://www.business-standard.com/markets/capital-market-news/nalco-edges-higher-after-signing-bauxite-mining-lease-with-odisha-govt-124061400164_1.html",
+      "accessed": "2026-07-16",
+      "corroboration": "secondary"
+    },
+    "SRC-1108": {
+      "doc": "web",
+      "kind": "trade_press",
+      "page": null,
+      "locator": "alcircle.com 'NALCO's Pottangi aim: starting up bauxite mines in Odisha by June 2026' — Dilip Buildcon lowest bidder, Damanjodi 5th stream +1 MTPA, parallel conveyor contingency Apr-May 2026",
+      "period": "2025-12",
+      "url": "https://www.alcircle.com/news/nalcos-pottangi-aim-starting-up-bauxite-mines-in-odisha-by-june-2026-116512",
+      "accessed": "2026-07-16",
+      "corroboration": "secondary"
+    },
+    "SRC-1109": {
+      "doc": "web",
+      "kind": "company_press_release",
+      "page": null,
+      "locator": "NALCO 'NALCO gets mining lease for Utkal-E coal block'",
+      "period": "2021-04",
+      "url": "https://nalcoindia.com/pre-rel/nalco-gets-mining-lease-for-utkal-e-coal-block/",
+      "accessed": "2026-07-16",
+      "corroboration": "primary"
+    },
+    "SRC-1110": {
+      "doc": "web",
+      "kind": "trade_press",
+      "page": null,
+      "locator": "mining-technology.com 'India's NALCO secures long-term mining lease for Utkal-E coal block' — Utkal-E 30yr lease, 523.73 ha, ~70 mt reserve, 2 mtpa initial; Utkal-D 30yr lease secured prior month",
+      "period": "2021-04-19",
+      "url": "https://www.mining-technology.com/news/nalco-mining-lease-utkal-e-coal-block/",
+      "accessed": "2026-07-16",
+      "corroboration": "secondary"
+    },
+    "SRC-1111": {
+      "doc": "web",
+      "kind": "trade_press",
+      "page": null,
+      "locator": "Global Energy Monitor 'Utkal D and E Coal Mines' + psuconnect/alcircle: combined Utkal-D&E lease deed signed 2024-12-24, 30-year term valid to 21 Apr 2051, combined mineable reserve 175 mt, FY26 target 4 mtpa",
+      "period": "2024-12-24",
+      "url": "https://www.gem.wiki/Utkal_D_and_E_Coal_Mines",
+      "accessed": "2026-07-16",
+      "corroboration": "secondary"
+    },
+    "SRC-1112": {
+      "doc": "web",
+      "kind": "govt_statement_parliament",
+      "page": null,
+      "locator": "Business Standard reporting Rajya Sabha reply, Union Minister Pralhad Joshi (Mines & Coal), 21-Mar-2022: 'no decision taken for disinvestment of NALCO'",
+      "period": "2022-03-21",
+      "url": "https://www.business-standard.com/article/politics/cpi-s-raja-writes-to-pm-requests-roll-back-of-decision-to-privatise-nalco-122021900803_1.html",
+      "accessed": "2026-07-16",
+      "corroboration": "secondary"
+    },
+    "SRC-1113": {
+      "doc": "web",
+      "kind": "trade_press",
+      "page": null,
+      "locator": "alcircle.com 'NALCO sees confidence in aluminium cycle, rules out divestment' — recent management statement ruling out divestment",
+      "period": "2026",
+      "url": "https://www.alcircle.com/news/nalco-sees-confidence-in-aluminium-cycle-rules-out-divestment-116690",
+      "accessed": "2026-07-16",
+      "corroboration": "secondary"
+    },
+    "SRC-1114": {
+      "doc": "web",
+      "kind": "aggregator_corporate_action_site",
+      "page": null,
+      "locator": "scanx.trade 'NALCO Q4 Standalone Net Profit at Rs1,718 Cr; Declares 3rd Interim Dividend of Rs2 Per Share, Total FY26 Dividend at Rs10.50' — reflects multiple interim dividends through FY26",
+      "period": "FY2026",
+      "url": "https://www.psuconnect.in/financial/nalco-q4-standalone-net-profit-at-1-718-cr-declares-3rd-interim-dividend-of-2-per-share",
+      "accessed": "2026-07-16",
+      "corroboration": "secondary"
+    },
+    "SRC-1115": {
+      "doc": "web",
+      "kind": "govt_regulator_secondary_ref",
+      "page": null,
+      "locator": "CAG Audit Report (covering FY2012-13 to FY2016-17) on NALCO bauxite/refinery operations — production shortfall of 96.31 lakh tonnes Alumina Hydrate, excess caustic soda consumption of 1.46 lakh tonnes valued Rs.426.27 cr (2012-13 to 2015-16)",
+      "period": "FY2013-FY2017",
+      "url": "https://cag.gov.in/en/audit-report/details/51931",
+      "accessed": "2026-07-16",
+      "corroboration": "primary"
+    },
+    "SRC-1116": {
+      "doc": "web",
+      "kind": "ngo_advocacy_reporting",
+      "page": null,
+      "locator": "alcircle.com 'Nalco bauxite mining project near Serubandha Hills Odisha faces tribal rebuke' + orissapost + landconflictwatch.org — Koraput/Serubandha Hills tribal protests re: Pottangi-linked mining, land acquisition, displacement, Aug-2024 bhumi pujan stalled by villagers",
+      "period": "2024-08 onward",
+      "url": "https://www.landconflictwatch.org/conflicts/tribals-protest-against-the-grant-of-bauxite-lease-to-nalco-at-koraput-in-odisha",
+      "accessed": "2026-07-16",
+      "corroboration": "secondary"
+    },
+    "SRC-1117": {
+      "doc": "web",
+      "kind": "advocacy_longform_journalism",
+      "page": null,
+      "locator": "Countercurrents.org (Apr 2026) 'State Push for Bauxite Mining in the Eastern Ghats amid Regional Unrest' — describes continued tribal unrest re Odisha bauxite mining incl. NALCO operations, environmental degradation framing at Panchpatmali",
+      "period": "2026-04",
+      "url": "https://countercurrents.org/2026/04/state-push-for-bauxite-mining-in-the-eastern-ghats-aravalli-of-odisha-amid-regional-unrest-and-unresponsiveness-of-constitutional-institutions/",
+      "accessed": "2026-07-16",
+      "corroboration": "unverified"
+    },
+    "SRC-1118": {
+      "doc": "web",
+      "kind": "aggregator_corporate_action_site",
+      "page": null,
+      "locator": "scanx.trade 'President of India confirms no encumbrance on Nalco shares in FY26' — promoter (President of India) shareholding confirmed unpledged",
+      "period": "FY2026",
+      "url": "https://scanx.trade/stock-news/national-aluminium-company-ltd",
+      "accessed": "2026-07-16",
+      "corroboration": "secondary"
+    },
+    "SRC-1119": {
+      "doc": "web",
+      "kind": "aggregator_corporate_action_site",
+      "page": null,
+      "locator": "scanx.trade 'NALCO Announces Cessation of Three Independent Directors Effective March 31, 2026' — Ms. Trupti Kamlesh Patel, Dr. Ajay Narang, Shri Patel Sanjaykumar; tenure expiry, Reg. 30 LODR disclosure; company noted GoI (President of India) controls ID appointments for CPSEs",
+      "period": "2026-03-31",
+      "url": "https://scanx.trade/stock-market-news/companies/nalco-announces-cessation-of-three-independent-directors-effective-march-31-2026/36542981",
+      "accessed": "2026-07-16",
+      "corroboration": "secondary"
+    },
+    "SRC-1120": {
+      "doc": "web",
+      "kind": "trade_press",
+      "page": null,
+      "locator": "psuconnect.in / prysm.fi — Shri Anil Kumar Singh joins NALCO Board as Director (Commercial), effective 7-Jan-2026, ex-Hindustan Copper/RINL",
+      "period": "2026-01-07",
+      "url": "https://www.prysm.fi/news/shri-anil-kumar-singh-joins-nalco-board-as-director-commercial",
+      "accessed": "2026-07-16",
+      "corroboration": "secondary"
+    },
+    "SRC-1121": {
+      "doc": "web",
+      "kind": "trade_press",
+      "page": null,
+      "locator": "Shri Pankaj Kumar Sharma, Director (Production), NALCO, assumed charge 1-Feb-2023, ex-NMDC — referenced via search aggregation of NALCO leadership page content",
+      "period": "2023-02-01",
+      "url": "https://nalcoindia.com/company/nalco-leadership/board-of-directors/",
+      "accessed": "2026-07-16",
+      "corroboration": "primary"
+    }
+  },
+  "facts": [
+    {
+      "id": "F-EXT-1100-CMD_APPOINTMENT",
+      "metric": "cmd_appointment",
+      "label": "CMD Brijendra Pratap Singh appointment and background",
+      "value": "Brijendra Pratap Singh selected by PESB (17-Sep-2024) as NALCO CMD; assumed charge 8-Jan-2025 at Bhubaneswar, succeeding Sridhar Patra (retired 31-Oct-2024). Mining Machinery Engineering graduate, IIT (ISM) Dhanbad 1989; MBA Marketing. 35+ years in SAIL — career at Bhilai, Bokaro, Durgapur, IISCO steel plants; immediately prior was Director-in-Charge, Burnpur & Durgapur Steel Plant and SAIL board member.",
+      "type": "fact",
+      "period": "2025-01-08",
+      "confidence": "high",
+      "load_bearing": true,
+      "flags": [],
+      "impacts": [
+        "governance-analyst",
+        "report-writer:dossier_management_section",
+        "report-writer:final_note_management_track_record"
+      ],
+      "source": {
+        "src_id": "SRC-1100",
+        "src_ids_additional": [
+          "SRC-1101"
+        ]
+      }
+    },
+    {
+      "id": "F-EXT-1101-DIRECTOR_FINANCE_APPOINTMENT",
+      "metric": "director_finance_appointment",
+      "label": "Director (Finance) Abhay Kumar Behuria appointment and background",
+      "value": "Abhay Kumar Behuria assumed charge as Director (Finance), NALCO on 11-Jun-2025 (Ministry of Mines order dated 6-Jun-2025). B.Com (Hons.) First Class, Utkal University; Fellow Member ICAI (Institute of Cost Accountants of India); Executive Diploma in Business Valuation (ICMAI). Prior role: Executive Director (Finance & Accounts), Rourkela Steel Plant (SAIL) — credited with record EBITDA/PBT at RSP, unit closures/cost optimization, SAP-in-Mines and digital finance initiatives.",
+      "type": "fact",
+      "period": "2025-06-11",
+      "confidence": "high",
+      "load_bearing": true,
+      "flags": [],
+      "impacts": [
+        "governance-analyst",
+        "fundamental-analyst",
+        "report-writer:dossier_management_section"
+      ],
+      "source": {
+        "src_id": "SRC-1102",
+        "src_ids_additional": [
+          "SRC-1103"
+        ]
+      }
+    },
+    {
+      "id": "F-EXT-1102-OTHER_FUNCTIONAL_DIRECTORS",
+      "metric": "other_functional_directors",
+      "label": "Other whole-time/functional directors on NALCO board",
+      "value": "Director (Commercial): Anil Kumar Singh, effective 7-Jan-2026, 35+ yrs commercial/metals experience, prior GM (Materials & Contracts) and I/c-HR at Hindustan Copper, career started at RINL. Director (Production): Pankaj Kumar Sharma, assumed charge 1-Feb-2023, 30+ yrs open-cast mining, career at NMDC. Director (Personnel/HR) not identified in this search pass — flagged as gap.",
+      "type": "fact",
+      "period": "2026-07-16",
+      "confidence": "medium",
+      "load_bearing": false,
+      "flags": [
+        "gap_director_personnel_not_confirmed"
+      ],
+      "impacts": [
+        "governance-analyst"
+      ],
+      "source": {
+        "src_id": "SRC-1120",
+        "src_ids_additional": [
+          "SRC-1121"
+        ]
+      }
+    },
+    {
+      "id": "F-EXT-1103-INDEPENDENT_DIRECTOR_CESSATION",
+      "metric": "independent_director_cessation",
+      "label": "Cessation of three Independent Directors effective 31-Mar-2026",
+      "value": "Ms. Trupti Kamlesh Patel, Dr. Ajay Narang and Shri Patel Sanjaykumar ceased to be Independent Directors effective 31-Mar-2026 on natural tenure expiry (Reg. 30 LODR disclosure). NALCO noted, per its CPSE structure, that Independent Director appointments are vested with the President of India and outside company control — implying a board-composition/independent-oversight gap risk until GoI appoints replacements.",
+      "type": "fact",
+      "period": "2026-03-31",
+      "confidence": "medium",
+      "load_bearing": false,
+      "flags": [],
+      "impacts": [
+        "governance-analyst",
+        "report-writer:governance_section"
+      ],
+      "source": {
+        "src_id": "SRC-1119"
+      }
+    },
+    {
+      "id": "F-EXT-1104-GOI_SHAREHOLDING",
+      "metric": "goi_shareholding_pct",
+      "label": "Government of India (President of India) shareholding in NALCO",
+      "value": 51.28,
+      "unit": "pct",
+      "type": "fact",
+      "period": "Q4FY2026 (Dec2025-Mar2026 quarter, unchanged q/q)",
+      "confidence": "medium",
+      "load_bearing": true,
+      "flags": [
+        "second_best_evidence",
+        "aggregator_not_nse_bse_direct"
+      ],
+      "note": "Attempted to source directly from NSE/BSE shareholding-pattern filing; NSE corporate-filings pages are bot-walled to automated fetch. Used market-data-aggregator secondary corroboration instead; matches the orchestrator's stated 51.28% figure. Recommend orchestrator verify via BSE Shareholding Pattern page or the raw XBRL filing for load-bearing use.",
+      "impacts": [
+        "fundamental-analyst",
+        "governance-analyst",
+        "report-writer:identity_block"
+      ],
+      "source": {
+        "src_id": "SRC-1104"
+      }
+    },
+    {
+      "id": "F-EXT-1105-SHARES_UNENCUMBERED",
+      "metric": "promoter_shares_pledge_status",
+      "label": "President of India (promoter) shares confirmed unencumbered in FY26",
+      "value": "No pledge/encumbrance on Government of India's (President of India's) NALCO shareholding in FY2026, per company confirmation reported by aggregator.",
+      "type": "fact",
+      "period": "FY2026",
+      "confidence": "medium",
+      "load_bearing": false,
+      "flags": [],
+      "impacts": [
+        "governance-analyst"
+      ],
+      "source": {
+        "src_id": "SRC-1118"
+      }
+    },
+    {
+      "id": "F-EXT-1106-SEBI_ED_SFIO_NCLT_CBI_CAG_SCREEN",
+      "metric": "regulatory_legal_screen_5y",
+      "label": "SEBI / ED / SFIO / NCLT / CBI / CAG action screen, last 5 years",
+      "value": "No SEBI enforcement order, show-cause notice, ED/SFIO/CBI action, or NCLT/NCLAT/IBBI petition against NALCO or its directors was found in this search pass (searches covered SEBI orders, NCLT filings, SFIO/CBI/ED mentions). The only CAG audit finding located relates to bauxite/refinery operational shortfalls (excess caustic soda consumption ~Rs.426 cr) for FY2013-FY2017 — dated, pre-dates the 5-year window, and is an operational/efficiency finding, not a fraud or governance-fraud finding. No signal of pledge, promoter-linked NCLT case, or auditor-change controversy found. This is an absence-of-evidence result from public web search, not a certified clean-scan of SEBI/NCLT primary dockets (which were not directly queryable/bot-walled in this pass).",
+      "type": "fact",
+      "period": "2021-2026",
+      "confidence": "low",
+      "load_bearing": true,
+      "flags": [
+        "absence_of_evidence_not_verified_clean",
+        "primary_docket_search_incomplete"
+      ],
+      "impacts": [
+        "governance-analyst",
+        "forensic-auditor",
+        "report-writer:governance_section"
+      ],
+      "source": {
+        "src_id": "SRC-1115"
+      }
+    },
+    {
+      "id": "F-EXT-1107-PANCHPATMALI_LEASE_STATUS",
+      "metric": "panchpatmali_lease_expiry",
+      "label": "Panchpatmali bauxite mining lease renewal dates — correction vs. management-stated 2029/2035",
+      "value": "Per Odisha Government mining-lease extension orders as recorded in the Indian Bureau of Mines Bauxite Yearbook (2019 edition, covering extensions from 31-Mar-2020 base): Panchpatmali North-Central Block lease extended to 16-Nov-2032; Panchpatmali South Block lease extended to 19-Jul-2029. This ANALYST QUESTION asked to verify mgmt-stated 'central block 2029, south 2035' — the primary-source-derived dates found (South Block 2029, North-Central 2032) do NOT match the mgmt framing quoted in the brief (which has central=2029, south=2035); the block-to-date pairing appears reversed and the terminal dates differ (2032 vs 2035 for the non-South block). This is flagged as a DISCREPANCY requiring verification against NALCO's own AR/investor-presentation disclosure of lease terms, which is the more current and authoritative source than this 2019-vintage IBM yearbook chapter.",
+      "type": "fact",
+      "period": "as of 2019-2020 extension; may have been further renewed since",
+      "confidence": "medium",
+      "load_bearing": true,
+      "flags": [
+        "discrepancy_vs_management_statement",
+        "stale_source_2019_vintage"
+      ],
+      "impacts": [
+        "fundamental-analyst",
+        "guidance-analyst",
+        "report-writer:mining_lease_section",
+        "red_flags"
+      ],
+      "source": {
+        "src_id": "SRC-1106"
+      }
+    },
+    {
+      "id": "F-EXT-1108-POTTANGI_STATUS",
+      "metric": "pottangi_mine_status",
+      "label": "Pottangi bauxite mine — lease, contractor, and startup timeline",
+      "value": "Odisha Government granted NALCO a 50-year mining lease over ~697.979 hectares at Pottangi, Koraput district (lease deed signed/reported 14-Jun-2024); rated capacity 3.5 MTPA, reserves ~111 million tonnes, ~32-year mine life. Dilip Buildcon emerged as lowest bidder (L1) for mine development-cum-operation. As of Dec-2025 reporting, NALCO targeted start of mining by June 2026, alongside a Damanjodi refinery 5th stream (+1 MTPA, taking capacity from 2.275 to ~3.275 MTPA) and a parallel-conveyor contingency (~30 lakh tonnes/year capacity from existing mines) commissioning Apr-May 2026 as a hedge against Pottangi delay.",
+      "type": "fact",
+      "period": "2024-06 to 2026-06 (targeted)",
+      "confidence": "medium",
+      "load_bearing": true,
+      "flags": [],
+      "impacts": [
+        "fundamental-analyst",
+        "guidance-analyst",
+        "report-writer:mining_lease_section",
+        "estimates-builder"
+      ],
+      "source": {
+        "src_id": "SRC-1107",
+        "src_ids_additional": [
+          "SRC-1108"
+        ]
+      }
+    },
+    {
+      "id": "F-EXT-1109-POTTANGI_TRIBAL_OPPOSITION",
+      "metric": "pottangi_execution_risk_tribal_opposition",
+      "label": "Tribal/community opposition to Pottangi (Serubandha Hills) bauxite project — execution risk to the June-2026 startup target",
+      "value": "Sustained tribal opposition in Koraput district (Serubandha Hills / Serubandh Suraksha Samiti) to the Pottangi-linked bauxite mining project on grounds of displacement, forest loss and water-source (perennial stream) depletion. An August-2024 foundation ceremony (bhumi pujan), to be attended by the Union Minister of State for Mines, was stalled/called off after villagers demanded land-acquisition/settlement issues be resolved first. As of an April-2026 long-form report, unrest in the wider Eastern Ghats bauxite belt (including areas historically mined by NALCO at Panchpatmali) continues to be described as unresolved. This is an OPINION-INFLECTED reputational/execution-risk item from advocacy/NGO-adjacent sources (LandConflictWatch, Countercurrents) and should be read as one-sided community-advocacy framing, not adjudicated fact — but the underlying protest events (stalled bhumi pujan, demands re: land settlement) are corroborated across independent press (AlCircle, OrissaPOST).",
+      "type": "fact_with_opinion_framing",
+      "period": "2024-08 to 2026-04",
+      "confidence": "medium",
+      "load_bearing": true,
+      "flags": [
+        "opinion_inflected_source",
+        "corroborated_underlying_events"
+      ],
+      "impacts": [
+        "guidance-analyst",
+        "governance-analyst",
+        "report-writer:risk_section",
+        "estimates-builder"
+      ],
+      "source": {
+        "src_id": "SRC-1116",
+        "src_ids_additional": [
+          "SRC-1117"
+        ]
+      }
+    },
+    {
+      "id": "F-EXT-1110-UTKAL_DE_COAL_BLOCK_STATUS",
+      "metric": "utkal_de_coal_block_status",
+      "label": "Utkal-D and Utkal-E captive coal block lease status",
+      "value": "Utkal-E: mining lease granted ~Apr-2021, 30-year term, 523.73 ha, Angul district, ~70 mt mineable reserve, initial capacity 2 MTPA. Utkal-D: 30-year lease secured approx. one month prior (~Mar-2021). Combined Utkal-D&E: mining lease deed for the amalgamated block reported signed 24-Dec-2024, 30-year term valid to 21-Apr-2051; combined mineable reserve ~175 million tonnes; feeds NALCO's captive power plant at the Angul Smelter & Power Complex (operational since Nov-2022); FY2025-26 target to lift coal production to 4 million tonnes.",
+      "type": "fact",
+      "period": "2021-04 to 2025-12",
+      "confidence": "high",
+      "load_bearing": true,
+      "flags": [],
+      "impacts": [
+        "fundamental-analyst",
+        "guidance-analyst",
+        "report-writer:mining_lease_section"
+      ],
+      "source": {
+        "src_id": "SRC-1109",
+        "src_ids_additional": [
+          "SRC-1110",
+          "SRC-1111"
+        ]
+      }
+    },
+    {
+      "id": "F-EXT-1111-DISINVESTMENT_HISTORY_SIGNAL",
+      "metric": "disinvestment_ofs_status",
+      "label": "GoI disinvestment / OFS history and current signal for NALCO",
+      "value": "No OFS or strategic-disinvestment transaction for NALCO found in this search pass. Ministry of Mines (Minister Pralhad Joshi) stated in Rajya Sabha (21-Mar-2022) that no decision had been taken to disinvest NALCO, following political opposition (CPI's D. Raja letter to PM, Feb-2022) to reported privatisation plans. BALCO and Hindustan Zinc — the two Ministry-of-Mines CPSEs that WERE privatised — are cited by contrast as already-completed disinvestments; NALCO has not followed. A more recent (2026) trade-press item (AlCircle) reports NALCO management 'rules out divestment', citing confidence in the aluminium cycle — this is a management/company-level statement, not a government policy statement, and should be read as management's characterization. No FY2026 OFS calendar entry for NALCO found (the only 2026 Ministry-of-Mines-adjacent OFS activity found was NLC India's 3% OFS, June 2026 — a different company, included here only to confirm it is NOT NALCO).",
+      "type": "fact",
+      "period": "2022-03 to 2026-07",
+      "confidence": "medium",
+      "load_bearing": true,
+      "flags": [],
+      "impacts": [
+        "fundamental-analyst",
+        "report-writer:capital_structure_section"
+      ],
+      "source": {
+        "src_id": "SRC-1112",
+        "src_ids_additional": [
+          "SRC-1113"
+        ]
+      }
+    },
+    {
+      "id": "F-EXT-1112-DIVIDEND_HISTORY_FY26",
+      "metric": "dividend_history_fy26",
+      "label": "NALCO dividend payout pattern FY2025 and FY2026 (multiple interims), DIPAM-context",
+      "value": "NALCO paid Rs.988.88 crore in dividend to the Government of India for FY2024-25 (company press release). For FY2025-26, the company declared multiple interim dividends through the year (board meeting scheduled 30-Jan-2026 to consider a second interim; a subsequently reported 3rd interim dividend of Rs.2/share brought total FY26 dividend to Rs.10.50/share, alongside Q4 standalone net profit of Rs.1,718 cr). This pattern of multiple interim dividends across the fiscal year is consistent with DIPAM's general capital-efficiency push for CPSEs (minimum dividend norms of higher of 30% of PAT or 4-5% of net worth, per standing DIPAM guidelines) though this search pass did not locate a NALCO-specific DIPAM directive letter — the company's own Dividend Distribution Policy document (nalcoindia.com) was identified but not fetched in this pass (fetch budget prioritized elsewhere); flagged as gap for follow-up if dividend-policy specifics become load-bearing.",
+      "type": "fact",
+      "period": "FY2025-FY2026",
+      "confidence": "medium",
+      "load_bearing": true,
+      "flags": [
+        "dipam_directive_text_not_directly_sourced"
+      ],
+      "impacts": [
+        "fundamental-analyst",
+        "estimates-builder",
+        "report-writer:capital_allocation_section"
+      ],
+      "source": {
+        "src_id": "SRC-1105",
+        "src_ids_additional": [
+          "SRC-1114"
+        ]
+      }
+    }
+  ]
+}

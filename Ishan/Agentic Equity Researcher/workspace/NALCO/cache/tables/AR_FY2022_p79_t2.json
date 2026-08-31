@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 79,
+  "table_index": 2,
+  "bbox": [
+    74.68,
+    155.851,
+    348.995,
+    235.87600000000003
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Particulars",
+      "Details"
+    ],
+    [
+      "1",
+      "DIN Number",
+      "08984700"
+    ],
+    [
+      "2",
+      "Name",
+      "Shri Bijay Kumar Das"
+    ],
+    [
+      "3",
+      "Designation",
+      "Director (Production)"
+    ],
+    [
+      "4",
+      "Telephone Number",
+      "0674-2300660"
+    ],
+    [
+      "5",
+      "e-mail ID",
+      "dirprod@nalcoindia.co.in"
+    ]
+  ]
+}

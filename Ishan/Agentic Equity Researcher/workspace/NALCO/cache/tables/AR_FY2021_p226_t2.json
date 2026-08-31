@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 226,
+  "table_index": 2,
+  "bbox": [
+    90.20866666666667,
+    145.27605714285707,
+    546.3808235294118,
+    266.604
+  ],
+  "rows": [
+    [
+      "Name of the joint venture",
+      "Principal Activity and place of business",
+      "Proportion of ownership interest /\nvoting rights held by the Company",
+      null
+    ],
+    [
+      "(a) Utkarsha Aluminium Dhatu Nigam\nLimited",
+      "Manufacture, market, sell, buy, trade, distribute, import and export\nof all high end aluminium alloy products including scrap to fulfil\nthe requirement of critical, strategic and other sectors",
+      "50.00%",
+      "50.00%"
+    ],
+    [
+      "(b) Khanij Bidesh India Limited",
+      "Identify, explore, acquire, develop, mine, process, procure and sell\nstrategic minerals outside India",
+      "40.00%",
+      "40.00%"
+    ],
+    [
+      "(c) Angul Aluminium Park Private\nLimited",
+      "Promoting aluminium specific downstream in Odisha,\nBhubaneswar, Odisha.",
+      "49.00%",
+      "49.00%"
+    ],
+    [
+      "(d) GACL-NALCO Alkalies &\nChemicals Private Limited",
+      "Production of cuastic soda, Vadodara, Gujarat, India",
+      "40.00%",
+      "40.00%"
+    ]
+  ]
+}

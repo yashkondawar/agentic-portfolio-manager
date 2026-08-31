@@ -1,0 +1,38 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 251,
+  "table_index": 4,
+  "bbox": [
+    102.29727727272729,
+    364.5361,
+    555.4001238095237,
+    453.58692499999995
+  ],
+  "rows": [
+    [
+      "Additions to non-current assets",
+      null,
+      null
+    ],
+    [
+      "",
+      "Year ended\n31.03.2021",
+      "Year ended\n31.03.2020"
+    ],
+    [
+      "Chemical segment (Hydrate and Alumina)",
+      "2,676.58",
+      "2,978.28"
+    ],
+    [
+      "Aluminium segment (Aluminium)",
+      "6,152.79",
+      "5,392.54"
+    ],
+    [
+      "",
+      "8,829.37",
+      "8,370.82"
+    ]
+  ]
+}

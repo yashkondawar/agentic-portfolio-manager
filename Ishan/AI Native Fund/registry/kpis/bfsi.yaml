@@ -1,0 +1,109 @@
+# BFSI (Banks, NBFCs, HFCs, Insurers) — KPI/ratio vocabulary and qualitative
+# checklist for the Equity Research / Sectoral Analyst agents.
+# Source: docs/source-material/er-deep-research-prompts.txt, "BFSI Analyst" section.
+
+sector: bfsi
+description: >
+  Banks, NBFCs, Housing Finance Companies (HFCs), and Insurers. Franchise
+  quality (liabilities), asset quality, capital adequacy, and regulatory
+  moat (RBI/IRDA) dominate the analytical frame over generic P&L metrics.
+
+quantitative_kpis:
+  # Core Valuation
+  - name: price_to_book
+    unit: "x"
+    category: core_valuation
+  - name: pe_ltm
+    unit: "x"
+    category: core_valuation
+  - name: forward_pe
+    unit: "x"
+    category: core_valuation
+  # Core Profitability
+  - name: net_interest_income
+    unit: currency
+    category: core_profitability
+  - name: net_profit_excl_oneoffs
+    unit: currency
+    category: core_profitability
+  - name: eps_diluted
+    unit: currency
+    category: core_profitability
+  # Core Returns
+  - name: roa
+    unit: "%"
+    category: core_returns
+  - name: roe
+    unit: "%"
+    category: core_returns
+  - name: roce
+    unit: "%"
+    category: core_returns
+  # Asset Quality
+  - name: gnpa
+    unit: "%"
+    category: asset_quality
+  - name: nnpa
+    unit: "%"
+    category: asset_quality
+  - name: pcr
+    unit: "%"
+    category: asset_quality
+  - name: credit_cost
+    unit: "%"
+    category: asset_quality
+  # Capital
+  - name: cet1_ratio
+    unit: "%"
+    category: capital
+  - name: car
+    unit: "%"
+    category: capital
+  # Cash Flow Quality
+  - name: fcf_to_ebitda_conversion
+    unit: "%"
+    category: cash_flow_quality
+  # Liability Franchise / sector-specific
+  - name: casa_ratio
+    unit: "%"
+    category: liability_franchise
+  - name: cost_of_funds
+    unit: "%"
+    category: liability_franchise
+  - name: nim
+    unit: "%"
+    category: liability_franchise
+  # Growth
+  - name: loan_book_aum_growth_yoy
+    unit: "%"
+    category: growth
+  - name: deposit_growth_yoy
+    unit: "%"
+    category: growth
+  # Insurance-specific
+  - name: vnb_margin
+    unit: "%"
+    category: insurance
+  - name: ape_growth_yoy
+    unit: "%"
+    category: insurance
+
+qualitative_checks:
+  - liability_franchise_strength: "CASA quality; digital acquisition cost benchmarking."
+  - asset_mix: "Secured vs. unsecured mix across peers."
+  - book_value_quality: "True loan-loss provisioning and through-cycle stability underlying ROA/ROCE."
+  - regulatory_moat: "Strength of RBI/IRDA-driven regulatory moat; recent/impending regulatory changes (Basel III, digital lending rules)."
+  - porters_five_forces: "Rivalry priced on next rupee of lending/deposit; bargaining power of depositors/wholesale money markets and sensitivity to RBI rate hikes (ALM pressure)."
+  - upstream_liabilities: "Marginal cost of funds, especially NBFC reliance on the commercial paper market, vs. core CASA ratio."
+  - downstream_assets: "Collection efficiency and capital deployment efficiency against risk-weighted assets (RWA)."
+  - stress_testing: "Publicly available stress-test results on loan book resilience to RBI rate hikes."
+
+cycle_overlap_checks:
+  - valuation_earnings_cycle: "Is the current P/B premium/discount justified by ROCE stability, or driven purely by the valuation cycle (investor enthusiasm)?"
+  - credit_risk_cycle: "Given the state of the interest rate & credit cycle, what is the risk to book value quality (true provisioning), and how do peers handle ALM pressure from wholesale funding reliance?"
+  - policy_profit_cycle: "If enjoying a regulatory moat, assess political risk and long-term sustainability, especially receivable-day exposure to government counterparties."
+
+niche_pointers:
+  - life_insurers: "VNB margin (protection vs. savings mix); growth in non-par protection products."
+  - hfcs: "Interest-rate sensitivity; regional property registration volume trends."
+  - mfis_rural_lenders: "Explicit exposure and resilience to political risk from state-level loan waivers."

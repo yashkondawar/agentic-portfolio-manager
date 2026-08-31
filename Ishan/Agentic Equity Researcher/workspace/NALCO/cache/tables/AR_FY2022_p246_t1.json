@@ -1,0 +1,41 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 246,
+  "table_index": 1,
+  "bbox": [
+    73.92259999999999,
+    244.17415000000005,
+    453.51480000000004,
+    316.8595
+  ],
+  "rows": [
+    [
+      "Operating Segments",
+      "Year ended 31.03.2022"
+    ],
+    [
+      "Chemical segment",
+      "5,377.45"
+    ],
+    [
+      "Aluminium segment",
+      "10,157.34"
+    ],
+    [
+      "Unallocated",
+      "57.83"
+    ],
+    [
+      "Total for operations",
+      "15,592.62"
+    ],
+    [
+      "Less: Inter segment revenue",
+      "1,411.81"
+    ],
+    [
+      "Revenue from operations",
+      "14,180.81"
+    ]
+  ]
+}

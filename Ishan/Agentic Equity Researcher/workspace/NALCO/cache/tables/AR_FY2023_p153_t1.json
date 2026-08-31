@@ -1,0 +1,53 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 153,
+  "table_index": 1,
+  "bbox": [
+    45.854,
+    81.267,
+    549.421,
+    230.33200000000005
+  ],
+  "rows": [
+    [
+      "Capital Work-in-progress\nConstruction materials including in transit\nLess: Provision for impairment\nTotal Capital Work-in-progress",
+      "As at\n31.03.2023",
+      "As at\n31.03.2022\n1,700.54\n110.99\n1,811.53\n(48.11)\n1,763.42\nAs at\n31.03.2022\n0.55\n47.56\n-\n48.11"
+    ],
+    [
+      null,
+      "2,769.92\n64.53",
+      null
+    ],
+    [
+      null,
+      "2,834.45",
+      null
+    ],
+    [
+      null,
+      "(89.50)",
+      null
+    ],
+    [
+      null,
+      "2,744.95",
+      null
+    ],
+    [
+      "Movement in provision for impairment\nOpening balance\nProvision made during the year\nProvision write back during the year\nClosing balance",
+      "As at\n31.03.2023",
+      null
+    ],
+    [
+      null,
+      "48.11\n41.39\n-",
+      null
+    ],
+    [
+      null,
+      "89.50",
+      null
+    ]
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 240,
+  "table_index": 4,
+  "bbox": [
+    51.27364444444444,
+    582.34407,
+    542.7953702702703,
+    674.8519
+  ],
+  "rows": [
+    [
+      "",
+      "As at 31.03.2024",
+      null,
+      null,
+      "As at 31.03.2023",
+      null,
+      null
+    ],
+    [
+      "Investments in Mutual Funds",
+      "Units in ‘000",
+      "NAV\nin `/unit",
+      "Amount in `\nCrore",
+      "Units in\n‘000",
+      "NAV\nin `/unit",
+      "Amount in `\nCrore"
+    ],
+    [
+      "Quoted Investments",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Canara Rebeco Liquid Fund",
+      "339",
+      "1,005.50",
+      "34.12",
+      "379",
+      "1,005.50",
+      "38.16"
+    ],
+    [
+      "Baroda BNP Paribas Liquid Fund",
+      "398",
+      "1,002.08",
+      "39.86",
+      "410",
+      "1,002.08",
+      "41.11"
+    ],
+    [
+      "SBI Liquid Fund",
+      "444",
+      "1,144.05",
+      "50.75",
+      "265",
+      "1,136.93",
+      "30.16"
+    ]
+  ]
+}

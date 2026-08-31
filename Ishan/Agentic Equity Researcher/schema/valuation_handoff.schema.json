@@ -1,0 +1,770 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ValuationHandoff",
+  "description": "Contract for the downstream valuation/sensitivity agent (PE re-rate / de-rate / constant scenarios -> target price). Written by estimates-builder to handoff/valuation_handoff.json. All numeric fields carry fact ids so the downstream agent inherits the audit trail.",
+  "type": "object",
+  "required": [
+    "company",
+    "as_of",
+    "market",
+    "historicals",
+    "estimates",
+    "pe_bands",
+    "scenario_seeds",
+    "rating"
+  ],
+  "properties": {
+    "company": {
+      "type": "object",
+      "required": [
+        "name",
+        "ticker"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "ticker": {
+          "type": "string"
+        },
+        "exchange": {
+          "type": "string"
+        },
+        "sector": {
+          "type": "string"
+        },
+        "sector_pack": {
+          "type": "string",
+          "enum": [
+            "auto_engineering",
+            "bfsi",
+            "commodities_energy",
+            "consumer_retail",
+            "generic",
+            "infra_capital_goods",
+            "it_technology",
+            "pharma_chemicals"
+          ],
+          "description": "Family slug from config/sector_registry.yaml. Kept in sync by tools/validate_sector_registry.py --sync-schema."
+        },
+        "sector_playbook": {
+          "type": "string",
+          "enum": [
+            "amc_capital_market_infra",
+            "apparel_grocery_retail",
+            "auto_ancillary",
+            "auto_oem",
+            "banks_private",
+            "capital_goods_electrical",
+            "cdmo_cramps",
+            "cement",
+            "defence_manufacturing",
+            "diagnostics",
+            "electronics_manufacturing",
+            "epc_construction",
+            "ferrous_non_ferrous_metals",
+            "fmcg",
+            "general_health_insurance",
+            "generic",
+            "hospitals",
+            "hotels",
+            "housing_finance",
+            "internet_platforms",
+            "it_services",
+            "life_insurance",
+            "logistics",
+            "microfinance",
+            "nbfc_diversified",
+            "oil_gas_cgd",
+            "pharma_generics",
+            "power_utilities",
+            "qsr",
+            "real_estate",
+            "renewables",
+            "specialty_chemicals"
+          ],
+          "description": "Tier-2 playbook slug from config/sector_registry.yaml (playbooks.*). Carried so tier-2 routing survives the handoff: sector_pack alone tells the downstream valuation agent the family but not which convention was applied, and schema/thesis.schema.json already carries both. Kept in sync by tools/validate_sector_registry.py --sync-schema."
+        },
+        "basis": {
+          "enum": [
+            "consolidated",
+            "standalone"
+          ]
+        }
+      }
+    },
+    "as_of": {
+      "type": "string",
+      "format": "date"
+    },
+    "market": {
+      "type": "object",
+      "properties": {
+        "cmp": {
+          "type": "number"
+        },
+        "cmp_date": {
+          "type": "string"
+        },
+        "shares_diluted_cr": {
+          "type": "number"
+        },
+        "mcap_cr": {
+          "type": "number"
+        },
+        "free_float_pct": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "promoter_pct": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "pledge_pct": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "fii_pct": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "dii_pct": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "week52_high": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "week52_low": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "fact_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "historicals": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": [
+          "fy",
+          "revenue",
+          "pat",
+          "eps_diluted"
+        ],
+        "properties": {
+          "fy": {
+            "type": "string"
+          },
+          "revenue": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "revenue_growth_pct": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "ebitda": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "ebitda_margin_pct": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "depreciation": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "interest": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "other_income": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "pbt": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "pat": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "pat_adjusted": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "eps_diluted": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "cfo": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "capex": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "fcf": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "net_debt": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "roe_pct": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "roce_pct": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "fy_avg_price": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "fy_avg_pe": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "fact_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "estimates": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 3,
+      "description": "FY+1E, FY+2E (optionally FY+3E) — drivers-based, like the estimates table in a published ER note",
+      "items": {
+        "type": "object",
+        "required": [
+          "fy",
+          "revenue",
+          "pat",
+          "eps_diluted",
+          "assumption_refs"
+        ],
+        "properties": {
+          "fy": {
+            "type": "string"
+          },
+          "revenue": {
+            "type": "number"
+          },
+          "revenue_growth_pct": {
+            "type": "number"
+          },
+          "ebitda_margin_pct": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "ebitda": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "depreciation": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "interest": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "tax_rate_pct": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "pat": {
+            "type": "number"
+          },
+          "eps_diluted": {
+            "type": "number"
+          },
+          "capex": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "fcf": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "roe_pct": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "assumption_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "ids in state/assumptions.json — every driver traceable"
+          },
+          "confidence": {
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ]
+          }
+        }
+      }
+    },
+    "guidance_ledger": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "metric": {
+            "type": "string"
+          },
+          "guided_value": {
+            "type": "string"
+          },
+          "period": {
+            "type": "string"
+          },
+          "given_on": {
+            "type": "string"
+          },
+          "source_ref": {
+            "type": "string"
+          },
+          "credibility": {
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ],
+            "description": "from guidance-vs-delivery history"
+          },
+          "delivery_history": {
+            "type": "string",
+            "description": "e.g. 'met 3 of last 4 revenue guides; missed margin guide FY24 by 180bps'"
+          }
+        }
+      }
+    },
+    "capex_plan": {
+      "type": "object",
+      "properties": {
+        "announced_total": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "period": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "purpose": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "funding": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "growth_vs_maintenance_split": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "expected_asset_turn": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "commissioning_timeline": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "fact_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "pe_bands": {
+      "type": "object",
+      "required": [
+        "fwd_pe_fy1"
+      ],
+      "properties": {
+        "ttm_pe": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "fwd_pe_fy1": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "fwd_pe_fy2": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "hist_5y": {
+          "type": "object",
+          "properties": {
+            "min": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "p25": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "median": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "p75": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "max": {
+              "type": [
+                "number",
+                "null"
+              ]
+            }
+          }
+        },
+        "peer_domestic_median": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "peer_international_median": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "premium_discount_note": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "why the stock trades where it does vs peers/history"
+        }
+      }
+    },
+    "other_multiples": {
+      "type": "object",
+      "properties": {
+        "ev_ebitda_ttm": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "ev_ebitda_5y_median": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "pb": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "pb_5y_median": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "fcf_yield_pct": {
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      }
+    },
+    "scenario_seeds": {
+      "type": "object",
+      "required": [
+        "base"
+      ],
+      "description": "seeds for the downstream agent's re-rate/de-rate/constant grid",
+      "properties": {
+        "base": {
+          "type": "object",
+          "properties": {
+            "eps_cagr_2y_pct": {
+              "type": "number"
+            },
+            "rationale": {
+              "type": "string"
+            }
+          }
+        },
+        "bull": {
+          "type": "object",
+          "properties": {
+            "eps_cagr_2y_pct": {
+              "type": "number"
+            },
+            "rationale": {
+              "type": "string"
+            }
+          }
+        },
+        "bear": {
+          "type": "object",
+          "properties": {
+            "eps_cagr_2y_pct": {
+              "type": "number"
+            },
+            "rationale": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "growth_drivers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "key_risks_to_estimates": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "rating": {
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "thesis_one_line": {
+          "type": "string"
+        },
+        "variant_view": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "where we differ from consensus/guidance and why"
+        }
+      }
+    },
+    "data_gaps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "interpretation_ledger": {
+      "type": "array",
+      "description": "Optional. The entries from state/interpretation_ledger.json whose readings condition the multiple carried in pe_bands / other_multiples — carried across the handoff so a downstream buy-side consumer inherits the divergence rather than re-deriving it, or worse, silently adopting one reading as fact. Full shape and vocabulary: schema/interpretation.schema.json. Absent on handoffs written before prompts/33 step 6b existed; a consumer must treat absence as 'not computed', never as 'no divergence'.",
+      "items": {
+        "type": "object",
+        "required": [
+          "fact",
+          "readings",
+          "our_reading"
+        ],
+        "properties": {
+          "fact": {
+            "type": "string"
+          },
+          "fact_source": {
+            "type": "string"
+          },
+          "readings": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "object",
+              "required": [
+                "verdict",
+                "conditioning_variable"
+              ],
+              "properties": {
+                "verdict": {
+                  "type": "string"
+                },
+                "conditioning_variable": {
+                  "type": "string",
+                  "description": "Closed vocabulary; enum lives in schema/interpretation.schema.json and in interpretation_vocabulary.conditioning_variables in config/sector_registry.yaml."
+                },
+                "reasoning": {
+                  "type": "string"
+                },
+                "is_ours": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "discriminator": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "historical_distribution",
+                  "peer_distribution",
+                  "disclosed_mechanism",
+                  "forward_observable",
+                  "none_available"
+                ]
+              },
+              "evidence": {
+                "type": "string"
+              },
+              "resolved": {
+                "type": "boolean"
+              }
+            }
+          },
+          "our_reading": {
+            "type": "string"
+          },
+          "sector_convention_applied": {
+            "type": "string"
+          },
+          "materiality": {
+            "type": "string",
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ]
+          },
+          "becomes_load_bearing_assumption": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "source_registry_path": {
+      "type": "string"
+    }
+  }
+}

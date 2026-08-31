@@ -1,0 +1,34 @@
+kpi_id: vehicle_registrations
+scope: macro
+cycle_refs: [gdp_business_cycle]
+formula: >
+  Vehicle Registrations = monthly count of new vehicle registrations
+  (VAHAN), by category (2W/3W/PV/CV/tractor), a retail-demand /
+  discretionary-consumption proxy and the classic wholesale-vs-retail
+  channel-stuffing early-warning signal for the Auto sector (see
+  knowledge/references/sectors/auto_engineering.md).
+inputs:
+  - name: Monthly vehicle registration counts by category, national + state
+    source: >
+      VAHAN Dashboard (vahan.parivahan.gov.in) — a JS-rendered analytics
+      dashboard, not a static file/API; requires a headless-browser
+      (Playwright) session to drive the filter UI and export, which is
+      NOT yet implemented in this codebase (grepped: zero prior VAHAN
+      references before WORKSTREAM D). Playwright unlock pending — see
+      SYSTEM_MAP known gaps. Until then this KPI is source_status manual:
+      download the VAHAN dashboard's export manually (or a periodic FADA
+      wholesale/retail proxy release) and load it via
+      afund.data.macro_rbi.import_macro_csv(series_code=
+      "VEHICLE_REGISTRATIONS", ...) — the same generic CSV-upsert path
+      used by afund.data.macro_manual's other manual series. No dedicated
+      dashboard upload route exists yet either (dashboard/ has no
+      file_uploader-based manual-import page as of WORKSTREAM D); adding
+      one is future scope, tracked alongside the Playwright unlock.
+    status: missing
+orientation: goldilocks_type
+lookback_years: 5
+cadence: monthly
+source_status: manual
+registry_xref: null
+references_xref:
+  - sectors/auto_engineering.md

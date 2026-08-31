@@ -1,0 +1,21 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 6,
+  "table_index": 2,
+  "bbox": [
+    79.62013071666667,
+    158.44080314999997,
+    554.84067225,
+    501.6072932999999
+  ],
+  "rows": [
+    [
+      "National Securities Depository Limited (“NSDL”)",
+      "Central Depository Services (India) Limited (“CDSL”)"
+    ],
+    [
+      "1. User already registered for Internet-based Demat Account Statement (IDeAS)\nfacility:\ni) Visit URL: https://eservices.nsdl.com\nii) Click on the “Beneficial Owner” icon under “Login” under ‘IDeAS’ section.\niii) On the new page, enter User ID and Password. Post successful authentication,\nclick on “Access to e-Voting”.\niv) Click on company name or e-Voting service provider and you will be\nredirected to e-Voting service provider website for casting the vote during\nthe remote e-Voting period.\n2. User not registered for IDeAS e-Services:\ni) To register click on link : https://eservices.nsdl.com\nii) Select “Register Online for IDeAS” or click at https://eservices.nsdl.com/\nSecureWeb/IdeasDirectReg.jsp\niii) Proceed with completing the required fields.\niv) Follow steps given in Sl. No.1 above.\n3. Alternatively by directly accessing the e-Voting website of NSDL:\ni) Open URL: https://www.evoting.nsdl.com/\nii) Click on the icon “Login” which is available under ‘Shareholder/ Member’\nsection.\niii) A new screen will open. You will have to enter your User ID (i.e. your\nsixteen digit demat account number held with NSDL), Password / OTP and\na Verification Code as shown on the screen.\niv) Post successful authentication, you will be requested to select the name of\nthe Company and the e-Voting Service Provider name, i.e. KFin.\nv) On successful selection, you will be redirected to KFin e-Voting page for\ncasting your vote during the remote e-Voting period.",
+      "1. Existing user who have opted for Easi (electronic access to\nsecurities information)/Easiest:\ni) Visit URL: https://web.cdslindia.com/myeasi/\nhome/login or URL: www.cdslindia.com\nii) Click on New System Myeasi.\niii) Login with your registered user id and password.\niv) The user will see the e-Voting Menu. The Menu will\nhave links of ESP i.e. KFin e-Voting portal.\nv) Click on e-Voting service provider name to cast\nyour vote.\n2. User not registered for Easi/Easiest:\ni) Option to register is available at https://\nweb.cdslindia.com/myeasi/Registration/\nEasiRegistration\nii) Proceed with completing the required fields.\niii) Follow the steps given in Sl. No. 1 above.\n3. Alternatively, by directly accessing the e-Voting website\nof CDSL:\ni) Visit URL: www.cdslindia.com\nii) Provide your demat Account Number and PAN\nNo.\niii) System will authenticate user by sending OTP\non registered Mobile & Email as recorded in the\ndemat Account.\niv) After successful authentication, user will be\nprovided links for the respective ESP, i.e. KFin\nwhere the e-Voting is in progress."
+    ]
+  ]
+}

@@ -1,0 +1,133 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 85,
+  "table_index": 1,
+  "bbox": [
+    68.28146551724137,
+    88.01884999999999,
+    541.9064137931034,
+    406.7625
+  ],
+  "rows": [
+    [
+      "Parameter",
+      "Please specify unit",
+      "FY 2023-24",
+      "FY 2022-23"
+    ],
+    [
+      "NOx\n● Smelter FTP/FTC stacks avg.\n● CPP Boiler Stacks avg.\n● Refinery Boiler Stacks avg.\n● Refinery Calciner Stack",
+      "mg/Nm3",
+      "",
+      null
+    ],
+    [
+      null,
+      null,
+      "37.76",
+      "31.40"
+    ],
+    [
+      null,
+      null,
+      "290.16",
+      "257.76"
+    ],
+    [
+      null,
+      null,
+      "276.00",
+      "232.00"
+    ],
+    [
+      null,
+      null,
+      "420.00",
+      "450.00"
+    ],
+    [
+      "SOx\n● Smelter FTP/FTC stacks avg.\n● CPP Boiler Stacks avg.\n● Refinery Boiler Stacks avg.\n● Refinery Calciner Stack",
+      "mg/Nm3",
+      "",
+      null
+    ],
+    [
+      null,
+      null,
+      "76.8",
+      "62.47"
+    ],
+    [
+      null,
+      null,
+      "499.41",
+      "514.66"
+    ],
+    [
+      null,
+      null,
+      "478.00",
+      "461.60"
+    ],
+    [
+      null,
+      null,
+      "282.00",
+      "319.70"
+    ],
+    [
+      "Particulate matter (PM-2.5)\n● Smelter FTP/FTC stacks avg.\n● CPP Boiler Stacks avg.\n● Refinery Boiler Stacks avg.\n● Refinery Calciner Stack",
+      "mg/Nm3",
+      "",
+      null
+    ],
+    [
+      null,
+      null,
+      "32.28",
+      "30.63"
+    ],
+    [
+      null,
+      null,
+      "70.3",
+      "70.89"
+    ],
+    [
+      null,
+      null,
+      "84.09",
+      "79.53"
+    ],
+    [
+      null,
+      null,
+      "24.12",
+      "22.54"
+    ],
+    [
+      "Persistent organic pollutants (POP)",
+      "-",
+      "N.A.",
+      "N.A."
+    ],
+    [
+      "Volatile organic compounds (VOC) Smelter Bake\nOven Stacks PAH emission",
+      "µg/Nm3",
+      "< 0.2",
+      "< 0.2"
+    ],
+    [
+      "Hazardous air pollutants (HAP)",
+      "-",
+      "N.A.",
+      "N.A."
+    ],
+    [
+      "Others – (Fluoride & Fugitive Fluoride emission\nfrom Smelter Potlines & Bake Ovens)",
+      "mg/Nm3",
+      "0.388",
+      "0.4515"
+    ]
+  ]
+}

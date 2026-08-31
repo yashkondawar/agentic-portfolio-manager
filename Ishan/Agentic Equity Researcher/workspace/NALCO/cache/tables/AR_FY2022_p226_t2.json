@@ -1,0 +1,94 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 226,
+  "table_index": 2,
+  "bbox": [
+    45.435860000000005,
+    242.10132000000004,
+    518.74,
+    430.02260000000007
+  ],
+  "rows": [
+    [
+      "Sl. Particulars\nNo.",
+      "",
+      "Less than\n6 months",
+      "6 months\n- 1 Years",
+      "1-2 Years",
+      "2-3 Years",
+      "More than\n3 Years"
+    ],
+    [
+      "(i) Undisputed Trade receivables- considered good",
+      "As on 31.03.2022\nAs on 31.03.2021",
+      "45.89\n136.08",
+      "21.07\n5.45",
+      "2.83\n5.46",
+      "5.46\n0.38",
+      "-\n0.02"
+    ],
+    [
+      "(ii) Undisputed Trade receivables- significant increase in credit risk",
+      "As on 31.03.2022\nAs on 31.03.2021",
+      "-\n-",
+      "-\n-",
+      "-\n-",
+      "-\n-",
+      "-\n-"
+    ],
+    [
+      "(iii) Undisputed Trade receivables- credit impaired",
+      "As on 31.03.2022\nAs on 31.03.2021",
+      "",
+      "0.74",
+      "0.74\n11.6",
+      "11.6\n7.4",
+      "7.9\n0.5"
+    ],
+    [
+      "(iv) Disputed Trade receivables- considered good",
+      "As on 31.03.2022\nAs on 31.03.2021",
+      "-\n-",
+      "-\n-",
+      "-\n-",
+      "-\n-",
+      "-\n-"
+    ],
+    [
+      "(v) Disputed Trade receivables- significant increase in credit risk",
+      "As on 31.03.2022\nAs on 31.03.2021",
+      "-\n-",
+      "-\n-",
+      "-\n-",
+      "-\n-",
+      "-\n-"
+    ],
+    [
+      "(vi) Disputed Trade receivables- credit impaired",
+      "As on 31.03.2022\nAs on 31.03.2021",
+      "-\n-",
+      "-\n-",
+      "-\n-",
+      "-\n-",
+      "36.90\n37.11"
+    ],
+    [
+      "Total as on 31.03.2022",
+      "",
+      "45.89",
+      "21.07",
+      "3.57",
+      "17.06",
+      "44.80"
+    ],
+    [
+      "Total as on 31.03.2021",
+      "",
+      "136.08",
+      "6.19",
+      "17.06",
+      "7.78",
+      "37.63"
+    ]
+  ]
+}

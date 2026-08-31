@@ -1,0 +1,49 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 96,
+  "table_index": 2,
+  "bbox": [
+    68.28154210526316,
+    516.96279,
+    542.5140545454545,
+    581.8264
+  ],
+  "rows": [
+    [
+      "",
+      "FY 2024-25",
+      null,
+      null,
+      "FY 2023-24",
+      null,
+      null
+    ],
+    [
+      null,
+      "Filed during the\nyear",
+      "Pending resolution\nat the end of year",
+      "Remarks",
+      "Filed during the\nyear",
+      "Pending resolution\nat the end of year",
+      "Remarks"
+    ],
+    [
+      "Working conditions",
+      "0",
+      "NA",
+      "NA",
+      "0",
+      "0",
+      "NA"
+    ],
+    [
+      "Health and safety",
+      "0",
+      "NA",
+      "NA",
+      "0",
+      "0",
+      "NA"
+    ]
+  ]
+}

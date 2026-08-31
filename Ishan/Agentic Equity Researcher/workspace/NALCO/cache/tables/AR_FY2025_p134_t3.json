@@ -1,0 +1,38 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 134,
+  "table_index": 3,
+  "bbox": [
+    85.28925,
+    538.0827499999999,
+    542.5258608695652,
+    607.1621
+  ],
+  "rows": [
+    [
+      "Members of the Committee",
+      "Category of Directors",
+      "Position"
+    ],
+    [
+      "Dr. Ajay Narang",
+      "Independent",
+      "Chairman"
+    ],
+    [
+      "Dr. B. R. Ramakrishna",
+      "Independent",
+      "Member"
+    ],
+    [
+      "Adv. D. Upadhyay",
+      "Independent",
+      "Member"
+    ],
+    [
+      "Shri S. Samantaray",
+      "Director (Commercial)",
+      "Member"
+    ]
+  ]
+}

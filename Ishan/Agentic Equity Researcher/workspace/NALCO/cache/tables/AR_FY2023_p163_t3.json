@@ -1,0 +1,38 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 163,
+  "table_index": 3,
+  "bbox": [
+    45.894400000000005,
+    463.99800000000005,
+    549.4613999999999,
+    523.3199999999999
+  ],
+  "rows": [
+    [
+      "20 A - Lease Liability Amount in ` Crore",
+      null,
+      null
+    ],
+    [
+      "",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      "Non-current lease liability",
+      "50.99",
+      "50.91"
+    ],
+    [
+      "Current lease liability",
+      "5.87",
+      "5.52"
+    ],
+    [
+      "Total Lease liabilities",
+      "56.86",
+      "56.43"
+    ]
+  ]
+}

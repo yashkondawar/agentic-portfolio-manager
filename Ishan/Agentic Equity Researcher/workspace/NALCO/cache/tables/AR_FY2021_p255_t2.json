@@ -1,0 +1,58 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 255,
+  "table_index": 2,
+  "bbox": [
+    124.9744,
+    211.27907499999998,
+    555.3406,
+    329.81014999999996
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "Year ended\n31.03.2021",
+      "Year ended\n31.03.2020"
+    ],
+    [
+      "Short-term employee benefits",
+      "",
+      ""
+    ],
+    [
+      "— Salaries",
+      "3.95",
+      "4.36"
+    ],
+    [
+      "— Contribution to Provident Fund",
+      "0.24",
+      "0.25"
+    ],
+    [
+      "— Medical Benefits",
+      "0.01",
+      "0.01"
+    ],
+    [
+      "— Other Benefits",
+      "0.03",
+      "0.03"
+    ],
+    [
+      "Post employment benefits #",
+      "(0.03)",
+      "(0.09)"
+    ],
+    [
+      "Other long term benefits",
+      "0.01",
+      "0.09"
+    ],
+    [
+      "Total",
+      "4.20",
+      "4.65"
+    ]
+  ]
+}

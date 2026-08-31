@@ -1,0 +1,85 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 124,
+  "table_index": 1,
+  "bbox": [
+    79.27368,
+    499.91165,
+    542.69155,
+    610.9933
+  ],
+  "rows": [
+    [
+      "No. of Directors Present",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Board Meeting No.\n& Date",
+      "Board\nStrength",
+      "Functional",
+      "Part-time\nOfficial",
+      "Part-time\nNon-official\n(Independent)",
+      "Total\nAttendance",
+      "% of\nattendance to\nstrength"
+    ],
+    [
+      "349th / 27.05.2024",
+      "15*",
+      "5",
+      "2",
+      "8",
+      "15",
+      "100%"
+    ],
+    [
+      "350th / 12.08.2024",
+      "15",
+      "6",
+      "2",
+      "7",
+      "15",
+      "100%"
+    ],
+    [
+      "351st / 26.09.2024",
+      "14",
+      "5",
+      "0",
+      "7",
+      "12",
+      "85.71%"
+    ],
+    [
+      "351st (Adj.)/ 29.09.2024",
+      "14",
+      "5",
+      "1",
+      "7",
+      "13",
+      "92.85%"
+    ],
+    [
+      "352nd / 13.11.2024",
+      "7",
+      "4",
+      "1",
+      "1",
+      "6",
+      "85.71%"
+    ],
+    [
+      "353rd / 10.02.2025",
+      "9",
+      "6",
+      "2",
+      "1",
+      "9",
+      "100%"
+    ]
+  ]
+}

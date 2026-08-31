@@ -1,0 +1,83 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 129,
+  "table_index": 1,
+  "bbox": [
+    68.42318181818182,
+    480.2722777777778,
+    542.8681666666668,
+    595.0964
+  ],
+  "rows": [
+    [
+      "Members of Audit Committee",
+      "Category of Director",
+      "Position",
+      "Meeting",
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "Held",
+      "Attended"
+    ],
+    [
+      "Dr. A. Narang",
+      "Independent",
+      "Chairman",
+      "5",
+      "5"
+    ],
+    [
+      "Dr. B. R. Ramakrishna",
+      "Independent",
+      "Member",
+      "5",
+      "5"
+    ],
+    [
+      "Shri Y. P. Chillio",
+      "Independent",
+      "Member",
+      "3",
+      "3"
+    ],
+    [
+      "Shri S. R. Patel",
+      "Independent",
+      "Member",
+      "5",
+      "5"
+    ],
+    [
+      "Adv. G. Kurian (upto 09.06.2024)",
+      "Independent",
+      "Member",
+      "2",
+      "2"
+    ],
+    [
+      "Shri S. Samantaray",
+      "Functional",
+      "Member",
+      "5",
+      "5"
+    ],
+    [
+      "Shri P. K. Sharma Director (Production)",
+      "Functional",
+      "Member",
+      "5",
+      "5"
+    ],
+    [
+      "Shri R. C. Joshi Director (Finance)",
+      "Functional",
+      "Special invitee",
+      "5",
+      "5"
+    ]
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 95,
+  "table_index": 1,
+  "bbox": [
+    68.281375,
+    88.01884999999999,
+    543.2263,
+    138.6268
+  ],
+  "rows": [
+    [
+      "",
+      "Number",
+      "Reasons for recall"
+    ],
+    [
+      "Voluntary recalls",
+      "0",
+      "Nil"
+    ],
+    [
+      "Forced recalls",
+      "0",
+      "Nil"
+    ]
+  ]
+}

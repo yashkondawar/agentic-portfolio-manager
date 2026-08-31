@@ -1,0 +1,22 @@
+kpi_id: mcap_gdp
+scope: macro
+cycle_refs: [valuation_cycle, gdp_business_cycle]
+formula: >
+  Market-Cap-to-GDP ("Buffett Indicator") = total NSE-listed market
+  capitalization / nominal GDP (trailing 4Q sum or latest annual). A
+  slow-moving structural-vs-cyclical valuation cross-check; also one of
+  the four EVI sub-components.
+inputs:
+  - name: Total NSE market capitalization
+    source: NSE (not currently stored as a series; only per-instrument closes available)
+    status: missing
+  - name: India nominal GDP series
+    source: MOSPI / RBI DBIE — not yet wired
+    status: missing
+orientation: value_type
+lookback_years: 15
+cadence: quarterly
+source_status: missing
+registry_xref: null
+references_xref:
+  - kpi_interpretation/valuation_cycle.md

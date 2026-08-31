@@ -1,0 +1,57 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 232,
+  "table_index": 4,
+  "bbox": [
+    45.6676625,
+    330.1825,
+    424.29179999999997,
+    457.0835
+  ],
+  "rows": [
+    [
+      "A. Non-current",
+      "As at 31.03.2022"
+    ],
+    [
+      "(1) Creditors for supplies and services",
+      ""
+    ],
+    [
+      "- Dues to micro and small enterprises",
+      "-"
+    ],
+    [
+      "- Others",
+      "23.61"
+    ],
+    [
+      "Total non-current trade payables",
+      "23.61"
+    ],
+    [
+      "B. Current",
+      ""
+    ],
+    [
+      "(1) Creditors for supplies and services",
+      ""
+    ],
+    [
+      "- Dues to micro and small enterprises",
+      "31.50"
+    ],
+    [
+      "- Others",
+      "788.52"
+    ],
+    [
+      "Accrued wages and salaries",
+      "637.08"
+    ],
+    [
+      "Total current trade payables",
+      "1,457.10"
+    ]
+  ]
+}

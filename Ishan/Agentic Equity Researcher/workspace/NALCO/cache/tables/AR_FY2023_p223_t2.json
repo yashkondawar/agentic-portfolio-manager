@@ -1,0 +1,68 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 223,
+  "table_index": 2,
+  "bbox": [
+    46.007000000000005,
+    202.02300000000002,
+    549.5740000000001,
+    431.45000000000005
+  ],
+  "rows": [
+    [
+      "",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      "Investments in Mutual Funds Units in NAV in `/\n‘000 Unit",
+      "Amount in\n` Crore",
+      "Units in NAV in `/ Amount in\n‘000 Unit ` Crore"
+    ],
+    [
+      "Quoted Investments\nCanara Rebeco Liquid Fund 379 1,005.50\nBaroda BNP Paribas Liquid Fund 410 1,002.08\nSBI Liquid Fund 265 1,136.93\nUnion Liquid Fund 361 1,000.79\nTotal - Other current Investments",
+      "38.16\n41.11\n30.16\n36.15\n145.58",
+      "119 1,005.50 12.00\n309 1,002.08 31.01\n56 1,075.55 6.00\n150 1,000.79 15.00\n64.01"
+    ],
+    [
+      "Additional Information",
+      "",
+      ""
+    ],
+    [
+      "Aggregate cost of quoted investments",
+      "145.00",
+      "64.00"
+    ],
+    [
+      "Aggregate market value of quoted investments",
+      "145.58",
+      "64.01"
+    ],
+    [
+      "Aggregate cost of unquoted investments",
+      "-",
+      "-"
+    ],
+    [
+      "Aggregate amount of impairment in value of investments",
+      "-",
+      "-"
+    ],
+    [
+      "Category-wise classification:",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      "Financial assets (quoted investments) mandatorily measured\nat fair value through profit & loss (FVTPL)",
+      "145.58",
+      "64.01"
+    ],
+    [
+      "",
+      "145.58",
+      "64.01"
+    ]
+  ]
+}

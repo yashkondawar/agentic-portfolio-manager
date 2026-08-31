@@ -1,0 +1,85 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 103,
+  "table_index": 1,
+  "bbox": [
+    96.194,
+    59.12100000000004,
+    549.2415,
+    233.79700000000003
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Name of shareholder",
+      "No. of shares",
+      "% of holding"
+    ],
+    [
+      "1.",
+      "ICICI Prudential Midcap Fund",
+      "6,98,67,448",
+      "3.80"
+    ],
+    [
+      "2.",
+      "LICI Gratuity Plus Balanced Fund",
+      "6,20,43,344",
+      "3.38"
+    ],
+    [
+      "3.",
+      "Mirae Asset Large Cap Fund",
+      "4,46,05,010",
+      "2.43"
+    ],
+    [
+      "4.",
+      "SBI Contra Fund",
+      "1,79,49,636",
+      "0.98"
+    ],
+    [
+      "5.",
+      "The New India Assurance Company Limited",
+      "1,44,50,689",
+      "0.79"
+    ],
+    [
+      "6.",
+      "Vanguard Emerging Markets Stock Index Fund, A Seri",
+      "1,27,55,446",
+      "0.69"
+    ],
+    [
+      "7.",
+      "Vanguard Total International Stock Index Fund",
+      "1,17,96,515",
+      "0.64"
+    ],
+    [
+      "8.",
+      "Acadian Emerging Markets Small Cap Equity Fund LlC",
+      "1,11,64,959",
+      "0.61"
+    ],
+    [
+      "9.",
+      "Emerging Markets Core Equity Portfolio",
+      "1,08,02,548",
+      "0.59"
+    ],
+    [
+      "10.",
+      "Government Pension Fund Global",
+      "1,06,81,138",
+      "0.58"
+    ],
+    [
+      "",
+      "TOTAL",
+      "26,61,16,733",
+      "14.49"
+    ]
+  ]
+}

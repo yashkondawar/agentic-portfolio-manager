@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 206,
+  "table_index": 2,
+  "bbox": [
+    51.27356666666667,
+    215.61890000000002,
+    542.65391875,
+    270.63255000000004
+  ],
+  "rows": [
+    [
+      "",
+      "As at 31.03.2025",
+      "As at 31.03.2024"
+    ],
+    [
+      "Current (secured) (at amortised cost)",
+      null,
+      null
+    ],
+    [
+      "Liabilities towards bills discounted",
+      "124.22",
+      "39.16"
+    ],
+    [
+      "Total",
+      "124.22",
+      "39.16"
+    ]
+  ]
+}

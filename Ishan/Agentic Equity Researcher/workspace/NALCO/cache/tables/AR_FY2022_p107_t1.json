@@ -1,0 +1,62 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 107,
+  "table_index": 1,
+  "bbox": [
+    94.8235,
+    232.24900000000005,
+    549.3656857142857,
+    332.04800000000006
+  ],
+  "rows": [
+    [
+      "Members of Risk Management Committee",
+      "Category of Director",
+      "Position",
+      "Meeting",
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "held",
+      "Attended"
+    ],
+    [
+      "Dr. B. R. Ramakrishna@",
+      "Independent",
+      "Chairman",
+      "1",
+      "1"
+    ],
+    [
+      "Adv. George Kurian@",
+      "Independent",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Dr. Ajay Narang@",
+      "Independent",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Shri B. K. Das",
+      "Functional",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Shri R. C. Joshi*",
+      "Functional",
+      "Member",
+      "1",
+      "1"
+    ]
+  ]
+}

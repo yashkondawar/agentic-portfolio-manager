@@ -1,0 +1,38 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 177,
+  "table_index": 4,
+  "bbox": [
+    51.27361333333333,
+    422.57925,
+    542.72645,
+    491.4091
+  ],
+  "rows": [
+    [
+      "A. Non-current",
+      "As at 31.03.2024",
+      "As at 31.03.2023"
+    ],
+    [
+      "Creditors for supplies and services",
+      null,
+      null
+    ],
+    [
+      "- Dues to micro and small enterprises",
+      "-",
+      "-"
+    ],
+    [
+      "- Others",
+      "18.31",
+      "10.98"
+    ],
+    [
+      "Total non-current trade payables",
+      "18.31",
+      "10.98"
+    ]
+  ]
+}

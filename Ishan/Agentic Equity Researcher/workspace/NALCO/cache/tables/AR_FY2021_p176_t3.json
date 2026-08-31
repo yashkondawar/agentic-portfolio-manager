@@ -1,0 +1,199 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 176,
+  "table_index": 3,
+  "bbox": [
+    71.1161,
+    288.2382571428571,
+    546.5167604651162,
+    679.6469999999999
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      "As at\n31.03.2021",
+      "As at\n31.03.2020"
+    ],
+    [
+      "A. Non-current",
+      null,
+      "",
+      ""
+    ],
+    [
+      "(a)",
+      "Provision for employee benefits",
+      "",
+      ""
+    ],
+    [
+      null,
+      "(1) Retirement benefits obligations",
+      "",
+      ""
+    ],
+    [
+      null,
+      "(i) Post retirement medical benefits scheme (PRMBS)",
+      "147.48",
+      "135.39"
+    ],
+    [
+      null,
+      "(ii) Settling in benefit on retirement",
+      "16.02",
+      "17.27"
+    ],
+    [
+      null,
+      "(iii) Nalco benevolent fund scheme (NBFS)",
+      "2.21",
+      "2.41"
+    ],
+    [
+      null,
+      "(iv) Nalco retirement welfare scheme( NRWS)",
+      "9.51",
+      "12.07"
+    ],
+    [
+      null,
+      "(v) Retirement gift",
+      "6.17",
+      "7.08"
+    ],
+    [
+      null,
+      "(2) Other long-term employee benefits",
+      "",
+      ""
+    ],
+    [
+      null,
+      "(i) Compensated absences",
+      "375.78",
+      "383.08"
+    ],
+    [
+      null,
+      "(ii) Long service rewards",
+      "12.83",
+      "11.01"
+    ],
+    [
+      null,
+      "(iii) Nalco employees family financial assistance rehabilitation scheme(NEFFARS)",
+      "25.54",
+      "25.94"
+    ],
+    [
+      "(b)",
+      "Other Provisions",
+      "",
+      ""
+    ],
+    [
+      null,
+      "(1) Asset restoration obligations/dismantling",
+      "37.42",
+      "34.17"
+    ],
+    [
+      null,
+      "(2) Other legal and constructive obligations",
+      "0.38",
+      "0.38"
+    ],
+    [
+      "Total non current provisions",
+      null,
+      "633.34",
+      "628.80"
+    ],
+    [
+      "",
+      null,
+      "",
+      ""
+    ],
+    [
+      "B.",
+      "Current",
+      "As at\n31.03.2021",
+      "As at\n31.03.2020"
+    ],
+    [
+      "(a)",
+      "Provision for employee benefits",
+      "",
+      ""
+    ],
+    [
+      null,
+      "(1) Retirement benefits obligations",
+      "",
+      ""
+    ],
+    [
+      null,
+      "(i) Gratuity (funded)",
+      "10.63",
+      "55.98"
+    ],
+    [
+      null,
+      "(ii) Post retirement medical benefits scheme (PRMBS)",
+      "7.85",
+      "5.03"
+    ],
+    [
+      null,
+      "(iii) Settling in benefit on retirement",
+      "3.57",
+      "3.32"
+    ],
+    [
+      null,
+      "(iv) Nalco benevolent fund scheme (NBFS)",
+      "0.51",
+      "0.58"
+    ],
+    [
+      null,
+      "(v) Nalco retirement welfare scheme( NRWS)",
+      "2.87",
+      "0.45"
+    ],
+    [
+      null,
+      "(vi) Retirement gift",
+      "0.99",
+      "0.18"
+    ],
+    [
+      null,
+      "(2) Other Long-term employee benefits",
+      "",
+      ""
+    ],
+    [
+      null,
+      "(i) Compensated absences",
+      "54.59",
+      "44.49"
+    ],
+    [
+      null,
+      "(ii) Long service rewards",
+      "0.30",
+      "0.53"
+    ],
+    [
+      null,
+      "(iii) Nalco employees family financial assistance rehabilitation scheme(NEFFARS)",
+      "6.34",
+      "6.15"
+    ]
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 44,
+  "table_index": 3,
+  "bbox": [
+    61.161,
+    419.97600000000006,
+    549.421,
+    536.335
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Short particulars of the\nproperty or asset(s)\n[including complete address\nand location of the property]",
+      "Pin code of the\nproperty\nor asset(s)",
+      "Date of\nCreation",
+      "Amount of\nCSR amount\nspent",
+      "Details of entity / Authority/ beneficiary\nof the registered owner",
+      null,
+      null
+    ],
+    [
+      "(1)",
+      "(2)",
+      "(3)",
+      "(4)",
+      "(5)",
+      "(6)",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "CSR Registered\nNumber, if\napplicable",
+      "Name",
+      "Registered\nAddress"
+    ],
+    [
+      "",
+      "NA",
+      "NA",
+      "NA",
+      "0",
+      "NA",
+      "NA",
+      "NA"
+    ]
+  ]
+}

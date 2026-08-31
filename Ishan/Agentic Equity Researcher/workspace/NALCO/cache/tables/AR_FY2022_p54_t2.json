@@ -1,0 +1,37 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 54,
+  "table_index": 2,
+  "bbox": [
+    61.077666666666666,
+    229.63550000000004,
+    435.5266,
+    325.201
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Particular"
+    ],
+    [
+      "(i)",
+      "Two percent of average net profit of the company as per section 135(5)"
+    ],
+    [
+      "(ii)",
+      "Total amount spent for the Financial Year"
+    ],
+    [
+      "(iii)",
+      "Excess amount spent for the financial year [(ii)-(i)]"
+    ],
+    [
+      "(iv)",
+      "Surplus arising out of the CSR projects or programmes or activities of the previous financial years, if any"
+    ],
+    [
+      "(v)",
+      "Amount available for set off in succeeding financial years [(iii)-(iv)]"
+    ]
+  ]
+}

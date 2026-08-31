@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 117,
+  "table_index": 3,
+  "bbox": [
+    102.29051310204865,
+    241.09304999999995,
+    555.5465944444445,
+    273.53169999999994
+  ],
+  "rows": [
+    [
+      "Name of promoter",
+      "No. of shares\n(Beginning of the Year)",
+      "% of\nholding",
+      "Decrease during\nthe year",
+      "Date of Change",
+      "Mode",
+      "Share balance",
+      "% of holding"
+    ],
+    [
+      "President of India",
+      "96,07,93,011",
+      "51.50",
+      "1,90,00,000",
+      "17.03.2021",
+      "Buy-back of shares",
+      "94,17,93,011",
+      "51.28"
+    ]
+  ]
+}

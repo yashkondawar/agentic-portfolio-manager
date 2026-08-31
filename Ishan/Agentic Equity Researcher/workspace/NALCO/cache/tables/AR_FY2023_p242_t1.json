@@ -1,0 +1,94 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 242,
+  "table_index": 1,
+  "bbox": [
+    45.562333333333335,
+    61.16100000000006,
+    549.3703333333334,
+    209.231
+  ],
+  "rows": [
+    [
+      "Amount in ` Crore",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "Post retirement\nmedical benefit\n(PRMBS)",
+      "Settling-\nin-benefit",
+      "NALCO\nbenevolent\nfund scheme",
+      "NALCO\nretirement\nwelfare scheme",
+      "Superannuation\ngift scheme",
+      "Gratuity\n(Funded)"
+    ],
+    [
+      "Current service cost",
+      "-",
+      "(3.00)",
+      "-",
+      "-",
+      "",
+      "(40.29"
+    ],
+    [
+      "Interest Cost",
+      "(11.19)",
+      "(1.10)",
+      "(0.18)",
+      "(0.77)",
+      "(0.43)",
+      "(35.21"
+    ],
+    [
+      "Remeasurement (gains)/losses",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Actuarial (Gains)/losses arising from changes\nin financial assumptions",
+      "2.93",
+      "0.15",
+      "0.02",
+      "0.11",
+      "0.07",
+      "5.43"
+    ],
+    [
+      "Actuarial (Gains)/losses arising from experience\nassumptions",
+      "(13.19)",
+      "1.24",
+      "0.03",
+      "(0.59)",
+      "0.10",
+      "36.20"
+    ],
+    [
+      "Benefits paid",
+      "12.48",
+      "4.34",
+      "0.25",
+      "2.05",
+      "0.94",
+      "83.15"
+    ],
+    [
+      "Closing defined benefit obligation as at March 31, 2023",
+      "(171.28)",
+      "(15.88)",
+      "(2.51)",
+      "(10.98)",
+      "(5.85)",
+      "(483.42)"
+    ]
+  ]
+}

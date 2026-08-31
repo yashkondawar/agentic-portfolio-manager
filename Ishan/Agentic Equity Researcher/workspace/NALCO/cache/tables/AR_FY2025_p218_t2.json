@@ -1,0 +1,103 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 218,
+  "table_index": 2,
+  "bbox": [
+    51.273663636363636,
+    288.7152,
+    542.5631485714287,
+    474.9882
+  ],
+  "rows": [
+    [
+      "",
+      "Post retirement\nmedical benefit\n(PRMBS-funded)",
+      "Settling-\nin-benefit",
+      "NALCO\nbenevolent\nfund scheme",
+      "NALCO\nretirement\nwelfare scheme",
+      "Superannuation\ngift scheme",
+      "Gratuity\n(Funded)",
+      "Honour\nScheme"
+    ],
+    [
+      "March 31, 2024",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Present value of defined benefit\nobligation",
+      "(189.52)",
+      "(14.79)",
+      "(2.49)",
+      "(10.70)",
+      "(5.57)",
+      "(446.43)",
+      "-"
+    ],
+    [
+      "Fair value of plan assets",
+      "184.72",
+      "-",
+      "-",
+      "-",
+      "-",
+      "465.18",
+      "-"
+    ],
+    [
+      "Net liability arising from defined\nbenefit obligation",
+      "(4.80)",
+      "(14.79)",
+      "(2.49)",
+      "(10.70)",
+      "(5.57)",
+      "18.75",
+      "-"
+    ],
+    [
+      "March 31, 2025",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Present value of defined benefit\nobligation",
+      "(233.94)",
+      "(13.59)",
+      "(2.60)",
+      "(9.89)",
+      "(5.13)",
+      "(413.32)",
+      "(32.93)"
+    ],
+    [
+      "Fair value of plan assets",
+      "198.78",
+      "-",
+      "-",
+      "-",
+      "-",
+      "416.73",
+      "-"
+    ],
+    [
+      "Net liability arising from defined\nbenefit obligation",
+      "(35.16)",
+      "(13.59)",
+      "(2.60)",
+      "(9.89)",
+      "(5.13)",
+      "3.41",
+      "(32.93)"
+    ]
+  ]
+}

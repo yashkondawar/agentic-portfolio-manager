@@ -1,0 +1,103 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 84,
+  "table_index": 2,
+  "bbox": [
+    68.2815,
+    199.33180000000002,
+    542.1261000000001,
+    454.44969999999995
+  ],
+  "rows": [
+    [
+      "Parameter",
+      "FY 2023-24",
+      "FY 2022-23"
+    ],
+    [
+      "Water discharge by destination and level of treatment (in kiloliters)",
+      null,
+      null
+    ],
+    [
+      "(i) To Surface water",
+      null,
+      null
+    ],
+    [
+      "- No treatment",
+      "0",
+      "0"
+    ],
+    [
+      "- With treatment – please specify level of treatment",
+      "52,471",
+      "0"
+    ],
+    [
+      "(ii) To Groundwater",
+      null,
+      null
+    ],
+    [
+      "- No treatment",
+      "0",
+      "0"
+    ],
+    [
+      "- With treatment – please specify level of treatment",
+      "0",
+      "0"
+    ],
+    [
+      "(iii) To Seawater",
+      null,
+      null
+    ],
+    [
+      "- No treatment",
+      "0",
+      "0"
+    ],
+    [
+      "- With treatment – please specify level of treatment",
+      "0",
+      "0"
+    ],
+    [
+      "(iv) Sent to third parties",
+      null,
+      null
+    ],
+    [
+      "- No treatment",
+      "15,000*",
+      "10,206"
+    ],
+    [
+      "- With treatment – please specify level of treatment",
+      "0",
+      "0"
+    ],
+    [
+      "(v) Others",
+      null,
+      null
+    ],
+    [
+      "- No treatment",
+      "0",
+      "0"
+    ],
+    [
+      "- With treatment – please specify level of treatment",
+      "0",
+      "0"
+    ],
+    [
+      "Total water discharged (in kiloliters)",
+      "0",
+      "0"
+    ]
+  ]
+}

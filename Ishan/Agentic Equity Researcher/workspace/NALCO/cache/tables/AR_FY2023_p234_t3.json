@@ -1,0 +1,49 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 234,
+  "table_index": 3,
+  "bbox": [
+    91.209,
+    613.633,
+    549.5775000000001,
+    691.153
+  ],
+  "rows": [
+    [
+      "Sl. No",
+      "Particulars",
+      "2022-23",
+      "2021-22"
+    ],
+    [
+      "1",
+      "Balance at the beginning of the year",
+      "125.57",
+      "97.25"
+    ],
+    [
+      "2",
+      "Revenue reocognised during the year against opening contract liabilities",
+      "(107.33)",
+      "(95.19)"
+    ],
+    [
+      "3",
+      "Advance reclassified to financial liability during the year against opening liabilities",
+      "(17.60)",
+      "(1.45)"
+    ],
+    [
+      "4",
+      "Advance received against which revenue has not been recognised",
+      "100.90",
+      "124.96"
+    ],
+    [
+      "5",
+      "Balance at the end of the year",
+      "101.54",
+      "125.57"
+    ]
+  ]
+}

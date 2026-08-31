@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 93,
+  "table_index": 2,
+  "bbox": [
+    102.2973,
+    172.4316,
+    536.4973,
+    229.5279999999999
+  ],
+  "rows": [
+    [
+      "Complaints pending as on 31.03.2020",
+      "02"
+    ],
+    [
+      "Complaints received during FY 2020-21",
+      "05"
+    ],
+    [
+      "Complaints disposed during FY 2020-21",
+      "07"
+    ],
+    [
+      "Complaints pending as on 31.03.2021",
+      "00"
+    ],
+    [
+      "Percentage of Customer Complaints Pending on 31.03.2021",
+      "0%"
+    ]
+  ]
+}

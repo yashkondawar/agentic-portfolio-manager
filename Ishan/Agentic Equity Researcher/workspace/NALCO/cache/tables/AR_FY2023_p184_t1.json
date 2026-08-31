@@ -1,0 +1,58 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 184,
+  "table_index": 1,
+  "bbox": [
+    112.308,
+    302.15700000000004,
+    549.921,
+    405.8670000000001
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "Year ended 31.03.2023",
+      "Year ended 31.03.2022"
+    ],
+    [
+      "Short-term employee benefits",
+      "",
+      ""
+    ],
+    [
+      "- Salaries",
+      "5.39",
+      "3.54"
+    ],
+    [
+      "- Contribution to Provident Fund",
+      "0.34",
+      "0.23"
+    ],
+    [
+      "- Medical Benefits",
+      "0.05",
+      "0.02"
+    ],
+    [
+      "- Other Benefits",
+      "0.60",
+      "0.01"
+    ],
+    [
+      "Post employment benefits #",
+      "0.03",
+      "0.02"
+    ],
+    [
+      "Other long term benefits",
+      "0.01",
+      "0.01"
+    ],
+    [
+      "Total",
+      "6.42",
+      "3.82"
+    ]
+  ]
+}

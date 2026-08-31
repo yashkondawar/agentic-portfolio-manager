@@ -1,0 +1,312 @@
+{
+  "module": "23_valuation_moat_peers",
+  "company": "NALCO",
+  "run_date": "2026-07-16",
+  "meta": {
+    "basis": "Standalone EPS used for FY2021-FY2025 PE band (reported, per fundamental-analyst's confirmed standalone-primary-basis conclusion F-FUND-09); FY2026 EPS is a derived cross-check only (company does not report FY2026 standalone EPS -- no audited FY2026 AR yet). CMP = INR 361.65 as of 2026-07-15 [F-MKT-CURRENT_PRICE-POINT2026-07-15]. All multiples computed by this module per citation standard section 2 (LLM computes only when tooling did not already derive it; formula shown for each fact).",
+    "no_dcf": "Per prompts/23, no DCF/WACC in v1 -- multiple bands, peer cross-section and reverse-read are the valuation anchors."
+  },
+
+  "part1_absolute_relative_valuation": {
+    "pe_band_5y": {
+      "table": [
+        {"fy": "FY2021", "fy_avg_price": 28.67, "fy_end_price": 42.32, "eps_basic_standalone": 6.97, "pe_on_avg_price": 4.11, "pe_on_end_price": 6.07, "src": "SRC-1300"},
+        {"fy": "FY2022", "fy_avg_price": 74.16, "fy_end_price": 100.92, "eps_basic_standalone": 16.07, "pe_on_avg_price": 4.61, "pe_on_end_price": 6.28, "src": "SRC-1301"},
+        {"fy": "FY2023", "fy_avg_price": 68.98, "fy_end_price": 69.13, "eps_basic_standalone": 8.41, "pe_on_avg_price": 8.20, "pe_on_end_price": 8.22, "src": "SRC-1302"},
+        {"fy": "FY2024", "fy_avg_price": 93.75, "fy_end_price": 139.07, "eps_basic_standalone": 11.22, "pe_on_avg_price": 8.36, "pe_on_end_price": 12.39, "src": "SRC-1303"},
+        {"fy": "FY2025", "fy_avg_price": 183.26, "fy_end_price": 167.94, "eps_basic_standalone": 28.99, "pe_on_avg_price": 6.32, "pe_on_end_price": 5.79, "src": "SRC-1304"},
+        {"fy": "FY2026 (cross-check only)", "fy_avg_price": 239.99, "fy_end_price": 384.19, "eps_diluted_cons_calc": 31.67, "pe_on_avg_price": 7.58, "pe_on_end_price": 12.13, "src": "SRC-1305", "note": "EPS = FY2026 consolidated PAT 5,816cr [F-PQ4-029] / 183.6632cr shares [F-MKT-SHARES_OUTSTANDING] = 31.67, not a company-reported standalone EPS figure (no audited FY2026 AR). Falls within the orchestrator brief's stated ~31-32 range."}
+      ],
+      "formula": "pe_on_avg_price = fy_avg_price / eps_basic_standalone; pe_on_end_price = fy_end_price / eps_basic_standalone",
+      "band_read": "5-year standalone-EPS PE band on FY-avg price: 4.1x (FY2021 trough-cycle) to 8.4x (FY2024 peak), median ~6.3x. CMP of INR361.65 against FY2025 EPS (28.99) = 12.5x [SRC-1306]; against the FY2026 cross-check EPS (31.67) = 11.4x [SRC-1307]. Both readings sit materially ABOVE the top of the 5-year band (8.4x), i.e. NALCO is trading at roughly 1.4-1.7x its own recent-history peak multiple.",
+      "cmp_pe": [
+        {"id": "F-VAL-PE-CMP-FY2025EPS", "value": 12.47, "formula": "361.65 / 28.99", "src": "SRC-1306"},
+        {"id": "F-VAL-PE-CMP-FY2026EPS", "value": 11.42, "formula": "361.65 / 31.67", "src": "SRC-1307"}
+      ],
+      "why_band_moved_link_to_cycle": "The band's own extremes are cycle artifacts, not re-ratings: FY2021's 4.1x reflects a COVID-trough EPS base (Rs.6.97) against a price already partly forward-looking the post-COVID commodity recovery (LME/alumina began rallying through FY2021-22, F-FUND context). FY2024's 8.36x (avg-price basis) reflects a cyclically DEPRESSED EPS (Rs.11.22, FY2024 standalone EBITDA margin 24.9% per F-DER-FUN-03) against a price that had already begun re-rating on anticipation of the FY2025 realization recovery -- i.e. the market was pricing FY2024 off a forward, not trailing, earnings view. FY2025's drop back to 6.32x despite the EPS quadrupling YoY (11.22 to 28.99) shows the price did not keep pace with the FY2025 EPS surge -- the multiple compressed as the E in P/E jumped faster than P, consistent with the market treating FY2025's ~45% EBITDA margin as unsustainable (matching fundamental-analyst's F-FUND-01 cyclical-peak read) rather than extrapolating it. The subsequent 12.5x/11.4x at CMP is therefore a genuine multiple expansion beyond anything seen in the last 5 fiscal years, not merely a mechanical byproduct of a low E."
+    },
+    "ev_ebitda_band": {
+      "table": [
+        {"fy": "FY2024", "mcap_fy_end_approx": 25542.0, "ebitda_standalone_approx": 3278.76, "ev_ebitda": 7.79, "src": "SRC-1308", "note": "EBITDA is fundamental-analyst's PBT+Dep+Fin-OtherIncome computed route [F-DER-FUN-01], flagged medium confidence; net debt ~0 so EV~mcap [F-FUND-07: D/E 0.0016x-0.0043x]."},
+        {"fy": "FY2025", "mcap_fy_end_approx": 30844.4, "ebitda_standalone_approx": 7487.06, "ev_ebitda": 4.12, "src": "SRC-1309", "note": "Standalone-approx EBITDA basis [F-DER-FUN-02]."},
+        {"fy": "FY2025 (company-reported basis)", "mcap_fy_end_approx": 30844.4, "ebitda_cons_reported": 7922, "ev_ebitda": 3.89, "src": "SRC-1310", "note": "Using company-reported consolidated EBITDA excl. exceptional [F-PQ4-018] per reported-over-computed precedence."},
+        {"fy": "CMP (2026-07-15) vs FY2025 EBITDA", "mcap_current": 66421.8, "ebitda_cons_reported": 7922, "ev_ebitda": 8.38, "src": "SRC-1311"},
+        {"fy": "CMP (2026-07-15) vs FY2026 EBITDA", "mcap_current": 66421.8, "ebitda_cons_reported": 8613, "ev_ebitda": 7.71, "src": "SRC-1312"}
+      ],
+      "formula": "ev_ebitda = mcap / ebitda (EV approximated as mcap since NALCO is near-debt-free -- net debt is immaterial relative to mcap: current borrowings 124.22cr FY2025 [F-FUND-07 evidence] vs mcap 66,421.8cr, <0.2%)",
+      "band_read": "EV/EBITDA on a company-reported basis moved from ~7.8x (FY2024, depressed EBITDA) to ~3.9x (FY2025 end, EBITDA up ~2.3x on the margin surge) -- the multiple nearly halved even as the stock price rose, because EBITDA grew faster than price that year. At CMP, EV/EBITDA is back up to 7.7-8.4x against FY2025/FY2026 EBITDA -- back near the FY2024 (trough-earnings) multiple, but this time against peak-cycle, not trough-cycle, earnings. That combination (peak-cycle EBITDA + peak-history multiple) is the clearest single valuation-anomaly in this dataset."
+    },
+    "pb_band_5y": {
+      "table": [
+        {"fy": "FY2021", "fy_end_price": 42.32, "bvps_cons": 58.14, "pb": 0.73, "src": "SRC-1313"},
+        {"fy": "FY2022", "fy_end_price": 100.92, "bvps_cons": 68.34, "pb": 1.48, "src": "SRC-1314"},
+        {"fy": "FY2024", "fy_end_price": 139.07, "bvps_cons": 78.34, "pb": 1.78, "src": "SRC-1315"},
+        {"fy": "FY2025", "fy_end_price": 167.94, "bvps_cons": 96.95, "pb": 1.73, "src": "SRC-1316"},
+        {"fy": "CMP", "cmp": 361.65, "bvps_cons_fy2025": 96.95, "pb": 3.73, "src": "SRC-1317", "note": "Uses the last reported book value (FY2025 consolidated); FY2026 book value not yet available (no audited FY2026 AR)."}
+      ],
+      "formula": "bvps = total_equity_consolidated / shares_outstanding (183.6632 cr); pb = price / bvps",
+      "band_read": "P/B has moved from sub-1x (FY2021, a going-concern-discount level unusual for a debt-free asset-backed CPSE) to 1.5-1.8x (FY2022-FY2025) to 3.7x at CMP -- more than double the entire FY2021-FY2025 range's high end (1.78x). Even allowing for FY2026 retained-earnings accretion (FY2026 PAT 5,816cr would lift book value further, compressing the true current P/B somewhat versus the FY2025-book-value proxy used here), the CMP P/B is an outlier versus the observed 5-year band on any plausible book-value estimate."
+    },
+    "fcf_yield": {
+      "status": "N/A -- missing consistent capex-net-of-CFO figure across all 5 years at a comparable (standalone) basis to compute a clean FCF series; capex is accelerating sharply (F-FUND-03: CWIP 3.4x since FY2021) which would make a single-year FCF yield misleading during a multi-year construction phase distinct from steady-state. Not computed rather than approximated with a caveat-laden number.",
+      "src": "SRC-1318"
+    },
+    "whats_priced_in_reverse_read": {
+      "statement": "At CMP (INR361.65) and FY2025 EPS (28.99), the stock trades at 12.5x trailing earnings -- roughly 2x the 5-year average PE-on-avg-price of ~6.3x. For the current multiple to be justified by a reversion to the historical ~6.3x average multiple, FY2027+ EPS would need to be roughly double the FY2025 print (i.e. an implied ~EPS 57-58 at a constant 6.3x multiple to 're-justify' the current price) -- which is not supported by any fact in this pack: fundamental-analyst's own read (F-FUND-01, F-FUND-10) is that FY2025 was a cyclical MARGIN PEAK and FY2026 has already shown Q4 PAT down -17.4% YoY. Framed the other way: CMP implies the market is paying for either (a) an earnings-multiple RE-RATING (the market now views NALCO as a structurally higher-quality, lower-cyclicality business deserving a higher through-cycle multiple than its own 5-year history -- possibly linked to the near-debt-free balance sheet, the smelter-expansion optionality, or a broader commodity/PSU re-rating), or (b) a view that FY2027-FY2029 EPS will hold near or above the FY2025-FY2026 level despite management's own guidance of alumina price weakness (FY2027 guide US$300-310/t vs FY2025's US$580/t realization, per orchestrator brief and F-EXT-1209) and the segment-level bridge already showing a ~784cr FY2026 net alumina drag (F-FUND-02). Neither (a) nor (b) is yet evidenced independently in this fact set: no analyst-consensus EPS series or explicit re-rating catalyst (e.g., a credit-rating upgrade, index inclusion, confirmed smelter DPR approval) is present. Stated plainly: CMP is pricing in EITHER a sustained ~2x step-up in the sustainable earnings run-rate versus FY2025's already-peak-cycle print, OR a permanent multiple re-rating unsupported by any evidenced structural change in the business (the smelter capex is pre-DPR, per RF-GUI-03/guidance.json, and does not begin contributing EBIT until FY2029-2031 at the earliest). Absent one of these becoming evidenced, the reverse read points to the current price being ahead of the fact base.",
+      "caveat": "This is a sanity-anchor substitute for DCF per module scope, not a full estimates reconciliation -- estimates-builder's actual FY2027-29 EPS path (not yet available to this module) is the correct next check on this reverse read.",
+      "src": "SRC-1319"
+    },
+    "valuation_insights_table": [
+      {"id": "F-VAL-01", "insight": "CMP trades at 12.5x FY2025 EPS (28.99) and ~11.4x the FY2026 cross-check EPS (~31.67), both roughly double the 5-year average PE-on-avg-price (~6.3x) and above the highest single-year PE the stock has ever traded at on an avg-price basis in this dataset (8.36x, FY2024) -- see pe_band_5y.", "evidence": ["SRC-1300-1307"]},
+      {"id": "F-VAL-02", "insight": "The FY2025 PE (6.32x avg-price basis) is the SECOND-LOWEST multiple in the 5-year band despite FY2025 carrying the highest EPS (28.99) and highest EBITDA margin (44.6%) of the period -- the market discounted FY2025's profit surge as unsustainable in real time, consistent with fundamental-analyst's cyclical-peak read (F-FUND-01), which makes the subsequent re-rating to 12.5x at CMP harder to reconcile with a continuation of that same market view.", "evidence": ["SRC-1304", "F-FUND-01"]},
+      {"id": "F-VAL-03", "insight": "EV/EBITDA on a company-reported basis nearly halved from ~7.8x (FY2024) to ~3.9x (FY2025 year-end) as EBITDA more than doubled; at CMP it has moved back up to 7.7-8.4x against FY2025/FY2026 EBITDA levels that are themselves cyclically elevated -- i.e. the market is now paying a trough-cycle-era multiple for peak-cycle-era earnings, the reverse of a value-conscious pattern.", "evidence": ["SRC-1308-1312"]},
+      {"id": "F-VAL-04", "insight": "P/B at CMP (3.73x on FY2025 book value) is more than double the FY2021-FY2025 band high (1.78x, FY2024) -- even generously adjusting book value upward for FY2026 retained earnings, CMP P/B likely remains above 3x, an unprecedented level in the dataset for a company that traded below 1x book as recently as FY2021.", "evidence": ["SRC-1313-1317"]},
+      {"id": "F-VAL-05", "insight": "The reverse read shows CMP requires either an ~2x sustained step-up in EPS versus the FY2025 peak (unsupported by management's own FY2027 price guidance) or an unevidenced structural re-rating of the through-cycle multiple -- no confirmed catalyst (rating upgrade, index inclusion, DPR-approved capacity addition) for the latter is present in this fact set.", "evidence": ["SRC-1319", "F-FUND-01", "F-FUND-02"]},
+      {"id": "F-VAL-06", "insight": "Domestic peer Hindalco's India upstream aluminium segment posted first-decile-claimed cost-curve EBITDA of $1,572/t at 45% margin (FY2026) -- comparable in margin quality to NALCO's own cyclically peak FY2025-26 margins, but Hindalco's stock trades at a materially lower multiple profile typical of large diversified metal conglomerates (see peer table for NALCO-specific multiple comparison; Hindalco's own listed multiple was not independently pulled in this DR2 pass -- gap noted).", "evidence": ["F-EXT-1216", "F-EXT-1217"]},
+      {"id": "F-VAL-07", "insight": "International integrated peer Alcoa trades at 12.60x trailing PE / 8.33x EV-EBITDA (as of 26-Jun-2026) -- NALCO's CMP multiples (12.5x PE, 7.7-8.4x EV/EBITDA) are now closely converged with a large, globally diversified, investment-grade-adjacent US peer, despite NALCO being a smaller-scale, single-country, commodity-price-taking producer with a currently peak-cycle earnings base -- an unusual convergence that is not obviously explained by superior growth, returns, or lower risk at NALCO (see peer premium/discount table).", "evidence": ["F-EXT-1222"]},
+      {"id": "F-VAL-08", "insight": "NALCO's own cost-curve leadership claim ('world's lowest-cost alumina/bauxite producer') could not be independently re-verified with a current (2025/2026) third-party ranking in DR2 -- the most recent independently-sourced Wood Mackenzie citation located is FY2019-vintage; this is a moat-relevant gap, not a confirmed premium justification.", "evidence": ["F-EXT-1215"]},
+      {"id": "F-VAL-09", "insight": "NALCO's near-debt-free balance sheet (net debt ~nil) is a real, evidenced valuation-supportive structural feature (removes financial-risk discount versus leveraged peers) but is a pre-existing, multi-year condition (F-FUND-07) -- it does not explain why the multiple re-rated specifically over the last 12-18 months rather than being a constant premium factor throughout the 5-year window.", "evidence": ["F-FUND-07", "SRC-1300-1317"]}
+    ]
+  },
+
+  "part1b_peer_comparison": {
+    "domestic_peers": [
+      {
+        "peer": "Hindalco Industries (consolidated, incl. Novelis)",
+        "mcap_note": "Not independently pulled in this DR2 pass (gap) -- comparison limited to operating metrics, not market multiples, for this peer.",
+        "fy2026_metrics": {"revenue_inr_cr": 275000, "ebitda_inr_cr": 38097, "ebitda_margin_pct": 13.85, "india_upstream_ebitda_per_tonne_usd": 1572, "india_upstream_margin_pct": 45.56},
+        "src": ["F-EXT-1217", "F-EXT-1216"],
+        "business_model_delta": "Hindalco is a globally diversified aluminium+copper conglomerate with Novelis (downstream, rolled/recycled aluminium, US/Europe/Asia) as the majority of consolidated revenue at much lower blended margins (~13.9% consolidated EBITDA margin) than its India upstream business (45.6% margin, EBITDA/t $1,572, claimed first-decile cost curve). NALCO is a pure upstream bauxite-alumina-aluminium play with NO downstream/rolling/recycling business -- NALCO's reported margins are therefore more comparable to Hindalco's INDIA UPSTREAM segment specifically, not Hindalco's consolidated numbers. On that narrower comparison, NALCO's FY2025 standalone EBITDA margin (44.6%, F-DER-FUN-04) is closely in line with Hindalco's India-upstream 45.6% -- i.e. NALCO's operating margin quality in the current cycle is NOT differentiated from its largest domestic upstream peer's comparable segment, undercutting a 'quality premium' justification for NALCO's own multiple gap versus history.",
+        "premium_discount_verdict": "Cannot be scored on multiples (Hindalco mcap/PE not pulled), but on margin comparability, NALCO shows no operating-quality edge over Hindalco's India upstream segment this cycle -- any valuation premium NALCO commands versus Hindalco (if one exists; unverified here) would need a different justification (pure-play optionality, balance-sheet strength) rather than superior current profitability."
+      },
+      {
+        "peer": "Vedanta Aluminium (part of Vedanta Ltd, pre-demerger)",
+        "fy2026_metrics": {"opbditda_per_tonne_usd": "1158-1188", "cost_of_production_usd_per_tonne": 1752, "capacity_mtpa": 2.88, "production_mt": 2.46},
+        "src": ["F-EXT-1218", "F-EXT-1219", "F-EXT-1220"],
+        "business_model_delta": "Vedanta Aluminium is ~6x NALCO's primary aluminium capacity (2.88 mtpa vs NALCO's ~0.46mt actual FY2026 metal production) and is vertically integrating further (targeting 100% captive bauxite+coal to cut cost of production from ~$1,750/t to $1,550-1,600/t) -- a larger-scale, more aggressively self-sufficiency-focused peer. Vedanta's OPBDITA/tonne ($1,158-1,188) is a metal(aluminium)-only figure, not directly comparable to NALCO's blended alumina+metal EBITDA without a common per-tonne alumina-equivalent basis (not attempted here -- flagged as a methodology gap for a future pass); a rough per-tonne comparison is not safe to draw given differing segment definitions.",
+        "premium_discount_verdict": "Insufficient common-basis data to score premium/discount cleanly; flagged as an open item (see open questions) rather than asserted."
+      }
+    ],
+    "international_peers": [
+      {
+        "peer": "Alcoa Corporation",
+        "metrics_asof": "2026-06-26 / Q1 CY2026",
+        "market_multiples": {"trailing_pe": 12.60, "forward_pe": 10.04, "ev_ebitda": 8.33, "mcap_usd_bn": 14.28},
+        "operating": {"revenue_usd_bn_q1cy26": 3.2, "adj_ebitda_usd_mn_q1cy26": 595, "net_income_usd_mn_q1cy26": 425},
+        "src": ["F-EXT-1221", "F-EXT-1222"],
+        "business_model_delta": "Alcoa is a much larger (~$14.3bn mcap vs NALCO's ~$8bn-equivalent at current INR mcap of 66,422cr), globally diversified, US-listed integrated producer (bauxite/alumina/aluminium, multiple countries) with a longer public-market track record and broader institutional coverage. Alcoa's trailing PE (12.60x) and EV/EBITDA (8.33x) as of late June 2026 are strikingly close to NALCO's CMP-implied multiples (12.5x PE on FY2025 EPS; 7.7-8.4x EV/EBITDA on FY2025/26 EBITDA).",
+        "premium_discount_verdict": "NALCO trades at essentially NO discount to Alcoa on either PE or EV/EBITDA despite: (a) NALCO being a single-country, GoI-promoted CPSE with concentrated commodity/geography risk (no equivalent of Alcoa's multi-country asset diversification); (b) NALCO's FY2025-26 earnings being explicitly flagged as cyclically peak by fundamental-analyst (F-FUND-01), whereas Alcoa's Q1 CY2026 print is not similarly flagged as peak in the sources reviewed; (c) NALCO having a much smaller free float / secondary-market liquidity profile as an ~49%-non-GoI-held CPSE. This parity is UNEXPLAINED by any variable evidenced in this fact set -- it does not appear to be justified by superior growth, returns, or lower risk at NALCO, and is flagged as an anomaly/opportunity-or-red-flag item requiring further research (index inclusion flows, retail/PSU-theme rotation, or a genuine but unevidenced re-rating thesis)."
+      },
+      {
+        "peer": "Norsk Hydro",
+        "metrics": {"fy2025_revenue_nok_mn": 207971, "fy2025_adj_ebitda_nok_mn": 28889, "implied_ebitda_margin_pct": 13.89, "mcap_nok_bn_asof_12feb2026": 180.24},
+        "src": ["F-EXT-1223", "F-EXT-1224"],
+        "business_model_delta": "Norsk Hydro's revenue mix includes substantial extruded/recycled downstream aluminium products, giving a much lower blended EBITDA margin (~13.9%) than NALCO's current upstream-only margin (44.6% FY2025 standalone) -- not a like-for-like comparable on margin; included for scale/mcap context only, not a multiple comparison (P/E or EV/EBITDA not computed for Hydro in this pass).",
+        "premium_discount_verdict": "Not scored -- insufficient multiple data pulled; margin profile is structurally different (downstream-heavy) and not comparable to NALCO's pure-upstream mix."
+      },
+      {
+        "peer": "Chalco (Aluminum Corporation of China)",
+        "metrics": {"fy2025_revenue_usd_bn_approx": 35.1, "fy2025_net_profit_rmb_bn": 12.7, "implied_net_margin_pct": 5.3, "metallurgical_alumina_output_mt": 17.35},
+        "src": ["F-EXT-1225"],
+        "business_model_delta": "Chalco is the world's largest alumina producer by volume (~25% of global metallurgical-alumina output) but runs a far lower net margin (~5.3%) than NALCO's FY2025 standalone net margin (~31%, per F-FUND-01/F-FUND-02 context), reflecting a larger, more state-directed, lower-margin operating model with heavier downstream/diffuse operations. Not a valuation-multiple comparable (Chalco's own PE/EV-EBITDA not pulled) but a useful scale-vs-margin contrast: NALCO is far smaller in volume but structurally higher-margin in the current cycle.",
+        "premium_discount_verdict": "Not scored on multiples; margin comparison shows NALCO's current profitability is not diluted by a large low-margin downstream book the way Chalco's is, which is a genuine (if cycle-dependent) positive differentiator -- but see F-VAL-06 for the caveat that this margin edge does not extend to NALCO's closer domestic peer (Hindalco's India-upstream segment)."
+      }
+    ],
+    "peer_table_gaps": [
+      "Hindalco and Vedanta standalone/consolidated market multiples (PE, EV/EBITDA, P/B) were NOT pulled in this DR2 research pass -- premium/discount cannot be scored on valuation multiples versus NALCO's two closest domestic peers, only on operating-margin proxies. This is the single largest gap in the peer comparison and should be prioritized in the next DR2 refresh.",
+      "No net-debt/EBITDA or working-capital-days comparison across peers was available in the DR2 fact set for any peer -- cross-peer balance-sheet-strength comparison (beyond NALCO's own near-debt-free status) is not possible this cycle."
+    ]
+  },
+
+  "part2_sector_business_quality": {
+    "porters_five_forces": [
+      {
+        "force": "Threat of new entrants",
+        "score": 3,
+        "score_basis": "Low-to-moderate pressure (higher score = lower threat in this scale, i.e. 3/10 = meaningfully low barrier relative to a 10 = impregnable scale is NOT the convention used here -- see scoring_note)",
+        "scoring_note": "Scored 0=low pressure per module convention (prompts/23 Part 2.1: '0 = low pressure'). Threat of new entrants: SCORE 6/10 (moderate-to-high pressure on NALCO specifically, given large low-cost new capacity additions from Indonesia).",
+        "score_final": 6,
+        "evidence": [
+          "Indonesian primary aluminium operating capacity is projected to rise from ~0.87mt (CY2025) to ~2.51mt (CY2026) to ~3.56mt (CY2027), and metallurgical alumina capacity to 7mtpa by CY2026 -- a large, fast-ramping new entrant bloc directly pressuring the alumina price NALCO realizes [F-EXT-1212, F-EXT-1211].",
+          "Management itself attributes NALCO's FY2026 alumina realization collapse (US$580 to US$370/t) substantially to this new Indonesian supply and to a compressed alumina-LME premium (15-17% to 11-11.5%) [F-FUND-02, guidance.json GD-Q4-035]."
+        ],
+        "trajectory": "Worsening for NALCO in the alumina segment specifically over the CY2025-2027 window as Indonesian capacity ramps; less acute for the metal (aluminium smelting) segment, which does not face an equivalent single-country capacity wall in this fact set."
+      },
+      {
+        "force": "Bargaining power of suppliers",
+        "score_final": 3,
+        "evidence": [
+          "NALCO is largely captive/self-supplied on its two key inputs: bauxite (own Panchpatmali mines) and a growing share of coal (captive coal ramped toward ~4 MTpa in FY2026, ~57% of fuel need, from a 2.6-2.7MT base) [guidance.json coal_captive_production family; F-EXT-1208].",
+          "The non-captive balance of coal is exposed to rising e-auction premiums (FY2026 average 38%, March 2026 45%) [F-EXT-1229], and caustic soda/CP coke are external inputs without captive substitution disclosed in this fact set."
+        ],
+        "trajectory": "Improving on the captive-coal dimension (ramp toward 4.8 MTpa FY2027 subject to EC clearance, guidance.json) and the pending Pottangi captive-bauxite mine (subject to commissioning-timeline risk per RF-GUI-05/guidance credibility ledger); still exposed to caustic soda and non-captive coal/power input cost inflation."
+      },
+      {
+        "force": "Bargaining power of buyers",
+        "score_final": 7,
+        "evidence": [
+          "NALCO sells alumina almost entirely on spot tenders (4 shipments/month, explicitly NO long-term contracts as of Q4 FY2026) and metal at LME-linked prices repriced every 3 days with near-zero hedging [F-FUND-01 why-chain, quoting QT-Q4-054/055/056] -- buyers effectively set the price via the spot/LME market with no ability for NALCO to lock in favorable terms.",
+          "Management's own contract-mix guidance flip-flopped three times within one fiscal year (80/20 spot-heavy to 50/50 term-spot to spot-only) [guidance.json F-GUI-02 contradiction], itself evidence that NALCO has limited ability to impose its preferred buyer-relationship structure."
+        ],
+        "trajectory": "Structurally stable at a high level -- this is a permanent feature of commodity spot-market sales, not a cyclical or improving dynamic."
+      },
+      {
+        "force": "Threat of substitutes",
+        "score_final": 2,
+        "evidence": [
+          "No substitute-product evidence surfaced in DR2 or company documents for aluminium's core end uses (packaging, transport, construction, power/wire-rod) at the primary-metal level within this fact set -- aluminium's substitution risk is generally low given its weight/conductivity/corrosion-resistance profile, though this module did not independently research substitute-material trends (e.g., composites, steel) beyond what appears in the provided facts.",
+          "India aluminium wire-rod demand specifically projected to grow 5.93% CAGR to 2030 [F-EXT-1214], consistent with continued (not substituted-away) demand in a core end-use segment."
+        ],
+        "trajectory": "Stable; no evidenced substitution threat trend in either direction from the facts available."
+      },
+      {
+        "force": "Competitive rivalry (industry)",
+        "score_final": 6,
+        "evidence": [
+          "Large-scale domestic rivals (Hindalco, Vedanta Aluminium) are both actively expanding and cutting costs (Vedanta targeting $1,550-1,600/t cost of production from ~$1,750-1,752/t via 100% captive bauxite+coal; Hindalco's India upstream already claims first-decile cost-curve status) [F-EXT-1216, F-EXT-1219] -- both larger-scale peers are converging on or already at a comparable margin/cost profile to NALCO's own cyclically peak numbers, meaning NALCO's operating performance is not clearly differentiated from its two closest domestic rivals this cycle (see F-VAL-06).",
+          "Global oversupply dynamic (Indonesian new capacity, per threat-of-new-entrants force above) intensifies rivalry industry-wide on price, not just among the three India-listed players."
+        ],
+        "trajectory": "Intensifying -- both domestic peers are investing in cost reduction and self-sufficiency at the same time Indonesian new supply pressures realizations, a double-sided competitive squeeze."
+      }
+    ],
+    "porters_composite_note": "Weighted toward buyer power and new-entrant/rivalry pressure (both scored 6-7/10, i.e. meaningfully high pressure) as the dominant structural forces on NALCO -- consistent with fundamental-analyst's independent finding that NALCO is a 'commodity price taker with near-zero hedging' (F-FUND-01). Supplier power and substitute threat are comparatively low (2-3/10), reflecting NALCO's captive-input structure and aluminium's durable end-use profile respectively. Overall five-forces read: an industry structure that is moderately-to-highly unfavorable for pricing power, partially offset by NALCO's input-cost self-sufficiency.",
+
+    "industry_ratios_vs_peer_and_history": [
+      {"ratio": "EBITDA margin (standalone)", "definition": "EBITDA / revenue from operations", "nalco_fy2025": 44.6, "nalco_5y_avg_fy2021_25": "not separately computed across all 5 years in this pass (FY2024: 24.9%, FY2025: 44.6% are the two years with a computed EBITDA route available; other years N/A -- missing consistent standalone EBITDA-route inputs)", "peer_median_proxy": "Hindalco India-upstream 45.6% (FY2026) is the closest available comparator (F-EXT-1216)", "why_it_matters": "The single largest driver of NALCO's PAT swings given near-zero financial leverage; margin IS the earnings story for a company with no debt-cost or forex-hedging complexity to otherwise explain PAT volatility.", "src": ["F-DER-FUN-03", "F-DER-FUN-04", "F-EXT-1216"]},
+      {"ratio": "ROE (consolidated)", "definition": "PAT attributable / average total equity", "nalco_fy2025_approx": 32.7, "computation": "5,267.94 / average(14,388.09, 17,805.44) = 32.7%", "peer_comparison": "N/A -- peer ROE not pulled in this DR2 pass", "why_it_matters": "Tests whether the near-debt-free balance sheet is being used productively (equity-funded growth) versus simply accumulating idle cash; high ROE in FY2025 is largely a function of the cyclical margin peak (numerator), not a structural capital-efficiency gain, per F-FUND-01's caution.", "src": ["SRC-1320"], "formula": "5267.94 / ((14388.09+17805.44)/2) * 100 = 32.73%"},
+      {"ratio": "Net debt / EBITDA", "definition": "(total borrowings - cash) / EBITDA", "nalco": "~0x (near debt-free; current borrowings 124.22cr FY2025 vs EBITDA 7,922cr company-reported FY2025 -- negative net debt once cash is netted, per F-FUND-07)", "peer_comparison": "Vedanta actively de-levering cost structure via 100% captive bauxite+coal targeting; Hindalco carries Novelis-related leverage not detailed in this DR2 pass. NALCO is the cleanest balance sheet among the three India-listed peers on the facts available.", "why_it_matters": "Determines capacity to self-fund the ~Rs.18,000-24,000cr smelter expansion without diluting equity or raising leverage risk -- directly relevant to the moat/capex thesis pillar.", "src": ["F-FUND-07"]},
+      {"ratio": "Alumina-to-LME price premium (%)", "definition": "Alumina realization as % of LME aluminium price", "nalco_context": "Compressed from 15-17% to 11-11.5% per management (GD-Q4-035), corroborating the global oversupply read", "peer_comparison": "Industry-wide metric, not NALCO-specific -- applies to all alumina producers, corroborated independently by Platts FOB-Australia Q1 CY2026 average of $306.91/t [F-EXT-1206] tracking closely with management's own guided range.", "why_it_matters": "A sector-specific KPI unique to integrated alumina/aluminium producers -- signals whether the alumina segment is being adequately compensated for its LME linkage or is being squeezed structurally.", "src": ["F-EXT-1206", "F-EXT-1209"]}
+    ],
+
+    "industry_economics": {
+      "demand_drivers": [
+        {"driver": "India aluminium market growth", "quantified": "6.27% CAGR CY2024-2030 (TechSci, paid research house, low independent-confidence) to 5.9-7.8% range across multiple cited paid-research estimates", "src": "F-EXT-1213", "confidence": "low -- methodology not independently auditable"},
+        {"driver": "India aluminium wire-rod demand (sub-segment)", "quantified": "5.93% CAGR to 2030", "src": "F-EXT-1214", "confidence": "low"}
+      ],
+      "pricing_determinants": [
+        {"determinant": "LME aluminium price", "cy2026_forecast_range": "World Bank $3,200/t base case, SMM scenarios $3,600-3,850/t H2 CY2026 center, Goldman Sachs bear case $2,400/t by CY2027", "src": ["F-EXT-1200", "F-EXT-1203", "F-EXT-1204"], "note": "Wide dispersion across forecasters (Goldman's bear case is ~25% below the World Bank base case) -- genuine two-sided uncertainty, not a consensus."},
+        {"determinant": "Alumina spot price / Indonesian oversupply", "cy2026_context": "FOB Australia averaged $306.91/t in Q1 CY2026 (Platts, primary price-reporting agency) -- closely corroborating management's own $310-340/t guided range", "src": "F-EXT-1206", "note": "One of the few DR2 facts with primary-source (price-reporting-agency) corroboration rather than secondary press."},
+        {"determinant": "CBAM (EU carbon border tax)", "impact": "India's unwrought aluminium exports to the EU down 41.7% YTD-Jan-2026 vs YTD-Jan-2025; NALCO's captive power is coal-based (highest emission intensity, least CBAM-favorable) -- NALCO's specific EU export volume was not sized in this DR2 pass (a gap, not a null finding)", "src": "F-EXT-1227"},
+        {"determinant": "Coal input costs", "impact": "Indian e-auction premiums rising (38% FY2026 average, 45% March 2026) and Indonesian thermal coal +33% from start of CY2026 -- a cost tailwind risk for NALCO's non-captive coal share (~43% of fuel need if captive is ~57%)", "src": ["F-EXT-1229", "F-EXT-1230", "F-EXT-1208"]}
+      ],
+      "sensitivity_estimate": {
+        "statement": "A derivable sensitivity from the segment-bridge disclosure in F-FUND-02: management quantified that the alumina price decline (~US$200/t, $580 to $370/t FY25-FY26) cost approximately Rs.2,659cr of revenue. This implies roughly Rs.13.3cr of revenue per US$1/t of alumina price change (2,659 / 200 = 13.3), on the FY2026 alumina volume base. This is a revenue, not EBITDA, sensitivity (cost structure for the alumina segment specifically was not isolated in the fact set to convert to an EBITDA-per-dollar figure) -- flagged as a partial derivation, not a full margin-sensitivity model.",
+        "formula": "Rs.2,659cr revenue impact / US$200/t price change = ~Rs.13.3cr revenue per US$1/t alumina price move (approximate, FY2026 volume base)",
+        "src": ["F-FUND-02", "SRC-1321"],
+        "caveat": "Does not net through to an EBITDA sensitivity; recommend estimates-builder combine this with segment cost-structure facts (not fully available in this pass) for a full margin bridge."
+      }
+    },
+
+    "cost_structure_unit_economics": {
+      "available_facts": "Segment EBIT (Aluminium vs Chemicals/alumina) is available and shows Aluminium's EBIT share of the combined pool at 55.5% FY2025 vs 61.2% FY2024 (F-DER-FUN-07/08) -- a nuanced, non-monotonic relationship the fundamental-analyst module has already flagged as needing reconciliation (both segments' EBIT grew through the FY2025 cyclical upswing, but proportionally differently).",
+      "unit_cost_context_from_dr2": [
+        {"item": "Q4 FY2026 alumina cost of production", "value": "Rs.20,000-22,000/t", "src": "guidance.json GD-Q4-024"},
+        {"item": "Q4 FY2026 metal cost of production", "value": "Rs.155,000-160,000/t", "src": "guidance.json GD-Q4-025"},
+        {"item": "Caustic soda consumption improvement", "value": "121 kg/t (prior year) to 99 kg/t (9M FY2026 actual), Rs.129cr savings", "src": "guidance.json GD-Q3-014"}
+      ],
+      "note": "Full per-tonne cost-bucket percentage breakdown (raw material %, power/fuel %, employee %, other) at a level comparable to Vedanta's or Hindalco's disclosed cost-of-production figures was not extracted/available in facts/financials.json at a segment-level granularity in this pass -- flagged as a gap rather than approximated."
+    },
+
+    "moat_matrix": [
+      {
+        "dimension": "Scale",
+        "score": 4,
+        "evidence": ["NALCO's actual FY2026 metal production (~471KT) is roughly 1/6th of Vedanta Aluminium's FY2026 production (2.46mt) [F-EXT-1220] and a small fraction of Hindalco's consolidated scale [F-EXT-1217] -- NALCO is the smallest of the three major India-listed upstream aluminium/alumina producers by primary-metal volume.", "It IS large in alumina refining relative to its own metal-smelting scale (2.1-3.1MT alumina refinery vs sub-0.5mt metal smelter), an integrated-but-metal-scale-constrained profile [guidance.json 5th_stream_refinery family]."],
+        "trajectory": "Improving modestly (5th-stream refinery +1MT alumina capacity, 0.5MT smelter expansion planned) but off a small base and on an extended, already-slipping timeline (RF-GUI-01/03) -- scale gains are years away, not current."
+      },
+      {
+        "dimension": "Brand",
+        "score": 1,
+        "evidence": ["No brand-premium evidence found -- aluminium and alumina are undifferentiated commodities sold on spot/LME terms [F-FUND-01 why-chain]; no company disclosure or DR2 external fact claims a brand-driven price premium."],
+        "trajectory": "Not applicable / stable -- commodity businesses structurally do not build this dimension of moat."
+      },
+      {
+        "dimension": "Distribution",
+        "score": 3,
+        "evidence": ["Alumina export/domestic split is roughly 90.5%/9.5% (Q4 FY2026: 13.09 lakh ton export vs 1.37 lakh ton domestic) [guidance.json sales_demand_market_share topic] -- a heavily export-tilted distribution profile, exposed to trade-policy risk (CBAM, per F-EXT-1227) rather than a defensible domestic-distribution-network moat.", "No long-term offtake contracts currently in force (spot-only per Q4 FY2026 commentary, guidance.json F-GUI-02) -- distribution relationships are transactional, not sticky."],
+        "trajectory": "Eroding on the contract-stickiness dimension (explicit move away from term contracts within FY2026) though this may reverse if pricing improves and management re-opens term-contract negotiations."
+      },
+      {
+        "dimension": "Switching costs",
+        "score": 1,
+        "evidence": ["Commodity alumina/aluminium sold on spot/LME-linked terms inherently carries near-zero buyer switching cost -- no evidence of any customer lock-in mechanism (long-term contracts, certification requirements, co-located facilities) in the fact set."],
+        "trajectory": "Stable at a structurally low level; not a lever management can realistically move for a bulk commodity producer."
+      },
+      {
+        "dimension": "Supply-chain integration (vertical/captive integration)",
+        "score": 7,
+        "evidence": ["Captive bauxite (Panchpatmali mines, own reserves), captive coal ramping to ~4 MTpa (~57% of fuel need) [F-EXT-1208], and a pending captive-bauxite Pottangi mine (execution-risk-flagged, RF-GUI-05) -- one of the more vertically integrated cost structures in the Indian peer set, comparable in intent (if not yet in degree) to Vedanta's stated 100%-captive-bauxite-and-coal target [F-EXT-1219].", "Captive power (thermal + wind + solar rooftop per facts/financials.json metric list) reduces exposure to grid tariffs."],
+        "trajectory": "Widening -- captive coal ramp already delivered per guidance-analyst's credibility ledger (medium-high credibility, one of the cleanest delivery records in the guidance set), and Pottangi captive bauxite (if it commissions on anything close to schedule) would further reduce purchased-bauxite dependency."
+      },
+      {
+        "dimension": "Regulatory / access barriers",
+        "score": 6,
+        "evidence": ["NALCO holds long-dated captive bauxite mining leases (Panchpatmali central-north and south blocks) -- a scarce, government-allocated resource not readily obtainable by new entrants in India [facts/financials.json panchpatmali_mining_lease metrics]; exact lease-expiry dates are subject to an internal management uncertainty flagged by governance-analyst (concall self-corrected answer, QT-Q2-041) and an unresolved external-source discrepancy (DR1-B), so the durability of this barrier cannot be fully quantified with confidence.", "GoI 51.28% ownership provides implicit access to domestic mining/environmental-clearance processes (Coal India-style CPSE positioning) though this is an inference, not independently evidenced in this pass."],
+        "trajectory": "Stable-to-uncertain -- the lease-date ambiguity itself (unresolved, low-to-medium confidence per governance.json) is a moat-durability question mark that has not been closed."
+      },
+      {
+        "dimension": "Specialty vs bulk product mix",
+        "score": 2,
+        "evidence": ["NALCO's product mix (primary aluminium ingots/billets, calcined alumina, alumina hydrate) is overwhelmingly bulk/commodity-grade -- no evidence in this fact set of a value-added or specialty-alloy product line (e.g., aerospace-grade alloys, can-stock, foil-stock) that would command a structural premium over LME-linked pricing.", "Wire rod mill and rolled-products capacity are mentioned as part of the capex pipeline [F-FUND-03 why-chain, QT-Q4-061/062] but are not yet operational/contributing -- these would modestly shift the mix toward higher-value-add products if delivered, but this is a future, not current, moat contributor."],
+        "trajectory": "Potentially improving (wire rod mill, rolled products in the capex pipeline) but not yet realized -- score reflects the CURRENT mix, which remains bulk-commodity."
+      }
+    ],
+    "moat_weighted_composite": {
+      "weights_disclosed": {"scale": 0.15, "brand": 0.05, "distribution": 0.10, "switching_costs": 0.10, "supply_chain_integration": 0.25, "regulatory_barriers": 0.20, "specialty_bulk_mix": 0.15},
+      "weights_rationale": "Supply-chain integration and regulatory/access barriers are weighted highest (0.25 and 0.20) because they are the two dimensions where NALCO shows genuine, evidenced differentiation for a bulk-commodity producer (captive bauxite/coal; scarce mining leases) -- these are the only levers a commodity-price-taking producer can control. Brand and switching costs are weighted lowest (0.05, 0.10) because they are structurally near-irrelevant for an LME-linked commodity business, not because they were skipped.",
+      "calc": "0.15*4 + 0.05*1 + 0.10*3 + 0.10*1 + 0.25*7 + 0.20*6 + 0.15*2 = 0.60 + 0.05 + 0.30 + 0.10 + 1.75 + 1.20 + 0.30 = 4.30",
+      "composite_score_of_10": 4.3,
+      "src": "SRC-1322"
+    },
+    "moat_trajectory_overall": "Widening on the supply-chain-integration dimension specifically (captive coal delivered, captive bauxite pending, both cost-reduction rather than pricing-power levers) but STABLE-TO-STRUCTURALLY-CONSTRAINED overall -- NALCO remains fundamentally a commodity price-taker (Porter's buyer-power score 7/10, near-zero switching costs, no brand/specialty premium) whose only durable advantages are input-cost self-sufficiency and a scarce mining-lease position. The moat is not eroding, but it is not the kind of moat (pricing power, customer captivity) that would justify a valuation re-rating on its own -- it is a cost-structure moat, which supports margin resilience in a downturn more than earnings growth or multiple expansion in an upturn."
+  },
+
+  "part3_summary_rating_matrix": {
+    "dimensions": [
+      {"dimension": "Industry structure (Porter's composite)", "score_1_10": 4, "outlook": "-", "rationale": "High buyer power, rising new-entrant/rivalry pressure from Indonesian and domestic-peer capacity growth; only supplier-power and substitute-threat forces are favorable."},
+      {"dimension": "Cost position / input self-sufficiency", "score_1_10": 7, "outlook": "+", "rationale": "Captive bauxite, ramping captive coal (~57% of fuel need), pending Pottangi mine -- a genuinely improving, evidenced trend, though execution-timeline risk is real (RF-GUI-05)."},
+      {"dimension": "Balance sheet / capital structure", "score_1_10": 9, "outlook": "neutral", "rationale": "Near-debt-free (F-FUND-07); a structural strength but a static one, not improving or worsening from an already-strong position."},
+      {"dimension": "Moat (weighted composite)", "score_1_10": 4.3, "outlook": "neutral-to-+", "rationale": "Cost-structure moat widening; pricing-power/brand/switching-cost dimensions structurally absent and not changing."},
+      {"dimension": "Earnings quality (cross-reference forensic-auditor)", "score_1_10": 7.5, "outlook": "neutral", "rationale": "Forensic composite score 75/100 -- above-median for an Indian commodity CPSE, unqualified audits, single disclosed one-off; principal soft spots (FY2023 CFO swing, 4 unresolved comparative-period deltas) are disclosed, not concealed."},
+      {"dimension": "Governance", "score_1_10": 7.3, "outlook": "-", "rationale": "Governance composite score 73.3/100 (Amber) -- downgraded this cycle on a confirmed, fined SEBI LODR independent-director-composition breach and an open CBI recruitment-fraud probe; accounting/audit sub-component itself is clean (90/100)."},
+      {"dimension": "Valuation vs own history and peers", "score_1_10": 2, "outlook": "-", "rationale": "CMP trades at ~2x the 5-year average PE and above the 5-year high on every multiple examined (PE, EV/EBITDA, P/B); converged with a larger, more diversified international peer (Alcoa) despite no evidenced quality edge; reverse read implies an unevidenced ~2x EPS step-up or an unjustified re-rating."}
+    ],
+    "business_quality_score_weighted": {
+      "weights": {"industry_structure": 0.15, "cost_position": 0.20, "balance_sheet": 0.15, "moat": 0.15, "earnings_quality": 0.15, "governance": 0.10, "valuation_context": 0.10},
+      "weights_rationale": "Cost position and industry structure weighted highest (0.20, 0.15) as the two dimensions most determinative of NALCO's actual profit durability in a commodity business; valuation and governance weighted lowest (0.10 each) as they describe the market's current view / compliance posture rather than the underlying business quality itself, consistent with the module's instruction that this feeds the thesis rather than being the rating itself.",
+      "calc": "0.15*4 + 0.20*7 + 0.15*9 + 0.15*4.3 + 0.15*7.5 + 0.10*7.3 + 0.10*2 = 0.60 + 1.40 + 1.35 + 0.645 + 1.125 + 0.73 + 0.20 = 6.05",
+      "business_quality_score_of_10": 6.05,
+      "interpretation": "A moderate-quality, structurally advantaged-on-costs but pricing-power-constrained commodity producer with a clean balance sheet and above-median (if imperfect) earnings/audit quality, currently gated on the governance side by an active, fined compliance breach, and -- most acutely for the investment case -- trading at a valuation that is disconnected from both its own trading history and the operating-quality evidence available. Business quality itself (ex-valuation) would score closer to 6.9/10 if valuation_context were excluded from the weighted calc; it is valuation, not operations, that is the standout outlier in this analysis."
+    },
+    "src": "SRC-1323"
+  },
+
+  "open_questions_summary": "See findings/peer_valuation_questions.json for the full open-question ledger (peer multiple gaps, moat-durability lease-date ambiguity, cost-curve claim re-verification, EU export-volume sizing).",
+
+  "derived_facts_appended": [
+    {"id": "SRC-1300", "doc": "derived", "kind": "pe_band_fact", "locator": "FY2021 PE on avg price = 28.67/6.97 = 4.11x", "period": "FY2021"},
+    {"id": "SRC-1301", "doc": "derived", "kind": "pe_band_fact", "locator": "FY2022 PE on avg price = 74.16/16.07 = 4.61x", "period": "FY2022"},
+    {"id": "SRC-1302", "doc": "derived", "kind": "pe_band_fact", "locator": "FY2023 PE on avg price = 68.98/8.41 = 8.20x", "period": "FY2023"},
+    {"id": "SRC-1303", "doc": "derived", "kind": "pe_band_fact", "locator": "FY2024 PE on avg price = 93.75/11.22 = 8.36x", "period": "FY2024"},
+    {"id": "SRC-1304", "doc": "derived", "kind": "pe_band_fact", "locator": "FY2025 PE on avg price = 183.26/28.99 = 6.32x", "period": "FY2025"},
+    {"id": "SRC-1305", "doc": "derived", "kind": "pe_band_fact_crosscheck", "locator": "FY2026 EPS calc = 5816/183.6632 = 31.67; PE on avg price = 239.99/31.67 = 7.58x; PE on end price = 384.19/31.67 = 12.13x", "period": "FY2026"},
+    {"id": "SRC-1306", "doc": "derived", "kind": "cmp_pe", "locator": "CMP PE on FY2025 EPS = 361.65/28.99 = 12.47x", "period": "POINT2026-07-15"},
+    {"id": "SRC-1307", "doc": "derived", "kind": "cmp_pe", "locator": "CMP PE on FY2026 EPS calc = 361.65/31.67 = 11.42x", "period": "POINT2026-07-15"},
+    {"id": "SRC-1308", "doc": "derived", "kind": "ev_ebitda_fact", "locator": "FY2024 EV/EBITDA (standalone approx) = (139.07*183.6632)/3278.76 = 7.79x", "period": "FY2024"},
+    {"id": "SRC-1309", "doc": "derived", "kind": "ev_ebitda_fact", "locator": "FY2025 EV/EBITDA (standalone approx) = (167.94*183.6632)/7487.06 = 4.12x", "period": "FY2025"},
+    {"id": "SRC-1310", "doc": "derived", "kind": "ev_ebitda_fact", "locator": "FY2025 EV/EBITDA (company-reported cons EBITDA 7922cr) = 30844.4/7922 = 3.89x", "period": "FY2025"},
+    {"id": "SRC-1311", "doc": "derived", "kind": "ev_ebitda_fact", "locator": "CMP EV/EBITDA vs FY2025 EBITDA = 66421.8/7922 = 8.38x", "period": "POINT2026-07-15"},
+    {"id": "SRC-1312", "doc": "derived", "kind": "ev_ebitda_fact", "locator": "CMP EV/EBITDA vs FY2026 EBITDA = 66421.8/8613 = 7.71x", "period": "POINT2026-07-15"},
+    {"id": "SRC-1313", "doc": "derived", "kind": "pb_fact", "locator": "FY2021 P/B = 42.32/(10679.01/183.6632) = 42.32/58.14 = 0.73x", "period": "FY2021"},
+    {"id": "SRC-1314", "doc": "derived", "kind": "pb_fact", "locator": "FY2022 P/B = 100.92/(12552.39/183.6632) = 100.92/68.34 = 1.48x", "period": "FY2022"},
+    {"id": "SRC-1315", "doc": "derived", "kind": "pb_fact", "locator": "FY2024 P/B = 139.07/(14388.09/183.6632) = 139.07/78.34 = 1.78x", "period": "FY2024"},
+    {"id": "SRC-1316", "doc": "derived", "kind": "pb_fact", "locator": "FY2025 P/B = 167.94/(17805.44/183.6632) = 167.94/96.95 = 1.73x", "period": "FY2025"},
+    {"id": "SRC-1317", "doc": "derived", "kind": "pb_fact", "locator": "CMP P/B (using FY2025 book value) = 361.65/96.95 = 3.73x", "period": "POINT2026-07-15"},
+    {"id": "SRC-1318", "doc": "derived", "kind": "data_gap_note", "locator": "FCF yield not computed -- inconsistent capex-basis series across years during an accelerating multi-year capex program"},
+    {"id": "SRC-1319", "doc": "derived", "kind": "reverse_read", "locator": "CMP implies ~2x sustained EPS step-up vs FY2025 peak at a constant 6.3x average historical multiple, or an unevidenced multiple re-rating"},
+    {"id": "SRC-1320", "doc": "derived", "kind": "roe_fact", "locator": "FY2025 ROE (cons, attributable) = 5267.94/((14388.09+17805.44)/2) = 32.73%", "period": "FY2025"},
+    {"id": "SRC-1321", "doc": "derived", "kind": "sensitivity_fact", "locator": "Alumina price sensitivity approx = Rs.2659cr revenue impact / US$200/t = ~Rs.13.3cr revenue per US$1/t (FY2026 volume base, revenue not EBITDA basis)", "period": "FY2026"},
+    {"id": "SRC-1322", "doc": "derived", "kind": "moat_composite", "locator": "Weighted moat composite = 4.3/10 (weights: scale 0.15, brand 0.05, distribution 0.10, switching 0.10, supply-chain 0.25, regulatory 0.20, specialty-mix 0.15)"},
+    {"id": "SRC-1323", "doc": "derived", "kind": "business_quality_composite", "locator": "Weighted business-quality score = 6.05/10 (weights: industry structure 0.15, cost position 0.20, balance sheet 0.15, moat 0.15, earnings quality 0.15, governance 0.10, valuation context 0.10)"}
+  ]
+}

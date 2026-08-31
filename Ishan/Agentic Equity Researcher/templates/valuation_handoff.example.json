@@ -1,0 +1,32 @@
+{
+  "_comment": "Illustrative example of handoff/valuation_handoff.json (schema/valuation_handoff.schema.json). Dummy numbers.",
+  "company": { "name": "Example Industries Ltd", "ticker": "EXMPL", "exchange": "NSE", "sector": "Specialty Chemicals", "sector_pack": "pharma_chemicals", "basis": "consolidated" },
+  "as_of": "2026-07-04",
+  "market": { "cmp": 842.5, "cmp_date": "2026-07-03", "shares_diluted_cr": 12.4, "mcap_cr": 10447.0, "free_float_pct": 41.2, "promoter_pct": 58.8, "pledge_pct": 0.0, "fii_pct": 12.1, "dii_pct": 9.4, "week52_high": 1012.0, "week52_low": 618.0, "fact_refs": ["F-MKT-CURRENT_PRICE-POINT2026-07-03"] },
+  "historicals": [
+    { "fy": "FY2024", "revenue": 1980.4, "revenue_growth_pct": 11.2, "ebitda": 396.1, "ebitda_margin_pct": 20.0, "pat": 238.9, "eps_diluted": 19.3, "cfo": 301.2, "capex": 210.0, "fcf": 91.2, "net_debt": 180.0, "roe_pct": 17.8, "roce_pct": 19.2, "fy_avg_price": 640.0, "fy_avg_pe": 33.2, "fact_refs": ["F-REV-FY2024-CONS-001"] },
+    { "fy": "FY2025", "revenue": 2217.9, "revenue_growth_pct": 12.0, "ebitda": 465.8, "ebitda_margin_pct": 21.0, "pat": 279.5, "eps_diluted": 22.5, "cfo": 340.0, "capex": 380.0, "fcf": -40.0, "net_debt": 290.0, "roe_pct": 18.4, "roce_pct": 19.6, "fy_avg_price": 705.0, "fy_avg_pe": 31.3, "fact_refs": [] },
+    { "fy": "FY2026", "revenue": 2483.0, "revenue_growth_pct": 12.0, "ebitda": 536.3, "ebitda_margin_pct": 21.6, "pat": 318.0, "eps_diluted": 25.6, "cfo": 402.0, "capex": 310.0, "fcf": 92.0, "net_debt": 250.0, "roe_pct": 18.9, "roce_pct": 20.1, "fy_avg_price": 810.0, "fy_avg_pe": 31.6, "fact_refs": [] }
+  ],
+  "estimates": [
+    { "fy": "FY2027E", "revenue": 2882.0, "revenue_growth_pct": 16.1, "ebitda_margin_pct": 22.0, "ebitda": 634.0, "depreciation": 118.0, "interest": 32.0, "tax_rate_pct": 25.2, "pat": 372.0, "eps_diluted": 30.0, "capex": 260.0, "fcf": 190.0, "roe_pct": 19.5, "assumption_refs": ["AS-001", "AS-002", "AS-003"], "confidence": "medium" },
+    { "fy": "FY2028E", "revenue": 3308.0, "revenue_growth_pct": 14.8, "ebitda_margin_pct": 22.4, "ebitda": 741.0, "depreciation": 132.0, "interest": 24.0, "tax_rate_pct": 25.2, "pat": 437.0, "eps_diluted": 35.2, "capex": 240.0, "fcf": 265.0, "roe_pct": 19.8, "assumption_refs": ["AS-001", "AS-004"], "confidence": "medium" }
+  ],
+  "guidance_ledger": [
+    { "metric": "revenue_growth", "guided_value": "15-18%", "period": "FY2027", "given_on": "2026-05-14", "source_ref": "GD-012", "credibility": "high", "delivery_history": "met 3 of last 4 revenue guides (avg miss 1.1pp)" },
+    { "metric": "ebitda_margin", "guided_value": "23%", "period": "FY2028", "given_on": "2026-05-14", "source_ref": "GD-013", "credibility": "medium", "delivery_history": "margin guides missed twice by >150bps in FY24/FY25" }
+  ],
+  "capex_plan": { "announced_total": 500.0, "period": "FY2027-FY2028", "purpose": "CDMO block 3 + KSM backward integration", "funding": "internal accruals + sanctioned term loan 150cr", "growth_vs_maintenance_split": "80/20 per management", "expected_asset_turn": 1.4, "commissioning_timeline": "block 3 H2FY27", "fact_refs": [] },
+  "pe_bands": { "ttm_pe": 32.9, "fwd_pe_fy1": 28.1, "fwd_pe_fy2": 23.9, "hist_5y": { "min": 21.0, "p25": 27.0, "median": 30.5, "p75": 34.0, "max": 41.0 }, "peer_domestic_median": 27.5, "peer_international_median": 18.2, "premium_discount_note": "trades at ~10% premium to domestic peers on cleaner USFDA record and CDMO mix; international discount reflects market, not quality" },
+  "other_multiples": { "ev_ebitda_ttm": 20.1, "ev_ebitda_5y_median": 18.7, "pb": 6.0, "pb_5y_median": 5.6, "fcf_yield_pct": 0.9 },
+  "scenario_seeds": {
+    "base": { "eps_cagr_2y_pct": 17.2, "rationale": "guidance-consistent revenue, margin held below guide per credibility score" },
+    "bull": { "eps_cagr_2y_pct": 22.0, "rationale": "block-3 ramps 2 quarters early + margin guide fully delivered" },
+    "bear": { "eps_cagr_2y_pct": 9.0, "rationale": "US price erosion accelerates + WC drag from confirmed receivables flag RF-004" }
+  },
+  "growth_drivers": ["CDMO block 3 capacity (+30% capacity FY28)", "KSM integration margin capture 80-120bps", "China+1 sourcing shifts (2 client validations in progress)"],
+  "key_risks_to_estimates": ["USFDA inspection outcome at Unit 2 (last OAI 2023)", "receivables cycle deterioration (RF-004 confirmed)", "crude-linked input basket"],
+  "rating": { "value": "ADD", "thesis_one_line": "Mix migration to CDMO re-rates margins faster than street models, but WC discipline caps the multiple.", "variant_view": "We are 250bps below management's FY28 margin guide (credibility-weighted); street appears to take the guide at face value." },
+  "data_gaps": ["No consensus estimates source available in v1 — variant view is vs guidance", "FY2022 AR not supplied; 5y ratios start FY2023"],
+  "source_registry_path": "workspace/EXMPL/state/source_registry.json"
+}

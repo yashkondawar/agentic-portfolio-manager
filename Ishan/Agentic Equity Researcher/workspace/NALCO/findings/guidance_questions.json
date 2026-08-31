@@ -1,0 +1,52 @@
+[
+  {
+    "id": "OQ-GUI-01",
+    "question": "Is the FY26 alumina and LME aluminium price realization guidance (management's own directional calls) consistent with independent commodity price trackers/analyst consensus for CY2025-2026, or is management's price narrative systematically lagging/leading the actual market?",
+    "raised_by": "22_management_guidance",
+    "route": "deep_research_sector",
+    "related_findings": ["alumina_price_realization_outlook", "aluminium_lme_price_outlook"],
+    "severity": "medium",
+    "status": "open",
+    "rationale": "Ledger shows alumina price guide ratcheted down every quarter and LME CY2026 guide swung 17% in one quarter; need an external anchor (e.g., independent alumina index, LME futures curve at each guidance date) to determine whether NALCO's guidance lags spot or is genuinely predictive."
+  },
+  {
+    "id": "OQ-GUI-02",
+    "question": "What is the current (as of the most recent public disclosure) status of the Pottangi bauxite mine MDO tender and physical commissioning — has it commissioned by the guided May/June 2026 window, and which of the two conflicting dates (May per PPT, June per transcript) proved correct?",
+    "raised_by": "22_management_guidance",
+    "route": "deep_research_company",
+    "related_findings": ["pottangi_bauxite_mine_commissioning"],
+    "severity": "medium",
+    "status": "open",
+    "rationale": "Internal transcript-vs-PPT date mismatch (F-GUI-05) combined with a late MDO tender as of Nov-2025 for a claimed May-2026 start; no FY2027Q1 transcript exists yet in the input set to confirm actual commissioning."
+  },
+  {
+    "id": "OQ-GUI-03",
+    "question": "Has the 5th-stream alumina refinery actually commenced commissioning in June 2026 as guided (post-reset date), or has this asset slipped for a second time?",
+    "raised_by": "22_management_guidance",
+    "route": "deep_research_company",
+    "related_findings": ["5th_stream_refinery_commissioning_timeline", "5th_stream_fy26_volume_contribution"],
+    "severity": "high",
+    "status": "open",
+    "rationale": "This is the single largest capacity-growth catalyst in the company's near-term story and already carries one admitted slip (implied Sept-2025 to June-2026) plus one in-year volume-guidance cut (500KT to 300KT, F-GUI-01). A second slip would materially impair FY27 volume/margin estimates. Next data point: Q1 FY27 transcript (expected ~Aug-2026), not yet in the input set as of this run."
+  },
+  {
+    "id": "OQ-GUI-04",
+    "question": "What is NALCO's actual FY26 year-end cash balance, and does it match management's Q2 FY26 projection of Rs.20,000cr+?",
+    "raised_by": "22_management_guidance",
+    "route": "deep_research_company",
+    "related_findings": ["debt_interest_fundraising"],
+    "severity": "low",
+    "status": "open",
+    "rationale": "FY2026 AR not yet published per intake manifest gap; cash balance guide (GD-Q2-012) cannot be scored for delivery until the FY26 annual accounts or a subsequent quarter's balance sheet disclosure is available."
+  },
+  {
+    "id": "OQ-GUI-05",
+    "question": "What is management's actual (not company-claimed) track record on capacity-expansion timelines prior to FY2026 — i.e., did NALCO's brownfield/greenfield projects in FY2021-FY2025 (pre-transcript period) slip similarly, or is the FY26 5th-stream/smelter/Pottangi pattern a new development?",
+    "raised_by": "22_management_guidance",
+    "route": "deep_research_company",
+    "related_findings": ["5th_stream_refinery_commissioning_timeline", "smelter_expansion_0.5mtpa_capex_and_timeline"],
+    "severity": "medium",
+    "status": "open",
+    "rationale": "No transcripts exist for FY2021-FY2025 (per manifest gap), so the credibility scores in this ledger are built on a single fiscal year of management commentary. AR MD&A sections (already extracted by doc-extractor) may contain historical project-timeline disclosures (e.g., past capex project delays) that would extend the credibility track record — this should be cross-checked against the fundamental-analyst/forensic-auditor findings rather than re-researched externally, and flagged if AR text confirms a pre-existing pattern of guidance slippage on capacity projects."
+  }
+]

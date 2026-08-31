@@ -1,0 +1,41 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 54,
+  "table_index": 1,
+  "bbox": [
+    61.077666666666666,
+    56.94350000000003,
+    471.2431,
+    125.32500000000005
+  ],
+  "rows": [
+    [
+      "Total Amount Spent for the\nFinancial Year. (in R Lakh)",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      "Total Amount transferred to Unspent\nCSR Account as per section 135(6)",
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      "Amount",
+      "Date of transfer",
+      "Name of the Fund",
+      "Amount"
+    ],
+    [
+      "3,691.38",
+      "NA",
+      "NA",
+      "NA",
+      "NA"
+    ]
+  ]
+}

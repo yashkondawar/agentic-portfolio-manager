@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 83,
+  "table_index": 3,
+  "bbox": [
+    79.62008181818182,
+    524.8172,
+    555.3406727272727,
+    627.4796
+  ],
+  "rows": [
+    [
+      "Category of employees",
+      "Present Strength",
+      "Persons undergone Safety\nand Skill Up-gradation\nTraining",
+      "Percentage of persons\nundergone Safety and Skill\nUp-gradation Training"
+    ],
+    [
+      "Permanent Employees (Excluding women & physically challenged\nemployees)",
+      "5,374",
+      "626",
+      "11.65%"
+    ],
+    [
+      "Permanent Women Employees",
+      "343",
+      "35",
+      "10.20%"
+    ],
+    [
+      "Casual/ Temporary/ Contractual Employees",
+      "Nil",
+      "—",
+      "—"
+    ],
+    [
+      "Employees with Disabilities",
+      "88",
+      "9",
+      "10.23%"
+    ]
+  ]
+}

@@ -1,0 +1,52 @@
+# Seeded DRAFT strategy — extracted from the user's deep-research seed
+# prompt (docs/source-material/er-deep-research-prompts.txt, "Mandatory
+# Macro & Cycle Positioning Check" and "Contrarian Price Signal" sections).
+# This is a starting point only. User strategy definitions are pending —
+# do not treat entry/exit thresholds below as final until confirmed.
+
+strategy_id: cycle_contrarian
+name: "Cycle Contrarian (Price/Cycle Signal)"
+objective: >
+  Use multi-year absolute-return and CAGR signals on the relevant market-cap
+  index and sectoral index to flag euphoria (avoid/exit bias) and panic or
+  long-term-neglect conditions (buy-consideration bias), as a contrarian
+  overlay on top of fundamental conviction — not a standalone trigger.
+philosophy: >
+  Markets overshoot in both directions. A sector or stock that has already
+  returned very large gains in a short window is statistically less likely
+  to repeat that performance ("euphoria"); a sector or stock in a
+  protracted multi-year decline, or one that has gone nowhere for a decade
+  plus, is more likely to be underpriced for its eventual mean-reversion
+  ("panic" / "long-term neglect"). This strategy encodes those price-cycle
+  signals as an entry/exit filter layered on top of, never a substitute
+  for, the fundamental thesis produced by Research/Idea Generation.
+
+eligible_universe:
+  asset_classes: [STOCK, ETF, INDEX_FUND]
+  market_cap_bands: [LARGE, MID, SMALL]
+  sectors_include: []
+  sectors_exclude: []
+
+required_kpi_sets: [generic]
+
+entry_criteria:
+  - "Panic BUY signal: relevant index/stock 1-year absolute return <= -40%."
+  - "Panic BUY signal (protracted decline): 5-year CAGR <= -10%."
+  - "Long-term neglect BUY signal: approximately zero absolute return over a 10-12 year window."
+  - "Any BUY-side signal above must be corroborated by fundamental research (Idea Generation / Research Head) before proceeding — this strategy alone is not sufficient justification."
+
+exit_criteria:
+  - "Euphoria AVOID/EXIT signal: relevant index/stock 1-year absolute return >= 100% (asset may not repeat strong returns in the following year)."
+  - "Re-evaluate position if the cycle signal reverses materially (e.g. a panic-buy entry that itself runs to a >=100% 1-year return should be reviewed for trimming)."
+
+invalidation_template: >
+  Invalidated if the price/cycle signal that triggered entry reverses beyond
+  {threshold} by {date}, or if the underlying fundamental thesis this signal
+  was layered on top of is itself invalidated.
+
+position_sizing_rule: "Not yet defined — pending user strategy definitions."
+capital_ceiling_pct: null
+
+review_cadence: "Quarterly, aligned with the mandatory cycle-overlap checks in the sector KPI registries."
+
+status: DRAFT   # user strategy definitions pending

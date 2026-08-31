@@ -1,0 +1,53 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 118,
+  "table_index": 3,
+  "bbox": [
+    93.7933,
+    649.786,
+    546.7693,
+    695.4630999999999
+  ],
+  "rows": [
+    [
+      "Commodity\nName",
+      "Exposure in INR towards\nthe particular commodity",
+      "Exposure in Quantity terms\ntowards the particular commodity",
+      "% of such exposure hedged through commodity derivatives",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "Domestic Market",
+      null,
+      "International Market",
+      null,
+      "Total"
+    ],
+    [
+      null,
+      null,
+      null,
+      "OTC",
+      "Exchange",
+      "OTC",
+      "Exchange",
+      null
+    ],
+    [
+      "Nil",
+      "Nil",
+      "Nil",
+      "Nil",
+      "Nil",
+      "Nil",
+      "Nil",
+      "Nil"
+    ]
+  ]
+}

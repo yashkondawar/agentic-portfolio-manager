@@ -1,0 +1,21 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 7,
+  "table_index": 1,
+  "bbox": [
+    68.28133333333334,
+    486.05010000000004,
+    541.79252,
+    670.0285
+  ],
+  "rows": [
+    [
+      "Type of shareholders",
+      "Login Method"
+    ],
+    [
+      "Individual shareholders\nholding securities in Demat\nmode with CDSL",
+      "1) Users who have opted for CDSL Easi/Easiest facility, can login through their existing user id and password.\nOption will be made available to reach e-Voting page without any further authentication. The URL for\nusers to login to Easi/Easiest is https://web.cdslindia.com/myeasitoken/home/login or visit CDSL website\nwww.cdslindia.com and click on login icon & New System Myeasi Tab and then use your existing my easi\nusername & password.\n2) After successful login, the Easi/Easiest user will be able to see the e-voting option for eligible companies\nwhere the e-voting is in progress as per the information provided by company. On clicking the e-voting\noption, the user will be able to see e-Voting page of Bigshare (e-voting service provider) and you will be\nre-directed to i-Vote website for casting your vote during the remote e-Voting period. Additionally, there\nare also links provided to access the website of other e-Voting Service Providers, so that the user can visit\nthe e-Voting service providers’ website directly. For joining the meeting click on “VIEW EVENT DETAILS\n(CURRENT)” under ‘EVENTS’ option, select event for which you desire to attend the AGM under the\ndropdown option, click on the option ‘VOTE NOW’ on right hand side top corner, you need to click on “VC/\nOAVM” link placed beside the “VIDEO CONFERENCE LINK” option.\n3) If the user is not registered for Easi/Easiest, option to register is available at https://web.cdslindia.com/\nmyeasitoken/Registration/EasiRegistration"
+    ]
+  ]
+}

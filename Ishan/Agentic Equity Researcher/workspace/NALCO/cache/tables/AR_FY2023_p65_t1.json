@@ -1,0 +1,53 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 65,
+  "table_index": 1,
+  "bbox": [
+    60.722,
+    94.17599999999999,
+    549.9751111111112,
+    468.884
+  ],
+  "rows": [
+    [
+      "Sl.\nNo.",
+      "Material issue\nidentified",
+      "Indicate whether\nRisk or opportunity\n(R/O)",
+      "Rationale for\nidentifying the risk/\nopportunity",
+      "In case of risk,\nApproach to adopt or mitigate",
+      "Financial implications\nof the risk of opportunity\n(Indicated Positive or\nnegative implications)"
+    ],
+    [
+      "1",
+      "Handling of\n• Red mud\n• Fly Ash",
+      "R",
+      "Government Regulations,\nEnvironmental & Societal\nConcerns; Business\nContinuity",
+      "• Construction of Red mud\nexpansion Pond-2\n• Lean Slurry Ash disposal to\nabandon mine void\n• Push for fly ash utilization in brick\n& cement making etc.",
+      "Negative"
+    ],
+    [
+      "2",
+      "Control of Air\nPollution",
+      "R",
+      "Government Regulations,\nEnvironmental & Societal\nConcerns",
+      "• Operating ESPs for boiler stacks of\nCPP & Refinery and FTPs for\nSmelter Potlines to control\nparticulate matters and fluoride\nemissions.\n• Retrofitting ESPs at the refinery\n• Implementing on-line Fugitive\nFluoride Monitoring systems in\nSmelter Potlines.\n• Installing SO2 Analyzers at bake\nOven Stacks in the Smelter.",
+      "Negative"
+    ],
+    [
+      "3",
+      "Handling of bulk\nHazardous Waste\n• SPL\n• Aluminium\nDross",
+      "Both R & O",
+      "Government Regulations,\nEnvironmental & Societal\nConcerns",
+      "• SPL carbon portion is disposed of\nto an external agency authorized by\nOSPCB for the utilization of its\nenergy value.\n• Dross is recycled in-house and also\nsold to authorized recyclers by OSPCB.",
+      "Negative"
+    ],
+    [
+      "4",
+      "Renewable and\nclean energy",
+      "O",
+      "RPO obligations;\nClimate-change concerns",
+      "• Operating the existing 198 MW Wind\nPower Plants and 800 KWp Rooftop\nSolar installations. Additional roof-top\nsolar capacity of 50 Kwp already\ninstalled at Mines.\n• Project for a new 25.5 MW Wind Power\nplant at Kayathar, Tamil Nadu.\n• Initiatives for new rooftop solar\ninstallations at Vizag and Damanjodi.",
+      "Positive"
+    ]
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 200,
+  "table_index": 1,
+  "bbox": [
+    51.524,
+    484.6580000000001,
+    399.2431,
+    564.128
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Name of the company",
+      "Holding Company/ Subsidiary/\nAssociate/ Joint Venture"
+    ],
+    [
+      "1",
+      "National Aluminium Company Limited",
+      "The Holding Company"
+    ],
+    [
+      "2",
+      "National Aluminium Company Limited",
+      "The Holding Company"
+    ],
+    [
+      "3",
+      "National Aluminium Company Limited",
+      "The Holding Company"
+    ]
+  ]
+}

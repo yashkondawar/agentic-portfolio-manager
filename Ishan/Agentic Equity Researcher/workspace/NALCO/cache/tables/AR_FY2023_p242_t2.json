@@ -1,0 +1,61 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 242,
+  "table_index": 2,
+  "bbox": [
+    45.562333333333335,
+    242.04500000000007,
+    549.3703333333334,
+    446.49000000000007
+  ],
+  "rows": [
+    [
+      "Movements in the fair value of the plan assets are as follows: PRMBS (Funded) Gratuity (Funded)"
+    ],
+    [
+      "Opening fair value of plan assets as at April 01, 2021 - 585.17"
+    ],
+    [
+      "Interest income - 40.96"
+    ],
+    [
+      "Remeasurement gains/(losses) -"
+    ],
+    [
+      "Return on plan assets (excluding amounts included in net interest income) - 4.68"
+    ],
+    [
+      "Others - -"
+    ],
+    [
+      "Contribution from the employer - 6.61"
+    ],
+    [
+      "Benefits paid - (82.56)"
+    ],
+    [
+      "Closing fair value of plan assets as at March 31, 2022 - 554.86"
+    ],
+    [
+      "Interest income 3.78 39.78"
+    ],
+    [
+      "Remeasurement gains/(losses)"
+    ],
+    [
+      "Return on plan assets (excluding amounts included in net interest income) (1.35)"
+    ],
+    [
+      "Contribution from the employer 169.55 -"
+    ],
+    [
+      "Benefits paid (12.48) (83.15)"
+    ],
+    [
+      "Others - -"
+    ],
+    [
+      "Closing fair value of plan assets as at March 31, 2023 160.85 510.14"
+    ]
+  ]
+}

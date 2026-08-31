@@ -1,0 +1,245 @@
+[
+  {
+    "id": "QT-PQ1-001",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "Company Presentation",
+    "quote": "Pottangi Bauxite Mines expansion capacity 3.5 MTPA; Expected in FY 25-26",
+    "context_summary": "Major bauxite mine expansion project timeline",
+    "source": {
+      "src_id": "SRC-607"
+    },
+    "period_discussed": "FY2026",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-PQ1-002",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "Company Presentation",
+    "quote": "5th Stream Alumina Refinery expansion capacity 1 MTPA; mechanical completion by FY 25-26",
+    "context_summary": "Alumina refinery expansion to increase production",
+    "source": {
+      "src_id": "SRC-607"
+    },
+    "period_discussed": "FY2026",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-PQ1-003",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "Company Presentation",
+    "quote": "Aluminium Smelter expansion capacity 0.5 MTPA; Expected in FY29-30",
+    "context_summary": "Multi-year smelter capacity expansion plan",
+    "source": {
+      "src_id": "SRC-607"
+    },
+    "period_discussed": "FY2030",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-PQ1-004",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "Company Presentation",
+    "quote": "Captive Power Plant expansion capacity 1,080 MW; Expected in FY29-30",
+    "context_summary": "Power expansion aligned with smelter growth",
+    "source": {
+      "src_id": "SRC-607"
+    },
+    "period_discussed": "FY2030",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-PQ1-005",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "Company Presentation",
+    "quote": "Wind power 15 MW in Pipeline for expansion",
+    "context_summary": "Renewable energy expansion plans",
+    "source": {
+      "src_id": "SRC-608"
+    },
+    "period_discussed": "FY2026",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-PQ1-006",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "Company Presentation",
+    "quote": "7 MW rooftop solar planned for expansion",
+    "context_summary": "Solar capacity expansion initiative",
+    "source": {
+      "src_id": "SRC-608"
+    },
+    "period_discussed": "FY2026",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-PQ1-007",
+    "topics": ["corporate_actions", "debt_interest_fundraising"],
+    "speaker": "Company Presentation",
+    "quote": "Zero debt leverage gives strength to balance sheet to fund smelter & power expansion plans",
+    "context_summary": "Strong balance sheet with no debt",
+    "source": {
+      "src_id": "SRC-606"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-PQ1-008",
+    "topics": ["sales_demand_market_share", "industry_macro_regulatory"],
+    "speaker": "Company Presentation",
+    "quote": "Global leader in producing bauxite and alumina at the lowest cost",
+    "context_summary": "Company competitive positioning claim",
+    "source": {
+      "src_id": "SRC-606"
+    },
+    "period_discussed": "general",
+    "kind": "statement",
+    "flags": ["company_claim"]
+  },
+  {
+    "id": "QT-PQ1-009",
+    "topics": ["product_mix_margin_strategy"],
+    "speaker": "Company Presentation",
+    "quote": "Expanded refinery capacity to protect bottom line in case of LME downswing",
+    "context_summary": "Strategy to mitigate commodity price volatility",
+    "source": {
+      "src_id": "SRC-606"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-PQ1-010",
+    "topics": ["product_mix_margin_strategy"],
+    "speaker": "Company Presentation",
+    "quote": "Smelter capacity addition to give scope for extrusions and other value-added products",
+    "context_summary": "Strategy to shift towards higher-margin products",
+    "source": {
+      "src_id": "SRC-606"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-PQ1-011",
+    "topics": ["sales_demand_market_share"],
+    "speaker": "Company Presentation",
+    "quote": "Raw material securitization – bauxite, coal and caustic soda",
+    "context_summary": "Backward integration for raw material security",
+    "source": {
+      "src_id": "SRC-606"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-PQ1-012",
+    "topics": ["sales_demand_market_share"],
+    "speaker": "Company Presentation",
+    "quote": "Export and global presence established",
+    "context_summary": "International market participation",
+    "source": {
+      "src_id": "SRC-606"
+    },
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-PQ1-013",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "Company Presentation",
+    "quote": "LME prices likely impacted by US-China trade talks, tariff uncertainties, new refining/smelting capacities in Indonesia and India",
+    "context_summary": "External factors affecting LME aluminium prices",
+    "source": {
+      "src_id": "SRC-603"
+    },
+    "period_discussed": "FY2026",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-PQ1-014",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "Company Presentation",
+    "quote": "Rising oil prices, US$ Index strength, and Federal Reserve policy on interest rates and inflation impact LME prices",
+    "context_summary": "Macroeconomic factors affecting aluminium market",
+    "source": {
+      "src_id": "SRC-603"
+    },
+    "period_discussed": "FY2026",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-PQ1-015",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "Company Presentation",
+    "quote": "Chinese slow demand outlook for H2 CY25 despite stimulus measures and restructuring of alumina/aluminium industry",
+    "context_summary": "Demand concerns in largest aluminium consumer",
+    "source": {
+      "src_id": "SRC-603"
+    },
+    "period_discussed": "FY2026",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-PQ1-016",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "Company Presentation",
+    "quote": "Disruption of raw material supplies (bauxite & alumina) especially from Guinea & Ghana",
+    "context_summary": "Supply chain risks in key raw material sources",
+    "source": {
+      "src_id": "SRC-603"
+    },
+    "period_discussed": "FY2026",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-PQ1-017",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "Company Presentation",
+    "quote": "Indian aluminium demand expected to grow at CAGR range of 6.3 to 7.2 per cent till 2030",
+    "context_summary": "Long-term domestic demand growth outlook",
+    "source": {
+      "src_id": "SRC-605"
+    },
+    "period_discussed": "FY2026-FY2030",
+    "kind": "statement",
+    "flags": ["company_claim"]
+  },
+  {
+    "id": "QT-PQ1-018",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "Company Presentation",
+    "quote": "Indian aluminium consumption growing at CAGR of around 9% in last 05–years",
+    "context_summary": "Historical consumption growth trajectory",
+    "source": {
+      "src_id": "SRC-605"
+    },
+    "period_discussed": "general",
+    "kind": "statement",
+    "flags": ["company_claim"]
+  },
+  {
+    "id": "QT-PQ1-019",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "Company Presentation",
+    "quote": "Global GDP growth 3.5% estimated for 2025",
+    "context_summary": "Global economic outlook from presentation",
+    "source": {
+      "src_id": "SRC-604"
+    },
+    "period_discussed": "FY2026",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-PQ1-020",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "Company Presentation",
+    "quote": "India GDP growth projected at 6.7% for 2025-26",
+    "context_summary": "India economic growth projection",
+    "source": {
+      "src_id": "SRC-605"
+    },
+    "period_discussed": "FY2026",
+    "kind": "statement"
+  }
+]

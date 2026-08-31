@@ -1,0 +1,34 @@
+{
+  "company": {"name": "Infosys Ltd", "ticker": "INFY", "exchange": "NSE", "sector": "Information Technology", "basis": "consolidated"},
+  "as_of": "2026-07-01",
+  "market": {"cmp": 1800.0, "cmp_date": "2026-07-01", "shares_diluted_cr": 415.0, "mcap_cr": 747000.0, "fact_refs": ["F001"]},
+  "historicals": [
+    {"fy": "FY24", "revenue": 153670.0, "pat": 26233.0, "eps_diluted": 63.4, "roe_pct": 30.0, "roce_pct": 28.5, "fact_refs": ["F002"]},
+    {"fy": "FY25", "revenue": 162990.0, "pat": 27234.0, "eps_diluted": 65.8, "roe_pct": 29.5, "roce_pct": 28.0, "fact_refs": ["F003"]},
+    {"fy": "FY26", "revenue": 171000.0, "pat": 28500.0, "eps_diluted": 68.9, "roe_pct": 29.0, "roce_pct": 27.8, "fact_refs": ["F004"]}
+  ],
+  "estimates": [
+    {"fy": "FY27E", "revenue": 185000.0, "revenue_growth_pct": 8.2, "pat": 31500.0, "eps_diluted": 76.1, "assumption_refs": ["A001"], "confidence": "medium"},
+    {"fy": "FY28E", "revenue": 201000.0, "revenue_growth_pct": 8.6, "pat": 34800.0, "eps_diluted": 84.0, "assumption_refs": ["A002"], "confidence": "medium"}
+  ],
+  "pe_bands": {
+    "ttm_pe": 26.1, "fwd_pe_fy1": 23.7, "fwd_pe_fy2": 21.4,
+    "hist_5y": {"min": 18.0, "p25": 22.0, "median": 25.0, "p75": 28.0, "max": 34.0},
+    "peer_domestic_median": 24.5,
+    "premium_discount_note": "Trades in-line with peer median given comparable growth/margin profile."
+  },
+  "scenario_seeds": {
+    "base": {"eps_cagr_2y_pct": 10.5, "rationale": "Mid-single-digit CC growth with stable margins."},
+    "bull": {"eps_cagr_2y_pct": 15.0, "rationale": "Large-deal TCV acceleration and GenAI-led mix shift."},
+    "bear": {"eps_cagr_2y_pct": 4.0, "rationale": "US recession denting discretionary tech spend."}
+  },
+  "growth_drivers": ["Large deal TCV acceleration", "GenAI services mix shift"],
+  "key_risks_to_estimates": ["US recession denting discretionary tech spend", "Wage inflation in key delivery hubs"],
+  "rating": {
+    "value": "BUY",
+    "thesis_one_line": "Margin trough behind us; AI services mix shift supports multiple re-rating.",
+    "variant_view": "Street underestimates FY28 margin recovery pace."
+  },
+  "data_gaps": [],
+  "source_registry_path": "state/facts.json"
+}

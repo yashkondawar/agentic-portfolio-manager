@@ -1,0 +1,53 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 121,
+  "table_index": 2,
+  "bbox": [
+    68.2815423076923,
+    311.59004999999996,
+    542.7263769230769,
+    424.8808000000001
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Item",
+      "Investment (` in lakh)"
+    ],
+    [
+      "1.",
+      "Installation of 60 nos. of 90w led floodlight fittings.",
+      "0.71"
+    ],
+    [
+      "2.",
+      "Installation of 100 nos. of movement sensors in office rooms.",
+      "0.63"
+    ],
+    [
+      "3.",
+      "Installation of 1,000 nos. of 10w led highbay lights.",
+      "2.92"
+    ],
+    [
+      "4.",
+      "Installation of 150 nos. of 20w led tube lights.",
+      "0.59"
+    ],
+    [
+      "5.",
+      "Installation of 3,500 nos. of 40w led well glass fittings.",
+      "27.55"
+    ],
+    [
+      "6.",
+      "Installation of 20 nos. of 3 star and above energy efficient ACs.",
+      "9.39"
+    ],
+    [
+      "7.",
+      "Installation of IE2 & above energy efficient motors.",
+      "40.99"
+    ]
+  ]
+}

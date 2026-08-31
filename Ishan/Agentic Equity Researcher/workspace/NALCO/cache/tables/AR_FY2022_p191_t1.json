@@ -1,0 +1,58 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 191,
+  "table_index": 1,
+  "bbox": [
+    112.308,
+    322.0,
+    549.9354428571429,
+    425.71000000000004
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "Year ended 31.03.2022",
+      "Year ended 31.03.2021"
+    ],
+    [
+      "Short-term employee benefits",
+      "",
+      ""
+    ],
+    [
+      "- Salaries",
+      "3.54",
+      "3.95"
+    ],
+    [
+      "- Contribution to Provident Fund",
+      "0.23",
+      "0.24"
+    ],
+    [
+      "- Medical Benefits",
+      "0.02",
+      "0.01"
+    ],
+    [
+      "- Other Benefits",
+      "0.01",
+      "0.03"
+    ],
+    [
+      "Post employment benefits #",
+      "0.02",
+      "(0.03)"
+    ],
+    [
+      "Other long term benefits",
+      "0.01",
+      "0.01"
+    ],
+    [
+      "Total",
+      "3.82",
+      "4.20"
+    ]
+  ]
+}

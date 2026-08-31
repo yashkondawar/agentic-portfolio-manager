@@ -1,0 +1,143 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 99,
+  "table_index": 3,
+  "bbox": [
+    68.28141379310345,
+    548.2606857142857,
+    542.71666875,
+    676.2783
+  ],
+  "rows": [
+    [
+      "Category",
+      "FY 2024-25",
+      null,
+      null,
+      null,
+      null,
+      "FY 2023-24",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      "Total (A)",
+      "Equal to\nMinimum Wage",
+      null,
+      "More than Minimum\nWage",
+      null,
+      "Total\n(D)",
+      "Equal to Minimum\nWage",
+      null,
+      "More than\nMinimum Wage",
+      null
+    ],
+    [
+      null,
+      null,
+      "No. (B)",
+      "% (B/A)",
+      "No. (C)",
+      "% (C/A)",
+      null,
+      "No. (E)",
+      "% (E/D)",
+      "No. (F)",
+      "% (F/D)"
+    ],
+    [
+      "EMPLOYEES",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Permanent",
+      "1,781",
+      "NA",
+      "-",
+      "1,781",
+      "100%",
+      "1,586",
+      "NA",
+      "-",
+      "1,586",
+      "100%"
+    ],
+    [
+      "Male",
+      "1,683",
+      "NA",
+      "-",
+      "1,683",
+      "100%",
+      "1,485",
+      "NA",
+      "-",
+      "1,485",
+      "100%"
+    ],
+    [
+      "Female",
+      "98",
+      "NA",
+      "-",
+      "98",
+      "100%",
+      "91",
+      "NA",
+      "-",
+      "91",
+      "100%"
+    ],
+    [
+      "Other than Permanent",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Male",
+      "0",
+      "-",
+      "-",
+      "0",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Female",
+      "0",
+      "-",
+      "-",
+      "0",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-"
+    ]
+  ]
+}

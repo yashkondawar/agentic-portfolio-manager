@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 240,
+  "table_index": 3,
+  "bbox": [
+    51.27364444444444,
+    443.13595000000004,
+    542.7953702702703,
+    549.447225
+  ],
+  "rows": [
+    [
+      "Unquoted investments",
+      "As at 31.03.2024",
+      "As at 31.03.2023"
+    ],
+    [
+      "Odisha Capital Market & Enterprises Limited.\n(As at 31.03.2024 2,89,000 nos of shares of ₹ 1 each fully paid up)\n(As at 31.03.2023 2,89,000 nos of shares of ₹ 1 each fully paid up)",
+      "0.03",
+      "0.03"
+    ],
+    [
+      null,
+      "",
+      null
+    ],
+    [
+      "Total - Investments in other entities",
+      "0.03",
+      "0.03"
+    ],
+    [
+      "Total - Investments in equity instruments",
+      "168.68",
+      "213.17"
+    ],
+    [
+      "Additional information",
+      null,
+      null
+    ],
+    [
+      "Aggregate carrying amount of unquoted investments",
+      "168.68",
+      "213.17"
+    ]
+  ]
+}

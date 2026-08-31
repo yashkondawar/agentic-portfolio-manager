@@ -1,0 +1,55 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 104,
+  "table_index": 2,
+  "bbox": [
+    68.28146551724137,
+    423.71705,
+    541.8086709677419,
+    580.9135
+  ],
+  "rows": [
+    [
+      "Parameter",
+      "Unit",
+      "FY 2024-25",
+      "FY 2023-24"
+    ],
+    [
+      "Total Scope 1 emissions\n(Break-up of the GHG into CO2, CH4, N2O, HFCs, PFCs, SF6, NF3, if available)",
+      "MtCO2e",
+      "1,06,41,135.54",
+      "1,10,40,113"
+    ],
+    [
+      "Total Scope 2 emissions\n(Break-up of the GHG into CO2, CH4, N2O, HFCs, PFCs, SF6, NF3, if available)",
+      "MtCO2e",
+      "2,74,225.94",
+      "4,52,210"
+    ],
+    [
+      "Total Scope 1 and Scope 2 emission intensity per rupee of turnover\n(Total Scope 1 and Scope 2 GHG emissions /turnover in Cr.)",
+      "tCO2e/Rs.\ncrore",
+      "0.000065",
+      "0.000088"
+    ],
+    [
+      "Total Scope 1 and Scope 2 emission intensity per rupee of turnover adjusted for\nPurchasing Power Parity (PPP)\n(Total Scope 1 and Scope 2 GHG emissions / Revenue from operations adjusted for PPP)\n(Metric tons of CO2 equivalent/USD Million)",
+      "",
+      "1,338.36#",
+      "0.002012"
+    ],
+    [
+      "Total Scope 1 and Scope 2 emission intensity in terms of physical output\n[Total Scope 1 & 2 / Alumina Hydrate production (20,75,500 MT)] (MtCO2e/MT)",
+      "-",
+      "5.251173",
+      "5.410698"
+    ],
+    [
+      "Total Scope 1 and Scope 2 emission intensity\n(optional) – the relevant metric may be selected by the entity",
+      "-",
+      "-",
+      "19.14"
+    ]
+  ]
+}

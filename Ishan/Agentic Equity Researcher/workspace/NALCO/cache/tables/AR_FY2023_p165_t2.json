@@ -1,0 +1,98 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 165,
+  "table_index": 2,
+  "bbox": [
+    45.979,
+    275.211,
+    549.6713333333333,
+    503.30800000000005
+  ],
+  "rows": [
+    [
+      "23 - Other financial liabilities Amount in ` Crore",
+      null,
+      null
+    ],
+    [
+      "A. Non current",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      "Creditors for capital supplies and services",
+      "",
+      ""
+    ],
+    [
+      "- Dues to micro and small enterprises",
+      "-",
+      "-"
+    ],
+    [
+      "- Others",
+      "180.00",
+      "88.57"
+    ],
+    [
+      "Total other non-current financial liabilities",
+      "180.00",
+      "88.57"
+    ],
+    [
+      "B. Current",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      "(a) Unpaid dividends",
+      "4.25",
+      "4.29"
+    ],
+    [
+      "(b) Creditors for other liabilities\n(1) Creditors for capital supplies and services\n- Dues to micro and small enterprises\n- Others\n(2) Security deposits from customers\n(3) Refund due to customers\n(4) Liabilities for discount on sales to customers\n(5) Employees’ recoveries",
+      "",
+      ""
+    ],
+    [
+      null,
+      "",
+      ""
+    ],
+    [
+      null,
+      "-",
+      "-"
+    ],
+    [
+      null,
+      "400.20",
+      "316.13"
+    ],
+    [
+      null,
+      "3.49",
+      "4.95"
+    ],
+    [
+      null,
+      "39.92",
+      "34.67"
+    ],
+    [
+      null,
+      "172.44",
+      "140.21"
+    ],
+    [
+      null,
+      "0.11",
+      "0.10"
+    ],
+    [
+      "Total other current financial liabilities",
+      "620.41",
+      "500.35"
+    ]
+  ]
+}

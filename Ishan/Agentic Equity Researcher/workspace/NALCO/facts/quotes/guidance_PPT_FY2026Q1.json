@@ -1,0 +1,110 @@
+[
+  {
+    "id": "GD-PQ1-001",
+    "metric": "bauxite_mine_expansion_capacity",
+    "label": "Pottangi Bauxite Mines Expansion",
+    "guided_value": "3.5",
+    "unit": "mtpa",
+    "period": "FY2026",
+    "period_type": "FY",
+    "conditionality": "Expected in FY 25-26",
+    "quote_ref": "QT-PQ1-001",
+    "given_on": "2025-08-08",
+    "kind": "guidance",
+    "source": {
+      "src_id": "SRC-607"
+    },
+    "confidence": "high",
+    "load_bearing": true
+  },
+  {
+    "id": "GD-PQ1-002",
+    "metric": "alumina_refinery_expansion_capacity",
+    "label": "5th Stream Alumina Refinery Expansion",
+    "guided_value": "1.0",
+    "unit": "mtpa",
+    "period": "FY2026",
+    "period_type": "FY",
+    "conditionality": "Expected mechanical completion by FY 25-26",
+    "quote_ref": "QT-PQ1-002",
+    "given_on": "2025-08-08",
+    "kind": "guidance",
+    "source": {
+      "src_id": "SRC-607"
+    },
+    "confidence": "high",
+    "load_bearing": true
+  },
+  {
+    "id": "GD-PQ1-003",
+    "metric": "aluminium_smelter_expansion_capacity",
+    "label": "Aluminium Smelter Expansion",
+    "guided_value": "0.5",
+    "unit": "mtpa",
+    "period": "FY2029-2030",
+    "period_type": "FY",
+    "conditionality": "Expected in FY29-30",
+    "quote_ref": "QT-PQ1-003",
+    "given_on": "2025-08-08",
+    "kind": "guidance",
+    "source": {
+      "src_id": "SRC-607"
+    },
+    "confidence": "high",
+    "load_bearing": true
+  },
+  {
+    "id": "GD-PQ1-004",
+    "metric": "captive_power_plant_expansion_capacity",
+    "label": "Captive Power Plant Expansion",
+    "guided_value": "1080",
+    "unit": "MW",
+    "period": "FY2029-2030",
+    "period_type": "FY",
+    "conditionality": "Expected in FY29-30; power requirement for smelter expansion",
+    "quote_ref": "QT-PQ1-004",
+    "given_on": "2025-08-08",
+    "kind": "guidance",
+    "source": {
+      "src_id": "SRC-607"
+    },
+    "confidence": "high",
+    "load_bearing": true
+  },
+  {
+    "id": "GD-PQ1-005",
+    "metric": "wind_power_expansion_capacity",
+    "label": "Wind Power Expansion (Pipeline)",
+    "guided_value": "15",
+    "unit": "MW",
+    "period": "FY2026",
+    "period_type": "FY",
+    "conditionality": "In Pipeline",
+    "quote_ref": "QT-PQ1-005",
+    "given_on": "2025-08-08",
+    "kind": "guidance",
+    "source": {
+      "src_id": "SRC-608"
+    },
+    "confidence": "medium",
+    "load_bearing": false
+  },
+  {
+    "id": "GD-PQ1-006",
+    "metric": "solar_rooftop_expansion_capacity",
+    "label": "Rooftop Solar Expansion (Planned)",
+    "guided_value": "7",
+    "unit": "MW",
+    "period": "FY2026",
+    "period_type": "FY",
+    "conditionality": "Planned",
+    "quote_ref": "QT-PQ1-006",
+    "given_on": "2025-08-08",
+    "kind": "guidance",
+    "source": {
+      "src_id": "SRC-608"
+    },
+    "confidence": "medium",
+    "load_bearing": false
+  }
+]

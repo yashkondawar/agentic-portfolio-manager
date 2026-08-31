@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 44,
+  "table_index": 2,
+  "bbox": [
+    71.11609090909091,
+    342.41619999999995,
+    546.6093636363636,
+    420.7664
+  ],
+  "rows": [
+    [
+      "Sl.\nNo.",
+      "Name of Director",
+      "Designation / Nature of Directorship",
+      "Number of meetings of CSR\nCommittee held during the year",
+      "Number of meetings of CSR\nCommittee attended during the year"
+    ],
+    [
+      "1.",
+      "Shri N. N. Sharma",
+      "Independent Director, Chairman",
+      "2",
+      "2"
+    ],
+    [
+      "2.",
+      "Smt. Achla Sinha",
+      "Independent Director, Member",
+      "2",
+      "2"
+    ],
+    [
+      "3.",
+      "Shri V. Balasubramanyam",
+      "Director (Production), Member",
+      "2",
+      "2"
+    ],
+    [
+      "4.",
+      "Shri R. S. Mahapatro",
+      "Director (HR), Member",
+      "2",
+      "2"
+    ]
+  ]
+}

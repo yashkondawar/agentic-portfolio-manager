@@ -1,0 +1,53 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 190,
+  "table_index": 2,
+  "bbox": [
+    93.79327083333334,
+    359.26919999999996,
+    546.6907375,
+    460.2233749999999
+  ],
+  "rows": [
+    [
+      "",
+      "Segment revenue",
+      null
+    ],
+    [
+      "Operating Segments",
+      "Year ended\n31.03.2021",
+      "Year ended\n31.03.2020"
+    ],
+    [
+      "Chemical segment",
+      "3,950.50",
+      "4,248.29"
+    ],
+    [
+      "Aluminium segment",
+      "6,263.47",
+      "5,466.37"
+    ],
+    [
+      "Unallocated",
+      "50.38",
+      "42.63"
+    ],
+    [
+      "Total for operations",
+      "10,264.35",
+      "9,757.29"
+    ],
+    [
+      "Less: Intersegment revenue",
+      "1,308.56",
+      "1,285.45"
+    ],
+    [
+      "Revenue from operations",
+      "8,955.79",
+      "8,471.84"
+    ]
+  ]
+}

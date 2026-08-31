@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 44,
+  "table_index": 1,
+  "bbox": [
+    74.171,
+    359.11300000000006,
+    289.482,
+    497.38700000000006
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "Requests",
+      "First\nAppeals"
+    ],
+    [
+      "Under Process as on 01.04.2021",
+      "26",
+      "0"
+    ],
+    [
+      "Received during the year (including cases\ntransferred from other Public Authority)",
+      "508",
+      "46"
+    ],
+    [
+      "No. of cases transferred to other\nPublic Authorities",
+      "1",
+      "0"
+    ],
+    [
+      "Decisions where requests/ appeals rejected",
+      "97",
+      "4"
+    ],
+    [
+      "Decisions where requests/ appeals accepted\nand settled",
+      "429",
+      "42"
+    ],
+    [
+      "Under Process as on 31.03.2022",
+      "7",
+      "0"
+    ]
+  ]
+}

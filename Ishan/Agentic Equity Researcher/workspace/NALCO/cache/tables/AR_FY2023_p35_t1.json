@@ -1,0 +1,40 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 35,
+  "table_index": 1,
+  "bbox": [
+    45.354,
+    321.274,
+    288.914,
+    441.92100000000005
+  ],
+  "rows": [
+    [
+      "",
+      "Under\nProcess\nas on\n01.04.2022",
+      "Received\nduring\nthe year\n(including\ncases\ntransferred\nfrom other\nPublic\nAuthority)",
+      "No. of cases\ntransferred\nto other Public\nAuthorities",
+      "Decisions\nwhere\nrequests/\nappeals\nrejected",
+      "Decisions\nwhere\nrequests/\nappeals\naccepted\nand\nsettled",
+      "Under\nProcess\nas on\n31.03.2023"
+    ],
+    [
+      "Requests",
+      "7",
+      "424",
+      "2",
+      "81",
+      "333",
+      "15"
+    ],
+    [
+      "First\nAppeals",
+      "0",
+      "62",
+      "0",
+      "1",
+      "58",
+      "3"
+    ]
+  ]
+}

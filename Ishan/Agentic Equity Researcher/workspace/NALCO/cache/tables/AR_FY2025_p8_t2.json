@@ -1,0 +1,25 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 8,
+  "table_index": 2,
+  "bbox": [
+    85.2893,
+    544.0082500000001,
+    542.8776,
+    604.6562
+  ],
+  "rows": [
+    [
+      "Login type",
+      "Helpdesk details"
+    ],
+    [
+      "Individual shareholders holding securities in\nDemat mode with CDSL",
+      "Members facing any technical issue in login can contact CDSL helpdesk by sending a request\nat helpdesk.evoting@cdslindia.com or contact at 022- 23058738 and 022-23058542-43."
+    ],
+    [
+      "Individual shareholders holding securities in\nDemat mode with NSDL",
+      "Members facing any technical issue in login can contact NSDL helpdesk by sending a\nrequest at evoting@nsdl.co.in or call at toll free no.: 1800-1020-990 and 1800-22-44-30"
+    ]
+  ]
+}

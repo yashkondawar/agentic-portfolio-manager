@@ -1,0 +1,28 @@
+{
+  "ticker": "NALCO",
+  "company": "National Aluminium Company Limited",
+  "yfinance_symbol": "NATIONALUM.NS",
+  "intake_date": "2026-07-15",
+  "source_folder_original": "Outputs/Trial 1 (NALCO)",
+  "files": [
+    {"file": "AR_FY2021.pdf", "kind": "annual_report", "period": "FY2021", "pages": 265, "basis": "standalone+consolidated", "original_name": "71477532234.pdf", "note": "40th AR 2020-21, BSE filing dated 06.09.2021"},
+    {"file": "AR_FY2022.pdf", "kind": "annual_report", "period": "FY2022", "pages": 262, "basis": "standalone+consolidated", "original_name": "74720532234.pdf", "note": "41st AR 2021-22, BSE filing dated 25.08.2022"},
+    {"file": "AR_FY2023.pdf", "kind": "annual_report", "period": "FY2023", "pages": 264, "basis": "standalone+consolidated", "original_name": "74dd426d-27cb-40e8-af0f-bfb0544aaa11.pdf", "note": "42nd AR 2022-23"},
+    {"file": "AR_FY2024.pdf", "kind": "annual_report", "period": "FY2024", "pages": 284, "basis": "standalone+consolidated", "original_name": "46f13c52-9247-478b-866a-1219c80cc2e9.pdf", "note": "43rd AR 2023-24"},
+    {"file": "AR_FY2025.pdf", "kind": "annual_report", "period": "FY2025", "pages": 307, "basis": "standalone+consolidated", "original_name": "e93eb24a-8397-4cc9-8607-7863c595c62e.pdf", "note": "44th AR 2024-25, BSE filing dated 02.09.2025"},
+    {"file": "TR_2025-08-08.pdf", "kind": "transcript", "period": "FY2026Q1", "pages": 21, "original_name": "cc1ce663-ec95-4222-a238-38b81c1fcc28.pdf", "note": "Q1 FY26 earnings call 08.08.2025"},
+    {"file": "TR_2025-11-07.pdf", "kind": "transcript", "period": "FY2026Q2", "pages": 28, "original_name": "56891035-c2e0-4cd2-9086-d8fc4d54e516.pdf", "note": "Q2/H1 FY26 earnings call 07.11.2025"},
+    {"file": "TR_2026-01-30.pdf", "kind": "transcript", "period": "FY2026Q3", "pages": 22, "original_name": "5ded7b8b-5dea-40ff-b4bc-50a1df90714a.pdf", "note": "Q3/9M FY26 earnings call 30.01.2026"},
+    {"file": "TR_2026-04-30.pdf", "kind": "transcript", "period": "FY2026Q4", "pages": 28, "original_name": "4c5bc19e-7c7f-44df-ab01-e060e8fd23fc.pdf", "note": "Q4/FY26 earnings call 30.04.2026"},
+    {"file": "PPT_FY2026Q1.pdf", "kind": "presentation", "period": "FY2026Q1", "pages": 16, "original_name": "bebd0ba1-c0f5-43c3-8b90-47a69e887e5f.pdf", "note": "Q1 FY26 earnings-call presentation 08.08.2025"},
+    {"file": "PPT_FY2026Q2.pdf", "kind": "presentation", "period": "FY2026Q2", "pages": 18, "original_name": "35bf0885-e82c-49fd-b903-58f906afe905.pdf", "note": "Q2/H1 FY26 earnings-call presentation 07.11.2025"},
+    {"file": "PPT_FY2026Q3.pdf", "kind": "presentation", "period": "FY2026Q3", "pages": 16, "original_name": "bd2d57c5-2185-4445-bf99-28ac99a678fd.pdf", "note": "Q3 FY26 earnings-call presentation 30.01.2026"},
+    {"file": "PPT_FY2026Q4.pdf", "kind": "presentation", "period": "FY2026Q4", "pages": 19, "original_name": "d94f71f6-2d6e-4e28-9752-9b560620036e.pdf", "note": "Q4/FY26 earnings-call presentation 30.04.2026"}
+  ],
+  "gaps": [
+    "No standalone quarterly results filings (Q_*.pdf) — FY2026 quarterly financials must come from the four earnings presentations; treat as company-summarised figures until AR FY2026 publishes. FY2026 full-year audited statements NOT in input (AR FY2026 not yet published as of intake).",
+    "No prior deep-research documents (DR1/DR2) — both research waves must run fresh.",
+    "No peer material or KPI files supplied.",
+    "Transcripts cover FY2026 only — no transcripts for FY2021-FY2025; management-signalling history before FY2026 limited to AR MD&A."
+  ]
+}

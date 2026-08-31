@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 45,
+  "table_index": 3,
+  "bbox": [
+    79.62011578947367,
+    290.63385,
+    555.1650380952381,
+    373.13370000000003
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Particular",
+      "Amount (in ₹ lakh)"
+    ],
+    [
+      "(i)",
+      "Two percent of average net profit of the company as per Section 135(5)",
+      "3,342.00"
+    ],
+    [
+      "(ii)",
+      "Total amount spent for the Financial Year",
+      "3,500.00"
+    ],
+    [
+      "(iii)",
+      "Excess amount spent for the financial year [(ii)-(i)]",
+      "158.00"
+    ],
+    [
+      "(iv)",
+      "Surplus arising out of the CSR projects or programmes or activities of the previous financial years, if any",
+      "NIL"
+    ],
+    [
+      "(v)",
+      "Amount available for set off in succeeding financial years [(iii)-(iv)]",
+      "NIL"
+    ]
+  ]
+}

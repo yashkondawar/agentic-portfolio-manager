@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 96,
+  "table_index": 5,
+  "bbox": [
+    71.11608260869566,
+    611.38305,
+    547.354232,
+    683.4259999999999
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Item",
+      "Investment\n(in lakh rupees)"
+    ],
+    [
+      "1.",
+      "Renovation & Modernization of existing Air-Preheater in Unit-6",
+      "593"
+    ],
+    [
+      "2.",
+      "Replacement of two old reciprocating air Compressors was carried out with new energy efficient Screw Compressors",
+      "54"
+    ],
+    [
+      "3.",
+      "Replacement of conventional MV/SV lights with LED lights",
+      "88.66"
+    ]
+  ]
+}

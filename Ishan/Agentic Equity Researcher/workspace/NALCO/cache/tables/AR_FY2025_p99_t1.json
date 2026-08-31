@@ -1,0 +1,55 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 99,
+  "table_index": 1,
+  "bbox": [
+    68.28141379310345,
+    73.95089999999999,
+    542.71666875,
+    344.4621
+  ],
+  "rows": [
+    [
+      "Stakeholder\nGroup",
+      "Whether identified\nas Vulnerable\n& Marginalized\nGroup (Yes/No)",
+      "Channels of\ncommunication\n(Email, SMS,\nNewspaper,\nPamphlets,\nAdvertisement,\nCommunity Meetings,\nNotice Board,\nWebsite), Others",
+      "Frequency of\nengagement\n(Annually/Half\nyearly/ Quarterly\n/ others – please\nspecify)",
+      "Purpose and scope of engagement including\nkey topics and concerns raised during such\nengagement"
+    ],
+    [
+      "Communities",
+      "Yes",
+      "Request letters- Emails,\nCommunity Meetings",
+      "Need based",
+      "Community needs on infrastructure, employment,\neducation, health, sanitation"
+    ],
+    [
+      "Government\nAuthorities/\nRegulatory Bodies",
+      "No",
+      "Meetings, Emails,\nLetters",
+      "Regular & need\nbased",
+      "Infrastructure development, Company\nPerformance, Labour issues, Corporate Social\nResponsibilities, Compliance of various rules, acts,\nregulation, and laws"
+    ],
+    [
+      "Customer",
+      "No",
+      "Website, emails, Letters,\nMeetings, conference,\nSurveys",
+      "Regular & need\nbased",
+      "Commercial matters, Policy issues, market\nconditions, complaints & grievances"
+    ],
+    [
+      "Employee",
+      "No",
+      "Discussion forums\nwith Associations and\nUnions, Emails, Letters,\nSurveys,",
+      "Regular",
+      "benefits and remunerations, Performance rating\nand recognition, Career growth, Training and skill\ndevelopment, Safe and healthy working condition,\nwelfare measures"
+    ],
+    [
+      "Value Chain\nPartners (Suppliers,\nVendors,\nContractors)",
+      "Partly",
+      "Website, Mobile Apps,\nEmail, Letters, vendor\nMeet",
+      "Regular & need\nbased",
+      "Special privilege to MSE units, Transparency &\nanticorruption practices, Simplified procedure &\ntimely payment, Terms & conditions of purchase,\nSpeedy liquidation of disputes & redressal of\ngrievances"
+    ]
+  ]
+}

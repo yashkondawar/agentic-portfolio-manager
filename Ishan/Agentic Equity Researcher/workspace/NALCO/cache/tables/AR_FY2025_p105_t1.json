@@ -1,0 +1,113 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 105,
+  "table_index": 1,
+  "bbox": [
+    68.28147619047618,
+    258.94789999999995,
+    542.6039047619047,
+    668.895
+  ],
+  "rows": [
+    [
+      "Parameter",
+      "FY 2024-25",
+      "FY 2023-24"
+    ],
+    [
+      "Total Waste generated (in metric tonnes)",
+      null,
+      null
+    ],
+    [
+      "Plastic waste (A)",
+      "0.78",
+      "0"
+    ],
+    [
+      "E-waste (B)",
+      "4.77",
+      "13.169"
+    ],
+    [
+      "Bio-medical waste (C)",
+      "1.48",
+      "1.859"
+    ],
+    [
+      "Construction and demolition waste (D)",
+      "9",
+      "12"
+    ],
+    [
+      "Battery waste (E)",
+      "28.71",
+      "32.154"
+    ],
+    [
+      "Radioactive waste (F)",
+      "0",
+      "0"
+    ],
+    [
+      "Other Hazardous waste. Please specify, if any. (G)\nSmelter- Used or Spent Oil, Wastes/ residues containing oil, Cathode residues including pot lining wastes,\nTar containing wastes, Chemical sludge from Waste water treatment, Flue gas dust & other particulates,\nspent copper catalyst, rejected filter bags (FTP), Asbestos Waste, Coke dust, Spent Ion-exchange resin,\ngreen anode ridge waste, Green anode cooling decantation tank sludge, Carbon anode baking waste,\nDrain cleaning sludge, Ladle cleaning residues, Spilled waste (FTP), Incineration ash, Spent Anode,\nFloor sweeping waste, Shot blasting waste, Rejected AlF3 bags, Aluminium dross, Rejected lining of\nfurnace, Empty Barrels/ containers/ liners wastes, Waste Copper Cable, CPP- Used Oil, Transformer Oil,\nSpent Resin, Alumina Refinery- Used oil, Chemical containers, asbestos, Bauxite Mines- Used Oil, Oil\nsludge, Used Vehicle Filter, Cotton waste, Incinerator ash, Coal Mines- used oil, Port Facilities- Used oil",
+      "93,916.83",
+      "99,324.153"
+    ],
+    [
+      "Other Non-hazardous waste generated (H). Please specify, if any. (Break-up by composition i.e. by\nmaterials relevant to the sector) Smelter- Ferrous scrap, non-ferrous scrap, Induction furnace slag, Used\nRefractory bricks, mixed debris CPP- Ash, Alumina Refinery- Red mud, Fly Ash, lime Grit, Bauxite\nMines- Overburden, Coal Mines- Overburden, Port Facilities- mixed met",
+      "2,03,47,919.68",
+      "1,10,62,779.91"
+    ],
+    [
+      "Total (A+B + C + D + E + F + G + H)",
+      "2,04,41,881.25",
+      "1,11,62,163.25"
+    ],
+    [
+      "Waste intensity per rupee of turnover (Total waste generated / Turnover in Rs. Cr.)",
+      "0.00012",
+      "0.000085"
+    ],
+    [
+      "Waste intensity per rupee of turnover adjusted for Purchasing Power Parity (PPP)* (Total waste\ngenerated / Revenue from operations adjusted for PPP) MT/ USD Million",
+      "8155.76#",
+      "0.00195"
+    ],
+    [
+      "Waste intensity in terms of physical output [Total Waste / Alumina Hydrate production (20,75,500\nMT)] (MT/MT)",
+      "9.85",
+      "5.26"
+    ],
+    [
+      "For each category of waste generated, total waste recovered through recycling, re-using or other recovery operations (in metric tonnes)",
+      null,
+      null
+    ],
+    [
+      "Category of waste",
+      null,
+      null
+    ],
+    [
+      "(i) Recycled",
+      "85,015.7",
+      "87,039.82"
+    ],
+    [
+      "(ii) Re-used",
+      "9,68,729.13",
+      "9,50,923"
+    ],
+    [
+      "(iii) Other recovery operations",
+      "0",
+      "56,86,763"
+    ],
+    [
+      "Total",
+      "10,53,744.83",
+      "67,24,725.82"
+    ]
+  ]
+}

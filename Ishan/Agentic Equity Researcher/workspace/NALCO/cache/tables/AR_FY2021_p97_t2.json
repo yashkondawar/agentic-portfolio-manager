@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 97,
+  "table_index": 2,
+  "bbox": [
+    79.62008125,
+    104.26214999999996,
+    554.888925,
+    347.8785
+  ],
+  "rows": [
+    [
+      "Sl. No",
+      "Technology",
+      "Benefits thereof"
+    ],
+    [
+      "1.",
+      "Replacement of conventional flat bottom Settlers/washers with High\nrate thickeners and Deep Cone washers.",
+      "Procurement and installation of HRT & DCW in place of Flat bottom\nWashers & Settlers for PH-1, 2&3 is in progress.\nThe benefits of the changeover are:\nSmaller footprint area.\nLower holding time and hence Low hydrolysis loss / heat loss.\nHigher underflow solids results in Lower soluble soda and Alumina loss."
+    ],
+    [
+      "2.",
+      "Pressure filtration for dry disposal of Red mud accepted after lab trials.",
+      "Under implementation (DPR Stage).\nThe benefits are:\nImprovement in Red Mud slurry solids from present 56% to better than\n75%.\nMinimum 36% reduction in soda lost with mud.\nEnhancement in the life expectancy of the Red Mud pond, will be estimated\nafter further study."
+    ],
+    [
+      "3.",
+      "Addition of one more stage of Inter Stage Cooler in stream 4\nprecipitation.",
+      "Successfully implemented.\nImprovement in Liquor productivity."
+    ],
+    [
+      "4.",
+      "Development of in-line automated anode butt monitoring system to\nmeasure anode butt parameters.",
+      "System installed in carbon plant. Will help in process monitoring of anode\nbutts."
+    ],
+    [
+      "5.",
+      "Development of a Wi-Fi enabled sensor arrangement for online\nmeasurement of anode current distribution of Aluminium electrolysis\ncell.",
+      "System is being utilized by user dept. Will help in inspection & monitoring\nof sick pots."
+    ]
+  ]
+}

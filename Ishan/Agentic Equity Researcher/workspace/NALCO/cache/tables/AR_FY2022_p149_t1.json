@@ -1,0 +1,73 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 149,
+  "table_index": 1,
+  "bbox": [
+    64.313,
+    63.871000000000095,
+    549.821275,
+    589.481
+  ],
+  "rows": [
+    [
+      "Cash flows from operating activities\nProfit for the year\nAdjustments for:\nIncome tax expense recognised in profit or loss\nFinance costs recognised in profit or loss\nInterest income recognised in profit or loss\nDividend income recognised in profit or loss\nNet (gain) / loss on disposal of property, plant and equipment\nNet (gain) / loss arising on financial assets mandatorily measured at fair value through profit or loss\nImpairment loss recognised on other assets\nInventories of stores, spares written off\nDepreciation and amortisation of non-current assets\nNet foreign exchange (gain)/loss\nOperating profit before working capital changes\nMovements in working capital:\n(Increase) / decrease in inventories\n(Increase) / decrease in trade receivables\n(Increase) / decrease in loans and other financial asset\n(Increase) / decrease in other assets\nIncrease / (decrease) in trade payables\nIncrease / (decrease) in other financial liabilities\nIncrease / (decrease) in other liabilities\nIncrease / (decrease) in provisions\nCash (used in) / generated from operations\nIncome taxes paid",
+      "Year ended 31.03.2022",
+      "Year ended 31.03.2021"
+    ],
+    [
+      null,
+      "2,951.97\n1,002.90\n23.12\n(210.36)\n(13.91)\n(0.44)\n0.36\n46.03\n9.95\n836.59\n1.59",
+      "1,299.53\n16.99\n7.08\n(84.89)\n(5.48)\n(0.82)\n(0.38)\n22.86\n11.18\n605.82\n1.85"
+    ],
+    [
+      null,
+      "4,647.80\n(179.80)\n72.14\n(24.95)\n(370.83)\n501.88\n44.47\n383.61\n(360.46)",
+      "1,873.74\n209.41\n(7.30)\n(3.64)\n53.62\n179.77\n(16.10)\n7.09\n0.33"
+    ],
+    [
+      null,
+      "4,713.86\n(755.51)",
+      "2,296.92\n(97.52)"
+    ],
+    [
+      "Net cash flow from operating activities",
+      "3,958.35",
+      "2,199.40"
+    ],
+    [
+      "Cash flows from investing activities\nPayments to acquire financial assets\nProceeds from sale of financial assets\nPayments to acquire equity in joint ventures and associates\n(Investment in) / redemption of term deposits with banks\nDividends received from other investments\nInterest received from banks and others\nPayments for property, plant and equipment (including capital advances)\nProceeds from disposal of property, plant and equipment\nPayments for other intangible assets",
+      "(52.00)\n236.39\n-\n(1,754.37)\n13.91\n210.36\n(1,176.63)\n9.35\n(106.24)",
+      "(225.00)\n32.39\n(36.00)\n(58.45)\n5.48\n84.89\n(922.44)\n11.81\n(296.38)"
+    ],
+    [
+      "Net cash flow from investing activities",
+      "(2,619.23)",
+      "(1,403.70)"
+    ],
+    [
+      "Cash flows from financing activities\nPayments for buy-back of equity shares\nPayments for share buy-back costs (net of tax)\nProceeds from / (Payment towards) short term borrowings\nPayment of lease liability\nFinance cost paid\nDividends paid on equity shares",
+      "-\n-\n(25.44)\n(4.23)\n(8.19)\n(1,101.98)",
+      "(166.67)\n(3.45)\n33.80\n(3.51)\n(0.21)\n(460.61)"
+    ],
+    [
+      "Net cash flow from financing activities",
+      "(1,139.84)",
+      "(600.65)"
+    ],
+    [
+      null,
+      "199.28",
+      "195.05"
+    ],
+    [
+      null,
+      "213.52",
+      "18.47"
+    ],
+    [
+      null,
+      "412.80",
+      "213.52"
+    ]
+  ]
+}

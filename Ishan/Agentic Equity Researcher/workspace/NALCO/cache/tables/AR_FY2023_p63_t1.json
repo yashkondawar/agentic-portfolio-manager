@@ -1,0 +1,25 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 63,
+  "table_index": 1,
+  "bbox": [
+    60.17066666666667,
+    75.26550000000003,
+    253.9759,
+    117.149
+  ],
+  "rows": [
+    [
+      "Locations",
+      "Numbers"
+    ],
+    [
+      "National (No. of States)",
+      "24"
+    ],
+    [
+      "International (No. of Countries)",
+      "8"
+    ]
+  ]
+}

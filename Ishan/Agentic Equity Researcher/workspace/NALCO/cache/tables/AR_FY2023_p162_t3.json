@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 162,
+  "table_index": 3,
+  "bbox": [
+    45.275400000000005,
+    323.4700000000001,
+    549.2326,
+    417.41800000000006
+  ],
+  "rows": [
+    [
+      "18.1 Reconciliation of the number of equity shares",
+      null,
+      null
+    ],
+    [
+      "",
+      "Number of shares",
+      "Amount ` in Crore"
+    ],
+    [
+      "Balance as at 31.03.2021",
+      "1,83,66,31,787",
+      "918.32"
+    ],
+    [
+      "Changes during the year",
+      "-",
+      "-"
+    ],
+    [
+      "Balance as at 31.03.2022",
+      "1,83,66,31,787",
+      "918.32"
+    ],
+    [
+      "Changes during the year",
+      "-",
+      "-"
+    ],
+    [
+      "Balance as at 31.03.2023",
+      "1,83,66,31,787",
+      "918.32"
+    ]
+  ]
+}

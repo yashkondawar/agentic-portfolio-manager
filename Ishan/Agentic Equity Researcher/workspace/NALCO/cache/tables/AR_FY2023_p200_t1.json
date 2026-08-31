@@ -1,0 +1,73 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 200,
+  "table_index": 1,
+  "bbox": [
+    45.854,
+    63.746000000000095,
+    549.421,
+    466.04900000000004
+  ],
+  "rows": [
+    [
+      "A.\nB.",
+      "Equity share capital\nBalance as at 31.03.2021 918.32\nChanges during the year -\nBalance as at 31.03.2022 918.32\nChanges during the year -\nBalance as at 31.03.2023 918.32"
+    ],
+    [
+      null,
+      "Other equity Amount in ` Crore"
+    ],
+    [
+      null,
+      "Reserves and surplus"
+    ],
+    [
+      null,
+      "Other equity Capital redemption General reserve Retained earnings Total\nreserve"
+    ],
+    [
+      null,
+      "Balance as at 31.03.2021 370.30 7,942.98 1,447.41 9,760.69"
+    ],
+    [
+      null,
+      "Profit for the year - - 2,951.41 2,951.41"
+    ],
+    [
+      null,
+      "Other comprehensive income (net of taxes) - - 23.95 23.95"
+    ],
+    [
+      null,
+      "Total comprehensive income for the year - - 2,975.36 2,975.36"
+    ],
+    [
+      null,
+      "Final dividend for the previous year - - (183.66) (183.66)\nInterim dividend for the year (918.32) (918.32)"
+    ],
+    [
+      null,
+      "Balance as at 31.03.2022 370.30 7,942.98 3,320.79 11,634.07"
+    ],
+    [
+      null,
+      "Profit for the year - - 1,434.66 1,434.66"
+    ],
+    [
+      null,
+      "Other comprehensive income (net of taxes) - - 57.65 57.65"
+    ],
+    [
+      null,
+      "Total comprehensive income for the year - - 1,492.31 1,492.31"
+    ],
+    [
+      null,
+      "Final dividend for the previous year - - (275.49) (275.49)\nInterim dividend for the year - - (642.83) (642.83)"
+    ],
+    [
+      null,
+      "Balance as at 31.03.2023 370.30 7,942.98 3,894.78 12,208.05"
+    ]
+  ]
+}

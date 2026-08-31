@@ -1,0 +1,37 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 194,
+  "table_index": 1,
+  "bbox": [
+    51.524,
+    309.79400000000004,
+    549.422,
+    389.264
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Name of the company",
+      "Parent Company/ Subsidiary/\nAssociate/ Joint Venture",
+      "Paragraph numbers of the CARO report\ncontaining the Qualifications or Adverse\nRemarks"
+    ],
+    [
+      "1",
+      "National Aluminium Company Limited",
+      "The Company",
+      "i (c)"
+    ],
+    [
+      "2",
+      "National Aluminium Company Limited",
+      "The Company",
+      "v"
+    ],
+    [
+      "3",
+      "GACL-NALCO Alkalies & Chemicals Pivate Limited",
+      "Joint Venture",
+      "ii(b)"
+    ]
+  ]
+}

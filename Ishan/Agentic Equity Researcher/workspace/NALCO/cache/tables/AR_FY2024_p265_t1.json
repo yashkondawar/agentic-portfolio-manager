@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 265,
+  "table_index": 1,
+  "bbox": [
+    51.273634782608696,
+    97.44505000000004,
+    542.7545173913044,
+    152.70885
+  ],
+  "rows": [
+    [
+      "",
+      "Year ended 31.03.2024",
+      "Year ended 31.03.2023"
+    ],
+    [
+      "Exceptional items",
+      null,
+      null
+    ],
+    [
+      "- Additional Royality",
+      "(426.81)",
+      "-"
+    ],
+    [
+      "Total exceptional items",
+      "(426.81)",
+      "-"
+    ]
+  ]
+}

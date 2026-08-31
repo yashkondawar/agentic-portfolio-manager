@@ -1,0 +1,85 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 247,
+  "table_index": 5,
+  "bbox": [
+    73.90366666666667,
+    490.37800000000004,
+    549.5233999999999,
+    627.8915000000001
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      "Financial Assets",
+      null,
+      "",
+      ""
+    ],
+    [
+      "Measured at fair value through profit or loss (FVTPL)",
+      null,
+      "",
+      ""
+    ],
+    [
+      "(a)",
+      "Mandatorily measured:",
+      "",
+      ""
+    ],
+    [
+      null,
+      "(i) Investments in mutual funds",
+      "145.58",
+      "64.01"
+    ],
+    [
+      null,
+      "(ii) Forward contract on foreign currency",
+      "Nil",
+      "Nil"
+    ],
+    [
+      "Measured at Amortised cost",
+      null,
+      "",
+      ""
+    ],
+    [
+      "(a)\n(b)",
+      "Cash and bank balances",
+      "63.29",
+      "412.80"
+    ],
+    [
+      null,
+      "Other financial assets at amortised cost",
+      "2,541.21",
+      "3,852.32"
+    ],
+    [
+      "",
+      null,
+      "2,750.08",
+      "4,329.13"
+    ],
+    [
+      "Financial Liabilities",
+      null,
+      "",
+      ""
+    ],
+    [
+      "Measured at Amortised cost",
+      null,
+      "2,179.34",
+      "2,146.73"
+    ]
+  ]
+}

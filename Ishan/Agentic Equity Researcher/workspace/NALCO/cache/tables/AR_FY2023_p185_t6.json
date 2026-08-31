@@ -1,0 +1,28 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 185,
+  "table_index": 6,
+  "bbox": [
+    112.308,
+    465.337,
+    549.8684285714286,
+    503.34250000000003
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      "Advance/(Payable) for purchase of goods and services from CPSEs/ Govt. undertakings",
+      "93.18",
+      "87.74"
+    ],
+    [
+      "Receivable/(Advance) for sale of goods to CPSEs and Govt. undertakings",
+      "(52.68)",
+      "(44.22)"
+    ]
+  ]
+}

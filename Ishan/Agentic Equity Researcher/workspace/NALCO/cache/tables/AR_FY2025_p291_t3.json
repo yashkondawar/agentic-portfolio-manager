@@ -1,0 +1,68 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 291,
+  "table_index": 3,
+  "bbox": [
+    51.27364,
+    513.1127,
+    542.702321875,
+    650.861525
+  ],
+  "rows": [
+    [
+      "Operating Segments",
+      "Segment Results",
+      null
+    ],
+    [
+      null,
+      "Year ended 31.03.2025",
+      "Year ended 31.03.2024"
+    ],
+    [
+      "Chemical segment",
+      "3,245.00",
+      "967.24"
+    ],
+    [
+      "Aluminium segment",
+      "4,045.51",
+      "1,526.46"
+    ],
+    [
+      "Segment result before exceptional items, interest and tax",
+      "7,290.51",
+      "2,493.70"
+    ],
+    [
+      "Exceptional Income/(Expenses)",
+      "-",
+      "426.81"
+    ],
+    [
+      "Interest & financing charges",
+      "58.97",
+      "17.21"
+    ],
+    [
+      "Interest and dividend income",
+      "322.79",
+      "211.08"
+    ],
+    [
+      "Other unallocated income net of unallocated expenses",
+      "(419.23)",
+      "(330.81)"
+    ],
+    [
+      "Share of Profit/(loss) of Joint Venture",
+      "(56.73)",
+      "(71.49)"
+    ],
+    [
+      "Profit before tax",
+      "7,078.37",
+      "2,712.08"
+    ]
+  ]
+}

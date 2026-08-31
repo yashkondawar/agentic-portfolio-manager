@@ -1,0 +1,85 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 100,
+  "table_index": 4,
+  "bbox": [
+    67.56774,
+    564.6299300000001,
+    542.1265500000001,
+    675.7116
+  ],
+  "rows": [
+    [
+      "",
+      "FY 2024-25",
+      null,
+      null,
+      "FY 2023-24",
+      null,
+      null
+    ],
+    [
+      null,
+      "Filed during the\nyear",
+      "Pending\nresolution at the\nend of the year",
+      "Remarks",
+      "Filed during the\nyear",
+      "Pending\nresolution at the\nend of the year",
+      "Remarks"
+    ],
+    [
+      "Sexual Harassment",
+      "0",
+      "0",
+      "Nil",
+      "0",
+      "0",
+      "Nil"
+    ],
+    [
+      "Discrimination at workplace",
+      "0",
+      "0",
+      "Nil",
+      "0",
+      "0",
+      "Nil"
+    ],
+    [
+      "Child Labour",
+      "0",
+      "0",
+      "Nil",
+      "0",
+      "0",
+      "Nil"
+    ],
+    [
+      "Forced Labour/ Involuntary Labour",
+      "0",
+      "0",
+      "Nil",
+      "0",
+      "0",
+      "Nil"
+    ],
+    [
+      "Wages",
+      "0",
+      "0",
+      "Nil",
+      "0",
+      "0",
+      "Nil"
+    ],
+    [
+      "Other Human rights related issues",
+      "0",
+      "0",
+      "Nil",
+      "0",
+      "0",
+      "Nil"
+    ]
+  ]
+}

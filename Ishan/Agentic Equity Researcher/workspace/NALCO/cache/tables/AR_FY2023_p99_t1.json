@@ -1,0 +1,29 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 99,
+  "table_index": 1,
+  "bbox": [
+    74.16233333333332,
+    305.82500000000005,
+    549.3380000000001,
+    364.98900000000003
+  ],
+  "rows": [
+    [
+      "Day and Date",
+      "Thursday, the 21st September, 2023"
+    ],
+    [
+      "Time",
+      "11:00 AM"
+    ],
+    [
+      "Deemed Venue",
+      "NALCO Bhawan, P/1, Nayapalli, Bhubaneswar-751 013"
+    ],
+    [
+      "Mode",
+      "Through VC/OAVM"
+    ]
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 62,
+  "table_index": 2,
+  "bbox": [
+    45.658375,
+    469.83850000000007,
+    549.723125,
+    495.53000000000003
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Description of Main Activity",
+      "Description of Business Activity",
+      "% of Turnover of the entity"
+    ],
+    [
+      "1",
+      "Manufacturing",
+      "Metal and metal products",
+      "99.56%"
+    ]
+  ]
+}

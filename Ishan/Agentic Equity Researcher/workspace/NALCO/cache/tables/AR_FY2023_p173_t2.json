@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 173,
+  "table_index": 2,
+  "bbox": [
+    90.642,
+    403.211,
+    549.484,
+    493.27850000000007
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "Year ended 31.03.2023",
+      "Year ended 31.03.2022"
+    ],
+    [
+      "Fair value of plan assets",
+      "4,009.91",
+      "4,079.57"
+    ],
+    [
+      "Present value of defined benefit obligations",
+      "3,835.87",
+      "3,920.73"
+    ],
+    [
+      "Net liability arising from defined benefit obligation of trust",
+      "-",
+      "-"
+    ],
+    [
+      "Discount Rate",
+      "7.17%",
+      "7.00%"
+    ],
+    [
+      "Guaranteed Rate of Return",
+      "8.15%",
+      "8.10%"
+    ],
+    [
+      "Interest Rate declared by Trust",
+      "8.15%",
+      "8.10%"
+    ]
+  ]
+}

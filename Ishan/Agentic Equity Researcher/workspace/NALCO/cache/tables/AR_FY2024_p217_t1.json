@@ -1,0 +1,258 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 217,
+  "table_index": 1,
+  "bbox": [
+    51.273611111111116,
+    104.05517777777773,
+    542.7264166666668,
+    551.884
+  ],
+  "rows": [
+    [
+      "",
+      "",
+      "Notes",
+      "Year ended 31.03.2024",
+      "Year ended 31.03.2023"
+    ],
+    [
+      "I",
+      "Revenue from operations",
+      "29",
+      "13,149.15",
+      "14,256.85"
+    ],
+    [
+      "II",
+      "Other Income",
+      "30",
+      "250.71",
+      "233.64"
+    ],
+    [
+      "III",
+      "Total Income (I + II)",
+      "",
+      "13,399.86",
+      "14,490.49"
+    ],
+    [
+      "IV",
+      "Expenses",
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "(a) Cost of raw materials consumed",
+      "31",
+      "2,791.89",
+      "3,172.12"
+    ],
+    [
+      null,
+      "(b) Cost of power and fuel consumed",
+      "31",
+      "3,547.70",
+      "4,693.69"
+    ],
+    [
+      null,
+      "(c) Changes in inventories of finished goods and work-in-progress",
+      "32",
+      "(146.05)",
+      "(16.66)"
+    ],
+    [
+      null,
+      "(d) Employee benefits expense",
+      "33",
+      "2,034.06",
+      "1,832.06"
+    ],
+    [
+      null,
+      "(e) Finance costs",
+      "34",
+      "17.21",
+      "12.92"
+    ],
+    [
+      null,
+      "(f) Depreciation, amortisation and impairment expenses",
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      "(i) Property Plant and Equipment - Depreciation",
+      "5",
+      "728.69",
+      "584.24"
+    ],
+    [
+      null,
+      "(ii) Property Plant and Equipment - Impairment",
+      "5",
+      "(11.62)",
+      "100.31"
+    ],
+    [
+      null,
+      "(iii) Intangible Assets - Amortisation",
+      "7",
+      "32.58",
+      "31.25"
+    ],
+    [
+      null,
+      "(g) Other expenses",
+      "35",
+      "2,048.64",
+      "2,125.57"
+    ],
+    [
+      "",
+      "Total expenses (IV)",
+      "",
+      "11,043.10",
+      "12,535.50"
+    ],
+    [
+      "V",
+      "Profit before exceptional items and tax (III - IV)",
+      "",
+      "2,356.76",
+      "1,954.99"
+    ],
+    [
+      "VI",
+      "Exceptional Items",
+      "36",
+      "(426.81)",
+      "-"
+    ],
+    [
+      "VII",
+      "Share of Profit/(loss) of Joint Ventures",
+      "",
+      "(71.49)",
+      "(109.83)"
+    ],
+    [
+      "VIII",
+      "Profit before tax (V-VI + VII)",
+      "",
+      "2,712.08",
+      "1,845.16"
+    ],
+    [
+      "IX",
+      "Tax Expense",
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "(a) Current tax",
+      "37",
+      "",
+      ""
+    ],
+    [
+      null,
+      "(i) Current year",
+      "",
+      "763.49",
+      "475.47"
+    ],
+    [
+      null,
+      "(ii) Earlier years",
+      "",
+      "76.22",
+      "(181.06)"
+    ],
+    [
+      null,
+      "(b) Deferred tax",
+      "37",
+      "(116.09)",
+      "116.09"
+    ],
+    [
+      "X",
+      "Profit for the year (VIII - IX)",
+      "",
+      "1,988.46",
+      "1,434.66"
+    ],
+    [
+      "XI",
+      "Other comprehensive income",
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "(i) Items that will not be reclassified to profit or loss",
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      "- Remeasurement gains / (losses) on defined benefit plans",
+      "",
+      "7.66",
+      "31.15"
+    ],
+    [
+      null,
+      "(ii) Income tax relating to items that will not be reclassified to profit or loss",
+      "37",
+      "0.25",
+      "26.50"
+    ],
+    [
+      null,
+      "Other comprehensive income for the year (net of tax)",
+      "",
+      "7.91",
+      "57.65"
+    ],
+    [
+      "XII",
+      "Total comprehensive income for the year (XI + X) [comprising profit and other\ncomprehensive income for the period]",
+      "",
+      "1,996.37",
+      "1,492.31"
+    ],
+    [
+      "XIII",
+      "Earnings per equity share:",
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "(i) Basic (in `)",
+      "39",
+      "10.83",
+      "7.81"
+    ],
+    [
+      null,
+      "(ii) Diluted (in `)",
+      "39",
+      "10.83",
+      "7.81"
+    ]
+  ]
+}

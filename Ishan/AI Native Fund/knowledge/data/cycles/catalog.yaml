@@ -1,0 +1,170 @@
+# knowledge/data/cycles/catalog.yaml — the 16-cycle catalog from
+# knowledge/references/methodology/cycle_positioning_framework.md section 3.
+# Loaded/validated by knowledge/loader.py (CycleCatalog / CycleDef models).
+#
+# Every cycle's anchor_kpi_ids must resolve to a kpi_id defined somewhere
+# under knowledge/data/kpis/*.yaml or knowledge/data/kpis/micro/*.yaml —
+# enforced by tests/test_knowledge.py. functional_group is one of the four
+# groups from framework section 4.1 (macro_regime | market_structure |
+# external | idiosyncratic), used by the (Phase 7) cycle engine's dynamic
+# regime-weighting step (section 4.3).
+version: 1
+cycles:
+  - cycle_id: valuation_cycle
+    name: Valuation
+    functional_group: market_structure
+    anchor_kpi_ids: [yield_gap, evi]
+    orientation: value_type
+    lookback_years: "10-20 / full history"
+    cadence: "Daily-Monthly"
+    leads_lags: "Usually bottoms before the Earnings & Margin cycle"
+
+  - cycle_id: earnings_margin_cycle
+    name: Earnings & Margin
+    functional_group: market_structure
+    anchor_kpi_ids: [index_eps_growth]
+    orientation: value_type
+    lookback_years: "8-12"
+    cadence: Quarterly
+    leads_lags: "Lags Valuation at troughs; often leads at margin peaks (margins roll over before price)"
+
+  - cycle_id: gdp_business_cycle
+    name: GDP / Business
+    functional_group: macro_regime
+    anchor_kpi_ids: [mcap_gdp, gst_collections, ici_index]
+    orientation: value_type
+    orientation_note: "value_type for the output-gap anchor (mcap_gdp, still missing); goldilocks_type for the growth rate itself — gst_collections/ici_index YoY (WORKSTREAM D) are supplementary activity anchors, not yet wired into the live engine"
+    lookback_years: "15-25"
+    cadence: "Monthly/Quarterly"
+    leads_lags: "The slowest 'regime' cycle - conditions how much weight faster cycles deserve (section 4)"
+
+  - cycle_id: inflation_cycle
+    name: Inflation
+    functional_group: macro_regime
+    anchor_kpi_ids: [cpi_yoy]
+    orientation: goldilocks_type
+    lookback_years: "10-15"
+    cadence: Monthly
+    leads_lags: "Leads the Rate/Liquidity cycle via the central-bank reaction function"
+
+  - cycle_id: interest_rate_liquidity_cycle
+    name: Interest Rate & Liquidity
+    functional_group: macro_regime
+    anchor_kpi_ids: [curve_slope, dxy]
+    orientation: value_type
+    orientation_note: "value_type for the rate level; fear_type for curve inversion"
+    lookback_years: "15-20"
+    cadence: "Daily (curve)/Monthly"
+    leads_lags: "Leads Credit and Valuation cycles, typically by 6-18 months"
+
+  - cycle_id: credit_debt_cycle
+    name: Credit / Debt
+    functional_group: macro_regime
+    anchor_kpi_ids: [credit_to_gdp_gap, hy_spreads]
+    orientation: value_type
+    orientation_note: "value_type for the credit-to-GDP gap; fear_type for spreads and NPAs"
+    lookback_years: "15-20 (short cycle); 50-75 supercycle as background context only"
+    cadence: Quarterly
+    leads_lags: "Best early-warning indicator of systemic stress; the long supercycle isn't tactically actionable, only contextual"
+
+  - cycle_id: currency_external_balance_cycle
+    name: Currency / External Balance
+    functional_group: external
+    anchor_kpi_ids: [reer]
+    orientation: value_type
+    orientation_note: "value_type for REER; fear_type for reserve stress"
+    lookback_years: "10-15"
+    cadence: "Monthly/Quarterly"
+    leads_lags: "Currency bottoms often precede capital-flow-cycle turns"
+
+  - cycle_id: fii_dii_capital_flows_cycle
+    name: FII/DII & Capital Flows
+    functional_group: market_structure
+    anchor_kpi_ids: [fii_dii_flows, mf_retail_inflows]
+    orientation: value_type
+    orientation_note: "value_type in trend; fear_type at capitulation extremes"
+    lookback_years: "5-8"
+    cadence: "Weekly/Monthly"
+    leads_lags: "A confirming, not originating, indicator - flows chase returns, so use to corroborate a call, not generate one"
+
+  - cycle_id: sentiment_behavioral_cycle
+    name: Sentiment / Behavioral
+    functional_group: market_structure
+    anchor_kpi_ids: [india_vix, breadth_200dma]
+    orientation: fear_type
+    orientation_note: "fear_type (vol, spreads) - invert before scoring"
+    lookback_years: "5-10"
+    cadence: Daily
+    leads_lags: "Most reliable at extremes (near Phases 1 or 5); a poor mid-cycle timing tool - can stay stretched for long stretches"
+
+  - cycle_id: sector_thematic_cycle
+    name: Sector / Thematic
+    functional_group: idiosyncratic
+    anchor_kpi_ids: [bfsi_price_to_book, it_pe_ltm, pharma_ev_ebitda_ltm, auto_ev_ebitda_ltm, consumer_ev_ebitda_ltm, commodities_ev_ebitda_ltm, infra_ev_ebitda_ltm, generic_pe_ltm]
+    orientation: value_type
+    lookback_years: "8-15"
+    cadence: "Monthly/Quarterly"
+    leads_lags: "Apply the identical section-2 engine - fully fractal with market and security level"
+
+  - cycle_id: commodity_cycle
+    name: Commodity
+    functional_group: idiosyncratic
+    anchor_kpi_ids: [gsr, gold_to_nifty]
+    orientation: value_type
+    orientation_note: "value_type, with the Parabolic Return Compression Rule override"
+    lookback_years: "20-30 (long supercycles)"
+    cadence: "Daily/Monthly"
+    leads_lags: "Prone to the sharpest overshoots of any asset class - see the Parabolic Rule"
+
+  - cycle_id: real_estate_cycle
+    name: Real Estate
+    functional_group: idiosyncratic
+    anchor_kpi_ids: []
+    orientation: value_type
+    lookback_years: "15-20"
+    cadence: "Quarterly/Annual"
+    leads_lags: "Illiquidity means this cycle lags financial-asset cycles by several quarters"
+
+  - cycle_id: capex_investment_cycle
+    name: Capex / Investment
+    functional_group: idiosyncratic
+    anchor_kpi_ids: [infra_order_book_growth_yoy]
+    orientation: goldilocks_type
+    lookback_years: "15-20"
+    cadence: Quarterly
+    leads_lags: "Long and lumpy (historically ~5-7yr cycles); lags GDP recovery, leads the next industrial-earnings cycle"
+
+  - cycle_id: volatility_risk_regime_cycle
+    name: Volatility / Risk-Regime
+    functional_group: market_structure
+    anchor_kpi_ids: [india_vix]
+    orientation: fear_type
+    lookback_years: "10-15"
+    cadence: Daily
+    leads_lags: "Governs position-sizing/leverage overlay more than direction - low-vol grind vs. high-vol chop are different regimes at the same directional phase"
+
+  - cycle_id: global_risk_appetite_dollar_cycle
+    name: Global Risk-Appetite / Dollar
+    functional_group: external
+    anchor_kpi_ids: [dxy]
+    orientation: value_type
+    orientation_note: "value_type: DXY strength = tighter EM liquidity conditions"
+    lookback_years: "10-15"
+    cadence: Weekly
+    leads_lags: "An external conditioning variable for the Currency and Flows cycles of any non-reserve-currency market"
+
+  - cycle_id: policy_regulatory_cycle
+    name: Policy / Regulatory
+    functional_group: idiosyncratic
+    anchor_kpi_ids: []
+    orientation: goldilocks_type
+    orientation_note: >
+      Qualitative-primary per the framework (section 3): event-driven
+      (budget cycle, election cycle, regulatory-intensity score), tracked
+      as a risk-flag overlay rather than a smooth continuous score. Tagged
+      goldilocks_type here only to satisfy the engine's three-way
+      orientation enum; no anchor KPI is scored numerically for this cycle
+      today.
+    lookback_years: "N/A - calendar-tracked"
+    cadence: Event-triggered
+    leads_lags: "Overlays as a qualitative risk flag on all of the above rather than a smooth continuous score"

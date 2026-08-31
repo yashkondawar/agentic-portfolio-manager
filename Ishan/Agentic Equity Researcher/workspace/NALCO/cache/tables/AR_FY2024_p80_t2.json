@@ -1,0 +1,103 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 80,
+  "table_index": 2,
+  "bbox": [
+    68.28139130434782,
+    350.82621,
+    542.4250115384615,
+    522.3824999999999
+  ],
+  "rows": [
+    [
+      "",
+      "FY 2023-24",
+      null,
+      null,
+      "FY 2022-23",
+      null,
+      null
+    ],
+    [
+      null,
+      "Total (A)",
+      "No. of employees /\nworkers covered (B)",
+      "% (B/A)",
+      "Total (C)",
+      "No. of employees\n/Workers covered\n(D)",
+      "% (D/C)"
+    ],
+    [
+      "EMPLOYEES (Executives)",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Permanent",
+      "1,586",
+      "43",
+      "3%",
+      "1,588",
+      "61",
+      "4%"
+    ],
+    [
+      "Other than permanent",
+      "0",
+      "N.A.",
+      "N.A.",
+      "0",
+      "N.A.",
+      "N.A."
+    ],
+    [
+      "Total Employees",
+      "1,586",
+      "43",
+      "3%",
+      "1588",
+      "61",
+      "4%"
+    ],
+    [
+      "WORKERS",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Permanent(Non-Executives)",
+      "3,272",
+      "33",
+      "1 %",
+      "3,602",
+      "0",
+      "0.00"
+    ],
+    [
+      "Other than permanent",
+      "12,648",
+      "0",
+      "0.00",
+      "12,882",
+      "0",
+      "0.00"
+    ],
+    [
+      "Total Workers",
+      "15,920",
+      "33",
+      "0.2 %",
+      "16,484",
+      "0",
+      "0.00"
+    ]
+  ]
+}

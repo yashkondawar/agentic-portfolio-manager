@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 108,
+  "table_index": 3,
+  "bbox": [
+    79.27372222222223,
+    303.52414999999996,
+    542.6706842105264,
+    372.6039
+  ],
+  "rows": [
+    [
+      "Type of complaints",
+      "No. of complaints"
+    ],
+    [
+      "Non-receipt of Securities",
+      "47"
+    ],
+    [
+      "Non-receipt of Dividend",
+      "1,224"
+    ],
+    [
+      "Non-receipt of Annual Report",
+      "65"
+    ],
+    [
+      "Total",
+      "1,336"
+    ]
+  ]
+}

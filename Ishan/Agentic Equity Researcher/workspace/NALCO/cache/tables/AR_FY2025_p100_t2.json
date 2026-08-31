@@ -1,0 +1,55 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 100,
+  "table_index": 2,
+  "bbox": [
+    67.56774,
+    231.3721875,
+    542.1265500000001,
+    330.3918
+  ],
+  "rows": [
+    [
+      "",
+      "Male",
+      null,
+      "Female",
+      null
+    ],
+    [
+      null,
+      "Number",
+      "Median remuneration/ salary/ wages\nof respective category (in `)",
+      "Number",
+      "Median remuneration/ salary/\nwages of respective category\n(in `)"
+    ],
+    [
+      "Board of Directors (BoD)*",
+      "6*",
+      "97,83,333",
+      "0",
+      "-"
+    ],
+    [
+      "Key Managerial Personnel",
+      "1 **",
+      "82,50,000",
+      "0",
+      "-"
+    ],
+    [
+      "Employees other than BoD and KMP",
+      "1,683",
+      "43,97,267",
+      "98",
+      "43,91,836"
+    ],
+    [
+      "Workers",
+      "2,800",
+      "32,96,321",
+      "222",
+      "32,82,882"
+    ]
+  ]
+}

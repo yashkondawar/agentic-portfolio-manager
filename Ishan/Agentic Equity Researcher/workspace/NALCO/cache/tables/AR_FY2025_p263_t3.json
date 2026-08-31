@@ -1,0 +1,123 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 263,
+  "table_index": 3,
+  "bbox": [
+    51.27364285714286,
+    492.0421928571429,
+    542.8721333333334,
+    658.7515846153846
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "UDANL",
+      null,
+      "KABIL",
+      null,
+      "AAPPL",
+      null,
+      "GNAL",
+      null
+    ],
+    [
+      null,
+      "As at\n31.03.2025",
+      "As at\n31.03.2024",
+      "As at\n31.03.2025",
+      "As at\n31.03.2024",
+      "As at\n31.03.2025",
+      "As at\n31.03.2024",
+      "As at\n31.03.2025",
+      "As at\n31.03.2024"
+    ],
+    [
+      "Non- current assets",
+      "10.33",
+      "9.97",
+      "15.68",
+      "7.55",
+      "97.29",
+      "91.10",
+      "1,766.67",
+      "1,812.12"
+    ],
+    [
+      "Current asset",
+      "32.01",
+      "30.26",
+      "80.67",
+      "90.57",
+      "8.15",
+      "11.93",
+      "414.84",
+      "488.71"
+    ],
+    [
+      "Non- current liabilties",
+      "0.16",
+      "0.15",
+      "1.54",
+      "-",
+      "69.71",
+      "66.39",
+      "1,287.47",
+      "1,508.84"
+    ],
+    [
+      "Current liabilties",
+      "1.20",
+      "0.64",
+      "4.59",
+      "0.17",
+      "0.63",
+      "0.63",
+      "471.09",
+      "561.72"
+    ],
+    [
+      "The above amounts of assets and liabilities includes the following:",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Cash and cash equivalents",
+      "30.28",
+      "29.40",
+      "1.91",
+      "0.11",
+      "7.09",
+      "10.50",
+      "11.34",
+      "0.08"
+    ],
+    [
+      "Current financials liabilities (excluding\ntrade payables and provisions)",
+      "-",
+      "-",
+      "2.03",
+      "-",
+      "-",
+      "-",
+      "316.63",
+      "440.01"
+    ],
+    [
+      "Non- current financial liabilities\n(excluding trade payables and provisions)",
+      "-",
+      "-",
+      "154.16",
+      "-",
+      "33.05",
+      "33.05",
+      "1,287.47",
+      "1,508.51"
+    ]
+  ]
+}

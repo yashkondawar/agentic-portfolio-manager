@@ -1,0 +1,53 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 63,
+  "table_index": 4,
+  "bbox": [
+    51.273599999999995,
+    468.4838857142857,
+    543.1535777777777,
+    552.5475
+  ],
+  "rows": [
+    [
+      "Sl.\nNo.",
+      "Short particulars of the property or\nasset(s) [including complete address\nand location of the property]",
+      "Pin code of the\nproperty or\nasset(s)",
+      "Date of\nCreation",
+      "Amount of CSR\namount spent",
+      "Details of entity / Authority/ beneficiary of\nthe registered owner",
+      null,
+      null
+    ],
+    [
+      "(1)",
+      "(2)",
+      "(3)",
+      "(4)",
+      "(5)",
+      "(6)",
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      "CSR Registered\nNumber, if applicable",
+      "Name",
+      "Registered\nAddress"
+    ],
+    [
+      "",
+      "NA",
+      "NA",
+      "NA",
+      "0",
+      "NA",
+      "NA",
+      "NA"
+    ]
+  ]
+}

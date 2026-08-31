@@ -1,0 +1,293 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 171,
+  "table_index": 3,
+  "bbox": [
+    79.6201,
+    185.46474999999998,
+    555.3406,
+    677.7584999999999
+  ],
+  "rows": [
+    [
+      "A. Non-current",
+      null,
+      null,
+      "As at\n31.03.2021",
+      "As at\n31.03.2020"
+    ],
+    [
+      "(a) Capital advances",
+      null,
+      null,
+      "240.61",
+      "197.18"
+    ],
+    [
+      "(b)",
+      "Advances other than capital advance:",
+      null,
+      "",
+      ""
+    ],
+    [
+      null,
+      "Advance with public authorities",
+      null,
+      "",
+      ""
+    ],
+    [
+      null,
+      "(1)",
+      "Customs, excise, sales tax, port trusts etc.",
+      "170.60",
+      "216.66"
+    ],
+    [
+      null,
+      "(2)",
+      "Deposits with Income Tax Authority (net)",
+      "326.80",
+      "285.55"
+    ],
+    [
+      null,
+      "(3)",
+      "Other Government authorities",
+      "3.52",
+      "2.18"
+    ],
+    [
+      "(c)",
+      "Others",
+      null,
+      "",
+      ""
+    ],
+    [
+      null,
+      "Prepaid expenses",
+      null,
+      "",
+      ""
+    ],
+    [
+      null,
+      "(1)",
+      "Deferred employee benefits",
+      "16.63",
+      "18.29"
+    ],
+    [
+      "Gross other non-current assets",
+      null,
+      null,
+      "758.16",
+      "719.86"
+    ],
+    [
+      "Less: Allowance for bad and doubtful for other non-current assets",
+      null,
+      null,
+      "",
+      ""
+    ],
+    [
+      "(a) Capital advances",
+      null,
+      null,
+      "0.26",
+      "0.26"
+    ],
+    [
+      "Total allowance for bad and doubtful for other non-current assets",
+      null,
+      null,
+      "0.26",
+      "0.26"
+    ],
+    [
+      "Total other non-current assets",
+      null,
+      null,
+      "757.90",
+      "719.60"
+    ],
+    [
+      "B. Current",
+      null,
+      null,
+      "As at\n31.03.2021",
+      "As at\n31.03.2020"
+    ],
+    [
+      "Advances other than capital advances",
+      null,
+      null,
+      "",
+      ""
+    ],
+    [
+      "(a)",
+      "Claims with statutory authorities",
+      null,
+      "",
+      ""
+    ],
+    [
+      null,
+      "(1)",
+      "Export Incentive Claims",
+      "28.53",
+      "14.33"
+    ],
+    [
+      null,
+      "(2)",
+      "Generation Based Incentive on power generated from renewable source and Renewable energy certificates",
+      "2.94",
+      "3.86"
+    ],
+    [
+      null,
+      "(3)",
+      "VAT, CENVAT and GST Credit Recoverable",
+      "332.80",
+      "345.47"
+    ],
+    [
+      null,
+      "(4)",
+      "Claims receivable from customs, excise and railway authorities",
+      "8.84",
+      "8.79"
+    ],
+    [
+      "(b)",
+      "Prepaid expenses",
+      null,
+      "",
+      ""
+    ],
+    [
+      null,
+      "(1)",
+      "Deferred employee benefits",
+      "2.39",
+      "2.85"
+    ],
+    [
+      null,
+      "(2)",
+      "Other prepaid expenses",
+      "4.91",
+      "5.29"
+    ],
+    [
+      "(c)",
+      "Stamp in hand",
+      null,
+      "0.01",
+      "0.01"
+    ],
+    [
+      "(d)",
+      "Other receivables",
+      null,
+      "1.23",
+      "1.63"
+    ],
+    [
+      "(e)",
+      "Other advances",
+      null,
+      "",
+      ""
+    ],
+    [
+      null,
+      "(1)",
+      "Advances to employees",
+      "29.23",
+      "28.46"
+    ],
+    [
+      null,
+      "(2)",
+      "Advances to suppliers and service providers",
+      "363.20",
+      "395.11"
+    ],
+    [
+      null,
+      "(3)",
+      "Others",
+      "3.84",
+      "2.67"
+    ],
+    [
+      "Gross other current assets",
+      null,
+      null,
+      "777.92",
+      "808.47"
+    ],
+    [
+      "Less: Allowance for bad and doubtful for other current assets",
+      null,
+      null,
+      "",
+      ""
+    ],
+    [
+      "(a)",
+      "VAT and CENVAT Credit Recoverable",
+      null,
+      "197.81",
+      "197.81"
+    ],
+    [
+      "(b)",
+      "Claims receivable from customs, excise and railway authorities",
+      null,
+      "7.09",
+      "7.09"
+    ],
+    [
+      "(c)",
+      "Other receivables",
+      null,
+      "0.39",
+      "1.00"
+    ],
+    [
+      "(d)",
+      "Advances to suppliers and service providers",
+      null,
+      "2.02",
+      "1.88"
+    ],
+    [
+      "(e)",
+      "Others",
+      null,
+      "1.81",
+      "1.85"
+    ],
+    [
+      "Total allowance for bad and doubtful for other current assets",
+      null,
+      null,
+      "209.12",
+      "209.63"
+    ],
+    [
+      "Total other current assets",
+      null,
+      null,
+      "568.80",
+      "598.84"
+    ]
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 97,
+  "table_index": 3,
+  "bbox": [
+    79.62008125,
+    374.4849,
+    554.888925,
+    423.00769999999994
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Technology Imported/Upgraded",
+      "Year of import/Upgraded",
+      "Has Technology been\nfully absorbed",
+      "If not fully absorbed, area where this has not taken\nplace, reasons therefor and future plans of action"
+    ],
+    [
+      "1.",
+      "Medium Pressure Digestion for Bauxite",
+      "-",
+      "-",
+      "Under implementation for the expansion proposed."
+    ]
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 244,
+  "table_index": 1,
+  "bbox": [
+    45.604,
+    103.14800000000002,
+    549.546,
+    191.07200000000006
+  ],
+  "rows": [
+    [
+      "34 - Finance costs Amount in ` Crore",
+      null,
+      null
+    ],
+    [
+      "",
+      "Year ended 31.03.2023",
+      "Year ended 31.03.2022"
+    ],
+    [
+      "Finance cost",
+      "",
+      ""
+    ],
+    [
+      "a. Interest expenses on lease liabilities",
+      "4.08",
+      "4.13"
+    ],
+    [
+      "b. Interest on shortfall in payment of advance income tax",
+      "(5.05)",
+      "7.62"
+    ],
+    [
+      "c. Others",
+      "13.89",
+      "11.38"
+    ],
+    [
+      "Total finance cost",
+      "12.92",
+      "23.13"
+    ]
+  ]
+}

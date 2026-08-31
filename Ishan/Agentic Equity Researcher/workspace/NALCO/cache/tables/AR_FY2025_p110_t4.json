@@ -1,0 +1,23 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 110,
+  "table_index": 4,
+  "bbox": [
+    68.28162272727273,
+    534.2512,
+    542.4696375,
+    570.0674
+  ],
+  "rows": [
+    [
+      "Name of Authority",
+      "Brief of the Case",
+      "Corrective action taken"
+    ],
+    [
+      "Nil",
+      null,
+      null
+    ]
+  ]
+}

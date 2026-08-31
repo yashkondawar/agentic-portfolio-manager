@@ -1,0 +1,37 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 232,
+  "table_index": 2,
+  "bbox": [
+    45.6676625,
+    155.51400000000007,
+    424.29179999999997,
+    226.08000000000004
+  ],
+  "rows": [
+    [
+      "",
+      "As at 31.03.2022"
+    ],
+    [
+      "Balance at the beginning",
+      "55.97"
+    ],
+    [
+      "Additions during the year",
+      "0.56"
+    ],
+    [
+      "Finance Cost added during the year",
+      "4.13"
+    ],
+    [
+      "Payment of lease liability",
+      "4.23"
+    ],
+    [
+      "Balance at the end",
+      "56.43"
+    ]
+  ]
+}

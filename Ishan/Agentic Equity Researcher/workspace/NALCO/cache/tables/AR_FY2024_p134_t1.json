@@ -1,0 +1,73 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 134,
+  "table_index": 1,
+  "bbox": [
+    261.75617647058823,
+    117.56500000000005,
+    551.098,
+    280.41705
+  ],
+  "rows": [
+    [
+      "1.",
+      "Bauxite Mines",
+      "Panchpatmalli",
+      "68,25,000 TPY (North & Central\nBlock) 31,50,000 TPY (South Block)"
+    ],
+    [
+      "2.",
+      "Alumina Refinery",
+      "Damanjodi",
+      "21,00,000 TPY (Normative Capacity"
+    ],
+    [
+      "3.",
+      "Smelter Plant",
+      "Angul",
+      "4,60,000 TPY"
+    ],
+    [
+      "4.",
+      "Captive Power Plant",
+      "Angul",
+      "1,200 MW"
+    ],
+    [
+      "5.",
+      "Utkal-D & E Coal Blocks",
+      "Angul",
+      "20,00,000 TPY"
+    ],
+    [
+      "6.",
+      "Port Facilities",
+      "Visakhapatnam",
+      "14,00,000 TPY (Alumina Export /\nCaustic Soda Lye Import)"
+    ],
+    [
+      "7.",
+      "Wind Power",
+      "Gandikotta, A.P.",
+      "50.4 MW"
+    ],
+    [
+      null,
+      null,
+      "Ludarva, Jaisalmer,\nRajasthan",
+      "47.6 MW"
+    ],
+    [
+      null,
+      null,
+      "Devikot, Jaisalmer,\nRajasthan",
+      "50.0 MW"
+    ],
+    [
+      null,
+      null,
+      "Sangli,\nMaharashtra",
+      "50.4 MW"
+    ]
+  ]
+}

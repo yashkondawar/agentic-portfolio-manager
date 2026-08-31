@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 106,
+  "table_index": 1,
+  "bbox": [
+    68.28156428571428,
+    73.95089999999999,
+    542.46698125,
+    180.07539999999995
+  ],
+  "rows": [
+    [
+      "Parameter",
+      "FY 2024-25",
+      "FY 2023-24"
+    ],
+    [
+      "For each category of waste generated, total waste disposed by nature of disposal method (in metric tonnes)",
+      null,
+      null
+    ],
+    [
+      "Category of waste",
+      null,
+      null
+    ],
+    [
+      "(i) Incineration",
+      "102.451",
+      "126.454"
+    ],
+    [
+      "(ii) Landfilling",
+      "39.11",
+      "32.721"
+    ],
+    [
+      "(iii) Other disposal operations (to authorised recyclers, ash pond, redmud pond, stored for future use\netc.) *",
+      "1,89,91,093.69",
+      "44,41,323.36"
+    ],
+    [
+      "Total",
+      "1,89,91,235.25",
+      "44,41,482.53"
+    ]
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 234,
+  "table_index": 2,
+  "bbox": [
+    45.9165,
+    303.1315000000001,
+    549.5775000000001,
+    519.844
+  ],
+  "rows": [
+    [
+      "A. Non-current",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      "(i) Deposits under NEFFARS",
+      "83.52",
+      "101.26"
+    ],
+    [
+      "(ii) Others [Refer note 25.1]",
+      "230.50",
+      "230.50"
+    ],
+    [
+      "Total other non-current liabilities",
+      "314.02",
+      "331.76"
+    ],
+    [
+      "B. Current",
+      "",
+      ""
+    ],
+    [
+      "(i) Contract Liabilities (Revenue received in advance) [Refer Note 25.3 & 29.2]",
+      "101.54",
+      "125.57"
+    ],
+    [
+      "(ii) Statutory and other dues",
+      "",
+      ""
+    ],
+    [
+      "(a) Electricity duty [Refer Note 25.4]",
+      "85.40",
+      "108.49"
+    ],
+    [
+      "(b) Tax deducted and collected at source",
+      "32.46",
+      "36.05"
+    ],
+    [
+      "(c) Contribution to NEPF trust and NPS",
+      "30.91",
+      "41.07"
+    ],
+    [
+      "(d) Dues towards stamp duty",
+      "212.78",
+      "212.78"
+    ],
+    [
+      "(e) Others (Service tax, excise duty, GST, royalty etc) [Refer Note 25.5]",
+      "185.17",
+      "356.01"
+    ],
+    [
+      "(iii) Renewable energy purchase obligation",
+      "87.64",
+      "68.71"
+    ],
+    [
+      "(iv) Deposits under NEFFARS",
+      "32.50",
+      "38.94"
+    ],
+    [
+      "(v) Grants for property, plant and equipment",
+      "0.46",
+      "0.48"
+    ],
+    [
+      "(vi) Other credit balances",
+      "0.46",
+      "0.45"
+    ],
+    [
+      "Total other current liabilities",
+      "769.32",
+      "988.55"
+    ]
+  ]
+}

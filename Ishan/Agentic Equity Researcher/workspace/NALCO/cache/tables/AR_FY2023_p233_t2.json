@@ -1,0 +1,109 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 233,
+  "table_index": 2,
+  "bbox": [
+    45.979,
+    489.65200000000004,
+    549.6713333333333,
+    691.5706666666666
+  ],
+  "rows": [
+    [
+      "C. Movement of provisions",
+      null,
+      null,
+      null
+    ],
+    [
+      "(1) Movement of retirement benefit obligations [refer note 33]",
+      null,
+      null,
+      null
+    ],
+    [
+      "(2) Movement of employee benefits",
+      null,
+      null,
+      null
+    ],
+    [
+      "Amount in ` Crore",
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "Compensated absences(funded)",
+      "Long service rewards",
+      "NEFFARS"
+    ],
+    [
+      "Balance at 31.03.2021",
+      "430.37",
+      "13.13",
+      "31.88"
+    ],
+    [
+      "Additional provisions recognised",
+      "121.28",
+      "1.49",
+      "31.59"
+    ],
+    [
+      "Reductions arising from payments",
+      "(112.33)",
+      "(0.92)",
+      "(28.12)"
+    ],
+    [
+      "Changes arising from remeasurement",
+      "25.62",
+      "(1.22)",
+      "-"
+    ],
+    [
+      "Others [refer note 24.4]",
+      "(445.95)",
+      "-",
+      "-"
+    ],
+    [
+      "Balance at 31.03.2022",
+      "18.99",
+      "12.48",
+      "35.35"
+    ],
+    [
+      "Additional provisions recognised",
+      "84.41",
+      "1.49",
+      "11.65"
+    ],
+    [
+      "Reductions arising from payments",
+      "(52.25)",
+      "(1.35)",
+      "(23.99)"
+    ],
+    [
+      "Changes arising from remeasurement",
+      "(11.33)",
+      "0.33",
+      "-"
+    ],
+    [
+      "Others [refer note 24.4]",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Balance at 31.03.2023",
+      "39.82",
+      "12.95",
+      "23.01"
+    ]
+  ]
+}

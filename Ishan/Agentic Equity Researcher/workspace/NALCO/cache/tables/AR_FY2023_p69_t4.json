@@ -1,0 +1,67 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 69,
+  "table_index": 4,
+  "bbox": [
+    45.64225,
+    520.7080000000001,
+    550.00125,
+    634.144
+  ],
+  "rows": [
+    [
+      "Benefits",
+      "FY 2022-23",
+      null,
+      null,
+      "FY 2021-22",
+      null,
+      null
+    ],
+    [
+      "",
+      "No. of employees\ncovered as a % of\ntotal employees",
+      "No. of workers\ncovered as a % of\ntotal workers",
+      "Deducted and\ndeposited with the\nauthority (Y/N/N.A.)*",
+      "No. of employees\ncovered as a % of\ntotal employees",
+      "No. of workers\ncovered as a % of\ntotal workers",
+      "Deducted and\ndeposited with the\nauthority (Y/N/N.A.)"
+    ],
+    [
+      "PF",
+      "100%",
+      "100%",
+      "Yes",
+      "100%",
+      "100%",
+      "Yes"
+    ],
+    [
+      "Gratuity*",
+      "100%",
+      "22%",
+      "Yes",
+      "100%",
+      "25%",
+      "Yes"
+    ],
+    [
+      "ESI**",
+      "N.A.",
+      "78%",
+      "Yes",
+      "N.A.",
+      "75%",
+      "Yes"
+    ],
+    [
+      "Others-\nRetrenchment\nBenefits etc**",
+      "N.A.",
+      "78%",
+      "N.A.",
+      "N.A.",
+      "75%",
+      "N.A."
+    ]
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 10,
+  "table_index": 1,
+  "bbox": [
+    85.28926666666666,
+    88.54784999999998,
+    542.7266,
+    144.9796
+  ],
+  "rows": [
+    [
+      "Login type",
+      "Helpdesk details"
+    ],
+    [
+      "Shareholders other than individual\nshareholders holding shares in\nDemat mode & Physical mode.",
+      "In case shareholders/ investor have any queries regarding E-voting, you may refer the Frequently\nAsked Questions (‘FAQs’) and i-Vote e-Voting module available at https://ivote.bigshareonline.com,\nunder download section or you can email us to ivote@bigshareonline.com or call us at:1800-22-54-22."
+    ]
+  ]
+}

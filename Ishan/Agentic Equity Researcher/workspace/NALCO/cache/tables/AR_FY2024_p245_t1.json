@@ -1,0 +1,133 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 245,
+  "table_index": 1,
+  "bbox": [
+    51.27362285714286,
+    87.77895000000001,
+    542.8062257142857,
+    364.09724
+  ],
+  "rows": [
+    [
+      "B.",
+      "Current",
+      "As at 31.03.2024",
+      "As at 31.03.2023"
+    ],
+    [
+      "",
+      "(b) Prepaid expenses",
+      null,
+      null
+    ],
+    [
+      null,
+      "(1) Deferred employee benefits [ refer Note 11.1]",
+      "3.57",
+      "3.55"
+    ],
+    [
+      null,
+      "(2) Other prepaid expenses",
+      "14.35",
+      "7.81"
+    ],
+    [
+      null,
+      "(c) Stamp in hand",
+      "0.01",
+      "0.02"
+    ],
+    [
+      null,
+      "(d) Other receivables",
+      "1.08",
+      "1.23"
+    ],
+    [
+      null,
+      "(e) Other advances",
+      null,
+      null
+    ],
+    [
+      null,
+      "(1) Advances to employees",
+      "2.35",
+      "3.00"
+    ],
+    [
+      null,
+      "(2) Advances to suppliers and service providers",
+      "563.21",
+      "813.18"
+    ],
+    [
+      null,
+      "(3) Others",
+      "6.45",
+      "4.91"
+    ],
+    [
+      null,
+      "Gross other current assets",
+      "1,274.50",
+      "1,209.40"
+    ],
+    [
+      null,
+      "Less: Allowance for bad and doubtful for other current assets",
+      null,
+      null
+    ],
+    [
+      null,
+      "(a) Export Incentive Claims",
+      "5.21",
+      "2.81"
+    ],
+    [
+      null,
+      "(b) VAT and CENVAT Credit Recoverable",
+      "200.09",
+      "197.81"
+    ],
+    [
+      null,
+      "(c) Claims receivable from customs, excise and railway authorities",
+      "5.13",
+      "5.13"
+    ],
+    [
+      null,
+      "(d) Other receivables",
+      "0.43",
+      "0.43"
+    ],
+    [
+      null,
+      "(e) Advances to suppliers and service providers",
+      "8.41",
+      "2.59"
+    ],
+    [
+      null,
+      "(f) Others",
+      "1.77",
+      "6.14"
+    ],
+    [
+      null,
+      "Total allowance for bad and doubtful for other current assets",
+      "221.04",
+      "214.91"
+    ],
+    [
+      null,
+      "Total other current assets",
+      "1,053.46",
+      "994.49"
+    ]
+  ]
+}

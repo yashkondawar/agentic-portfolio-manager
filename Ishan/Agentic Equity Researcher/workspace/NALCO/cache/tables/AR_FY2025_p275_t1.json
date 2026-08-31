@@ -1,0 +1,109 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 275,
+  "table_index": 1,
+  "bbox": [
+    51.273647619047615,
+    99.77588571428569,
+    542.7263761904762,
+    290.42168000000004
+  ],
+  "rows": [
+    [
+      "A. Non-current",
+      null,
+      "As at 31.03.2025",
+      "As at 31.03.2024"
+    ],
+    [
+      "(a)",
+      "Provision for employee benefits",
+      null,
+      null
+    ],
+    [
+      null,
+      "(1) Retirement benefits obligations",
+      "",
+      ""
+    ],
+    [
+      null,
+      "(i) Settling in benefit on retirement",
+      "10.52",
+      "11.67"
+    ],
+    [
+      null,
+      "(ii) Nalco benevolent fund scheme (NBFS)",
+      "2.25",
+      "2.09"
+    ],
+    [
+      null,
+      "(iii) Nalco retirement welfare scheme( NRWS)",
+      "8.03",
+      "8.04"
+    ],
+    [
+      null,
+      "(iv) Retirement gift",
+      "4.39",
+      "4.51"
+    ],
+    [
+      null,
+      "(v) Post retirement honour scheme [Refer: Note 23.5]",
+      "30.73",
+      "-"
+    ],
+    [
+      null,
+      "(2) Other long-term employee benefits",
+      "",
+      ""
+    ],
+    [
+      null,
+      "(i) Long service rewards",
+      "13.49",
+      "11.43"
+    ],
+    [
+      null,
+      "(ii) Nalco employees family financial assistance rehabilitation scheme (NEFFARS)",
+      "17.18",
+      "15.01"
+    ],
+    [
+      "(b)",
+      "Other Provisions",
+      null,
+      null
+    ],
+    [
+      "",
+      "(1) Site restoration obligation [Refer: Note 23.4]",
+      "112.12",
+      "68.49"
+    ],
+    [
+      null,
+      "(2) Asset dismantling obligation",
+      "52.98",
+      "48.95"
+    ],
+    [
+      null,
+      "(3) Legal and constructive obligations",
+      "0.45",
+      "0.38"
+    ],
+    [
+      "Total non-current provisions",
+      null,
+      "252.14",
+      "170.57"
+    ]
+  ]
+}

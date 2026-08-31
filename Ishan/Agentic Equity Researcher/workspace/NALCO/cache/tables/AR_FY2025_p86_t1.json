@@ -1,0 +1,85 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 86,
+  "table_index": 1,
+  "bbox": [
+    51.27364,
+    74.279,
+    542.3372833333334,
+    666.0977
+  ],
+  "rows": [
+    [
+      "S.\nNo.",
+      "Material issue\nidentified",
+      "Indicate\nwhether risk\nor opportunity\n(R/O)",
+      "Rationale for identifying\nthe risk / opportunity",
+      "In case of risk, approach to adapt or\nmitigate",
+      "Financial implications of\nthe risk or opportunity\n(Indicate positive or\nnegative implications)"
+    ],
+    [
+      "6",
+      "Renewable & Clean\nEnergy",
+      "R&O",
+      "Materiality Analysis,\nGovernment Regulations,\nEnvironmental Concerns",
+      "Pl. refer response to Principle 6 Essential\nIndicator 8",
+      "Positive"
+    ],
+    [
+      "7",
+      "Bio-diversity &\ngreenbelt",
+      "R",
+      "Materiality Analysis,\nGovernment Regulations,\nEnvironmental Concerns",
+      "Plantation of saplings in and around\nproduction units; Opening of mining\nfaces is carried out as per approved\nMining Plan; Wildlife Conservation Plan\nand Biodiversity Management Plan are in\nplace; Restoration of mined sites as per\nthe Mines closure plan, using indigenous\nspecies; Prevention of groundwater &\nsurface water contamination;",
+      "Positive"
+    ],
+    [
+      "Social",
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "8",
+      "Employee\nWellbeing",
+      "R&O",
+      "Materiality Analysis,\nSocietal Concerns",
+      "Competitive compensation is\ncomplemented by a comprehensive\nsuite of benefits, including healthcare,\ntravel concessions, housing assistance,\nsubsidized utilities, various allowances,\nparental leave, pension plans, educational\nincentives, loans, social security, and\nscholarships for dependent children.\nDefined benefit schemes are also in place\nfor provident fund, pension, settling-in\nsupport, long-service awards, gratuity,\nbenevolent fund, post-retirement medical\ncare, and other entitlements.\nAt plant locations, entire townships\nwith modern amenities, such as schools,\nhospitals, shopping centres, clubs, parks,\ngyms, stadiums have been developed.",
+      "Positive"
+    ],
+    [
+      "9",
+      "Training &\ndevelopment",
+      "R&O",
+      "Materiality Analysis,\nSocietal Concerns",
+      "Employee development is supported\nthrough classroom instruction, on-\nthe-job training, coaching, and\nmentoring. Dedicated training centres\nat the Corporate Office, S&P, and M&R\ncomplexes facilitate this process. Training\nneeds are systematically identified, and\ncustomized programs are delivered by\ninternal faculty or external experts.",
+      "Positive"
+    ],
+    [
+      "10",
+      "Occupational\nHealth & safety",
+      "R",
+      "Materiality Analysis,\nSocietal Concerns &\nGovernment Regulations",
+      "Pl. refer response to Principle 3 Essential\nIndicator 10,12,14 & 15",
+      "Negative"
+    ],
+    [
+      "11",
+      "Diversity, Equal\nOpportunity",
+      "R&O",
+      "Materiality Analysis,\nSocietal Concerns",
+      "Employees have equal access to service\nconditions, advancement opportunities,\nand other matters; HR manual outlines\na standardised set of rules that apply\nequally to all employees, regardless of\ngender, caste, religion, race, or other\nfactors; Transparent and equitable hiring\nprocess, providing all qualified candidates\nequal opportunities for success;\nAdherence to equal opportunity\nprinciples in all aspects of employee\nrecruitment, placement, promotion,\ntransfer, pay, training, and benefits",
+      "No implication"
+    ],
+    [
+      "12",
+      "Community\nEngagement &\nDevelopment",
+      "R&O",
+      "Materiality Analysis,\nSocietal Concerns",
+      "Pl. refer response to Principle 8 Essential\nIndicator 3 & Leadership Indicator 6",
+      "Negative"
+    ]
+  ]
+}

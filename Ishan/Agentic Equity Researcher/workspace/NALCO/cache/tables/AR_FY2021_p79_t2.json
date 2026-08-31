@@ -1,0 +1,55 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 79,
+  "table_index": 2,
+  "bbox": [
+    79.62008571428571,
+    88.12414999999993,
+    555.3405142857143,
+    666.4037999999999
+  ],
+  "rows": [
+    [
+      "Unit",
+      "Products",
+      "Environmental Concerns",
+      "Risks",
+      "Opportunities /\nMitigation Measures"
+    ],
+    [
+      "CPP",
+      "Electricity",
+      "• Air Pollution\n• Water Pollution\n• Land Contamination",
+      "1. Air Pollution\ni) Flue Gas from Boiler\nii) Fugitive Dust from Coal and\nAsh Handling Area\niii) Heat emission in flue gas to\natmosphere",
+      "1. Air Pollution:\ni) Ash and other particulate matters are extracted by ESPs\nprovided in flue gas path.\nii) Dust Extraction and Sprinklers system are provided in Coal\nand Ash Handling areas to control fugitive dust.\niii) Air Heater and Economisers are provided to recover heat\nfrom flue gas."
+    ],
+    [
+      null,
+      null,
+      null,
+      "2. Water Pollution\ni) Effluent Waste water\nii) Sewage Waste water\niii) Surface runoff water",
+      "2. Water Pollution:\ni) Effluent treatment plant is provided for treatment of industrial\nwaste water. The treated water is used for ash slurry making.\nii) Decanted water from ash pond is reused for ash slurry\nmaking.\niii) Sewage Treatment Plant is provided for treatment of Sewage\nWaste water. The sewage waste water after treatment is reused\nfor Horticulture & plantation purposes.\niv) Rain water harvesting system & Surface runoff water is used\nin fire hydrant system for firefighting."
+    ],
+    [
+      null,
+      null,
+      null,
+      "3. Land Contamination:\ni) Mill Rejects\nii) Ash\niii) Scraps (Metallic and Non-\nmetallic scraps)",
+      "3. Land Contamination:\ni) Mill Rejects is stored in demarcated low lying areas for\ndisposal to authorized parties for reuse.\nii) Both bottom ash and fly ash from ESPs are disposed to Ash\npond in slurry form. Commissioning of the project for lean\nslurry disposal to Mines Void for reclamation of mined out\narea is in progress. Dry Ash is also used for low lying area\nfilling, Stone quarries void filling, disposed to value added\nproduct manufacturer for ash brick making and use in\nAsbestos, cement etc. under a subsidy scheme.\niii) The scraps are sold to recyclers."
+    ],
+    [
+      "Mines",
+      "Bauxite",
+      "• Air Pollution\n• Water Pollution\n• Noise pollution\n• Solid waste pollution\n• Land Degradation",
+      "1) Air pollution:\ni) Emission from heavy\nvehicles\nii) Fugitive Dust emission\nduring Bauxite mining,\nHandling including crushing\nin crusher and conveying in\nconveyor",
+      "1) Air pollution:\ni) Proper selection and maintenance of vehicles to minimize\nemission from vehicles.\nii) Water spraying on haul roads and stock pile area with 6 nos of\n28 KL mobile sprinkler and fixed sprinklers along haul road.\niii) Suitable blast design and delayed blasting using NONEL\ndetonators to minimise dust generation.\niv) Implementation of dry fog system at Crusher and Conveyor\nto suppress dust & fully covered conveyor to prevent dust\ngeneration.\nv) Adoption of vacuum suction/wet drilling in all drill machines.\nvi) Peripheral barrier of 7.5 m width with plantation to retain\ndust particles."
+    ],
+    [
+      null,
+      null,
+      null,
+      "2) Water Pollution:\ni) Waste water from Mining,\nCanteen, Vehicle Washing\nand sewage from toilets",
+      "2) Water Pollution:\ni) In-situ peripheral barrier all around active mining area to\nprevent silt laden rain water to go out.\nii) Check dams at strategic points to filter muddy water, if any,\nfrom mining areas.\niii) Collection of rain water in mining area in sumps and\npercolation of collected water into ground.\niv) Water from toilets treated in septic tanks and disposed in soak\npits, canteen waste water treated in biological treatment unit,\nwash water from vehicle washing area treated in oil water\nseparator. Treated water from canteen and vehicle wash area\nfully reused for dust suppression and plantation."
+    ]
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 65,
+  "table_index": 2,
+  "bbox": [
+    51.273675000000004,
+    183.17399999999998,
+    542.3567257142857,
+    315.3169
+  ],
+  "rows": [
+    [
+      "S. No",
+      "Particulars",
+      "Total (A)",
+      "Male",
+      null,
+      "Female",
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "No. (B)",
+      "% (B / A)",
+      "No. (C)",
+      "% (C / A)"
+    ],
+    [
+      "DIFFERENTLY ABLED EMPLOYEES",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "1.",
+      "Permanent (D)",
+      "32",
+      "29",
+      "91%",
+      "3",
+      "9%"
+    ],
+    [
+      "2.",
+      "Other Than Permanent (E)",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    [
+      "3.",
+      "Total Employees (D+E)",
+      "32",
+      "29",
+      "91%",
+      "3",
+      "9%"
+    ],
+    [
+      "DIFFERENTLY ABLED WORKERS",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "4.",
+      "Permanent (D)",
+      "59",
+      "51",
+      "87%",
+      "8",
+      "13%"
+    ],
+    [
+      "5.",
+      "Other Than Permanent (E)",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    [
+      "6.",
+      "Total Employees (D+E)",
+      "59",
+      "51",
+      "87%",
+      "8",
+      "13%"
+    ]
+  ]
+}

@@ -1,0 +1,154 @@
+[
+  {
+    "id": "QT-PQ4-001",
+    "topics": ["sales_demand_market_share"],
+    "speaker": "NALCO, Management",
+    "quote": "Highest ever Production: Bauxite Transportation, Alumina Hydrate, Aluminium cast metal, Net power generation",
+    "context_summary": "FY2026 performance achievements announced on investor call",
+    "source": {"src_id": "SRC-689"},
+    "period_discussed": "FY2026",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-PQ4-002",
+    "topics": ["sales_demand_market_share"],
+    "speaker": "NALCO, Management",
+    "quote": "Highest ever Sale: Chemical, Domestic & Total metal",
+    "context_summary": "FY2026 sales and production milestones",
+    "source": {"src_id": "SRC-689"},
+    "period_discussed": "FY2026",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-PQ4-003",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "NALCO, Management",
+    "quote": "LME prices to average around US$ 3125 / MT for CY 2026",
+    "context_summary": "LME Aluminium price outlook for calendar year 2026",
+    "source": {"src_id": "SRC-690"},
+    "period_discussed": "CY2026",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-PQ4-004",
+    "topics": ["sales_demand_market_share", "industry_macro_regulatory"],
+    "speaker": "NALCO, Management",
+    "quote": "Indian Aluminium demand expected to grow at CAGR range 6.3 to 7.2 per cent till 2030",
+    "context_summary": "India-specific aluminium demand growth projection",
+    "source": {"src_id": "SRC-692"},
+    "period_discussed": "2026-2030",
+    "kind": "guidance",
+    "flags": ["company_claim"]
+  },
+  {
+    "id": "QT-PQ4-005",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "NALCO, Management",
+    "quote": "Pottangi Bauxite mines expansion 3.5 MTPA capacity, Likely Opening May 2026",
+    "context_summary": "Major capex project milestone guidance",
+    "source": {"src_id": "SRC-691"},
+    "period_discussed": "FY2027_onwards",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-PQ4-006",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "NALCO, Management",
+    "quote": "5th Stream Alumina Refinery 1 MTPA, Start of Commissioning June 2026, Likely Commissioning Aug 2030",
+    "context_summary": "Alumina refinery expansion timeline",
+    "source": {"src_id": "SRC-691"},
+    "period_discussed": "FY2031",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-PQ4-007",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "NALCO, Management",
+    "quote": "Aluminium Smelter expansion 0.5 MTPA capacity, Likely Commissioning Aug 2030",
+    "context_summary": "Smelter capacity addition for value-added products",
+    "source": {"src_id": "SRC-691"},
+    "period_discussed": "FY2032",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-PQ4-008",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "NALCO, Management",
+    "quote": "Captive Power Plant expansion 1080 MW, Likely Commissioning Jun 2031",
+    "context_summary": "CPP capacity addition for power requirement",
+    "source": {"src_id": "SRC-691"},
+    "period_discussed": "FY2032",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-PQ4-009",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "NALCO, Management",
+    "quote": "Wind Power in Pipeline 15 MW; Roof Top Solar Power Planned 7 MW, 1060 kwp installed FY26",
+    "context_summary": "Renewable energy expansion roadmap",
+    "source": {"src_id": "SRC-694"},
+    "period_discussed": "FY2027_onwards",
+    "kind": "guidance"
+  },
+  {
+    "id": "QT-PQ4-010",
+    "topics": ["capex_depreciation_utilization"],
+    "speaker": "NALCO, Management",
+    "quote": "198 MW Wind Power installed in FY25-26, 307 MU generated in FY25-26",
+    "context_summary": "FY26 renewable energy operational metrics",
+    "source": {"src_id": "SRC-694"},
+    "period_discussed": "FY2026",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-PQ4-011",
+    "topics": ["corporate_actions"],
+    "speaker": "NALCO, Management",
+    "quote": "CSR Expenditure FY2026 ₹8076.65 Lakh against obligation ₹7913.00 Lakh",
+    "context_summary": "FY26 CSR spend exceeds statutory obligation",
+    "source": {"src_id": "SRC-694"},
+    "period_discussed": "FY2026",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-PQ4-012",
+    "topics": ["industry_macro_regulatory"],
+    "speaker": "NALCO, Management",
+    "quote": "Global GDP Growth projection 3.1% for CY2026 (IMF April 2026 revised)",
+    "context_summary": "Macroeconomic outlook context for aluminium demand",
+    "source": {"src_id": "SRC-692"},
+    "period_discussed": "CY2026",
+    "kind": "statement",
+    "flags": ["company_claim"]
+  },
+  {
+    "id": "QT-PQ4-013",
+    "topics": ["sales_demand_market_share"],
+    "speaker": "NALCO, Management",
+    "quote": "Geopolitical turmoil, capacity curtailments in Middle-East reducing availability impacting LME prices",
+    "context_summary": "Risk factors on commodity pricing",
+    "source": {"src_id": "SRC-690"},
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-PQ4-014",
+    "topics": ["product_mix_margin_strategy"],
+    "speaker": "NALCO, Management",
+    "quote": "Expanded Refinery capacity to protect bottom line in case of LME downswing",
+    "context_summary": "Capex rationale and margin protection strategy",
+    "source": {"src_id": "SRC-691"},
+    "period_discussed": "general",
+    "kind": "statement"
+  },
+  {
+    "id": "QT-PQ4-015",
+    "topics": ["product_mix_margin_strategy"],
+    "speaker": "NALCO, Management",
+    "quote": "Smelter capacity addition to give scope for extrusions and other value added products",
+    "context_summary": "Strategic value-addition through capex",
+    "source": {"src_id": "SRC-691"},
+    "period_discussed": "general",
+    "kind": "statement"
+  }
+]

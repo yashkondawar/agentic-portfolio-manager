@@ -1,0 +1,66 @@
+# Commodities & Energy micro KPI deep-definitions. Lean by design: formula
+# + sourcing + xref only. Qualitative framing lives in
+# registry/kpis/commodities_energy.yaml and knowledge/references/sectors/
+# commodities_energy.md — not repeated here.
+sector: commodities_energy
+registry_ref: registry/kpis/commodities_energy.yaml
+kpis:
+  - kpi_id: commodities_ev_ebitda_ltm
+    scope: sector
+    cycle_refs: [valuation_cycle, commodity_cycle, sector_thematic_cycle]
+    formula: "EV/EBITDA (LTM) = Enterprise Value / Trailing 12M EBITDA"
+    inputs:
+      - name: Enterprise value, trailing EBITDA
+        source: afund.daily_prices (mcap proxy) + afund.financials_quarterly (ebitda)
+        status: derivable
+    orientation: value_type
+    lookback_years: 10
+    cadence: daily
+    source_status: derivable
+    registry_xref: "kpis/commodities_energy.yaml#ev_ebitda_ltm"
+    references_xref: [sectors/commodities_energy.md, kpi_interpretation/valuation_cycle.md]
+
+  - kpi_id: commodities_production_capacity_utilization
+    scope: sector
+    cycle_refs: [commodity_cycle, capex_investment_cycle]
+    formula: "Production Capacity Utilization = Actual Production Volume / Installed Capacity"
+    inputs:
+      - name: Production volume, installed capacity
+        source: company disclosures / CMIE — not yet wired
+        status: missing
+    orientation: goldilocks_type
+    lookback_years: 10
+    cadence: quarterly
+    source_status: missing
+    registry_xref: "kpis/commodities_energy.yaml#production_capacity_utilization"
+    references_xref: [sectors/commodities_energy.md]
+
+  - kpi_id: commodities_realization_per_barrel_mmbtu
+    scope: sector
+    cycle_refs: [commodity_cycle]
+    formula: "Realization per Barrel/MMBtu = Segment Revenue / Volume Sold (oil in barrels, gas in MMBtu)"
+    inputs:
+      - name: Segment revenue and volume disclosure
+        source: company investor presentations — not yet wired
+        status: missing
+    orientation: value_type
+    lookback_years: 15
+    cadence: quarterly
+    source_status: missing
+    registry_xref: "kpis/commodities_energy.yaml#realization_per_barrel_mmbtu"
+    references_xref: [sectors/commodities_energy.md]
+
+  - kpi_id: commodities_backward_integration_pct
+    scope: sector
+    cycle_refs: [sector_thematic_cycle]
+    formula: "Backward Integration % = Captive/Self-Sourced Raw Material or Power Input / Total Input Requirement"
+    inputs:
+      - name: Captive input volumes, total input requirement
+        source: company disclosures — not yet wired
+        status: missing
+    orientation: value_type
+    lookback_years: 10
+    cadence: quarterly
+    source_status: missing
+    registry_xref: "kpis/commodities_energy.yaml#backward_integration_pct"
+    references_xref: [sectors/commodities_energy.md]

@@ -1,0 +1,28 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 98,
+  "table_index": 2,
+  "bbox": [
+    93.793,
+    296.86800000000005,
+    550.0958333333334,
+    341.32500000000005
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Description of the Resolution",
+      "Resolution"
+    ],
+    [
+      "1.",
+      "Appointment of Shri Sadashiv Samantaray [DIN: 08130130] as Director (Commercial) as a Director of the Company.",
+      "Ordinary"
+    ],
+    [
+      "2.",
+      "Appointment of Shri Sanjay Ramanlal Patel [DIN: 09545270] as an Independent Director of the Company.",
+      "Special"
+    ]
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 252,
+  "table_index": 4,
+  "bbox": [
+    73.951,
+    316.59700000000004,
+    549.5726000000001,
+    503.619
+  ],
+  "rows": [
+    [
+      "(a) As at and for the year ended March 31, 2023",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Name of the entity in\nthe Group",
+      "Net Assets i.e. total assets\nminus total liabilities",
+      null,
+      "Share in profit\nand loss",
+      null,
+      "Share in other\ncomprehensive income",
+      null,
+      "Share in total\ncomprehensive income",
+      null
+    ],
+    [
+      null,
+      "As % of\nconsolidated\nnet assets",
+      "Amount",
+      "As % of\nconsolidated\nprofit or loss",
+      "Amount",
+      "As % of\nconsolidated other\ncomprehensive\nincome",
+      "Amount",
+      "As % of total\ncomprehensive\nincome",
+      "Amount"
+    ],
+    [
+      "Joint Ventures (Investments as per the Equity method)",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Indian",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Utkarsha Aluminium Dhatu\nNigam Limited",
+      "0.29%",
+      "38.40",
+      "0.03%",
+      "0.39",
+      "-",
+      "-",
+      "0.03%",
+      "0.39"
+    ],
+    [
+      "Khanij Bidesh India Limited",
+      "0.24%",
+      "31.84",
+      "0.01%",
+      "0.14",
+      "-",
+      "-",
+      "0.01%",
+      "0.14"
+    ],
+    [
+      "Angul Aluminium Park Private\nLimited",
+      "0.30%",
+      "39.50",
+      "0.02%",
+      "0.34",
+      "0.00%",
+      "0.00",
+      "0.02%",
+      "0.34"
+    ],
+    [
+      "GACL NALCO Alkalies &\nChemicals Private Limited",
+      "3.08%",
+      "404.60",
+      "(7.72%)",
+      "(110.72)",
+      "0.00%",
+      "0.00",
+      "(7.42%)",
+      "(110.72)"
+    ],
+    [
+      "Total",
+      "3.92%",
+      "514.34",
+      "(7.66%)",
+      "(109.85)",
+      "0.00%",
+      "-",
+      "(7.36%)",
+      "(109.85)"
+    ]
+  ]
+}

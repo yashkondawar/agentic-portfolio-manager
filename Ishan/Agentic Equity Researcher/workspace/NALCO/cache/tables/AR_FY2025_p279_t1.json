@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 279,
+  "table_index": 1,
+  "bbox": [
+    51.27364210526316,
+    87.77894285714287,
+    542.7262689655172,
+    156.85860000000005
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      "As at 31.03.2025",
+      "As at 31.03.2024"
+    ],
+    [
+      "b.",
+      "Claim by contractors/suppliers and others",
+      null,
+      null
+    ],
+    [
+      "",
+      "1. Claims of Contractor’s suppliers and others",
+      "167.19",
+      "166.88"
+    ],
+    [
+      null,
+      "2. Claim from PSUs",
+      "700.41",
+      "542.83"
+    ],
+    [
+      "Total",
+      null,
+      "2,050.43",
+      "1,920.03"
+    ]
+  ]
+}

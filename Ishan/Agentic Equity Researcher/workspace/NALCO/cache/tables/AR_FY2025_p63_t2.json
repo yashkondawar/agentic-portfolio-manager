@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 63,
+  "table_index": 2,
+  "bbox": [
+    68.28155384615384,
+    169.1139,
+    543.1535777777777,
+    259.3725
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Particular",
+      "Amount (in `)"
+    ],
+    [
+      "(1)",
+      "(2)",
+      "(3)"
+    ],
+    [
+      "(i)",
+      "Two percent of average net profit of the company as per sub-section (5) of the section 135",
+      "57,93,28,000"
+    ],
+    [
+      "(ii)",
+      "Total amount spent for the Financial Year",
+      "61,30,62,092"
+    ],
+    [
+      "(iii)",
+      "Excess amount spent for the financial year [(ii)-(i)]",
+      "3,37,34,092"
+    ],
+    [
+      "(iv)",
+      "Surplus arising out of the CSR projects or programmes or activities of the previous financial\nyears, if any",
+      "NIL"
+    ],
+    [
+      "(v)",
+      "Amount available for set off in succeeding financial years [(iii)-(iv)]",
+      "NIL"
+    ]
+  ]
+}

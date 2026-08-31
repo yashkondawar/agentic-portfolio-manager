@@ -1,0 +1,31 @@
+kpi_id: mf_retail_inflows
+scope: macro
+cycle_refs: [sentiment_behavioral_cycle, fii_dii_capital_flows_cycle]
+formula: >
+  Retail Inflows / Reverse Asset Allocation = volume of retail money into
+  mutual funds, ETFs, and IPO oversubscription levels, tracked monthly.
+  Used as a contrarian indicator: peak retail inflows concentrated into
+  small/mid-cap funds AFTER a large run-up signals peak FOMO (Phase 1).
+inputs:
+  - name: AMFI monthly scheme-category net inflows
+    source: >
+      AMFI monthly report PDF via afund.data.amfi_monthly (macro_series
+      MF_EQUITY_NET_INFLOW = equity-oriented sub-total net inflow,
+      MF_TOTAL_AUM = grand-total net AUM, INR cr, monthly). NOTE: the
+      report contains NO SIP contribution figure (confirmed live; the
+      AMFI sip-statistics page also 404s), so SIP_CONTRIBUTION remains
+      unsourced.
+    status: available
+  - name: IPO oversubscription multiples (retail category)
+    source: no source identified
+    status: missing
+orientation: value_type
+lookback_years: 8
+cadence: monthly
+# Phase 8: AMFI net-inflow leg is live (forward-accumulating monthly);
+# the IPO-oversubscription leg is still missing, so the composite
+# "reverse asset allocation" reading is partial.
+source_status: available
+registry_xref: null
+references_xref:
+  - kpi_interpretation/sentiment_cycle.md

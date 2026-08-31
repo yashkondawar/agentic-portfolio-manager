@@ -1,0 +1,28 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 252,
+  "table_index": 2,
+  "bbox": [
+    71.1161,
+    133.37791999999996,
+    546.8366705882353,
+    177.23563999999993
+  ],
+  "rows": [
+    [
+      "",
+      "Year ended\n31.03.2021",
+      "Year ended\n31.03.2020"
+    ],
+    [
+      "Profit for the year attributable to Owners of the Company",
+      "1,299.41",
+      "136.23"
+    ],
+    [
+      "Earnings used in the calculation of basic earnings per share",
+      "1,299.41",
+      "136.23"
+    ]
+  ]
+}

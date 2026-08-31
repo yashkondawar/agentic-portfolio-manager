@@ -1,0 +1,73 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 181,
+  "table_index": 1,
+  "bbox": [
+    51.27362962962963,
+    73.73816000000002,
+    542.6442222222222,
+    211.89723999999995
+  ],
+  "rows": [
+    [
+      "",
+      "(a) Electricity duty [Refer Note 25.4]",
+      "39.01",
+      "85.40"
+    ],
+    [
+      null,
+      "(b) Tax deducted and collected at source",
+      "35.78",
+      "32.46"
+    ],
+    [
+      null,
+      "(c) Contribution to NEPF trust and NPS",
+      "27.15",
+      "30.91"
+    ],
+    [
+      null,
+      "(d) Dues towards stamp duty",
+      "212.78",
+      "212.78"
+    ],
+    [
+      null,
+      "(e) Others (Service tax, excise duty, GST, Royalty etc)",
+      "86.43",
+      "185.17"
+    ],
+    [
+      null,
+      "(iii) Renewable energy purchase obligation",
+      "28.24",
+      "87.64"
+    ],
+    [
+      null,
+      "(iv) Deposits under NEFFARS",
+      "31.39",
+      "32.50"
+    ],
+    [
+      null,
+      "(v) Grants for property, plant and equipment",
+      "0.43",
+      "0.46"
+    ],
+    [
+      null,
+      "(vi) Others",
+      "0.66",
+      "0.46"
+    ],
+    [
+      "Total other current liabilities",
+      null,
+      "672.89",
+      "769.32"
+    ]
+  ]
+}

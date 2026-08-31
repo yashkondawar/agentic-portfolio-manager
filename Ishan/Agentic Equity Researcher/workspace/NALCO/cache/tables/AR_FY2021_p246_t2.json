@@ -1,0 +1,46 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 246,
+  "table_index": 2,
+  "bbox": [
+    93.79381612903225,
+    164.81009999999992,
+    546.8371161290322,
+    341.7349
+  ],
+  "rows": [
+    [
+      "Particulars Post retirement Settling-in-benefit NALCO benevolent\nmedical benefit fund scheme"
+    ],
+    [
+      "2019-20 Increase by Decrease by Increase by Decrease by Increase by Decrease by"
+    ],
+    [
+      "Impact on amount due to change in Discount rate (-/+0.5%) 4.25 5.19 0.60 0.61 0.08 0.08"
+    ],
+    [
+      "% Change compared to base due to sensitivity [+/(-)%] 3.03% 3.70% 2.89% 2.95% 2.71% 2.76%"
+    ],
+    [
+      "Impact on amount due to change in Salary growth (+/-0.5%) — — — — 0.07 0.07"
+    ],
+    [
+      "2019-20 Increase by Decrease by Increase by Decrease by Increase by Decrease by"
+    ],
+    [
+      "% Change compared to base due to sensitivity [+/(-)%] 0.00% 0.00% 0.00% 0.00% 2.42% 2.37%"
+    ],
+    [
+      "Impact on amount due to change in Attrition rate (+/-0.5%) — — 0.02 0.02 — —"
+    ],
+    [
+      "% Change compared to base due to sensitivity [+/(-)%] 0.00% 0.00% 0.12% 0.12% 0.15% 0.15%"
+    ],
+    [
+      "Impact on amount due to change in Mortality rate (-/+10%) 0.04 0.04 0.09 0.09 0.01 0.01"
+    ],
+    [
+      "% Change compared to base due to sensitivity [+/(-)%] 0.03% 0.03% 0.46% 0.46% 0.26% 0.26%"
+    ]
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 263,
+  "table_index": 4,
+  "bbox": [
+    51.27351,
+    550.8152,
+    542.720405,
+    633.7109250000001
+  ],
+  "rows": [
+    [
+      "",
+      "Year ended 31.03.2024",
+      "Year ended 31.03.2023"
+    ],
+    [
+      "Finance cost",
+      null,
+      null
+    ],
+    [
+      "a. Interest expenses on lease liabilities",
+      "4.08",
+      "4.08"
+    ],
+    [
+      "b. Interest on shortfall in payment of advance income tax",
+      "4.21",
+      "(5.05)"
+    ],
+    [
+      "c. Others",
+      "8.92",
+      "13.89"
+    ],
+    [
+      "Total finance cost",
+      "17.21",
+      "12.92"
+    ]
+  ]
+}

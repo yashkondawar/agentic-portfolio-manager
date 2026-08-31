@@ -1,0 +1,28 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 255,
+  "table_index": 3,
+  "bbox": [
+    124.9744,
+    373.53329999999994,
+    555.3406,
+    418.9307749999999
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "As at\n31.03.2021",
+      "As at\n31.03.2020"
+    ],
+    [
+      "Outstanding at the end of the year",
+      "0.01",
+      "0.02"
+    ],
+    [
+      "Maximum amount due at any time during the year",
+      "0.01",
+      "0.03"
+    ]
+  ]
+}

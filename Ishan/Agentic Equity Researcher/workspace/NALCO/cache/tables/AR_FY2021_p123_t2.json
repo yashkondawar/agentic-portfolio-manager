@@ -1,0 +1,55 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 123,
+  "table_index": 2,
+  "bbox": [
+    56.9429125,
+    377.25595,
+    555.340525,
+    457.191
+  ],
+  "rows": [
+    [
+      "Sr. No.",
+      "Name of Director",
+      "DIN",
+      "Date of appointment in Company"
+    ],
+    [
+      "1.",
+      "Shri Sridhar Patra",
+      "06500954",
+      "01.09.2018"
+    ],
+    [
+      "2.",
+      "Shri Radhashyam Mahapatro",
+      "07248972",
+      "01.01.2020"
+    ],
+    [
+      "3.",
+      "Shri Manasa Prasad Mishra",
+      "08951624",
+      "01.11.2020"
+    ],
+    [
+      "4.",
+      "Shri Bijay Kumar Das",
+      "08984700",
+      "01.12.2020"
+    ],
+    [
+      "5.",
+      "Shri Satendra Singh, IAS",
+      "05195060",
+      "05.08.2020"
+    ],
+    [
+      "6.",
+      "Shri Sanjay Lohiya, IAS",
+      "07151125",
+      "09.11.2020"
+    ]
+  ]
+}

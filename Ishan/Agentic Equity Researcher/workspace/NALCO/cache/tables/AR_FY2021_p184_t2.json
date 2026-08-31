@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 184,
+  "table_index": 2,
+  "bbox": [
+    93.79303,
+    284.55569999999994,
+    546.83633,
+    362.67137499999995
+  ],
+  "rows": [
+    [
+      "",
+      "Valuation as at",
+      null
+    ],
+    [
+      "",
+      "31.03.2021",
+      "31.03.2020"
+    ],
+    [
+      "Discount rate(s)",
+      "6.60%",
+      "6.50%"
+    ],
+    [
+      "Expected rate(s) of salary increase",
+      "8%",
+      "8%"
+    ],
+    [
+      "Mortality",
+      "IALM 2012-2014\nULTIMATE",
+      "IALM 2006-2008\nULTIMATE"
+    ],
+    [
+      "Attrition Rate",
+      "1%",
+      "1%"
+    ]
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 281,
+  "table_index": 1,
+  "bbox": [
+    51.27362962962963,
+    236.23722857142857,
+    542.5761,
+    471.108
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      "Year ended 31.03.2025",
+      "Year ended 31.03.2024"
+    ],
+    [
+      "(a)",
+      "Interest income",
+      null,
+      null
+    ],
+    [
+      "",
+      "(i) Interest income earned from financial assets that are not designated as at fair value through profit or loss:",
+      null,
+      null
+    ],
+    [
+      null,
+      "- Bank deposits",
+      "268.35",
+      "138.88"
+    ],
+    [
+      null,
+      "- Loans to employees",
+      "10.42",
+      "10.78"
+    ],
+    [
+      null,
+      "- Other financial assets carried at amortised cost",
+      "13.39",
+      "15.54"
+    ],
+    [
+      null,
+      "(ii) Interest income earned from Income tax refund",
+      "8.31",
+      "18.86"
+    ],
+    [
+      null,
+      "(iii) Interest income earned from Indirect tax refund",
+      "3.39",
+      "-"
+    ],
+    [
+      "(b)",
+      "Dividend income",
+      null,
+      null
+    ],
+    [
+      "",
+      "- Dividends from current investments",
+      "14.02",
+      "18.68"
+    ],
+    [
+      "(c)",
+      "Net foreign exchange gain/(loss)",
+      "4.87",
+      "1.71"
+    ],
+    [
+      "(d)",
+      "Net gain/(loss) on financial assets designated as at FVTPL",
+      "4.91",
+      "8.34"
+    ],
+    [
+      "(e)",
+      "Write back of liabilities no longer required [refer note: 29.1]",
+      "8.31",
+      "11.68"
+    ],
+    [
+      "(f)",
+      "Net gain/(loss) on sale of Property, Plant & Equipments",
+      "0.61",
+      "0.51"
+    ],
+    [
+      "(g)",
+      "Income from financial guarantee",
+      "2.68",
+      "-"
+    ],
+    [
+      "(h)",
+      "Others",
+      "17.75",
+      "25.73"
+    ],
+    [
+      "Total other income",
+      null,
+      "357.01",
+      "250.71"
+    ]
+  ]
+}

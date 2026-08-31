@@ -1,0 +1,58 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 237,
+  "table_index": 2,
+  "bbox": [
+    68.5984,
+    574.127,
+    549.7912200000001,
+    675.3715
+  ],
+  "rows": [
+    [
+      null,
+      "As at 31.03.2022",
+      "As at 31.03.2021"
+    ],
+    [
+      null,
+      "3404.69",
+      "1308.97"
+    ],
+    [
+      null,
+      "",
+      ""
+    ],
+    [
+      "(1) Amount payable to the Government of India but not yet due for payment for allocation of Utkal D & E coal block.",
+      "Nil",
+      "18.11"
+    ],
+    [
+      "(2) Export obligation for import of capital goods under Export Promotion Capital Goods Scheme.",
+      "278.79",
+      "Nil"
+    ],
+    [
+      "(3) Estimated amount of commitment to Govt. of Odisha for allotment of Pottangi Bauxite Mines",
+      "Nil",
+      "49.89"
+    ],
+    [
+      "(4) Estimated amount of commitment to Govt. of India (MoEFFC) for 5th Stream Refinery project.",
+      "Nil",
+      "10.81"
+    ],
+    [
+      "(5) Corporate environment responsibility (CER) for capital investments",
+      "6.00",
+      "12.00"
+    ],
+    [
+      "Total",
+      "3,689.48",
+      "1,399.78"
+    ]
+  ]
+}

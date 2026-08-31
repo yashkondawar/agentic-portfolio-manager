@@ -1,0 +1,38 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 121,
+  "table_index": 2,
+  "bbox": [
+    130.43894285714285,
+    112.24809999999997,
+    555.34055,
+    211.46084999999994
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "2020-21",
+      "2019-20"
+    ],
+    [
+      "Administrative and office expenses",
+      "103.23",
+      "124.14"
+    ],
+    [
+      "Total expenses",
+      "7,785.87",
+      "8,518.18"
+    ],
+    [
+      "Administrative and office expenses as a % of total expenses",
+      "1.33",
+      "1.46"
+    ],
+    [
+      "Financial expenses",
+      "7.08",
+      "5.74"
+    ]
+  ]
+}

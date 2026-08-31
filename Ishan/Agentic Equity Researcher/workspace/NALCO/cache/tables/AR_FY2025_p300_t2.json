@@ -1,0 +1,55 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 300,
+  "table_index": 2,
+  "bbox": [
+    51.2736380952381,
+    419.8738,
+    542.4623608695653,
+    516.585
+  ],
+  "rows": [
+    [
+      "Name of the Company / Joint Ventures",
+      "Total Capex",
+      "Company’s share in %",
+      "Company’s share in ₹"
+    ],
+    [
+      "National Aluminium Company Ltd.",
+      "1,396.55",
+      "",
+      "1,396.55"
+    ],
+    [
+      "Angul Aluminium Park Pvt Ltd.",
+      "4.96",
+      "49%",
+      "2.43"
+    ],
+    [
+      "GACL NALCO Alkalis & Chemicals Pvt. Ltd.",
+      "60.89",
+      "40%",
+      "24.36"
+    ],
+    [
+      "Utkarsha Aluminium Dhatu Nigam Limited",
+      "0.45",
+      "50%",
+      "0.23"
+    ],
+    [
+      "Khanij Bidesh India Limited",
+      "9.56",
+      "40%",
+      "3.82"
+    ],
+    [
+      "Total Capex",
+      "1,472.41",
+      "",
+      "1,427.39"
+    ]
+  ]
+}

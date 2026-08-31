@@ -1,0 +1,321 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 222,
+  "table_index": 2,
+  "bbox": [
+    45.604,
+    271.66800000000006,
+    549.671,
+    691.604
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "UADNL",
+      null,
+      "KABIL",
+      null,
+      "AAPPL",
+      null,
+      "GNAL",
+      null
+    ],
+    [
+      null,
+      "As at\n31.03.2023",
+      "As at\n31.03.2022",
+      "As at\n31.03.2023",
+      "As at\n31.03.2022",
+      "As at\n31.03.2023",
+      "As at\n31.03.2022",
+      "As at\n31.03.2023",
+      "As at\n31.03.2022"
+    ],
+    [
+      "Non- current assets",
+      "10.11",
+      "9.50",
+      "-",
+      "0.03",
+      "88.65",
+      "81.45",
+      "1,838.48",
+      "2,036.64"
+    ],
+    [
+      "Current asset",
+      "29.00",
+      "28.19",
+      "32.15",
+      "1.52",
+      "21.81",
+      "29.99",
+      "596.57",
+      "290.56"
+    ],
+    [
+      "Non- current liabilities",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "1,514.44",
+      "1,529.52"
+    ],
+    [
+      "Current liabilities",
+      "0.71",
+      "0.06",
+      "0.31",
+      "0.02",
+      "1.15",
+      "0.94",
+      "516.01",
+      "116.28"
+    ],
+    [
+      "The above amounts of assets and liabilities includes the following:",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Cash and cash equivalents",
+      "28.26",
+      "27.32",
+      "0.20",
+      "0.20",
+      "20.09",
+      "28.44",
+      "5.82",
+      "244.85"
+    ],
+    [
+      "Current financials liabilities (excluding trade\npayables and provisions)",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "398.95",
+      "114.13"
+    ],
+    [
+      "Non- current financials liabilities (excluding trade\npayables and provisions)",
+      "-",
+      "-",
+      "-",
+      "-",
+      "33.05",
+      "33.05",
+      "1,514.44",
+      "1,529.52"
+    ],
+    [
+      "Revenue",
+      "1.50",
+      "1.37",
+      "-",
+      "-",
+      "1.03",
+      "1.87",
+      "282.53",
+      "0.62"
+    ],
+    [
+      "Profit or loss from continuing operations",
+      "0.78",
+      "0.62",
+      "0.34",
+      "(0.07)",
+      "0.70",
+      "1.32",
+      "(276.81)",
+      "(3.70)"
+    ],
+    [
+      "Other comprehensive income for the year",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Total comprehensive income for the year",
+      "0.78",
+      "0.62",
+      "0.34",
+      "(0.07)",
+      "0.70",
+      "1.32",
+      "(276.81)",
+      "(3.70)"
+    ],
+    [
+      "The above profit / (loss) for the year include the following:",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Depreciation and amortisation",
+      "0.10",
+      "0.08",
+      "-",
+      "-",
+      "-",
+      "-",
+      "78.89",
+      "0.87"
+    ],
+    [
+      "Interest Income",
+      "1.50",
+      "1.37",
+      "-",
+      "-",
+      "1.03",
+      "1.87",
+      "10.03",
+      "0.19"
+    ],
+    [
+      "Interest expenses",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "0.02",
+      "81.09",
+      "-"
+    ],
+    [
+      "Income tax expense/(income)",
+      "(0.02)",
+      "0.03",
+      "0.10",
+      "0.02",
+      "0.27",
+      "0.51",
+      "-",
+      "-"
+    ],
+    [
+      "Reconciliation of the above summarised financial information to the carrying amount of the interest in JVs recognised in the consolidated financial statements:",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Net asset of the Joint Venture",
+      "38.40",
+      "37.63",
+      "31.84",
+      "1.50",
+      "39.50",
+      "38.80",
+      "404.60",
+      "681.41"
+    ],
+    [
+      "Proportion of the Group’s ownership\ninterest in JV (%)",
+      "50%",
+      "50%",
+      "40%",
+      "40%",
+      "49%",
+      "49%",
+      "40%",
+      "40%"
+    ],
+    [
+      "Proportion of the Group’s ownership\ninterest in JV (INR)",
+      "19.20",
+      "18.81",
+      "12.75",
+      "0.61",
+      "19.36",
+      "19.00",
+      "161.83",
+      "272.55"
+    ],
+    [
+      "Add:- additional subscription of share warrant/\nadvance against equity",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Add:- goodwill on acquisition",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Less:- unrealised profit",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Group’s share in the net asset of JV",
+      "19.20",
+      "18.81",
+      "12.75",
+      "0.61",
+      "19.36",
+      "19.00",
+      "161.83",
+      "272.55"
+    ],
+    [
+      "Carrying amt of the Group’s interest in JV",
+      "19.20",
+      "18.81",
+      "12.75",
+      "0.61",
+      "19.36",
+      "19.00",
+      "161.83",
+      "272.55"
+    ]
+  ]
+}

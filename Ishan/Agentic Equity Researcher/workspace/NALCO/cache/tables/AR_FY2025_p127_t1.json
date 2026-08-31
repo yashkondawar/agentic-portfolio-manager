@@ -1,0 +1,103 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 127,
+  "table_index": 1,
+  "bbox": [
+    68.28145454545455,
+    88.01876666666664,
+    542.7263478260869,
+    313.312
+  ],
+  "rows": [
+    [
+      "Name",
+      "Remuneration for the year 2024-25 (`)",
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      "Salary@",
+      "Perquisites^",
+      "PRP",
+      "Medical\nbenefits",
+      "Gratuity",
+      "Total"
+    ],
+    [
+      "Shri Brijendra Pratap Singh\nChairman-cum-Managing Director",
+      "15,62,569",
+      "26,280",
+      "-",
+      "-",
+      "-",
+      "15,88,849"
+    ],
+    [
+      "Shri Sridhar Patra\nChairman-cum-Managing Director",
+      "88,00,968",
+      "4,93,253",
+      "27,15,297",
+      "17,000",
+      "20,00,000",
+      "1,40,26,518"
+    ],
+    [
+      "Shri Radhashyam Mahapatro\nDirector",
+      "34,63,025",
+      "51,510",
+      "17,93,227",
+      "-",
+      "20,00,000",
+      "73,07,762"
+    ],
+    [
+      "Shri Ramesh Chandra Joshi\nDirector (Finance)",
+      "69,10,218",
+      "3,72,403",
+      "15,52,736",
+      "1,65,872",
+      "-",
+      "90,01,229"
+    ],
+    [
+      "Shri Sadashiv Samantaray\nDirector (Commercial)",
+      "75,14,434",
+      "74,144",
+      "17,31,501",
+      "7,938",
+      "-",
+      "93,28,017"
+    ],
+    [
+      "Shri Pankaj Kumar Sharma\nDirector (Production)",
+      "66,68,423",
+      "37,426",
+      "13,91,742",
+      "360",
+      "-",
+      "80,97,951"
+    ],
+    [
+      "Shri Jagdish Arora\nDirector (P&T)",
+      "66,42,799",
+      "3,88,953",
+      "7,71,906",
+      "46,100",
+      "-",
+      "78,49,758"
+    ],
+    [
+      "Dr. Tapas Kumar Pattanayak\nDirector (HR)",
+      "21,02,293",
+      "38,271",
+      "-",
+      "-",
+      "-",
+      "21,40,564"
+    ]
+  ]
+}

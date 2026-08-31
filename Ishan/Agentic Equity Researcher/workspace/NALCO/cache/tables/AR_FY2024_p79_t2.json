@@ -1,0 +1,41 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 79,
+  "table_index": 2,
+  "bbox": [
+    68.28140909090908,
+    475.78475,
+    542.9082363636363,
+    675.0482
+  ],
+  "rows": [
+    [
+      "Stakeholder\nGroup",
+      "Whether identified\nas Vulnerable\n&Marginalized\nGroup (Yes/No)",
+      "Channels of\ncommunication\n(Email, SMS,\nNewspaper,\nPamphlets,\nAdvertisement,\nCommunity Meetings,\nNotice Board,\nWebsite), Others",
+      "Frequency of\nengagement\n(Annually/Half\nyearly/ Quarterly\n/ others – please\nspecify)",
+      "Purpose and scope of engagement including\nkey topics and concerns raised during such\nengagement"
+    ],
+    [
+      "Shareholders",
+      "No",
+      "E mails, Letters,\nWebsite, Newspaper,\nAnnual General\nmeetings",
+      "Regular & need\nbased",
+      "Company Performance, Dividends, Complaints &\ngrievances"
+    ],
+    [
+      "Community",
+      "Yes",
+      "Request letters- Emails,\nCommunity Meetings",
+      "Need based",
+      "Community needs on infrastructure, employment,\neducation, health, sanitation"
+    ],
+    [
+      "Government\nAuthorities /\nRegulatory Bodies",
+      "No",
+      "Meetings, Emails,\nLetters",
+      "Regular and need\nbased",
+      "Infrastructure development, Company\nPerformance, Labour issues, Corporate Social\nResponsibilities, Compliance of various rules, acts,\nregulation, and laws"
+    ]
+  ]
+}

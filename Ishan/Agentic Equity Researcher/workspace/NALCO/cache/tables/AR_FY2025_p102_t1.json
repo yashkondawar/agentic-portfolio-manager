@@ -1,0 +1,38 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 102,
+  "table_index": 1,
+  "bbox": [
+    68.28144736842104,
+    73.95089999999999,
+    542.4731,
+    171.80629999999996
+  ],
+  "rows": [
+    [
+      "Parameter",
+      "FY 2024-25",
+      "FY 2023-24"
+    ],
+    [
+      "Energy intensity per rupee of turnover (Total energy consumed/turnover in rupees)",
+      "0.00064",
+      "0.00084"
+    ],
+    [
+      "Energy intensity per rupee of turnover adjusted for Purchasing Power Parity (PPP)* (GJ/Million USD)\n(Total energy consumed / Revenue from operations adjusted for PPP",
+      "12,996.10#",
+      "0.01915"
+    ],
+    [
+      "Energy intensity in terms of physical output [Tota Energy consumed / Alumina Hydrate production\n(20,75,500 MT)] (GJ/MT)",
+      "51.07",
+      "51.51"
+    ],
+    [
+      "Energy intensity (optional) – the relevant metric may be selected by the entity",
+      "-",
+      "55.06"
+    ]
+  ]
+}

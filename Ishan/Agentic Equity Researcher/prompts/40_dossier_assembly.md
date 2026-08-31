@@ -1,0 +1,36 @@
+# 40 — Dossier Assembly (long-form audit document)
+*(generalized from Reports_generation_prompt — company-specific residue removed, structure parameterized; opus tier)*
+
+## Role & mandate
+Senior analyst assembling the **complete, auditable record** of the run: everything the final note compresses, at full depth. Target 8,000–10,000+ words. Anti-compression rule: **do not summarize source tables** — if a findings table has 10 rows, all 10 appear. You may only add connective analysis, never drop evidence. You introduce **no new claims**: every sentence traces to state (facts, findings, ledgers, research). If a section lacks depth, expand via why-why (what happened → operational cause → structural/regulatory root), not via padding.
+
+Inputs: the entire `workspace/<TICKER>/` state — including `state/thesis.json` (module 33) and
+`findings/thesis_redteam.json` (module 34), which sections 10 and 11 render in full. Output:
+`report/dossier.md`.
+
+**Section numbering is a contract with `templates/dossier_template.md`.** The two ran out of step
+until 2026-08-03 (template 0-14, this list 1-15, plus an "Open questions" section only the
+template had). Add a section to one and add it to the other.
+
+## Structure
+1. **Header**: company identity block; run date rule — the latest of (dates in prior deep-research docs, today); list of every input document with manifest classification.
+2. **Executive summary**: thesis, core financial health, valuation synopsis, top 4 principal risks. (No rating here — rating lives only in the final note's rating box.)
+3. **Industry & market**: DR2 material in full — value chain & bottleneck, Porter's with 0–10 scores and justification, TAM/growth with the build shown, the **industry supply–demand balance** (deficit/surplus, named players) where the sector is commodity/cyclical, cycle-overlap checks, policy architecture.
+4. **Company deep-dive & value chain**: the **value-chain / asset map** from `state/business_model.json` (each node own/buy/sell-into, capacity/detail) and the net-long/short framing; segments & mix evolution; **operating-KPI trend tables** (from `state/kpi_trends.md`) and **per-unit economics** (revenue/EBIT/cost per unit by segment) with the read on cyclical-vs-structural; **segment analytics** (EBIT-margin + %-contribution trends, mix-shift story); the **capex / growth-project pipeline table** (project | investment | status | completion); cost buckets; moat matrix with evidence; competitive positioning narrative.
+5. **Historical financial performance**: all available years, IS/BS/CF reviews with adjusted margins, ROCE trajectory deep-dive, capex & incremental-returns analysis, working capital; why-why on every margin move > threshold. Rendered tables from the facts store. Include the comprehensive statement (`state/comprehensive_statement.md`) — the full 3-level rendering if it fits the anti-compression budget, else its top-2-level summary (levels 1-2 only, dropping level-3 sub-schedule rows) with a note that the full 3-level tree is in `state/comprehensive_statement.json` for reference.
+6. **Management & governance**: leadership table, guidance ledger + credibility scores, direct-quotes bank (claims vs reality side-by-sides), forensic scorecard (0–100 weighted), governance chronology, shareholding/pledge trend.
+7. **Earnings quality & red flags**: the full adjudicated ledger — every flag with status, why-chain, management story, confidence. Dismissed flags stay visible with dismissal reasons (auditability of what was checked and cleared).
+8. **Valuation & peers**: historical multiples, peer tables (domestic/international with comparability deltas), premium/discount analysis, what's-priced-in, valuation insights.
+9. **Estimates & valuation mechanics**: full driver tree, assumption ledger rendered, sanity gates shown, scenarios, variant view vs guidance/consensus; the **driver-assumption table** (swing drivers × periods), the **sensitivity table** (EBITDA/EPS to each swing driver ±5/10% with elasticities), the **valuation bridge** (FY+2E EBITDA → EV → equity → fair-value context) beside the peer-multiple table, and any driver bridge held out of the base with its in/out flag.
+10. **Thesis ledger (complete)** — from `state/thesis.json`. The note compresses the thesis to a rating-box line; **this is where the derivation stays auditable**: the return decomposition with `multiple_share_pct` against the threshold and the un-rolled base; the archetype chosen *and the alternatives rejected, with reasons*; the full `must_be_true` checklist (every condition, status, evidence — nothing dropped for space, unlike the note); the pillars with their ≥2 independent refs; the monitorables as thresholded falsifiers; and the **rating derivation step by step** — expected return → skepticism weight → red-flag/governance haircut → data-gap widening → the scale in `config.rating.scale`, showing each step's effect on the range rather than only the conclusion.
+11. **Red-team ledger (complete)** — from `findings/thesis_redteam.json`. **This section exists because the dossier bills itself as the complete auditable record while the final note surfaces a red-team verdict the dossier never recorded.** Render: the verdict, `material_challenges_count`, and rounds completed against `config.thesis.redteam_min_rounds`; the **full 15-check opinion/analysis audit** (`docs/OPINION_VS_ANALYSIS.md` §4) with pass/fail/n-a and, for each fail, the offending sentence or exhibit; the banned-reasoning scan with each pattern quoted; the archetype failure-mode attack; the steel-manned opposite rating; the pre-mortem; the peer-comparability audit; and a **challenge-resolution table** listing every material challenge with severity, resolution and where in the note it is answered. An unresolved high-severity challenge is recorded as unresolved — never dropped.
+12. **Future outlook & monitorables**: evidence-based checkpoints (sector-playbook specific), catalysts calendar, what-would-change-the-view.
+13. **Risk factors**: industry / operational / financial / governance, each with probability-impact tag and named mitigant where one exists.
+14. **Analyst's concluding synthesis**: strengths vs vulnerabilities, one apt structural metaphor maximum, no new facts.
+15. **Annexure (verbatim)**: complete standalone & consolidated statement tables, horizontal/vertical analyses, FCF calculations, ratio tables — rendered from facts, unabridged.
+16. **Global source legend**: every SRC id → original source, generated from the registry, deduplicated. Never cite an intermediate module as a source.
+17. **Open questions & gaps register**: every question with its status and either its answer ref or its disclosure. Convergence per `CLAUDE.md` requires that no open question of severity ≥ medium is left unanswered *or* that it is disclosed here.
+18. **Disclaimer block** (mandatory, verbatim from `templates/disclaimer.md`).
+
+## Voice
+Critical, plain, why-why oriented. Management claims that survived verification are still attributed ("management states…"); unverified qualitative claims are labelled `Unverified qualitative statement`. Banned words per config. No "N/A" bare cells — every absence explained ("FY21 data not in provided ARs; trend analysis starts FY22").

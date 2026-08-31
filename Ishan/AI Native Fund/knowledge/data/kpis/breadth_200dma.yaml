@@ -1,0 +1,22 @@
+kpi_id: breadth_200dma
+scope: market_structure
+cycle_refs: [sentiment_behavioral_cycle]
+formula: >
+  Market Breadth (200-DMA) = percentage of NIFTY TOTAL MARKET constituents
+  currently trading above their own 200-day moving average. A companion
+  50-DMA variant is the faster/noisier cross-check. Extreme lows (e.g.
+  <15%) mark Phase-5 capitulation per the cycle wheel.
+inputs:
+  - name: Daily close, all universe constituents
+    source: afund.daily_prices (per-instrument close)
+    status: available
+  - name: 200-day moving average per instrument
+    source: derivable from afund.daily_prices (not yet computed as a stored column)
+    status: derivable
+orientation: fear_type
+lookback_years: 8
+cadence: daily
+source_status: derivable
+registry_xref: null
+references_xref:
+  - kpi_interpretation/sentiment_cycle.md

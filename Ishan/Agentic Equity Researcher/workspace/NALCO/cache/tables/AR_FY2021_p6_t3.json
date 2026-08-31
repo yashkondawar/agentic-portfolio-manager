@@ -1,0 +1,25 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 6,
+  "table_index": 3,
+  "bbox": [
+    79.62013071666667,
+    594.4222958,
+    554.84067225,
+    682.8998958999999
+  ],
+  "rows": [
+    [
+      "Important Note: Members who are unable to retrieve User ID/ Password are advised to use Forget User ID and Forget Password option available at above\nmentioned website of depositories/ depository participants.",
+      null
+    ],
+    [
+      "Contact Details in case of any technical issue on NSDL\nwebsite",
+      "Contact Details in case of any technical issue on CDSL website"
+    ],
+    [
+      "Members facing any technical issue in login can contact NSDL\nhelpdesk by sending a request at evoting@nsdl.co.in or call at\ntoll free no.: 1800 1020 990 and 1800 22 44 30.",
+      "Members facing any technical issue in login can contact CDSL helpdesk by sending a request\nat helpdesk.evoting@cdslindia.com or contact at 022-23058738 or 022 -23058542-43."
+    ]
+  ]
+}

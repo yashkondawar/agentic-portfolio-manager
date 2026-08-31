@@ -1,0 +1,91 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 181,
+  "table_index": 4,
+  "bbox": [
+    73.951,
+    330.4860000000001,
+    549.553,
+    478.64650000000006
+  ],
+  "rows": [
+    [
+      "39.1 Categories of financial instruments Amount in ` Crore",
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      null,
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      "Financial Assets",
+      null,
+      "",
+      ""
+    ],
+    [
+      "Measured at fair value through profit or loss (FVTPL)",
+      null,
+      "",
+      ""
+    ],
+    [
+      "(a)",
+      "Mandatorily measured:",
+      "",
+      ""
+    ],
+    [
+      null,
+      "(i) Investments in mutual funds",
+      "145.58",
+      "64.01"
+    ],
+    [
+      null,
+      "(ii) Forward contract on foreign currency",
+      "Nil",
+      "Nil"
+    ],
+    [
+      "Measured at Amortised cost",
+      null,
+      "",
+      ""
+    ],
+    [
+      "(a)\n(b)",
+      "Cash and bank balances",
+      "63.29",
+      "412.80"
+    ],
+    [
+      null,
+      "Other financial assets at amortised cost",
+      "2,653.29",
+      "3,854.57"
+    ],
+    [
+      "",
+      null,
+      "2,862.16",
+      "4,331.38"
+    ],
+    [
+      "Financial Liabilities",
+      null,
+      "",
+      ""
+    ],
+    [
+      "Measured at Amortised cost",
+      null,
+      "2,179.34",
+      "2,146.73"
+    ]
+  ]
+}

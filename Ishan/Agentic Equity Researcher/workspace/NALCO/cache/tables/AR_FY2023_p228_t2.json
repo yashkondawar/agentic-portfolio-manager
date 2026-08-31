@@ -1,0 +1,91 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 228,
+  "table_index": 2,
+  "bbox": [
+    45.604,
+    407.58900000000006,
+    549.6210000000001,
+    583.3870000000001
+  ],
+  "rows": [
+    [
+      "16.A-Cash and cash equivalents Amount in ` Crore",
+      null,
+      null,
+      null
+    ],
+    [
+      "(a)",
+      "",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      null,
+      "Balances with banks",
+      "",
+      ""
+    ],
+    [
+      null,
+      "(1) Balance with scheduled banks",
+      "",
+      ""
+    ],
+    [
+      null,
+      "(i) In current account",
+      "63.29",
+      "412.80"
+    ],
+    [
+      "Total cash and cash equivalents",
+      null,
+      "63.29",
+      "412.80"
+    ],
+    [
+      "16.B- Bank balances (other than Cash and cash equivalents)",
+      null,
+      null,
+      null
+    ],
+    [
+      "(a)",
+      "",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      null,
+      "In deposit account ( having original maturity between 3-12 months)",
+      "1,992.33",
+      "3,217.37"
+    ],
+    [
+      null,
+      "Principal",
+      "1,926.00",
+      "3,156.00"
+    ],
+    [
+      null,
+      "Accrued Interest",
+      "66.33",
+      "61.37"
+    ],
+    [
+      "(b)",
+      "Earmarked balance with scheduled banks [refer note 16.B.1]",
+      "61.88",
+      "75.90"
+    ],
+    [
+      "",
+      "Total other bank balances",
+      "2,054.21",
+      "3,293.27"
+    ]
+  ]
+}

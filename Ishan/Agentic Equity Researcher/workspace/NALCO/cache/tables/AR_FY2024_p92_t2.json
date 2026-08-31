@@ -1,0 +1,27 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 92,
+  "table_index": 2,
+  "bbox": [
+    68.2813888888889,
+    344.091,
+    542.7840222222222,
+    388.0
+  ],
+  "rows": [
+    [
+      "S. No.",
+      "Intellectual Property based on\ntraditional knowledge",
+      "Owned/ Acquired (Yes/No)",
+      "Benefits shared.\n(Yes/No)",
+      "Basis of calculating\nbenefits share"
+    ],
+    [
+      "Nil",
+      null,
+      null,
+      null,
+      null
+    ]
+  ]
+}

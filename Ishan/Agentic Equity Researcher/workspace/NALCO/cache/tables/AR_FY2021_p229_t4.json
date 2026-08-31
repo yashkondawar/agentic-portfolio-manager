@@ -1,0 +1,125 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 229,
+  "table_index": 4,
+  "bbox": [
+    79.6201,
+    434.07691666666665,
+    555.3406,
+    656.6824999999999
+  ],
+  "rows": [
+    [
+      "A.",
+      "Non current",
+      null,
+      "As at\n31.03.2021",
+      "As at\n31.03.2020"
+    ],
+    [
+      "",
+      "Security deposits",
+      null,
+      "11.24",
+      "10.48"
+    ],
+    [
+      "",
+      "Total other non-current financial assets",
+      null,
+      "11.24",
+      "10.48"
+    ],
+    [
+      "",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "B.",
+      "Current",
+      null,
+      "As at\n31.03.2021",
+      "As at\n31.03.2020"
+    ],
+    [
+      "",
+      "(a)",
+      "Advances to employees",
+      "—",
+      "0.04"
+    ],
+    [
+      "",
+      "(b)",
+      "Insurance claims receivables and others",
+      "7.22",
+      "8.46"
+    ],
+    [
+      "",
+      "Gross - other current financial assets",
+      null,
+      "7.22",
+      "8.50"
+    ],
+    [
+      "",
+      "Less: Allowance for bad and doubtful other current financial assets",
+      null,
+      "",
+      ""
+    ],
+    [
+      "",
+      "a)",
+      "Insurance claims",
+      "7.22",
+      "8.45"
+    ],
+    [
+      "",
+      "Total allowance for bad and doubtful - other current assets",
+      null,
+      "7.22",
+      "8.45"
+    ],
+    [
+      "",
+      "Net other current financial assets",
+      null,
+      "—",
+      "0.05"
+    ],
+    [
+      "",
+      "Classification of other current financial assets:",
+      null,
+      "",
+      ""
+    ],
+    [
+      "",
+      "Unsecured, considered good",
+      null,
+      "—",
+      "0.05"
+    ],
+    [
+      "",
+      "Doubtful",
+      null,
+      "7.22",
+      "8.45"
+    ],
+    [
+      "",
+      "Gross other current financial assets",
+      null,
+      "7.22",
+      "8.50"
+    ]
+  ]
+}

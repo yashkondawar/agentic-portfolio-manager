@@ -1,0 +1,22 @@
+kpi_id: index_eps_growth
+scope: macro
+cycle_refs: [earnings_margin_cycle]
+formula: >
+  Index EPS Growth = YoY % change in the trailing (or forward, where
+  available) aggregate EPS of a benchmark index, e.g. NIFTY 50, derived
+  from index level / index P/E (EPS = level / PE). Upgrade:downgrade
+  revision breadth is the companion leading signal (not yet sourced).
+inputs:
+  - name: Index level and trailing P/E
+    source: afund.index_data (close, pe)
+    status: available
+  - name: Analyst upgrade/downgrade revision breadth
+    source: no source identified
+    status: missing
+orientation: value_type
+lookback_years: 10
+cadence: quarterly
+source_status: derivable
+registry_xref: null
+references_xref:
+  - kpi_interpretation/valuation_cycle.md

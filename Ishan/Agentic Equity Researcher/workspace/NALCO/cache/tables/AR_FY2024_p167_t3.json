@@ -1,0 +1,55 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 167,
+  "table_index": 3,
+  "bbox": [
+    51.2736375,
+    541.7682285714286,
+    542.7547893617021,
+    667.2798399999999
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      "As at\n31.03.2024",
+      "As at\n31.03.2023"
+    ],
+    [
+      "A.",
+      "Non-current",
+      null,
+      null
+    ],
+    [
+      "A.1",
+      "Investments in equity instruments",
+      null,
+      null
+    ],
+    [
+      "A.1.1",
+      "Trade Investment in joint ventures at amortised cost",
+      null,
+      null
+    ],
+    [
+      "",
+      "Unquoted investments",
+      null,
+      null
+    ],
+    [
+      "a)",
+      "Utkarsha Aluminium Dhatu Nigam Limited\n(As at 31.03.2024 : 2,00,00,000 shares of ` 10 each fully paid up,\nAs at 31.03.2023 : 2,00,00,000 shares of ` 10 each fully paid up).",
+      "20.00",
+      "20.00"
+    ],
+    [
+      "Total",
+      null,
+      "20.00",
+      "20.00"
+    ]
+  ]
+}

@@ -1,0 +1,262 @@
+# EPS-bridge checker thresholds (research/equity_researcher/tools/
+# eps_bridge_check.py). Every value below is a placeholder DRAFT and is
+# marked status: DRAFT — nothing here is an approved/back-tested threshold
+# until the user explicitly calibrates it (same posture as
+# registry/rules/risk_limits.yaml). See knowledge/references/methodology/
+# eps_bridge.md for the full prose doctrine each rule below implements.
+
+eps_growth_min_pct:
+  value: 20.0
+  status: DRAFT
+  note: >
+    "Consistent EPS growth >20%" rerating threshold (eps_bridge.md section i).
+    Checked per-year across all available FY periods; "consistent" means
+    every YoY step clears this floor, not just the multi-year CAGR.
+
+revenue_growth_min_pct:
+  value: 0.0
+  status: DRAFT
+  note: >
+    Floor for "revenue growth consistency" (eps_bridge.md section ii,
+    Revenue rung) — revenue must not decline YoY for the consistency check
+    to PASS. Set to 0.0 (i.e. any non-negative YoY growth counts as
+    consistent) until the user supplies a more specific floor.
+
+gross_margin_trend_tolerance_pp:
+  value: 0.0
+  status: DRAFT
+  note: >
+    Minimum YoY gross-margin delta (percentage points) to count as "rising"
+    for the gross-margin-trend rule (eps_bridge.md section ii, Gross margin
+    rung). A YoY delta >= this value at every step is a PASS; any step below
+    it is a FAIL. 0.0 means flat-or-better counts as rising.
+
+receivables_pct_revenue_rising_tolerance_pp:
+  value: 0.0
+  status: DRAFT
+  note: >
+    Maximum YoY increase (percentage points) in receivables-as-%-of-revenue
+    before the working-capital trend rule flags "rising" (eps_bridge.md
+    section iv). A YoY increase strictly greater than this value at any step
+    triggers FAIL (rising flag); values at or below it are treated as flat/
+    improving and PASS.
+
+interest_vs_ebit_growth_max_ratio:
+  value: 1.0
+  status: DRAFT
+  note: >
+    Debt-funded-expansion discipline (eps_bridge.md section iii): the
+    absolute YoY increase in finance costs (interest) divided by the
+    absolute YoY increase in EBIT must be < this ratio for PASS. Ratio 1.0
+    means interest growth must be strictly smaller in absolute rupees than
+    EBIT growth. Only evaluated in years where both interest and EBIT grew
+    (a shrinking interest bill or shrinking EBIT trips the NA path — see
+    checker note field, not a mechanical FAIL).
+
+dilution_consecutive_years_flag:
+  value: 2
+  status: DRAFT
+  note: >
+    Consecutive-dilution flag (eps_bridge.md section iii, equity-funded
+    case): dilution ("once or twice" acceptable) FAILs the rule once share
+    count rises for this many consecutive FY-over-FY steps in a row. Value 2
+    means two back-to-back YoY increases in weighted/diluted share count
+    trips the flag; a single isolated dilution year, or two dilution years
+    separated by a flat/buyback year, PASSes.
+
+cfo_positive_expansion_min:
+  value: 0.0
+  status: DRAFT
+  note: >
+    CFO-sanity floor during an expansion phase (eps_bridge.md section iv) —
+    CFO must be >= this value (i.e. non-negative) in every FY where capex
+    (net_capex) is elevated (see cfo_positive_capex_multiple_of_median
+    below for what counts as "expansion"). A negative CFO year during
+    expansion FAILs; the rule is NA in years where no expansion signal
+    (elevated capex) is present.
+
+cfo_positive_capex_multiple_of_median:
+  value: 1.2
+  status: DRAFT
+  note: >
+    A FY's net_capex must exceed this multiple of the company's own
+    multi-year median net_capex to count as an "expansion phase" year for
+    the CFO-positive-during-expansion check. Mirrors compute_ratios.py's
+    capex_cfo_spike_x_of_median pattern but at a lower, more inclusive
+    multiple (that rule flags spikes as a red flag; this one only needs to
+    identify "is capex elevated enough to call this an expansion year").
+
+interest_coverage_min_x:
+  value: 3.0
+  status: DRAFT
+  note: >
+    Post-debt interest-coverage floor (EBIT / finance_costs), evaluated in
+    the latest available FY. Below this multiple FAILs the standalone
+    interest-coverage rule (distinct from interest_vs_ebit_growth_max_ratio,
+    which checks the YoY delta relationship rather than the absolute
+    coverage level).
+
+dna_adjusted_eps_growth_min_pct:
+  value: 0.0
+  status: DRAFT
+  note: >
+    D&A-adjusted EPS growth floor (eps_bridge.md section ii, D&A rung): EPS
+    growth recomputed by adding back the YoY change in D&A (non-cash) must
+    be >= this value for PASS, isolating whether EPS growth survives a swing
+    in depreciation/amortization rather than being propped up (or masked)
+    by it.
+
+# Per-sector threshold overrides (eps_bridge.md "Sector overrides" section).
+#
+# Resolution is LAYERED, family then playbook — see
+# research/equity_researcher/tools/eps_bridge_check.py::_override_chain().
+# A slug may be either one of the 8 family slugs (which are the same slugs
+# as registry/kpis/<sector>.yaml) or one of the 32 tier-2 playbook slugs in
+# research/equity_researcher/config/sector_registry.yaml. When the checker
+# is given a playbook slug it applies that playbook's family override first
+# and the playbook's own override on top, so `--sector life_insurance` gets
+# bfsi's structural NAs plus life_insurance's own. An unrecognised slug
+# resolves to itself and simply gets no family layer.
+#
+# Keys prefixed `_` are provenance, not thresholds: the generator renders
+# them as comments in the ER config and never emits them as YAML keys.
+#
+# House rule for adding one: name the slug, cite the registry entry or
+# playbook passage it derives from, and prefer `value: null` (the checker
+# reports NA) over inventing a sector-specific number. Everything here is
+# DRAFT until back-tested.
+
+sector_overrides:
+
+  bfsi:
+    _kind: family
+    _derivation: >
+      research/equity_researcher/config/sector_registry.yaml
+      families.bfsi.skip_ratios suppresses inventory_days, receivable_days,
+      payable_days, cash_conversion_cycle, ebitda_margin, ev_ebitda and
+      asset_turnover — a lender has no inventory, no conventional
+      cost-of-goods line and no meaningful EBITDA. The same structural fork
+      is `bfsi_statements: true` on the family. Every rule below rests on one
+      of those suppressed constructs, so each must report NA rather than a
+      number. Fund-side background: knowledge/references/sectors/bfsi.md.
+    _not_overridden: >
+      Deliberately left at the general default, and the reasons matter.
+      eps_growth_min_pct — EPS growth is still EPS growth.
+      revenue_growth_min_pct — applies, read against NII / total income.
+      dilution_consecutive_years_flag — applies, and matters MORE here than
+      in a manufacturer: growth is funded by capital rather than by retained
+      cash flow, so a growth plan implies a raise. Keeping the default is the
+      active choice, not an oversight.
+    gross_margin_trend_tolerance_pp:
+      value: null
+      status: DRAFT
+      note: >
+        NA — a lender has no revenue-minus-cost-of-materials line. The registry
+        suppresses ebitda_margin for the same reason; the gross-margin rung of
+        the EPS bridge has no referent here. The analogous BFSI rung is
+        NIM/spread, which lives in the tier-2 playbook's signature KPIs.
+    receivables_pct_revenue_rising_tolerance_pp:
+      value: null
+      status: DRAFT
+      note: >
+        NA — receivable_days is in families.bfsi.skip_ratios. A lender's
+        "receivables" ARE its loan book, so receivables-as-%-of-revenue rising
+        is the business growing, not a working-capital warning. The real
+        analogue is the asset-quality set (GNPA / slippages / PCR), adjudicated
+        in the playbook.
+    interest_vs_ebit_growth_max_ratio:
+      value: null
+      status: DRAFT
+      note: >
+        NA — interest expense is a lender's cost of goods, not a financing
+        cost, and EBIT is not a meaningful line for it. The debt-funded-
+        expansion discipline this rule encodes is expressed for BFSI as the
+        capital constraint on growth (CAR / CET-1 against planned AUM growth).
+    interest_coverage_min_x:
+      value: null
+      status: DRAFT
+      note: >
+        NA — EBIT / finance costs is meaningless where finance cost is the
+        primary input cost. Solvency for a lender is CAR / CET-1 and, for
+        insurers, the solvency ratio against the 1.5x floor.
+    cfo_positive_expansion_min:
+      value: null
+      status: DRAFT
+      note: >
+        NA — a lender's CFO is dominated by loan-book movement (disbursements
+        less repayments), so it is routinely and correctly negative while
+        growing. Capex is immaterial, so the "expansion phase" signal this rule
+        keys on never fires meaningfully. Growth capacity is a capital
+        question, not a CFO question.
+    cfo_positive_capex_multiple_of_median:
+      value: null
+      status: DRAFT
+      note: >
+        NA — see cfo_positive_expansion_min. asset_turnover is in skip_ratios
+        for the same underlying reason: the asset base is financial, not
+        productive.
+    dna_adjusted_eps_growth_min_pct:
+      value: null
+      status: DRAFT
+      note: >
+        NA — D&A is immaterial for a lender, so adding back its YoY swing tests
+        nothing. The equivalent "is the earnings number propped up by a
+        non-cash judgement" test for BFSI is provisioning adequacy (PCR,
+        write-offs as a share of slippages) — see the playbook's forensic
+        screens.
+
+  life_insurance:
+    _kind: playbook
+    _family: bfsi
+    _derivation: >
+      Playbook-level refinement layered on top of bfsi.
+      research/equity_researcher/prompts/sector_playbooks/life_insurance.md —
+      accounting profit is almost uninformative, because a fast-growing insurer
+      writing profitable business reports WORSE earnings: new-business strain
+      is expensed upfront. That playbook calls this the one sector where P/E is
+      not merely inferior but wrong.
+    eps_growth_min_pct:
+      value: null
+      status: DRAFT
+      note: >
+        NA — new-business strain expenses acquisition cost upfront, so
+        accounting EPS moves INVERSELY to profitable growth for a life insurer.
+        An EPS-growth floor would penalise exactly the behaviour the thesis
+        wants. The economic analogues are VNB, VNB margin and EV movement — see
+        the playbook's signature KPIs. Do not substitute a number here; the
+        rung does not apply.
+    revenue_growth_min_pct:
+      value: null
+      status: DRAFT
+      note: >
+        NA — gross written premium is not comparable period-to-period because
+        single-premium business inflates it without proportionate economics.
+        APE (annualised premium equivalent) is the honest series, and it is not
+        a revenue line in the statements.
+
+  real_estate:
+    _kind: playbook
+    _family: infra_capital_goods
+    _derivation: >
+      Playbook-level with no family layer — infra_capital_goods carries no
+      override, so this one stands alone.
+      research/equity_researcher/prompts/sector_playbooks/real_estate.md —
+      under Ind AS 115 residential revenue is recognised on completion while
+      cash arrives during construction, so P/E is meaningless for a residential
+      developer.
+    eps_growth_min_pct:
+      value: null
+      status: DRAFT
+      note: >
+        NA — reported revenue and EPS are an accounting echo of pre-sales made
+        3-4 years earlier, so a per-year EPS-growth floor tests the timing of
+        completions rather than the business. The real rungs are pre-sales,
+        collections and operating surplus; net_debt_to_operating_surplus_x is
+        this sector's leverage measure precisely because EBITDA and PAT are
+        artefacts.
+    revenue_growth_min_pct:
+      value: null
+      status: DRAFT
+      note: >
+        NA — same revenue-recognition lag. Use pre-sales growth (area sold ×
+        realisation per sqft), which the playbook makes a signature KPI.

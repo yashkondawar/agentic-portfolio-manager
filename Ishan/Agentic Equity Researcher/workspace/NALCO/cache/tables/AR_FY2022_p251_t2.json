@@ -1,0 +1,28 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 251,
+  "table_index": 2,
+  "bbox": [
+    112.308,
+    136.5195,
+    549.8504555555555,
+    175.48250000000002
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "Year ended 31.03.2022",
+      "Year ended 31.03.2021"
+    ],
+    [
+      "Buyback of shares",
+      "-",
+      "109.25"
+    ],
+    [
+      "Dividend paid during the year",
+      "565.08",
+      "236.4"
+    ]
+  ]
+}

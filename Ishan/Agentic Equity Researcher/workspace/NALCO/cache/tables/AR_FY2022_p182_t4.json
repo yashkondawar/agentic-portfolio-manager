@@ -1,0 +1,93 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 182,
+  "table_index": 4,
+  "bbox": [
+    74.069,
+    537.5739000000001,
+    514.3297,
+    691.404
+  ],
+  "rows": [
+    [
+      "",
+      "Post retirement\nmedical benefit",
+      "Settling-in-\nbenefit",
+      "NALCO\nbenevolent fund\nscheme",
+      "NALCO\nretirement\nwelfare scheme",
+      "Superannuation\ngift scheme"
+    ],
+    [
+      "Opening defined benefit obligations as at\nApril 01, 2020",
+      "(140.42)",
+      "(20.59)",
+      "(2.99)",
+      "(12.52)",
+      "(7.26)"
+    ],
+    [
+      "Current service cost",
+      "-",
+      "(3.14)",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Interest Cost",
+      "(9.06)",
+      "(1.26)",
+      "(0.17)",
+      "(0.75)",
+      "(0.45)"
+    ],
+    [
+      "Remeasurement (gains)/losses",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Actuarial (Gains)/losses arising from changes\nin financial assumptions",
+      "0.98",
+      "0.03",
+      "0.01",
+      "0.06",
+      "0.05"
+    ],
+    [
+      "Actuarial (Gains)/losses arising from experience assumptions",
+      "(13.11)",
+      "2.36",
+      "(0.44)",
+      "(1.50)",
+      "(0.43)"
+    ],
+    [
+      "Benefits paid",
+      "6.26",
+      "3.02",
+      "0.86",
+      "2.33",
+      "0.93"
+    ],
+    [
+      "Others",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Closing defined benefit obligation as at March 31, 2021",
+      "(155.35)",
+      "(19.58)",
+      "(2.73)",
+      "(12.38)",
+      "(7.16)"
+    ]
+  ]
+}

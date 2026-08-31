@@ -1,0 +1,23 @@
+kpi_id: hy_spreads
+scope: macro
+cycle_refs: [credit_debt_cycle]
+formula: >
+  High-Yield Corporate Credit Spread = yield of high-yield/lower-rated
+  (e.g. AA and below) corporate bonds minus the risk-free (G-Sec) yield of
+  matching tenor. Widening spreads while equities are near highs is a
+  forward-looking "smart money" warning of deteriorating credit
+  conditions; also feeds the NPA/systemic-stress read.
+inputs:
+  - name: India corporate bond yields by rating bucket
+    source: CCIL / FIMMDA / CRISIL bond valuer — not yet wired
+    status: missing
+  - name: Matching-tenor G-Sec yield
+    source: RBI DBIE — not yet wired
+    status: missing
+orientation: fear_type
+lookback_years: 12
+cadence: daily
+source_status: missing
+registry_xref: null
+references_xref:
+  - kpi_interpretation/credit_cycle.md

@@ -1,0 +1,67 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 54,
+  "table_index": 3,
+  "bbox": [
+    61.077666666666666,
+    346.5735,
+    474.6447,
+    482.94900000000007
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Preceding\nFinancial Year",
+      "Amount transferred to\nUnspent CSR Account\nunder section\n135(6) (in R)",
+      "Amount spent in the\nreporting Financial Year\n(R in lakh)",
+      "Amount transferred to any fund\nspecified under Schedule VII as\nper section 135(6), if any.",
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      "Name of the\nFund",
+      "Amount\n(in R)",
+      "Date of transfer"
+    ],
+    [
+      "1",
+      "2018-19",
+      "NIL",
+      "3,034.92",
+      "NA",
+      "NIL",
+      "NA"
+    ],
+    [
+      "2",
+      "2019-20",
+      "NIL",
+      "3,971.35",
+      "NA",
+      "NIL",
+      "NA"
+    ],
+    [
+      "3",
+      "2020-21",
+      "NIL",
+      "3,500.00",
+      "NA",
+      "NIL",
+      "NA"
+    ],
+    [
+      "",
+      "Total",
+      "NIL",
+      "10,506.27",
+      "NA",
+      "NIL",
+      "NA"
+    ]
+  ]
+}

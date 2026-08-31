@@ -1,0 +1,41 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 135,
+  "table_index": 2,
+  "bbox": [
+    68.28139999999999,
+    388.559,
+    542.7202941176471,
+    445.9987
+  ],
+  "rows": [
+    [
+      "Financial Year",
+      "AGM Date",
+      "Time",
+      "Special Resolution,\nif any",
+      "Venue"
+    ],
+    [
+      "2021-22",
+      "22.09.2022",
+      "11:00 AM",
+      "No",
+      "Through Video Conferencing (“VC”)/ Other Audio-Visual means (“OAVM”).\nDeemed Venue:\nNALCO Bhawan, P/1, Nayapalli Bhubaneswar- 751 013"
+    ],
+    [
+      "2022-23",
+      "21.09.2023",
+      "11:00 AM",
+      "No",
+      null
+    ],
+    [
+      "2023-24",
+      "27.09.2024",
+      "11:00 AM",
+      "No",
+      null
+    ]
+  ]
+}

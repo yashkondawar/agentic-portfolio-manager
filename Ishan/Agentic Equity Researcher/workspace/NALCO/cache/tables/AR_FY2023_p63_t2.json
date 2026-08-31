@@ -1,0 +1,103 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 63,
+  "table_index": 2,
+  "bbox": [
+    60.17066666666667,
+    239.20150000000004,
+    549.6297500000001,
+    416.16
+  ],
+  "rows": [
+    [
+      "Sl.\nNo.",
+      "Particulars",
+      "Total",
+      "Male",
+      null,
+      "Female",
+      null
+    ],
+    [
+      null,
+      null,
+      "(A)",
+      "No. (B)",
+      "% (B / A)",
+      "No. (C)",
+      "% (C / A)"
+    ],
+    [
+      "",
+      "EMPLOYEES (Executives)",
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "1",
+      "Permanent (D)*",
+      "1,588",
+      "1,502",
+      "94.58",
+      "86",
+      "5.42"
+    ],
+    [
+      "2",
+      "Other than\nPermanent (E)",
+      "Nil",
+      "Nil",
+      "Nil",
+      "Nil",
+      "Nil"
+    ],
+    [
+      "3",
+      "Total employees\n(D + E)",
+      "1,588",
+      "1,502",
+      "94.58",
+      "86",
+      "5.42"
+    ],
+    [
+      "",
+      "WORKERS",
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "4",
+      "Permanent (F)*\n(Non-Executives)",
+      "3,602",
+      "3361",
+      "93.31",
+      "241",
+      "6.69"
+    ],
+    [
+      "5",
+      "Other than*\nPermanent (G)",
+      "12,882",
+      "12,077",
+      "93.75",
+      "805",
+      "6.25"
+    ],
+    [
+      "6",
+      "Total workers\n(F + G)",
+      "16,484",
+      "15,438",
+      "93.65",
+      "1046",
+      "6.35"
+    ]
+  ]
+}

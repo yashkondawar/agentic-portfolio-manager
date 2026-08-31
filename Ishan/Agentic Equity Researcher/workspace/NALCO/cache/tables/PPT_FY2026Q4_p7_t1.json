@@ -1,0 +1,58 @@
+{
+  "doc": "PPT_FY2026Q4.pdf",
+  "page": 7,
+  "table_index": 1,
+  "bbox": [
+    30.84,
+    138.03999999999996,
+    810.12,
+    267.4
+  ],
+  "rows": [
+    [
+      "Sl.\nNo.",
+      "Production Parameter",
+      "Unit",
+      "Annual Target\n2025-26",
+      "Actual\nFY 2025-26",
+      "Actual\nFY 2024-25",
+      "% change\n(CPLY)"
+    ],
+    [
+      "1",
+      "Bauxite Transportation",
+      "Lakh Tonne",
+      "77.00",
+      "77.07",
+      "72.62",
+      "6.13%"
+    ],
+    [
+      "2",
+      "Alumina Hydrate",
+      "Lakh Tonne",
+      "22.00",
+      "23.00",
+      "20.76",
+      "10.79%"
+    ],
+    [
+      "3",
+      "Aluminium Cast Metal",
+      "Lakh Tonne",
+      "4.70",
+      "4.72",
+      "4.60",
+      "2.61%"
+    ],
+    [
+      "4",
+      "Net Power Generation",
+      "MU",
+      "7,053",
+      "6953",
+      "6641",
+      "4.70%"
+    ]
+  ]
+}

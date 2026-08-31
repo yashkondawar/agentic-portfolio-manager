@@ -1,0 +1,128 @@
+# Infrastructure & Capital Goods (Construction, EPC, Power, Mobility) — KPI/
+# ratio vocabulary and qualitative checklist for the Equity Research /
+# Sectoral Analyst agents.
+# Source: docs/source-material/er-deep-research-prompts.txt, "Infrastructure & Capital Goods Analyst" section.
+
+sector: infra_capital_goods
+description: >
+  Construction, EPC, power, and mobility infrastructure. Execution track
+  record, order-book quality/counterparty mix, and working-capital
+  discipline (government receivables) dominate the analytical frame.
+
+quantitative_kpis:
+  # Core Valuation
+  - name: market_cap
+    unit: currency
+    category: core_valuation
+  - name: enterprise_value
+    unit: currency
+    category: core_valuation
+  - name: pe_ltm
+    unit: "x"
+    category: core_valuation
+  - name: forward_pe
+    unit: "x"
+    category: core_valuation
+  - name: ev_ebitda_ltm
+    unit: "x"
+    category: core_valuation
+  # Core Profitability
+  - name: revenue_ltm
+    unit: currency
+    category: core_profitability
+  - name: ebitda_ltm
+    unit: currency
+    category: core_profitability
+  - name: net_profit_excl_oneoffs
+    unit: currency
+    category: core_profitability
+  - name: gross_margin
+    unit: "%"
+    category: core_profitability
+  - name: ebitda_margin
+    unit: "%"
+    category: core_profitability
+  - name: roce
+    unit: "%"
+    category: core_profitability
+  - name: roe
+    unit: "%"
+    category: core_profitability
+  # Balance Sheet
+  - name: net_debt
+    unit: currency
+    category: balance_sheet
+  - name: debt_to_equity
+    unit: "x"
+    category: balance_sheet
+  - name: net_debt_to_ebitda
+    unit: "x"
+    category: balance_sheet
+  - name: contingent_liabilities_value
+    unit: currency
+    category: balance_sheet
+  # Growth
+  - name: revenue_growth_rate
+    unit: "%"
+    category: growth
+  - name: order_book_growth_yoy
+    unit: "%"
+    category: growth
+  # Cash Flow
+  - name: operating_cashflow
+    unit: currency
+    category: cash_flow
+  - name: capex
+    unit: currency
+    category: cash_flow
+  - name: fcf_post_dividend_acquisitions
+    unit: currency
+    category: cash_flow
+  - name: fcf_yield
+    unit: "%"
+    category: cash_flow
+  - name: fcf_to_ebitda_conversion
+    unit: "%"
+    category: cash_flow_quality
+  - name: receivable_days
+    unit: days
+    category: execution_risk
+  - name: working_capital_days
+    unit: days
+    category: execution_risk
+  # Sector-specific
+  - name: order_book_to_bill_ratio
+    unit: "x"
+    category: execution_visibility
+  - name: interest_coverage_ratio
+    unit: "x"
+    category: risk_management
+  - name: contingent_liabilities_pct_net_worth
+    unit: "%"
+    category: risk_management
+  - name: revenue_from_epc_model_pct
+    unit: "%"
+    category: segment_specific
+  - name: revenue_from_govt_contracts_pct
+    unit: "%"
+    category: segment_specific
+
+qualitative_checks:
+  - execution_moat: "Proven execution track record; ability to secure raw-material escalation clauses; working-capital management efficiency."
+  - epc_vs_bot_model: "Genuine shift from debt-heavy BOT to asset-light EPC model; check for hidden contingent liabilities from old BOT projects."
+  - balance_sheet_derisking: "Strategy for de-risking the balance sheet — asset monetization, timely project commissioning, debt reduction."
+  - order_book_quality: "Composition of order book by counterparty (central govt / state govt / private) and segment (roads/power/water/rail) to assess risk and growth visibility."
+  - government_capex_dependence: "Dependence on government infrastructure spending cycle; impact of PLI-type schemes on capital goods segment."
+  - working_capital_risk: "Receivable days, especially from slow-paying government bodies; how to price working-capital lockup risk into valuation."
+  - raw_material_escalation_protection: "Presence/effectiveness of raw-material escalation clauses in government contracts."
+  - counterparty_risk_power: "Exposure to SEBs (State Electricity Boards) and PPA counterparty risk for power/renewables-exposed peers."
+  - counterparty_risk_defense_rail: "Trade-off between predictable orders and slow-paying, capital-intensive projects for defense/railways-exposed peers."
+
+cycle_overlap_checks:
+  - valuation_earnings_cycle: "Is the valuation premium/discount justified by sustainable ROCE stability, or driven purely by the valuation cycle (Stage 3 euphoria)? Is high P/E from genuine ROCE improvement or valuation-cycle expansion?"
+  - credit_capex_cycle: "Assess capex/growth funding needs against the current credit window; quantify resulting FCF constraints and potential debt risk."
+  - policy_profit_cycle: "If enjoying a regulatory moat (PLI, indigenization list), assess political risk and sustainability, especially receivable-day exposure to government counterparties."
+
+niche_pointers:
+  - power_renewables: "Exposure to SEBs and PPA counterparty risk as the single biggest operational risk."
+  - defense_railways: "Predictable order flow vs. slow payment / capital intensity trade-off."

@@ -1,0 +1,25 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 119,
+  "table_index": 2,
+  "bbox": [
+    102.2973,
+    122.06259999999997,
+    555.3406,
+    173.08619999999996
+  ],
+  "rows": [
+    [
+      "Instrument Type",
+      "Rating/Outlook"
+    ],
+    [
+      "Short-Term Bank Facilities",
+      "IND A1+"
+    ],
+    [
+      "Long-Term Bank Facilities",
+      "IND AAA/Stable"
+    ]
+  ]
+}

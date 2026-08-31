@@ -1,0 +1,83 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 23,
+  "table_index": 5,
+  "bbox": [
+    79.62,
+    510.68133333333327,
+    300.5615287356322,
+    670.5509999999999
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "2020-21",
+      "2019-20"
+    ],
+    [
+      "Revenue from Operations",
+      "8,956",
+      "8,472"
+    ],
+    [
+      "Other Income",
+      "147",
+      "273"
+    ],
+    [
+      "Total Income",
+      "9,102",
+      "8,744"
+    ],
+    [
+      "Cost of raw materials consumed",
+      "1,315",
+      "1,702"
+    ],
+    [
+      "Power & Fuel",
+      "2,638",
+      "2,965"
+    ],
+    [
+      "Employee benefi ts expenses",
+      "1,930",
+      "1,994"
+    ],
+    [
+      "Other expenses*",
+      "1,296",
+      "1,327"
+    ],
+    [
+      "Depreciation & amortization expenses",
+      "606",
+      "530"
+    ],
+    [
+      "Total expenses",
+      "7,786",
+      "8,518"
+    ],
+    [
+      "Profi t Before Exceptional items",
+      "1,317",
+      "226"
+    ],
+    [
+      "Profi t Before Tax",
+      "1,317",
+      "226"
+    ],
+    [
+      "Tax expenses",
+      "17",
+      "88"
+    ],
+    [
+      "Profi t Aft er Tax",
+      "1,300",
+      "138"
+    ]
+  ]
+}

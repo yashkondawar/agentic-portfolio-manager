@@ -1,0 +1,117 @@
+# knowledge/data/kpis/_schema.yaml — field spec for every KPI definition
+# file under knowledge/data/kpis/*.yaml (macro) and knowledge/data/kpis/
+# micro/*.yaml (sector). Enforced in code by knowledge/loader.py's KpiDef
+# pydantic model; this file is the human-readable mirror of that model plus
+# the enums/vocab it accepts. Not itself parsed as a KPI — loader.py skips
+# any file starting with "_".
+#
+# Field reference
+# ---------------
+# kpi_id            str, required, snake_case, globally unique across macro
+#                   + micro. This is the id the (Phase 7) cycle engine and
+#                   knowledge/data/cycles/catalog.yaml anchor_kpi_ids
+#                   reference.
+# scope             enum, required: "macro" | "sector" | "market_structure"
+#                   "macro"  -> whole-economy KPI (yield_gap, cpi_yoy, ...)
+#                   "sector" -> one of the 8 registry KPI sectors
+#                   "market_structure" -> breadth/flows/vol, not tied to a
+#                   single sector or a single macro series (e.g.
+#                   fii_dii_flows, breadth_200dma)
+# cycle_refs        list[str], required, >=1. cycle_id values from
+#                   knowledge/data/cycles/catalog.yaml that this KPI is an
+#                   anchor or supporting metric for. Cross-checked: every
+#                   catalog anchor_kpi_id must resolve to a kpi_id defined
+#                   somewhere under kpis/ (enforced by loader + tests).
+# formula           str, required. Plain-text/pseudo-math formula or
+#                   definition. One or two lines — this is a definition, not
+#                   an essay (essays belong in knowledge/references/).
+# inputs            list[InputRef], required, >=1:
+#     name          str, required. Human label for the input series.
+#     source        str, required. Provider/table, e.g. "FRED (DGS10)",
+#                   "afund.derived_ratios", "RBI DBIE", "manual entry".
+#     status        enum, required: "available" | "derivable" | "manual" |
+#                   "missing"
+#                   "available" -> already computed/stored in afund's DB
+#                   today (name the table/column in `source`).
+#                   "derivable" -> raw inputs exist in afund's DB today but
+#                   the KPI itself isn't computed yet (Phase 7+ scope).
+#                   "manual"    -> no automated source yet; a human enters/
+#                   updates this periodically (see cadence).
+#                   "missing"   -> no source identified yet at all; sourcing
+#                   TODO for Phase 8.
+# orientation       enum, required: "value_type" | "fear_type" |
+#                   "goldilocks_type"
+#                   Per the cycle-positioning framework (knowledge/
+#                   references/methodology/cycle_positioning_framework.md
+#                   section 2.2):
+#                   "value_type"      -> low reading = cheap/attractive,
+#                   high reading = expensive (contrarian: buy low)
+#                   "fear_type"       -> high reading = fear/distress (buy
+#                   into spikes, contrarian), low = complacency
+#                   "goldilocks_type" -> best in a middle band, extremes in
+#                   EITHER direction are bad (e.g. CPI, credit growth)
+# lookback_years    number, required. Default percentile/z-score window
+#                   used to normalize this KPI's current reading (per
+#                   framework section 2.3). Typically 5 or 10.
+# cadence           str, required. How often this KPI updates at the
+#                   source, e.g. "daily", "monthly", "quarterly". Free text
+#                   (not an enum — sources vary too much to enumerate).
+# source_status     enum, required: same vocabulary as inputs[].status
+#                   ("available" | "derivable" | "manual" | "missing").
+#                   This is the KPI-level ROLLUP of its inputs' statuses
+#                   (worst-case: a KPI is only "available" if ALL its
+#                   inputs are "available"), used by the cycle engine and
+#                   by tests/test_knowledge.py as the single field to check
+#                   "can we compute this today."
+# registry_xref     str | null. Dotted path into registry/ this KPI backs,
+#                   e.g. "kpis/bfsi.yaml#roe" or null if this KPI has no
+#                   registry-vocabulary counterpart (most macro KPIs won't;
+#                   sector/micro KPIs generally will).
+# references_xref   list[str], optional, default []. Paths (relative to
+#                   knowledge/references/) to prose that explains how to
+#                   interpret this KPI, e.g.
+#                   ["kpi_interpretation/valuation_cycle.md"].
+# thresholds        dict[str, float], optional, default {}. Named
+#                   threshold bands inherited from the strategy framework
+#                   (e.g. yield_gap: deep_value_below: 1.40,
+#                   euphoria_above: 1.70). ALL DRAFT until back-tested;
+#                   the cycle engine must label them DRAFT in outputs.
+#
+# Example (macro KPI)
+# --------------------
+# kpi_id: yield_gap
+# scope: macro
+# cycle_refs: [valuation_cycle]
+# formula: "Yield Gap = (1 / Nifty trailing P/E) - 10Y G-Sec yield. Also
+#   called the Fed/Yardeni model or BEER (Bond-Equity Earnings Yield Ratio)
+#   when inverted."
+# inputs:
+#   - name: Nifty trailing P/E
+#     source: afund.index_data (index_name='NIFTY 50')
+#     status: available
+#   - name: 10Y India G-Sec yield
+#     source: FRED (INDIRLTLT01STM) or RBI DBIE
+#     status: missing
+# orientation: value_type
+# lookback_years: 10
+# cadence: daily
+# source_status: missing
+# registry_xref: null
+# references_xref: [kpi_interpretation/valuation_cycle.md]
+#
+# Example (micro/sector KPI, lean form)
+# --------------------------------------
+# kpi_id: bfsi_roe
+# scope: sector
+# cycle_refs: [earnings_margin_cycle]
+# formula: "ROE = Net Profit (TTM) / Average Shareholders' Equity"
+# inputs:
+#   - name: Net profit TTM, shareholders' equity
+#     source: afund.financials_quarterly
+#     status: available
+# orientation: value_type
+# lookback_years: 5
+# cadence: quarterly
+# source_status: available
+# registry_xref: "kpis/bfsi.yaml#roe"
+# references_xref: []

@@ -1,0 +1,34 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 110,
+  "table_index": 2,
+  "bbox": [
+    116.470375,
+    646.10495,
+    546.83645,
+    693.1474
+  ],
+  "rows": [
+    [
+      "Name",
+      "Category",
+      "Position",
+      "Meeting held",
+      "Meeting attended"
+    ],
+    [
+      "Smt. Achla Sinha^^",
+      "Independent",
+      "Chairperson",
+      "1",
+      "1"
+    ],
+    [
+      "Shri S. K. Roy,\nDirector (P&T)$$",
+      "Functional",
+      "Member",
+      "1",
+      "1"
+    ]
+  ]
+}

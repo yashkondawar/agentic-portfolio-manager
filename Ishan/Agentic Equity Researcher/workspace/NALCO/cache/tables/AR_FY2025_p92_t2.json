@@ -1,0 +1,37 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 92,
+  "table_index": 2,
+  "bbox": [
+    68.28153076923077,
+    423.18675,
+    542.43445,
+    495.1968
+  ],
+  "rows": [
+    [
+      "NIC\nCode",
+      "Name of Product /\nService",
+      "% of total\nTurnover\ncontributed",
+      "Boundary for which the\nLife Cycle Perspective /\nAssessment was conducted",
+      "Whether conducted by\nindependent external\nagency (Yes/No)",
+      "Results communicated in\npublic domain (Yes/No)\nIf yes, provide the web-link."
+    ],
+    [
+      "20119",
+      "Calcined Alumina",
+      "33 %",
+      "gate-to-gate",
+      "Yes",
+      "No"
+    ],
+    [
+      "24202",
+      "Aluminium Wire rod",
+      "13 %",
+      "gate-to-gate",
+      "Yes",
+      "No"
+    ]
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 152,
+  "table_index": 1,
+  "bbox": [
+    85.28935,
+    272.79990000000004,
+    542.72635,
+    369.5112
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Class of property, plant and equipment",
+      "Range of useful life in years"
+    ],
+    [
+      "1",
+      "Buildings",
+      "03 – 60"
+    ],
+    [
+      "2",
+      "Plant and machinery",
+      "10 – 40"
+    ],
+    [
+      "3",
+      "Railway sidings",
+      "15"
+    ],
+    [
+      "4",
+      "Vehicles",
+      "08 – 10"
+    ],
+    [
+      "5",
+      "Furniture and fixtures",
+      "08 – 10"
+    ],
+    [
+      "6",
+      "Computer and peripherals",
+      "03 – 06"
+    ]
+  ]
+}

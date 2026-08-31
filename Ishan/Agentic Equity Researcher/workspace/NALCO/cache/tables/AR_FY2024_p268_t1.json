@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 268,
+  "table_index": 1,
+  "bbox": [
+    51.273664,
+    106.88614999999999,
+    542.7255461538462,
+    162.14999999999998
+  ],
+  "rows": [
+    [
+      "",
+      "Year ended 31.03.2024",
+      "Year ended 31.03.2023"
+    ],
+    [
+      null,
+      "₹ per share",
+      "₹ per share"
+    ],
+    [
+      "From total operations",
+      "10.83",
+      "7.81"
+    ],
+    [
+      "Total Basic earnings per share",
+      "10.83",
+      "7.81"
+    ]
+  ]
+}

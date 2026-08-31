@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 270,
+  "table_index": 3,
+  "bbox": [
+    51.27365714285715,
+    459.06089999999995,
+    542.6175900000001,
+    560.738
+  ],
+  "rows": [
+    [
+      "",
+      "As at 31.03.2025",
+      "As at 31.03.2024"
+    ],
+    [
+      "Authorised share capital:",
+      null,
+      null
+    ],
+    [
+      "6,00,00,00,000 equity shares of ₹ 5 each\n[As at 31.03.2024: 6,00,00,00,000 equity shares of ₹ 5 each]",
+      "3,000.00",
+      "3,000.00"
+    ],
+    [
+      "",
+      "3,000.00",
+      "3,000.00"
+    ],
+    [
+      "Issued, subscribed and paid up capital:",
+      null,
+      null
+    ],
+    [
+      "1,83,66,31,787 fully paid-up equity shares of ₹ 5 each\n[As at 31.03.2024: 1,83,66,31,787 fully paid-up equity shares of ₹ 5 each]",
+      "918.32",
+      "918.32"
+    ],
+    [
+      "",
+      "918.32",
+      "918.32"
+    ]
+  ]
+}

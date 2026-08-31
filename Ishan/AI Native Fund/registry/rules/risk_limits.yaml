@@ -1,0 +1,67 @@
+# Mandate-level risk limits. Every value below is a placeholder default and
+# is marked status: USER_TO_CONFIRM — nothing here should be treated as an
+# approved mandate limit until the user explicitly confirms or edits it.
+
+max_single_position_pct:
+  value: 10
+  status: USER_TO_CONFIRM
+
+max_sector_pct:
+  value: 25
+  status: USER_TO_CONFIRM
+
+max_single_mf_etf_pct:
+  value: 20
+  status: USER_TO_CONFIRM
+
+cash_floor_pct:
+  value: 5
+  status: USER_TO_CONFIRM
+
+cash_ceiling_pct:
+  value: 40
+  status: USER_TO_CONFIRM
+
+long_only:
+  value: true
+  status: USER_TO_CONFIRM
+
+escalation:
+  # Actions that always require explicit human approval before execution.
+  # This list itself is a design constant (Section 7 of the architecture
+  # blueprint — "Action on the fund ... Always your explicit approve /
+  # modify / reject"), not a tunable risk parameter, but is still marked
+  # for confirmation since it gates real capital decisions.
+  value: [NEW, ADD, REDUCE, EXIT]
+  status: USER_TO_CONFIRM
+  note: >
+    HOLD and MONITOR_ONLY do not move capital and so do not require the
+    same approval gate, but are still logged to decision_log for audit.
+  light_review: [HOLD, MONITOR_ONLY]
+
+# Phase 10 — cycle-aware position sizing. Multiplier applied to
+# max_single_position_pct based on the LATEST cycle_assessments valuation_cycle
+# phase_id for the relevant sector/scope (see
+# src/afund/portfolio/risk.py::cycle_adjusted_limit). Late-cycle/euphoric
+# phases tighten the cap (position sizing should shrink when a sector looks
+# stretched); cheap/early-cycle phases loosen it slightly. Phase names match
+# registry/strategies/cycle_framework.yaml phases: exactly. UNKNOWN (no
+# assessment available for any fallback scope) always multiplies by 1.0 —
+# never guesses tighter or looser than baseline. DRAFT, unbacktested, same as
+# every other value in this file.
+phase_multipliers:
+  value:
+    euphoria: 0.5
+    distribution: 0.6
+    denial: 0.75
+    optimism: 0.8
+    momentum: 1.0
+    value: 1.0
+    attractive_growth: 1.1
+    deep_value: 1.2
+  status: DRAFT
+  note: >
+    Multiplier on max_single_position_pct keyed by the latest sector/scope
+    valuation_cycle phase_id. A phase not present in this map, or no
+    assessment available at all, falls back to 1.0 (UNKNOWN — see
+    cycle_adjusted_limit's unknown_phase flag in its return dict).

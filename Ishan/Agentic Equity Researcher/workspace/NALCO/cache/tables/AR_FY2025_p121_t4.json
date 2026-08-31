@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 121,
+  "table_index": 4,
+  "bbox": [
+    68.2815423076923,
+    604.93195,
+    542.7263769230769,
+    677.7795
+  ],
+  "rows": [
+    [
+      "Sl.\nNo.",
+      "Item",
+      "Investment\n(` in lakh)"
+    ],
+    [
+      "1.",
+      "80 nos. old LT motors were replaced with new energy efficient IE3 motors.",
+      "13.36"
+    ],
+    [
+      "2.",
+      "60 nos. of old conventional 70 Watt ceiling fans are being replaced with energy efficient 35 Watt BLDC fans.",
+      "1.344"
+    ],
+    [
+      "3.",
+      "VFD was commissioned and tested in APH-A & B drive motor of Unit-5 which reduced the power\nconsumption from 10 kW to 1.0 kW per motor.",
+      "Complimentary with R&M\nof APH-A&B"
+    ]
+  ]
+}

@@ -1,0 +1,440 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 175,
+  "table_index": 1,
+  "bbox": [
+    51.273606451612906,
+    84.22211111111113,
+    542.7264096774194,
+    562.1408333333334
+  ],
+  "rows": [
+    [
+      "Particulars",
+      null,
+      "Notes",
+      "As at 31.03.2025",
+      "As at 31.03.2024"
+    ],
+    [
+      "Assets",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "(1)",
+      "Non-current assets",
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "(a) Property, plant and equipment",
+      "5",
+      "6,799.04",
+      "7,020.24"
+    ],
+    [
+      null,
+      "(b) Capital work-in-progress",
+      "6",
+      "4,934.67",
+      "3,961.49"
+    ],
+    [
+      null,
+      "(c) Intangible assets",
+      "7",
+      "949.20",
+      "362.49"
+    ],
+    [
+      null,
+      "(d) Intangible assets under development",
+      "8",
+      "1.53",
+      "611.59"
+    ],
+    [
+      null,
+      "(e) Financial assets",
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      "(i) Investments",
+      "9",
+      "",
+      ""
+    ],
+    [
+      null,
+      "(a) Investments in joint ventures",
+      "9",
+      "499.58",
+      "352.22"
+    ],
+    [
+      null,
+      "(b) Other Investments",
+      "9",
+      "0.03",
+      "0.03"
+    ],
+    [
+      null,
+      "(ii) Trade receivables",
+      "10",
+      "-",
+      "-"
+    ],
+    [
+      null,
+      "(iii) Loans",
+      "11",
+      "80.67",
+      "79.40"
+    ],
+    [
+      null,
+      "(iv) Other financial assets",
+      "12",
+      "19.72",
+      "17.81"
+    ],
+    [
+      null,
+      "(f) Current tax assets (Net)",
+      "13",
+      "165.93",
+      "260.11"
+    ],
+    [
+      null,
+      "(g) Other non-current assets",
+      "14",
+      "532.79",
+      "621.74"
+    ],
+    [
+      null,
+      "Total non-current assets",
+      "",
+      "13,983.16",
+      "13,287.12"
+    ],
+    [
+      "(2)",
+      "Current assets",
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "(a) Inventories",
+      "15",
+      "1,908.83",
+      "1,831.32"
+    ],
+    [
+      null,
+      "(b) Financial assets",
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      "(i) Investments",
+      "9",
+      "514.92",
+      "172.91"
+    ],
+    [
+      null,
+      "(ii) Trade receivables",
+      "10",
+      "186.39",
+      "153.50"
+    ],
+    [
+      null,
+      "(iii) Cash and cash equivalents",
+      "16",
+      "121.40",
+      "43.49"
+    ],
+    [
+      null,
+      "(iv) Bank balances other than (iii) above",
+      "16",
+      "5,305.33",
+      "2,531.66"
+    ],
+    [
+      null,
+      "(v) Loans",
+      "11",
+      "26.58",
+      "28.05"
+    ],
+    [
+      null,
+      "(vi) Other financial assets",
+      "12",
+      "66.65",
+      "78.40"
+    ],
+    [
+      null,
+      "(c) Current tax assets (Net)",
+      "13",
+      "153.37",
+      "238.69"
+    ],
+    [
+      null,
+      "(d) Other current assets",
+      "14",
+      "855.85",
+      "1,053.46"
+    ],
+    [
+      null,
+      "Total current assets",
+      "",
+      "9,139.32",
+      "6,131.48"
+    ],
+    [
+      "Total assets",
+      null,
+      "",
+      "23,122.48",
+      "19,418.60"
+    ],
+    [
+      "Equity and liabilities",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "(1)",
+      "Equity",
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "(a) Equity share capital",
+      "17",
+      "918.32",
+      "918.32"
+    ],
+    [
+      null,
+      "(b) Other equity",
+      "18",
+      "17,127.44",
+      "13,653.34"
+    ],
+    [
+      null,
+      "Total equity",
+      "",
+      "18,045.76",
+      "14,571.66"
+    ],
+    [
+      null,
+      "Liabilities",
+      null,
+      null,
+      null
+    ],
+    [
+      "(2)",
+      "Non-current liabilities",
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "(a) Financial liabilities",
+      null,
+      "",
+      ""
+    ],
+    [
+      null,
+      "(i) Lease liabilities",
+      "19",
+      "50.94",
+      "51.00"
+    ],
+    [
+      null,
+      "(ii) Trade payables",
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      "(a) Dues of micro and small enterprises",
+      "21",
+      "-",
+      "-"
+    ],
+    [
+      null,
+      "(b) Dues of creditors other than micro and small enterprises",
+      "21",
+      "11.14",
+      "18.31"
+    ],
+    [
+      null,
+      "(iii) Other financial liabilities",
+      "22",
+      "242.66",
+      "295.57"
+    ],
+    [
+      null,
+      "(b) Provisions",
+      "23",
+      "252.14",
+      "170.57"
+    ],
+    [
+      null,
+      "(c) Deferred tax liabilities (Net)",
+      "25",
+      "791.14",
+      "841.43"
+    ],
+    [
+      null,
+      "(d) Other non-current liabilities",
+      "24",
+      "230.50",
+      "230.50"
+    ],
+    [
+      null,
+      "Total non-current liabilities",
+      "",
+      "1,578.52",
+      "1,607.38"
+    ],
+    [
+      "(3)",
+      "Current liabilities",
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      "(a) Financial liabilities",
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      "(i) Borrowings",
+      "20",
+      "124.22",
+      "39.16"
+    ],
+    [
+      null,
+      "(ii) Lease liabilities",
+      "19",
+      "6.58",
+      "6.22"
+    ],
+    [
+      null,
+      "(iii) Trade payables",
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      "(a) Dues of micro and small enterprises",
+      "21",
+      "122.45",
+      "175.29"
+    ],
+    [
+      null,
+      "(b) Dues of creditors other than micro and small enterprises",
+      "21",
+      "615.65",
+      "545.67"
+    ],
+    [
+      null,
+      "(iv) Other financial liabilities",
+      "22",
+      "1,720.81",
+      "1,605.01"
+    ],
+    [
+      null,
+      "(b) Other current liabilities",
+      "24",
+      "632.92",
+      "640.84"
+    ],
+    [
+      null,
+      "(c) Provisions",
+      "23",
+      "235.91",
+      "173.39"
+    ],
+    [
+      null,
+      "(d) Current tax liabilities (Net)",
+      "13",
+      "39.66",
+      "53.98"
+    ],
+    [
+      null,
+      "Total current liabilities",
+      "",
+      "3,498.20",
+      "3,239.56"
+    ],
+    [
+      "Total liabilities",
+      null,
+      "",
+      "5,076.72",
+      "4,846.94"
+    ],
+    [
+      "Total equity and liabilities",
+      null,
+      "",
+      "23,122.48",
+      "19,418.60"
+    ]
+  ]
+}

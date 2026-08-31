@@ -1,0 +1,394 @@
+[
+  {
+    "id": "OQ-FUND-01",
+    "question": "Now that FY2026 (Apr 2025-Mar 2026) has closed, has the audited standalone/consolidated Annual Report been published, and do the audited full-year figures materially differ from the Q4 FY2026 investor-presentation figures used throughout this analysis (revenue 17,843 cr, PAT 5,816 cr, EBITDA 8,613 cr, all consolidated, company-summarised)?",
+    "why_it_matters": "F-FUND-01, F-FUND-02, and F-FUND-10 all rely on FY2026 full-year figures sourced only from the Q4 PPT (AR FY2026 unpublished per orchestrator brief); RF-MERGE-14/15/16 already document a precedent divergence between AR-sourced and PPT-sourced FY2025 figures (PAT 5,267.94 cr AR vs 5,325 cr PPT) of similar magnitude to what could recur for FY2026. This blocks full confidence on the FY2026 growth-deceleration and margin-normalization findings until confirmed against audited figures.",
+    "origin": "20_fundamental_analysis",
+    "severity": "medium",
+    "route": "extraction_deeper",
+    "status": "open",
+    "answer": null,
+    "impacts": [
+      "20_fundamental_analysis",
+      "estimates-builder",
+      "peer-valuation-analyst"
+    ],
+    "origin_file": "fundamental_questions.json",
+    "_normalised": "field names aligned to schema/open_question.schema.json (2026-08-03); v1 used origin_file/raised_by and route_to/routed_to for the same content"
+  },
+  {
+    "id": "OQ-FUND-02",
+    "question": "What is the standalone (not just consolidated) FY2026 P&L and balance sheet, and does the standalone-vs-consolidated near-identity established for FY2020-FY2025 (F-FUND-09) continue to hold for FY2026?",
+    "why_it_matters": "The primary-basis conclusion (standalone as the appropriate basis for valuation/estimates) rests on five years of near-identical standalone/consolidated figures; FY2026 is the one year in this dataset available only on a consolidated (PPT) basis. If JV/subsidiary contribution has grown materially in FY2026 (e.g., if Utkarsha or Angul Aluminium Park activity picked up), the standalone-primary convention should be revisited once the FY2026 AR is available.",
+    "origin": "20_fundamental_analysis",
+    "severity": "low",
+    "route": "extraction_deeper",
+    "status": "open",
+    "answer": null,
+    "impacts": [
+      "20_fundamental_analysis"
+    ],
+    "origin_file": "fundamental_questions.json",
+    "_normalised": "field names aligned to schema/open_question.schema.json (2026-08-03); v1 used origin_file/raised_by and route_to/routed_to for the same content"
+  },
+  {
+    "id": "OQ-FUND-03",
+    "question": "Once the 0.5 MT smelter project reaches DPR/tender stage (targeted Aug-Sept 2026 per RF-GUI-03) and a firm capex schedule and funding mix (debt vs internal accruals vs GoI equity infusion) is disclosed, what is the projected incremental ROCE and payback profile for the Rs.18,000 cr program?",
+    "why_it_matters": "F-FUND-03 establishes that NALCO's largest-ever capex program has not yet started (still pre-DPR) and that no incremental-ROCE analysis is currently possible; this is a mandatory analysis item (capex & returns engine) per the module's required-analyses list and remains the single largest unresolved capital-allocation question for the thesis. Blocks estimates-builder's ability to model post-FY2027 ROCE/ROE trajectory with any precision.",
+    "origin": "20_fundamental_analysis",
+    "severity": "high",
+    "route": "deep_research_company",
+    "status": "open",
+    "answer": null,
+    "impacts": [
+      "estimates-builder",
+      "peer-valuation-analyst",
+      "20_fundamental_analysis"
+    ],
+    "origin_file": "fundamental_questions.json",
+    "_normalised": "field names aligned to schema/open_question.schema.json (2026-08-03); v1 used origin_file/raised_by and route_to/routed_to for the same content"
+  },
+  {
+    "id": "OQ-FUND-04",
+    "question": "Is any portion of the 0.5 MT smelter capex (Rs.18,000 cr) or the coal-block/refinery capex program planned to be debt-funded, and if so what is management's target leverage/D-E ratio for the build phase (FY2027-FY2031)?",
+    "why_it_matters": "F-FUND-07 identifies a tripling of standalone finance costs (off a near-zero base) as a possible leading indicator of a shift away from NALCO's historical all-equity-funded capex model; simultaneously, F-FUND-... (capital allocation tension) notes dividend per share rose 2.6x in FY2025 (10.5 vs 4.0) even as the largest capex program in company history is beginning. Without a stated funding mix, forward interest-cost, leverage, and dividend-sustainability estimates cannot be built with confidence.",
+    "origin": "20_fundamental_analysis",
+    "severity": "medium",
+    "route": "deep_research_company",
+    "status": "open",
+    "answer": null,
+    "impacts": [
+      "estimates-builder",
+      "20_fundamental_analysis"
+    ],
+    "origin_file": "fundamental_questions.json",
+    "_normalised": "field names aligned to schema/open_question.schema.json (2026-08-03); v1 used origin_file/raised_by and route_to/routed_to for the same content"
+  },
+  {
+    "id": "OQ-FUND-05",
+    "question": "What specifically drove the ~Rs.400 cr (24%) FY2026 capex overshoot versus the Rs.1,700 cr original budget -- cost inflation on the 5th-stream refinery, schedule compression, scope additions, or a different project entirely?",
+    "why_it_matters": "F-FUND-04 flags the overshoot as disclosed but unexplained in the current fact set; a recurring pattern of capex overshoots would compound the guidance-reliability concerns already logged in RF-GUI-01/RF-GUI-03 (schedule slippage) into a broader capex-guidance-quality read (both cost and schedule guidance proving unreliable in year one of the largest capex program in company history).",
+    "origin": "20_fundamental_analysis",
+    "severity": "low",
+    "route": "extraction_deeper",
+    "status": "open",
+    "answer": null,
+    "impacts": [
+      "20_fundamental_analysis",
+      "22_management_guidance"
+    ],
+    "origin_file": "fundamental_questions.json",
+    "_normalised": "field names aligned to schema/open_question.schema.json (2026-08-03); v1 used origin_file/raised_by and route_to/routed_to for the same content"
+  },
+  {
+    "id": "OQ-FUND-06",
+    "question": "What is the composition of NALCO's FY2025/FY2026 current borrowings (124.22 cr FY2025 consolidated) -- is this working-capital/bill-discounting financing tied to the capex ramp, buyer's credit for imported inputs (caustic soda, coal), or something else -- and is any of it expected to convert to longer-tenor debt as the smelter capex begins?",
+    "why_it_matters": "F-FUND-07 flags the ~243% YoY rise in standalone finance costs (17.2 cr to 59.0 cr) as directionally worth monitoring but currently immaterial; understanding the borrowing composition would clarify whether this is transient working-capital noise or the earliest signal of the capital-structure shift relevant to OQ-FUND-04.",
+    "origin": "20_fundamental_analysis",
+    "severity": "low",
+    "route": "extraction_deeper",
+    "status": "open",
+    "answer": null,
+    "impacts": [
+      "20_fundamental_analysis"
+    ],
+    "origin_file": "fundamental_questions.json",
+    "_normalised": "field names aligned to schema/open_question.schema.json (2026-08-03); v1 used origin_file/raised_by and route_to/routed_to for the same content"
+  },
+  {
+    "id": "OQ-FUND-07",
+    "question": "What are sell-side/consensus estimates (if any exist externally) assuming for FY2027 alumina and aluminium (LME) price decks, and how do they compare to management's own FY2027 guidance (alumina US$300-310/t, metal US$3,000-3,100/t per QT-Q4-052/QT-Q4-083)?",
+    "why_it_matters": "F-FUND-10 shows Q4 FY2026 already running at negative YoY revenue/PAT, and F-FUND-01/F-FUND-02 establish that FY2025's margin peak is cyclical and already reversing. Estimates-builder needs an external anchor (consensus or peer commodity-price decks) to sanity-check whether management's FY2027 price guidance is conservative, in-line, or aggressive relative to market expectations -- this is inherently an external-research question, not answerable from company documents alone.",
+    "origin": "20_fundamental_analysis",
+    "severity": "medium",
+    "route": "deep_research_sector",
+    "status": "answered",
+    "answer": "No single consensus feed was accessible, but assembled external range for CY2027: World Bank (primary) $3,000/t central; SMM (PRA) three-scenario $2,900-3,200/t; Goldman Sachs bear case $2,400/t. Management's FY2027 guide ($3,000-3,100/t) sits at/near the World Bank central case and above the Goldman bear case -- reads as base-case-to-slightly-conservative, not aggressive, vs the external spread. See facts F-EXT-1200..1205 (SRC-1200..1204) and research/dr2_sector_peers.md section 1.",
+    "impacts": [
+      "estimates-builder",
+      "peer-valuation-analyst"
+    ],
+    "origin_file": "fundamental_questions.json",
+    "_normalised": "field names aligned to schema/open_question.schema.json (2026-08-03); v1 used origin_file/raised_by and route_to/routed_to for the same content"
+  },
+  {
+    "id": "OQ-FUND-08",
+    "question": "Why did Chemicals (alumina) segment EBIT grow proportionally faster than Aluminium (metal) segment EBIT in FY2025 (Chemicals EBIT share of the combined pool rose from 38.8% in FY2024 to 44.5% in FY2025, per F-DER-FUN-07/08) even though the revenue mix moved the other way (toward metal, 70% to 73%) over the same period?",
+    "why_it_matters": "F-FUND-08's claim that the metal-mix shift is straightforwardly margin-supportive is only partly borne out by the segment EBIT data; reconciling this (e.g., alumina segment's own internal transfer-pricing treatment, or a base-effect from FY2024's depressed alumina EBIT) is needed before the segment-mix narrative can be used cleanly in the valuation/sensitivity work without an internal contradiction.",
+    "origin": "20_fundamental_analysis",
+    "severity": "low",
+    "route": "extraction_deeper",
+    "status": "open",
+    "answer": null,
+    "impacts": [
+      "20_fundamental_analysis",
+      "peer-valuation-analyst"
+    ],
+    "origin_file": "fundamental_questions.json",
+    "_normalised": "field names aligned to schema/open_question.schema.json (2026-08-03); v1 used origin_file/raised_by and route_to/routed_to for the same content"
+  },
+  {
+    "id": "FQ-NALCO-01",
+    "raised_by": "21_forensic_earnings_quality",
+    "route_to": "extraction_deeper",
+    "severity": "medium",
+    "question": "What specific working-capital line(s) drove the FY2023 standalone CFO collapse (Rs4049.61cr FY2022 -> Rs908.24cr FY2023, -77.6% YoY) while PAT remained positive (Rs1434.7cr)? Pull the full CFO reconciliation schedule (Note/Annexure to the Cash Flow Statement, AR_FY2023.pdf) — specifically movements in trade payables, other current liabilities/provisions, and any advance-tax/refund timing — to confirm whether the drag is inventory/receivables-led (already checked, immaterial) or payables/provision-led (not yet checked).",
+    "linked_flags": [
+      "RF-001"
+    ],
+    "status": "open",
+    "blocking_finalization": false,
+    "origin_file": "forensic_questions.json",
+    "origin": "forensic_questions.json",
+    "route": "extraction_deeper",
+    "_normalised": "field names aligned to schema/open_question.schema.json (2026-08-03); v1 used origin_file/raised_by and route_to/routed_to for the same content"
+  },
+  {
+    "id": "FQ-NALCO-02",
+    "raised_by": "21_forensic_earnings_quality",
+    "route_to": "extraction_deeper",
+    "severity": "medium",
+    "question": "AR_FY2023.pdf restates FY2022 standalone/consolidated total assets (+1.22%, ~Rs211cr), total liabilities (+4.47%, ~Rs211cr), and other income (-11.2%, ~Rs33cr) versus the figures originally reported in AR_FY2022.pdf. The matching total-assets/total-liabilities delta suggests a single balance-sheet reclassification preserving the accounting identity, but no footnote naming the specific line(s) moved was captured in extraction. Does AR_FY2023.pdf (or AR_FY2024.pdf's opening-balance note) contain a 'regrouped/reclassified' disclosure identifying the specific balance-sheet line(s) affected, and does it explain the other-income delta separately?",
+    "linked_flags": [
+      "RF-MERGE-02",
+      "RF-MERGE-08",
+      "RF-MERGE-09",
+      "RF-MERGE-12"
+    ],
+    "status": "open",
+    "blocking_finalization": false,
+    "origin_file": "forensic_questions.json",
+    "origin": "forensic_questions.json",
+    "route": "extraction_deeper",
+    "_normalised": "field names aligned to schema/open_question.schema.json (2026-08-03); v1 used origin_file/raised_by and route_to/routed_to for the same content"
+  },
+  {
+    "id": "OQ-GUI-01",
+    "question": "Is the FY26 alumina and LME aluminium price realization guidance (management's own directional calls) consistent with independent commodity price trackers/analyst consensus for CY2025-2026, or is management's price narrative systematically lagging/leading the actual market?",
+    "raised_by": "22_management_guidance",
+    "route": "deep_research_sector",
+    "related_findings": [
+      "alumina_price_realization_outlook",
+      "aluminium_lme_price_outlook"
+    ],
+    "severity": "medium",
+    "status": "answered",
+    "rationale": "Ledger shows alumina price guide ratcheted down every quarter and LME CY2026 guide swung 17% in one quarter; need an external anchor (e.g., independent alumina index, LME futures curve at each guidance date) to determine whether NALCO's guidance lags spot or is genuinely predictive.",
+    "answer": "Consistent, not lagging/leading. Independent Platts FOB-Australia alumina index averaged $306.91/t in Q1 CY2026, inside NALCO's guided $310-320/t band and matching the CMD's own public Feb-2026 quote of $320-340/t for CY2026. The Indonesian-refinery-ramp driver management cites is independently confirmed and quantified (metallurgical alumina capacity to 7mtpa by CY2026; primary aluminium operating capacity ~0.87mt to 2.51mt to 3.56mt, 2025-2027). See facts F-EXT-1206/1209/1211/1212 (SRC-1205/1207/1204/1228) and research/dr2_sector_peers.md section 1.",
+    "origin_file": "guidance_questions.json",
+    "origin": "guidance_questions.json",
+    "_normalised": "field names aligned to schema/open_question.schema.json (2026-08-03); v1 used origin_file/raised_by and route_to/routed_to for the same content"
+  },
+  {
+    "id": "OQ-GUI-02",
+    "question": "What is the current (as of the most recent public disclosure) status of the Pottangi bauxite mine MDO tender and physical commissioning — has it commissioned by the guided May/June 2026 window, and which of the two conflicting dates (May per PPT, June per transcript) proved correct?",
+    "raised_by": "22_management_guidance",
+    "route": "deep_research_company",
+    "related_findings": [
+      "pottangi_bauxite_mine_commissioning"
+    ],
+    "severity": "medium",
+    "status": "open",
+    "rationale": "Internal transcript-vs-PPT date mismatch (F-GUI-05) combined with a late MDO tender as of Nov-2025 for a claimed May-2026 start; no FY2027Q1 transcript exists yet in the input set to confirm actual commissioning.",
+    "origin_file": "guidance_questions.json",
+    "origin": "guidance_questions.json",
+    "_normalised": "field names aligned to schema/open_question.schema.json (2026-08-03); v1 used origin_file/raised_by and route_to/routed_to for the same content"
+  },
+  {
+    "id": "OQ-GUI-03",
+    "question": "Has the 5th-stream alumina refinery actually commenced commissioning in June 2026 as guided (post-reset date), or has this asset slipped for a second time?",
+    "raised_by": "22_management_guidance",
+    "route": "deep_research_company",
+    "related_findings": [
+      "5th_stream_refinery_commissioning_timeline",
+      "5th_stream_fy26_volume_contribution"
+    ],
+    "severity": "high",
+    "status": "open",
+    "rationale": "This is the single largest capacity-growth catalyst in the company's near-term story and already carries one admitted slip (implied Sept-2025 to June-2026) plus one in-year volume-guidance cut (500KT to 300KT, F-GUI-01). A second slip would materially impair FY27 volume/margin estimates. Next data point: Q1 FY27 transcript (expected ~Aug-2026), not yet in the input set as of this run.",
+    "origin_file": "guidance_questions.json",
+    "origin": "guidance_questions.json",
+    "_normalised": "field names aligned to schema/open_question.schema.json (2026-08-03); v1 used origin_file/raised_by and route_to/routed_to for the same content"
+  },
+  {
+    "id": "OQ-GUI-04",
+    "question": "What is NALCO's actual FY26 year-end cash balance, and does it match management's Q2 FY26 projection of Rs.20,000cr+?",
+    "raised_by": "22_management_guidance",
+    "route": "deep_research_company",
+    "related_findings": [
+      "debt_interest_fundraising"
+    ],
+    "severity": "low",
+    "status": "open",
+    "rationale": "FY2026 AR not yet published per intake manifest gap; cash balance guide (GD-Q2-012) cannot be scored for delivery until the FY26 annual accounts or a subsequent quarter's balance sheet disclosure is available.",
+    "origin_file": "guidance_questions.json",
+    "origin": "guidance_questions.json",
+    "_normalised": "field names aligned to schema/open_question.schema.json (2026-08-03); v1 used origin_file/raised_by and route_to/routed_to for the same content"
+  },
+  {
+    "id": "OQ-GUI-05",
+    "question": "What is management's actual (not company-claimed) track record on capacity-expansion timelines prior to FY2026 — i.e., did NALCO's brownfield/greenfield projects in FY2021-FY2025 (pre-transcript period) slip similarly, or is the FY26 5th-stream/smelter/Pottangi pattern a new development?",
+    "raised_by": "22_management_guidance",
+    "route": "deep_research_company",
+    "related_findings": [
+      "5th_stream_refinery_commissioning_timeline",
+      "smelter_expansion_0.5mtpa_capex_and_timeline"
+    ],
+    "severity": "medium",
+    "status": "open",
+    "rationale": "No transcripts exist for FY2021-FY2025 (per manifest gap), so the credibility scores in this ledger are built on a single fiscal year of management commentary. AR MD&A sections (already extracted by doc-extractor) may contain historical project-timeline disclosures (e.g., past capex project delays) that would extend the credibility track record — this should be cross-checked against the fundamental-analyst/forensic-auditor findings rather than re-researched externally, and flagged if AR text confirms a pre-existing pattern of guidance slippage on capacity projects.",
+    "origin_file": "guidance_questions.json",
+    "origin": "guidance_questions.json",
+    "_normalised": "field names aligned to schema/open_question.schema.json (2026-08-03); v1 used origin_file/raised_by and route_to/routed_to for the same content"
+  },
+  {
+    "id": "OQ-GOV-01",
+    "question": "Are there any SEBI, ED, SFIO, CBI, NCLT/IBBI orders, MCA charge defaults, or DIN disqualifications on record against NALCO, its directors (Brijendra Pratap Singh, Abhay Kumar Behuria, Jagdish Arora, or other board members), or its material subsidiaries/JVs (per MCA21/SEBI enforcement registries)?",
+    "why_it_matters": "Gates the legal_regulatory sub-score (20% weight) at Green vs Amber/Red per rubric; document-only extraction found no adverse fact, but that is an absence-of-evidence result, not an independent clearance.",
+    "severity": "high",
+    "routed_to": "deep_research_company",
+    "status": "open",
+    "origin_file": "governance_questions.json",
+    "origin": "governance_questions.json",
+    "route": "deep_research_company",
+    "_normalised": "field names aligned to schema/open_question.schema.json (2026-08-03); v1 used origin_file/raised_by and route_to/routed_to for the same content"
+  },
+  {
+    "id": "OQ-GOV-02",
+    "question": "What did the C&AG (Comptroller and Auditor General) supplementary audit under Section 143(6) of the Companies Act 2013 find for NALCO for FY2021-FY2025? Were there any CAG comments, qualifications, or para observations appended to the statutory auditor's report in any year?",
+    "why_it_matters": "CAG supplementary audit is a CPSE-specific governance mechanism absent for private companies; a CAG adverse para would be material to the accounting sub-score even if the statutory auditor's opinion is unqualified. No CAG-specific fact was extracted from any AR on hand.",
+    "severity": "high",
+    "routed_to": "deep_research_company",
+    "status": "open",
+    "origin_file": "governance_questions.json",
+    "origin": "governance_questions.json",
+    "route": "deep_research_company",
+    "_normalised": "field names aligned to schema/open_question.schema.json (2026-08-03); v1 used origin_file/raised_by and route_to/routed_to for the same content"
+  },
+  {
+    "id": "OQ-GOV-03",
+    "question": "What were the statutory auditor's opinions (qualified/unqualified/adverse/disclaimer) and total contingent liabilities for FY2024 and FY2025? These are not present in facts/financials.json despite AR_FY2024.pdf and AR_FY2025.pdf being in the input manifest.",
+    "why_it_matters": "Directly gates the accounting sub-score (35% weight, largest component); FY2021-FY2023 are clean but the two most recent years are an extraction gap, not a confirmed clean result.",
+    "severity": "high",
+    "routed_to": "re_extraction_not_research — recommend doc-extractor re-run on AR_FY2024.pdf/AR_FY2025.pdf auditor's report and Note on contingent liabilities/commitments",
+    "status": "open",
+    "origin_file": "governance_questions.json",
+    "origin": "governance_questions.json",
+    "route": "re_extraction_not_research — recommend doc-extractor re-run on AR_FY2024.pdf/AR_FY2025.pdf auditor's report and Note on contingent liabilities/commitments",
+    "_normalised": "field names aligned to schema/open_question.schema.json (2026-08-03); v1 used origin_file/raised_by and route_to/routed_to for the same content"
+  },
+  {
+    "id": "OQ-GOV-04",
+    "question": "What is NALCO's quarterly promoter (Government of India) shareholding trend for the last 4+ quarters, and is there any announced or rumoured OFS/disinvestment under DIPAM for NALCO?",
+    "why_it_matters": "CPSE-specific disinvestment/OFS risk is a distinct overhang from pledge risk (which is N/A for a sovereign promoter); relevant to promoter-shareholding-trend deliverable and to the equity story (supply overhang risk), not currently answerable from facts on hand.",
+    "severity": "medium",
+    "routed_to": "deep_research_company",
+    "status": "open",
+    "origin_file": "governance_questions.json",
+    "origin": "governance_questions.json",
+    "route": "deep_research_company",
+    "_normalised": "field names aligned to schema/open_question.schema.json (2026-08-03); v1 used origin_file/raised_by and route_to/routed_to for the same content"
+  },
+  {
+    "id": "OQ-GOV-05",
+    "question": "What is the full board composition (independent directors, GoI-nominee directors, part-time official/non-official directors), their tenure/appointment dates, and any DIN-related flags? Do any board members have LinkedIn-stated roles that diverge from AR-stated roles/tenure?",
+    "why_it_matters": "Rubric's governance sub-criterion explicitly weighs 'independent board' composition; not extracted in facts/financials.json (only transcript-speaker names for 3 executive directors were available). Also needed for the management-table LinkedIn-discrepancy check called for in the module deliverables.",
+    "severity": "medium",
+    "routed_to": "deep_research_company",
+    "status": "open",
+    "origin_file": "governance_questions.json",
+    "origin": "governance_questions.json",
+    "route": "deep_research_company",
+    "_normalised": "field names aligned to schema/open_question.schema.json (2026-08-03); v1 used origin_file/raised_by and route_to/routed_to for the same content"
+  },
+  {
+    "id": "OQ-GOV-06",
+    "question": "What does external press/media coverage (last 3-5 years) say about NALCO's governance, board appointments, or any controversy — and does independent secondary-source coverage corroborate or contradict the clean-audit picture from the AR filings?",
+    "why_it_matters": "Rubric requires a media/reputation red-flag category; no DR1 external-facts output was available to this module at run time (no workspace/NALCO/research/ output found).",
+    "severity": "medium",
+    "routed_to": "deep_research_company",
+    "status": "open",
+    "origin_file": "governance_questions.json",
+    "origin": "governance_questions.json",
+    "route": "deep_research_company",
+    "_normalised": "field names aligned to schema/open_question.schema.json (2026-08-03); v1 used origin_file/raised_by and route_to/routed_to for the same content"
+  },
+  {
+    "id": "OQ-DR1-1",
+    "question": "Panchpatmali lease terminal dates: which block expires 2029 vs which expires 2032/2035? External source (2019-vintage IBM yearbook) gives South=2029, North-Central=2032 — conflicts with brief's 'central=2029, south=2035' framing. Needs verification against NALCO's own current AR/investor-presentation lease disclosure (primary, in-house).",
+    "severity": "medium",
+    "routed_to": "fundamental-analyst",
+    "reason_unresolved": "Best available external source is 6+ years stale; a more recent renewal may exist that this search pass didn't surface. Internal AR text is authoritative and should be checked directly rather than via web search.",
+    "origin_file": "dr1_open.json",
+    "origin": "dr1_open.json",
+    "route": "fundamental-analyst",
+    "status": "open",
+    "_status_inferred_from": "reason_unresolved present — the record states it is unresolved",
+    "_normalised": "field names aligned to schema/open_question.schema.json (2026-08-03); v1 used origin_file/raised_by and route_to/routed_to for the same content"
+  },
+  {
+    "id": "OQ-DR1-2",
+    "question": "Confirm GoI (President of India) shareholding of 51.28% via a primary NSE/BSE shareholding-pattern filing rather than a market-data aggregator.",
+    "severity": "low",
+    "routed_to": "orchestrator",
+    "reason_unresolved": "NSE corporate-filings pages are bot-walled to automated fetch; BSE fallback not attempted in this pass due to search-budget allocation to higher-priority items. Figure matches brief's stated value so risk of material error is low, but corroboration tier is currently secondary/unverified, not primary.",
+    "origin_file": "dr1_open.json",
+    "origin": "dr1_open.json",
+    "route": "orchestrator",
+    "status": "open",
+    "_status_inferred_from": "reason_unresolved present — the record states it is unresolved",
+    "_normalised": "field names aligned to schema/open_question.schema.json (2026-08-03); v1 used origin_file/raised_by and route_to/routed_to for the same content"
+  },
+  {
+    "id": "OQ-DR1-3",
+    "question": "Is there a NALCO-specific DIPAM dividend directive (vs. the general CPSE minimum-dividend norm) and does NALCO's own Dividend Distribution Policy document specify a payout ratio target?",
+    "severity": "low",
+    "routed_to": "fundamental-analyst",
+    "reason_unresolved": "NALCO's Dividend Distribution Policy PDF (nalcoindia.com/wp-content/uploads/2019/01/Dividend-Policy.pdf) was located but not fetched in this pass; recommend a direct fetch if payout-ratio assumptions become load-bearing for estimates.",
+    "origin_file": "dr1_open.json",
+    "origin": "dr1_open.json",
+    "route": "fundamental-analyst",
+    "status": "open",
+    "_status_inferred_from": "reason_unresolved present — the record states it is unresolved",
+    "_normalised": "field names aligned to schema/open_question.schema.json (2026-08-03); v1 used origin_file/raised_by and route_to/routed_to for the same content"
+  },
+  {
+    "id": "OQ-DR1-4",
+    "question": "Reputation sweep (X/Twitter, YouTube, Glassdoor/Naukri) on named management (CMD Singh, Director-Finance Behuria) and broader employee/customer sentiment consensus table was not conducted — out of scope given bounded search budget for this pass focused on appointments/regulatory/lease priorities.",
+    "severity": "low",
+    "routed_to": "deep-researcher (follow-up pass, if requested)",
+    "reason_unresolved": "Deprioritized under the 20-search budget in favor of regulatory/lease/disinvestment/dividend items explicitly listed in scope; standing checklist item C (reputation sweep) not exhausted.",
+    "origin_file": "dr1_open.json",
+    "origin": "dr1_open.json",
+    "route": "deep-researcher (follow-up pass, if requested)",
+    "status": "open",
+    "_status_inferred_from": "reason_unresolved present — the record states it is unresolved",
+    "_normalised": "field names aligned to schema/open_question.schema.json (2026-08-03); v1 used origin_file/raised_by and route_to/routed_to for the same content"
+  },
+  {
+    "id": "OQ-DR1-5",
+    "question": "Direct primary-docket screen of SEBI order database and NCLT/NCLAT/IBBI case search for NALCO/directors (rather than general web search) to upgrade the 'no adverse finding located' result to a certified clean scan.",
+    "severity": "medium",
+    "routed_to": "orchestrator / deep-researcher follow-up",
+    "reason_unresolved": "SEBI/NCLT sites were not directly queryable via search tooling in this pass (general web search returned only tangential/administrative pages); a direct site-restricted fetch attempt was not executed given search-budget constraints. Governance-analyst should treat current result as provisional, not exhaustive.",
+    "origin_file": "dr1_open.json",
+    "origin": "dr1_open.json",
+    "route": "orchestrator / deep-researcher follow-up",
+    "status": "open",
+    "_status_inferred_from": "reason_unresolved present — the record states it is unresolved",
+    "_normalised": "field names aligned to schema/open_question.schema.json (2026-08-03); v1 used origin_file/raised_by and route_to/routed_to for the same content"
+  },
+  {
+    "id": "OQ-DR1-6",
+    "question": "Director (Personnel/HR) — identity and appointment date not confirmed in this pass.",
+    "severity": "low",
+    "routed_to": "fundamental-analyst / governance-analyst",
+    "reason_unresolved": "Not surfaced in the search results reviewed; likely findable directly on nalcoindia.com/company/nalco-leadership/board-of-directors/ with a targeted fetch.",
+    "origin_file": "dr1_open.json",
+    "origin": "dr1_open.json",
+    "route": "fundamental-analyst / governance-analyst",
+    "status": "open",
+    "_status_inferred_from": "reason_unresolved present — the record states it is unresolved",
+    "_normalised": "field names aligned to schema/open_question.schema.json (2026-08-03); v1 used origin_file/raised_by and route_to/routed_to for the same content"
+  }
+]

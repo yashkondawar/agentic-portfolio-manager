@@ -1,0 +1,37 @@
+kpi_id: ici_index
+scope: macro
+cycle_refs: [gdp_business_cycle, capex_investment_cycle]
+formula: >
+  Index of Eight Core Industries (ICI) = DPIIT/eaindustry.nic.in
+  composite index (base 2011-12=100) covering Coal, Crude Oil, Natural
+  Gas, Refinery Products, Fertilizers, Steel, Cement, Electricity —
+  together ~40% weight in the IIP. Read as the overall headline index
+  level plus 8 sub-series; a monthly industrial-activity anchor that
+  publishes faster than full IIP.
+inputs:
+  - name: ICI overall index level + 8 sub-industry index levels, monthly
+    source: >
+      eaindustry.nic.in/archive_data/ici_press_release/IPR_<YYYY>_<MM>.pdf
+      (predictable filename pattern), pdfplumber table extraction from
+      page index 3 of the press-release PDF, via
+      afund.data.macro_govt.MacroGovtPipeline -> macro_series ICI_INDEX
+      (overall, renamed from the PDF's "Overall Index" column) plus
+      ICI_COAL / ICI_CRUDE_OIL / ICI_NATURAL_GAS / ICI_REFINERY_PRODUCTS /
+      ICI_FERTILIZERS / ICI_STEEL / ICI_CEMENT / ICI_ELECTRICITY.
+      WORKSTREAM D: confirmed live, all 9 series parse cleanly (not
+      headline-only degrade). GOTCHA: eaindustry.nic.in returns HTTP 200
+      with an HTML shell (not a 404) for not-yet-published months —
+      caller must check Content-Type == application/pdf, not status code
+      alone, to detect "not published yet". Backfilled ~18 months in one
+      pass (2024-01 through the latest published month); deeper archival
+      history would need separate older-URL probing, not attempted this
+      pass. Growth-rate sub-table on the same PDF page is not separately
+      parsed/stored — YoY should be derived downstream from the index
+      levels, same pattern as CPI_INDEX -> CPI_YOY.
+    status: available
+orientation: goldilocks_type
+lookback_years: 5
+cadence: monthly
+source_status: available
+registry_xref: null
+references_xref: []

@@ -1,0 +1,34 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 294,
+  "table_index": 2,
+  "bbox": [
+    51.27349,
+    483.364875,
+    542.3759714285715,
+    524.8126428571429
+  ],
+  "rows": [
+    [
+      "",
+      "USD impact",
+      null,
+      "EURO impact",
+      null
+    ],
+    [
+      null,
+      "Year ended 31.03.2025",
+      "Year ended 31.03.2024",
+      "Year ended 31.03.2025",
+      "Year ended 31.03.2024"
+    ],
+    [
+      "Impact on profit or loss for the year",
+      "2.6",
+      "(21.6)",
+      "4.07",
+      "4.11"
+    ]
+  ]
+}

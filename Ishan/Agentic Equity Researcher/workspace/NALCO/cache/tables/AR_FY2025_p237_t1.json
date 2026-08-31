@@ -1,0 +1,31 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 237,
+  "table_index": 1,
+  "bbox": [
+    51.273700000000005,
+    141.688,
+    543.2263,
+    195.34360000000004
+  ],
+  "rows": [
+    [
+      "Sl.\nNo.",
+      "Name of the company",
+      "The Company/ Joint\nVenture",
+      "Paragraph numbers of the CARO report\ncontaining the Qualifications or Adverse\nRemarks"
+    ],
+    [
+      "1",
+      "National Aluminium Company Limited",
+      "The Company",
+      "i (c)"
+    ],
+    [
+      "2",
+      "GACL-NALCO Alkalies & Chemicals Private Limited",
+      "Joint Venture",
+      "ii (b)/xix"
+    ]
+  ]
+}

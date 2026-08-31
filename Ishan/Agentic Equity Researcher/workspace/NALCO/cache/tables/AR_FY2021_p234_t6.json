@@ -1,0 +1,55 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 234,
+  "table_index": 6,
+  "bbox": [
+    71.116185,
+    570.5487428571429,
+    547.1655137931034,
+    654.7249142857142
+  ],
+  "rows": [
+    [
+      "A.",
+      "Non current",
+      null,
+      "As at\n31.03.2021",
+      "As at\n31.03.2020"
+    ],
+    [
+      null,
+      "(a)",
+      "Creditors for capital supplies and services",
+      "",
+      ""
+    ],
+    [
+      null,
+      null,
+      "— Dues to micro and small enterprises",
+      "—",
+      "—"
+    ],
+    [
+      null,
+      null,
+      "— Others",
+      "36.07",
+      "8.28"
+    ],
+    [
+      null,
+      "(b)",
+      "Lease Liability",
+      "50.48",
+      "50.25"
+    ],
+    [
+      null,
+      "Total other non-current financial liabilities",
+      null,
+      "86.55",
+      "58.53"
+    ]
+  ]
+}

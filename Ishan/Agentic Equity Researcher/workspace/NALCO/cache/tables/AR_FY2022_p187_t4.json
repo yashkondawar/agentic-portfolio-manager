@@ -1,0 +1,55 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 187,
+  "table_index": 4,
+  "bbox": [
+    73.951,
+    469.2420000000001,
+    549.6869,
+    535.7593333333334
+  ],
+  "rows": [
+    [
+      "Depreciation and amortisation Additions to non-current assets",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "Year ended 31.03.2022",
+      "Year ended 31.03.2021",
+      "Year ended 31.03.2022",
+      "Year ended 31.03.2021"
+    ],
+    [
+      "Chemical segment",
+      "229.08",
+      "268.03",
+      "51.62",
+      "(110.26)"
+    ],
+    [
+      "Aluminium segment",
+      "296.95",
+      "271.53",
+      "26.12",
+      "(53.24)"
+    ],
+    [
+      "Unallocated",
+      "310.55",
+      "66.26",
+      "310.80",
+      "575.93"
+    ],
+    [
+      "Total for operations",
+      "836.59",
+      "605.82",
+      "388.54",
+      "412.43"
+    ]
+  ]
+}

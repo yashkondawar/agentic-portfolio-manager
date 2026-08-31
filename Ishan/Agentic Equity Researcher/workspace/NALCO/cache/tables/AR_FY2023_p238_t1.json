@@ -1,0 +1,103 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 238,
+  "table_index": 1,
+  "bbox": [
+    45.979,
+    79.3315,
+    549.546,
+    247.34000000000003
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      "Year ended 31.03.2023",
+      "Year ended 31.03.2022"
+    ],
+    [
+      "(a)",
+      "Interest income",
+      "",
+      ""
+    ],
+    [
+      null,
+      "(i) Interest income earned from financial assets that are not designated as at fair value through profit or loss:",
+      "",
+      ""
+    ],
+    [
+      null,
+      "- Bank deposits",
+      "143.25",
+      "103.18"
+    ],
+    [
+      null,
+      "- Loans to employees",
+      "10.17",
+      "9.25"
+    ],
+    [
+      null,
+      "- Other financial assets carried at amortised cost",
+      "20.04",
+      "13.42"
+    ],
+    [
+      null,
+      "(ii) Interest income earned from Income tax refund",
+      "13.72",
+      "84.51"
+    ],
+    [
+      "(b)",
+      "Dividend income",
+      "",
+      ""
+    ],
+    [
+      null,
+      "- Dividends from current investments",
+      "17.23",
+      "13.91"
+    ],
+    [
+      "(c)",
+      "Net foreign exchange gain/(loss)",
+      "(8.90)",
+      "(1.59)"
+    ],
+    [
+      "(d)",
+      "Net gain/(loss) on financial assets designated as at FVTPL",
+      "0.57",
+      "(0.36)"
+    ],
+    [
+      "(e)",
+      "Write back of liabilities no longer required [refer note: 30.1]",
+      "8.00",
+      "23.00"
+    ],
+    [
+      "(f)",
+      "Net gain/(loss) on sale of Property, Plant & Equipments",
+      "2.56",
+      "0.44"
+    ],
+    [
+      "(g)",
+      "Others",
+      "28.99",
+      "18.33"
+    ],
+    [
+      "",
+      "Total other income",
+      "235.63",
+      "264.09"
+    ]
+  ]
+}

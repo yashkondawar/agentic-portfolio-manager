@@ -1,0 +1,28 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 252,
+  "table_index": 1,
+  "bbox": [
+    112.058,
+    76.99200000000002,
+    549.5726000000001,
+    115.95500000000004
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "Year ended 31.03.2023",
+      "Year ended 31.03.2022"
+    ],
+    [
+      "Purchase of goods and services from CPSEs/ Govt. undertakings",
+      "4,444.84",
+      "3,443.02"
+    ],
+    [
+      "Sale of goods to CPSEs and Govt. undertakings",
+      "1,480.29",
+      "1,695.29"
+    ]
+  ]
+}

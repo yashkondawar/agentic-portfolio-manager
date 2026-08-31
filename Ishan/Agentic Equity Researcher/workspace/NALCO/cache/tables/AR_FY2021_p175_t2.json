@@ -1,0 +1,28 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 175,
+  "table_index": 2,
+  "bbox": [
+    79.62012857142857,
+    122.687625,
+    555.1923357142857,
+    171.202925
+  ],
+  "rows": [
+    [
+      "Current (secured) ( at amortised cost)",
+      "As at\n31.03.2021",
+      "As at\n31.03.2020"
+    ],
+    [
+      "Liabilities towards bills discounted",
+      "46.11",
+      "12.31"
+    ],
+    [
+      "Total other current financial liabilities",
+      "46.11",
+      "12.31"
+    ]
+  ]
+}

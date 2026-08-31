@@ -1,0 +1,109 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 181,
+  "table_index": 4,
+  "bbox": [
+    79.6201,
+    460.7658399999999,
+    555.0568162162162,
+    653.03656
+  ],
+  "rows": [
+    [
+      "",
+      "",
+      "Year ended\n31.03.2021",
+      "Year ended\n31.03.2020"
+    ],
+    [
+      "(a)",
+      "Interest income",
+      "",
+      ""
+    ],
+    [
+      "",
+      "(i) Interest income earned from financial assets that are not designated as at fair value through profit or\nloss:",
+      "",
+      ""
+    ],
+    [
+      "",
+      "— Bank deposits",
+      "69.99",
+      "144.30"
+    ],
+    [
+      "",
+      "— Loans to employees",
+      "9.42",
+      "9.43"
+    ],
+    [
+      "",
+      "— Other financial assets carried at amortised cost",
+      "5.48",
+      "2.99"
+    ],
+    [
+      "",
+      "(ii) Interest income earned from Income tax refund",
+      "—",
+      "61.18"
+    ],
+    [
+      "(b)",
+      "Dividend income",
+      "",
+      ""
+    ],
+    [
+      "",
+      "— Dividends from current investments",
+      "5.48",
+      "7.60"
+    ],
+    [
+      "(c)",
+      "Net foreign exchange gain/(loss)",
+      "(1.85)",
+      "5.94"
+    ],
+    [
+      "(d)",
+      "Net gain/(loss) on financial assets designated as at FVTPL",
+      "0.38",
+      "0.01"
+    ],
+    [
+      "(e)",
+      "Net gain/(loss) on sale of other investments",
+      "—",
+      "1.35"
+    ],
+    [
+      "(f)",
+      "Write back of liabilities no longer required [refer note: 28.1]",
+      "8.86",
+      "3.73"
+    ],
+    [
+      "(g)",
+      "Income from internally generated scrap",
+      "15.71",
+      "19.52"
+    ],
+    [
+      "(h)",
+      "Others",
+      "33.13",
+      "16.53"
+    ],
+    [
+      "Total other income",
+      null,
+      "146.60",
+      "272.58"
+    ]
+  ]
+}

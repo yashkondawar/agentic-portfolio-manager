@@ -1,0 +1,53 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 157,
+  "table_index": 2,
+  "bbox": [
+    45.7915,
+    219.65200000000004,
+    549.3585,
+    322.31600000000003
+  ],
+  "rows": [
+    [
+      "A.1.2 Other investment at cost Amount in ` Crore",
+      null,
+      null
+    ],
+    [
+      "Unquoted investments",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      "Odisha Capital Market & Enterprises Limited.\n(As at 31.03.2023 2,89,000 shares of R 1 each fully paid up)\n(As at 31.03.2022 2,89,000 shares of R 1 each fully paid up)",
+      "0.03",
+      "0.03"
+    ],
+    [
+      "Total - Investments in other entities",
+      "0.03",
+      "0.03"
+    ],
+    [
+      "Total - investments in equity instruments",
+      "325.25",
+      "313.25"
+    ],
+    [
+      "Additional information",
+      "",
+      ""
+    ],
+    [
+      "Aggregate carrying amount of unquoted investments",
+      "325.25",
+      "313.25"
+    ],
+    [
+      "Financial assets amortised cost",
+      "325.25",
+      "313.25"
+    ]
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 101,
+  "table_index": 2,
+  "bbox": [
+    68.281359375,
+    242.77295,
+    542.6760571428572,
+    337.81615
+  ],
+  "rows": [
+    [
+      "",
+      "% of your plants and offices that were assessed (by entity or statutory authorities or third parties)"
+    ],
+    [
+      "Child labor",
+      "45 %"
+    ],
+    [
+      "Forced/involuntary labor",
+      null
+    ],
+    [
+      "Sexual harassment",
+      null
+    ],
+    [
+      "Discrimination at workplace",
+      null
+    ],
+    [
+      "Wages",
+      null
+    ],
+    [
+      "Others – please specify",
+      "NA"
+    ]
+  ]
+}

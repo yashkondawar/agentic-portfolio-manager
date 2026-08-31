@@ -1,0 +1,101 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 252,
+  "table_index": 2,
+  "bbox": [
+    51.273703125,
+    266.4047,
+    542.8356829268292,
+    432.51515
+  ],
+  "rows": [
+    [
+      "(3)",
+      "Movement of other Provisions",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      null,
+      "Land reclamation/\nsite restoration",
+      "Asset dismantling\nobligation",
+      "Legal and Constructive\nObligation",
+      "Peripheral Development\nExpenses"
+    ],
+    [
+      "Balance at 31.03.2022",
+      null,
+      "-",
+      "40.59",
+      "49.45",
+      "30.30"
+    ],
+    [
+      "Additional provisions recognised",
+      null,
+      "-",
+      "0.30",
+      "2.97",
+      "-"
+    ],
+    [
+      "Reductions arising from payments",
+      null,
+      "-",
+      "0.43",
+      "(0.69)",
+      "(0.25)"
+    ],
+    [
+      "Unwinding of discount",
+      null,
+      "-",
+      "2.9",
+      "0.28",
+      "-"
+    ],
+    [
+      "Balance at 31.03.2023",
+      null,
+      "-",
+      "44.22",
+      "52.01",
+      "30.05"
+    ],
+    [
+      "Additional provisions recognised",
+      null,
+      "64.93",
+      "1.04",
+      "19.41",
+      "-"
+    ],
+    [
+      "Reductions arising from payments",
+      null,
+      "0",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Unwinding of discount",
+      null,
+      "4.39",
+      "3.69",
+      "0.29",
+      "-"
+    ],
+    [
+      "Balance at 31.03.2024",
+      null,
+      "69.32",
+      "48.95",
+      "71.71",
+      "30.05"
+    ]
+  ]
+}

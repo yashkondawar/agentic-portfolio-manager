@@ -1,0 +1,22 @@
+kpi_id: gsr
+scope: macro
+cycle_refs: [commodity_cycle]
+formula: >
+  Gold-Silver Ratio = Price of Gold / Price of Silver (same currency, same
+  fixing convention). Long-run average is ~80:1; a break below ~50:1 flags
+  silver as rich relative to gold (crash-prone), a break well above ~80:1
+  flags silver as cheap relative to gold.
+inputs:
+  - name: Gold spot/fixing price
+    source: afund.daily_prices (GOLDBEES proxy) or a dedicated commodity feed
+    status: derivable
+  - name: Silver spot/fixing price
+    source: afund.daily_prices (SILVERBEES proxy) or a dedicated commodity feed
+    status: derivable
+orientation: value_type
+lookback_years: 20
+cadence: daily
+source_status: derivable
+registry_xref: null
+references_xref:
+  - kpi_interpretation/valuation_cycle.md

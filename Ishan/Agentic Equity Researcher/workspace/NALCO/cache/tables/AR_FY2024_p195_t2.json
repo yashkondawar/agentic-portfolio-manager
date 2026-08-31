@@ -1,0 +1,53 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 195,
+  "table_index": 2,
+  "bbox": [
+    51.27364137931035,
+    440.57324,
+    542.7026258064516,
+    534.78585
+  ],
+  "rows": [
+    [
+      "Operating Segments",
+      "Segment Revenue",
+      null
+    ],
+    [
+      null,
+      "Year ended 31.03.2024",
+      "Year ended 31.03.2023"
+    ],
+    [
+      "Chemical segment",
+      "5,416.47",
+      "5,585.71"
+    ],
+    [
+      "Aluminium segment",
+      "9,556.53",
+      "10,245.79"
+    ],
+    [
+      "Unallocated",
+      "7.75",
+      "72.61"
+    ],
+    [
+      "Total for operations",
+      "14,980.75",
+      "15,904.11"
+    ],
+    [
+      "Less: Intersegment revenue",
+      "1,831.60",
+      "1,647.26"
+    ],
+    [
+      "Revenue from operations",
+      "13,149.15",
+      "14,256.85"
+    ]
+  ]
+}

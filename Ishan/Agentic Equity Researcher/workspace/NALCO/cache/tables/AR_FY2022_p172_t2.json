@@ -1,0 +1,109 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 172,
+  "table_index": 2,
+  "bbox": [
+    45.47086,
+    178.90470000000008,
+    494.17400000000004,
+    399.95200000000006
+  ],
+  "rows": [
+    [
+      "",
+      "Capital redemption\nreserve",
+      "General reserve",
+      "Retained earnings"
+    ],
+    [
+      "Balance as at 01.04.2020",
+      "355.81",
+      "8,112.98",
+      "586.47"
+    ],
+    [
+      "Profit for the year",
+      "-",
+      "-",
+      "1,299.53"
+    ],
+    [
+      "Other comprehensive income (net of taxes)",
+      "-",
+      "-",
+      "23.83"
+    ],
+    [
+      "Total comprehensive income for the year",
+      "-",
+      "-",
+      "1,323.36"
+    ],
+    [
+      "Premium on Buy-back of equity shares",
+      "-",
+      "(152.18)",
+      "-"
+    ],
+    [
+      "Expenses on Buy-back of equity shares(net of tax)",
+      "-",
+      "(3.45)",
+      "-"
+    ],
+    [
+      "Transfer of general reserve to Capital redemption reserve",
+      "14.49",
+      "(14.49)",
+      "-"
+    ],
+    [
+      "Interim dividend for the year",
+      "-",
+      "-",
+      "(460.61)"
+    ],
+    [
+      "Balance as at 31.03.2021",
+      "370.30",
+      "7,942.86",
+      "1,449.22"
+    ],
+    [
+      "Profit for the year",
+      "-",
+      "-",
+      "2,951.97"
+    ],
+    [
+      "Other comprehensive income (net of taxes)",
+      "-",
+      "-",
+      "23.95"
+    ],
+    [
+      "Total comprehensive income for the year",
+      "-",
+      "-",
+      "2,975.92"
+    ],
+    [
+      "Final dividend for the previous year",
+      "-",
+      "-",
+      "(183.66)"
+    ],
+    [
+      "Interim dividend for the year",
+      "-",
+      "-",
+      "(918.32)"
+    ],
+    [
+      "Balance as at 31.03.2022",
+      "370.30",
+      "7,942.86",
+      "3,323.16"
+    ]
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 188,
+  "table_index": 4,
+  "bbox": [
+    73.951,
+    363.74885000000006,
+    453.543,
+    501.0445
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      "As at 31.03.2022"
+    ],
+    [
+      "Financial Assets",
+      null,
+      ""
+    ],
+    [
+      "Measured at fair value through profit or loss (FVTPL)",
+      null,
+      ""
+    ],
+    [
+      "(a)",
+      "Mandatorily measured:",
+      ""
+    ],
+    [
+      null,
+      "(i) Investments in mutual funds",
+      "64.01"
+    ],
+    [
+      null,
+      "(ii) Forward contract on foreign currency",
+      "Nil"
+    ],
+    [
+      "Measured at Amortised cost",
+      null,
+      ""
+    ],
+    [
+      "(a)\n(b)",
+      "Cash and bank balances",
+      "412.80"
+    ],
+    [
+      null,
+      "Other financial assets at amortised cost",
+      "3,520.73"
+    ],
+    [
+      "",
+      null,
+      "3,997.54"
+    ],
+    [
+      "Financial Liabilities",
+      null,
+      ""
+    ],
+    [
+      "Measured at Amortised cost",
+      null,
+      "2,095.82"
+    ]
+  ]
+}

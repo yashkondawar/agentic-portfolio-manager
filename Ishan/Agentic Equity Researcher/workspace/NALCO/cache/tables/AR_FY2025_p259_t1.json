@@ -1,0 +1,153 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 259,
+  "table_index": 1,
+  "bbox": [
+    51.273670370370375,
+    87.77894705882353,
+    542.9693592592592,
+    379.4252
+  ],
+  "rows": [
+    [
+      "Description of the Property",
+      "Freehold/\nLeasehold",
+      "Gross\ncarrying\nvalue",
+      "Title deeds held in the\nname of",
+      "Whether title deed holder\nis a promoter, director\nor relative of promoter/\ndirector or employee of\npromoter/director",
+      "Property\nheld since\nwhich\ndate",
+      "Reason for not being held in\nthe name of Company",
+      "Whether\ndisputed"
+    ],
+    [
+      "1.69 Acres of Land at\nAngul district of Odisha",
+      "Leasehold",
+      "-",
+      "Industrial Development\nCorporation of Odisha\n(IDCO)",
+      "No",
+      "2018-19",
+      "Communal/Gochhar Land",
+      "No"
+    ],
+    [
+      "16.60 Acres of Land\nat Angul district of\nOdisha",
+      "Leasehold",
+      "-",
+      "Industrial Development\nCorporation of Odisha\n(IDCO)",
+      "No",
+      "2020-21",
+      "Communal/Gochhar Land",
+      "No"
+    ],
+    [
+      "25.69 Acres of Land at\nAngul district of Odisha",
+      "Leasehold",
+      "-",
+      "Industrial Development\nCorporation of Odisha\n(IDCO)",
+      "No",
+      "2022-23",
+      "Communal/Gochhar Land",
+      "No"
+    ],
+    [
+      "4.36 Acres of Land at\nAngul district of Odisha",
+      "Leasehold",
+      "-",
+      "Industrial Development\nCorporation of Odisha\n(IDCO)",
+      "No",
+      "2022-23",
+      "Communal/Gochhar Land",
+      "No"
+    ],
+    [
+      "0.66 Acres of Land at\nDhenkanal district of\nOdisha",
+      "Leasehold",
+      "0.09",
+      "Industrial Development\nCorporation of Odisha\n(IDCO)",
+      "No",
+      "1987-88",
+      "Execution of Lease Agreement\nis pending",
+      "No"
+    ],
+    [
+      "Building",
+      "-",
+      "-",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Investment Property",
+      "",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Land",
+      "-",
+      "-",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Building",
+      "-",
+      "-",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Non Current asset held for sale",
+      "",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Land",
+      "-",
+      "-",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Building",
+      "-",
+      "-",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Others",
+      "-",
+      "-",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ]
+  ]
+}

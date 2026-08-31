@@ -1,0 +1,55 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 81,
+  "table_index": 2,
+  "bbox": [
+    68.28140416666666,
+    337.2511875,
+    542.5405037037037,
+    464.24979999999994
+  ],
+  "rows": [
+    [
+      "",
+      "Male",
+      null,
+      "Female",
+      null
+    ],
+    [
+      null,
+      "Number",
+      "Median remuneration/ salary/ wages\nof respective category in INR",
+      "Number",
+      "Median remuneration/\nsalary/ wages of respective\ncategory in INR"
+    ],
+    [
+      "Board of Directors (BoD)",
+      "6",
+      "70,66,667",
+      "0",
+      "N.A."
+    ],
+    [
+      "Key Managerial Personnel",
+      "7",
+      "71,57,143",
+      "0",
+      "N.A."
+    ],
+    [
+      "Employees other than BoD and\nKMP (Executives)",
+      "1,495",
+      "46,79,933",
+      "91",
+      "47,25,275"
+    ],
+    [
+      "Workers* (Permanent Workers\ni.e non-Executives)",
+      "3,042",
+      "39,32,742",
+      "230",
+      "39,16,087"
+    ]
+  ]
+}

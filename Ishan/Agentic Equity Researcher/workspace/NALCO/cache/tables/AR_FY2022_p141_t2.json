@@ -1,0 +1,247 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 141,
+  "table_index": 2,
+  "bbox": [
+    75.27066666666667,
+    154.51633333333334,
+    549.7449499999999,
+    533.231
+  ],
+  "rows": [
+    [
+      "Sl.\nNo.",
+      "Nature of Statue",
+      "Nature of Disputed\nStatutory dues",
+      "Period to which\nthe amount\nrelates to",
+      "Forum where the\ndispute is pending",
+      "Gross disputed\namount\n(₹ Crore)",
+      "Amount\ndeposited under\nprotest/adjusted\nby authorities\n(₹ Crore)"
+    ],
+    [
+      "1",
+      "Income Tax Act,1961",
+      "Income Tax /\nTDS /Interest",
+      "2014-15\n2019-20",
+      "Commissioner of\nIncome Tax (Appeals)",
+      "43.96",
+      "15.86"
+    ],
+    [
+      null,
+      null,
+      null,
+      "2010-11\n2015-16",
+      "Asst. Commissioner /\nDeputy Commissioner\nof Income Tax",
+      "42.06",
+      "31.26"
+    ],
+    [
+      "2",
+      "Central Excise Act, 1944",
+      "Central Excise",
+      "1999-2000 to 2014-15",
+      "Tribunal",
+      "404.35",
+      "10.37"
+    ],
+    [
+      null,
+      null,
+      null,
+      "2007-08 to 2015-16",
+      "Appellate Authority",
+      "5.99",
+      "0.21"
+    ],
+    [
+      "3",
+      "Finance Act, 1994",
+      "Service Tax",
+      "2007-08 to 2016-17",
+      "Tribunal",
+      "7.14",
+      "2.12"
+    ],
+    [
+      null,
+      null,
+      null,
+      "2007-08 to 2018-19",
+      "Appellate Authority",
+      "7.67",
+      "0.29"
+    ],
+    [
+      "4",
+      "Custom Act, 1962",
+      "Custom Duty",
+      "2000-01 to 2012-13",
+      "Tribunal",
+      "102.77",
+      "1.95"
+    ],
+    [
+      "5",
+      "The Orissa VAT Act, 2004",
+      "VAT",
+      "2005-06 to 2009-10",
+      "Tribunal",
+      "12.60",
+      "2.17"
+    ],
+    [
+      null,
+      null,
+      null,
+      "2016-17 to 2017-18",
+      "Appellate Authority",
+      "0.05",
+      "-"
+    ],
+    [
+      "6",
+      "The Orissa Sales Tax Act, 1947",
+      "OST",
+      "1995-96 to 2002-03",
+      "Orissa High Court",
+      "1.63",
+      "0.37"
+    ],
+    [
+      null,
+      null,
+      null,
+      "1992-93 to 2004-05",
+      "Tribunal",
+      "1.00",
+      "0.64"
+    ],
+    [
+      null,
+      null,
+      null,
+      "2003-04",
+      "Appellate Authority",
+      "1.08",
+      "-"
+    ],
+    [
+      "7",
+      "The Orissa Entry Tax Act, 1999",
+      "ET",
+      "1999-2000 to 2010-11",
+      "Orissa High Court",
+      "8.79",
+      "3.56"
+    ],
+    [
+      null,
+      null,
+      null,
+      "1999-2000 to 2013-14",
+      "Tribunal",
+      "133.43",
+      "54.81"
+    ],
+    [
+      null,
+      null,
+      null,
+      "1999-2000 to 2015-16",
+      "Appellate Authority",
+      "75.04",
+      "8.51"
+    ],
+    [
+      null,
+      null,
+      null,
+      "1999-2000 to 2009-10",
+      "Assessing Officer",
+      "4.94",
+      "3.35"
+    ],
+    [
+      "8",
+      "The Central Sales Tax Act, 1956",
+      "CST",
+      "1992-93 to 2008-09",
+      "Tribunal",
+      "277.06",
+      "77.84"
+    ],
+    [
+      "9",
+      "Motor Vehicles Act",
+      "Road Tax",
+      "2008-09 to 2020-21",
+      "Orissa High Court",
+      "2.65",
+      "-"
+    ],
+    [
+      "10",
+      "Indian Stamp (Odisha Amendment)\nAct, 2013",
+      "Stamp Duty/\nRegistration",
+      "2018-19",
+      "Orissa High Court",
+      "213.29",
+      "-"
+    ],
+    [
+      "11",
+      "Finance Act, 2010",
+      "Clean Energy Cess",
+      "2015-16, 2016-17, 2018-19",
+      "Orissa High Court",
+      "230.50",
+      "-"
+    ],
+    [
+      "12",
+      "The National Green Tribunal Act, 2010",
+      "Claims from (NGT)",
+      "2018-19",
+      "Supreme Court",
+      "109.01",
+      "-"
+    ],
+    [
+      "13",
+      "Industrial Policy Resolution, 1996,\nGovt. of Odisha",
+      "Land acquisition and\ninterest thereon",
+      "1982-83, 2021-22",
+      "Orissa High Court",
+      "78.07",
+      "-"
+    ],
+    [
+      "14",
+      "MMDR Act, 1957",
+      "Royalty",
+      "2011-12 to 2015-16",
+      "Orissa High Court",
+      "136.32",
+      "-"
+    ],
+    [
+      "15",
+      "Water resources Deptt.,\nGovt. of Odisha",
+      "Water dispute",
+      "2014-15",
+      "Orissa High Court",
+      "119.24",
+      "-"
+    ],
+    [
+      "Grand Total",
+      null,
+      null,
+      null,
+      null,
+      "2,018.66",
+      "213.31"
+    ]
+  ]
+}

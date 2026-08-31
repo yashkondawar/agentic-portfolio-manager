@@ -1,0 +1,93 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 163,
+  "table_index": 2,
+  "bbox": [
+    51.003640000000004,
+    450.103,
+    542.72641,
+    663.764290909091
+  ],
+  "rows": [
+    [
+      "Description of the Property",
+      "Freehold/\nLeasehold",
+      "Gross\ncarrying\nvalue",
+      "Title deeds held in the\nname of",
+      "Whether title deed holder\nis a promoter, director\nor relative of promoter/\ndirector or employee of\npromoter/director",
+      "Property\nheld since\nwhich date",
+      "Reason for not being held\nin the name of Company",
+      "Whether\ndisputed"
+    ],
+    [
+      "PPE",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Land",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "11.09 Acres of Land at\nKoraput District of Odisha\n554.05 Acres of Land at\nKoraput District of Odisha\n46.90 Acres of Land at\nAngul district of Odisha\n19.87 Acres of Land at\nAngul district of Odisha\n656.19 Acres of Land at\nAngul district of Odisha",
+      "Freehold\nLeasehold\nFreehold\nFreehold\nLeasehold",
+      "0.06",
+      "Govt. of Odisha\nGovt. of Odisha\nIndustrial Development\nCorporation of Odisha\n(IDCO)\nRespective Land owners\nIndustrial Development\nCorporation of Odisha\n(IDCO)",
+      "No",
+      "1982-83\n1982-83\n1987-88\n1987-88\n1987-88",
+      "Pending Registration",
+      "No\nNo\nNo\nNo\nNo"
+    ],
+    [
+      null,
+      null,
+      "0.25",
+      null,
+      "No",
+      null,
+      "Execution of Lease\nAgreement is pending",
+      null
+    ],
+    [
+      null,
+      null,
+      "0.33",
+      null,
+      "No",
+      null,
+      "Pending Registration",
+      null
+    ],
+    [
+      null,
+      null,
+      "0.57",
+      null,
+      "No",
+      null,
+      "Land is in the possession\nof the Company. Transfer\nof land in the name of the\nCompany is in the process.",
+      null
+    ],
+    [
+      null,
+      null,
+      "1.38",
+      null,
+      "No",
+      null,
+      "Execution of Lease\nAgreement is pending",
+      null
+    ]
+  ]
+}

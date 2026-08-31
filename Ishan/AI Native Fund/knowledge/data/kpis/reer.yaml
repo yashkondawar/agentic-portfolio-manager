@@ -1,0 +1,22 @@
+kpi_id: reer
+scope: macro
+cycle_refs: [currency_external_balance_cycle]
+formula: >
+  Real Effective Exchange Rate = trade-weighted average of INR against a
+  basket of trading-partner currencies, adjusted for relative inflation.
+  Compared against its own 10-year average to judge over/under-valuation
+  (e.g. "Rupee REER bottoming below 88" per the source framework).
+inputs:
+  - name: RBI 36-currency REER index
+    source: >
+      FRED RBINBIS via afund.data.macro_fred (macro_series REER, monthly)
+      — the BIS-computed India REER republished by FRED; RBI DBIE remains
+      the original-source alternative
+    status: available
+orientation: value_type
+lookback_years: 10
+cadence: monthly
+source_status: available
+registry_xref: null
+references_xref:
+  - kpi_interpretation/valuation_cycle.md

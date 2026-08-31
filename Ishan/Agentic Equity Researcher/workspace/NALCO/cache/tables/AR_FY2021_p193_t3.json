@@ -1,0 +1,34 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 193,
+  "table_index": 3,
+  "bbox": [
+    100.02255714285715,
+    393.0207,
+    555.4556285714286,
+    461.0521428571428
+  ],
+  "rows": [
+    [
+      "USD impact EURO impact",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "Year ended\n31.03.2021",
+      "Year ended\n31.03.2020",
+      "Year ended\n31.03.2021",
+      "Year ended\n31.03.2020"
+    ],
+    [
+      "Impact on profit or loss for the year",
+      "27.7",
+      "10.0",
+      "1.48",
+      "0.00"
+    ]
+  ]
+}

@@ -1,0 +1,1047 @@
+# afund — external data source registry (Phase 0)
+#
+# Every external URL/pattern the system touches must be declared here, not
+# hardcoded in application code. verify_status is either:
+#   verified          — confirmed reachable/working during Phase 0 authoring
+#   needs_smoke_test  — not yet hit live; Phase 1 must verify before relying on it
+
+equity_index:
+  niftyindices_constituents:
+    url: "https://nsearchives.nseindia.com/content/indices/ind_niftytotalmarket_list.csv"
+    method: GET
+    notes: >
+      NIFTY TOTAL MARKET constituent list, CSV. PHASE 1 CORRECTION: the
+      original niftyindices.com/IndexConstituent/... URL now redirects
+      through new.niftyindices.com (a Sitefinity CMS) and returns an HTML
+      shell instead of CSV even with a browser UA. The nsearchives.nseindia.com
+      mirror (NSE's own archive host) serves the real CSV directly with no
+      cookie bootstrap required. Columns: Company Name, Industry, Symbol,
+      Series, ISIN Code. 751 constituents confirmed live 2026-07-03.
+    verify_status: verified
+
+  niftyindices_valuation_reports:
+    url: "https://www.niftyindices.com/Backpage.aspx/getHistoricaldatatabletoString"
+    method: POST
+    notes: >
+      Index-level historical PE/PB/div-yield reports. PHASE 1 FINDING: this
+      endpoint is DEAD — POST returns HTTP 403 "Web App - Unavailable"
+      (the legacy ASP.NET backend behind niftyindices.com has been
+      decommissioned in favour of the new Sitefinity site, which has no
+      equivalent public historical PE/PB API). No working substitute for
+      *historical* index PE/PB/div-yield was found within the smoke-test
+      budget. CURRENT-DAY snapshot (PE/PB/DY) is available instead via
+      nseindia.com's allIndices API — see nse_all_indices below. Historical
+      OHLC (no PE/PB) is available via nse_indices_history below.
+    verify_status: broken
+
+  nse_all_indices:
+    url: "https://www.nseindia.com/api/allIndices"
+    method: LIBRARY
+    notes: >
+      Current-day snapshot for every NSE index in one call: close (last),
+      pe, pb, dy (div yield), 30d/365d change, high/low. Requires the
+      cookie-bootstrapped session (see afund.data.http.bootstrap_nse_session)
+      but works even when the bootstrap GET itself returns 403 — the Akamai
+      challenge response still sets a usable cookie. This is the PRIMARY
+      source for index_data PE/PB/div_yield (current day only; NSE does not
+      expose historical PE/PB through this or any other endpoint we found).
+    verify_status: verified
+
+  nse_indices_history:
+    url: "https://www.nseindia.com/api/historicalOR/indicesHistory?indexType={INDEX}&from={DD-MM-YYYY}&to={DD-MM-YYYY}"
+    method: LIBRARY
+    notes: >
+      Historical OHLC (open/high/low/close/turnover) for a named index via
+      the cookie-bootstrapped NSE session. Confirmed working for NIFTY 50.
+      Does NOT include PE/PB/div_yield — those fields are absent from this
+      endpoint's payload entirely (checked live), so index_data's pe/pb/
+      div_yield columns can only be back-populated with real numbers for
+      the current day (from nse_all_indices); historical pe/pb/div_yield
+      rows are a genuinely blocked gap documented here per Phase 1 spec.
+      Index name mapping: NIFTY 50, NIFTY 500, NIFTY BANK. NIFTY TOTAL
+      MARKET is not published as a tradeable index on this endpoint.
+    verify_status: verified
+
+  niftyindices_daily_snapshot_archive:
+    url: "https://www.niftyindices.com/Daily_Snapshot/ind_close_all_{DDMMYYYY}.csv"
+    method: GET
+    notes: >
+      PHASE 1.5 FINDING (regime P/E-percentile backfill task): a STATIC
+      per-calendar-day CSV archive, distinct from (and not affected by) the
+      dead Backpage.aspx JSON endpoints above. One file per date contains
+      every published NSE index's OHLC + P/E + P/B + Div Yield for that
+      date — this is the genuine historical PE/PB/DY source the Phase 1
+      spec was looking for. Confirmed live 2026-07-04: NIFTY 50/500/BANK
+      back to 2013-04-01 (older files use the pre-rebrand "S&P CNX Nifty"
+      name and a narrower index list); NIFTY TOTAL MARKET rows first appear
+      ~2021-10-18. No cookie bootstrap or session warm-up required (plain
+      GET, unlike nseindia.com). QUIRK: a date with no snapshot (weekend,
+      market holiday, or outside archive coverage) returns HTTP 200 with
+      the site's generic Sitefinity HTML shell, NOT a 404 or empty body —
+      callers MUST check that the response text starts with the literal
+      CSV header "Index Name," rather than trusting the status code (see
+      afund.data.index_valuation.parse_daily_snapshot_csv). Cross-checked
+      against the live nse_all_indices snapshot for 2026-07-03: NIFTY 50
+      P/E 20.92, NIFTY 500 P/E 23.02, NIFTY TOTAL MARKET P/E 23.22 — exact
+      match (this archive and nse_all_indices are both fed by the same NSE
+      end-of-day computation). METHODOLOGY CAUTION: NSE changed the NIFTY
+      P/E calculation from standalone to consolidated earnings around
+      April 2021 (documented externally, e.g. freefincal/ValuePickr); rows
+      pulled from this archive predating that change are stored anyway but
+      tagged source='backfill_niftyindices_daily_snapshot' in index_data so
+      a future regime.py percentile window can exclude/scope them if the
+      shift proves material for a given index's series.
+    verify_status: verified
+
+mutual_funds:
+  amfi_daily_nav:
+    url: "https://www.amfiindia.com/spages/NAVAll.txt"
+    method: GET
+    notes: "All schemes, all AMCs, one file per day. Semicolon-delimited text, not CSV."
+    verify_status: verified
+
+  amfi_nav_history:
+    url: "https://portal.amfiindia.com/DownloadNAVHistoryReport_Po.aspx?tp=1&frmdt={DD-Mon-YYYY}&todt={DD-Mon-YYYY}"
+    method: GET
+    notes: >
+      Historical NAV report. PHASE 1 FINDING: despite the endpoint name,
+      there is no working server-side single-scheme filter — schCode/
+      Scheme_Code/fCode/SchemeCode query params are all silently ignored
+      and the response is always the FULL bulk file for the tp bucket
+      (tp=1 open-ended: ~21MB; tp=2 close-ended; tp=3 interval funds).
+      Confirmed live 2026-07-03. The amfi_nav.fetch_scheme_history() helper
+      therefore fetches the bulk tp=1 file for the date range and filters
+      to the requested scheme_code client-side. Date range is capped at
+      ~90 days per request per AMFI's own limit — must be chunked for
+      longer backfills. Smoke-tested against scheme 119551.
+    verify_status: verified
+
+prices:
+  yfinance:
+    url: "https://pypi.org/project/yfinance/"
+    method: LIBRARY
+    notes: "Primary price source for stocks, ETFs, and indices. Indian equities use the '.NS' ticker suffix; NSE indices use a leading '^' (e.g. ^NSEI). Prefer batch download() over per-symbol calls to reduce request count."
+    verify_status: verified
+
+  nse_bhavcopy_fallback:
+    url: "https://nsearchives.nseindia.com/content/cm/BhavCopy_NSE_CM_0_0_0_{YYYYMMDD}_F_0000.csv.zip"
+    method: GET
+    notes: >
+      FALLBACK ONLY — used when yfinance is missing/stale data for a trading
+      day. Full-market end-of-day bhavcopy, zipped CSV. URL host reachable
+      (HTTP 200 confirmed for a recent date 2026-07-03); not wired into any
+      pipeline in Phase 1 (yfinance covers the daily price need) — left as a
+      documented fallback for a future phase.
+    verify_status: verified
+
+company_research:
+  screener_search:
+    url: "https://www.screener.in/api/company/search/?q={symbol}"
+    method: GET
+    notes: "Resolves a symbol/name to a screener.in company slug. Verified live 2026-07-03 against INFY -> [{'id':1489,'name':'Infosys Ltd','url':'/company/INFY/consolidated/'}]."
+    rate_limit_seconds: 2
+    verify_status: verified
+
+  screener_company:
+    url: "https://www.screener.in/company/{slug}/consolidated/"
+    method: GET
+    notes: >
+      Company financials/ratios page (consolidated), fallback to
+      /company/{slug}/ (standalone) if consolidated 404s. Watchlist-only —
+      do not bulk-scrape the full universe; screener.in ToS restricts
+      automated scraping at scale. Verified live 2026-07-03 against INFY;
+      HTML structure: ul#top-ratios > li (name/number spans), and
+      section#quarters / #profit-loss / #balance-sheet / #cash-flow /
+      #shareholding each containing table.data-table with th[data-date-key].
+    rate_limit_seconds: 2
+    verify_status: verified
+
+nse_corporate:
+  # All three via the `nse` python library (BennyThadikaran/NseIndiaApi,
+  # `pip install nse`), which handles the cookie bootstrap (NSE blocks direct
+  # requests without a warmed session cookie) internally.
+  announcements:
+    url: "https://www.nseindia.com/companies-listing/corporate-filings-announcements?symbol={TICKER}&tabIndex=equity"
+    method: LIBRARY
+    notes: >
+      Via the `nse` PyPI library's NSE.announcements(symbol=...). Verified
+      live 2026-07-03 against INFY (2897 rows returned, most recent
+      2026-07-01). Max 3 req/s.
+    max_requests_per_second: 3
+    verify_status: verified
+
+  corporate_actions:
+    url: "https://www.nseindia.com/companies-listing/corporate-filings-actions"
+    method: LIBRARY
+    notes: >
+      Via the `nse` PyPI library's NSE.actions(symbol=...). Verified live
+      2026-07-03 against INFY (20 rows, e.g. ex-date 10-Jun-2026 dividend
+      Rs 25/share). Max 3 req/s.
+    max_requests_per_second: 3
+    verify_status: verified
+
+  shareholding_patterns:
+    url: "https://www.nseindia.com/companies-listing/corporate-filings-shareholding-pattern"
+    method: LIBRARY
+    notes: "Via the `nse` PyPI library's NSE.shareholding(symbol=...). Max 3 req/s. Not smoke-tested in Phase 1 (lower priority than actions/announcements); stubbed for later use."
+    max_requests_per_second: 3
+    verify_status: needs_smoke_test
+
+macro:
+  fred_gsec_10y:
+    url: "https://fred.stlouisfed.org/graph/fredgraph.csv?id=INDIRLTLT01STM"
+    method: GET
+    notes: >
+      PHASE 8: FRED's CSV gateway, no API key needed. India 10Y G-Sec yield
+      (long-term govt bond yield, monthly, %). Series id INDIRLTLT01STM.
+      Verified live 2026-07: header "observation_date,INDIRLTLT01STM" then
+      one row/month; latest observation 2026-05-01 = 7.02. Full history is
+      small (~decades of monthly points) so afund.data.macro_fred re-fetches
+      the whole series every run and upserts (never just INSERT OR IGNORE,
+      since a value can be revised). Feeds macro_series GSEC_10Y, which
+      unlocks knowledge/data/kpis/yield_gap.yaml and evi.yaml's
+      gsec_yield_x_pe component, plus the rate_liquidity cycle anchor.
+      GOTCHA (applies to ALL fred_* entries here, live 2026-07 finding):
+      FRED's edge silently HANGS/RESETS requests carrying a spoofed
+      browser User-Agent (the shared make_session() Chrome-style UA times
+      out on every attempt), while the plain python-requests default UA
+      succeeds in ~1s — afund.data.macro_fred therefore overrides the
+      session UA back to requests' default. Do not "fix" that override to
+      the browser UA.
+    verify_status: verified
+
+  fred_reer:
+    url: "https://fred.stlouisfed.org/graph/fredgraph.csv?id=RBINBIS"
+    method: GET
+    notes: >
+      PHASE 8: FRED CSV gateway. Real (36-currency, BIS methodology)
+      Effective Exchange Rate for India, monthly index. Series id RBINBIS.
+      Verified live 2026-07. Feeds macro_series REER (currency_
+      external_balance_cycle anchor + knowledge/data/kpis/reer.yaml).
+    verify_status: verified
+
+  fred_cpi_india:
+    url: "https://fred.stlouisfed.org/graph/fredgraph.csv?id=INDCPIALLMINMEI"
+    method: GET
+    notes: >
+      PHASE 8: FRED CSV gateway. India CPI, All Items, monthly index (not
+      seasonally adjusted; OECD MEI series republished by FRED). Series id
+      INDCPIALLMINMEI. Verified live 2026-07. afund.data.macro_fred stores
+      the raw index as macro_series CPI_INDEX AND derives CPI_YOY (12-month
+      %-change of the index) as a second macro_series write from the same
+      fetch — feeds knowledge/data/kpis/cpi_yoy.yaml and the inflation_cycle
+      anchor. NOTE: cpi_yoy.yaml's original inputs[0].source text said
+      "MOSPI CPI release" — Phase 8 sources the index via FRED's OECD-fed
+      mirror instead (MOSPI itself has no stable machine-readable download,
+      see the `mospi` entry below), documented as a source correction.
+      STALENESS (live 2026-07 finding): this FRED/OECD mirror lags ~12-15
+      MONTHS (latest observation 2025-03 as of 2026-07) — fine for long
+      backfill, unusable for a current inflation read. The fresh-CPI route
+      remains the MOSPI manual import (afund.data.macro_manual, CPI_YOY);
+      afund.cycles.anchors.inflation_anchor enforces a 6-month staleness
+      cutoff and reads data_stale rather than silently classifying on this.
+    verify_status: verified
+
+  fred_us_10y:
+    url: "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS10"
+    method: GET
+    notes: >
+      PHASE 8: FRED CSV gateway. US 10-Year Treasury Constant Maturity
+      Rate, daily, %. Series id DGS10. Verified live 2026-07 (latest
+      2026-07-01 = 4.48). Feeds macro_series US_10Y — supports
+      knowledge/data/kpis/dxy.yaml (global_risk_appetite_dollar_cycle) as
+      a real-yield-differential input alongside the existing direct
+      yfinance DXY fetch in afund.cycles.anchors.global_risk_dollar_anchor.
+      NOTE: FRED series INDIRLTST01STM (a hoped-for India short/1Y G-Sec
+      proxy for knowledge/data/kpis/curve_slope.yaml) was checked live and
+      returns HTTP 404 (does not exist) — curve_slope stays source_status:
+      missing per this negative finding; not chased further.
+    verify_status: verified
+
+  bis_credit_gap:
+    url: "https://data.bis.org/static/bulk/WS_CREDIT_GAP_csv_col.zip"
+    method: GET
+    notes: >
+      PHASE 8: BIS bulk statistics zip (long-format-per-column CSV inside).
+      Contains credit-to-GDP ratio/trend/gap series for many countries.
+      India row of interest: TITLE_TS "Q:IN:P:A:C" (CG_DTYPE=C, "Credit-to-
+      GDP gaps (actual-trend)") — the pre-computed HP-filter gap itself, in
+      percentage points. CORRECTION vs original plan assumption of
+      "Q.IN.P.A.A": that key (CG_DTYPE=A, colon- not dot-delimited) is
+      actually the raw credit-to-GDP RATIO (~100-115 range), not the gap;
+      "Q:IN:P:A:B" is the HP-filter trend line; "Q:IN:P:A:C" is the actual
+      gap (~-15..+2 range) — confirmed by direct inspection of the unzipped
+      CSV's India rows 2026-07. afund.data.macro_bis caches the zip under
+      data/raw/bis/ and only re-downloads when the remote Content-Length/
+      ETag differs from the cached copy or the cache is >30 days old (BIS
+      republishes this file quarterly). Feeds macro_series CREDIT_GDP_GAP
+      (credit_debt_cycle anchor, knowledge/data/kpis/credit_to_gdp_gap.yaml
+      — the HP-filter computation described in that KPI's own formula text
+      is NOT needed since BIS already publishes the finished gap series).
+    verify_status: verified
+
+  nse_india_vix:
+    url: "https://www.nseindia.com/api/historicalOR/vixhistory"
+    method: LIBRARY
+    notes: >
+      PHASE 8: via the `nse` PyPI library's NSE.fetch_historical_vix_data
+      (from_date=, to_date=) method — handles the cookie bootstrap
+      internally. Rows keyed EOD_TIMESTAMP/CLOSE (etc). Confirmed present
+      on the installed `nse` library 2026-07 (no dedicated method exists
+      for FII/DII flows on this same library — see nse_fii_dii below, which
+      hits the raw endpoint directly instead). yfinance ticker ^INDIAVIX is
+      the documented fallback if the library call fails. Feeds macro_series
+      INDIA_VIX (daily); wired into the daily job alongside index_valuation
+      per plan; used as a fear_type anchor in sentiment_breadth alongside
+      the existing pct_above_200dma breadth metric.
+    verify_status: verified
+
+  nse_fii_dii:
+    url: "https://www.nseindia.com/api/fiidiiTradeReact"
+    method: LIBRARY
+    notes: >
+      PHASE 8: raw NSE JSON endpoint (no dedicated method in the `nse`
+      PyPI library for this report) — hit directly via
+      afund.data.http.bootstrap_nse_session(make_session()) +
+      session.get(url, headers={"Referer": "https://www.nseindia.com/
+      reports/fii-dii"}), same cookie-bootstrap pattern used elsewhere in
+      this project. Verified live 2026-07: returns a short JSON list with
+      the latest FII/DII provisional buy/sell/net figures (INR crore).
+      Feeds macro_series FII_NET / DII_NET. IMPORTANT LIMITATION: this
+      endpoint only ever serves the latest 1-2 provisional days — there is
+      no free bulk historical FII/DII endpoint discovered within budget, so
+      afund.data.fii_dii is forward-accumulating only (each daily run adds
+      one more day; no backfill of years of history is possible from this
+      source). Documented honestly in knowledge/data/kpis/fii_dii_flows.yaml
+      and the fii_dii_capital_flows_cycle anchor (rolling-window stats will
+      only become meaningful after months of forward accumulation).
+    verify_status: verified
+
+  amfi_monthly:
+    url: "https://www.amfiindia.com/research-information/amfi-monthly"
+    method: GET
+    notes: >
+      PHASE 8: listing page linking to a monthly "Monthly Report" PDF at
+      https://portal.amfiindia.com/spages/{mon}{yyyy}repo.pdf (e.g.
+      ammay2026repo.pdf for May 2026) — afund.data.amfi_monthly discovers
+      the latest link from the listing page rather than guessing the
+      filename pattern, then downloads to data/raw/amfi/. CORRECTION vs
+      original plan wording ("AMFI monthly note"): this is a 2-page
+      structured DATA TABLE PDF, not a narrative note, and it contains NO
+      SIP contribution figure anywhere (also checked
+      amfiindia.com/research-information/sip-statistics directly -> HTTP
+      404). Parsed via pypdf text extraction + line-based parsing of two
+      fixed rows: "Sub Total - II (...)" (Growth/Equity Oriented Schemes
+      sub-total) -> its Net Inflow column feeds macro_series
+      MF_EQUITY_NET_INFLOW; "Grand Total" -> its Net AUM column feeds
+      macro_series MF_TOTAL_AUM. SIP_CONTRIBUTION is left honestly
+      source_status: missing (no AMFI source found) rather than fabricated
+      — see knowledge/data/kpis/mf_retail_inflows.yaml. Verified live
+      2026-07 against the May 2026 report.
+    verify_status: verified
+
+  rbi_dbie:
+    url: "https://data.rbi.org.in/DBIE/"
+    method: GET
+    notes: >
+      RBI Database on Indian Economy — rates, credit, liquidity series. The
+      site (HTTP 200 reachable) is a form-driven Angular dashboard with no
+      stable direct CSV/XLSX download URL discoverable within the ~20 min
+      Phase 1 budget. No scripted fetch implemented. Manual-import path
+      (afund.data.macro_rbi.import_macro_csv) is the supported route: see
+      that module's docstring for the exact RBI page + export steps.
+      verify_status reflects the manual-download reality, not a Phase 1
+      scripted success.
+    verify_status: broken
+
+  mospi:
+    url: "https://www.mospi.gov.in/"
+    method: GET
+    notes: >
+      Ministry of Statistics — CPI, IIP, GDP releases. Site (HTTP 200
+      reachable) publishes releases as dated PDF/press-note bundles rather
+      than a stable machine-readable CPI index CSV/XLSX URL; no stable
+      direct download link found within the ~20 min Phase 1 budget. No
+      scripted fetch implemented. Manual-import path
+      (afund.data.macro_mospi.import_macro_csv) is the supported route.
+    verify_status: broken
+
+macro_govt:
+  gst_statistics_page:
+    url: "https://www.gst.gov.in/download/gststatistics"
+    method: GET
+    notes: >
+      WORKSTREAM D: static HTML listing page (no JS rendering needed —
+      the download links are plain <a href> tags with no ng-* data
+      binding) enumerating every published GST statistics XLSX file.
+      Verified live 2026-07: scraping this page's raw HTML for
+      Gross_Net_Tax_collection.xlsx and ewb-data-<FY>.xlsx hrefs (both
+      served from the //tutorial.gst.gov.in/offlineutilities/gst_statistics/
+      CDN path, protocol-relative URLs) is the "do not guess filenames"
+      route the plan required — afund.data.macro_govt.find_gst_collection_url
+      / find_ewb_fy_urls do exactly this scrape rather than constructing
+      URLs from a template. Also lists REGISTRATION.xlsx, GSTR-3B/GSTR-1
+      per-FY files, statewise_GST_collection_<FY>.xlsx, and
+      Settlement-of-IGST-to-State files — none of these are consumed
+      (out of scope for this workstream's 2 target series).
+    verify_status: verified
+
+  gst_collection_xlsx:
+    url: "https://tutorial.gst.gov.in/offlineutilities/gst_statistics/Gross_Net_Tax_collection.xlsx"
+    method: GET
+    format: xlsx
+    notes: >
+      WORKSTREAM D: single workbook, one sheet per month (sheet names
+      "Mon-YY", e.g. "Apr-24"; one observed typo uses an underscore,
+      "Mar_26" — handled defensively in
+      afund.data.macro_govt.parse_gst_collection_sheet_name). Verified
+      live 2026-07: 26 sheets, Apr-24 through May-26 (~2 years of
+      monthly history — NOT the full FY2017-18-forward history the plan
+      hoped for; GST collections only goes back this far on this
+      specific file, unlike the per-FY GSTR-3B/statewise files which do
+      go back to 2017-18 but don't carry the Gross/Net Revenue rows).
+      Each sheet: row "Total Gross GST Revenue" and row "Total Net GST
+      Revenue", columns [label, prior-year-same-month, current-month,
+      %growth, YTD-prior, YTD-current, %growth-YTD]. Column index 2
+      (current-month) of the Net Revenue row -> macro_series
+      GST_COLLECTIONS (INR crore, monthly). Feeds
+      knowledge/data/kpis/gst_collections.yaml and (new) the
+      gdp_business_cycle anchor as an activity proxy.
+    verify_status: verified
+
+  ewb_data_xlsx:
+    url: "https://tutorial.gst.gov.in/offlineutilities/gst_statistics/ewb-data-{fy}.xlsx"
+    method: GET
+    format: xlsx
+    notes: >
+      WORKSTREAM D: one file per GST fiscal year (fy like "2018-19"
+      through "2026-27" as of 2026-07, discovered via the
+      gst_statistics_page scrape, not hardcoded — the {fy} placeholder
+      here documents the pattern the scrape confirms, it is not itself
+      fetched with a guessed fy value). State x month rows; national
+      monthly total = sum of "No. of Eway Bills" columns (0-indexed 5,
+      8, 11 — intra-state / inter-state-outward / inter-state-inward)
+      across all state rows. Column HEADER TEXT drifts across FY files
+      ("INTRA STATE SUPPLIES" in 2018-19 vs "WITHIN-STATE" in 2025-26)
+      but column POSITIONS are stable, so
+      afund.data.macro_govt.parse_ewb_workbook keys off position, not
+      header text. Verified live 2026-07 against the 2018-19 (334 rows)
+      and 2025-26 (649 rows) files. -> macro_series EWAY_BILLS (count,
+      monthly). Full available history (2018-07 onward) backfilled in
+      one pass since each FY file is small (<65KB).
+    verify_status: verified
+
+  epfo_payroll:
+    url: "https://www.epfindia.gov.in/site_docs/PDFs/Payroll_Data/Payroll_Data_EPFO_{month}_{year}.xlsx"
+    method: GET
+    format: xlsx
+    notes: >
+      WORKSTREAM D FINDING: CONFIRMED BROKEN, not merely unresearched.
+      The plan's predictable-name pattern was previously "verified via
+      HTTP status, not python-requests" (see plan notes) — re-verified
+      live 2026-07 with real requests and found genuinely blocked: a
+      HEAD request against this URL pattern returns HTTP 200
+      (misleadingly suggesting the file exists), but the GET returns
+      HTTP 200 with only ~246 bytes of text/html (an F5 BIG-IP WAF
+      "Request Rejected" page), not the xlsx binary. Tested multiple
+      months, multiple header variations (full browser Sec-Fetch-*
+      set), and a CONTROL against two other real PDFs on the same
+      epfindia.gov.in domain (Contact_PDF/ro_pro.pdf,
+      MiscPDFs/Notice_exam_27022024.pdf) — both controls succeeded
+      normally, proving this is a TARGETED block on the Payroll path
+      specifically, not a blanket domain block. Per the plan's "403s/
+      layout drift = mark broken, move on" instruction, no fetch
+      function is wired in afund.data.macro_govt for this source.
+      Manual-import fallback: see knowledge/data/kpis/
+      epfo_payroll.yaml (source_status: manual) and
+      afund.data.macro_manual's import-helper pattern.
+    verify_status: broken
+
+  eaindustry_ici:
+    url: "https://eaindustry.nic.in/archive_data/ici_press_release/IPR_{year}_{month:02d}.pdf"
+    method: GET
+    format: pdf
+    notes: >
+      WORKSTREAM D: Index of Eight Core Industries (ICI) monthly press
+      release PDF, predictable path IPR_<YYYY>_<MM>.pdf. Verified live
+      2026-07 against IPR_2026_04.pdf (latest published as of this
+      check, ~20-day publication lag after month-end — IPR_2026_05.pdf
+      and IPR_2026_06.pdf both 404/error at verification time). GOTCHA
+      (same class as the documented niftyindices.com "HTTP 200 HTML
+      shell for missing dates" precedent above): a not-yet-published
+      month's URL returns HTTP 200 but Content-Type text/html (~1KB
+      site error page), NOT application/pdf —
+      afund.data.macro_govt checks Content-Type before treating a 200
+      response as a real PDF. Page index 3 (0-indexed) of the PDF
+      contains a clean pdfplumber-extractable monthly table: 8
+      sub-sector columns (Coal, Crude Oil, Natural Gas, Refinery
+      Products, Fertilizers, Steel, Cement, Electricity) + Overall
+      Index, ~12-13 months per PDF, plus a matching growth-rate table
+      (not separately stored — index level feeds macro_series ICI_INDEX
+      + ICI_<SUBSECTOR> x8, monthly, 2011-12=100 base). Backfilled ~18
+      months in one pass (probing backward from the current month);
+      deeper history would need older PDF URLs probed separately (not
+      done this pass — see docs/SYSTEM_MAP.md known gaps if a longer
+      backfill is wanted later).
+    verify_status: verified
+
+  mospi_esankhyiki_mcp:
+    url: "https://mcp.mospi.gov.in/"
+    method: POST
+    format: mcp-json-rpc
+    notes: >
+      WORKSTREAM D: MoSPI's eSankhyiki MCP server (BETA — 5-months-old
+      per github.com/nso-india/esankhyiki-mcp at investigation time).
+      Protocol: JSON-RPC 2.0 over plain HTTP POST to this single
+      endpoint; every response (even non-streaming) comes back
+      Server-Sent-Events-framed (a "data: {...}" line, must be parsed
+      accordingly) and REQUIRES the request header
+      "Accept: application/json, text/event-stream" (a plain
+      "application/json" Accept header is rejected). Flow confirmed live
+      2026-07: initialize -> notifications/initialized -> tools/list
+      (4 tools: get_indicators, get_metadata, get_data, list_datasets)
+      -> tools/call("get_data", {"dataset": "IIP", "filters":
+      {"base_year": "2011-12", "frequency": "Monthly", "type":
+      "General", "limit": 200}}) returned ALL 167 monthly headline IIP
+      points (2012-04 through 2026-03 at verification time) in ONE call
+      — no per-month pagination needed for a full backfill. Each row:
+      {"year", "month", "index", "growth_rate"} -> macro_series
+      IIP_INDEX (index level, base 2011-12=100) + IIP_YOY (MoSPI's own
+      pre-computed growth_rate, not re-derived). get_data's `filters`
+      MUST be nested (top-level base_year/frequency/etc kwargs are
+      rejected with a pydantic validation error) and only accepts:
+      base_year, frequency, financial_year, year, month_code,
+      category_code, subcategory_code, limit, page, type, Format —
+      confirmed via the tool's own get_metadata call and its
+      "Invalid parameters" error responses (which usefully echo back
+      valid_params). afund.data.macro_govt.fetch_iip_via_mcp wraps the
+      whole flow in the pipeline's per-source try/except given the BETA
+      status — a future MCP contract change degrades to IIP staying
+      unwired (manual route unaffected) rather than crashing the job.
+    verify_status: verified
+
+  ppac_petroleum:
+    url: "https://www.ppac.gov.in/"
+    method: GET
+    notes: >
+      WORKSTREAM D (documented-manual per plan): Petroleum Planning &
+      Analysis Cell — monthly POL (petroleum, oil, lubricants)
+      consumption snapshot, published as a dashboard + downloadable
+      Excel/PDF snapshots under ppac.gov.in/current-price/pol-price-build-up
+      and related report pages rather than one stable predictable-name
+      file. Not scripted within this workstream's budget. Manual-import
+      route: download the monthly consumption table by hand, feed via
+      an afund.data.macro_manual-style CSV import (series_code TBD,
+      e.g. PETROL_DIESEL_CONSUMPTION).
+    verify_status: manual
+
+  npci_upi_fastag:
+    url: "https://www.npci.org.in/statistics"
+    method: GET
+    notes: >
+      WORKSTREAM D (documented-manual per plan): NPCI publishes UPI and
+      FASTag monthly volume/value statistics on this page. LIVE FINDING
+      2026-07: the statistics page itself, and the underlying data
+      export links, respond HTTP 403 to a scripted requests.Session
+      (browser-UA bot-wall) — same class of block as the EPFO WAF
+      finding above but at the HTTP-status level (403) rather than a
+      200-with-fake-content WAF page. No scripted fetch attempted
+      further per the plan's explicit "NPCI UPI/FASTag (403 bot-wall
+      noted)" framing. Manual-import route: copy the monthly UPI
+      transaction count/value (and FASTag toll-collection figures, a
+      separate NPCI page) by hand.
+    verify_status: broken
+
+  cea_grid_india_power:
+    url: "https://cea.nic.in/all-reports/"
+    method: GET
+    notes: >
+      WORKSTREAM D (documented-manual per plan): Central Electricity
+      Authority / Grid-India publish daily and monthly power-supply
+      position reports (generation, peak demand, deficit) as dated PDF
+      bundles under cea.nic.in and grid-india.in, no stable
+      predictable-name machine-readable file discovered within budget.
+      Manual-import route: copy the monthly all-India power-supply
+      summary (generation GWh or peak demand MW) by hand.
+    verify_status: manual
+
+  railways_freight_pib:
+    url: "https://pib.gov.in/PressReleseDetail.aspx"
+    method: GET
+    notes: >
+      WORKSTREAM D (documented-manual per plan): Indian Railways
+      monthly freight-loading figures (tonnes originating) are released
+      via PIB (Press Information Bureau) press releases with no stable
+      predictable URL (PIB release IDs are sequential but not
+      predictable ahead of publication) rather than a Railways-hosted
+      structured file. Manual-import route: copy the monthly freight
+      loading figure (million tonnes) from the PIB release by hand each
+      month.
+    verify_status: manual
+
+  steel_gov_in_monthly:
+    url: "https://steel.gov.in/en/press-release"
+    method: GET
+    notes: >
+      WORKSTREAM D (documented-manual per plan): Ministry of Steel
+      publishes monthly production/consumption/import-export statistics
+      via press releases and a JPC (Joint Plant Committee) report
+      bundle, no stable predictable-name machine-readable file
+      discovered within budget (steel production is already partially
+      covered as an ICI Eight Core Industries sub-series, ICI_STEEL —
+      this entry is for the more granular Ministry-level release the
+      plan separately named). Manual-import route: copy the monthly
+      finished-steel production figure by hand.
+    verify_status: manual
+
+  dgca_traffic_s3:
+    url: "https://www.dgca.gov.in/digigov-portal/"
+    method: GET
+    notes: >
+      WORKSTREAM D (documented-manual per plan): DGCA (Directorate
+      General of Civil Aviation) publishes monthly domestic air traffic
+      statistics as PDF bundles hosted on an S3-backed digigov-portal
+      path; no stable predictable-name file pattern discovered within
+      budget (filenames embed non-sequential internal document IDs).
+      Manual-import route: copy the monthly domestic passenger count
+      (or load factor) figure from the published PDF by hand.
+    verify_status: manual
+
+newsletters:
+  dsp_netra:
+    url: "https://www.dspim.com/dspnetra"
+    method: GET
+    notes: >
+      Monthly PDF newsletter, typically published around the 5th of each
+      month. Listing page is scrapable directly: PDF links follow the
+      pattern https://www.dspim.com/latest-literature/dspnetra-{mon}{yy}.pdf
+      (month abbreviations vary slightly, e.g. "may26" vs "april-26" vs
+      "mar26" — the scraper matches by parsing hrefs off the listing page
+      rather than constructing the filename). Verified live 2026-07-03;
+      latest issue found was dspnetra-may26.pdf.
+    verify_status: verified
+
+  aequitas:
+    url: "https://www.aequitasindia.in/newsletter/"
+    method: GET
+    notes: >
+      Monthly "Top Down Bottom Up" newsletter; PDFs served from
+      wp-content/uploads/{YYYY}/{MM}/Aequitas-Newsletter_Top-Down-Bottom-Up_
+      {Mon}{YY}*.pdf, linked from the /newsletter/ listing page (each issue
+      also has its own /newsletter/top-down-bottom-up-{month}{year}/ post
+      page, but the direct PDF href is present on the listing page too, so
+      the scraper does not need to follow through to the post page).
+      Verified live 2026-07-03; latest issue found was
+      Aequitas-Newsletter_Top-Down-Bottom-Up_Jun26_with-Preview.pdf.
+    verify_status: verified
+
+# RSS news feeds. All needs_smoke_test — Phase 1 verifies feed liveness and
+# actual field structure before the news pipeline depends on them.
+# NOTE: the user explicitly excluded Economic Times and Moneycontrol as
+# sources — do not add them without an explicit decision to change this.
+rss_feeds:
+  cnbctv18_markets:
+    url: "https://www.cnbctv18.com/commonfeeds/v1/cne/rss/market.xml"
+    method: RSS
+    notes: >
+      Core mandatory feed per user's seed news prompt. PHASE 1 CORRECTION:
+      the originally seeded URL (".../rss/markets.xml", plural) returns
+      HTTP 200 but with body {"message":"Data not found","status":false} —
+      status-code-only checks miss this. The correct working feed is
+      singular "market.xml" (".../rss/market.xml"), verified live
+      2026-07-03 with fresh same-day entries.
+    verify_status: verified
+
+  ndtv_profit:
+    url: "https://feeds.feedburner.com/ndtvprofit-latest"
+    method: RSS
+    notes: "Core mandatory feed per user's seed news prompt. Verified live 2026-07-03 (HTTP 200, valid RSS via FeedBurner)."
+    verify_status: verified
+
+  livemint_markets:
+    url: "https://www.livemint.com/rss/markets"
+    method: RSS
+    notes: "Core mandatory feed per user's seed news prompt. Verified live 2026-07-03 (HTTP 200, valid RSS)."
+    verify_status: verified
+
+  business_standard_markets:
+    url: "https://www.business-standard.com/rss/markets-106.rss"
+    method: RSS
+    notes: >
+      Core mandatory feed per user's seed news prompt. PHASE 1 FINDING: this
+      URL returns HTTP 403 even with a browser User-Agent (bot-blocked at
+      the edge/CDN). No working alternate Business Standard markets RSS URL
+      was found within the smoke-test budget. Left in place (not removed
+      per user's mandatory list) but marked broken; the news pipeline skips
+      it gracefully and logs the failure per-feed rather than crashing.
+    verify_status: broken
+
+  firstpost_business:
+    url: "https://www.firstpost.com/commonfeeds/v1/mfp/rss/business.xml"
+    method: RSS
+    notes: "Optional supplementary feed. Verified live 2026-07-03 (HTTP 200, valid RSS)."
+    verify_status: verified
+
+  pulse_zerodha:
+    url: "https://pulse.zerodha.com/feed.php"
+    method: RSS
+    notes: "Optional supplementary feed; Zerodha's aggregated markets pulse. Verified live 2026-07-03 (HTTP 200, valid RSS)."
+    verify_status: verified
+
+# SEBI-mandated monthly portfolio disclosure Excel files, published by each
+# AMC on its own website (AMFI's directory page is JS-rendered and not
+# scraped directly — see afund.data.amc_portfolios module docstring).
+# Ported from a standalone research tool (amc_downloader.py, July 2026); each
+# entry keeps that tool's honest per-AMC trust label in `notes` plus an
+# `architecture` field (static_html | playwright_dynamic | unconfigured)
+# telling the pipeline which code path to use. verify_status here follows
+# this file's normal convention (verified/needs_smoke_test/broken) but two
+# extra values are used for entries this batch of research could not fetch
+# live: needs_playwright (URL+architecture confirmed, but code path requires
+# the optional Playwright dependency which is NOT installed by default — see
+# module docstring) and unresearched (name only, no URL looked up at all).
+# Download-only: no parsing of the Excel files themselves (future scope).
+amc_portfolios:
+  nippon_india:
+    url: "https://mf.nipponindiaim.com/investor-service/downloads/factsheet-portfolio-and-other-disclosures"
+    method: GET
+    architecture: static_html
+    notes: >
+      Legacy Microsoft SharePoint site. Confirmed real <a href> links to
+      .xls files for every month back to 2013, in a flat list with
+      descriptive text beside each link. No browser automation required.
+      Confirmed live 2026-07 by the source tool's research (verified_static).
+    verify_status: verified
+
+  hdfc:
+    url: "https://www.hdfcfund.com/statutory-disclosure/portfolio/monthly-portfolio"
+    method: GET
+    architecture: playwright_dynamic
+    notes: >
+      Next.js SPA; static fetch returns an empty "No result found!!"
+      placeholder. Needs a scheme/category selector left at default plus a
+      month/year picker before results render. URL confirmed live
+      2026-07, but selectors are a best-effort guess, not inspected from
+      live DOM. Requires Playwright (not installed by default) — see
+      afund.data.amc_portfolios module docstring.
+    verify_status: needs_playwright
+
+  sbi:
+    url: "https://www.sbimf.com/portfolios"
+    method: GET
+    architecture: playwright_dynamic
+    notes: >
+      Confirmed dropdown labels via fetch: 'Select Category', 'Select
+      Scheme', 'Select Frequency' (Monthly/Fortnightly/Half Yearly), 'Select
+      Year' (2013-2026), 'Select Month'. Results load into a 'File name |
+      Type | Size' table after selection, likely via AJAX. URL and filter
+      labels confirmed live 2026-07; exact element locators still need live
+      inspection. Requires Playwright (not installed by default).
+    verify_status: needs_playwright
+
+  kotak:
+    url: "https://www.kotakmf.com/Information/portfolios"
+    method: GET
+    architecture: playwright_dynamic
+    notes: >
+      Confirmed React/JS-driven page (other pages on same site show literal
+      'Loading...' placeholders in static fetch). URL confirmed live 2026-07;
+      filter/selector labels not yet inspected — treat as a starting point
+      only. Requires Playwright (not installed by default).
+    verify_status: needs_playwright
+
+  icici_prudential:
+    url: "https://www.icicipruamc.com/news-and-media/downloads"
+    method: GET
+    architecture: playwright_dynamic
+    notes: >
+      Site appears to have been recently redesigned. Both the tab-filtered
+      URL and the base /news-and-media/downloads URL returned HTTP 404 on
+      direct fetch in the source tool's research session. A legacy
+      /Downloads/MonthlyPortfolioDisclosure.aspx path and an
+      archive.icicipruamc.com mirror also exist per search results but were
+      not confirmed working (the archive host disallows automated access via
+      robots.txt). Re-verify the current URL before use.
+    verify_status: broken
+
+  three_sixty_one:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "360 ONE Mutual Fund. Name confirmed current (July 2026) via a third-party AMC directory; URL not looked up."
+    verify_status: unresearched
+
+  abakkus:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Abakkus Mutual Fund. Name confirmed current via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  aditya_birla_sun_life:
+    url: "https://mutualfund.adityabirlacapital.com/forms-and-downloads/portfolio"
+    method: GET
+    architecture: unconfigured
+    notes: >
+      URL found via search snippet only (not fetched directly); snippet
+      suggests the site may require a contact-details form submission for
+      some downloads — confirm before relying on it.
+    verify_status: url_unconfirmed
+
+  angel_one:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Newer entrant; name confirmed via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  axis:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Name confirmed current via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  bajaj_finserv:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Name confirmed current via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  bandhan:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Formerly IDFC Mutual Fund. Name confirmed current via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  bank_of_india:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Name confirmed current via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  baroda_bnp_paribas:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Name confirmed current via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  canara_robeco:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Name confirmed current via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  capitalmind:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Newer entrant; name confirmed via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  choice:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Newer entrant; name confirmed via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  dsp:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Name confirmed current via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  edelweiss:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Name confirmed current via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  franklin_templeton:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Name confirmed current via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  groww:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Formerly Indiabulls Mutual Fund. Name confirmed current via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  helios:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Newer entrant; name confirmed via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  hsbc:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Absorbed L&T Mutual Fund in 2022. Name confirmed current via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  invesco:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Name confirmed current via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  iti:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Name confirmed current via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  jio_blackrock:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Newer entrant (Jio-BlackRock JV). Name confirmed current via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  jm_financial:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Name confirmed current via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  lic:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Name confirmed current via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  mahindra_manulife:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Name confirmed current via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  mirae_asset:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Name confirmed current via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  motilal_oswal:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Name confirmed current via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  navi:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Name confirmed current via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  nj:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Newer entrant; name confirmed via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  pgim_india:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Name confirmed current via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  ppfas:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Parag Parikh Financial Advisory Services. Name confirmed current via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  quant:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Name confirmed current via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  quantum:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Name confirmed current via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  samco:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Newer entrant; name confirmed via directory listing; URL not looked up."
+    verify_status: unresearched
+
+  sundaram:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: >
+      Not seen directly in the source tool's search results (long-established
+      AMC, included from general knowledge) — confirm it still operates
+      independently before use.
+    verify_status: unresearched
+
+  tata:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Not seen directly in the source tool's search results (long-established AMC, included from general knowledge) — confirm before use."
+    verify_status: unresearched
+
+  trust:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Not seen directly in the source tool's search results — confirm it still operates before use."
+    verify_status: unresearched
+
+  union:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Not seen directly in the source tool's search results — confirm it still operates before use."
+    verify_status: unresearched
+
+  uti:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: >
+      One of India's oldest, largest AMCs; not seen directly in the source
+      tool's truncated search snippets but near-certain to still exist —
+      URL not looked up.
+    verify_status: unresearched
+
+  whiteoak_capital:
+    url: null
+    method: GET
+    architecture: unconfigured
+    notes: "Not seen directly in the source tool's search results (included from general knowledge) — confirm before use."
+    verify_status: unresearched

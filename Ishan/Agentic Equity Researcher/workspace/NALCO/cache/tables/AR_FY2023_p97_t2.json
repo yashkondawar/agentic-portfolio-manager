@@ -1,0 +1,83 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 97,
+  "table_index": 2,
+  "bbox": [
+    72.78566666666667,
+    534.0336666666667,
+    549.4268,
+    675.4490000000001
+  ],
+  "rows": [
+    [
+      "Name",
+      "Category of Director",
+      "Position",
+      "Meeting",
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "Held",
+      "Attended"
+    ],
+    [
+      "Dr. B. R. Ramakrishna",
+      "Independent",
+      "Chairman",
+      "1",
+      "1"
+    ],
+    [
+      "Shri R. N. Jha",
+      "Independent",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Adv. G. Kurian",
+      "Independent",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Dr. A. Narang",
+      "Independent",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Shri Y. P. Chillio",
+      "Independent",
+      "Member",
+      "1",
+      "0"
+    ],
+    [
+      "Ms. (Dr.) Shatorupa",
+      "Independent",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Adv. D. Upadhyay",
+      "Independent",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Shri S. R. Patel",
+      "Independent",
+      "Member",
+      "1",
+      "1"
+    ]
+  ]
+}

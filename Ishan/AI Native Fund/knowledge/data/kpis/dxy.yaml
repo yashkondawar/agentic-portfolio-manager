@@ -1,0 +1,32 @@
+kpi_id: dxy
+scope: macro
+cycle_refs: [global_risk_appetite_dollar_cycle]
+formula: >
+  US Dollar Index (DXY) vs. its own 10-15yr history. A strong/rising DXY
+  is Value-type-oriented as "expensive dollar" (i.e. tighter global-liquidity
+  conditions for EM/non-reserve-currency markets like India); scored
+  alongside US real yields and global risk-on/off breadth as an external
+  conditioning variable for the Currency and Flows cycles.
+inputs:
+  - name: ICE US Dollar Index (DXY) daily level
+    source: >
+      live yfinance fetch (ticker DX-Y.NYB) inside
+      afund.cycles.anchors.global_risk_dollar_anchor — read live per
+      assessment run, deliberately not persisted to any table
+    status: available
+  - name: US 10Y TIPS real yield
+    source: >
+      TIPS real yield (FRED DFII10) still not wired; the NOMINAL US 10Y
+      landed in Phase 8 (FRED DGS10 via afund.data.macro_fred,
+      macro_series US_10Y, daily 1962-present) as the available proxy
+      context series
+    status: missing
+orientation: value_type
+lookback_years: 12
+cadence: daily
+# Phase 8: DXY leg is live (yfinance, in-anchor); US_10Y nominal landed in
+# macro_series; the TIPS real-yield leg remains missing.
+source_status: available
+registry_xref: null
+references_xref:
+  - kpi_interpretation/rate_liquidity_cycle.md

@@ -1,0 +1,73 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 216,
+  "table_index": 1,
+  "bbox": [
+    51.27364210526316,
+    99.77588571428569,
+    542.5992666666667,
+    237.935
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      "Year ended 31.03.2025",
+      "Year ended 31.03.2024"
+    ],
+    [
+      "(a)",
+      "Salaries and wages, including bonus",
+      "1,431.63",
+      "1,686.41"
+    ],
+    [
+      "(b)",
+      "Contribution to provident and other funds",
+      null,
+      null
+    ],
+    [
+      "",
+      "1) Provident fund",
+      "104.82",
+      "110.53"
+    ],
+    [
+      null,
+      "2) Gratuity",
+      "33.96",
+      "34.80"
+    ],
+    [
+      null,
+      "3) Post employment pension scheme",
+      "92.07",
+      "99.16"
+    ],
+    [
+      "(c)",
+      "Staff welfare expenses",
+      "134.96",
+      "111.35"
+    ],
+    [
+      "Total employee benefit expense",
+      null,
+      "1,797.44",
+      "2,042.25"
+    ],
+    [
+      "Less: Transferred to Expenditure during construction (EDC)",
+      null,
+      "10.97",
+      "7.60"
+    ],
+    [
+      "Net employee benefit expense",
+      null,
+      "1,786.47",
+      "2,034.65"
+    ]
+  ]
+}

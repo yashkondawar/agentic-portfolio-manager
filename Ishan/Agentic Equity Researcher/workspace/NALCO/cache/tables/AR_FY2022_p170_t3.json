@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 170,
+  "table_index": 3,
+  "bbox": [
+    45.448883333333335,
+    401.57765000000006,
+    463.6323333333333,
+    481.05600000000004
+  ],
+  "rows": [
+    [
+      "(a)",
+      "",
+      "As at 31.03.2022"
+    ],
+    [
+      null,
+      "In deposit account (having original maturity between 3-12 months)",
+      "3,217.37"
+    ],
+    [
+      null,
+      "Principal",
+      "3,156.00"
+    ],
+    [
+      null,
+      "Accrued Interest",
+      "61.37"
+    ],
+    [
+      "(b)",
+      "Earmarked balance with scheduled banks",
+      "75.90"
+    ],
+    [
+      "Total other bank balances",
+      null,
+      "3,293.27"
+    ]
+  ]
+}

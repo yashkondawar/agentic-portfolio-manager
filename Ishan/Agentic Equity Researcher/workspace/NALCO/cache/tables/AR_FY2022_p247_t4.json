@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 247,
+  "table_index": 4,
+  "bbox": [
+    73.71459999999999,
+    334.61350000000004,
+    549.5558875,
+    381.41850000000005
+  ],
+  "rows": [
+    [
+      "Profit for the year attributable to Owners of the Company",
+      "Year ended 31.03.2022",
+      "Year ended 31.03.2021"
+    ],
+    [
+      null,
+      "2,951.41",
+      "1,299.41"
+    ],
+    [
+      "Earnings used in the calculation of basic earnings per share",
+      "2,951.41",
+      "1,299.41"
+    ],
+    [
+      "Weighted average number of equity shares used in calculation of basic earnings per share",
+      "183.66",
+      "186.44"
+    ]
+  ]
+}

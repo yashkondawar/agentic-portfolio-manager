@@ -1,0 +1,46 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 224,
+  "table_index": 3,
+  "bbox": [
+    45.854,
+    377.82400000000007,
+    549.5876666666667,
+    595.5920000000001
+  ],
+  "rows": [
+    [
+      "(a) Ageing when due date of payment is specified Amount in ` Crore"
+    ],
+    [
+      "Outstanding from the due date of payment"
+    ],
+    [
+      "Sl. Particulars Less than 6 months 1-2 Years 2-3 Years More than Total\nNo. 6 months - 1 Years 3 Years"
+    ],
+    [
+      "(i) Undisputed Trade receivables- considered good As on 31.03.2023 54.25 16.97 20.11 - - 91.33\nAs on 31.03.2022 45.89 21.07 2.83 5.46 - 75.25"
+    ],
+    [
+      "(ii) Undisputed Trade receivables- significant increase in credit risk As on 31.03.2023 - - - - - -\nAs on 31.03.2022 - - - - - -"
+    ],
+    [
+      "(iii) Undisputed Trade receivables- credit impaired As on 31.03.2023 - 0.55 7.73 1.87 3.64 13.79\nAs on 31.03.2022 - - 0.74 11.6 7.9 20.24"
+    ],
+    [
+      "(iv) Disputed Trade receivables- considered good As on 31.03.2023 - - - - - -\nAs on 31.03.2022 - - - - - -"
+    ],
+    [
+      "(v) Disputed Trade receivables- significant increase in credit risk As on 31.03.2023 - - - - - -\nAs on 31.03.2022 - - - - - -"
+    ],
+    [
+      "(vi) Disputed Trade receivables- credit impaired As on 31.03.2023 - - - - 36.28 36.28\nAs on 31.03.2022 - - - - 36.90 36.90"
+    ],
+    [
+      "Total as on 31.03.2023 54.25 17.52 27.84 1.87 39.92 141.40"
+    ],
+    [
+      "Total as on 31.03.2022 45.89 21.07 3.57 17.06 44.80 132.39"
+    ]
+  ]
+}

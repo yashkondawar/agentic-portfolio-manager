@@ -1,0 +1,29 @@
+kpi_id: gst_collections
+scope: macro
+cycle_refs: [gdp_business_cycle]
+formula: >
+  GST Collections = "Total Net GST Revenue" (INR crore), gross monthly
+  collection net of refunds, as published in the GST Council's monthly
+  Gross/Net Tax Collection workbook. A high-frequency proxy for nominal
+  economic activity / consumption + trade formalization; typically read
+  YoY rather than as a level (levels have strong seasonality, e.g. Apr
+  and Oct spikes from FY-end and festive-season settlement patterns).
+inputs:
+  - name: Total Net GST Revenue (INR crore), monthly
+    source: >
+      gst.gov.in statistics download page (tutorial.gst.gov.in/
+      offlineutilities/gst_statistics/Gross_Net_Tax_collection.xlsx) via
+      afund.data.macro_govt.MacroGovtPipeline -> macro_series
+      GST_COLLECTIONS. WORKSTREAM D: the live workbook only carries ~26
+      months of history (Apr-2024 through the latest published month) —
+      NOT the full FY2017-18-forward series originally hoped for; GST
+      Council appears to only publish a rolling ~2-year window in this
+      particular workbook. Longer history would need a different/archival
+      source, not yet identified.
+    status: available
+orientation: goldilocks_type
+lookback_years: 5
+cadence: monthly
+source_status: available
+registry_xref: null
+references_xref: []

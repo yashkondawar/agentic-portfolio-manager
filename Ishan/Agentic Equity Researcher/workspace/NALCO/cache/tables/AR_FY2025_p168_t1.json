@@ -1,0 +1,41 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 168,
+  "table_index": 1,
+  "bbox": [
+    69.26803999999998,
+    97.47694999999999,
+    542.0261878787878,
+    193.49659999999994
+  ],
+  "rows": [
+    [
+      "Particulars (in ₹ Crore)",
+      "Guarantees"
+    ],
+    [
+      "Aggregate amount granted/provided during the year:",
+      null
+    ],
+    [
+      "-Joint Ventures",
+      "200.00"
+    ],
+    [
+      "-Others",
+      "0.00"
+    ],
+    [
+      "Balance outstanding as at balance sheet date in respect of above cases:",
+      null
+    ],
+    [
+      "-Joint Ventures",
+      "200.00"
+    ],
+    [
+      "-Others",
+      "0.00"
+    ]
+  ]
+}

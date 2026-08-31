@@ -1,0 +1,38 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 96,
+  "table_index": 4,
+  "bbox": [
+    71.11608260869566,
+    499.12774999999993,
+    547.354232,
+    588.1782999999999
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Item",
+      "Investment\n(in lakh rupees)"
+    ],
+    [
+      "1.",
+      "Graphitization of Cathode blocks in 110 pots",
+      "10932.49"
+    ],
+    [
+      "2.",
+      "Replacement of old motors with IE3 Motors",
+      "57.91"
+    ],
+    [
+      "3.",
+      "Installation of high temperature burner with Recuperator in RPU",
+      "56.34"
+    ],
+    [
+      "4.",
+      "Replacement of Hot well Pumps of Cooling Tower –1 E by energy efficient pumps",
+      "15.45"
+    ]
+  ]
+}

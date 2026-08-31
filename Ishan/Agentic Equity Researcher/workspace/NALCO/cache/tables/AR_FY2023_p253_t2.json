@@ -1,0 +1,121 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 253,
+  "table_index": 2,
+  "bbox": [
+    58.223,
+    417.93800000000005,
+    549.837,
+    660.2230000000001
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Ratios",
+      "Numerator",
+      "Denominator",
+      "31.03.2023",
+      "31.03.2022",
+      "Variance"
+    ],
+    [
+      "1",
+      "Current Ratio",
+      "Current Asset Total",
+      "Current Liability Total",
+      "2",
+      "2",
+      "(6%)"
+    ],
+    [
+      "2",
+      "Debt-Equity Ratio1",
+      "Total Debt",
+      "Shareholders Equity",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "3",
+      "Debt Service Coverage Ratio",
+      "Earning available for Debt service",
+      "Interest + Installments",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "4",
+      "Return on Equity Ratio2",
+      "Net profit after tax",
+      "Equity Shareholder’s fund\n[Total Equity]",
+      "11%",
+      "24%",
+      "(54%)"
+    ],
+    [
+      "5",
+      "Inventory turnover ratio2",
+      "Sales\n[Sale of Product]",
+      "Average Inventory",
+      "8",
+      "9",
+      "(10%)"
+    ],
+    [
+      "6",
+      "Trade Receivables turnover ratio3",
+      "Credit Sale\n[Sale of Power]",
+      "Average trade receivable",
+      "1.26",
+      "0.59",
+      "115%"
+    ],
+    [
+      "7",
+      "Trade payables turnover ratio",
+      "Annual credit purchase",
+      "Average account payable",
+      "5.99",
+      "4.36",
+      "37%"
+    ],
+    [
+      "8",
+      "Net capital turnover ratio2",
+      "Sale\n[Sale of Product & Power]",
+      "Net Asset or Capital employed\n[PPE+Intangible Asset+\nWorking Capital]",
+      "1.46",
+      "1.34",
+      "9%"
+    ],
+    [
+      "9",
+      "Net profit ratio2",
+      "Net profit\n[Profit after tax]",
+      "Sale\n[Sale of Product & Power]",
+      "10%",
+      "21%",
+      "(52%)"
+    ],
+    [
+      "10",
+      "Return on Capital employed2",
+      "Earning before interest and taxes (EBIT)",
+      "Capital employed\n[PPE+Intangible Asset+\nWorking Capital]",
+      "20%",
+      "38%",
+      "(47%)"
+    ],
+    [
+      "11",
+      "Return on investment2",
+      "Net profit\n[Profit after tax]",
+      "Equity fund\n[Total Equity]",
+      "11%",
+      "24%",
+      "(54%)"
+    ]
+  ]
+}

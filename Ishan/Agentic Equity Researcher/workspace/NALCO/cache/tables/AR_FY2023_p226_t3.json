@@ -1,0 +1,61 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 226,
+  "table_index": 3,
+  "bbox": [
+    45.729,
+    430.55000000000007,
+    549.3406666666666,
+    525.9855
+  ],
+  "rows": [
+    [
+      "13 - Income tax assets/ Liabilities Amount in ` Crore",
+      null,
+      null,
+      null
+    ],
+    [
+      "A.",
+      "Non-current",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      null,
+      "Income Tax Asset net [Refer note 13.1]",
+      "634.49",
+      "320.57"
+    ],
+    [
+      null,
+      "Total Non current income tax",
+      "634.49",
+      "320.57"
+    ],
+    [
+      "B.",
+      "Current",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      "",
+      "Income Tax Asset net",
+      "28.49",
+      "55.38"
+    ],
+    [
+      null,
+      "Income Tax Liabilities net",
+      "32.07",
+      "211.04"
+    ],
+    [
+      null,
+      "Total current income tax asset (liabilities)",
+      "(3.58)",
+      "(155.66)"
+    ]
+  ]
+}

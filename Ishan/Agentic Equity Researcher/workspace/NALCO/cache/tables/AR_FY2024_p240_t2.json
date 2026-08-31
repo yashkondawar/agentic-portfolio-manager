@@ -1,0 +1,101 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 240,
+  "table_index": 2,
+  "bbox": [
+    51.27364444444444,
+    272.77,
+    542.7953702702703,
+    412.09720769230773
+  ],
+  "rows": [
+    [
+      "Net asset of the Joint Venture",
+      "39.44",
+      "38.40",
+      "97.95",
+      "31.84",
+      "36.01",
+      "39.50",
+      "230.27",
+      "404.60"
+    ],
+    [
+      "Proportion of the Group’s ownership\ninterest in JV (%)",
+      "50%",
+      "50%",
+      "40%",
+      "40%",
+      "49%",
+      "49%",
+      "40%",
+      "40%"
+    ],
+    [
+      "Proportion of the Group’s ownership\ninterest in JV (INR)",
+      "19.72",
+      "19.20",
+      "39.19",
+      "12.75",
+      "17.64",
+      "19.36",
+      "92.10",
+      "161.83"
+    ],
+    [
+      "Add:- additional subscription of share\nwarrant/advance against equity",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Add:- goodwill on acquistion",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "",
+      "-"
+    ],
+    [
+      "Less:- unrealised profit",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "",
+      "-"
+    ],
+    [
+      "Group’s share in the net asset of JV",
+      "19.72",
+      "19.20",
+      "39.19",
+      "12.75",
+      "17.64",
+      "19.36",
+      "92.10",
+      "161.83"
+    ],
+    [
+      "Carrying amt of the Group’s interest in JV",
+      "19.72",
+      "19.20",
+      "39.19",
+      "12.75",
+      "17.64",
+      "19.36",
+      "92.10",
+      "161.83"
+    ]
+  ]
+}

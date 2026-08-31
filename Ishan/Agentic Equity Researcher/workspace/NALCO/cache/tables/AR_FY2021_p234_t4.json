@@ -1,0 +1,55 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 234,
+  "table_index": 4,
+  "bbox": [
+    71.116185,
+    281.31716666666665,
+    547.1655137931034,
+    363.81716666666665
+  ],
+  "rows": [
+    [
+      "B.",
+      "Current",
+      null,
+      "",
+      ""
+    ],
+    [
+      null,
+      "(1)",
+      "Creditors for supplies and services",
+      "",
+      ""
+    ],
+    [
+      null,
+      null,
+      "— Dues to micro and small enterprises",
+      "11.70",
+      "7.06"
+    ],
+    [
+      null,
+      null,
+      "— Others",
+      "702.45",
+      "535.03"
+    ],
+    [
+      null,
+      null,
+      "Accrued wages and salaries",
+      "225.39",
+      "230.84"
+    ],
+    [
+      null,
+      "Total current trade payables",
+      null,
+      "939.54",
+      "772.93"
+    ]
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 67,
+  "table_index": 2,
+  "bbox": [
+    45.51444444444444,
+    86.1400000000001,
+    549.8233333333333,
+    212.63200000000006
+  ],
+  "rows": [
+    [
+      "12.",
+      "If answer to question (1) above is “No” i.e., not all Principles are covered by a policy, reasons to be stated:",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      "Questions",
+      "P1",
+      "P2",
+      "P3",
+      "P4",
+      "P5",
+      "P6",
+      "P7",
+      "P8",
+      "P9"
+    ],
+    [
+      null,
+      "The entity does not consider the principles material to its business\n(Yes/No)",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A."
+    ],
+    [
+      null,
+      "The entity is not at a stage where it is in a position to formulate and\nimplement the policies on specified principles (Yes/No)",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A."
+    ],
+    [
+      null,
+      "The entity does not have the financial or/human and technical resources\navailable for the task (Yes/No)",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A."
+    ],
+    [
+      null,
+      "It is planned to be done in the next financial year (Yes/No)",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A."
+    ],
+    [
+      null,
+      "Any other reason (please specify)",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A.",
+      "N.A."
+    ]
+  ]
+}

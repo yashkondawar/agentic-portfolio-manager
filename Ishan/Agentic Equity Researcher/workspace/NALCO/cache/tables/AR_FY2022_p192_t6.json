@@ -1,0 +1,25 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 192,
+  "table_index": 6,
+  "bbox": [
+    112.308,
+    415.1645000000001,
+    464.031,
+    453.1700000000001
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "As at 31.03.2022"
+    ],
+    [
+      "Advance/(Payable) for purchase of goods and services from CPSEs/ Govt. undertakings",
+      "87.74"
+    ],
+    [
+      "Receivable/(Advance) for sale of goods to CPSEs and Govt undertakings",
+      "(44.22)"
+    ]
+  ]
+}

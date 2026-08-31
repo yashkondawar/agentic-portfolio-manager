@@ -1,0 +1,85 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 63,
+  "table_index": 3,
+  "bbox": [
+    51.273599999999995,
+    283.6458888888889,
+    543.1535777777777,
+    404.9413
+  ],
+  "rows": [
+    [
+      "Sl.\nNo.",
+      "Preceding\nFinancial\nYear(s)",
+      "Amount\ntransferred to\nUnspent CSR\nAccount under\nsub-section (6) of\nsection 135 (in `)",
+      "Balance Amount\nin Unspent CSR\nAccount under\nsub- section (6) of\nsection 135 (in `)",
+      "Amount\nspent in the\nFinancial Year\n(in `)",
+      "Amount transferred to a Fund\nas specified under Schedule VII\nas per second proviso to sub-\nsection (5) of section 135, if any",
+      null,
+      null,
+      "Amount\nremaining to\nbe spent in\nsucceeding\nfinancial year\n(in `)",
+      "Deficiency,\nif any"
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      "Amount\n(in `)",
+      null,
+      "Date of transfer.",
+      null,
+      null
+    ],
+    [
+      "1",
+      "2021-22",
+      "NIL",
+      "NIL",
+      "36,91,38,000",
+      "NA",
+      "NIL",
+      "NA",
+      "NIL",
+      "NIL"
+    ],
+    [
+      "2",
+      "2022-23",
+      "NIL",
+      "NIL",
+      "39,54,43,778",
+      "NA",
+      "NIL",
+      "NA",
+      "NIL",
+      "NIL"
+    ],
+    [
+      "3",
+      "2023-24",
+      "NIL",
+      "NIL",
+      "50,53,82,266",
+      "NA",
+      "NIL",
+      "NA",
+      "NIL",
+      "NIL"
+    ],
+    [
+      "",
+      "Total",
+      "NIL",
+      "NIL",
+      "1,26,99,64,044",
+      "NA",
+      "NIL",
+      "NA",
+      "NIL",
+      "NIL"
+    ]
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 248,
+  "table_index": 1,
+  "bbox": [
+    51.27367857142857,
+    99.14778571428572,
+    542.8671827586207,
+    313.65585714285714
+  ],
+  "rows": [
+    [
+      "Other equity",
+      "Reserves and Surplus",
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      "Capital redemption\nreserve",
+      "General reserve",
+      "Retained earnings",
+      "Total"
+    ],
+    [
+      "Balance as at 01.04.2022",
+      "370.30",
+      "7,942.98",
+      "3,320.79",
+      "11,634.07"
+    ],
+    [
+      "Profit for the year",
+      "-",
+      "-",
+      "1,434.66",
+      "1,434.66"
+    ],
+    [
+      "Other comprehensive income (net of taxes)",
+      "-",
+      "-",
+      "57.65",
+      "57.65"
+    ],
+    [
+      "Total comprehensive income for the year",
+      "-",
+      "-",
+      "1,492.31",
+      "1,492.31"
+    ],
+    [
+      "Final dividend for the previous year",
+      "-",
+      "-",
+      "(275.50)",
+      "(275.50)"
+    ],
+    [
+      "Interim dividend for the year",
+      "-",
+      "-",
+      "(642.83)",
+      "(642.83)"
+    ],
+    [
+      "Balance as at 31.03.2023",
+      "370.30",
+      "7,942.98",
+      "3,894.77",
+      "12,208.05"
+    ],
+    [
+      "Profit for the year",
+      "-",
+      "-",
+      "1,988.46",
+      "1,988.46"
+    ],
+    [
+      "Other comprehensive income (net of taxes)",
+      "-",
+      "-",
+      "7.91",
+      "7.91"
+    ],
+    [
+      "Total comprehensive income for the year",
+      "-",
+      "-",
+      "1,996.37",
+      "1,996.37"
+    ],
+    [
+      "Final dividend for the previous year",
+      "-",
+      "-",
+      "(183.66)",
+      "(183.66)"
+    ],
+    [
+      "Interim dividend for the year",
+      "-",
+      "-",
+      "(550.99)",
+      "(550.99)"
+    ],
+    [
+      "Balance as at 31.03.2024",
+      "370.30",
+      "7,942.98",
+      "5,156.49",
+      "13,469.77"
+    ]
+  ]
+}

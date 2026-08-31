@@ -1,0 +1,85 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 117,
+  "table_index": 1,
+  "bbox": [
+    68.28145454545455,
+    88.01884999999999,
+    542.7470636363637,
+    258.6475
+  ],
+  "rows": [
+    [
+      "Sl.\nNo.",
+      "Name of shareholder",
+      "No. of shares",
+      "%of holding"
+    ],
+    [
+      "1.",
+      "Bharat 22 ETF",
+      "5,28,75,186",
+      "2.88"
+    ],
+    [
+      "2.",
+      "Life Insurance Corporation of India",
+      "4,44,39,332",
+      "2.42"
+    ],
+    [
+      "3.",
+      "Quant Mutual Fund - Quant Small Cap Fund",
+      "3,12,60,000",
+      "1.70"
+    ],
+    [
+      "4.",
+      "SBI Large & Midcap Fund",
+      "2,89,95,000",
+      "1.58"
+    ],
+    [
+      "5.",
+      "Life Insurance Corporation of India - P & GS Fund",
+      "1,59,74,920",
+      "0.87"
+    ],
+    [
+      "6.",
+      "SBI Contra Fund",
+      "1,57,16,065",
+      "0.85"
+    ],
+    [
+      "7.",
+      "The New India Assurance Company Limited",
+      "1,40,40,689",
+      "0.76"
+    ],
+    [
+      "8.",
+      "Vanguard Total International Stock Index Fund",
+      "1,22,62,599",
+      "0.67"
+    ],
+    [
+      "9.",
+      "Vanguard Emerging Markets Stock Index Fund, A series of Vanguard International\nEquity Index Funds",
+      "1,19,23,891",
+      "0.65"
+    ],
+    [
+      "10.",
+      "Quant Mutual Fund-Quant ELSS Tax Saver Fund",
+      "1,12,50,000",
+      "0.61"
+    ],
+    [
+      "",
+      "TOTAL",
+      "2,387,37,682",
+      "12.99"
+    ]
+  ]
+}

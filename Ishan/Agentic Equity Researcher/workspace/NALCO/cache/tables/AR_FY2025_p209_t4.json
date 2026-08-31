@@ -1,0 +1,83 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 209,
+  "table_index": 4,
+  "bbox": [
+    51.27366857142857,
+    377.23114999999996,
+    542.72636,
+    524.7404
+  ],
+  "rows": [
+    [
+      "",
+      "Site restoration",
+      "Asset dismantling\nobligation",
+      "Legal and Constructive\nObligation",
+      "Peripheral Development\nExpenses"
+    ],
+    [
+      "Balance as at 31.03.2023",
+      "-",
+      "44.22",
+      "52.01",
+      "30.05"
+    ],
+    [
+      "Additional provisions recognised",
+      "64.93",
+      "1.04",
+      "19.41",
+      "-"
+    ],
+    [
+      "Reductions arising from payments",
+      "-",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Unwinding of discount",
+      "4.39",
+      "3.69",
+      "0.29",
+      "-"
+    ],
+    [
+      "Balance as at 31.03.2024",
+      "69.32",
+      "48.95",
+      "71.71",
+      "30.05"
+    ],
+    [
+      "Additional provisions recognised",
+      "39.77",
+      "1.93",
+      "38.10",
+      "-"
+    ],
+    [
+      "Reductions arising from payments",
+      "0",
+      "-",
+      "(3.79)",
+      "(0.05)"
+    ],
+    [
+      "Unwinding of discount",
+      "9.95",
+      "2.10",
+      "1.29",
+      "-"
+    ],
+    [
+      "Balance as at 31.03.2025",
+      "119.04",
+      "52.98",
+      "107.31",
+      "30.00"
+    ]
+  ]
+}

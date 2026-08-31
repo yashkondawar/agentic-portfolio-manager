@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 137,
+  "table_index": 2,
+  "bbox": [
+    68.42320434782609,
+    431.85788,
+    542.8628160000001,
+    526.9986
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "Stock Exchanges where shares are listed",
+      null
+    ],
+    [
+      null,
+      "BSE Limited",
+      "National Stock Exchange of India Ltd."
+    ],
+    [
+      "Address",
+      "Phiroze Jeejeebhoy Towers,\nDalal Street, Mumbai - 400 001",
+      "Exchange Plaza, Bandra-Kurla Complex,\nBandra East, Mumbai - 400 051"
+    ],
+    [
+      "Scrip code",
+      "532234",
+      "NATIONALUM"
+    ],
+    [
+      "Traded from",
+      "19.10.1992",
+      "28.04.1999"
+    ],
+    [
+      "Stock code (ISIN)",
+      "INE 139A01034",
+      "INE 139A01034"
+    ],
+    [
+      "Payment of Listing Fees for 2025-26",
+      "Paid on 21.04.2025",
+      "Paid on 11.04.2025"
+    ]
+  ]
+}

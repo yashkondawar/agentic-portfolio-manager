@@ -1,0 +1,93 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 184,
+  "table_index": 4,
+  "bbox": [
+    45.44218571428571,
+    494.04600000000005,
+    499.93135,
+    634.711
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "NALCO retirement\nwelfare scheme",
+      null,
+      "Superannuation\ngift scheme",
+      null,
+      null
+    ],
+    [
+      "2021-22",
+      "Increase by",
+      "Decrease by",
+      "Increase by",
+      "Decrease by",
+      "Increase by"
+    ],
+    [
+      "Impact on amount due to change in Discount rate (-/+0.5%)",
+      "0.32",
+      "0.33",
+      "0.18",
+      "0.18",
+      "17.57"
+    ],
+    [
+      "% Change compared to base due to sensitivity [+/(-)%]",
+      "2.71%",
+      "2.76%",
+      "2.71%",
+      "2.76%",
+      "3.30%"
+    ],
+    [
+      "Impact on amount due to change in Salary growth (+/-0.5%)",
+      "0.29",
+      "0.28",
+      "0.16",
+      "0.15",
+      "3.90"
+    ],
+    [
+      "% Change compared to base due to sensitivity [+/(-)%]",
+      "2.42%",
+      "2.37%",
+      "2.42%",
+      "2.37%",
+      "0.73%"
+    ],
+    [
+      "Impact on amount due to change in Attrition rate (+/-0.5%)",
+      "0.02",
+      "0.02",
+      "0.01",
+      "0.01",
+      "0.11"
+    ],
+    [
+      "% Change compared to base due to sensitivity [+/(-)%]",
+      "0.15%",
+      "0.15%",
+      "0.15%",
+      "0.15%",
+      "0.02%"
+    ],
+    [
+      "Impact on amount due to change in Mortality rate (-/+10%)",
+      "0.03",
+      "0.03",
+      "0.02",
+      "0.02",
+      "0.50"
+    ],
+    [
+      "% Change compared to base due to sensitivity [+/(-)%]",
+      "0.26%",
+      "0.26%",
+      "0.26%",
+      "0.26%",
+      "0.09%"
+    ]
+  ]
+}

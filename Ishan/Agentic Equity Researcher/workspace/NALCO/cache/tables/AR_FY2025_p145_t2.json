@@ -1,0 +1,41 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 145,
+  "table_index": 2,
+  "bbox": [
+    68.2815,
+    406.0933,
+    542.72645,
+    652.3777
+  ],
+  "rows": [
+    [
+      "Registered & Corporate Office\nNALCO Bhawan\nPlot No. P/1, Nayapalli, Bhubaneswar – 751013, (Odisha)",
+      "Mines & Refinery\nMines & Refinery Complex\nDamanjodi - 763 008\nDist.-Koraput, (Odisha)"
+    ],
+    [
+      "Smelter Plant\nNalco Nagar Angul - 759 145, (Odisha)",
+      "Pottangi Bauxite Mines,\nPottangi- 764039\nDist.-Koraput, (Odisha)"
+    ],
+    [
+      "Utkal-D&E Coal Mines\nRaijharan Village, Chhendipada, Angul-759 130 (Odisha)",
+      "Captive Power Plant\nAngul - 759 122, (Odisha)"
+    ],
+    [
+      "WIND POWER PLANTS",
+      null
+    ],
+    [
+      "Sangli 50.4 MW Wind Power Plant\nNational Aluminium Company Ltd.\nVillage-Mendhigiri, Taluk-Jath\nDist.- Sangli, Maharashtra- 416404",
+      "Jaisalmer 47.6 MW Wind Power Plant\nNational Aluminium Company Limited\nVillage - Ludarva, Kahela, Khadero-Ki-Dhani, Tawariya, Chatrel\nDivision/Taluk/District - Jaisalmer\nRajasthan - 345001"
+    ],
+    [
+      "Gandikota 50.4 MW Wind Power Plant\nNational Aluminium Company Limited\nVillage - Gandikota, Division - Prodattur\nTaluka - Jammalmadugu, District - Kadapa, Andhra Pradesh",
+      "Kayathar 25.5 MW Wind Power Plant\nNational Aluminium Company Limited\nVillage- Onamakulam, Tehsil- Kayathar\nDistrict- Tuticorin, Tamil Nadu- 628303"
+    ],
+    [
+      "Jaisalmer 50 MW Wind Power Plant\nNational Aluminium Company Limited\nVillage –Devikot, Tehsil-Fatehgarh\nDivision/Taluk/District – Jaisalmer\nRajasthan- 245009",
+      null
+    ]
+  ]
+}

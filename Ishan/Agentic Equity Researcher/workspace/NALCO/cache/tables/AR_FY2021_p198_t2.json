@@ -1,0 +1,73 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 198,
+  "table_index": 2,
+  "bbox": [
+    48.439,
+    104.88209999999992,
+    546.8366,
+    673.2392
+  ],
+  "rows": [
+    [
+      "Ind As",
+      "Nomenclature",
+      "Description"
+    ],
+    [
+      "Ind AS 16",
+      "Property, Plant & Equipment",
+      "- Measurement basis, useful life and method of depreciation followed for each class of property, plant\nand equipment has been discussed at Para 3.4 of the significant accounting policy.\n- A reconciliation between opening carrying value and the closing carrying value stating addition\nduring the period, disposals and depreciation expenses is placed at note 5."
+    ],
+    [
+      "Ind AS 19",
+      "Employee Benefits",
+      "- Long term employees benefits are categorised into three heads i.e. Defined Contribution Plans,\nDefined Benefit Plans and Other Long Term Employee Benefits. Company’s contribution to\nprovident fund and pension fund of the employees are recognised as defined contribution plans\nwhere as gratuity on superannuation, post retirement medical benefits, settling-in-benefit, NALCO\nbenevolent fund scheme, NALCO retirement welfare scheme are recognised as defined benefit plans.\nPayments towards compensated absences, Long service rewards and NEFFARS are recognised as\nlong term employees benefits.\n- Actuarial valuation of Company’s obligation towards defined benefit plans and long term employees\nbenefits have been made and the expenses/ income is recognised accordingly.\n- A reconciliation between the opening liability and the closing liability against each defined benefit\nobligations showing service cost, interest expenses/ income, remeasumement gains or loses due to\nchange in demographic and financial assumptions are disclosed at note 31.B.\n- A sensitivity analysis of the actuarial assumptions showing how the defined benefit obligation\nwould have been affected by changing the relevant actuarial assumptions is disclosed at note 31.C."
+    ],
+    [
+      "Ind AS 20",
+      "Accounting for Government\nGrants and Disclosure of\nGovernment Assistance",
+      "- Grants received from the Government for assets is presented as deferred income. Accounting policy\nof in this regard is disclosed at para 3.15."
+    ],
+    [
+      "Ind AS 21",
+      "The Effects of Changes in\nForeign Exchange Rates",
+      "Accounting policies with regard to transaction in foreign currency has been disclosed at para 3.7 of the\nSignificant Accounting policy."
+    ],
+    [
+      "Ind AS 23",
+      "Borrowing Cost",
+      "The Company capitalises borrowing costs that are directly attributable to the acquisition, construction\nor production of a qualifying asset as part of the cost of that asset. Disclosure in this regard has been\nmade at para 3.14 of the significant accounting policy."
+    ],
+    [
+      "Ind AS 24",
+      "Related Party Disclosure",
+      "Name of related parties, aggregated sales and purchase transaction with them, any outstanding balances\nagainst them and benefits paid to and loan outstanding against the key managerial persons has been\ndisclosed at Note 39."
+    ],
+    [
+      "Ind AS 27",
+      "Separate Financial\nStatements",
+      "- Investments made in joint ventures and associates are presented at cost in the separate financial\nstatements."
+    ],
+    [
+      "Ind AS 28",
+      "Investment in Associates &\nJoint Venture",
+      "- The Company adjusts its’ share of profit in the profit or loss of the subsidiaries with the carrying\namount of the investments in its consolidated financial statements using equity method."
+    ],
+    [
+      "Ind AS 29",
+      "Financial Reporting\nin Hyperinflationary\nEconomics",
+      "- This standard is not applicable to the company as its’ functional currency is not a currency of any\nhyperinflationary economy."
+    ],
+    [
+      "Ind AS 32",
+      "Financial Instruments\nPresentation",
+      "- All items of assets and liabilities have been segregated into financial and other assets and liabilities\nbased on the definitions laid down in the standard and are presented as required in Schedule III."
+    ],
+    [
+      "Ind AS 33",
+      "Earnings per share",
+      "- The Company has not issued any potential equity shares. Thus, both the Basic and Diluted EPS\nremains same.\n- Disclosure with regard to the weighted average number of equity shares and earnings for the period\nused in computation of EPS is made at Note 36."
+    ]
+  ]
+}

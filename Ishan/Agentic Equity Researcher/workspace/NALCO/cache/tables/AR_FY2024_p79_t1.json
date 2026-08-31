@@ -1,0 +1,37 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 79,
+  "table_index": 1,
+  "bbox": [
+    68.28140909090908,
+    275.4152,
+    542.9082363636363,
+    451.5113
+  ],
+  "rows": [
+    [
+      "Stakeholders",
+      "Identification Process"
+    ],
+    [
+      "Shareholders",
+      "● Annual General Meetings\n● Complaints & grievances"
+    ],
+    [
+      "Government/Regulatory Bodies",
+      "● Meetings with different Central and State Government Bodies\n● Notifications, Circulars, Submissions of various returns & compliances"
+    ],
+    [
+      "Communities",
+      "● RPDAC meetings\n● Informal meetings and interactions"
+    ],
+    [
+      "Customers",
+      "● Tenders and Enquiries\n● Customer meets.\n● Feedback, satisfaction surveys and grievance resolution"
+    ],
+    [
+      "Suppliers, Contractors, Transporters",
+      "● Tenders & contracts\n● Vendor and supplier meets"
+    ]
+  ]
+}

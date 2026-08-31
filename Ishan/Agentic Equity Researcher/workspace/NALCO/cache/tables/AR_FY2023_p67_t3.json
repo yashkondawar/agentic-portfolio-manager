@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 67,
+  "table_index": 3,
+  "bbox": [
+    45.51444444444444,
+    315.9755,
+    549.8233333333333,
+    436.569
+  ],
+  "rows": [
+    [
+      "Segment",
+      "Total number of\ntraining and awareness\nprogrammes held",
+      "Topics / principles covered\nunder the training and\nits impact",
+      "% Age of persons in respective\ncategory covered by the\nawareness programmes"
+    ],
+    [
+      "Board of Directors",
+      "2",
+      "Principles- 1, 4, 7",
+      "50%"
+    ],
+    [
+      "Key Managerial Personnel (KMP)",
+      "0",
+      "N.A.",
+      "N.A."
+    ],
+    [
+      "Employee other than BoD and KMPs\n(Executives)",
+      "175",
+      "Principles- 1, 3, 5, 6, 9",
+      "94.9 %"
+    ],
+    [
+      "Workers",
+      "Permanent Workers\n(Non-Executives) and also\nNon-permanent Workers: 440",
+      "Permanent Workers: Principle- 3,5\nNon-permanent Workers: Principle- 3",
+      "61.1 %"
+    ]
+  ]
+}

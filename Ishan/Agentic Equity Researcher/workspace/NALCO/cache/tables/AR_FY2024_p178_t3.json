@@ -1,0 +1,38 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 178,
+  "table_index": 3,
+  "bbox": [
+    51.27368205128205,
+    450.21385000000004,
+    542.8047475000001,
+    513.3090749999999
+  ],
+  "rows": [
+    [
+      "A. Non current",
+      "As at 31.03.2024",
+      "As at 31.03.2023"
+    ],
+    [
+      "Creditors for capital supplies and services",
+      null,
+      null
+    ],
+    [
+      "- Dues to micro and small enterprises",
+      "-",
+      "-"
+    ],
+    [
+      "- Others",
+      "286.71",
+      "180.00"
+    ],
+    [
+      "Total other non-current financial liabilities",
+      "286.71",
+      "180.00"
+    ]
+  ]
+}

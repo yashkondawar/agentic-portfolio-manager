@@ -1,0 +1,85 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 94,
+  "table_index": 3,
+  "bbox": [
+    68.28144999999999,
+    516.96172,
+    542.8726,
+    675.3877999999999
+  ],
+  "rows": [
+    [
+      "Category",
+      "FY 2024-25",
+      null,
+      null,
+      "FY 2023-24",
+      null,
+      null
+    ],
+    [
+      null,
+      "Total employees\n/ workers in\nrespective\ncategory (A)",
+      "No. of employees /workers\nin respective category, who\nare part of association(s) or\nUnion (B)",
+      "% (B / A)",
+      "Total\nemployees /\nworkers in\nrespective\ncategory (C)",
+      "No. of employees /\nworkers in respective\ncategory, who are part\nof association(s) or\nUnion (D)",
+      "% (D /C)"
+    ],
+    [
+      "Total Permanent\nEmployees (Executives)",
+      "1,781",
+      "1,781",
+      "100%",
+      "1,586",
+      "1,586",
+      "100%"
+    ],
+    [
+      "Male",
+      "1,683",
+      "1,683",
+      "100%",
+      "1,495",
+      "1,495",
+      "100%"
+    ],
+    [
+      "Female",
+      "98",
+      "98",
+      "100%",
+      "91",
+      "91",
+      "100%"
+    ],
+    [
+      "Total Permanent Workers\n(Non-Executives)",
+      "3,022",
+      "3,022",
+      "100%",
+      "3,272",
+      "3,272",
+      "100%"
+    ],
+    [
+      "Male",
+      "2,800",
+      "2,800",
+      "100%",
+      "3,042",
+      "3,042",
+      "100%"
+    ],
+    [
+      "Female",
+      "222",
+      "222",
+      "100%",
+      "230",
+      "230",
+      "100%"
+    ]
+  ]
+}

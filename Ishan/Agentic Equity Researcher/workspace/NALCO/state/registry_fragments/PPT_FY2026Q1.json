@@ -1,0 +1,83 @@
+{
+  "SRC-600": {
+    "doc": "PPT_FY2026Q1.pdf",
+    "kind": "presentation",
+    "page": 6,
+    "locator": "Physical Performance - Production table (Bauxite, Alumina Hydrate, Metal, Thermal Power)",
+    "period": "FY2026Q1",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-601": {
+    "doc": "PPT_FY2026Q1.pdf",
+    "kind": "presentation",
+    "page": 6,
+    "locator": "Physical Performance - Sales table (Alumina Export/Domestic, Metal Export/Domestic)",
+    "period": "FY2026Q1",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-602": {
+    "doc": "PPT_FY2026Q1.pdf",
+    "kind": "presentation",
+    "page": 7,
+    "locator": "Financial Highlights table (Net Sales, Revenue from Operations, EBITDA, PBT, PAT, etc.)",
+    "period": "FY2026Q1",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-603": {
+    "doc": "PPT_FY2026Q1.pdf",
+    "kind": "presentation",
+    "page": 8,
+    "locator": "LME Price Trend chart - LME Average Cash Settlement Price ($/T) from Jan'25 to Jul'25",
+    "period": "FY2026Q1",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-604": {
+    "doc": "PPT_FY2026Q1.pdf",
+    "kind": "presentation",
+    "page": 9,
+    "locator": "Industry Outlook - Global, Global GDP Growth chart (2023-2026 projection)",
+    "period": "FY2026Q1",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-605": {
+    "doc": "PPT_FY2026Q1.pdf",
+    "kind": "presentation",
+    "page": 10,
+    "locator": "Industry Outlook - India, GDP Growth Rate and Aluminium Consumption Pattern",
+    "period": "FY2026Q1",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-606": {
+    "doc": "PPT_FY2026Q1.pdf",
+    "kind": "presentation",
+    "page": 5,
+    "locator": "Company at a Glance - Integrated Bauxite-Alumina-Aluminium-Power-Coal Complex, capacities (7.5 mtpa bauxite, 2.1 mtpa alumina, 0.46 mtpa smelter, 1200 MW CPP, 198 MW wind)",
+    "period": "FY2026Q1",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-607": {
+    "doc": "PPT_FY2026Q1.pdf",
+    "kind": "presentation",
+    "page": 11,
+    "locator": "Business Highlights - Major Projects (Bauxite Mines expansion 3.5 MTPA; Alumina Refinery expansion 1 MTPA by FY25-26; Smelter 0.5 MTPA by FY29-30; CPP 1080 MW by FY29-30)",
+    "period": "FY2026Q1",
+    "url": null,
+    "accessed": null
+  },
+  "SRC-608": {
+    "doc": "PPT_FY2026Q1.pdf",
+    "kind": "presentation",
+    "page": 13,
+    "locator": "Responsible & Resilient - Environmental initiatives (Wind power 198 MW (281 MU in 24-25), 15 MW pipeline; Solar 1020 kwp, 7 MW planned; Plantation 174,369 in FY24-25; Mined area rehab 15.7 Ha)",
+    "period": "FY2026Q1",
+    "url": null,
+    "accessed": null
+  }
+}

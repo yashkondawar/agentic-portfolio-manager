@@ -1,0 +1,49 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 88,
+  "table_index": 3,
+  "bbox": [
+    248.27955,
+    559.0367,
+    540.5302909090909,
+    647.1479
+  ],
+  "rows": [
+    [
+      "Name",
+      "DIN",
+      "Nature of Directorship",
+      "Designation"
+    ],
+    [
+      "Shri S. R. Patel",
+      "09545270",
+      "Part-time Non- official\n(Independent) Director",
+      "Chairman"
+    ],
+    [
+      "Shri Vivek Kumar Bajpai",
+      "10717439",
+      "Part-time Official Director",
+      "Member"
+    ],
+    [
+      "Shri Ramesh Chandra Joshi",
+      "08765394",
+      "Director (Finance)",
+      "Member"
+    ],
+    [
+      "Shri P. K. Sharma",
+      "10041341",
+      "Director (Production)",
+      "Member"
+    ],
+    [
+      "Shri Jagdish Arora",
+      "10347268",
+      "Director (P&T) & Director\n(HR)-Addl. Charge",
+      "Member"
+    ]
+  ]
+}

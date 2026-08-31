@@ -1,0 +1,25 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 135,
+  "table_index": 1,
+  "bbox": [
+    50.250625,
+    426.9058,
+    542.2034,
+    680.5068
+  ],
+  "rows": [
+    [
+      "Key Audit Matter",
+      "Response of Auditors in dealing with the matters"
+    ],
+    [
+      "1. Carrying value of Property, Plant and Equipment, Capital work-in-progress, Intangible assets and Intangible Assets under Development",
+      null
+    ],
+    [
+      "Property, plant and equipment, capital work-in-progress, intangible assets and\nIntangible assets under development represent significant balances recorded\nin the statement of financial position.\nThe evaluation of the recoverable amount of these assets requires significant\njudgement in determining the key assumptions supporting the expected future\ncash flows of the business and the utilisation of the relevant assets including\nimpairment provisions related to the assets.\nThere are a number of areas where Management judgement impacts the\ncarrying value of property, plant and equipment, intangible assets and their\nrespective depreciation profiles. These include the decision to capitalise or\nexpense costs; the asset life review including the impact of changes in the\nCompany’s strategy; and the timeliness of capitalisation, determination or the\nmeasurement and recognition criteria for assets retired from active use.",
+      "Our audit procedures included the following\n» We evaluated the assumptions made by Management in the determination of carrying\nvalues and useful lives to ensure that these are consistent with the principles of Indian\nAccounting Standards (Ind AS) 16 Property, Plant and Equipment and Ind AS 38\nIntangible Assets.\n» We assessed whether the carrying values and the useful lives were reasonable by\nchallenging Management’s judgements through comparing the useful lives prescribed in\nSchedule II to the Companies Act, 2013 and the useful lives of certain assets as per the\ntechnical assessment of the Management.\n» We compared the useful lives of each class of asset in the current year to the previous year\nto determine whether there were any significant changes in the useful lives of assets, and\nconsidered the reasonableness of changes based on our knowledge of the business and\nthe industry.\n» We assessed whether indicators of impairment existed as at 31st March 2024 based on\nour knowledge of the business and the industry and wherever required the provision of\nimpairment of assets/CWIP were reviewed.\n» We tested the controls in place over the property, plant and equipment and intangible\nassets, evaluated the appropriateness of capitalisation policies, performed tests of details\non costs capitalised and assessed the timeliness of capitalisation including decapitalisation\nof assets retired from active use and the application of the asset life.\n» In performing these substantive procedures, we assessed the judgements made by\nManagement including the nature of underlying costs capitalised; the appropriateness of\nasset lives applied in the calculation of depreciation and amortisation; and in assessing the\nneed for accelerated depreciation/amortisation, if required, in the context of impairment."
+    ]
+  ]
+}

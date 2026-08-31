@@ -1,0 +1,97 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 235,
+  "table_index": 2,
+  "bbox": [
+    79.62024146341463,
+    122.68757142857143,
+    555.8878853658537,
+    271.2376
+  ],
+  "rows": [
+    [
+      "B.",
+      "Current",
+      null,
+      "As at\n31.03.2021",
+      "As at\n31.03.2020"
+    ],
+    [
+      null,
+      "(a)",
+      "Unpaid dividends",
+      "3.87",
+      "2.95"
+    ],
+    [
+      null,
+      "(b)",
+      "Creditors for other liabilities",
+      "",
+      ""
+    ],
+    [
+      null,
+      null,
+      "(1) Creditors for capital supplies and services",
+      "",
+      ""
+    ],
+    [
+      null,
+      null,
+      "— Dues to micro and small enterprises",
+      "—",
+      "—"
+    ],
+    [
+      null,
+      null,
+      "— Others",
+      "211.01",
+      "312.72"
+    ],
+    [
+      null,
+      null,
+      "(2) Security deposits from customers",
+      "3.88",
+      "2.07"
+    ],
+    [
+      null,
+      null,
+      "(3) Refund due to customers",
+      "7.61",
+      "26.50"
+    ],
+    [
+      null,
+      null,
+      "(4) Liabilities for discount on sales to customers",
+      "67.27",
+      "65.93"
+    ],
+    [
+      null,
+      null,
+      "(5) Employees’ recoveries",
+      "0.27",
+      "0.63"
+    ],
+    [
+      null,
+      "(c)",
+      "Lease Liability",
+      "5.49",
+      "5.22"
+    ],
+    [
+      null,
+      "Total other current financial liabilities",
+      null,
+      "299.40",
+      "416.02"
+    ]
+  ]
+}

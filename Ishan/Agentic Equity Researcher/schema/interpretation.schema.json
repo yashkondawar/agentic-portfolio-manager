@@ -1,0 +1,189 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "interpretation.schema.json",
+  "title": "Interpretation ledger",
+  "description": "state/interpretation_ledger.json — owned by prompts/33_thesis_synthesis.md, audited by prompts/34_thesis_redteam.md (checks 16-18). docs/OPINION_VS_ANALYSIS.md sections 1-6 separate analysis from opinion; this file handles the case they do not cover, where two competent readers agree on a verified fact and disagree about what it means. A P/E of 30 is expensive against a 10-year median of 18 and cheap at a PEG of 1.0; both are arithmetic on the same disclosed numbers. What settles it is a named conditioning variable and a named discriminator, and this is where both are recorded. An entry that cannot be discriminated is not deleted — it becomes a disclosed load-bearing assumption, which under config.report.stance evidence_first is worth more to a reader than a verdict with nothing behind it.",
+  "type": "object",
+  "required": [
+    "company",
+    "as_of",
+    "entries"
+  ],
+  "properties": {
+    "company": {
+      "type": "string"
+    },
+    "ticker": {
+      "type": "string"
+    },
+    "as_of": {
+      "type": "string",
+      "description": "ISO date of the synthesis pass that wrote this ledger"
+    },
+    "sector_family": {
+      "type": "string",
+      "description": "Family slug from config/sector_registry.yaml"
+    },
+    "sector_playbook": {
+      "type": "string",
+      "description": "Playbook slug from config/sector_registry.yaml. Determines which valuation convention the readings are judged against."
+    },
+    "entries": {
+      "type": "array",
+      "description": "One entry per valuation-relevant fact whose reading is load-bearing. An empty array fails check 16 — a thesis with no contested facts has not been tested.",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/entry"
+      }
+    }
+  },
+  "$defs": {
+    "conditioning_variable": {
+      "type": "string",
+      "description": "Closed vocabulary, docs/OPINION_VS_ANALYSIS.md section 7.4. Kept in machine form under interpretation_vocabulary.conditioning_variables in config/sector_registry.yaml; E13 in tools/validate_sector_registry.py rejects anything outside it.",
+      "enum": [
+        "growth_rate",
+        "growth_durability",
+        "incremental_roce",
+        "sustainable_roe",
+        "cycle_position",
+        "earnings_base_quality",
+        "capital_intensity",
+        "terminal_value_share",
+        "balance_sheet_risk",
+        "accounting_basis",
+        "own_history_anchor",
+        "peer_set_choice"
+      ]
+    },
+    "reading": {
+      "type": "object",
+      "required": [
+        "verdict",
+        "conditioning_variable",
+        "reasoning"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "verdict": {
+          "type": "string",
+          "description": "What this reading concludes from the fact, in one line. 'Expensive: 67% premium to its own 10-year median of 18x.'"
+        },
+        "conditioning_variable": {
+          "$ref": "#/$defs/conditioning_variable"
+        },
+        "reasoning": {
+          "type": "string",
+          "description": "The arithmetic or mechanism that gets from the fact to the verdict via the conditioner. Not rhetoric — a reader must be able to reproduce it."
+        },
+        "who_holds_it": {
+          "type": "string",
+          "description": "Optional attribution: 'consensus', 'management guidance', a named broker, or 'ours'. Attribution is not evidence; it only tells the reader whose view is being represented."
+        },
+        "is_ours": {
+          "type": "boolean",
+          "description": "True for the reading the note adopts. Exactly one reading per entry should carry this."
+        }
+      }
+    },
+    "discriminator": {
+      "type": "object",
+      "description": "The evidence that settles between the readings. Section 7.2 admits exactly four types; tone, consensus, 'the market is wrong' and analyst conviction are not among them.",
+      "required": [
+        "type",
+        "evidence",
+        "resolved"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "historical_distribution",
+            "peer_distribution",
+            "disclosed_mechanism",
+            "forward_observable",
+            "none_available"
+          ]
+        },
+        "evidence": {
+          "type": "string",
+          "description": "The actual base rate, distribution, mechanism or dated observable. With type none_available, state what evidence WOULD settle it and why it could not be obtained."
+        },
+        "fact_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Fact IDs backing the discriminator. Module 33 introduces no new facts."
+        },
+        "review_date": {
+          "type": "string",
+          "description": "Required in spirit for type forward_observable — the date by which the observation resolves the divergence."
+        },
+        "resolved": {
+          "type": "boolean",
+          "description": "True only when the discriminator actually settles it. Check 18 downgrades a true here with type none_available, or with empty evidence, to false."
+        }
+      }
+    },
+    "entry": {
+      "type": "object",
+      "required": [
+        "fact",
+        "fact_source",
+        "readings",
+        "discriminator",
+        "our_reading",
+        "materiality"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "fact": {
+          "type": "string",
+          "description": "The verified quantity or disclosed mechanism, stated so that nobody disputes it. 'Trailing P/E is 30.2x on FY26 reported EPS of 41.3.'"
+        },
+        "fact_source": {
+          "type": "string",
+          "description": "Where the fact came from — a fact ID, a filing reference, or facts/market_data.json. Analysis layer, per section 1: this must be checkable and binary."
+        },
+        "readings": {
+          "type": "array",
+          "description": "At least two. One reading is not a divergence — check 17 fails an entry where our reading is the only reading on record, which is failure mode F3 in a new costume.",
+          "minItems": 2,
+          "items": {
+            "$ref": "#/$defs/reading"
+          }
+        },
+        "discriminator": {
+          "$ref": "#/$defs/discriminator"
+        },
+        "our_reading": {
+          "type": "string",
+          "description": "Which reading the note adopts and why the discriminator supports it. Where resolved is false, say that plainly and point at the load-bearing assumption it becomes."
+        },
+        "sector_convention_applied": {
+          "type": "string",
+          "description": "The convention from prompts/sector_playbooks/<slug>.md that conditions this reading. Section 7.3: the same multiple carries different default verdicts in different sub-sectors, and the playbook is where that default lives."
+        },
+        "materiality": {
+          "type": "string",
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ],
+          "description": "How much of the thesis turns on this entry. A high-materiality entry with resolved false must appear in the note's load-bearing assumptions and in the rating's capped_by."
+        },
+        "becomes_load_bearing_assumption": {
+          "type": "boolean",
+          "description": "Set true when the divergence is unresolved and the thesis proceeds anyway. Section 7.5: this is a legitimate outcome, but only when disclosed."
+        },
+        "pillar_ref": {
+          "type": "string",
+          "description": "Which thesis pillar in state/thesis.json this entry conditions, if any."
+        }
+      }
+    }
+  }
+}

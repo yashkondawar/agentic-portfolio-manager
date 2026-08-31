@@ -1,0 +1,184 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+  @page { size: 430mm 395mm; margin: 12mm; }   /* sized to fit the whole flow + notes on one page */
+  html,body{margin:0;background:#fff;font-family:"Segoe UI",system-ui,sans-serif;color:#16211D}
+  .hdr{padding:6px 4px 14px}
+  .eyebrow{font-family:Consolas,monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#0F6F5C;margin:0 0 4px}
+  h1{font-family:Georgia,serif;font-size:34px;margin:0 0 6px}
+  .sub{color:#4A564F;font-size:14px;margin:0 0 12px;max-width:120ch}
+  .legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:12.5px;border:1px solid #D7E0DB;border-radius:8px;padding:10px 14px;background:#F5F7F6}
+  .legend b{font-family:Consolas,monospace;text-transform:uppercase;letter-spacing:.08em;color:#16211D;margin-right:16px}
+  .k{display:inline-flex;align-items:center;gap:6px}
+  .sw{width:16px;height:12px;border-radius:3px;display:inline-block;border:1px solid rgba(0,0,0,.25)}
+  .src{background:#eef4f7;border-color:#5a7d8c}.py{background:#e7f0ec;border-color:#0F6F5C}
+  .store{background:#fff3d6;border-color:#9c6410}.llm{background:#efe8f6;border-color:#6b4a9c}
+  .human{background:#0F6F5C;border-color:#0F6F5C}.gov{background:#f2eee2;border-color:#9a8a4a}
+  .man{background:#f8e6d8;border-color:#b04a38;border-style:dashed}.app{background:#e8eef6;border-color:#3a5a9c}
+  .mermaid{font-size:15px}
+  .note{font-family:Consolas,monospace;font-size:12px;color:#4A564F;margin:14px 4px 0;line-height:1.6}
+  .note b{color:#0F6F5C}
+</style></head><body>
+<div class="hdr">
+  <p class="eyebrow">AI-Native Fund · Process &amp; Data-Flow Wireframe</p>
+  <h1>How the system runs — sources, Python, LLM, and where you click</h1>
+  <p class="sub">Every job is <b>manually triggered</b> (a CLI command or a dashboard button) — nothing is auto-scheduled. Inside a job, Python steps run automatically; LLM steps run inside a Claude session; capital decisions stop at a human click.</p>
+  <div class="legend">
+    <span><b>Legend</b></span>
+    <span class="k"><span class="sw src"></span>external source (free)</span>
+    <span class="k"><span class="sw py"></span>Python — automatic</span>
+    <span class="k"><span class="sw store"></span>SQLite / storage</span>
+    <span class="k"><span class="sw gov"></span>governed (git, human-authored)</span>
+    <span class="k"><span class="sw llm"></span>LLM agent — judgment</span>
+    <span class="k"><span class="sw human"></span>HUMAN click / decision</span>
+    <span class="k"><span class="sw man"></span>manual step (download / Playwright)</span>
+    <span class="k"><span class="sw app"></span>dashboard UI</span>
+  </div>
+</div>
+
+<pre class="mermaid">
+%%{init:{'theme':'neutral','flowchart':{'curve':'basis','nodeSpacing':30,'rankSpacing':46,'padding':6}}}%%
+flowchart TB
+
+subgraph SRC["EXTERNAL SOURCES — all free"]
+  direction LR
+  S1["yfinance<br/>prices · indices"]
+  S2["niftyindices<br/>constituents · P/E"]
+  S3["AMFI<br/>NAVs · MF monthly"]
+  S4["FRED / BIS<br/>G-Sec · REER · CPI · credit-gap"]
+  S5["NSE APIs<br/>VIX · FII/DII · corp actions"]
+  S9["gov sites<br/>GST · e-way · ICI · IIP-MCP"]
+  S6["screener.in<br/>company financials"]
+  S7["News RSS<br/>CNBC · NDTV · Mint · BS"]
+  S8["newsletters PDF<br/>DSP Netra · Aequitas"]
+  S10["BSE / Screener<br/>filings (for ER)"]
+  S11["AMC sites<br/>portfolio .xlsx"]
+  S12["VAHAN · EPFO · NPCI<br/>bot-walled / JS"]
+end
+
+subgraph PIPE["PYTHON DATA PIPELINES — automatic once a job is triggered"]
+  P1["prices_yf · index_valuation · universe"]
+  P2["amfi_nav · amfi_monthly"]
+  P3["macro_fred · macro_bis · macro_govt<br/>india_vix · fii_dii"]
+  P4["financials — screener scrape<br/>(staged ~100 names / run)"]
+  P5["news_rss — stage raw headlines"]
+  P6["newsletters — fetch PDF"]
+  P7["disclosure_fetcher — ticker to docs"]
+  P8["amc_portfolios — Nippon auto"]
+  PM["macro_manual — CSV import"]
+end
+
+DB[("SQLite — 28 tables<br/>system of record<br/>+ agent_runs cost ledger")]
+
+S1-->P1
+S2-->P1
+S3-->P2
+S4-->P3
+S5-->P3
+S9-->P3
+S6-->P4
+S7-->P5
+S8-->P6
+S10-->P7
+S11-->P8
+S12-. "manual download" .->PM
+
+P1-->DB
+P2-->DB
+P3-->DB
+P4-->DB
+P5-->DB
+P6-->DB
+P8-->DB
+PM-->DB
+
+subgraph GOV["GOVERNED KNOWLEDGE — git, human-authored, DRAFT-flagged"]
+  REG["registry/<br/>KPI vocab · strategies · risk rules · prompts"]
+  KN["knowledge/<br/>56 KPI defs · 16-cycle catalog · EPS-bridge · methodology"]
+end
+
+CYC["CYCLE ENGINE — Python<br/>anchor to percentile/direction/momentum to 8-phase<br/>to regime + composite + alignment to 4-gate funnel"]
+DB-->CYC
+REG-->CYC
+KN-->CYC
+CYC-- "cycle_assessments · composite_decisions" -->DB
+
+BRAIN["ORCHESTRATOR BRAIN — Python, deterministic (no LLM loop)<br/>scheduler · router (16 triggers) · minimal-context packet builder · escalation"]
+DB-->BRAIN
+REG-->BRAIN
+KN-->BRAIN
+BRAIN-->DB
+
+subgraph LLM["LLM AGENTS — judgment only · contracts validate · sanitize guards · run in a Claude session"]
+  L1["news_processor (haiku)<br/>headlines to structured table"]
+  L2["macro_digest (sonnet)<br/>newsletter to macro notes"]
+  L3["narrative_intensity (sonnet)<br/>score -100..+100"]
+  L4["idea_gen to synthesis to<br/>critique + pre-mortem (sonnet/opus)"]
+  L5["risk_mgmt to allocator to<br/>fund_manager (sonnet/opus)"]
+  L6["sector_researcher · buy_side<br/>meta_research"]
+end
+
+BRAIN-- "packet (min tokens)" -->LLM
+LLM-- "validated JSON" -->BRAIN
+CYC-- "regime · funnel candidates" -->L4
+
+HUMAN{{"HUMAN CHECKPOINT — you click<br/>approve / reject / modify<br/>CLI --record-human-decision  OR  dashboard"}}
+L5-- "recommendation packet" -->HUMAN
+HUMAN-- "logged + registry version" -->DB
+
+PORT["PORTFOLIO &amp; RISK — Python<br/>ledger · daily NAV · SD/VaR/beta/alpha · cycle-aware limits"]
+DB-->PORT
+PORT-->DB
+
+subgraph ER["EQUITY RESEARCHER v2.0 — isolated subsystem, bridged by files"]
+  E1["convert (markitdown) to triage to<br/>BIZMODEL spine"]
+  E2["extract — haiku"]
+  E3["compute — Python<br/>3-level statement · EPS-bridge · KPIs · xlsx"]
+  E4["analyze — sonnet · research loop"]
+  E5["render — opus<br/>dossier + note + valuation_handoff"]
+  E6["FORMAT to styled .docx"]
+end
+P7-->E1
+E1-->E2
+E2-->E3
+E3-->E4
+E4-->E5
+E5-->E6
+E5-- "valuation_handoff.json" -->L6
+
+DASH["STREAMLIT DASHBOARD — read-only + buttons<br/>Refresh data (runs Python) · Generate ideas (click) · view positions/risk/cycle/ideas/ER/news"]
+DB-->DASH
+DASH-. "click a button = trigger a job" .->BRAIN
+
+classDef src fill:#eef4f7,stroke:#5a7d8c,color:#12313c;
+classDef py fill:#e7f0ec,stroke:#0F6F5C,color:#0c2a24;
+classDef store fill:#fff3d6,stroke:#9c6410,color:#3a2a08;
+classDef llm fill:#efe8f6,stroke:#6b4a9c,color:#2a1840;
+classDef human fill:#0F6F5C,stroke:#0b4c40,color:#ffffff;
+classDef gov fill:#f2eee2,stroke:#9a8a4a,color:#2a2410;
+classDef manual fill:#f8e6d8,stroke:#b04a38,color:#4a1a10,stroke-dasharray:5 3;
+classDef app fill:#e8eef6,stroke:#3a5a9c,color:#12203c;
+
+class S1,S2,S3,S4,S5,S6,S7,S8,S9,S10,S11,S12 src;
+class P1,P2,P3,P4,P5,P6,P7,P8 py;
+class PM manual;
+class DB store;
+class CYC,BRAIN,PORT,E1,E3,E6 py;
+class REG,KN gov;
+class L1,L2,L3,L4,L5,L6,E2,E4,E5 llm;
+class HUMAN human;
+class DASH app;
+</pre>
+
+<p class="note">
+<b>MANUAL vs AUTOMATIC —</b> nothing runs on a schedule. You start each job by hand:<br/>
+• <b>Daily (no tokens):</b> <span style="font-family:Consolas">--job daily_data</span> → all ⚙ Python pipelines → DB. Or click <b>Refresh data</b> on the dashboard.<br/>
+• <b>Monthly (no tokens):</b> <span style="font-family:Consolas">--job monthly_macro / monthly_amc_portfolios / monthly_newsletter_digest</span>.<br/>
+• <b>Screening (staged):</b> <span style="font-family:Consolas">--job universe_screening_stage</span> (~100 names/run, ~7–8 runs).<br/>
+• <b>Ideas &amp; research (LLM, in a Claude session):</b> <span style="font-family:Consolas">--job weekly_cycle_assessment</span> then <span style="font-family:Consolas">weekly_idea_cycle</span>; brain prepares a packet per step, you run the agent, output is validated and re-ingested.<br/>
+• <b>You click to decide:</b> <span style="font-family:Consolas">--record-human-decision &lt;id&gt; --decision APPROVE|REJECT|MODIFY</span> — the only thing that changes the portfolio.<br/>
+• <b>Manual downloads (dashed red):</b> VAHAN vehicle regs, EPFO/NPCI, and HDFC/SBI/Kotak AMC files are bot/JS-walled — one Playwright install unlocks them; until then, hand-download + <span style="font-family:Consolas">macro_manual</span> import.
+</p>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true});</script>
+</body></html>

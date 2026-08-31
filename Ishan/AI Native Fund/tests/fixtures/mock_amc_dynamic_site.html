@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head><title>Mock AMC Portfolio Page</title></head>
+<body>
+  <h1>Mock Fund Portfolios</h1>
+
+  <label for="freq">Select Frequency</label>
+  <select id="freq">
+    <option value="">-- choose --</option>
+    <option value="monthly">Monthly</option>
+    <option value="fortnightly">Fortnightly</option>
+    <option value="halfyearly">Half Yearly</option>
+  </select>
+
+  <label for="year">Select Year</label>
+  <select id="year">
+    <option value="">-- choose --</option>
+    <option value="2025">2025</option>
+    <option value="2026">2026</option>
+  </select>
+
+  <label for="month">Select Month</label>
+  <select id="month">
+    <option value="">-- choose --</option>
+    <option value="5">May</option>
+    <option value="6">June</option>
+  </select>
+
+  <button id="searchBtn">Search</button>
+
+  <table id="results" style="display:none">
+    <thead><tr><th>File name</th><th>Type</th><th>Size</th></tr></thead>
+    <tbody id="resultsBody"></tbody>
+  </table>
+
+  <script>
+    document.getElementById('searchBtn').addEventListener('click', function() {
+      // Simulate an AJAX delay before the results table populates
+      setTimeout(function() {
+        var freq = document.getElementById('freq').value;
+        var year = document.getElementById('year').value;
+        var month = document.getElementById('month').value;
+        var body = document.getElementById('resultsBody');
+        body.innerHTML = '';
+        if (freq === 'monthly' && year && month) {
+          var monthName = month === '5' ? 'May' : 'June';
+          var row = document.createElement('tr');
+          row.innerHTML = '<td><a href="/files/MONTHLY-PORTFOLIO-' + monthName + '-' + year +
+            '.xlsx" download>MONTHLY-PORTFOLIO-' + monthName + '-' + year + '.xlsx</a></td>' +
+            '<td>XLSX</td><td>842 KB</td>';
+          body.appendChild(row);
+          document.getElementById('results').style.display = 'table';
+        }
+      }, 400);
+    });
+  </script>
+</body>
+</html>

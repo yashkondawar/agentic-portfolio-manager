@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 108,
+  "table_index": 2,
+  "bbox": [
+    116.47042307692308,
+    184.33705555555554,
+    546.4248571428571,
+    260.63359999999994
+  ],
+  "rows": [
+    [
+      "Name",
+      "Category",
+      "Position",
+      "Meeting",
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "Held",
+      "Attended"
+    ],
+    [
+      "Shri N. N. Sharma@@",
+      "Independent",
+      "Chairman",
+      "1",
+      "1"
+    ],
+    [
+      "Shri V. Balasubramanyam,\nDirector(Production)$",
+      "Functional",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Shri S. K. Roy,\nDirector (P&T)$$",
+      "Functional",
+      "Member",
+      "1",
+      "1"
+    ]
+  ]
+}

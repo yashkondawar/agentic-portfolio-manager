@@ -1,0 +1,73 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 164,
+  "table_index": 1,
+  "bbox": [
+    45.931999999999995,
+    59.77800000000002,
+    549.60475,
+    199.83950000000004
+  ],
+  "rows": [
+    [
+      "22. A - Trade Payables Amount in ` Crore",
+      null,
+      null
+    ],
+    [
+      "A. Non-current",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      "(1) Creditors for supplies and services",
+      "",
+      ""
+    ],
+    [
+      "- Dues to micro and small enterprises",
+      "-",
+      "-"
+    ],
+    [
+      "- Others",
+      "10.98",
+      "23.61"
+    ],
+    [
+      "Total non-current trade payables",
+      "10.98",
+      "23.61"
+    ],
+    [
+      "B. Current",
+      "",
+      ""
+    ],
+    [
+      "(1) Creditors for supplies and services",
+      "",
+      ""
+    ],
+    [
+      "- Dues to micro and small enterprises",
+      "36.59",
+      "31.50"
+    ],
+    [
+      "- Others",
+      "742.92",
+      "788.52"
+    ],
+    [
+      "Accrued wages and salaries",
+      "483.83",
+      "637.08"
+    ],
+    [
+      "Total current trade payables",
+      "1,263.34",
+      "1,457.10"
+    ]
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 135,
+  "table_index": 1,
+  "bbox": [
+    79.27363636363636,
+    195.2077222222222,
+    542.7202941176471,
+    331.5638
+  ],
+  "rows": [
+    [
+      "Name",
+      "Category of Director",
+      "Position",
+      "Meeting",
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "Held",
+      "Attended"
+    ],
+    [
+      "Dr. B. R. Ramakrishna (upto 09.11.2024)",
+      "Independent",
+      "Chairman",
+      "1",
+      "1"
+    ],
+    [
+      "Shri R. N. Jha (upto 09.11.2024)",
+      "Independent",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Adv. George Kurian (upto 09.06.2024)",
+      "Independent",
+      "Member",
+      "0",
+      "0"
+    ],
+    [
+      "Dr. A. Narang (upto 09.11.2024)",
+      "Independent",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Shri Y. P. Chillio (upto 09.11.2024)",
+      "Independent",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Ms. (Dr.) Shatorupa (upto 09.11.2024)",
+      "Independent",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Adv. D. Upadhyay (upto 09.11.2024)",
+      "Independent",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Shri S. R. Patel (upto 21.03.2025)",
+      "Independent",
+      "Member",
+      "1",
+      "1"
+    ]
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 190,
+  "table_index": 2,
+  "bbox": [
+    51.274,
+    398.02885,
+    542.7268133333333,
+    654.5532000000001
+  ],
+  "rows": [
+    [
+      "",
+      "PRMBS (Funded)",
+      "Gratuity (Funded)"
+    ],
+    [
+      "Opening fair value of plan assets as at April 01, 2022",
+      "-",
+      "554.86"
+    ],
+    [
+      "Interest income",
+      "3.78",
+      "39.78"
+    ],
+    [
+      "Remeasurement gains/(losses)",
+      null,
+      null
+    ],
+    [
+      "Return on plan assets (excluding amounts included in net interest income)",
+      "-",
+      "(1.35)"
+    ],
+    [
+      "Others",
+      "-",
+      "-"
+    ],
+    [
+      "Contribution from the employer",
+      "169.55",
+      "-"
+    ],
+    [
+      "Benefits paid",
+      "(12.48)",
+      "(83.15)"
+    ],
+    [
+      "Closing fair value of plan assets as at March 31, 2023",
+      "160.85",
+      "510.14"
+    ],
+    [
+      "Interest income",
+      "11.21",
+      "35.56"
+    ],
+    [
+      "Remeasurement gains/(losses)",
+      null,
+      null
+    ],
+    [
+      "Return on plan assets (excluding amounts included in net interest income)",
+      "1.64",
+      "0.44"
+    ],
+    [
+      "Contribution from the employer",
+      "24.02",
+      "-"
+    ],
+    [
+      "Benefits paid",
+      "(13.00)",
+      "(80.96)"
+    ],
+    [
+      "Others",
+      "-",
+      "-"
+    ],
+    [
+      "Closing fair value of plan assets as at March 31, 2024",
+      "184.72",
+      "465.18"
+    ]
+  ]
+}

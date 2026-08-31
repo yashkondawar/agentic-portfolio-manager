@@ -1,0 +1,29 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 113,
+  "table_index": 2,
+  "bbox": [
+    68.28144444444443,
+    416.96805,
+    542.7263555555555,
+    484.9996
+  ],
+  "rows": [
+    [
+      "Events",
+      "Tentative Date"
+    ],
+    [
+      "Unaudited Financial results for the first three quarters",
+      "Within 45 days of closure of respective quarter"
+    ],
+    [
+      "Audited Financial results for the year including 4th quarter results",
+      "Within 60 days from date of closure of the Financial Year."
+    ],
+    [
+      "Annual General Meeting for the year ending March 31, 2025",
+      "By September, 2025"
+    ]
+  ]
+}

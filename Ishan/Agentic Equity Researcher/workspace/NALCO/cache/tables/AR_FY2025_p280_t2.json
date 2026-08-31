@@ -1,0 +1,38 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 280,
+  "table_index": 2,
+  "bbox": [
+    51.273630000000004,
+    262.46725,
+    542.8708408163266,
+    331.547075
+  ],
+  "rows": [
+    [
+      "",
+      "As at 31.03.2025",
+      "As at 31.03.2024"
+    ],
+    [
+      "a) Estimated amount of Contracts remaining to be executed on capital account and not provided for",
+      "2230.93",
+      "2538.84"
+    ],
+    [
+      "b) Other Commitments",
+      null,
+      null
+    ],
+    [
+      "- Export obligation for import of capital goods under Export Promotion Capital Goods Scheme.",
+      "130.65",
+      "205.17"
+    ],
+    [
+      "Total",
+      "2,361.58",
+      "2,744.01"
+    ]
+  ]
+}

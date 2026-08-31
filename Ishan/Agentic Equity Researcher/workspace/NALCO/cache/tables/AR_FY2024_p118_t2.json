@@ -1,0 +1,25 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 118,
+  "table_index": 2,
+  "bbox": [
+    68.28164444444444,
+    278.05505,
+    542.38722,
+    319.937
+  ],
+  "rows": [
+    [
+      "Instrument Type",
+      "Rating/Outlook"
+    ],
+    [
+      "Fund-based limits",
+      "IND AAA/Stable"
+    ],
+    [
+      "Non-fund-based limits",
+      "IND A1+"
+    ]
+  ]
+}

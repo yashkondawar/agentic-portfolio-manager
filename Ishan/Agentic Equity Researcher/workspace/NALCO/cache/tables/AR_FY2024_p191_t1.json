@@ -1,0 +1,55 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 191,
+  "table_index": 1,
+  "bbox": [
+    51.273716216216215,
+    73.95085714285712,
+    543.1110307692308,
+    156.84630000000004
+  ],
+  "rows": [
+    [
+      "",
+      "Fair value of plan assets as at",
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      "PRMBS",
+      null,
+      "Gratuity",
+      null
+    ],
+    [
+      null,
+      "31.03.2024",
+      "31.03.2023",
+      "31.03.2024",
+      "31.03.2023"
+    ],
+    [
+      "Investments in Funds:",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "1. Insurance Companies",
+      "184.72",
+      "160.85",
+      "465.18",
+      "510.14"
+    ],
+    [
+      "Total",
+      "184.72",
+      "160.85",
+      "465.18",
+      "510.14"
+    ]
+  ]
+}

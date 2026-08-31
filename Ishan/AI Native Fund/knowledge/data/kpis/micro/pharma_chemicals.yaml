@@ -1,0 +1,66 @@
+# Pharma & Chemicals micro KPI deep-definitions. Lean by design: formula +
+# sourcing + xref only. Qualitative framing lives in
+# registry/kpis/pharma_chemicals.yaml and knowledge/references/sectors/
+# pharma_chemicals.md — not repeated here.
+sector: pharma_chemicals
+registry_ref: registry/kpis/pharma_chemicals.yaml
+kpis:
+  - kpi_id: pharma_ev_ebitda_ltm
+    scope: sector
+    cycle_refs: [valuation_cycle, sector_thematic_cycle]
+    formula: "EV/EBITDA (LTM) = Enterprise Value / Trailing 12M EBITDA"
+    inputs:
+      - name: Enterprise value, trailing EBITDA
+        source: afund.daily_prices (mcap proxy) + afund.financials_quarterly (ebitda)
+        status: derivable
+    orientation: value_type
+    lookback_years: 8
+    cadence: daily
+    source_status: derivable
+    registry_xref: "kpis/pharma_chemicals.yaml#ev_ebitda_ltm"
+    references_xref: [sectors/pharma_chemicals.md, kpi_interpretation/valuation_cycle.md]
+
+  - kpi_id: pharma_rd_spend_pct_sales
+    scope: sector
+    cycle_refs: [earnings_margin_cycle]
+    formula: "R&D Spend % Sales = R&D Expense / Revenue"
+    inputs:
+      - name: R&D expense, revenue
+        source: afund.financials_quarterly.raw_json (R&D line not a dedicated column) + revenue
+        status: derivable
+    orientation: goldilocks_type
+    lookback_years: 8
+    cadence: quarterly
+    source_status: derivable
+    registry_xref: "kpis/pharma_chemicals.yaml#rd_spend_pct_sales"
+    references_xref: [sectors/pharma_chemicals.md]
+
+  - kpi_id: pharma_us_generics_revenue_pct
+    scope: sector
+    cycle_refs: [sector_thematic_cycle]
+    formula: "US Generics Revenue % = US Generics Segment Revenue / Total Revenue"
+    inputs:
+      - name: Segment revenue disclosure
+        source: company investor presentations — not yet wired
+        status: missing
+    orientation: goldilocks_type
+    lookback_years: 6
+    cadence: quarterly
+    source_status: missing
+    registry_xref: "kpis/pharma_chemicals.yaml#us_generics_revenue_pct"
+    references_xref: [sectors/pharma_chemicals.md]
+
+  - kpi_id: pharma_anda_filings_approvals_annual
+    scope: sector
+    cycle_refs: [earnings_margin_cycle]
+    formula: "ANDA Filings/Approvals (Annual) = count of Abbreviated New Drug Applications filed and approved with USFDA in the trailing year"
+    inputs:
+      - name: USFDA ANDA filing/approval counts
+        source: USFDA public database — not yet wired
+        status: missing
+    orientation: value_type
+    lookback_years: 6
+    cadence: quarterly
+    source_status: missing
+    registry_xref: "kpis/pharma_chemicals.yaml#anda_filings_approvals_annual"
+    references_xref: [sectors/pharma_chemicals.md]

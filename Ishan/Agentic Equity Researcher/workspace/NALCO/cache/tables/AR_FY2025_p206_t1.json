@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 206,
+  "table_index": 1,
+  "bbox": [
+    51.27356666666667,
+    99.77589999999998,
+    542.65391875,
+    182.421225
+  ],
+  "rows": [
+    [
+      "",
+      "As at 31.03.2025",
+      "As at 31.03.2024"
+    ],
+    [
+      "Balance at the beginning",
+      "57.22",
+      "56.86"
+    ],
+    [
+      "Additions during the year",
+      "-",
+      "-"
+    ],
+    [
+      "Finance Cost added during the year",
+      "4.08",
+      "4.08"
+    ],
+    [
+      "Payment of lease liability",
+      "(3.78)",
+      "(3.72)"
+    ],
+    [
+      "Balance at the end of the year",
+      "57.52",
+      "57.22"
+    ]
+  ]
+}

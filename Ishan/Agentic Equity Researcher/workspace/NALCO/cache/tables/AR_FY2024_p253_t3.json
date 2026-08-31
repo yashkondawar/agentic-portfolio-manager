@@ -1,0 +1,76 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 253,
+  "table_index": 3,
+  "bbox": [
+    51.27368214285714,
+    540.3016875000001,
+    542.8650321428571,
+    674.3620714285715
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      null,
+      "As at 31.03.2024",
+      "As at 31.03.2023"
+    ],
+    [
+      "Deferred tax liabilities",
+      null,
+      null,
+      "972.70",
+      "1,064.19"
+    ],
+    [
+      "Deferred tax assets",
+      null,
+      null,
+      "131.27",
+      "106.42"
+    ],
+    [
+      "",
+      null,
+      null,
+      "841.43",
+      "957.77"
+    ],
+    [
+      "2023-24",
+      "Opening balance as\nat 01.04.2023",
+      "Recognised in\nprofit or loss",
+      "Recognised in other\ncomprehensive income",
+      "Closing balance\nas at 31.03.2024"
+    ],
+    [
+      "Deferred tax liabilities relating to:",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Property, plant and equipment",
+      "(1,062.24)",
+      "91.24",
+      "-",
+      "(971.00)"
+    ],
+    [
+      "Provision for defined benefit obligation (OCI)",
+      "(1.95)",
+      "-",
+      "0.25",
+      "(1.70)"
+    ],
+    [
+      "Deferred tax liabilities",
+      "(1,064.19)",
+      "91.24",
+      "0.25",
+      "(972.70)"
+    ]
+  ]
+}

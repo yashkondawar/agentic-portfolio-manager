@@ -1,0 +1,55 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 43,
+  "table_index": 1,
+  "bbox": [
+    60.76925,
+    203.79450000000003,
+    549.296,
+    318.99800000000005
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Name of Director",
+      "Designation / Nature of Directorship",
+      "Number of meetings of\nCSR Committee held\nduring the year",
+      "Number of meetings of\nCSR Committee attended\nduring the year"
+    ],
+    [
+      "1",
+      "Shri Dushyant Upadhyay",
+      "Independent Director, Chairperson",
+      "2",
+      "2"
+    ],
+    [
+      "2",
+      "Dr. B. R. Ramakrishna",
+      "Independent Director, Member",
+      "2",
+      "2"
+    ],
+    [
+      "3",
+      "Ms. (Dr.) Shatorupa",
+      "Independent Director, Member",
+      "2",
+      "2"
+    ],
+    [
+      "4",
+      "Shri R. S. Mahapatro",
+      "Director (HR), Member",
+      "2",
+      "2"
+    ],
+    [
+      "5",
+      "Shri B. K. Das",
+      "Director (Production), Member",
+      "2",
+      "2"
+    ]
+  ]
+}

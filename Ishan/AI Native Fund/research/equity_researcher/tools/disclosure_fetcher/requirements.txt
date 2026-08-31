@@ -1,0 +1,26 @@
+# Verified against a live pip install on 2026-07-07. Versions are pinned to
+# a minimum known-good release; feel free to loosen these if you want to
+# track upstream more closely.
+#
+# AI-Native Fund vendoring note: this file is split into a KEY-FREE PRIMARY
+# block (always required — BSE + Screener need no API key) and an OPTIONAL
+# FALLBACK block (only needed if ENABLE_WEB_FALLBACK=1 / --enable-web-fallback
+# is used; see config.py and README.md "Fund integration"). The fund's own
+# pyproject.toml only installs the key-free block into the shared venv.
+
+# --- key-free primary sources (always required) ---
+bse>=3.3.0                 # unofficial BSE India API wrapper (BennyThadikaran/BseIndiaApi)
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+lxml>=5.0.0
+python-dateutil>=2.9.0
+python-dotenv>=1.0.0
+pypdf>=5.0.0
+
+# --- optional web-search fallback (only if ENABLE_WEB_FALLBACK=1) ---
+google-genai>=1.0.0        # current Gemini SDK (replaces the deprecated google-generativeai)
+pydantic>=2.0.0            # structured output schemas for the Gemini calls
+tavily-python>=0.7.0       # primary web search
+ddgs>=9.0.0                # DuckDuckGo search backup (formerly `duckduckgo-search` - that
+                            # package is deprecated, do not install it instead of this one)
+tenacity>=8.2.0             # retry/backoff for Gemini calls

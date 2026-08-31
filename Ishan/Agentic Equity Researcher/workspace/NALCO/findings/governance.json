@@ -1,0 +1,259 @@
+{
+  "company": "National Aluminium Company Limited (NALCO)",
+  "ticker": "NALCO",
+  "module": "24_governance_promoter",
+  "run_date": "2026-07-16",
+  "verdict": {
+    "rating": "Amber",
+    "one_line": "Downgraded from Green: accounting is now confirmed clean (FY2024/FY2025 unqualified, CAG nil both years) but the board breached the SEBI LODR 50% independent-director requirement for parts of FY2026, was fined Rs.10.86 lakh by BSE+NSE (waiver pending, not yet granted), and a 2026 CBI recruitment-fraud probe is open at a NALCO site — together these move governance from a data-gap Green-lean to an active, disclosed, penalized compliance gap that gates the verdict at Amber pending SEBI/NCLT docket confirmation and CBI outcome.",
+    "provisional": true,
+    "provisional_reason": "legal_regulatory sub-score remains provisional: SEBI enforcement-order and NCLT/NCLAT docket-level search was attempted twice (original DR1 + DR1-B follow-up) and both times returned only an absence-of-evidence result — the portals are interactive/form-driven and not indexable by the search/fetch tooling available. Treat as 'unverified-clean, disclosed gap' rather than confirmed clean. Also outstanding: waiver outcome on the BSE/NSE ID-composition fine, and the CBI recruitment-fraud probe status (ongoing/closed)."
+  },
+  "composite_score": {
+    "scale": "0-100, higher = stronger governance",
+    "weights_source": "config/agent_config.yaml governance_score_weights",
+    "total": 73.3,
+    "total_provisional": true,
+    "sub_scores": [
+      {
+        "component": "accounting",
+        "weight_pct": 35,
+        "score_0_100": 90,
+        "provisional": false,
+        "rationale": "RESOLVED (prior provisional gate closed). Unqualified audit opinions confirmed for all 5 years reviewed: FY2021 [SRC-119], FY2022 [SRC-210], FY2023 [SRC-3469], FY2024 [SRC-2702, F-AUD-03], FY2025 [SRC-2752, F-AUD-24] — joint statutory auditors A.K. Sabat & Co./P.A. & Associates (FY2024) and B M Chatrath & Co. LLP/SRB & Associates (FY2025) per facts/fragments/facts_AR_FY24_25_audit.json. CAG Section 143(6) supplementary-audit comment confirmed 'Nil — Nothing significant has come to knowledge' for both FY2024 [F-AUD-04] and FY2025 [F-AUD-25] — closes the CAG-comment open question from the company's own AR disclosure (external DR1-B docket search separately could not corroborate or contradict this from the primary CAG report list — see legal_regulatory sub-score — so treat as company-disclosed-nil, not externally certified-nil). Contingent liabilities: FY2024 Rs.1,920.03cr [F-AUD-05], FY2025 Rs.2,050.43cr [F-AUD-27] — both within the FY2021-FY2023 range (Rs.2,153-2,378cr) and show no step-change or emerging litigation category; itemized breakdown (sales tax, customs, income tax, land acquisition, PSU/OHPC energy-compensation claims etc.) is granular and consistent between the two years, no new categories appearing. One item of note: FY2025 audit disclosed a payroll-software audit-trail gap (audit-trail feature not enabled) [F-AUD-26] — a control-deficiency disclosure, not a qualification, and immaterial to the opinion; kept visible here as a governance-hygiene item rather than folded silently into the clean rating. Forensic earnings-quality flags (other income 25.9% of CFO in FY2023 RF-001; DSO increases RF-002/RF-003) remain 'candidate' status, moderate not severe. No restatement evidence at any point FY2021-FY2025. Score raised from 82 (provisional) to 90 reflecting the closed gate; held below high-90s only for the payroll-audit-trail control gap and the still-open external CAG-report-PDF corroboration."
+      },
+      {
+        "component": "governance",
+        "weight_pct": 30,
+        "score_0_100": 58,
+        "provisional": false,
+        "depends_on": ["F-EXT-1155", "F-EXT-1156"],
+        "rationale": "DOWNGRADED from 80. New, load-bearing finding (F-EXT-1155, confidence high, corroborated across 4 sources SRC-1160/1161/1162/1163): NALCO's own FY2026 Annual Secretarial Compliance Report admits the board fell short of SEBI LODR Regulation 17(1)'s minimum 50% independent-director requirement during parts of FY2026, following the 31-Mar-2026 tenure-expiry cessation of three independent directors (Trupti Kamlesh Patel, Ajay Narang, Patel Sanjaykumar) without named replacements — this also degraded Audit Committee, Nomination & Remuneration Committee, and Stakeholders Relationship Committee composition. BSE and NSE each fined NALCO Rs.5,42,800 (total Rs.10,85,600 incl. 18% GST) via notices dated 27-Feb-2026 for the quarter ended 31-Dec-2025. NALCO requested a waiver (17-Mar-2026 letter) citing that ID appointments are the exclusive prerogative of the President of India/Ministry of Mines, outside company control — a structurally accurate CPSE point, but the fine was levied and the waiver outcome is not yet reported, so this is scored as an active, exchange-penalized compliance breach, not a resolved routine vacancy. This is a materially worse characterization than the prior pass's 'board appointments are political, structural feature, not independently verified' framing — it reframes from a data-gap to a confirmed compliance failure. Separately, a 2026 CBI probe (F-EXT-1156, confidence medium) into recruitment-fraud allegations (~20 people allegedly promised/given jobs at NALCO's Haradghana site without official advertisement) is open; NALCO's public rebuttal frames the CBI visit as routine verification of an unverified external complaint (no raid/seizure), and it is not a confirmed adverse finding against management — held as a governance watch item, weighted lightly relative to the ID-composition breach given lower confidence and no admission of wrongdoing. RPT structure (CPSE/GoI inter-entity trade, KMP remuneration trend) is unchanged from the prior pass and remains a Green-leaning factor within this sub-score, partially offsetting the board-composition downgrade. No promoter pledge (sovereign promoter, N/A) unchanged. Net: rubric's Amber trigger for governance ('frequent auditor changes, large RPTs' as illustrative Amber examples) is better read here as 'disclosed board-composition non-compliance with a regulatory fine' as the operative Amber-to-Red-leaning driver — scored 58, Amber, not Red, because (a) the breach is company-self-disclosed and being remediated/appealed rather than concealed, (b) it is a structural CPSE appointment-control issue rather than promoter misconduct, and (c) the fine is monetary/procedural (~Rs.10.86 lakh), not a finding of fraud or diversion."
+      },
+      {
+        "component": "legal_regulatory",
+        "weight_pct": 20,
+        "score_0_100": 62,
+        "provisional": true,
+        "depends_on": ["F-EXT-1155", "F-EXT-1156", "F-EXT-1157", "F-EXT-1158"],
+        "rationale": "DOWNGRADED from 70. The BSE/NSE fine for LODR Reg. 17(1) non-compliance (F-EXT-1155) is itself a regulatory-enforcement action (exchange-level, not SEBI-order-level) and is now counted directly in this sub-score, not just in governance — a monetary fine for board-composition breach is a legal/regulatory fact, waiver not yet granted. The 2026 CBI recruitment-fraud probe (F-EXT-1156) is a second, lower-confidence open item: an external-complaint-triggered inquiry, not (per available evidence) a chargesheet or finding against the company. Both are held to Amber-severity per rubric ('ongoing investigations' = Amber trigger), not Red (no criminal charge or regulator order against the company/promoter has been confirmed). SEBI-enforcement-order and NCLT/NCLAT docket-level search was attempted twice (original DR1 pass + DR1-B follow-up, F-EXT-1157) and both times returned only an absence-of-evidence result — the relevant portals (sebi.gov.in/enforcement, nclt.gov.in, nclat.nic.in) are interactive/form-driven case-search tools not indexable by the search/fetch tooling used; this is explicitly flagged by DR1-B as 'unverified-clean, disclosed gap,' per the coordinator's framing, and is carried forward here rather than assumed clean. CAG Section 143(6) FY2023-FY2025 para search (F-EXT-1158) also remains unresolved externally — the company's own 'Nil' CAG comment (now confirmed via extraction, see accounting sub-score) is neither corroborated nor contradicted by an independently-fetched CAG report PDF. AOC-1/JV litigation facts still not extracted. Score of 62 (Amber) reflects: one confirmed, fined compliance breach + one open lower-confidence probe, against a backdrop of an unresolved (not negative) SEBI/NCLT/CAG docket sweep. This sub-score cannot be moved to Green or confirmed at a stable Amber level until either (a) the SEBI/NCLT docket search is upgraded to a certified query, (b) the CBI probe resolves, or (c) the BSE/NSE waiver outcome is reported."
+      },
+      {
+        "component": "concall_behaviour",
+        "weight_pct": 15,
+        "score_0_100": 80,
+        "provisional": false,
+        "rationale": "Unchanged from prior pass — no new transcript-behaviour facts in this update. Across 4 transcripts (TR_2025-08-08, TR_2025-11-07, TR_2026-01-30, TR_2026-04-30) covering FY2026Q1-Q4, only 2 quote records and 2 paired guidance records are tagged evasive_candidate, both from the same exchange in the Q2 FY26 call (07-Nov-2025): CMD B.P. Singh, asked about bauxite mine lease renewal dates, answered 'I think it is up to 29... We will have to find out and check it... central block is up to 29 and south block is up to 35, I think. We will have to check up the data' [QT-Q2-041, GD-Q2-035, GD-Q2-036]. Characterized as self-flagged uncertainty, not refusal. Note: DR1-B separately flags a discrepancy between this management framing and a dated (2019-vintage) external IBM Bauxite Yearbook source showing different block/date assignments (South Block to 2029, North-Central to 2032) — this external source is itself stale and unconfirmed against the current AR text, so it is noted here as an open reconciliation item rather than used to further downgrade the concall score. No outright refusals found in any of the 4 transcripts. Score held at 80."
+      }
+    ],
+    "weighted_calc": "0.35*90 + 0.30*58 + 0.20*62 + 0.15*80 = 31.50 + 17.40 + 12.40 + 12.00 = 73.30 (recompute check: 31.5+17.4=48.9; 48.9+12.4=61.3; 61.3+12.0=73.3). Displayed total corrected to 73.3 (superseding the earlier 72.7 placeholder in this edit pass — see total field)."
+  },
+  "management_table": [
+    {
+      "name": "Brijendra Pratap Singh",
+      "role": "Chairman-cum-Managing Director (CMD)",
+      "tenure": "N/A — missing appointment date (documents checked: AR_FY2021-FY2025, 4 transcripts; no DOB/appointment-date board note extracted)",
+      "previous_roles": "N/A — missing (not extracted; CPSE board appointments are made via the Ministry of Mines/ACC route rather than disclosed promoter nomination)",
+      "notable_track_record_or_issues": "None found in documents on hand. Primary spokesperson across all 4 FY2026 transcripts; answered numeric/strategic questions directly; one self-flagged uncertain answer on mine-lease-renewal dates (see concall sub-score).",
+      "sources": ["TR_2025-08-08.pdf", "TR_2025-11-07.pdf", "TR_2026-01-30.pdf", "TR_2026-04-30.pdf"],
+      "linkedin_discrepancy_flag": "N/A — DR1 has not yet run a LinkedIn/external bio cross-check for this individual (routed as open question)"
+    },
+    {
+      "name": "Abhay Kumar Behuria",
+      "role": "Director (Finance)",
+      "tenure": "N/A — missing (not extracted)",
+      "previous_roles": "N/A — missing (not extracted)",
+      "notable_track_record_or_issues": "None found in documents on hand. Handled finance/cost-structure/dividend questions across transcripts.",
+      "sources": ["TR_2025-11-07.pdf", "TR_2026-01-30.pdf", "TR_2026-04-30.pdf"],
+      "linkedin_discrepancy_flag": "N/A — not yet checked"
+    },
+    {
+      "name": "Jagdish Arora",
+      "role": "Director (Production & Technical, P&T)",
+      "tenure": "N/A — missing (not extracted)",
+      "previous_roles": "N/A — missing (not extracted)",
+      "notable_track_record_or_issues": "None found in documents on hand. Answered operational/technical questions (CPP, production) in Q2 FY26 call.",
+      "sources": ["TR_2025-11-07.pdf"],
+      "linkedin_discrepancy_flag": "N/A — not yet checked"
+    }
+  ],
+  "management_table_note": "Table limited to names appearing as transcript speakers in the FY2026 calls supplied; CMD tenure now separately corroborated via dr1_company.md (Brijendra Pratap Singh, PESB-selected 17-Sep-2024, assumed charge 8-Jan-2025, ex-SAIL; Abhay Kumar Behuria, Director-Finance, assumed charge 11-Jun-2025, ex-SAIL/Rourkela). OQ-GOV-05 now ANSWERED (depends_on: F-EXT-1155): full independent-director roster is NOT fully populated — three independent directors (Trupti Kamlesh Patel, Ajay Narang, Patel Sanjaykumar) ceased 31-Mar-2026 on tenure expiry and were not replaced as of the FY2026 secretarial-compliance reporting period, causing the board to breach the SEBI LODR Reg. 17(1) 50%-independent-director minimum (BSE/NSE fined NALCO Rs.10.86 lakh; waiver requested, not yet granted). This is now scored as an active compliance gap (see governance and legal_regulatory sub-scores), not merely a data gap. LinkedIn-vs-stated discrepancy check still not performed (no discrepancy identified, but also not directly queried) — remains open.",
+  "promoter_shareholding_and_pledge": {
+    "promoter": "President of India, acting through the Ministry of Mines (Government of India) — 51.28% per instruction brief",
+    "pledge_status": "N/A — sovereign promoter; pledge concept does not apply to Government of India shareholding. Stated explicitly rather than scored as a risk or a gap.",
+    "shareholding_trend_last_4_quarters": "N/A — missing (quarterly shareholding-pattern filings not in facts/financials.json or input manifest; requires BSE/NSE shareholding-pattern filings not supplied in input/NALCO/). Routed as open question — relevant chiefly for OFS/disinvestment-risk monitoring, not a pledge risk.",
+    "disinvestment_context": "CPSE-specific risk noted qualitatively: GoI holding of 51.28% leaves headroom for further Offer-for-Sale (OFS)/disinvestment under DIPAM policy without breaching the 51% PSU-control threshold. No specific OFS announcement or DIPAM disinvestment-target fact found in documents on hand. Flagged as a structural overhang to monitor, not a governance red flag in itself."
+  },
+  "red_flags_by_category": [
+    {
+      "category": "related_third_party_transactions",
+      "evidence_summary": "RPTs are structurally CPSE-to-CPSE/Government-undertaking trade and GoI dividend, not private-party-linked transactions. FY2025 CPSE purchases INR3,264.17cr (19.4% of FY2025 standalone revenue INR16,787.63cr); FY2025 CPSE sales INR2,436.35cr (14.5% of revenue); FY2025 dividend to GoI INR941.80cr; FY2025 KMP remuneration INR8.12cr.",
+      "date": "FY2025 (AR_FY2025.pdf)",
+      "source_ref": "SRC-2619, SRC-2621, SRC-2623, SRC-2617",
+      "confidence": "high",
+      "severity": "low",
+      "note": "Above the generic 5%-of-revenue RPT-advance rubric threshold in gross terms, but the rubric's intent (promoter-linked diversion risk) does not transfer directly to inter-CPSE commercial trade under a common sovereign owner. Flagged for disclosure/context, not scored as an Amber/Red driver."
+    },
+    {
+      "category": "dilution_pledging",
+      "evidence_summary": "N/A — no promoter pledge possible (sovereign promoter). Share buyback occurred in FY2021 (2.9cr shares, INR170.12cr net of tax) — a capital-return action, not dilution.",
+      "date": "FY2021",
+      "source_ref": "F-AR21-266, F-AR21-267",
+      "confidence": "high",
+      "severity": "none"
+    },
+    {
+      "category": "legal_enforcement",
+      "evidence_summary": "UPDATED. (1) BSE+NSE fined NALCO Rs.10,85,600 total (Rs.5,42,800 each, incl. 18% GST) via notices dated 27-Feb-2026 for board non-compliance with SEBI LODR Regulation 17(1) (minimum 50% independent directors) for the quarter ended 31-Dec-2025; NALCO requested a waiver (17-Mar-2026 letter) citing GoI's exclusive control over ID appointments — waiver outcome not yet reported, so treat as an active, unresolved fine, not a cleared matter. (2) A 2026 CBI probe into recruitment-fraud allegations (~20 people allegedly promised/given jobs at NALCO's Haradghana site without official advertisement) is open; NALCO's public statement frames the CBI visit as routine verification of an unverified external complaint (no raid/seizure) — not a confirmed adverse finding against management, but unresolved. (3) No SEBI enforcement order, NCLT/NCLAT case, or IBBI proceeding naming NALCO or its directors was found in two separate web-search passes (original DR1 + DR1-B follow-up) — both passes could not query the interactive SEBI-enforcement/NCLT/NCLAT docket-search portals directly (not indexable by search/fetch tooling); this remains an absence-of-evidence result, not a certified clean scan.",
+      "date": "2026-02-27 (BSE/NSE fine notices); 2026 (CBI probe, exact date not specified in sources)",
+      "source_ref": "F-EXT-1155 (SRC-1160, SRC-1161, SRC-1162, SRC-1163); F-EXT-1156 (SRC-1164, SRC-1165); F-EXT-1157 (SRC-1166, unresolved)",
+      "confidence": "high (BSE/NSE fine); medium (CBI probe); low (SEBI/NCLT absence-of-evidence)",
+      "severity": "medium — active, disclosed, penalized compliance gap (ID composition) + open lower-confidence probe (CBI)",
+      "note": "Gates both the governance and legal_regulatory sub-scores this cycle. Depends on: waiver outcome (BSE/NSE), CBI probe resolution, and a direct/certified SEBI enforcement-order + NCLT/NCLAT docket query (both DR1 passes were methodologically bounded, not negative-for-cause)."
+    },
+    {
+      "category": "concall_behaviour",
+      "evidence_summary": "2 evasive_candidate-tagged records (paired quote+guidance) out of ~350+ records across 4 FY2026 transcripts; both self-flagged uncertainty on bauxite-mine-lease renewal years, not refusal of a financial/strategic question.",
+      "date": "2025-11-07 (Q2 FY26 call)",
+      "source_ref": "QT-Q2-041, GD-Q2-035, GD-Q2-036 (src: SRC-1790)",
+      "confidence": "high",
+      "severity": "low"
+    },
+    {
+      "category": "media_reputation",
+      "evidence_summary": "UPDATED. Two items now on file: (1) trade-press coverage of the BSE/NSE ID-composition fine (see legal_enforcement above), consistently corroborated across 4 independent trade-press sources. (2) 2026 CBI recruitment-fraud probe at NALCO's Bhubaneswar/Haradghana site, with a company rebuttal disputing 'raid' framing in some press coverage — reads as a live, unresolved reputational item pending CBI outcome. Principal adverse-press item from the original DR1 pass (Pottangi/Koraput tribal-opposition on mine displacement/water/forest grounds) is operational/ESG in nature, not a governance-conduct item, and is not re-scored here.",
+      "date": "2026",
+      "source_ref": "F-EXT-1155, F-EXT-1156",
+      "confidence": "medium",
+      "severity": "low-medium — disclosed, unresolved, no admission of wrongdoing"
+    }
+  ],
+  "chronology": [
+    {"date": "FY2021 (AR published 2021-09-06)", "event": "Unqualified standalone audit opinion; share buyback of 2.9cr shares for INR170.12cr (net of tax); contingent liabilities INR2,153.48cr (down from INR2,561.82cr in FY2020)", "source": "AR_FY2021.pdf [SRC-119, F-AR21-266/267/268]"},
+    {"date": "FY2022 (AR published 2022-08-25)", "event": "Unqualified standalone audit opinion; dividend payout ratio 37.33%; contingent liabilities INR2,378.4cr", "source": "AR_FY2022.pdf [SRC-210, F-AR22-062/063/064]"},
+    {"date": "FY2023 (AR published, 42nd AR)", "event": "Unqualified standalone audit opinion; contingent liabilities INR2,362.31cr; other income 25.9% of CFO (forensic flag RF-001, medium severity, candidate status); DSO rose 21% YoY (RF-002)", "source": "AR_FY2023.pdf [SRC-3469, F-AR23-168/170]; state/red_flags.json RF-001/RF-002"},
+    {"date": "FY2024 (AR published, 43rd AR)", "event": "Standalone revenue declined to INR13,149.15cr; DSO rose 82% YoY (RF-003, candidate status). Unqualified audit opinion CONFIRMED (joint auditors A.K. Sabat & Co. / P.A. & Associates); CAG Section 143(6) comment: Nil; contingent liabilities INR1,920.03cr.", "source": "AR_FY2024.pdf; facts/fragments/facts_AR_FY24_25_audit.json [F-AUD-01 to F-AUD-21]; state/red_flags.json RF-003"},
+    {"date": "2025-08-08 to 2026-04-30", "event": "4 FY2026 quarterly earnings calls held (TR_2025-08-08, TR_2025-11-07, TR_2026-01-30, TR_2026-04-30); CMD B.P. Singh, Director-Finance A.K. Behuria, Director-P&T Jagdish Arora as primary spokespeople; one self-flagged-uncertain answer on bauxite-mine-lease renewal dates (07-Nov-2025 call); guided 10-15% employee-cost increase from pay revision", "source": "TR_2025-08-08.pdf, TR_2025-11-07.pdf, TR_2026-01-30.pdf, TR_2026-04-30.pdf"},
+    {"date": "FY2025 (AR published 2025-09-02, 44th AR)", "event": "Dividend paid to GoI INR941.80cr (up from INR376.72cr in FY2024); KMP remuneration INR8.12cr (up from INR6.53cr FY2024); CPSE purchases INR3,264.17cr, CPSE sales INR2,436.35cr. Unqualified audit opinion CONFIRMED (joint auditors B M Chatrath & Co. LLP / SRB & Associates); CAG Section 143(6) comment: Nil; contingent liabilities INR2,050.43cr; payroll-software audit-trail feature not enabled (control-deficiency disclosure, not a qualification).", "source": "AR_FY2025.pdf [SRC-2617/2619/2621/2623]; facts/fragments/facts_AR_FY24_25_audit.json [F-AUD-22 to F-AUD-43]"},
+    {"date": "2026-02-27", "event": "BSE and NSE each fine NALCO Rs.5,42,800 (total Rs.10,85,600 incl. 18% GST) for non-compliance with SEBI LODR Regulation 17(1) — board fell below the 50% independent-director minimum for the quarter ended 31-Dec-2025, following the pending replacement of three independent directors.", "source": "dr1b_followup.json F-EXT-1155 [SRC-1162, SRC-1163]"},
+    {"date": "2026-03-17", "event": "NALCO requests a fine waiver from BSE/NSE, citing that independent-director appointments are the exclusive prerogative of the President of India/Ministry of Mines, outside company control. Waiver outcome not yet reported.", "source": "dr1b_followup.json F-EXT-1155 [SRC-1163]"},
+    {"date": "2026-03-31", "event": "Three independent directors (Trupti Kamlesh Patel, Ajay Narang, Patel Sanjaykumar) cease on tenure expiry; not replaced as of the FY2026 secretarial-compliance reporting period — degrades Audit Committee, Nomination & Remuneration Committee, and Stakeholders Relationship Committee composition alongside the board.", "source": "dr1b_followup.json F-EXT-1155 [SRC-1160, SRC-1161]"},
+    {"date": "2026 (exact date not specified in sources)", "event": "CBI opens a probe into recruitment-fraud allegations at NALCO's Bhubaneswar office/Haradghana site (~20 people allegedly promised/given jobs without an official advertisement); NALCO publicly states the CBI visit was routine verification of an unverified external complaint, disputing press characterization as a 'raid'.", "source": "dr1b_followup.json F-EXT-1156 [SRC-1164, SRC-1165]"}
+  ],
+  "claims_vs_reality": [
+    {
+      "management_claim": "\"Existing bauxite mine renewal, I think it is up to '29... We will have to find out and check it... central block is up to 29 and south block is up to 35, I think. We will have to check up the data.\" — Brijendra Pratap Singh, CMD, TR_2025-11-07, p.19 [QT-Q2-041]",
+      "filings_reality": "N/A — no independent mine-lease-renewal date fact was extracted from any Annual Report on hand to corroborate or contradict; this is a gap, not a confirmed divergence.",
+      "divergence_assessment": "Management itself flagged the figures as unverified in real time rather than asserting them as fact — treated as a transparency-positive (self-correction) rather than a claims-vs-reality mismatch. Routed as open question to close the loop with an independent source (mining-lease registry or AR mines note) once available.",
+      "confidence": "medium"
+    },
+    {
+      "management_claim": "\"Around 10% to 15% increase in the employee cost will be there. That will be the impact of pay revision... it can be around 12% to 13% also.\" — management, TR_2026-04-30.pdf",
+      "filings_reality": "N/A — FY2026 full-year audited employee-cost figures not yet available (AR FY2026 not published as of intake per state/manifest.json gaps); cannot yet be checked against actuals.",
+      "divergence_assessment": "No divergence assessable yet; flagged for a future re-run once AR_FY2026 is available.",
+      "confidence": "low — provisional, awaiting FY2026 AR"
+    }
+  ],
+  "behavioural_overlay_cycle_context": {
+    "status": "N/A — DR1 cycle-phase facts not yet available to this module (no research/ output found at time of this run). NALCO is a commodity (aluminium) producer where the relevant behavioural question is capex/dividend discipline through the aluminium price cycle rather than leverage-driven M&A; on facts on hand, dividend payouts scaled with earnings (dividend to GoI rose from INR376.72cr FY2024 to INR941.80cr FY2025, consistent with the reported profit recovery) rather than being sustained through a downturn on borrowing — a preliminary observation, not a scored conclusion pending DR1 cycle-phase data."
+  },
+  "open_questions": {
+    "count": 6,
+    "answered_this_update": ["OQ-GOV-02 (CAG — resolved via extraction, company-disclosed nil both years, external PDF corroboration still open)", "OQ-GOV-03 (FY2024/FY2025 auditor opinion + contingent liabilities — resolved via re-extraction)", "OQ-GOV-05 (board/independent-director composition — resolved via DR1-B, answer is adverse: active penalized breach, not routine vacancy)", "OQ-GOV-06 (media/reputation — partially answered: CBI probe surfaced; BSE/NSE fine press coverage also counted here)"],
+    "still_open": ["OQ-GOV-01 (SEBI/ED/SFIO/CBI/NCLT/IBBI/MCA registry sweep — attempted twice, methodologically bounded, not resolved)", "OQ-GOV-04 (GoI shareholding trend/OFS — partially answered: no OFS found, but exact quarterly % still secondary-tier, not a directly-read primary PDF)"],
+    "new_items_pending": ["BSE/NSE ID-composition fine waiver outcome (not yet reported)", "CBI recruitment-fraud probe outcome (ongoing/closed status not confirmed)", "Direct fetch of CAG Report No. 18 of 2025 (Union Government Commercial) PDF to confirm/deny a NALCO-specific reference"],
+    "file": "workspace/NALCO/findings/governance_questions.json"
+  },
+  "changes_log": [
+    {
+      "update_date": "2026-07-16",
+      "trigger": "Coordinator staleness notice — new external facts (facts/external/dr1b_followup.json, research/dr1_company.md addendum, facts/fragments/facts_AR_FY24_25_audit.json)",
+      "changes": [
+        "verdict: Green (provisional) -> Amber (provisional) — driven by F-EXT-1155 (BSE/NSE ID-composition fine) and F-EXT-1156 (CBI probe), partially offset by the accounting gate closing clean",
+        "composite_score.total: 78.5 -> 73.3 (accounting sub-score raised 82->90 on resolved auditor/CAG/contingent-liability gap; governance sub-score cut 80->58 on the ID-composition breach; legal_regulatory cut 70->62 on the fine + CBI probe; concall unchanged at 80)",
+        "accounting sub-score: provisional=true -> provisional=false (gate closed by facts_AR_FY24_25_audit.json)",
+        "governance sub-score: depends_on added [F-EXT-1155, F-EXT-1156]",
+        "legal_regulatory sub-score: depends_on added [F-EXT-1155, F-EXT-1156, F-EXT-1157, F-EXT-1158]; remains provisional (SEBI/NCLT docket search still methodologically unresolved per two DR1 passes)",
+        "red_flags_by_category.legal_enforcement and .media_reputation rewritten with new evidence",
+        "chronology: 4 new dated entries added (FY2024/FY2025 auditor-opinion confirmation, BSE/NSE fine notice 2026-02-27, waiver request 2026-03-17, ID cessation 2026-03-31, CBI probe 2026)",
+        "management_table_note updated: OQ-GOV-05 marked answered with adverse finding"
+      ]
+    }
+  ],
+  "citation_note": "SRC IDs referenced in this file map to workspace/NALCO/state/source_registry.json entries already created by extraction (e.g., SRC-119, SRC-210, SRC-3469, SRC-2617, SRC-2619, SRC-2621, SRC-2623, SRC-1789, SRC-1790). No new SRC-10xx range facts were derivable beyond what extraction already captured; derived-fact IDs F-GOV-01 through F-GOV-06 below record this module's own computed/interpretive facts (RPT-as-%-of-revenue calculations), each carrying its own formula per the citation standard.",
+  "derived_facts": [
+    {
+      "id": "F-GOV-01",
+      "metric": "rpt_cpse_purchase_pct_of_revenue",
+      "label": "CPSE purchases as % of standalone revenue",
+      "value": 19.44,
+      "unit": "pct",
+      "period": "FY2025",
+      "method": "computed",
+      "formula": "3264.17 / 16787.63 * 100",
+      "inputs": ["SRC-2619", "F-AR25B (revenue_from_operations FY2025 standalone 16787.63)"],
+      "confidence": "medium"
+    },
+    {
+      "id": "F-GOV-02",
+      "metric": "rpt_cpse_sale_pct_of_revenue",
+      "label": "CPSE sales as % of standalone revenue",
+      "value": 14.52,
+      "unit": "pct",
+      "period": "FY2025",
+      "method": "computed",
+      "formula": "2436.35 / 16787.63 * 100",
+      "inputs": ["SRC-2621", "F-AR25B (revenue_from_operations FY2025 standalone 16787.63)"],
+      "confidence": "medium"
+    },
+    {
+      "id": "F-GOV-03",
+      "metric": "goi_dividend_yoy_growth",
+      "label": "Dividend paid to GoI, YoY growth",
+      "value": 150.0,
+      "unit": "pct",
+      "period": "FY2025 vs FY2024",
+      "method": "computed",
+      "formula": "(941.80 - 376.72) / 376.72 * 100",
+      "inputs": ["SRC-2623", "SRC-2624"],
+      "confidence": "high"
+    },
+    {
+      "id": "F-GOV-04",
+      "metric": "kmp_remuneration_yoy_growth",
+      "label": "KMP remuneration, YoY growth",
+      "value": 24.35,
+      "unit": "pct",
+      "period": "FY2025 vs FY2024",
+      "method": "computed",
+      "formula": "(8.12 - 6.53) / 6.53 * 100",
+      "inputs": ["SRC-2617", "SRC-2618"],
+      "confidence": "high"
+    },
+    {
+      "id": "F-GOV-05",
+      "metric": "evasive_candidate_rate_fy2026_calls",
+      "label": "Evasive-candidate-tagged records as share of total quote+guidance records across 4 FY2026 transcripts",
+      "value": "low (2 of approx. 350+ records; single exchange, single call)",
+      "unit": "qualitative",
+      "period": "FY2026",
+      "method": "computed",
+      "formula": "count(kind==evasive_candidate) / count(all quote+guidance records) across quotes_TR_*.json and guidance_TR_*.json for FY2026Q1-Q4",
+      "inputs": ["quotes_TR_2025-08-08.json", "quotes_TR_2025-11-07.json", "quotes_TR_2026-01-30.json", "quotes_TR_2026-04-30.json", "guidance_TR_2025-11-07.json (GD-Q2-035, GD-Q2-036)"],
+      "confidence": "high"
+    },
+    {
+      "id": "F-GOV-06",
+      "metric": "auditor_opinion_extraction_coverage_gap",
+      "label": "Fiscal years with no extracted auditor_opinion fact despite AR being in input",
+      "value": "FY2024, FY2025",
+      "unit": "qualitative",
+      "period": "FY2021-FY2025",
+      "method": "computed",
+      "formula": "set(FY2021..FY2025) - set(periods where metric==auditor_opinion exists in facts/financials.json)",
+      "inputs": ["facts/financials.json (grep of metric=='auditor_opinion': FY2021, FY2022, FY2023 only)"],
+      "confidence": "high",
+      "flags": ["extraction_gap — recommend re-run of doc-extractor on AR_FY2024.pdf/AR_FY2025.pdf auditor's report section"]
+    }
+  ]
+}

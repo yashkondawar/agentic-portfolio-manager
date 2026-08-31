@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 196,
+  "table_index": 6,
+  "bbox": [
+    116.47088947368421,
+    381.33524,
+    547.4660952380951,
+    491.88948
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "Year ended\n31.03.2021",
+      "Year ended\n31.03.2020"
+    ],
+    [
+      "Purchase of goods and services from CPSEs/ Govt undertakings",
+      "2388.83",
+      "3212.19"
+    ],
+    [
+      "Sale of goods to CPSEs and Govt undertakings",
+      "1194.72",
+      "883.56"
+    ],
+    [
+      "Outstanding balance at the end of the year",
+      null,
+      null
+    ],
+    [
+      "Particulars",
+      "As at\n31.03.2021",
+      "As at\n31.03.2020"
+    ],
+    [
+      "Payable for purchase of goods and services from CPSEs/ Govt. undertakings",
+      "75.19",
+      "26.51"
+    ],
+    [
+      "Receivable for sale of goods to CPSEs and Govt undertakings",
+      "—",
+      "—"
+    ]
+  ]
+}

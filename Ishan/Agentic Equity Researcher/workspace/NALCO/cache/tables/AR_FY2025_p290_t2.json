@@ -1,0 +1,63 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 290,
+  "table_index": 2,
+  "bbox": [
+    51.27362000000001,
+    512.954775,
+    542.5141090909091,
+    657.38785
+  ],
+  "rows": [
+    [
+      "Profit before tax",
+      "7,078.37",
+      "2,712.08"
+    ],
+    [
+      "Less: Share of Profit/(loss) of Joint Ventures",
+      "(56.73)",
+      "(71.49)"
+    ],
+    [
+      "Net taxable profit before tax",
+      "7,135.10",
+      "2,783.57"
+    ],
+    [
+      "Income tax expense thereon @ 25.168%",
+      "1,795.76",
+      "700.57"
+    ],
+    [
+      "Tax effect of -",
+      null,
+      null
+    ],
+    [
+      "i) disallowable expenses (permanent difference)",
+      "21.90",
+      "15.14"
+    ],
+    [
+      "ii) expenses allowable in excess of expenditure incurred",
+      "(8.50)",
+      "(15.04)"
+    ],
+    [
+      "iii) Adjustment relating to earlier years",
+      "1.98",
+      "76.22"
+    ],
+    [
+      "iv) others",
+      "(0.71)",
+      "(53.27)"
+    ],
+    [
+      "Income tax expense recognised in profit or loss",
+      "1,810.43",
+      "723.62"
+    ]
+  ]
+}

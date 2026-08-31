@@ -1,0 +1,41 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 74,
+  "table_index": 3,
+  "bbox": [
+    45.504,
+    521.9665,
+    549.895,
+    612.567
+  ],
+  "rows": [
+    [
+      "",
+      "% of your plants and offices that were assessed (by entity or statutory authorities or third parties)"
+    ],
+    [
+      "Child labor",
+      "100%"
+    ],
+    [
+      "Forced/involuntary labor",
+      "100%"
+    ],
+    [
+      "Sexual harassment",
+      "100%"
+    ],
+    [
+      "Discrimination at workplace",
+      "100%"
+    ],
+    [
+      "Wages",
+      "100%"
+    ],
+    [
+      "Others – please specify",
+      "N.A."
+    ]
+  ]
+}

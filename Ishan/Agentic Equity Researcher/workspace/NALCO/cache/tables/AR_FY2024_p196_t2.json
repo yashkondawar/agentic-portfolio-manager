@@ -1,0 +1,55 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 196,
+  "table_index": 2,
+  "bbox": [
+    51.27366060606061,
+    212.88199999999995,
+    542.6149918918919,
+    297.9462857142857
+  ],
+  "rows": [
+    [
+      "",
+      "Depreciation and amortisation",
+      null,
+      "Additions to non-current assets",
+      null
+    ],
+    [
+      null,
+      "Year ended\n31.03.2024",
+      "Year ended\n31.03.2023",
+      "Year ended\n31.03.2024",
+      "Year ended\n31.03.2023"
+    ],
+    [
+      "Chemical segment",
+      "270.79",
+      "228.32",
+      "162.11",
+      "121.85"
+    ],
+    [
+      "Aluminium segment",
+      "423.69",
+      "312.48",
+      "585.40",
+      "24.75"
+    ],
+    [
+      "Unallocated",
+      "55.17",
+      "175.00",
+      "102.06",
+      "1,287.08"
+    ],
+    [
+      "Total for operations",
+      "749.65",
+      "715.80",
+      "849.57",
+      "1,433.68"
+    ]
+  ]
+}

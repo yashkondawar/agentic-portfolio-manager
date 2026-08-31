@@ -1,0 +1,68 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 90,
+  "table_index": 2,
+  "bbox": [
+    68.28155789473685,
+    479.58889999999997,
+    542.0907684210526,
+    670.7528
+  ],
+  "rows": [
+    [
+      "S.\nNo.",
+      "Name of the trade and industry chambers / associations",
+      "Reach of trade and industry chambers/ associations (State/National)"
+    ],
+    [
+      "1",
+      "Aluminium Association of India",
+      "National"
+    ],
+    [
+      "2",
+      "Engineering Export Promotion Council",
+      "National"
+    ],
+    [
+      "3",
+      "Confederation of Indian Industry",
+      "National"
+    ],
+    [
+      "4",
+      "Standing Conference of Public Enterprise (SCOPE)",
+      "National"
+    ],
+    [
+      "5",
+      "Chemicals and Allied Products Export Promotion Council",
+      "National"
+    ],
+    [
+      "6",
+      "Federation of Indian Mineral Industries",
+      "National"
+    ],
+    [
+      "7",
+      "Federation of Indian Export Organizations, New Delhi",
+      "National"
+    ],
+    [
+      "8",
+      "National Institute of Personnel Management (NIPM)",
+      "National"
+    ],
+    [
+      "9",
+      "International Chamber of Commerce",
+      "National"
+    ],
+    [
+      "10",
+      "Indian Chamber of Commerce (ICC)",
+      "National"
+    ]
+  ]
+}

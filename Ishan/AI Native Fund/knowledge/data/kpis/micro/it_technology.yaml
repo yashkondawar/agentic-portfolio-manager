@@ -1,0 +1,81 @@
+# IT & Technology micro KPI deep-definitions. Lean by design: formula +
+# sourcing + xref only. Qualitative framing lives in
+# registry/kpis/it_technology.yaml and knowledge/references/sectors/
+# it_technology.md — not repeated here.
+sector: it_technology
+registry_ref: registry/kpis/it_technology.yaml
+kpis:
+  - kpi_id: it_pe_ltm
+    scope: sector
+    cycle_refs: [valuation_cycle, sector_thematic_cycle]
+    formula: "P/E (LTM) = Share Price / Trailing 12M EPS"
+    inputs:
+      - name: Share price, trailing EPS
+        source: afund.daily_prices + afund.financials_quarterly (eps)
+        status: available
+    orientation: value_type
+    lookback_years: 8
+    cadence: daily
+    source_status: available
+    registry_xref: "kpis/it_technology.yaml#pe_ltm"
+    references_xref: [sectors/it_technology.md, kpi_interpretation/valuation_cycle.md]
+
+  - kpi_id: it_operating_margin
+    scope: sector
+    cycle_refs: [earnings_margin_cycle]
+    formula: "Operating Margin = Operating Profit / Revenue"
+    inputs:
+      - name: Operating profit, revenue
+        source: afund.financials_quarterly (operating_profit, revenue)
+        status: available
+    orientation: value_type
+    lookback_years: 8
+    cadence: quarterly
+    source_status: available
+    registry_xref: "kpis/it_technology.yaml#operating_margin"
+    references_xref: [sectors/it_technology.md]
+
+  - kpi_id: it_utilization_rate
+    scope: sector
+    cycle_refs: [earnings_margin_cycle]
+    formula: "Utilization Rate = Billed Person-Hours / Available Person-Hours (excl. trainees, typically)"
+    inputs:
+      - name: Billed and available headcount hours
+        source: company disclosures (quarterly investor decks) — not yet wired
+        status: missing
+    orientation: value_type
+    lookback_years: 6
+    cadence: quarterly
+    source_status: missing
+    registry_xref: "kpis/it_technology.yaml#utilization_rate"
+    references_xref: [sectors/it_technology.md]
+
+  - kpi_id: it_attrition_rate_ltm
+    scope: sector
+    cycle_refs: [earnings_margin_cycle]
+    formula: "Attrition Rate (LTM) = Voluntary Employee Exits (trailing 12M) / Average Headcount"
+    inputs:
+      - name: Voluntary exits, average headcount
+        source: company disclosures (quarterly investor decks) — not yet wired
+        status: missing
+    orientation: fear_type
+    lookback_years: 6
+    cadence: quarterly
+    source_status: missing
+    registry_xref: "kpis/it_technology.yaml#attrition_rate_ltm"
+    references_xref: [sectors/it_technology.md]
+
+  - kpi_id: it_fcf_yield
+    scope: sector
+    cycle_refs: [valuation_cycle]
+    formula: "FCF Yield = Free Cash Flow per Share / Share Price"
+    inputs:
+      - name: Free cash flow, share price
+        source: afund.financials_quarterly.raw_json (cash-flow detail not a dedicated column) + afund.daily_prices
+        status: derivable
+    orientation: value_type
+    lookback_years: 8
+    cadence: quarterly
+    source_status: derivable
+    registry_xref: "kpis/it_technology.yaml#fcf_yield"
+    references_xref: [sectors/it_technology.md]

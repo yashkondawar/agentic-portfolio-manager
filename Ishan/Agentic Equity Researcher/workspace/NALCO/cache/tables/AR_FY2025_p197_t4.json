@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 197,
+  "table_index": 4,
+  "bbox": [
+    51.273659259259254,
+    556.1332,
+    542.8860928571429,
+    654.3457
+  ],
+  "rows": [
+    [
+      "",
+      "As at 31.03.2025",
+      "As at 31.03.2024"
+    ],
+    [
+      "Deemed Investment in GACL-NALCO Alkalies & Chemicals Private Limited [refer Note 9.1]",
+      "147.36",
+      "-"
+    ],
+    [
+      "Total - investments in equity instruments",
+      "499.61",
+      "352.25"
+    ],
+    [
+      "Additional information",
+      null,
+      null
+    ],
+    [
+      "Aggregate carrying amount of unquoted investments",
+      "499.61",
+      "352.25"
+    ],
+    [
+      "Financial assets at amortised cost",
+      "499.61",
+      "352.25"
+    ]
+  ]
+}

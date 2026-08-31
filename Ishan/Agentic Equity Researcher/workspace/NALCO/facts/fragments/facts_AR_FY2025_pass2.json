@@ -1,0 +1,2626 @@
+[
+  {
+    "id": "F-AR25B-001",
+    "metric": "revenue_from_operations",
+    "label": "Revenue from operations",
+    "value": 16787.63,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2500"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-002",
+    "metric": "revenue_from_operations",
+    "label": "Revenue from operations",
+    "value": 13149.15,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2501"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-003",
+    "metric": "other_income",
+    "label": "Other Income",
+    "value": 357.01,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2502"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-004",
+    "metric": "other_income",
+    "label": "Other Income",
+    "value": 250.71,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2503"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-005",
+    "metric": "total_income",
+    "label": "Total Income",
+    "value": 17144.64,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2504"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-006",
+    "metric": "total_income",
+    "label": "Total Income",
+    "value": 13399.86,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2505"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-007",
+    "metric": "total_expenses",
+    "label": "Total expenses",
+    "value": 10009.54,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2506"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-008",
+    "metric": "total_expenses",
+    "label": "Total expenses",
+    "value": 11043.10,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2507"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-009",
+    "metric": "pbt",
+    "label": "Profit before tax",
+    "value": 7078.37,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2508"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-010",
+    "metric": "pbt",
+    "label": "Profit before tax",
+    "value": 2712.08,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2509"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-011",
+    "metric": "tax_expense",
+    "label": "Tax Expense",
+    "value": 1810.43,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2510"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-012",
+    "metric": "tax_expense",
+    "label": "Tax Expense",
+    "value": 723.62,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2511"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-013",
+    "metric": "pat",
+    "label": "Profit for the year",
+    "value": 5267.94,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2512"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-014",
+    "metric": "pat",
+    "label": "Profit for the year",
+    "value": 1988.46,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2513"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-015",
+    "metric": "eps_basic",
+    "label": "Basic Earnings per equity share",
+    "value": 28.68,
+    "unit": "INR",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2514"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-016",
+    "metric": "eps_basic",
+    "label": "Basic Earnings per equity share",
+    "value": 10.83,
+    "unit": "INR",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2515"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-017",
+    "metric": "eps_diluted",
+    "label": "Diluted Earnings per equity share",
+    "value": 28.68,
+    "unit": "INR",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2516"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-018",
+    "metric": "eps_diluted",
+    "label": "Diluted Earnings per equity share",
+    "value": 10.83,
+    "unit": "INR",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2517"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-019",
+    "metric": "total_assets",
+    "label": "Total assets",
+    "value": 22882.16,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2518"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-020",
+    "metric": "total_assets",
+    "label": "Total assets",
+    "value": 19235.03,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2519"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-021",
+    "metric": "total_equity",
+    "label": "Total equity",
+    "value": 17805.44,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2520"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-022",
+    "metric": "total_equity",
+    "label": "Total equity",
+    "value": 14388.09,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2521"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-023",
+    "metric": "cfo",
+    "label": "Net cash flow from operating activities",
+    "value": 5806.11,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2522"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-024",
+    "metric": "cfo",
+    "label": "Net cash flow from operating activities",
+    "value": 2727.08,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2523"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-025",
+    "metric": "cfi",
+    "label": "Net cash flow from investing activities",
+    "value": -3970.54,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2524"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-026",
+    "metric": "cfi",
+    "label": "Net cash flow from investing activities",
+    "value": -1999.64,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2525"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-027",
+    "metric": "cff",
+    "label": "Net cash flow from financing activities",
+    "value": -1757.66,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2526"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-028",
+    "metric": "cff",
+    "label": "Net cash flow from financing activities",
+    "value": -747.24,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2527"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-029",
+    "metric": "profit_before_operating_profit",
+    "label": "Profit before exceptional items and tax",
+    "value": 7135.10,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2528"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-030",
+    "metric": "profit_before_operating_profit",
+    "label": "Profit before exceptional items and tax",
+    "value": 2356.76,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2529"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-031",
+    "metric": "profit_from_joint_ventures",
+    "label": "Share of Profit/(loss) of Joint Ventures",
+    "value": -56.73,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2530"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-032",
+    "metric": "profit_from_joint_ventures",
+    "label": "Share of Profit/(loss) of Joint Ventures",
+    "value": -71.49,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2531"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-033",
+    "metric": "pft_for_oci_items",
+    "label": "Other comprehensive income for the year",
+    "value": -13.95,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2532"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-034",
+    "metric": "pft_for_oci_items",
+    "label": "Other comprehensive income for the year",
+    "value": 7.91,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2533"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-035",
+    "metric": "total_comprehensive_income",
+    "label": "Total comprehensive income for the year",
+    "value": 5253.99,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2534"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-036",
+    "metric": "total_comprehensive_income",
+    "label": "Total comprehensive income for the year",
+    "value": 1996.37,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2535"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-037",
+    "metric": "cash_operating_profit",
+    "label": "Operating profit before working capital changes",
+    "value": 7600.47,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2536"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-038",
+    "metric": "cash_operating_profit",
+    "label": "Operating profit before working capital changes",
+    "value": 3362.45,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2537"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-039",
+    "metric": "profit_after_wc_adjustment",
+    "label": "Cash generated from operations",
+    "value": 7525.19,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2538"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-040",
+    "metric": "profit_after_wc_adjustment",
+    "label": "Cash generated from operations",
+    "value": 3361.84,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2539"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-041",
+    "metric": "cash_flow_wc_inventory_change",
+    "label": "Increase / decrease in inventories",
+    "value": -84.26,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 3,
+    "source": {
+      "src_id": "SRC-2540"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-042",
+    "metric": "cash_flow_wc_inventory_change",
+    "label": "Increase / decrease in inventories",
+    "value": 9.48,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 3,
+    "source": {
+      "src_id": "SRC-2541"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-043",
+    "metric": "cash_flow_wc_receivables_change",
+    "label": "Increase / decrease in trade receivables",
+    "value": -32.89,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 3,
+    "source": {
+      "src_id": "SRC-2542"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-044",
+    "metric": "cash_flow_wc_receivables_change",
+    "label": "Increase / decrease in trade receivables",
+    "value": -62.17,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 3,
+    "source": {
+      "src_id": "SRC-2543"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-045",
+    "metric": "cash_flow_wc_loans_change",
+    "label": "Increase / decrease in loans and other financial assets",
+    "value": 13.81,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 3,
+    "source": {
+      "src_id": "SRC-2544"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-046",
+    "metric": "cash_flow_wc_loans_change",
+    "label": "Increase / decrease in loans and other financial assets",
+    "value": -135.85,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 3,
+    "source": {
+      "src_id": "SRC-2545"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-047",
+    "metric": "cash_flow_wc_other_assets_change",
+    "label": "Increase / decrease in other assets",
+    "value": 207.02,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 3,
+    "source": {
+      "src_id": "SRC-2546"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-048",
+    "metric": "cash_flow_wc_other_assets_change",
+    "label": "Increase / decrease in other assets",
+    "value": -94.68,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 3,
+    "source": {
+      "src_id": "SRC-2547"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-049",
+    "metric": "cash_flow_wc_payables_change",
+    "label": "Increase / decrease in trade payables",
+    "value": 6.30,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 3,
+    "source": {
+      "src_id": "SRC-2548"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-050",
+    "metric": "cash_flow_wc_payables_change",
+    "label": "Increase / decrease in trade payables",
+    "value": 39.18,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 3,
+    "source": {
+      "src_id": "SRC-2549"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-051",
+    "metric": "cash_flow_wc_other_liabilities_change",
+    "label": "Increase / decrease in other financial liabilities",
+    "value": -238.03,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 3,
+    "source": {
+      "src_id": "SRC-2550"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-052",
+    "metric": "cash_flow_wc_other_liabilities_change",
+    "label": "Increase / decrease in other financial liabilities",
+    "value": 252.01,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 3,
+    "source": {
+      "src_id": "SRC-2551"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-053",
+    "metric": "cash_flow_other_liabilities_change",
+    "label": "Increase / decrease in other liabilities",
+    "value": -13.18,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 3,
+    "source": {
+      "src_id": "SRC-2552"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-054",
+    "metric": "cash_flow_other_liabilities_change",
+    "label": "Increase / decrease in other liabilities",
+    "value": -33.74,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 3,
+    "source": {
+      "src_id": "SRC-2553"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-055",
+    "metric": "cash_flow_provisions_change",
+    "label": "Increase / decrease in provisions",
+    "value": 65.95,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 3,
+    "source": {
+      "src_id": "SRC-2554"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-056",
+    "metric": "cash_flow_provisions_change",
+    "label": "Increase / decrease in provisions",
+    "value": 25.16,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 3,
+    "source": {
+      "src_id": "SRC-2555"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-057",
+    "metric": "cash_tax_paid",
+    "label": "Income taxes paid",
+    "value": -1719.09,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2556"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-058",
+    "metric": "cash_tax_paid",
+    "label": "Income taxes paid",
+    "value": -634.76,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2557"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-059",
+    "metric": "cash_investing_financial_assets_purchase",
+    "label": "Payments to acquire financial assets",
+    "value": -346.00,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2558"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-060",
+    "metric": "cash_investing_financial_assets_purchase",
+    "label": "Payments to acquire financial assets",
+    "value": -28.00,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2559"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-061",
+    "metric": "cash_investing_financial_assets_proceeds",
+    "label": "Proceeds from sale of financial assets",
+    "value": 0,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2560"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-062",
+    "metric": "cash_investing_financial_assets_proceeds",
+    "label": "Proceeds from sale of financial assets",
+    "value": 18.49,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2561"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-063",
+    "metric": "cash_investing_jv_investment",
+    "label": "Payments to acquire equity in joint ventures and associates",
+    "value": 0,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2562"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-064",
+    "metric": "cash_investing_jv_investment",
+    "label": "Payments to acquire equity in joint ventures and associates",
+    "value": -27.00,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2563"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-065",
+    "metric": "cash_investing_deposits",
+    "label": "Investment in / redemption of term deposits with banks",
+    "value": -2693.00,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2564"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-066",
+    "metric": "cash_investing_deposits",
+    "label": "Investment in / redemption of term deposits with banks",
+    "value": -521.36,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2565"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-067",
+    "metric": "cash_investing_dividend_received",
+    "label": "Dividends received from other investments",
+    "value": 22.93,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2566"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-068",
+    "metric": "cash_investing_dividend_received",
+    "label": "Dividends received from other investments",
+    "value": 18.68,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2567"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-069",
+    "metric": "cash_investing_interest_received",
+    "label": "Interest received from banks and others",
+    "value": 211.07,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2568"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-070",
+    "metric": "cash_investing_interest_received",
+    "label": "Interest received from banks and others",
+    "value": 183.14,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2569"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-071",
+    "metric": "cash_investing_capex",
+    "label": "Payments for property, plant and equipment",
+    "value": -1175.58,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2570"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-072",
+    "metric": "cash_investing_capex",
+    "label": "Payments for property, plant and equipment",
+    "value": -1559.70,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2571"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-073",
+    "metric": "cash_investing_ppe_proceeds",
+    "label": "Proceeds from disposal of property, plant and equipment",
+    "value": 35.76,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2572"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-074",
+    "metric": "cash_investing_ppe_proceeds",
+    "label": "Proceeds from disposal of property, plant and equipment",
+    "value": 12.36,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2573"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-075",
+    "metric": "cash_investing_intangibles",
+    "label": "Payments for other intangible assets",
+    "value": -25.71,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2574"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-076",
+    "metric": "cash_investing_intangibles",
+    "label": "Payments for other intangible assets",
+    "value": -96.25,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2575"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-077",
+    "metric": "cash_financing_borrowings",
+    "label": "Proceeds from / Payment towards short term borrowings",
+    "value": 85.06,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2576"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-078",
+    "metric": "cash_financing_borrowings",
+    "label": "Proceeds from / Payment towards short term borrowings",
+    "value": -8.59,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2577"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-079",
+    "metric": "cash_financing_lease_payment",
+    "label": "Payment of lease liability",
+    "value": -3.78,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2578"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-080",
+    "metric": "cash_financing_lease_payment",
+    "label": "Payment of lease liability",
+    "value": -3.72,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2579"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-081",
+    "metric": "cash_financing_interest_paid",
+    "label": "Finance cost paid",
+    "value": -2.30,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2580"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-082",
+    "metric": "cash_financing_interest_paid",
+    "label": "Finance cost paid",
+    "value": -0.28,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2581"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-083",
+    "metric": "cash_financing_dividend_paid",
+    "label": "Dividends paid on equity shares",
+    "value": -1836.64,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2582"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-084",
+    "metric": "cash_financing_dividend_paid",
+    "label": "Dividends paid on equity shares",
+    "value": -734.65,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2583"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-085",
+    "metric": "cash_and_equivalents_end",
+    "label": "Cash and cash equivalents at the end of the year",
+    "value": 121.40,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2584"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-086",
+    "metric": "cash_and_equivalents_end",
+    "label": "Cash and cash equivalents at the end of the year",
+    "value": 43.49,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2585"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-087",
+    "metric": "standalone_cf_profit",
+    "label": "Profit for the year",
+    "value": 5324.67,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2586"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-088",
+    "metric": "standalone_cf_profit",
+    "label": "Profit for the year",
+    "value": 2059.95,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2587"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-089",
+    "metric": "standalone_cfo",
+    "label": "Net cash flow from operating activities",
+    "value": 5806.11,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2588"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-090",
+    "metric": "standalone_cfo",
+    "label": "Net cash flow from operating activities",
+    "value": 2727.08,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2589"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-091",
+    "metric": "borrowing_current",
+    "label": "Current Borrowings",
+    "value": 124.22,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2590"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-092",
+    "metric": "borrowing_current",
+    "label": "Current Borrowings",
+    "value": 39.16,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2591"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-093",
+    "metric": "borrowing_nature",
+    "label": "Bills discounted",
+    "value": "N/A — bills discounting facility",
+    "unit": "text",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2592",
+      "quote": "Increase in borrowings is due to higher amount of bills discounted on 31.03.2025"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-094",
+    "metric": "trade_receivables_current_gross",
+    "label": "Trade receivables - current",
+    "value": 186.39,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2593"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-095",
+    "metric": "trade_receivables_current_gross",
+    "label": "Trade receivables - current",
+    "value": 153.50,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2594"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-096",
+    "metric": "trade_receivables_aging_bucket_0_6m_good",
+    "label": "Undisputed Trade receivables (considered good) - Less than 6 months",
+    "value": 168.78,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "source": {
+      "src_id": "SRC-2595"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-097",
+    "metric": "trade_receivables_aging_bucket_0_6m_good",
+    "label": "Undisputed Trade receivables (considered good) - Less than 6 months",
+    "value": 135.88,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "source": {
+      "src_id": "SRC-2596"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-098",
+    "metric": "trade_receivables_aging_bucket_6m_1y_good",
+    "label": "Undisputed Trade receivables (considered good) - 6 months to 1 year",
+    "value": 0,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "source": {
+      "src_id": "SRC-2597"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-099",
+    "metric": "trade_receivables_aging_bucket_6m_1y_good",
+    "label": "Undisputed Trade receivables (considered good) - 6 months to 1 year",
+    "value": 0,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "source": {
+      "src_id": "SRC-2598"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-100",
+    "metric": "trade_receivables_aging_bucket_1_2y_impaired",
+    "label": "Undisputed Trade receivables (credit impaired) - 1-2 years",
+    "value": 3.14,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "source": {
+      "src_id": "SRC-2599"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-101",
+    "metric": "trade_receivables_aging_bucket_1_2y_impaired",
+    "label": "Undisputed Trade receivables (credit impaired) - 1-2 years",
+    "value": 3.14,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "source": {
+      "src_id": "SRC-2600"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-102",
+    "metric": "trade_receivables_aging_bucket_2_3y_impaired",
+    "label": "Undisputed Trade receivables (credit impaired) - 2-3 years",
+    "value": 21.26,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "source": {
+      "src_id": "SRC-2601"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-103",
+    "metric": "trade_receivables_aging_bucket_2_3y_impaired",
+    "label": "Undisputed Trade receivables (credit impaired) - 2-3 years",
+    "value": 8.28,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "source": {
+      "src_id": "SRC-2602"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-104",
+    "metric": "trade_receivables_aging_bucket_3y_plus_impaired",
+    "label": "Undisputed Trade receivables (credit impaired) - More than 3 years",
+    "value": 50.08,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "source": {
+      "src_id": "SRC-2603"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-105",
+    "metric": "trade_receivables_aging_bucket_3y_plus_impaired",
+    "label": "Undisputed Trade receivables (credit impaired) - More than 3 years",
+    "value": 41.79,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "source": {
+      "src_id": "SRC-2604"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-106",
+    "metric": "trade_receivables_aging_disputed_3y_plus",
+    "label": "Disputed Trade receivables (credit impaired) - More than 3 years",
+    "value": 36.28,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "source": {
+      "src_id": "SRC-2605"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-107",
+    "metric": "trade_receivables_aging_disputed_3y_plus",
+    "label": "Disputed Trade receivables (credit impaired) - More than 3 years",
+    "value": 36.28,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "source": {
+      "src_id": "SRC-2606"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-108",
+    "metric": "trade_receivables_aging_total",
+    "label": "Total trade receivables (ageing)",
+    "value": 243.26,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "source": {
+      "src_id": "SRC-2607"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-109",
+    "metric": "trade_receivables_aging_total",
+    "label": "Total trade receivables (ageing)",
+    "value": 211.06,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 3,
+    "source": {
+      "src_id": "SRC-2608"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-110",
+    "metric": "trade_payables_non_current_msme",
+    "label": "Trade payables (non-current) - Dues of micro and small enterprises",
+    "value": 0,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2609"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-111",
+    "metric": "trade_payables_non_current_msme",
+    "label": "Trade payables (non-current) - Dues of micro and small enterprises",
+    "value": 0,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2610"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-112",
+    "metric": "trade_payables_non_current_others",
+    "label": "Trade payables (non-current) - Dues of creditors other than MSME",
+    "value": 11.14,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2611"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-113",
+    "metric": "trade_payables_non_current_others",
+    "label": "Trade payables (non-current) - Dues of creditors other than MSME",
+    "value": 18.31,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2612"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-114",
+    "metric": "trade_payables_current_msme",
+    "label": "Trade payables (current) - Dues of micro and small enterprises",
+    "value": 122.45,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2613"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-115",
+    "metric": "trade_payables_current_msme",
+    "label": "Trade payables (current) - Dues of micro and small enterprises",
+    "value": 175.29,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2614"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-116",
+    "metric": "trade_payables_current_others",
+    "label": "Trade payables (current) - Dues of creditors other than MSME",
+    "value": 615.65,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2615"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-117",
+    "metric": "trade_payables_current_others",
+    "label": "Trade payables (current) - Dues of creditors other than MSME",
+    "value": 545.67,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2616"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-118",
+    "metric": "related_party_kmp_remuneration_total",
+    "label": "Total KMP Remuneration",
+    "value": 8.12,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2617"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-119",
+    "metric": "related_party_kmp_remuneration_total",
+    "label": "Total KMP Remuneration",
+    "value": 6.53,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2618"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-120",
+    "metric": "related_party_cpse_purchase",
+    "label": "Purchase of goods and services from CPSEs/Govt. undertakings",
+    "value": 3264.17,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2619"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-121",
+    "metric": "related_party_cpse_purchase",
+    "label": "Purchase of goods and services from CPSEs/Govt. undertakings",
+    "value": 3219.43,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2620"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-122",
+    "metric": "related_party_cpse_sale",
+    "label": "Sale of goods to CPSEs and Govt. undertakings",
+    "value": 2436.35,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2621"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-123",
+    "metric": "related_party_cpse_sale",
+    "label": "Sale of goods to CPSEs and Govt. undertakings",
+    "value": 1862.49,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2622"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-124",
+    "metric": "related_party_dividend_goi",
+    "label": "Dividend paid to Government of India",
+    "value": 941.80,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2623"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-125",
+    "metric": "related_party_dividend_goi",
+    "label": "Dividend paid to Government of India",
+    "value": 376.72,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2624"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-126",
+    "metric": "segment_revenue_chemicals",
+    "label": "Segment Revenue - Chemical segment",
+    "value": 7607.44,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2625"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-127",
+    "metric": "segment_revenue_chemicals",
+    "label": "Segment Revenue - Chemical segment",
+    "value": 5416.47,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2626"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-128",
+    "metric": "segment_revenue_aluminium",
+    "label": "Segment Revenue - Aluminium segment",
+    "value": 11113.16,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2627"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-129",
+    "metric": "segment_revenue_aluminium",
+    "label": "Segment Revenue - Aluminium segment",
+    "value": 9556.53,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2628"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-130",
+    "metric": "segment_result_chemicals",
+    "label": "Segment Result (EBIT) - Chemical segment",
+    "value": 3245.00,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2629"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-131",
+    "metric": "segment_result_chemicals",
+    "label": "Segment Result (EBIT) - Chemical segment",
+    "value": 967.24,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2630"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-132",
+    "metric": "segment_result_aluminium",
+    "label": "Segment Result (EBIT) - Aluminium segment",
+    "value": 4045.51,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2631"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-133",
+    "metric": "segment_result_aluminium",
+    "label": "Segment Result (EBIT) - Aluminium segment",
+    "value": 1526.46,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2632"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-134",
+    "metric": "segment_assets_chemicals",
+    "label": "Segment Assets - Chemical segment",
+    "value": 5271.04,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2633"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-135",
+    "metric": "segment_assets_chemicals",
+    "label": "Segment Assets - Chemical segment",
+    "value": 5267.50,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2634"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-136",
+    "metric": "segment_assets_aluminium",
+    "label": "Segment Assets - Aluminium segment",
+    "value": 6053.76,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2635"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-137",
+    "metric": "segment_assets_aluminium",
+    "label": "Segment Assets - Aluminium segment",
+    "value": 6074.74,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2636"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-138",
+    "metric": "segment_liabilities_chemicals",
+    "label": "Segment Liabilities - Chemical segment",
+    "value": 1073.96,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2637"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-139",
+    "metric": "segment_liabilities_chemicals",
+    "label": "Segment Liabilities - Chemical segment",
+    "value": 1338.13,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2638"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-140",
+    "metric": "segment_liabilities_aluminium",
+    "label": "Segment Liabilities - Aluminium segment",
+    "value": 2178.00,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2639"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-141",
+    "metric": "segment_liabilities_aluminium",
+    "label": "Segment Liabilities - Aluminium segment",
+    "value": 1823.09,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2640"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-142",
+    "metric": "dividend_per_share",
+    "label": "Total dividend per share for FY2025",
+    "value": 10.50,
+    "unit": "INR",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2641",
+      "quote": "interim dividend @ Rs.8.00 per equity share and final dividend @ Rs.2.50 per equity share"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-143",
+    "metric": "dividend_per_share",
+    "label": "Total dividend per share for FY2024",
+    "value": 4.00,
+    "unit": "INR",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "standalone",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2642"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-144",
+    "metric": "shareholding_goi_percent",
+    "label": "Government of India shareholding %",
+    "value": 51.28,
+    "unit": "pct",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2643"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-145",
+    "metric": "shareholding_goi_shares",
+    "label": "Government of India shareholding (number of shares)",
+    "value": 9417930110,
+    "unit": "count",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2644"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-146",
+    "metric": "shareholding_lie_percent",
+    "label": "Life Insurance Corporation of India shareholding %",
+    "value": 3.15,
+    "unit": "pct",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-2645"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-147",
+    "metric": "jv_utkarsha_networth",
+    "label": "Utkarsha Aluminium Dhatu Nigam Limited - Net worth attributable to shareholding",
+    "value": 20.49,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2646"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-148",
+    "metric": "jv_utkarsha_networth",
+    "label": "Utkarsha Aluminium Dhatu Nigam Limited - Net worth attributable to shareholding",
+    "value": 20.49,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2647"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-149",
+    "metric": "jv_utkarsha_profit",
+    "label": "Utkarsha Aluminium Dhatu Nigam Limited - Profit/(Loss) for the year",
+    "value": 0.77,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2648"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-150",
+    "metric": "jv_utkarsha_profit",
+    "label": "Utkarsha Aluminium Dhatu Nigam Limited - Profit/(Loss) for the year",
+    "value": 0.51,
+    "unit": "INR_cr",
+    "period": "FY2024",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2649"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-151",
+    "metric": "jv_kabil_networth",
+    "label": "Khanij Bidesh India Limited - Net worth attributable to shareholding",
+    "value": 36.10,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2650"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-152",
+    "metric": "jv_kabil_profit",
+    "label": "Khanij Bidesh India Limited - Profit/(Loss) for the year",
+    "value": -3.09,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2651"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-153",
+    "metric": "jv_angul_networth",
+    "label": "Angul Aluminium Park Private Limited - Net worth attributable to shareholding",
+    "value": 17.19,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2652"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-154",
+    "metric": "jv_angul_profit",
+    "label": "Angul Aluminium Park Private Limited - Profit/(Loss) for the year",
+    "value": -0.45,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2653"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-155",
+    "metric": "jv_gacl_networth",
+    "label": "GACL NALCO Alkalies & Chemicals Private Limited - Net worth attributable to shareholding",
+    "value": 169.18,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2654"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-156",
+    "metric": "jv_gacl_profit",
+    "label": "GACL NALCO Alkalies & Chemicals Private Limited - Profit/(Loss) for the year",
+    "value": -53.96,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2655"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-AR25B-157",
+    "metric": "mgmt_guidance_5th_stream_capex",
+    "label": "5th Stream Alumina Refinery Expansion - Projected capital expenditure",
+    "value": 5677.4,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2656",
+      "quote": "5th Stream in its existing Alumina Refinery which shall add 1.0 MTPY to its existing installed capacity of 2.1 MTPY, at a projected expenditure of Rs.5,677.4 crore"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "flags": ["mgmt_guidance"]
+  },
+  {
+    "id": "F-AR25B-158",
+    "metric": "mgmt_guidance_5th_stream_capacity",
+    "label": "5th Stream Alumina Refinery - Capacity addition (MTPY)",
+    "value": 1.0,
+    "unit": "text",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2657",
+      "quote": "5th Stream in its existing Alumina Refinery which shall add 1.0 MTPY"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "flags": ["mgmt_guidance"]
+  },
+  {
+    "id": "F-AR25B-159",
+    "metric": "mgmt_guidance_5th_stream_commissioning",
+    "label": "5th Stream Alumina Refinery - Expected commissioning timeline",
+    "value": "March 2026 commissioning, April 2026 production start",
+    "unit": "text",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2658",
+      "quote": "followed by commencement of production from April, 2026"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "flags": ["mgmt_guidance"]
+  },
+  {
+    "id": "F-AR25B-160",
+    "metric": "mgmt_guidance_pottangi_mines_operationalization",
+    "label": "Pottangi Bauxite Mines - Expected operationalization",
+    "value": "April 2026",
+    "unit": "text",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2659",
+      "quote": "scheduled to be operationalized by April, 2026"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "flags": ["mgmt_guidance"]
+  },
+  {
+    "id": "F-AR25B-161",
+    "metric": "mgmt_guidance_utkal_coal_production_2026",
+    "label": "Utkal Coal Mines - Production target FY2026",
+    "value": 4,
+    "unit": "text",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2660",
+      "quote": "For the financial year 2025-26, 4 Million Tonne production has been planned"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "flags": ["mgmt_guidance"]
+  },
+  {
+    "id": "F-AR25B-162",
+    "metric": "mgmt_guidance_kayathar_wind_power_capex",
+    "label": "Kayathar Wind Power Project - Capital expenditure",
+    "value": 163,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2661",
+      "quote": "25.5 MW at Kayathar, Tamil Nadu at a capital expenditure of Rs.163 crore"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "flags": ["mgmt_guidance"]
+  },
+  {
+    "id": "F-AR25B-163",
+    "metric": "mgmt_guidance_kayathar_wind_power_capacity",
+    "label": "Kayathar Wind Power Project - Capacity",
+    "value": 25.5,
+    "unit": "MW",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 2,
+    "source": {
+      "src_id": "SRC-2662",
+      "quote": "power project of capacity 25.5 MW at Kayathar, Tamil Nadu"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "flags": ["mgmt_guidance"]
+  }
+]

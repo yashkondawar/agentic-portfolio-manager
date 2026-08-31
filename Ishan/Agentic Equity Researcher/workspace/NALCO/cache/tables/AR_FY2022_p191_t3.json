@@ -1,0 +1,28 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 191,
+  "table_index": 3,
+  "bbox": [
+    112.308,
+    546.0640000000001,
+    549.9354428571429,
+    596.0010000000001
+  ],
+  "rows": [
+    [
+      "Name of JV/Associate Nature of Transaction",
+      "Year ended 31.03.2022",
+      "Year ended 31.03.2021"
+    ],
+    [
+      "GACL NALCO Alkalis & Chemicals Pvt. Ltd. Equity Contribution (rights issue)",
+      "-",
+      "36.00"
+    ],
+    [
+      "GACL NALCO Alkalis & Chemicals Pvt. Ltd. Receivable- man power assistance\nand other expenses",
+      "0.70",
+      "0.70"
+    ]
+  ]
+}

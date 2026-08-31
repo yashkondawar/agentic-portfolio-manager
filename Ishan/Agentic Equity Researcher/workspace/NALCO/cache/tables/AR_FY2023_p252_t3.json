@@ -1,0 +1,34 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 252,
+  "table_index": 3,
+  "bbox": [
+    59.636,
+    196.80100000000004,
+    549.5726000000001,
+    289.59400000000005
+  ],
+  "rows": [
+    [
+      "Sl. No Nature of transaction with struck-off Company Balance outstanding Balance outstanding Relationship with struck-off\nas on 31.03.2023 as on 31.03.2022 Company, if any"
+    ],
+    [
+      "1 Investment in securities - -"
+    ],
+    [
+      "2 Receivables - -"
+    ],
+    [
+      "3 Payables 0.22 0.18 For supply of goods/services"
+    ],
+    [
+      "4 Share held by struck off Company 44,827 nos. of shares 44,827 nos. of shares Total 9 number of Shareholders"
+    ],
+    [
+      "5 Other outstanding balance (to be specified)"
+    ],
+    [
+      "Total 0.22 0.18"
+    ]
+  ]
+}

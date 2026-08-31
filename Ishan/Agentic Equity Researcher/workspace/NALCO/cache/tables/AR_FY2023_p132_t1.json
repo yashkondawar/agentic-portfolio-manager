@@ -1,0 +1,88 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 132,
+  "table_index": 1,
+  "bbox": [
+    45.854,
+    63.76299999999998,
+    549.421,
+    587.2470000000001
+  ],
+  "rows": [
+    [
+      "Particulars Notes",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      "Assets\n(1) Non-current assets\n(a) Property, plant and equipment 5\n(b) Capital work-in-progress 6\n(c) Intangible assets 7\n(d) Intangible assets under development 8\n(e) Financial assets\n(i) Investments 9\n(a) Investments in joint ventures 9\n(b) Other Investments 9\n(ii) Trade receivables 10\n(iii) Loans 11\n(iv) Other financial assets 12\n(f) Income tax assets (Net) 13\n(g) Other non-current assets 14\nTotal non-current assets\n(2) Current assets\n(a) Inventories 15\n(b) Financial assets\n(i) Investments 9\n(ii) Trade receivables 10\n(iii) Cash and cash equivalents 16\n(iv) Bank balances other than (iii) above 16\n(v) Loans 11\n(vi) Other financial assets 12\n(c) Income tax assets (Net) 13\n(d) Other current assets 14\nTotal current assets\n(3) Non-Current assets held for sale 17\nTotal assets\nEquity and liabilities\n(1) Equity\n(a) Equity share capital 18\n(b) Other equity 19\nTotal equity\nLiabilities\n(2) Non-current liabilities\n(a) Financial liabilities\n(i) Lease liabilities 20\n(ii) Trade payables\n(a) Dues of micro and small enterprises 22\n(b) Dues of creditors other than micro and small enterprises 22\n(iii) Other financial liabilities 23\n(b) Provisions 24\n(c) Other non-current liabilities 25\n(d) Deferred tax liabilities (Net) 26\nTotal non-current liabilities\n(3) Current liabilities\n(a) Financial liabilities\n(i) Borrowings 21\n(ii) Lease liabilities 20\n(iii) Trade payables\n(a) Dues of micro and small enterprises 22\n(b) Dues of creditors other than micro and small enterprises 22\n(iv) Other financial liabilities 23\n(b) Other current liabilities 25\n(c) Provisions 24\n(d) Income tax liabilities 13\nTotal current liabilities\nTotal liabilities\nTotal equity and liabilities",
+      "6,916.39\n2,744.95\n386.44\n523.97\n325.22\n0.03\n-\n82.39\n21.55\n634.49\n806.45",
+      "7,001.94\n1,763.42\n341.27\n471.40\n313.22\n0.03\n-\n87.38\n9.74\n320.57\n699.23"
+    ],
+    [
+      null,
+      "12,441.88",
+      "11,008.20"
+    ],
+    [
+      null,
+      "1,840.22\n145.58\n91.33\n63.29\n2,054.21\n28.98\n49.58\n28.49\n994.49",
+      "1,645.60\n64.01\n75.25\n412.80\n3,293.27\n28.55\n47.13\n55.38\n858.07"
+    ],
+    [
+      null,
+      "5,296.17",
+      "6,480.06"
+    ],
+    [
+      null,
+      "0.64",
+      "0.57"
+    ],
+    [
+      null,
+      "17,738.69",
+      "17,488.83"
+    ],
+    [
+      null,
+      "918.32\n12,320.13",
+      "918.32\n11,636.32"
+    ],
+    [
+      null,
+      "13,238.45",
+      "12,554.64"
+    ],
+    [
+      null,
+      "50.99\n-\n10.98\n180.00\n100.83\n314.02\n957.77",
+      "50.91\n-\n23.61\n88.57\n260.98\n331.76\n868.18"
+    ],
+    [
+      null,
+      "1,614.59",
+      "1,624.01"
+    ],
+    [
+      null,
+      "47.75\n5.87\n36.59\n1,226.75\n620.41\n769.32\n146.89\n32.07",
+      "20.67\n5.52\n31.50\n1,425.60\n500.35\n988.55\n126.95\n211.04"
+    ],
+    [
+      null,
+      "2,885.65",
+      "3,310.18"
+    ],
+    [
+      null,
+      "4,500.24",
+      "4,934.19"
+    ],
+    [
+      null,
+      "17,738.69",
+      "17,488.83"
+    ]
+  ]
+}

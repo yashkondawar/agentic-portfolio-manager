@@ -1,0 +1,30 @@
+kpi_id: credit_to_gdp_gap
+scope: macro
+cycle_refs: [credit_debt_cycle]
+formula: >
+  Credit-to-GDP Gap = current credit-to-GDP ratio minus its long-term trend,
+  where the trend is extracted via a Hodrick-Prescott filter with smoothing
+  parameter lambda ~= 400,000 (Basel Committee convention). A gap exceeding
+  ~10 percentage points is the BIS/Basel early-warning threshold for a
+  probable severe credit bust.
+inputs:
+  - name: Total credit to private non-financial sector (% of GDP)
+    source: >
+      BIS bulk credit-gap statistics via afund.data.macro_bis
+      (macro_series CREDIT_GDP_GAP, series Q:IN:P:A:C — the precomputed
+      actual-minus-HP-trend gap, quarterly, ~2 quarters publication lag)
+    status: available
+  - name: India nominal GDP series
+    source: >
+      not needed when consuming BIS's PREcomputed gap (BIS embeds the GDP
+      denominator and HP trend itself); still listed for a future
+      self-computed variant via MOSPI GDP (afund.data.macro_manual,
+      GDP_NOMINAL manual route)
+    status: missing
+orientation: value_type
+lookback_years: 20
+cadence: quarterly
+source_status: available
+registry_xref: null
+references_xref:
+  - kpi_interpretation/credit_cycle.md

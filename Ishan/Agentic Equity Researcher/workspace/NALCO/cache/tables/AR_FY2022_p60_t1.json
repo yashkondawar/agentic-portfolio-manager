@@ -1,0 +1,167 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 60,
+  "table_index": 1,
+  "bbox": [
+    45.327459999999995,
+    54.83350000000007,
+    488.251,
+    593.041
+  ],
+  "rows": [
+    [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      null,
+      "6",
+      "7",
+      null
+    ],
+    [
+      "Sl.\nNo.",
+      "Name of the Project",
+      "Item from the\nlist of activities\nin Schedule\nVII to the Act",
+      "Local\narea\n(Yes/ No)",
+      "Location of the project",
+      null,
+      "Amount\nspent\nfor the\nproject",
+      "Mode of\nimplementation\n– Direct\n(Yes/ No)",
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      "State",
+      "District",
+      null,
+      null,
+      "Name"
+    ],
+    [
+      "26",
+      "Supply of plasma cutter\nmachine to District\nAdministration to Combat\nthe problems in the Cyclone\n“YAAS”",
+      "Item-xii (i)",
+      "Yes",
+      "Odisha",
+      "Khordha",
+      "1.48",
+      "No",
+      "NALCO\nFoundation"
+    ],
+    [
+      "27",
+      "Supply of tree cutting\nmachine to district\nAdministration as an\nemergency measure arising\nout of cyclone “YAAS”.",
+      "Item-xii (i)",
+      "Yes",
+      "Odisha",
+      "Khordha",
+      "0.53",
+      "Yes",
+      "NA"
+    ],
+    [
+      "28",
+      "Supply of DG sets to District\nAdministration to mitigate\nchallenges posed by Cyclone\n“YAAS”",
+      "Item-xii (i)",
+      "Yes",
+      "Odisha",
+      "Khordha",
+      "1.65",
+      "Yes",
+      "NA"
+    ],
+    [
+      "29",
+      "Supporting cattle feed to\nGosala of Gobardhan Pitha,\nPuri.",
+      "Item-iv (iv)",
+      "No",
+      "Odisha",
+      "Puri",
+      "1.06",
+      "No",
+      "NALCO\nFoundation"
+    ],
+    [
+      "30",
+      "Supply of Cattle feed to\nISKCON Goshala, Balianta,\nBhubaneswar.",
+      "Item-iv (iv)",
+      "Yes",
+      "Odisha",
+      "Khordha",
+      "5.91",
+      "No",
+      "NALCO\nFoundation"
+    ],
+    [
+      "31",
+      "Financial support for\npromoting violence free life\nfor women and girls in the\nstate of Odisha",
+      "Item-iii (iii)",
+      "Yes",
+      "Odisha",
+      "Khordha &\nCuttack",
+      "3.00",
+      "No",
+      "NALCO\nFoundation"
+    ],
+    [
+      "32",
+      "Renovation of old\ncommunity centre and\nconstruction of new\ncommunity centre cum\nkalyan mandap in\nAmbagaon village,\nDamanjodi",
+      "Item-x (i)",
+      "Yes",
+      "Odisha",
+      "Koraput",
+      "15.50",
+      "No",
+      "NALCO\nFoundation"
+    ],
+    [
+      "33",
+      "Provision of water drainage\nsystem inside Ambagaon\nvillage.",
+      "Item-x (i)",
+      "Yes",
+      "Odisha",
+      "Koraput",
+      "2.19",
+      "No",
+      "NALCO\nFoundation"
+    ],
+    [
+      "34",
+      "Construction of RCC road\ninside the Ambagaon village,\nDamanjodi",
+      "Item-x (i)",
+      "Yes",
+      "Odisha",
+      "Koraput",
+      "17.39",
+      "No",
+      "NALCO\nFoundation"
+    ],
+    [
+      "35",
+      "Provision of play ground in\nAmbagaon village.",
+      "Item-vii (i)",
+      "Yes",
+      "Odisha",
+      "Koraput",
+      "1.14",
+      "No",
+      "NALCO\nFoundation"
+    ],
+    [
+      "",
+      "Total",
+      "",
+      "",
+      "",
+      "",
+      "2,600.71",
+      "",
+      ""
+    ]
+  ]
+}

@@ -1,0 +1,243 @@
+# Interpretation frames — the governed vocabulary for separating a fact from
+# a reading of it, and the family-level default multiples each reading is
+# judged against.
+#
+# A fact is a published quantity or a disclosed mechanism. A reading is
+#     fact + conditioning variable + sector convention -> verdict
+# and two readings of one fact are BOTH legitimate when each names its
+# conditioner. "P/E 30 is expensive" against a 10-year median of 18 and
+# "P/E 30 is cheap" at a PEG of 1.0 are arithmetic on identical disclosed
+# numbers; what separates them is which variable is doing the work and what
+# evidence settles it. A verdict that names no conditioner is an unearned
+# adjective, not analysis.
+#
+# THIS FILE IS THE FUND'S GOVERNED TIER. It owns:
+#   - conditioning_variables : the closed token list (12)
+#   - discriminator_types    : what may settle a divergence (4 + a sentinel)
+#   - family_frames          : default multiples for the fund's 8 sector slugs
+#
+# It does NOT own the 32 tier-2 playbook frames — those live upstream in
+# research/equity_researcher/config/sector_registry.yaml, which the fund
+# consumes but does not author (see docs/SYSTEM_MAP.md on the ER subsystem's
+# upstream ownership). scripts/check_interpretation_frames.py --check keeps
+# the two honest: every ER conditioner token must be in the vocabulary below
+# (one-way subset check), and every ER family frame must match the
+# family_frames block here key for key. It is a CHECK, never a generator.
+#
+# Machine consumers:
+#   src/afund/research/interpretation.py     (loader + layered resolution)
+#   src/afund/agents/contracts.py            (ConditioningVariable/DiscriminatorType Literals)
+# Prose:
+#   knowledge/references/methodology/facts_vs_interpretation.md
+#   research/equity_researcher/docs/OPINION_VS_ANALYSIS.md section 7
+#
+# Everything here is status: DRAFT until the user back-tests it — a default
+# multiple is a starting convention, not an approved valuation method.
+
+kind: interpretation_frames
+version: 1
+status: DRAFT
+
+# ---------------------------------------------------------------------------
+# The closed vocabulary. Literals, not free text, precisely so that a reading
+# must name a variable someone can argue with — a field that accepts any
+# string accepts "because the story is good", which is the failure mode.
+# Adding a token here is a governance change: it must also be added to
+# ConditioningVariable in src/afund/agents/contracts.py and to
+# interpretation_vocabulary in the ER sector_registry, or --check fails.
+# ---------------------------------------------------------------------------
+conditioning_variables:
+
+  growth_rate:
+    definition: >
+      The near-term rate itself. Invoked when a multiple is defended by the
+      pace of growth alone — a PEG argument is this variable.
+    typical_discriminator: peer_distribution
+    status: DRAFT
+
+  growth_durability:
+    definition: >
+      How many years the rate is assumed to hold. The variable a PEG argument
+      hides: PEG 1.0 at 30x is only cheap if the growth persists roughly as
+      long as the multiple implies.
+    typical_discriminator: historical_distribution
+    status: DRAFT
+
+  incremental_roce:
+    definition: >
+      Return on the NEXT rupee of capital, not the average on capital already
+      sunk. Separates growth that compounds value from growth that consumes it.
+    typical_discriminator: historical_distribution
+    status: DRAFT
+
+  sustainable_roe:
+    definition: >
+      The through-cycle ROE a book-value multiple is capitalising. The
+      conditioner behind almost every P/B argument in lending businesses.
+    typical_discriminator: historical_distribution
+    status: DRAFT
+
+  cycle_position:
+    definition: >
+      Where in the commodity/capex/credit cycle the earnings base sits. A
+      low P/E on peak earnings and a high P/E on trough earnings are the same
+      mistake wearing opposite signs.
+    typical_discriminator: historical_distribution
+    status: DRAFT
+
+  earnings_base_quality:
+    definition: >
+      Whether the denominator of the multiple is a repeatable number —
+      one-offs, other income, capitalised costs, unconsolidated JVs.
+    typical_discriminator: disclosed_mechanism
+    status: DRAFT
+
+  capital_intensity:
+    definition: >
+      Capex and working capital required per rupee of incremental revenue;
+      what separates reported EBITDA from cash available to owners.
+    typical_discriminator: historical_distribution
+    status: DRAFT
+
+  terminal_value_share:
+    definition: >
+      How much of the value sits beyond the explicit forecast. A high share
+      means the argument is about the terminal assumption, whatever the
+      near-term numbers say.
+    typical_discriminator: disclosed_mechanism
+    status: DRAFT
+
+  balance_sheet_risk:
+    definition: >
+      Leverage, refinancing profile, contingent liabilities, pledge levels —
+      the conditioner that decides whether an equity multiple is even the
+      right instrument for the question.
+    typical_discriminator: disclosed_mechanism
+    status: DRAFT
+
+  accounting_basis:
+    definition: >
+      Standalone vs consolidated, Ind-AS transitions, revenue-recognition and
+      segment-reporting changes. Two readings of one "P/E" are sometimes two
+      different P/Es.
+    typical_discriminator: disclosed_mechanism
+    status: DRAFT
+
+  own_history_anchor:
+    definition: >
+      The company's own multiple history as the reference. Legitimate, and
+      silently assumes the business, its mix and its cost of capital are
+      comparable to that history.
+    typical_discriminator: historical_distribution
+    status: DRAFT
+
+  peer_set_choice:
+    definition: >
+      Which comparables the multiple is judged against. Changing the peer set
+      changes the verdict without changing a single published number, which
+      is why the choice has to be stated rather than assumed.
+    typical_discriminator: peer_distribution
+    status: DRAFT
+
+# ---------------------------------------------------------------------------
+# What may settle a divergence. Exactly four, plus a sentinel for "we looked
+# and there is nothing". Tone, consensus, analyst conviction and "the market
+# is wrong" are deliberately absent — they are the things that feel like
+# evidence and are not. A divergence marked resolved without one of the four
+# fails check 18 in the ER red-team (prompts/34) and raises ValueError in
+# DivergenceCase (src/afund/agents/contracts.py).
+# ---------------------------------------------------------------------------
+discriminator_types:
+
+  historical_distribution:
+    definition: >
+      A published base rate over time — how often has this outcome actually
+      occurred, for this company or this population, over how many years.
+    status: DRAFT
+
+  peer_distribution:
+    definition: >
+      A cross-sectional distribution across a NAMED peer set at a stated date.
+    status: DRAFT
+
+  disclosed_mechanism:
+    definition: >
+      Something the company or regulator has actually disclosed — a contract
+      structure, a tariff order, an accounting policy, a covenant.
+    status: DRAFT
+
+  forward_observable:
+    definition: >
+      A falsifiable future observation WITH A DATE: what will be visible, by
+      when, and which reading it would kill.
+    status: DRAFT
+
+  none_available:
+    definition: >
+      Sentinel. We looked and nothing of the four types exists. The divergence
+      stays unresolved and is carried as a disclosed load-bearing assumption —
+      which is worth more to a reader than a verdict with nothing behind it.
+      It may never coexist with resolved: true.
+    status: DRAFT
+
+# ---------------------------------------------------------------------------
+# Family-level default frames for the fund's 8 sector slugs (registry/kpis/
+# <slug>.yaml; src/afund/sectors.py maps raw NSE industry strings onto them).
+# These are the tier-1 defaults a sector-level packet is judged against.
+# When an ER run has classified a ticker to one of the 32 tier-2 playbooks,
+# the playbook frame layers ON TOP of its family frame, key by key —
+# src/afund/research/interpretation.py::resolve_frame().
+#
+# Mirrors families.* in research/equity_researcher/config/sector_registry.yaml
+# by design, and --check enforces the mirror rather than trusting it. Multiple
+# tokens are the ER registry's interpretation_vocabulary.multiples list.
+# ---------------------------------------------------------------------------
+family_frames:
+
+  bfsi:
+    primary_multiple: p_b
+    secondary_multiples: [p_abv, p_ev, pe_forward]
+    multiple_conditioners: [sustainable_roe, balance_sheet_risk, earnings_base_quality]
+    status: DRAFT
+
+  consumer_retail:
+    primary_multiple: pe_forward
+    secondary_multiples: [ev_ebitda_forward, dcf]
+    multiple_conditioners: [growth_durability, incremental_roce, accounting_basis]
+    status: DRAFT
+
+  commodities_energy:
+    primary_multiple: ev_ebitda_midcycle
+    secondary_multiples: [ev_per_tonne, sotp, replacement_cost]
+    multiple_conditioners: [cycle_position, capital_intensity, earnings_base_quality]
+    status: DRAFT
+
+  it_technology:
+    primary_multiple: pe_forward
+    secondary_multiples: [ev_sales, ev_ebitda_forward]
+    multiple_conditioners: [growth_rate, growth_durability, own_history_anchor]
+    status: DRAFT
+
+  pharma_chemicals:
+    primary_multiple: pe_forward
+    secondary_multiples: [ev_ebitda_forward, sotp]
+    multiple_conditioners: [peer_set_choice, earnings_base_quality, growth_durability]
+    status: DRAFT
+
+  auto_engineering:
+    primary_multiple: pe_forward
+    secondary_multiples: [ev_ebitda_forward, sotp, peg]
+    multiple_conditioners: [cycle_position, growth_durability, incremental_roce]
+    status: DRAFT
+
+  infra_capital_goods:
+    primary_multiple: sotp
+    secondary_multiples: [pe_executed_earnings, nav_gav, ev_ebitda_forward]
+    multiple_conditioners: [balance_sheet_risk, earnings_base_quality, terminal_value_share]
+    status: DRAFT
+
+  generic:
+    primary_multiple: pe_forward
+    secondary_multiples: [ev_ebitda_forward, sotp, dcf]
+    multiple_conditioners: [peer_set_choice, own_history_anchor, earnings_base_quality]
+    status: DRAFT

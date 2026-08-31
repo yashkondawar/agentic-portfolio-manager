@@ -1,0 +1,115 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 170,
+  "table_index": 2,
+  "bbox": [
+    71.1161,
+    122.68758333333334,
+    546.9674647058823,
+    375.63758333333334
+  ],
+  "rows": [
+    [
+      "A.",
+      "Non-current",
+      "As at\n31.03.2021",
+      "As at\n31.03.2020"
+    ],
+    [
+      "(a)",
+      "Loans to employees",
+      "",
+      ""
+    ],
+    [
+      "",
+      "Secured, considered good",
+      "66.48",
+      "62.42"
+    ],
+    [
+      "",
+      "Unsecured, considered good",
+      "19.26",
+      "10.30"
+    ],
+    [
+      "(b)",
+      "Loans to others",
+      "",
+      ""
+    ],
+    [
+      "",
+      "Secured, considered good",
+      "0.21",
+      "0.30"
+    ],
+    [
+      "Less: Allowance for bad and doubtful loans",
+      null,
+      "—",
+      "—"
+    ],
+    [
+      "Total non-current loans",
+      null,
+      "85.95",
+      "73.02"
+    ],
+    [
+      "B.",
+      "Current",
+      "As at\n31.03.2021",
+      "As at\n31.03.2020"
+    ],
+    [
+      "(a)",
+      "Loans to employees",
+      "",
+      ""
+    ],
+    [
+      "",
+      "Considered good-Secured",
+      "17.71",
+      "29.52"
+    ],
+    [
+      "",
+      "Considered good-Unsecured",
+      "9.47",
+      "9.07"
+    ],
+    [
+      "(b)",
+      "Loans to related parties",
+      "",
+      ""
+    ],
+    [
+      "",
+      "Considered good-Secured [refer note 11.2]",
+      "0.01",
+      "0.02"
+    ],
+    [
+      "(c)",
+      "Loans to others",
+      "",
+      ""
+    ],
+    [
+      "",
+      "Considered good - Secured",
+      "2.97",
+      "1.55"
+    ],
+    [
+      "Total current loans",
+      null,
+      "30.16",
+      "40.16"
+    ]
+  ]
+}

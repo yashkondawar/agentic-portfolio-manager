@@ -1,0 +1,93 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 83,
+  "table_index": 1,
+  "bbox": [
+    68.2815,
+    120.73810000000003,
+    543.0583962962963,
+    399.27220000000005
+  ],
+  "rows": [
+    [
+      "Parameter",
+      "FY 2023-24",
+      "FY 2022-23"
+    ],
+    [
+      "From renewable sources",
+      null,
+      null
+    ],
+    [
+      "Total electricity consumption (A)",
+      "3,21,468",
+      "2,529"
+    ],
+    [
+      "Total fuel consumption (B)",
+      "0",
+      "-"
+    ],
+    [
+      "Energy consumption through other sources (C)",
+      "0",
+      "-"
+    ],
+    [
+      "Total energy consumed from renewable sources (A+B+C)",
+      "3,21,468",
+      "2,529"
+    ],
+    [
+      "From non-renewable sources",
+      null,
+      null
+    ],
+    [
+      "Total electricity consumption (D)",
+      "19,78,074",
+      "43,59,616"
+    ],
+    [
+      "Total fuel consumption (E)",
+      "10,70,98,793",
+      "9,85,80,904"
+    ],
+    [
+      "Energy consumption through other sources (F)",
+      "-",
+      "-"
+    ],
+    [
+      "Total energy consumed from non-renewable sources (D+E+F)",
+      "10,90,76,867",
+      "10,29,40,520"
+    ],
+    [
+      "Total energy consumed (A+B+C+D+E+F)",
+      "10,93,98,335",
+      "10,29,43,048"
+    ],
+    [
+      "Energy intensity per rupee of turnover (Total energy consumed / Revenue from operations)",
+      "0.00084",
+      "0.00073"
+    ],
+    [
+      "Energy intensity per rupee of turnover adjusted for Purchasing Power Parity (PPP) (Total energy consumed /\nRevenue from operations adjusted for PPP)",
+      "0.01915",
+      "0.01662"
+    ],
+    [
+      "Energy intensity in terms of physical output (Alumina Production in MT)",
+      "51.51",
+      "48.49"
+    ],
+    [
+      "Energy intensity (optional) –Smelter Energy Intensity per metric Ton of cast metal",
+      "55.06",
+      "55.34"
+    ]
+  ]
+}

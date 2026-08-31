@@ -1,0 +1,37 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 78,
+  "table_index": 1,
+  "bbox": [
+    45.57655,
+    57.9266666666667,
+    271.4173,
+    592.5450000000001
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Particulars"
+    ],
+    [
+      "1",
+      "Paid up Capital, as on 31.3.2022"
+    ],
+    [
+      "2",
+      "Total Turnover"
+    ],
+    [
+      "3",
+      "Total Profit after Taxes"
+    ],
+    [
+      "4",
+      "Total Spending on Corporate Social Responsibility (CSR)\na) in INR :\nb) As a percentage of average Net Profit during the\nthree immediately preceding financial years (%):"
+    ],
+    [
+      "5",
+      "List the activities, in which expenditure on CSR\nas mentioned above, has been incurred"
+    ]
+  ]
+}

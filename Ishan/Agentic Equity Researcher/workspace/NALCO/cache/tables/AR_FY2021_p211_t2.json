@@ -1,0 +1,45 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 211,
+  "table_index": 2,
+  "bbox": [
+    56.9429,
+    116.76229999999998,
+    555.3406,
+    546.5628999999999
+  ],
+  "rows": [
+    [
+      "A.",
+      "Equity share capital"
+    ],
+    [
+      null,
+      "Balance as at 31.03.2019 932.81"
+    ],
+    [
+      null,
+      "Changes during the year —"
+    ],
+    [
+      null,
+      "Balance as at 31.03.2020 932.81"
+    ],
+    [
+      null,
+      "Changes during the year (14.49)"
+    ],
+    [
+      null,
+      "Balance as at 31.03.2021 918.32"
+    ],
+    [
+      "",
+      ""
+    ],
+    [
+      "B.",
+      null
+    ]
+  ]
+}

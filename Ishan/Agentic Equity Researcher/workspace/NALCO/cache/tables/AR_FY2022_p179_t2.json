@@ -1,0 +1,93 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 179,
+  "table_index": 2,
+  "bbox": [
+    63.496,
+    362.06665000000004,
+    549.7912200000001,
+    541.576
+  ],
+  "rows": [
+    [
+      null,
+      "Year ended 31.03.2022",
+      "Year ended 31.03.2021"
+    ],
+    [
+      "Interest income",
+      "",
+      ""
+    ],
+    [
+      "(i) Interest income earned from financial assets that are not designated as at fair value through profit or loss:",
+      "",
+      ""
+    ],
+    [
+      "- Bank deposits",
+      "103.18",
+      "69.99"
+    ],
+    [
+      "- Loans to employees",
+      "9.25",
+      "9.42"
+    ],
+    [
+      "- Other financial assets carried at amortised cost",
+      "13.42",
+      "5.48"
+    ],
+    [
+      "(ii) Interest income earned from Income tax refund",
+      "84.51",
+      "-"
+    ],
+    [
+      "Dividend income",
+      "",
+      ""
+    ],
+    [
+      "- Dividends from current investments",
+      "13.91",
+      "5.48"
+    ],
+    [
+      null,
+      "(1.59)",
+      "(1.85)"
+    ],
+    [
+      null,
+      "(0.36)",
+      "0.38"
+    ],
+    [
+      null,
+      "-",
+      "-"
+    ],
+    [
+      null,
+      "23.00",
+      "8.86"
+    ],
+    [
+      null,
+      "33.77",
+      "15.71"
+    ],
+    [
+      null,
+      "18.33",
+      "33.13"
+    ],
+    [
+      null,
+      "297.42",
+      "146.60"
+    ]
+  ]
+}

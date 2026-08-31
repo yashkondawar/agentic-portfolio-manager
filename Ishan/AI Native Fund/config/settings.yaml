@@ -1,0 +1,148 @@
+# afund — core runtime settings (Phase 0)
+
+db_path: data/afund.db
+
+llm:
+  backend: claude_code
+  api_key_env: ANTHROPIC_API_KEY
+
+# Per-role model tier. "backend: claude_code" means these run as Claude Code
+# agents (see .claude/agents/); the direct-API backend is future scope and
+# would use these same tier names to pick a model id.
+model_tiers:
+  news_processor: haiku
+  research_head: sonnet
+  equity_researcher: sonnet
+  sector_researcher: sonnet
+  buy_side: opus
+  idea_gen: sonnet
+  synthesis: sonnet
+  allocator: sonnet
+  critique: opus
+  risk_mgmt: sonnet
+  fund_manager: opus
+  meta_research: opus
+  macro_digest: sonnet
+  narrative_intensity: sonnet
+
+# Direct-API backend (llm.backend: api) model id map — only consulted when
+# api mode is active; claude_code mode (the default) ignores this entirely.
+# Keys are the same tier names used in model_tiers above.
+api_model_ids:
+  haiku: claude-haiku-4-5
+  sonnet: claude-sonnet-5
+  opus: claude-opus-4-8
+
+# USD price per million tokens, input/output, for direct-API cost logging
+# (agent_runs.cost_usd). Only consulted in api backend mode.
+api_prices_per_mtok:
+  haiku:
+    input: 1.00
+    output: 5.00
+  sonnet:
+    input: 3.00
+    output: 15.00
+  opus:
+    input: 5.00
+    output: 25.00
+
+# Human-readable schedule hints for the future Orchestrator. Not enforced by
+# any code in Phase 0 — informational until a scheduler is built.
+cadences:
+  daily_news: "daily 08:00"
+  daily_prices: "daily 18:30"
+  daily_mf_navs: "daily 21:00"
+  daily_nav: "daily 21:30"
+  weekly_idea_cycle: "weekly MON"
+  quarterly_financials: "quarterly"
+  quarterly_macro: "quarterly"
+  monthly_newsletters: "monthly 6"
+  meta_research_cycle: "quarterly"
+  weekly_cycle_assessment: "weekly MON"
+  monthly_macro: "monthly 12"
+  weekly_fund_analytics: "weekly MON"
+  universe_fit_refresh: "monthly 1"
+  monthly_amc_portfolios: "monthly 15"
+
+# Per-role hard character budgets for orchestrator context packets
+# (src/afund/orchestrator/context.py). "default" applies to any role not
+# listed explicitly. Enforcement order when a packet would exceed budget:
+# truncate memory slices first, then the registry slice, as a last resort.
+packet_budgets:
+  default: 12000
+  news_processor: 16000
+  fund_manager: 20000
+  macro_digest: 16000
+  meta_research: 16000
+  idea_gen: 16000
+  narrative_intensity: 14000
+  sector_researcher: 16000
+  buy_side: 14000
+
+# Phase 6 — KPI-registry sector slug -> sector INDEX name (index_data /
+# instruments.symbol). Used by the (Phase 7) cycle engine's sector-cycle
+# gate to look up the right index's P/E series for a given
+# registry/kpis/<sector>.yaml sector. "generic" (no dedicated sector index)
+# and "commodities_energy" (secondary index, no single clean mapping) fall
+# back / add a secondary as noted. See src/afund/data/index_valuation.py
+# SECTOR_INDICES for the full backfill target list and
+# src/afund/data/universe.py SECTOR_BENCHMARK_INDICES for INDEX registration.
+sector_index_map:
+  bfsi: "NIFTY BANK"
+  it_technology: "NIFTY IT"
+  pharma_chemicals: "NIFTY PHARMA"
+  auto_engineering: "NIFTY AUTO"
+  consumer_retail: "NIFTY FMCG"
+  commodities_energy: "NIFTY METAL"
+  commodities_energy_secondary: "NIFTY ENERGY"
+  infra_capital_goods: "NIFTY INFRASTRUCTURE"
+  generic: "NIFTY 500"
+
+universe:
+  index: "NIFTY TOTAL MARKET"
+  watchlist: [KPITTECH]
+
+  # Liquid ETF tickers (NSE symbols, without the .NS suffix — pipelines add
+  # it) seeded directly since there's no single authoritative "ETF universe"
+  # CSV the way there is for the index constituent lists.
+  etfs:
+    - NIFTYBEES
+    - JUNIORBEES
+    - GOLDBEES
+    - SILVERBEES
+    - BANKBEES
+    - ITBEES
+    - PHARMABEES
+    - MON100
+    - MAFANG
+    - CPSEETF
+
+  # AMFI scheme codes to auto-register as MUTUAL_FUND instruments during the
+  # amfi_nav pipeline run. NAVs for ALL schemes are still stored in mf_navs
+  # regardless of this list (the NAVAll.txt file is cheap to store whole) —
+  # this list only controls which schemes get an `instruments` row (and are
+  # therefore tracked as part of the investable universe).
+  #
+  # Example (uncomment and fill with real AMFI scheme codes once decided):
+  #   mf_watchlist:
+  #     - "119551"   # Aditya Birla Sun Life Banking & PSU Debt Fund - DIRECT - IDCW
+  mf_watchlist: []
+
+# Phase 10 — manual fallback pins for ETF -> AMFI scheme-code matching
+# (scripts/map_etf_scheme_codes.py). The script auto-matches on normalized
+# name tokens against AMFI NAVAll.txt scheme names first; any ETF symbol it
+# cannot confidently match falls back to a pin here. Keys are ETF instrument
+# symbols (as in universe.etfs above), values are AMFI scheme codes (strings,
+# since some codes have leading context that matters as text).
+#
+# Example (uncomment and fill with the real scheme code once confirmed):
+#   etf_scheme_code_pins:
+#     NIFTYBEES: "119062"
+etf_scheme_code_pins: {}
+
+# Phase 3 — paper portfolio settings.
+portfolio:
+  initial_capital: 1000000      # INR, paper fund
+  currency: INR
+  risk_free_rate_annual: 0.065  # for Jensen's alpha; user-adjustable
+  benchmark: "NIFTY 50"

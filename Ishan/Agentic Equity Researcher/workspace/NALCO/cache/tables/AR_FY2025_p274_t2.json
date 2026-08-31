@@ -1,0 +1,97 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 274,
+  "table_index": 2,
+  "bbox": [
+    51.27363333333333,
+    251.6438285714286,
+    542.5390615384615,
+    458.27160000000003
+  ],
+  "rows": [
+    [
+      "B. Current",
+      null,
+      "As at 31.03.2025",
+      "As at 31.03.2024"
+    ],
+    [
+      "(a)",
+      "Unpaid dividends",
+      "6.61",
+      "4.02"
+    ],
+    [
+      "(b)",
+      "Accrued wages and salaries [refer note 22.3]",
+      "409.57",
+      "655.26"
+    ],
+    [
+      "(c)",
+      "Creditors for capital supplies and services",
+      null,
+      null
+    ],
+    [
+      "",
+      "- Dues to micro and small enterprises",
+      "52.20",
+      "36.11"
+    ],
+    [
+      null,
+      "- Others",
+      "812.10",
+      "478.80"
+    ],
+    [
+      "(d)",
+      "Other payables",
+      null,
+      null
+    ],
+    [
+      null,
+      "(1) Amount received under NEFFARS [refer Note 22.2]",
+      "86.58",
+      "102.13"
+    ],
+    [
+      null,
+      "(2) Security deposits from contractors & others",
+      "83.88",
+      "116.67"
+    ],
+    [
+      null,
+      "(3) Refund due to customers",
+      "45.79",
+      "36.68"
+    ],
+    [
+      null,
+      "(4) Liabilities for discount on sales to customers",
+      "223.47",
+      "174.57"
+    ],
+    [
+      null,
+      "(5) Employees' recoveries",
+      "0.11",
+      "0.11"
+    ],
+    [
+      null,
+      "(6) Others",
+      "0.50",
+      "0.66"
+    ],
+    [
+      "Total other current financial liabilities",
+      null,
+      "1,720.81",
+      "1,605.01"
+    ]
+  ]
+}

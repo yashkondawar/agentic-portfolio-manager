@@ -1,0 +1,76 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 186,
+  "table_index": 2,
+  "bbox": [
+    93.79330000000002,
+    135.12209999999993,
+    546.4824333333332,
+    374.92729999999995
+  ],
+  "rows": [
+    [
+      "Gratuity (Funded)"
+    ],
+    [
+      "Opening fair value of plan assets as at April 01, 2019 547.80"
+    ],
+    [
+      "Interest income 35.60"
+    ],
+    [
+      "Remeasurement"
+    ],
+    [
+      "Return on plan assets (excluding amounts included in net interest income) 5.12"
+    ],
+    [
+      "Others (0.05)"
+    ],
+    [
+      "Contribution from the employer 57.49"
+    ],
+    [
+      "Benefits paid (69.70)"
+    ],
+    [
+      "Closing fair value of plan assets as at March 31, 2020 576.26"
+    ],
+    [
+      "Interest income 45.23"
+    ],
+    [
+      "Remeasurement"
+    ],
+    [
+      "Return on plan assets (excluding amounts included in net interest income) (1.78)"
+    ],
+    [
+      "Others —"
+    ],
+    [
+      "Contribution from the employer 58.68"
+    ],
+    [
+      "Contribution from plan participant —"
+    ],
+    [
+      "Assets distributed on settlements —"
+    ],
+    [
+      "Assets acquired in a business combination —"
+    ],
+    [
+      "Exchange differences on foreign plans —"
+    ],
+    [
+      "Benefits paid (93.22)"
+    ],
+    [
+      "Others —"
+    ],
+    [
+      "Closing fair value of plan assets as at March 31, 2021 585.17"
+    ]
+  ]
+}

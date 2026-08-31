@@ -1,0 +1,38 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 110,
+  "table_index": 1,
+  "bbox": [
+    74.17866666666667,
+    252.10800000000003,
+    482.0148,
+    323.925
+  ],
+  "rows": [
+    [
+      "Description of results",
+      "Date of meeting",
+      "Newspapers"
+    ],
+    [
+      "1st Qtr.- (Apr-June, 2021)",
+      "06.08.2021",
+      "Business Line (English) and Samaja (Odia)"
+    ],
+    [
+      "2nd Qtr.- (July-Sept., 2021)",
+      "12.11.2021",
+      "Financial Express (English) and Sambad (Odia)"
+    ],
+    [
+      "3rd Qtr.- (Oct- Dec., 2021)",
+      "07.02.2022",
+      "Business Standard (English) and Dharitri (Odia)"
+    ],
+    [
+      "4th Qtr. (Jan.–March, 2022 and year 2021-22)",
+      "25.05.2022",
+      "Economic Times (English) and Prameya (Odia)"
+    ]
+  ]
+}

@@ -1,0 +1,139 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 160,
+  "table_index": 2,
+  "bbox": [
+    45.854,
+    162.64300000000003,
+    549.546,
+    631.0260000000001
+  ],
+  "rows": [
+    [
+      "14 - Other assets Amount in ` Crore",
+      null,
+      null,
+      null
+    ],
+    [
+      "A.",
+      "Non-current",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      "",
+      "(a) Capital advances [refer Note 14.1]",
+      "552.14",
+      "498.02"
+    ],
+    [
+      null,
+      "(b) Advances other than capital advance:\nAdvance with Govt. authorities\n(1) Customs, excise, sales tax, port trusts etc.\n(2) Other Government authorities",
+      "226.59\n6.04",
+      "179.95\n6.01"
+    ],
+    [
+      null,
+      "(c) Others\nPrepaid expenses\n(1) Deferred employee benefits [refer Note 11.1]",
+      "21.93",
+      "15.50"
+    ],
+    [
+      null,
+      "Gross other non-current assets",
+      "806.70",
+      "699.48"
+    ],
+    [
+      null,
+      "Less: Allowance for bad and doubtful for other non-current assets\n(a) Capital advances\n(b) Advances with Excise authority",
+      "0.01\n0.24",
+      "0.01\n0.24"
+    ],
+    [
+      null,
+      "Total allowance for bad and doubtful for other non-current assets",
+      "0.25",
+      "0.25"
+    ],
+    [
+      null,
+      "Total other non-current assets",
+      "806.45",
+      "699.23"
+    ],
+    [
+      "B.",
+      "Current",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      "",
+      "Advances other than capital advances\n(a) Claims with statutory authorities\n(1) Export Incentive Claims\n(2) Generation Based Incentive on power generated from renewable source\nand Renewable energy certificates\n(3) VAT, CENVAT and GST Credit Recoverable\n(4) Claims receivable from customs, excise and railway authorities",
+      "42.73\n4.28\n321.01\n7.68",
+      "71.42\n5.10\n295.64\n7.68"
+    ],
+    [
+      null,
+      "(b) Prepaid expenses\n(1) Deferred employee benefits [ refer Note 11.1]\n(2) Other prepaid expenses",
+      "3.55\n7.81",
+      "2.04\n9.34"
+    ],
+    [
+      null,
+      "(c) Stamp in hand",
+      "0.02",
+      "0.01"
+    ],
+    [
+      null,
+      "(d) Other receivables",
+      "1.23",
+      "1.07"
+    ],
+    [
+      null,
+      "(e) Other advances\n(1) Advances to employees\n(2) Advances to suppliers and service providers\n(3) Others",
+      "3.00\n813.18\n4.91",
+      "13.26\n656.34\n4.16"
+    ],
+    [
+      null,
+      "Gross other current assets",
+      "1,209.40",
+      "1,066.06"
+    ],
+    [
+      null,
+      "Less: Allowance for bad and doubtful for other current assets\n(a) Export Incentive Claims\n(b) VAT and CENVAT Credit Recoverable\n(c) Claims receivable from customs, excise and railway authorities\n(d) Other receivables\n(e) Advances to suppliers and service providers\n(f) Others",
+      "2.81\n197.81\n5.13\n0.43\n2.59\n6.14",
+      "0.95\n197.81\n5.13\n0.36\n1.92\n1.82"
+    ],
+    [
+      null,
+      "Total allowance for bad and doubtful for other current assets",
+      "214.91",
+      "207.99"
+    ],
+    [
+      null,
+      "Total other current assets",
+      "994.49",
+      "858.07"
+    ],
+    [
+      null,
+      "Classification of other current assets:\nSecured, considered good\nUnsecured, considered good\nDoubtful",
+      "994.49\n214.91",
+      "858.07\n207.99"
+    ],
+    [
+      null,
+      "Gross other current assets",
+      "1,209.40",
+      "1,066.06"
+    ]
+  ]
+}

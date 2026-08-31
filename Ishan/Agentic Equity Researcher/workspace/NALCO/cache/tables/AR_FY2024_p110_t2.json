@@ -1,0 +1,76 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 110,
+  "table_index": 2,
+  "bbox": [
+    79.2736380952381,
+    450.71883333333335,
+    542.4854652173914,
+    634.0328
+  ],
+  "rows": [
+    [
+      "Members of Technology Committee",
+      "Category of Director",
+      "Position",
+      "Meeting",
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      "Held",
+      "Attended"
+    ],
+    [
+      "Shri Y. P. Chillio",
+      "Independent",
+      "Chairman",
+      "1",
+      "1"
+    ],
+    [
+      "Adv. George Kurian\n[upto 24.05.2023(AN)]",
+      "Independent",
+      "Member",
+      "0",
+      "0"
+    ],
+    [
+      "Dr. Ajay Narang",
+      "Independent",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Dr. B. R. Ramakrishna\n[w.e.f. 24.05.2023(AN)]",
+      "Independent",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Shri M. P. Mishra\nDirector (P&T)$",
+      "Functional",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Shri P. K. Sharma\nDirector (Production)",
+      "Functional",
+      "Member",
+      "1",
+      "1"
+    ],
+    [
+      "Shri J. Arora\nDirector (P&T) & Director (HR) – Addl. Charge*",
+      "Functional",
+      "Member",
+      "0",
+      "0"
+    ]
+  ]
+}

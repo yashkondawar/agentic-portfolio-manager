@@ -1,0 +1,28 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 251,
+  "table_index": 2,
+  "bbox": [
+    112.29866666666668,
+    255.93900000000005,
+    549.9116666666667,
+    290.14250000000004
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "Year ended 31.03.2023",
+      "Year ended 31.03.2022"
+    ],
+    [
+      "Outstanding at the end of the year",
+      "0.14",
+      "0.09"
+    ],
+    [
+      "Maximum amount due at any time during the year",
+      "0.29",
+      "0.11"
+    ]
+  ]
+}

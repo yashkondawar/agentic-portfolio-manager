@@ -1,0 +1,127 @@
+# Auto & Engineering (OEMs, CVs, PVs, Ancillaries, Defense) — KPI/ratio
+# vocabulary and qualitative checklist for the Equity Research / Sectoral
+# Analyst agents.
+# Source: docs/source-material/er-deep-research-prompts.txt, "Auto & Engineering Analyst" section.
+
+sector: auto_engineering
+description: >
+  OEMs (CV/PV/2W), auto ancillaries, and defense engineering. Operating
+  leverage, commodity-cost sensitivity, and EV-transition risk/opportunity
+  dominate the analytical frame; this is a classically cyclical sector.
+
+quantitative_kpis:
+  # Core Valuation
+  - name: market_cap
+    unit: currency
+    category: core_valuation
+  - name: enterprise_value
+    unit: currency
+    category: core_valuation
+  - name: pe_ltm
+    unit: "x"
+    category: core_valuation
+  - name: forward_pe
+    unit: "x"
+    category: core_valuation
+  - name: ev_ebitda_ltm
+    unit: "x"
+    category: core_valuation
+  # Core Profitability
+  - name: revenue_ltm
+    unit: currency
+    category: core_profitability
+  - name: ebitda_ltm
+    unit: currency
+    category: core_profitability
+  - name: net_profit_excl_oneoffs
+    unit: currency
+    category: core_profitability
+  - name: gross_margin
+    unit: "%"
+    category: core_profitability
+  - name: ebitda_margin
+    unit: "%"
+    category: core_profitability
+  - name: roce
+    unit: "%"
+    category: core_profitability
+  - name: roe
+    unit: "%"
+    category: core_profitability
+  # Efficiency
+  - name: capacity_utilization
+    unit: "%"
+    category: efficiency
+  - name: working_capital_days
+    unit: days
+    category: efficiency
+  - name: inventory_days
+    unit: days
+    category: efficiency
+  # Growth
+  - name: revenue_growth_rate
+    unit: "%"
+    category: growth
+  - name: volume_growth_yoy_by_segment
+    unit: "%"
+    category: growth
+  # Cash Flow
+  - name: operating_cashflow
+    unit: currency
+    category: cash_flow
+  - name: capex
+    unit: currency
+    category: cash_flow
+  - name: fcf_post_dividend_acquisitions
+    unit: currency
+    category: cash_flow
+  - name: fcf_yield
+    unit: "%"
+    category: cash_flow
+  - name: fcf_to_ebitda_conversion
+    unit: "%"
+    category: cash_flow_quality
+  # Sector-specific
+  - name: cv_volume_growth
+    unit: "%"
+    category: volume_mix
+  - name: pv_volume_growth
+    unit: "%"
+    category: volume_mix
+  - name: exports_pct_of_sales
+    unit: "%"
+    category: volume_mix
+  - name: dealer_inventory_days
+    unit: days
+    category: volume_mix
+  - name: content_per_vehicle_growth
+    unit: "%"
+    category: ancillary
+  - name: revenue_from_ev_components_pct
+    unit: "%"
+    category: ancillary
+  - name: receivable_days_govt
+    unit: days
+    category: receivables_debt
+  - name: net_debt_to_ebitda
+    unit: "x"
+    category: receivables_debt
+
+qualitative_checks:
+  - operating_leverage_moat: "Plant utilization / capacity; break-even point calculation or proxy metrics for key manufacturing peers."
+  - commodity_sensitivity: "Ability to manage steel/aluminum commodity cost sensitivity."
+  - ev_transition_risk_strategy: "EV transition risk exposure, especially for ICE component makers; contrast with opportunities in wiring harnesses, motors, batteries."
+  - defense_regulatory_moats: "Benefit from indigenization list as regulatory moat; risk of high receivable days from Ministry of Defence."
+  - macro_linkage: "CV sales/volume as proxy for GDP/freight movement; PV sales linkage to consumer credit access and sentiment."
+  - ev_adoption_drivers: "Impact of government subsidies (e.g. FAME scheme) on demand/adoption, especially 2W/3W segments."
+  - ev_penetration_sensitivity: "Mandatory — EV penetration sensitivity analysis by segment; long-term impact on revenue mix and cost structure of component suppliers."
+  - scrappage_policy: "Impact of global/domestic scrappage policy on replacement-cycle demand."
+  - localization: "Impact of component localization policy on input costs and supply chain resilience."
+
+cycle_overlap_checks:
+  - valuation_earnings_cycle: "Is the valuation premium/discount justified by sustainable ROCE stability, or driven purely by the valuation cycle (Stage 3 euphoria)? Is high P/E from genuine ROCE improvement or valuation-cycle expansion?"
+  - credit_capex_cycle: "Assess capex/growth funding needs against the current credit window; quantify resulting FCF constraints and potential debt risk."
+  - policy_profit_cycle: "If enjoying a regulatory moat (PLI, indigenization list), assess political risk and sustainability, especially receivable-day exposure to government counterparties."
+
+niche_pointers:
+  - auto_ancillaries: "Content per vehicle (CPV) — is the peer's part worth more in an EV than an ICE vehicle?"

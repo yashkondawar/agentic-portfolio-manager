@@ -1,0 +1,28 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 109,
+  "table_index": 4,
+  "bbox": [
+    68.28138695652174,
+    600.03515,
+    542.4750956521739,
+    642.5550000000001
+  ],
+  "rows": [
+    [
+      "Parameter",
+      "FY 2024-25",
+      "FY 2023-24"
+    ],
+    [
+      "Directly sourced from MSMEs/ small producers",
+      "47.44 %",
+      "30.64%"
+    ],
+    [
+      "Directly sourced within India",
+      "94.88 %",
+      "97.69%"
+    ]
+  ]
+}

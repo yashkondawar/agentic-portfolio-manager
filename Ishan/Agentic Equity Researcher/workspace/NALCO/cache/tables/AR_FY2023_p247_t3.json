@@ -1,0 +1,38 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 247,
+  "table_index": 3,
+  "bbox": [
+    73.90366666666667,
+    311.41650000000004,
+    549.5233999999999,
+    366.86750000000006
+  ],
+  "rows": [
+    [
+      "",
+      "Year ended 31.03.2023",
+      "Year ended 31.03.2022"
+    ],
+    [
+      "",
+      "R per share",
+      "R per share"
+    ],
+    [
+      "38.1 Basic Earnings per share (R)",
+      "",
+      ""
+    ],
+    [
+      "From total operations",
+      "7.81",
+      "16.07"
+    ],
+    [
+      "Total Basic earnings per share",
+      "7.81",
+      "16.07"
+    ]
+  ]
+}

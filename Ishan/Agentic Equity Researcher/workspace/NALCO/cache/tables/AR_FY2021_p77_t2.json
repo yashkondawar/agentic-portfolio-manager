@@ -1,0 +1,48 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 77,
+  "table_index": 2,
+  "bbox": [
+    123.84056000000001,
+    261.60489999999993,
+    555.3404666666667,
+    332.47099999999995
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "Pending from Prev. Year",
+      "Received during the year",
+      "Complaints resolved",
+      "Complaints pending"
+    ],
+    [
+      "SCORES-SEBI",
+      "Nil",
+      "7",
+      "7",
+      "Nil"
+    ],
+    [
+      "Stock Exchanges",
+      "Nil",
+      "6",
+      "6",
+      "Nil"
+    ],
+    [
+      "Individuals",
+      "Nil",
+      "1,524",
+      "1,524",
+      "Nil"
+    ],
+    [
+      "Total",
+      "Nil",
+      "1,537",
+      "1,537",
+      "Nil"
+    ]
+  ]
+}

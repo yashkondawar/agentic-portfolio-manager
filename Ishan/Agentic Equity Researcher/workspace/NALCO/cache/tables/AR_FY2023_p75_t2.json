@@ -1,0 +1,63 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 75,
+  "table_index": 2,
+  "bbox": [
+    45.62083333333334,
+    258.21950000000004,
+    550.1783333333334,
+    385.26200000000006
+  ],
+  "rows": [
+    [
+      "Parameter",
+      "FY 2022-23",
+      "FY 2021-22"
+    ],
+    [
+      "Water withdrawal by source (in kiloliters)",
+      null,
+      null
+    ],
+    [
+      "(i) Surface water",
+      "4,43,12,745",
+      "4,67,43,192"
+    ],
+    [
+      "(ii) Groundwater",
+      "2,03,622",
+      "1,60,189"
+    ],
+    [
+      "(iii) Third party water",
+      "4,327",
+      "48,324"
+    ],
+    [
+      "(iv) Seawater / desalinated water",
+      "0",
+      "0"
+    ],
+    [
+      "(v) Others",
+      "0",
+      "0"
+    ],
+    [
+      "Total volume of water withdrawal (in kiloliters)(i + ii + iii + iv + v)",
+      "4,45,20,694",
+      "4,69,51,705"
+    ],
+    [
+      "Total volume of water consumption (in kiloliters)",
+      "4,45,20,694",
+      "4,69,51,705"
+    ],
+    [
+      "Water intensity per rupee of turnover",
+      "0.00031",
+      "0.00033"
+    ]
+  ]
+}

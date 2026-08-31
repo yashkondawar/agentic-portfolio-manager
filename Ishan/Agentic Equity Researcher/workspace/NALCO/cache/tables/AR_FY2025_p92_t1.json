@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 92,
+  "table_index": 1,
+  "bbox": [
+    68.28153076923077,
+    214.00930000000005,
+    542.43445,
+    290.1572
+  ],
+  "rows": [
+    [
+      "a",
+      "Plastics (including packaging)",
+      "Procedure established for plastics used for packaging of Aluminium products as per EPR action plan submitted\nto CPCB along with the application form."
+    ],
+    [
+      "b",
+      "E-waste",
+      "Not Applicable"
+    ],
+    [
+      "c",
+      "Hazardous waste",
+      "Not Applicable"
+    ],
+    [
+      "d",
+      "Other waste",
+      "Not Applicable"
+    ]
+  ]
+}

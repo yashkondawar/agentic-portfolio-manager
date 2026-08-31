@@ -1,0 +1,25 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 151,
+  "table_index": 1,
+  "bbox": [
+    45.854,
+    81.88800000000003,
+    549.421,
+    220.85300000000007
+  ],
+  "rows": [
+    [
+      "Details of the Wind Power Plants Cost Carrying Value after Impairment Cummulative Carrying Value after\nDepreciation & before during the year Impairment Depreciation &\nImpairment Impairment"
+    ],
+    [
+      "1. 50MW, Devikot, Rajasthan\nFY 2022-23 338.19 244.33 11.09 147.11 97.22\nFY 2021-22 338.19 258.54 136.02 136.02 122.52"
+    ],
+    [
+      "2. 47.60MW, Ludherva, Rajasthan\nFY 2022-23 280.62 164.19 2.87 107.96 56.23\nFY 2021-22 280.62 176.27 105.10 105.10 71.17"
+    ],
+    [
+      "3. 50.4 MW, Sangli, Maharashtra\nFY 2022-23 342.71 253.74 89.86 89.86 163.88\nFY 2021-22 342.71 268.53 - - 268.53"
+    ]
+  ]
+}

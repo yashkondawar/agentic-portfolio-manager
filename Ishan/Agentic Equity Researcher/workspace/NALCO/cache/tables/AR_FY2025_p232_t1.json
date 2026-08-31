@@ -1,0 +1,62 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 232,
+  "table_index": 1,
+  "bbox": [
+    51.2736380952381,
+    101.98079999999999,
+    542.5233652173913,
+    203.24
+  ],
+  "rows": [
+    [
+      "Sl.\nNos",
+      "Nature of transaction with struck-off Company",
+      "Balance outstanding\nas on 31.03.2025",
+      "Balance outstanding\nas on 31.03.2024",
+      "Relationship with struck-\noff Company, if any"
+    ],
+    [
+      "1",
+      "Investment in securities",
+      "-",
+      "-",
+      ""
+    ],
+    [
+      "2",
+      "Receivables",
+      "-",
+      "-",
+      ""
+    ],
+    [
+      "3",
+      "Payables",
+      "-",
+      "-",
+      "For supply of goods/\nservices"
+    ],
+    [
+      "4",
+      "Share held by struck-off Company",
+      "908 nos. of shares",
+      "40,783 nos. of shares",
+      "Total 5 nos. (previous year\n9 nos.) of shareholders"
+    ],
+    [
+      "5",
+      "Other outstanding balance (to be specified)",
+      null,
+      null,
+      null
+    ],
+    [
+      "Total",
+      null,
+      "-",
+      "-",
+      ""
+    ]
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 109,
+  "table_index": 2,
+  "bbox": [
+    68.28138695652174,
+    359.2388,
+    542.4750956521739,
+    412.7476
+  ],
+  "rows": [
+    [
+      "Name and brief\ndetails of project",
+      "SIA Notification No.",
+      "Date of notification",
+      "Whether conducted by\nindependent external\nagency (Yes / No)",
+      "Results communicated\nin public domain (Yes\n/ No)",
+      "Relevant Web link"
+    ],
+    [
+      "Nil",
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 129,
+  "table_index": 1,
+  "bbox": [
+    45.854,
+    125.54200000000003,
+    549.421,
+    371.08900000000006
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Directions u/s 143(5) of the Act",
+      "Auditors’ reply on action taken on the directions",
+      "Impact on Standalone\nFinancial Statements"
+    ],
+    [
+      "1",
+      "Whether the Company has system in place to process all\nthe accounting transactions through IT system? If yes, the\nimplications of processing of accounting transactions outside\nIT system on the integrity of the accounts along with the\nfinancial implications, if any, may be stated.",
+      "As per the information and explanations given to us, the Company has\na system in place to process all the accounting transactions through\nIT system. SAP-ERP has been implemented for all the processes like\nFinancial Accounting (FI), Controlling (CO), Sales and Distribution\n(SD), Materials Management (MM), etc. Citrix system has been\nimplemented for processing the payroll.\nBased on the information and explanations given to us and audit\nprocedures carried out, no accounting transactions have been processed\nor carried outside the IT system. Therefore, there are no implications on\nthe integrity of the accounts.",
+      "Nil"
+    ],
+    [
+      "2",
+      "Whether there is any restructuring of any existing loan or\ncases of waiver/write off of debts/ loans/ interest etc, made by a\nlender to the Company due to the Company’s inability to repay\nthe loan? If yes, the financial impact may be stated. Whether\nsuch cases are properly accounted for? (In case, lender is a\nGovernment Company, then this direction is also applicable for\nstatutory auditor of the lender company).",
+      "Based on the information and explanations given to us and audit\nprocedures carried out, there are no restructuring of any existing loan or\ncases of waiver/write off of debts/loans/interest made by a lender to the\nCompany due to the Company’s inability to repay the loan.",
+      "Nil"
+    ],
+    [
+      "3",
+      "Whether funds (grants/subsidy etc.) received or receivable\nfor specific schemes from Central/State Government or its\nagencies were properly accounted for/utilised as per its term\nand conditions? List the case of deviation.",
+      "Based on the information and explanations given to us and audit\nprocedures carried out, no funds (grants/subsidy etc.) has been\nreceived/receivable by the Company from Central/State Government or\nits agencies for any schemes.",
+      "Nil"
+    ]
+  ]
+}

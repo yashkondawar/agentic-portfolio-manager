@@ -1,0 +1,104 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 225,
+  "table_index": 2,
+  "bbox": [
+    56.9429,
+    122.6875,
+    555.6555333333333,
+    213.88539285714282
+  ],
+  "rows": [
+    [
+      "Description",
+      "Gross Carrying Amount",
+      null,
+      null,
+      null,
+      "Accumulated Depreciation & Amortisation",
+      null,
+      null,
+      null,
+      "Carrying Amount",
+      null
+    ],
+    [
+      null,
+      "As at\n31-03-2020",
+      "Addition/\nTransfer",
+      "Withdrawal/\nTransfer/\nAdjustment",
+      "As at\n31-03-2021",
+      "As at\n31-03-2020",
+      "For the Year",
+      "Withdrawal/\nTransfer/\nAdjustment",
+      "As at\n31-03-2021",
+      "As at\n31.03.2021",
+      "As at\n31.03.2020"
+    ],
+    [
+      "User right",
+      "79.79",
+      "—",
+      "—",
+      "79.79",
+      "11.28",
+      "4.00",
+      "—",
+      "15.28",
+      "64.51",
+      "68.51"
+    ],
+    [
+      "Computer software",
+      "11.24",
+      "0.13",
+      "—",
+      "11.37",
+      "7.70",
+      "1.76",
+      "—",
+      "9.46",
+      "1.91",
+      "3.54"
+    ],
+    [
+      "Mining rights [refer note 8.1]",
+      "288.39",
+      "91.36",
+      "—",
+      "379.75",
+      "51.22",
+      "52.83",
+      "—",
+      "104.05",
+      "275.70",
+      "237.17"
+    ],
+    [
+      "Licenses",
+      "10.25",
+      "1.30",
+      "—",
+      "11.55",
+      "9.24",
+      "1.25",
+      "—",
+      "10.49",
+      "1.06",
+      "1.01"
+    ],
+    [
+      "Grand Total",
+      "389.67",
+      "92.79",
+      "—",
+      "482.46",
+      "79.44",
+      "59.84",
+      "—",
+      "139.28",
+      "343.18",
+      "310.23"
+    ]
+  ]
+}

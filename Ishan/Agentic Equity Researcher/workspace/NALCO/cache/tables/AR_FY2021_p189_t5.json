@@ -1,0 +1,58 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 189,
+  "table_index": 5,
+  "bbox": [
+    79.6201,
+    518.309925,
+    555.124,
+    641.376625
+  ],
+  "rows": [
+    [
+      "",
+      "Year ended\n31.03.2021",
+      "Year ended\n31.03.2020"
+    ],
+    [
+      "Tax on remeasurement gain or loss of defined benefit obligations",
+      "",
+      ""
+    ],
+    [
+      "— Current Tax",
+      "—",
+      "—"
+    ],
+    [
+      "— Deferred Tax",
+      "6.18",
+      "6.67"
+    ],
+    [
+      "Total income tax recognised in other comprehensive income",
+      "6.18",
+      "6.67"
+    ],
+    [
+      "",
+      "",
+      ""
+    ],
+    [
+      "Bifurcation of the income tax recognised in other comprehensive income into:",
+      "",
+      ""
+    ],
+    [
+      "Items that will be reclassified to profit or loss",
+      "—",
+      "—"
+    ],
+    [
+      "Items that will not be reclassified to profit or loss",
+      "6.18",
+      "6.67"
+    ]
+  ]
+}

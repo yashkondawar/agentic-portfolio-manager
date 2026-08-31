@@ -1,0 +1,28 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 249,
+  "table_index": 4,
+  "bbox": [
+    102.2973,
+    461.861625,
+    555.4265375,
+    500.97945
+  ],
+  "rows": [
+    [
+      "Current tax",
+      "",
+      ""
+    ],
+    [
+      "Share buy-back costs",
+      "(1.16)",
+      "—"
+    ],
+    [
+      "Income tax recognised directly in equity",
+      "(1.16)",
+      "—"
+    ]
+  ]
+}

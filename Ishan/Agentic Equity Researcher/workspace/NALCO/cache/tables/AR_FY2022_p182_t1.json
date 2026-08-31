@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 182,
+  "table_index": 1,
+  "bbox": [
+    74.069,
+    128.23385000000002,
+    460.55084999999997,
+    195.60750000000007
+  ],
+  "rows": [
+    [
+      "",
+      "31.03.2022"
+    ],
+    [
+      "Discount rate(s)",
+      "7.00%"
+    ],
+    [
+      "Expected rate(s) of salary increase",
+      "6.65%"
+    ],
+    [
+      "Mortality",
+      "IALM 2012-2014\nULTIMATE"
+    ],
+    [
+      "Attrition Rate",
+      "1%"
+    ]
+  ]
+}

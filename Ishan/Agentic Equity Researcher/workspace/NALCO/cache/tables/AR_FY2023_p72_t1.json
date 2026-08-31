@@ -1,0 +1,49 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 72,
+  "table_index": 1,
+  "bbox": [
+    45.857166666666664,
+    181.54200000000003,
+    550.1313333333334,
+    240.69500000000005
+  ],
+  "rows": [
+    [
+      "",
+      "FY 2022-23",
+      null,
+      null,
+      "FY 2021-22",
+      null,
+      null
+    ],
+    [
+      "",
+      "Filed during\nthe year",
+      "Pending resolution\nat the end of year",
+      "Remarks",
+      "Filed during\nthe year",
+      "Pending resolution\nat the end of year",
+      "Remarks"
+    ],
+    [
+      "Working conditions",
+      "0",
+      "0",
+      "N.A.",
+      "0",
+      "0",
+      "N.A."
+    ],
+    [
+      "Health and safety",
+      "0",
+      "0",
+      "N.A.",
+      "0",
+      "0",
+      "N.A."
+    ]
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 154,
+  "table_index": 1,
+  "bbox": [
+    45.854,
+    59.77800000000002,
+    549.421,
+    197.11366666666672
+  ],
+  "rows": [
+    [
+      "6.A.2 Ageing of Capital Work in Progress whose completion is overdue or has exceeded its cost compared to its original plan",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Particulars To be completed in",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      "Less than\n1 Year",
+      "1-2 Years 2-3 Years",
+      "More than\n3 Years",
+      "Total"
+    ],
+    [
+      "(a) Mines & Refinery As on 31.03.2023\nAs on 31.03.2022",
+      "1,096.33\n154.54",
+      "486.93 -\n76.78 -",
+      "-\n-",
+      "1,583.26\n231.32"
+    ],
+    [
+      "(b) Smelter & Power As on 31.03.2023\nAs on 31.03.2022",
+      "119.87\n175.38",
+      "4.91 -\n1.46 10.21",
+      "-\n19.41",
+      "124.78\n206.46"
+    ],
+    [
+      "(c) Others As on 31.03.2023\nAs on 31.03.2022",
+      "0.10\n-",
+      "- -\n- 0.11",
+      "-\n119.63",
+      "0.10\n119.74"
+    ],
+    [
+      "Total as on 31.03.2023\nTotal as on 31.03.2022",
+      "1,216.30\n329.92",
+      "491.84 -\n78.24 10.32",
+      "-\n139.04",
+      "1,708.14\n557.52"
+    ]
+  ]
+}

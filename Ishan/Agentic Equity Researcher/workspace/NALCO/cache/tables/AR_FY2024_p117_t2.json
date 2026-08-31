@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 117,
+  "table_index": 2,
+  "bbox": [
+    68.28145454545455,
+    284.33805,
+    542.7470636363637,
+    327.5965
+  ],
+  "rows": [
+    [
+      "Name of\npromoter",
+      "No. of shares\n(Beginning of the Year)",
+      "% of holding",
+      "Decrease\nduring the year",
+      "Date of Change",
+      "Mode",
+      "Share balance",
+      "% of\nholding"
+    ],
+    [
+      "President of India",
+      "94,17,93,011",
+      "51.28",
+      "-",
+      "-",
+      "-",
+      "94,17,93,011",
+      "51.28"
+    ]
+  ]
+}

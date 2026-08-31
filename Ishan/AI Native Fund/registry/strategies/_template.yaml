@@ -1,0 +1,30 @@
+# Template for a strategy definition. Copy this file to
+# registry/strategies/<strategy_id>.yaml and fill in every field. Do not
+# delete fields — leave a value explicitly null/empty and note why if a
+# strategy genuinely has nothing to say for a field.
+
+strategy_id: ""              # unique, lowercase_snake_case, matches filename
+name: ""                     # short human-readable name
+objective: ""                # one paragraph: what this strategy is trying to achieve
+philosophy: ""                # one paragraph: the underlying investment belief/edge
+
+eligible_universe:
+  asset_classes: []           # e.g. [STOCK, ETF, MUTUAL_FUND, INDEX_FUND]
+  market_cap_bands: []        # e.g. [LARGE, MID, SMALL, MICRO]
+  sectors_include: []         # empty list = no restriction
+  sectors_exclude: []
+
+required_kpi_sets: []         # sector KPI file names this strategy reads, e.g. [bfsi, generic]
+
+entry_criteria: []            # list of quantitative thresholds / qualitative conditions
+exit_criteria: []             # list of quantitative thresholds / qualitative conditions
+
+invalidation_template: ""     # a fill-in-the-blank sentence idea authors must complete,
+                               # e.g. "Invalidated if {metric} breaches {threshold} by {date}"
+
+position_sizing_rule: ""      # max single position, scaling rule
+capital_ceiling_pct: null     # max share of fund this strategy may hold, 0-100
+
+review_cadence: ""            # how often positions under this strategy are re-examined
+
+status: DRAFT                 # DRAFT | ACTIVE | RETIRED

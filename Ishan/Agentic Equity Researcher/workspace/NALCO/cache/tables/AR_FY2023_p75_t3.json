@@ -1,0 +1,139 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 75,
+  "table_index": 3,
+  "bbox": [
+    45.62083333333334,
+    422.062,
+    550.1783333333334,
+    671.845
+  ],
+  "rows": [
+    [
+      "Parameter",
+      "Please specify unit",
+      "FY 2022-23",
+      "FY 2021-22"
+    ],
+    [
+      "NOx",
+      "mg/Nm3",
+      "",
+      ""
+    ],
+    [
+      "• Smelter FTP/FTC stacks avg.",
+      null,
+      "31.40",
+      "36.08"
+    ],
+    [
+      "• CPP Boiler Stacks avg.",
+      null,
+      "257.76",
+      "283.96"
+    ],
+    [
+      "• Refinery Boiler Stacks avg.",
+      null,
+      "232.00",
+      "225.20"
+    ],
+    [
+      "• Refinery Calciner Stack",
+      null,
+      "450.00",
+      "426.20"
+    ],
+    [
+      "SOx",
+      "mg/Nm3",
+      "",
+      ""
+    ],
+    [
+      "• Smelter FTP/FTC stacks avg.",
+      null,
+      "62.47",
+      "62.40"
+    ],
+    [
+      "• CPP Boiler Stacks avg.",
+      null,
+      "514.66",
+      "533.98"
+    ],
+    [
+      "• Refinery Boiler Stacks avg.",
+      null,
+      "461.60",
+      "367.50"
+    ],
+    [
+      "• Refinery Calciner Stack",
+      null,
+      "319.70",
+      "316.50"
+    ],
+    [
+      "Parameter",
+      "Please specify unit",
+      "FY 2022-23",
+      "FY 2021-22"
+    ],
+    [
+      "Particulate matter",
+      "mg/Nm3",
+      "",
+      ""
+    ],
+    [
+      "• Smelter FTP/FTC stacks avg.",
+      null,
+      "30.63",
+      "25.76"
+    ],
+    [
+      "• CPP Boiler Stacks avg.",
+      null,
+      "70.89",
+      "70.68"
+    ],
+    [
+      "• Refinery Boiler Stacks avg.",
+      null,
+      "79.53",
+      "83.58"
+    ],
+    [
+      "• Refinery Calciner Stack",
+      null,
+      "22.54",
+      "27.84"
+    ],
+    [
+      "Persistent organic pollutants (POP)",
+      "-",
+      "N.A.",
+      "N.A."
+    ],
+    [
+      "Volatile organic compounds (VOC)- Smelter Bake Oven Stacks PAH emission",
+      "µg/Nm3",
+      "< 0.2",
+      "< 0.2"
+    ],
+    [
+      "Hazardous air pollutants (HAP)",
+      "-",
+      "N.A.",
+      "N.A."
+    ],
+    [
+      "Other (Fluoride & Fugitive Fluoride emission from Smelter Potlines & Bake Ovens)",
+      "kg/T",
+      "0.4515",
+      "0.4118"
+    ]
+  ]
+}

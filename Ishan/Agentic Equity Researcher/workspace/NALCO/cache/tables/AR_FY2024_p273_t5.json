@@ -1,0 +1,57 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 273,
+  "table_index": 5,
+  "bbox": [
+    51.27365,
+    569.5967,
+    542.7777897435898,
+    672.6104
+  ],
+  "rows": [
+    [
+      "(b) As at and for the year ended March 31, 2023",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Name of the entity in the Group",
+      "Net Assets i.e. total assets\nminus total liabilities",
+      null,
+      "Share in profit and loss",
+      null,
+      "Share in other\ncomprehensive income",
+      null,
+      "Share in total comprehensive\nincome",
+      null
+    ],
+    [
+      null,
+      "As % of\nconsolidated\nnet assets",
+      "Amount",
+      "As % of\nconsolidated\nproft or loss",
+      "Amount",
+      "As % of\nconsolidated\nother\ncomprehensive\nincome",
+      "Amount",
+      "As % of total\ncomprehensive\nincome",
+      "Amount"
+    ],
+    [
+      "Joint Ventures (Investments as per the Equity method)",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  ]
+}

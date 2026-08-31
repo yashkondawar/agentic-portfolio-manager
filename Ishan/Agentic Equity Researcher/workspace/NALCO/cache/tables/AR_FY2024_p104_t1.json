@@ -1,0 +1,103 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 104,
+  "table_index": 1,
+  "bbox": [
+    68.28145238095237,
+    111.47067999999999,
+    543.0009727272728,
+    313.348
+  ],
+  "rows": [
+    [
+      "Name",
+      "Remuneration for the year 2023-24 (`)",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      "Salary@",
+      "Perquisites^",
+      "PRP",
+      "Medical\nbenefits",
+      "Others%",
+      "Gratuity",
+      "Total"
+    ],
+    [
+      "Shri S. Patra\nChairman-cum-Managing Director",
+      "63,82,486",
+      "3,99,807",
+      "13,77,221",
+      "12,310",
+      "87,793",
+      "-",
+      "82,59,617"
+    ],
+    [
+      "Shri R. S. Mahapatro\nDirector (HR)#",
+      "63,44,088",
+      "64,302",
+      "14,48,719",
+      "18,315",
+      "14,025",
+      "-",
+      "78,89,449"
+    ],
+    [
+      "Shri M. P. Mishra\nDirector (P&T)$",
+      "69,66,957",
+      "3,112",
+      "-",
+      "5,423",
+      "9,773",
+      "20,00,000",
+      "89,85,265"
+    ],
+    [
+      "Shri R. C. Joshi\nDirector (Finance)",
+      "68,49,422",
+      "4,00,265",
+      "6,12,869",
+      "1,19,755",
+      "96,720",
+      "-",
+      "80,79,031"
+    ],
+    [
+      "Shri S. Samantaray\nDirector (Commercial)",
+      "81,17,310",
+      "78,367",
+      "6,88,470",
+      "41,531",
+      "71,682",
+      "-",
+      "89,97,360"
+    ],
+    [
+      "Shri P. K. Sharma\nDirector (Production)",
+      "57,00,299",
+      "37,500",
+      "93,832",
+      "19,065",
+      "42,321",
+      "-",
+      "58,93,017"
+    ],
+    [
+      "Shri J. Arora,\nDirector (P&T) & Director (HR) – Addl. Charge*",
+      "30,36,158",
+      "89,085",
+      "-",
+      "3,946",
+      "1,06,876",
+      "-",
+      "32,36,065"
+    ]
+  ]
+}

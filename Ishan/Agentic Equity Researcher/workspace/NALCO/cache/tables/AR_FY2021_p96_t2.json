@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 96,
+  "table_index": 2,
+  "bbox": [
+    71.11608260869566,
+    274.61674999999997,
+    547.354232,
+    346.65939999999995
+  ],
+  "rows": [
+    [
+      "Sl. No.",
+      "Item",
+      "Investment\n(in lakh rupees)"
+    ],
+    [
+      "1.",
+      "Use of fuel additive",
+      "8.6"
+    ],
+    [
+      "2.",
+      "Replacement of conventional light fittings with LED lights",
+      "13.85"
+    ],
+    [
+      "3.",
+      "Installation of Roof top Solar Power Plant (130 kWp)",
+      "73"
+    ]
+  ]
+}

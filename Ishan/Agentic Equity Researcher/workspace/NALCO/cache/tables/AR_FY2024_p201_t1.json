@@ -1,0 +1,63 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 201,
+  "table_index": 1,
+  "bbox": [
+    51.273664,
+    218.33190000000002,
+    542.715496,
+    366.091
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "Year ended\n31.03.2024",
+      "Year ended\n31.03.2023"
+    ],
+    [
+      "Short-term employee benefits",
+      null,
+      null
+    ],
+    [
+      "- Salaries",
+      "5.29",
+      "5.39"
+    ],
+    [
+      "- Contribution to Provident Fund",
+      "0.35",
+      "0.34"
+    ],
+    [
+      "- Medical Benefits",
+      "0.02",
+      "0.05"
+    ],
+    [
+      "- Other Benefits",
+      "0.24",
+      "0.60"
+    ],
+    [
+      "- Sitting Fees (Independent Directors)",
+      "0.61",
+      "0.61"
+    ],
+    [
+      "Post employment benefits #",
+      "0.01",
+      "0.03"
+    ],
+    [
+      "Other long term benefits",
+      "0.01",
+      "0.01"
+    ],
+    [
+      "Total",
+      "6.52",
+      "7.03"
+    ]
+  ]
+}

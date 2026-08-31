@@ -1,0 +1,85 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 195,
+  "table_index": 1,
+  "bbox": [
+    51.273690625,
+    89.64878181818182,
+    542.7264375,
+    246.23349999999996
+  ],
+  "rows": [
+    [
+      "Sl.\nNos.",
+      "Particulars",
+      null,
+      "Amount",
+      "Suspended\nfrom",
+      "Details of the Projects"
+    ],
+    [
+      "(a)",
+      "Mines & Refinery",
+      "As on 31.03.2025",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      null,
+      null,
+      "As on 31.03.2024",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "(b)",
+      "Smelter & Power\n(Coal handling\nplant including\nrailway sidings)",
+      "As on 31.03.2025",
+      "6.71",
+      "-",
+      "` 1.55 Cr Due to change in strategy of coal transportation and\nhanding, suspended from 01.04.2020.\nBoiler Quick Access Aluminium Scaffolding worth of ` 5.16\ncr could not be installed due to safety issue, suspended from\n01.04.2023"
+    ],
+    [
+      null,
+      null,
+      "As on 31.03.2024",
+      "6.71",
+      "-",
+      null
+    ],
+    [
+      "(c)",
+      "Others",
+      "As on 31.03.2025",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      null,
+      null,
+      "As on 31.03.2024",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Total as on 31.03.2025",
+      null,
+      null,
+      "6.71",
+      "-",
+      "-"
+    ],
+    [
+      "Total as on 31.03.2024",
+      null,
+      null,
+      "6.71",
+      "-",
+      "-"
+    ]
+  ]
+}

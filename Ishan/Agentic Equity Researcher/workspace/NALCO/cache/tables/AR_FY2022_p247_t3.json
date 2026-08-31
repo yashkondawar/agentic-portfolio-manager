@@ -1,0 +1,38 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 247,
+  "table_index": 3,
+  "bbox": [
+    73.71459999999999,
+    249.1485,
+    549.5558875,
+    304.59950000000003
+  ],
+  "rows": [
+    [
+      "",
+      "Year ended 31.03.2022",
+      "Year ended 31.03.2021"
+    ],
+    [
+      null,
+      "R per share",
+      "R per share"
+    ],
+    [
+      "37.1 Basic Earnings per share (R)",
+      "",
+      ""
+    ],
+    [
+      "From total operations",
+      "16.07",
+      "6.97"
+    ],
+    [
+      "Total Basic earnings per share",
+      "16.07",
+      "6.97"
+    ]
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 227,
+  "table_index": 4,
+  "bbox": [
+    79.6201,
+    627.6764285714286,
+    554.9706846153846,
+    691.3844857142857
+  ],
+  "rows": [
+    [
+      "",
+      "As at\n31.03.2021",
+      "As at\n31.03.2020\n55.01\n55.01"
+    ],
+    [
+      "Financial assets (quoted investments) mandatorily measured at fair value through\nprofit or loss (FVTPL)",
+      "248.38",
+      null
+    ],
+    [
+      "",
+      "248.38",
+      null
+    ]
+  ]
+}

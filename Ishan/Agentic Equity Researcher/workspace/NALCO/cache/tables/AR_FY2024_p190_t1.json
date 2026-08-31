@@ -1,0 +1,121 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 190,
+  "table_index": 1,
+  "bbox": [
+    51.274,
+    91.81304999999998,
+    542.7268133333333,
+    363.3642
+  ],
+  "rows": [
+    [
+      "",
+      "Post retirement\nmedical benfit\n(Funded)",
+      "Settling-in-\nbenefit",
+      "NALCO\nbenevolent\nfund scheme",
+      "NALCO\nretirement\nwelfare scheme",
+      "Superanuation\ngift scheme",
+      "Gratuity\n(Funded)"
+    ],
+    [
+      "Current service cost",
+      "-",
+      "(3.04)",
+      "-",
+      "-",
+      "-",
+      "(39.42)"
+    ],
+    [
+      "Interest Cost",
+      "(11.49)",
+      "(0.94)",
+      "(0.16)",
+      "(0.70)",
+      "(0.38)",
+      "(30.87)"
+    ],
+    [
+      "Remeasurement (gains)/losses",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Actuarial (Gains)/losses arising from changes\nin financial assumptions",
+      "(3.49)",
+      "(0.18)",
+      "(0.02)",
+      "(0.13)",
+      "(0.09)",
+      "(6.17)"
+    ],
+    [
+      "Actuarial (Gains)/losses arising from\nexperience assumptions",
+      "(16.26)",
+      "0.48",
+      "(0.11)",
+      "(0.76)",
+      "(0.18)",
+      "32.49"
+    ],
+    [
+      "Past Service Cost , including losses /(gains) on\ncurtailment",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Liabilities extinguished as settlements",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Liabilities assumed in a business combination",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Exchange differences on foreign plans",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Benefits paid",
+      "13.00",
+      "4.77",
+      "0.31",
+      "1.87",
+      "0.93",
+      "80.96"
+    ],
+    [
+      "Closing defined benefit obligation as at\nMarch 31, 2024",
+      "(189.52)",
+      "(14.79)",
+      "(2.49)",
+      "(10.70)",
+      "(5.57)",
+      "(446.43)"
+    ]
+  ]
+}

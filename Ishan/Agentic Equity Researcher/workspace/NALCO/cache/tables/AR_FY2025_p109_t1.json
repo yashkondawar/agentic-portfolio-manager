@@ -1,0 +1,68 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 109,
+  "table_index": 1,
+  "bbox": [
+    68.28138695652174,
+    73.95089999999999,
+    542.4750956521739,
+    269.1921
+  ],
+  "rows": [
+    [
+      "S.\nNo.",
+      "Name of the trade and industry chambers / associations",
+      "Reach of trade and industry chambers/ associations (State/National)"
+    ],
+    [
+      "1",
+      "Aluminium Association of India (AAI)",
+      "National"
+    ],
+    [
+      "2",
+      "Confederation of Indian Industry (CII)",
+      "National"
+    ],
+    [
+      "3",
+      "Standing Conference of Public Enterprise (SCOPE)",
+      "National"
+    ],
+    [
+      "4",
+      "Chemicals and Allied Products Export Promotion Council\n(CAPEXIL)",
+      "National"
+    ],
+    [
+      "5",
+      "Federation of Indian Mineral Industries (FIMI)",
+      "National"
+    ],
+    [
+      "6",
+      "Federation of Indian Export Organisations (FIEO)",
+      "National"
+    ],
+    [
+      "7",
+      "National Institute of Personnel Management (NIPM)",
+      "National"
+    ],
+    [
+      "8",
+      "International Chamber of Commerce (ICC)",
+      "National"
+    ],
+    [
+      "9",
+      "Indian Chamber of Commerce (ICC)",
+      "National"
+    ],
+    [
+      "10",
+      "Indian National Committee/ World Mining Congress",
+      "National"
+    ]
+  ]
+}

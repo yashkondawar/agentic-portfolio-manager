@@ -1,0 +1,41 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 94,
+  "table_index": 3,
+  "bbox": [
+    94.47433333333333,
+    598.6273333333334,
+    549.8523333333333,
+    691.049
+  ],
+  "rows": [
+    [
+      "Type of complaints",
+      "No. of complaints"
+    ],
+    [
+      "Non-receipt of Securities",
+      "38"
+    ],
+    [
+      "Non-receipt of Dividend",
+      "853"
+    ],
+    [
+      "Non-receipt of Annual Report",
+      "58"
+    ],
+    [
+      "Non-receipt of Redemption Warrant",
+      "0"
+    ],
+    [
+      "Non-receipt of Interest Warrant",
+      "0"
+    ],
+    [
+      "Total",
+      "949"
+    ]
+  ]
+}

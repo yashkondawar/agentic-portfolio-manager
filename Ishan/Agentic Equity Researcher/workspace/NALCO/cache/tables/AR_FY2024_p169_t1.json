@@ -1,0 +1,166 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 169,
+  "table_index": 1,
+  "bbox": [
+    51.273330303030306,
+    96.96492999999997,
+    542.7260852941176,
+    353.9497
+  ],
+  "rows": [
+    [
+      "Investments in Mutual Funds",
+      "As at 31.03.2024",
+      null,
+      null,
+      "As at 31.03.2023",
+      null,
+      null
+    ],
+    [
+      null,
+      "Units in\n‘000",
+      "“NAV\nin `/unit”",
+      "Amount in\n` Crore",
+      "Units in ‘000",
+      "“NAV\nin `/unit”",
+      "Amount in `\nCrore"
+    ],
+    [
+      "Quoted Investments",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Canara Rebeco Liquid Fund",
+      "339",
+      "1,005.50",
+      "34.12",
+      "379",
+      "1,005.50",
+      "38.16"
+    ],
+    [
+      "Baroda BNP Paribas Liquid Fund",
+      "398",
+      "1,002.08",
+      "39.86",
+      "410",
+      "1,002.08",
+      "41.11"
+    ],
+    [
+      "SBI Liquid Fund",
+      "444",
+      "1,144.05",
+      "50.75",
+      "265",
+      "1,136.93",
+      "30.16"
+    ],
+    [
+      "Union Liquid Fund",
+      "481",
+      "1,000.79",
+      "48.18",
+      "361",
+      "1,000.79",
+      "36.15"
+    ],
+    [
+      "Total - Other current Investments",
+      "-",
+      "-",
+      "172.91",
+      "-",
+      "-",
+      "145.58"
+    ],
+    [
+      "Additional Information",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Aggregate cost of quoted investments",
+      "-",
+      "-",
+      "164.00",
+      "-",
+      "-",
+      "145.00"
+    ],
+    [
+      "Aggregate market value of quoted investments",
+      "-",
+      "-",
+      "172.91",
+      "-",
+      "-",
+      "145.58"
+    ],
+    [
+      "Aggregate cost of unquoted investments",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Aggregate amount of impairment in value of\ninvestments",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-",
+      "-"
+    ],
+    [
+      "Category-wise classification:",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      null,
+      null,
+      "As at 31.03.2024",
+      null,
+      "As at 31.03.2023",
+      null
+    ],
+    [
+      "Financial assets (quoted investments)-mandatorily measured at fair value through\n-profit & loss (FVTPL)",
+      null,
+      null,
+      "172.91",
+      null,
+      "145.58",
+      null
+    ],
+    [
+      "",
+      null,
+      null,
+      "172.91",
+      null,
+      "145.58",
+      null
+    ]
+  ]
+}

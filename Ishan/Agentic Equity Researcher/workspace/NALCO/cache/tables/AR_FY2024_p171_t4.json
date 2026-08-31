@@ -1,0 +1,97 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 171,
+  "table_index": 4,
+  "bbox": [
+    51.273689473684215,
+    517.6392285714286,
+    542.7649631578947,
+    678.4322399999999
+  ],
+  "rows": [
+    [
+      "B. Current",
+      null,
+      "As at 31.03.2024",
+      "As at 31.03.2023"
+    ],
+    [
+      "(a)",
+      "Advances to employees",
+      "21.22",
+      "22.84"
+    ],
+    [
+      "(b)",
+      "Insurance claims receivables and others",
+      "9.34",
+      "7.22"
+    ],
+    [
+      "(c)",
+      "Gratuity(funded)",
+      "18.75",
+      "26.74"
+    ],
+    [
+      "(d)",
+      "Claim receivable from Trust [refer note 12.4]",
+      "36.31",
+      "-"
+    ],
+    [
+      "Gross - other current financial assets",
+      null,
+      "85.62",
+      "56.80"
+    ],
+    [
+      "Less: Allowance for bad and doubtful other current financial assets",
+      null,
+      null,
+      null
+    ],
+    [
+      "a)",
+      "Insurance claims",
+      "7.22",
+      "7.22"
+    ],
+    [
+      "Total allowance for bad and doubtful - other current assets",
+      null,
+      "7.22",
+      "7.22"
+    ],
+    [
+      "Net other current financial assets",
+      null,
+      "78.40",
+      "49.58"
+    ],
+    [
+      "Classification of other current financial assets:",
+      null,
+      null,
+      null
+    ],
+    [
+      "Unsecured, considered good",
+      null,
+      "78.40",
+      "49.58"
+    ],
+    [
+      "Unsecured, considered doubtful",
+      null,
+      "7.22",
+      "7.22"
+    ],
+    [
+      "Gross other current financial assets",
+      null,
+      "85.62",
+      "56.80"
+    ]
+  ]
+}

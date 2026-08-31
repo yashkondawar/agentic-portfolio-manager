@@ -1,0 +1,41 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 112,
+  "table_index": 3,
+  "bbox": [
+    93.79323333333333,
+    363.31575,
+    547.6940181818181,
+    474.37339999999995
+  ],
+  "rows": [
+    [
+      "Financial Year",
+      "AGM Date",
+      "Time",
+      "Special Resolution, if any",
+      "Venue"
+    ],
+    [
+      "2017-18",
+      "29.08.2018",
+      "11:00AM",
+      "No",
+      "NALCO Bhawan,\nP/1, Nayapalli,\nBhubaneswar-751 013"
+    ],
+    [
+      "2018-19",
+      "18.09.2019",
+      "11:00AM",
+      "No",
+      null
+    ],
+    [
+      "2019-20",
+      "30.09.2020",
+      "11:00 AM",
+      "No",
+      "Through Video Conferencing (“VC”)/ Other\nAudio Visual means [“OAVM”]\nDeemed Venue:\nNALCO Bhawan,\nP/1, Nayapalli\nBhubaneswar- 751 013"
+    ]
+  ]
+}

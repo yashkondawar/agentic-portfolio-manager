@@ -1,0 +1,73 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 266,
+  "table_index": 3,
+  "bbox": [
+    51.27327567567568,
+    552.9932857142857,
+    542.609265,
+    674.03792
+  ],
+  "rows": [
+    [
+      "A. Non-current",
+      null,
+      "As at 31.03.2025",
+      "As at 31.03.2024"
+    ],
+    [
+      "(a)",
+      "Loans to employees",
+      null,
+      null
+    ],
+    [
+      "",
+      "Considered good-Secured",
+      "61.88",
+      "61.97"
+    ],
+    [
+      null,
+      "Considered good-Unsecured",
+      "18.69",
+      "17.28"
+    ],
+    [
+      "(b)",
+      "Loans to related parties",
+      null,
+      null
+    ],
+    [
+      "",
+      "Considered good-Unsecured",
+      "-",
+      "-"
+    ],
+    [
+      "(c)",
+      "Loans to others",
+      null,
+      null
+    ],
+    [
+      "",
+      "Considered good-Secured",
+      "0.10",
+      "0.15"
+    ],
+    [
+      "Less: Allowance for bad and doubtful loans",
+      null,
+      "-",
+      "-"
+    ],
+    [
+      "Total non-current loans",
+      null,
+      "80.67",
+      "79.40"
+    ]
+  ]
+}

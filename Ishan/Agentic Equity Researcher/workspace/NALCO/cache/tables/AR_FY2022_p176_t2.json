@@ -1,0 +1,81 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 176,
+  "table_index": 2,
+  "bbox": [
+    45.50246,
+    323.2749,
+    443.90500000000003,
+    540.726
+  ],
+  "rows": [
+    [
+      "A. Non-current",
+      "As at 31.03.2022"
+    ],
+    [
+      "(i) Deposits under NEFFARS",
+      "101.26"
+    ],
+    [
+      "(ii) Others [Refer note 24.1]",
+      "230.50"
+    ],
+    [
+      "Total other non-current liabilities",
+      "331.76"
+    ],
+    [
+      "B. Current",
+      ""
+    ],
+    [
+      "(i) Revenue received in advance",
+      "125.57"
+    ],
+    [
+      "(ii) Statutory and other dues",
+      ""
+    ],
+    [
+      "(a) Electricity duty",
+      "108.49"
+    ],
+    [
+      "(b) Tax deducted and collected at source",
+      "36.05"
+    ],
+    [
+      "(c) Contribution to NEPF trust and NPS",
+      "41.07"
+    ],
+    [
+      "(d) Dues towards stamp duty",
+      "212.78"
+    ],
+    [
+      "(e) Others (Service tax, excise duty, GST, Royalty etc)",
+      "356.01"
+    ],
+    [
+      "(iii) Renewable energy purchase obligation",
+      "68.71"
+    ],
+    [
+      "(iv) Deposits under NEFFARS",
+      "38.94"
+    ],
+    [
+      "(v) Grants for property, plant and equipment",
+      "0.48"
+    ],
+    [
+      "(vi) Other credit balances",
+      "0.45"
+    ],
+    [
+      "Total other current liabilities",
+      "988.55"
+    ]
+  ]
+}

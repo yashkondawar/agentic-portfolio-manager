@@ -1,0 +1,140 @@
+# Agentic Equity Researcher — run configuration
+# The orchestrator reads this at the start of every run. Change values here, not in prompts.
+
+market: IN                    # India: NSE/BSE listings, INR, FY ends 31-Mar
+currency_unit: INR_cr         # default presentation unit (follow source; convert to dominant unit)
+fiscal_year_end: "03-31"
+
+rating:
+  scale: [BUY, ADD, REDUCE, SELL]   # Indian institutional convention (Kotak-style)
+  appears_once: true                # and now at the END, per report.stance below
+  emit: true                        # set false to omit the rating entirely and ship an
+                                    # evidence-only report. Modules 33/34 still run either way —
+                                    # they are the quality control on the evidence, not the
+                                    # rating's author of record. With emit:false the note ends at
+                                    # "What the evidence supports" and states no house call.
+  target_price: indicative_range    # v1: fair-value context from forward-PE bands only.
+                                    # Formal TP comes from the downstream valuation agent.
+
+report:
+  # STANCE — the deliverable's centre of gravity.
+  #
+  # `evidence_first` (default): the report exists to let the READER form an opinion. Effort and
+  # page budget go to extraction depth, external industry/comps research, and analysis and
+  # evaluation. The house view is small, bounded, clearly labelled, and last — so it can be read
+  # or skipped without affecting the evidence above it.
+  #
+  # Justified by this repo's own evidence base, not by taste: docs/ER_CORPUS_FINDINGS.md §5
+  # measured 94% positive ratings across 165 initiations and concluded "the rating carries almost
+  # no information. The analysis carries nearly all of it."
+  #
+  # `verdict_first` restores the conventional sell-side shape (rating box on page 1). Use it only
+  # if a downstream consumer requires that layout.
+  stance: evidence_first
+  final_note_max_pages: 14          # raised from 12: the evidence sections got the pages the
+                                    # rating box and thesis-argumentation gave back
+  include_esg: false
+  include_dcf_wacc: false
+  recommendation_position: end      # was `top`. Under evidence_first the rating is the last
+                                    # substantive section, after the reader has the evidence.
+  # Minimum depth the evidence layer must reach before the report is considered complete. These are
+  # floors on the parts the reader uses, and they are what "do not compromise the detail" means in
+  # checkable terms.
+  evidence_floors:
+    statement_levels: 3             # income statement / balance sheet / cash flow, 3 levels deep
+    horizontal_vertical_analysis: required   # YoY + common-size, per statement, in the xlsx
+    external_sources_min: 6         # independent non-filing sources (the HDB note ran 6+ —
+                                    # ER_CORPUS_FINDINGS §2). Peer multiples count only if sourced.
+    peer_count_min: 5               # domestic listed comparables with multiples actually pulled
+    operating_kpi_periods_min: 3    # per-unit economics need a trend, not a snapshot
+    exhibits_min: 20                # median corpus note carries ~30-48 across 31 pages
+  numeric_decimals: 1
+  ratio_decimals: 2
+  banned_words: [game-changer, massive, incredible, skyrocket, robust, stellar,
+                 impressive, exciting, compelling, juggernaut, powerhouse, "best-in-class",
+                 "world-class", unparalleled, tremendous]
+  # tone: plain, analytical. Facts -> interpretation -> implication.
+
+orchestration:
+  research_loops_max: 3             # bounded circularity; disclose gaps beyond this
+  evidence_min_per_thesis_pillar: 2
+  parallel_extraction: true
+  verification_sample_pct: 30       # non-load-bearing cells sampled; load-bearing = 100%
+  stale_rerun_only: true            # never re-run unaffected modules
+
+models:                             # native mode -> Agent tool `model` field.
+                                    # Must match CLAUDE.md's "Model tiering (subagents)" table —
+                                    # that table was the only place `thesis` and `adversarial`
+                                    # existed until 2026-08-03.
+  extraction: haiku                 # doc-extractor, narrative-extractor
+  analysis: sonnet                  # fundamental / forensic / guidance / governance / peer-valuation / estimates
+  research: sonnet                  # deep-researcher (DR1, DR2)
+  thesis: sonnet                    # thesis-synthesizer (module 33) — archetype typing, checklist,
+                                    # bottom-up rating derivation
+  adversarial: opus                 # thesis-redteam (module 34) — breaking our own thesis before it
+                                    # ships. Deliberately a tier above `thesis`: the attack has to be
+                                    # stronger than the construction, or the round trip is theatre.
+  verification: sonnet              # citation-auditor
+  report: opus                      # report-writer
+  # api_mode equivalents live in api_mode/run_pipeline.py
+
+role_groups:                        # descriptive only — maps user staging labels to modules.
+                                     # See CLAUDE.md "Role groupings" for the full table; nothing
+                                     # in the run lifecycle branches on these keys.
+  DEX: [10, 11]                     # Doc EXtraction: doc-extractor, narrative-extractor
+  QFA: [20, 21, 23]                 # Quantitative & Fundamental Analysis
+  IGL: [22, 24, 30, 31]             # Investigation, Guidance & Learning (+ deep research)
+  THS: [33, 34]                     # THeSis: 33 synthesis (owns state/thesis.json) + 34 red team
+                                    # (owns findings/thesis_redteam.json, separate context).
+                                    # Waves 6a/6b in prompts/01. Neither is optional and the
+                                    # 33->34->33 round trip is mandatory.
+  CRA: [40, 41, 50]                 # Compile, Render & Audit — 40 dossier, 41 note,
+                                    # 50 citation verification (citation-auditor)
+  BSA: [buy_side]                   # Buy-Side Analysis — fund-level agent, external to this subsystem
+
+data:
+  price_source: yfinance            # deterministic; never web-search for prices/mcap
+  peer_financials: yfinance_then_web
+  offline_mode: auto                # auto-detect; degrade gracefully
+
+sector_registry: config/sector_registry.yaml   # THE source of truth for families+playbooks.
+                                    # Validate after edits: python tools/validate_sector_registry.py
+sector_pack: auto                   # auto = classify per prompts/02 T2 against the registry.
+                                    # To force, use any family slug declared in the registry
+                                    # (do NOT maintain a duplicate list here — that drift is
+                                    # exactly what the registry was created to end).
+sector_playbook: auto               # auto = resolved from the registry alongside the family.
+
+thesis:                             # step 6a/6b — prompts/33 + prompts/34
+  rerate_share_threshold_pct: 40    # >this share of expected return coming from multiple
+                                    # change forces the re-rating archetype and its checklist,
+                                    # regardless of what the thesis calls itself. Arithmetic,
+                                    # not editorial.
+  redteam_required: true            # prompts/34 must run before the report renders
+  redteam_min_rounds: 1             # one 33->34->33 round trip is mandatory, never skipped
+  require_disconfirming_exhibit: true   # the note must contain at least one exhibit that
+                                    # cuts against its own thesis (audit check #10)
+  archetype_library: prompts/thesis_archetypes/
+  max_pillars: 4
+
+process:                            # v2 analytical spine (see docs/PROCESS_V2_REIMAGINED.md)
+  business_model_map: true          # step 1.5 — prompts/03 → state/business_model.json (value chain + KPI tree)
+  compute_kpis: true                # COMPUTE — tools/compute_kpis.py → operating-KPI trends + per-unit economics
+  data_mode: auto                   # auto | sparse | normal (triage T7; sparse → prompts/70)
+  in_note_sensitivity: true         # module 32 renders driver-assumption + sensitivity + valuation-bridge tables IN the note
+  micro_search_budget: 12           # bounded driver-tagged web lookups analysts may raise mid-analysis (circular loop)
+
+thresholds:                         # forensic defaults (compute_ratios.py flags these)
+  cfo_to_ebitda_min_pct: 70
+  other_income_share_of_cfo_max_pct: 20
+  dso_yoy_increase_max_pct: 20
+  asset_vs_revenue_growth_gap_pp: 20     # over 3-5y window
+  margin_move_whywhy_bps: 200            # why-why required beyond this
+  promoter_pledge_red_pct: 30
+  top1_customer_concentration_pct: 20
+
+governance_score_weights:           # 0-100 composite (from Two_tasks_prompt2)
+  accounting: 35
+  governance: 30
+  legal_regulatory: 20
+  concall_behaviour: 15

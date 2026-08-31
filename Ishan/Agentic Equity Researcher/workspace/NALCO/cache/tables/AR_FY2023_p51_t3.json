@@ -1,0 +1,175 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 51,
+  "table_index": 3,
+  "bbox": [
+    60.594,
+    254.6396666666667,
+    549.671,
+    639.9380000000001
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "FY 2022-23",
+      "FY 2021-22",
+      "Change %"
+    ],
+    [
+      "Assets",
+      null,
+      null,
+      null
+    ],
+    [
+      "Property, Plant & Equipment",
+      "6,916.39",
+      "7,001.94",
+      "(1)"
+    ],
+    [
+      "Capital work-in-progress",
+      "2,744.95",
+      "1,763.42",
+      "56"
+    ],
+    [
+      "Intangibles",
+      "386.44",
+      "341.27",
+      "13"
+    ],
+    [
+      "Intangible assets under development",
+      "523.97",
+      "471.40",
+      "11"
+    ],
+    [
+      "Investments",
+      "470.83",
+      "377.26",
+      "25"
+    ],
+    [
+      "Inventories",
+      "1,840.22",
+      "1,645.60",
+      "12"
+    ],
+    [
+      "Trade Receivables",
+      "91.33",
+      "75.25",
+      "21"
+    ],
+    [
+      "Cash & Bank",
+      "2,117.50",
+      "3,706.07",
+      "(43)"
+    ],
+    [
+      "Loans",
+      "111.37",
+      "115.93",
+      "(4)"
+    ],
+    [
+      "Other Financial Assets",
+      "71.13",
+      "56.87",
+      "25"
+    ],
+    [
+      "Income Tax Assets",
+      "662.98",
+      "375.95",
+      "76"
+    ],
+    [
+      "Other assets",
+      "1,801.58",
+      "1,557.87",
+      "16"
+    ],
+    [
+      "Total",
+      "17,738.69",
+      "17,488.83",
+      "-"
+    ],
+    [
+      "Equity & Liabilities",
+      null,
+      null,
+      null
+    ],
+    [
+      "Equity share capital",
+      "918.32",
+      "918.32",
+      "-"
+    ],
+    [
+      "Reserve & Surplus",
+      "12,320.13",
+      "11,636.32",
+      "6"
+    ],
+    [
+      "Deferred Tax Liability",
+      "957.77",
+      "868.18",
+      "10"
+    ],
+    [
+      "Trade payable",
+      "1,274.32",
+      "1,480.71",
+      "(14)"
+    ],
+    [
+      "Borrowings",
+      "47.75",
+      "20.67",
+      "131"
+    ],
+    [
+      "Lease Liabilities",
+      "56.86",
+      "56.43",
+      "1"
+    ],
+    [
+      "Other Financial liabilities",
+      "800.41",
+      "588.92",
+      "36"
+    ],
+    [
+      "Provisions",
+      "247.72",
+      "387.93",
+      "(36)"
+    ],
+    [
+      "Income Tax Liabilities",
+      "32.07",
+      "211.04",
+      "(85)"
+    ],
+    [
+      "Other Liabilities",
+      "1,083.34",
+      "1,320.31",
+      "(18)"
+    ],
+    [
+      "Total",
+      "17,738.69",
+      "17,488.83",
+      "-"
+    ]
+  ]
+}

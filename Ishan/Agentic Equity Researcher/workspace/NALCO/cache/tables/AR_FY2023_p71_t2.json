@@ -1,0 +1,67 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 71,
+  "table_index": 2,
+  "bbox": [
+    45.479,
+    393.43250000000006,
+    549.8240000000001,
+    551.089
+  ],
+  "rows": [
+    [
+      "Safety Incident/Number",
+      "Category",
+      "FY 2022-23",
+      "FY 2021-22"
+    ],
+    [
+      "Lost Time Injury Frequency Rate (LTIFR)\n(per one million-person hours worked)",
+      "Employees (Executives)",
+      "0",
+      "0"
+    ],
+    [
+      null,
+      "Workers (both permanent & non-permanent)",
+      "Refinery- 0.3476\nCPP- 0.149\nOther Units- 0",
+      "Refinery-0.3427\nCPP- 0.447\nSmelter- 0.0676\nOther Units- 0"
+    ],
+    [
+      "Total recordable work-related injuries",
+      "Employees (Executives)",
+      "0",
+      "0"
+    ],
+    [
+      null,
+      "Workers",
+      "5",
+      "6"
+    ],
+    [
+      "No. of fatalities (safety incident)",
+      "Employees (Executives)",
+      "0",
+      "0"
+    ],
+    [
+      null,
+      "Workers",
+      "0",
+      "2"
+    ],
+    [
+      "High consequence work-related injury\nor ill-health (excluding fatalities)",
+      "Employees (Executives)",
+      "0",
+      "0"
+    ],
+    [
+      null,
+      "Workers",
+      "1",
+      "2"
+    ]
+  ]
+}

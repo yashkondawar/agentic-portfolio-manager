@@ -1,0 +1,383 @@
+[
+  {
+    "id": "EST-001",
+    "metric": "revenue_from_operations",
+    "label": "Revenue from operations (base case)",
+    "value": 19399.4,
+    "unit": "INR_cr",
+    "period": "FY2027",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "scenario": "base",
+    "method": "computed",
+    "formula": "metal_segment_revenue_FY27E + alumina_segment_revenue_FY27E; metal_segment_revenue_FY27E = metal_segment_revenue_FY26 x (1+metal_volume_growth_pct) x (1+metal_price_change_pct); alumina_segment_revenue_FY27E = alumina_segment_revenue_FY26 x (alumina_total_volume_FY27E/alumina_total_volume_FY26) x (1+alumina_price_change_pct); alumina_total_volume_FY27E = organic_alumina_volume_FY27E + 5th_stream_probability_weighted_incremental_kt",
+    "inputs": [
+      "F-PQ4-001",
+      "F-PQ4-002",
+      "F-PQ4-048",
+      "F-PQ4-052",
+      "F-PQ4-059",
+      "F-PQ4-056",
+      "SRC-1200",
+      "SRC-1207",
+      "SRC-1150",
+      "SRC-1151",
+      "A-1350",
+      "A-1351",
+      "A-1352",
+      "A-1353",
+      "A-1354"
+    ],
+    "confidence": "medium",
+    "load_bearing": true,
+    "notes": "Segment split ~73% metal / ~27% alumina per F-FUND-02/F-FUND-08. 5th-stream incremental volume is probability-weighted (0.40) per guidance credibility=low and DR1b unconfirmed-commissioning finding, not a point estimate at nameplate.",
+    "source": {
+      "src_id": "SRC-1384",
+      "quote": null
+    }
+  },
+  {
+    "id": "EST-002",
+    "metric": "revenue_from_operations",
+    "label": "Revenue from operations (base case)",
+    "value": 19156.4,
+    "unit": "INR_cr",
+    "period": "FY2028",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "scenario": "base",
+    "method": "computed",
+    "formula": "metal_segment_revenue_FY28E + alumina_segment_revenue_FY28E, rolled forward from FY27E base using FY28E volume growth (metal +0.5%, alumina total +7.31% incl. higher-probability-weighted 5th-stream ramp at 0.55) and World-Bank-anchored price paths (metal -3.23%, alumina -3.23% vs FY27E)",
+    "inputs": [
+      "EST-001",
+      "SRC-1200",
+      "SRC-1201",
+      "SRC-1150",
+      "A-1350",
+      "A-1352",
+      "A-1355",
+      "A-1356"
+    ],
+    "confidence": "medium",
+    "load_bearing": true,
+    "notes": "Revenue essentially flat FY27E->FY28E (-1.25%) as external price normalization outweighs volume/ramp gains; sequential decline, not a modeling error -- see Gate 3/5.",
+    "source": {
+      "src_id": "SRC-1385",
+      "quote": null
+    }
+  },
+  {
+    "id": "EST-003",
+    "metric": "ebitda",
+    "label": "EBITDA (base case)",
+    "value": 8632.7,
+    "unit": "INR_cr",
+    "period": "FY2027",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "scenario": "base",
+    "method": "computed",
+    "formula": "revenue_FY27E x ebitda_margin_FY27E_assumed; margin held near FY26 actual (48.27%, F-PQ4-017/F-PQ4-001) but faded ~380bps to 44.5% per margin_bridge_achievability=Medium-Low (guidance.json) reflecting cost normalization (coal/CP coke) partly offsetting price/volume gains",
+    "inputs": [
+      "EST-001",
+      "F-PQ4-017",
+      "F-PQ4-018",
+      "A-1360",
+      "A-1361"
+    ],
+    "confidence": "medium",
+    "load_bearing": true,
+    "notes": "44.5% sits within the 5-year historical margin band (~24.9% FY24 trough to ~48.3% FY26 peak) -- Gate 3 PASS.",
+    "source": {
+      "src_id": "SRC-1386",
+      "quote": null
+    }
+  },
+  {
+    "id": "EST-004",
+    "metric": "ebitda",
+    "label": "EBITDA (base case)",
+    "value": 8237.2,
+    "unit": "INR_cr",
+    "period": "FY2028",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "scenario": "base",
+    "method": "computed",
+    "formula": "revenue_FY28E x ebitda_margin_FY28E_assumed (43.0%, further fade from FY27E per continued cost/price normalization)",
+    "inputs": [
+      "EST-002",
+      "A-1360",
+      "A-1361"
+    ],
+    "confidence": "medium",
+    "load_bearing": true,
+    "notes": "43.0% within historical band -- Gate 3 PASS.",
+    "source": {
+      "src_id": "SRC-1387",
+      "quote": null
+    }
+  },
+  {
+    "id": "EST-005",
+    "metric": "pat",
+    "label": "Profit after tax (base case)",
+    "value": 6015.9,
+    "unit": "INR_cr",
+    "period": "FY2027",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "scenario": "base",
+    "method": "computed",
+    "formula": "PBT_FY27E x (1 - normalized_ETR); PBT_FY27E = EBITDA_FY27E - D&A_FY27E - finance_cost_FY27E + other_income_FY27E; D&A_FY27E from FY26-annualized D&A (F-PQ4-020) plus incremental depreciation from FY27E capex at commissioning-lag; finance_cost_FY27E scaled off FY26 actual (F-PQ4-023) adjusted for continuing capex-linked borrowing; other_income_FY27E held near FY25 recurring level (F-AR25-003/F-AR25B-003), one-off components excluded; ETR = normalized 3y-median effective tax rate (~25.1-25.6%, derived from F-PQ4-026/F-PQ4-029 and F-AR25-031/F-AR25-039)",
+    "inputs": [
+      "EST-003",
+      "F-PQ4-020",
+      "F-PQ4-023",
+      "F-AR25-003",
+      "F-AR25B-003",
+      "F-PQ4-026",
+      "F-PQ4-029",
+      "F-AR25-031",
+      "F-AR25-039",
+      "A-1362",
+      "A-1363",
+      "A-1364",
+      "A-1365"
+    ],
+    "confidence": "medium",
+    "load_bearing": true,
+    "notes": "No confirmed working-capital red flag applies as a PAT/CFO drag (RF-001/002/003 all dismissed/benign per state/red_flags.json) -- capex-overrun pattern (F-FUND-04, ~20% historical overrun) is instead captured as an upward bias to capex/D&A and finance-cost assumptions.",
+    "source": {
+      "src_id": "SRC-1388",
+      "quote": null
+    }
+  },
+  {
+    "id": "EST-006",
+    "metric": "pat",
+    "label": "Profit after tax (base case)",
+    "value": 5702.8,
+    "unit": "INR_cr",
+    "period": "FY2028",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "scenario": "base",
+    "method": "computed",
+    "formula": "PBT_FY28E x (1 - normalized_ETR); PBT_FY28E = EBITDA_FY28E - D&A_FY28E - finance_cost_FY28E + other_income_FY28E, D&A/finance-cost stepped up further for FY28E capex tranche (5th-stream/Pottangi capitalization) at commissioning-lag",
+    "inputs": [
+      "EST-004",
+      "A-1362",
+      "A-1363",
+      "A-1364",
+      "A-1365"
+    ],
+    "confidence": "medium",
+    "load_bearing": true,
+    "notes": "PAT declines FY27E->FY28E in line with revenue/EBITDA decline; internally consistent (Gate 2 PASS, no dilution).",
+    "source": {
+      "src_id": "SRC-1389",
+      "quote": null
+    }
+  },
+  {
+    "id": "EST-007",
+    "metric": "eps_diluted",
+    "label": "EPS diluted (base case)",
+    "value": 32.76,
+    "unit": "INR",
+    "period": "FY2027",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "scenario": "base",
+    "method": "computed",
+    "formula": "PAT_FY27E / shares_outstanding_cr",
+    "inputs": [
+      "EST-005",
+      "F-MKT-SHARES_OUTSTANDING-POINT2026-07-15"
+    ],
+    "confidence": "medium",
+    "load_bearing": true,
+    "notes": "No dilution assumed (GoI-majority PSU, no ESOP/QIP disclosed in guidance ledger). EPS growth +3.44% vs FY26 EPS of 31.67 (calc: F-PQ4-029/shares).",
+    "source": {
+      "src_id": "SRC-1390",
+      "quote": null
+    }
+  },
+  {
+    "id": "EST-008",
+    "metric": "eps_diluted",
+    "label": "EPS diluted (base case)",
+    "value": 31.05,
+    "unit": "INR",
+    "period": "FY2028",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "scenario": "base",
+    "method": "computed",
+    "formula": "PAT_FY28E / shares_outstanding_cr",
+    "inputs": [
+      "EST-006",
+      "F-MKT-SHARES_OUTSTANDING-POINT2026-07-15"
+    ],
+    "confidence": "medium",
+    "load_bearing": true,
+    "notes": "EPS declines -5.21% vs FY27E; base-case 2yr EPS CAGR FY26->FY28E = -0.98%.",
+    "source": {
+      "src_id": "SRC-1391",
+      "quote": null
+    }
+  },
+  {
+    "id": "EST-009",
+    "metric": "eps_diluted",
+    "label": "EPS diluted (bull case)",
+    "value": 38.11,
+    "unit": "INR",
+    "period": "FY2027",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "scenario": "bull",
+    "method": "computed",
+    "formula": "As EST-007 build but: 5th-stream volume delivered at 100% of guided nameplate (no probability discount); metal price at $3,200/t (SMM scenario-1 / spot-momentum corroborated, SRC-1202); alumina at $340/t (top of management's own public guidance range, SRC-1207); EBITDA margin held at 48.0%",
+    "inputs": [
+      "SRC-1202",
+      "SRC-1207",
+      "A-1370",
+      "A-1371"
+    ],
+    "confidence": "low",
+    "load_bearing": true,
+    "notes": "Bull case requires full guidance delivery on a lever the guidance-analyst scored low-credibility -- shown for scenario-seed purposes only, not base case.",
+    "source": {
+      "src_id": "SRC-1392",
+      "quote": null
+    }
+  },
+  {
+    "id": "EST-010",
+    "metric": "eps_diluted",
+    "label": "EPS diluted (bull case)",
+    "value": 42.42,
+    "unit": "INR",
+    "period": "FY2028",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "scenario": "bull",
+    "method": "computed",
+    "formula": "Rolled forward from bull FY27E with continued full-ramp volume/price tailwind (+6% revenue) and modest margin expansion to 49.0% as Pottangi captive-mine cost offset materializes",
+    "inputs": [
+      "EST-009",
+      "SRC-1170",
+      "A-1372"
+    ],
+    "confidence": "low",
+    "load_bearing": true,
+    "notes": "Bull 2yr EPS CAGR FY26->FY28E = +15.74%.",
+    "source": {
+      "src_id": "SRC-1393",
+      "quote": null
+    }
+  },
+  {
+    "id": "EST-011",
+    "metric": "eps_diluted",
+    "label": "EPS diluted (bear case)",
+    "value": 24.04,
+    "unit": "INR",
+    "period": "FY2027",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "scenario": "bear",
+    "method": "computed",
+    "formula": "As EST-007 build but: 5th-stream/Pottangi contribute zero incremental volume in horizon (consistent with ~18-month historical guidance-slip pattern per guidance ledger and DR1b's unconfirmed-commissioning finding); metal price flat at FY26 avg ~$2,700/t (no recovery); alumina at $280/t (Indonesia oversupply persists, SRC-1210/1211); EBITDA margin compresses to 39.0%; finance cost +30% vs FY26 (continued capex-overrun-driven borrowing, F-FUND-04)",
+    "inputs": [
+      "SRC-1210",
+      "SRC-1211",
+      "F-PQ4-023",
+      "A-1380",
+      "A-1381",
+      "A-1382"
+    ],
+    "confidence": "medium",
+    "load_bearing": true,
+    "notes": "Bear case explicitly embeds the confirmed capex-overrun pattern as a finance-cost drag.",
+    "source": {
+      "src_id": "SRC-1394",
+      "quote": null
+    }
+  },
+  {
+    "id": "EST-012",
+    "metric": "eps_diluted",
+    "label": "EPS diluted (bear case)",
+    "value": 21.26,
+    "unit": "INR",
+    "period": "FY2028",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "scenario": "bear",
+    "method": "computed",
+    "formula": "Rolled forward from bear FY27E with further price give-back (metal to Goldman Sachs bear case ~$2,400/t CY2027, SRC-1203; alumina to $260/t) and margin compression to 37.0%; finance cost +50% vs FY26",
+    "inputs": [
+      "EST-011",
+      "SRC-1203",
+      "A-1383"
+    ],
+    "confidence": "medium",
+    "load_bearing": true,
+    "notes": "Bear 2yr EPS CAGR FY26->FY28E = -18.05%.",
+    "source": {
+      "src_id": "SRC-1395",
+      "quote": null
+    }
+  },
+  {
+    "id": "EST-013",
+    "metric": "forward_pe",
+    "label": "Forward P/E at CMP (base case)",
+    "value": 11.04,
+    "unit": "x",
+    "period": "FY2027",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "scenario": "base",
+    "method": "computed",
+    "formula": "current_price / eps_diluted_FY27E_base",
+    "inputs": [
+      "F-MKT-CURRENT_PRICE-POINT2026-07-15",
+      "EST-007"
+    ],
+    "confidence": "medium",
+    "load_bearing": true,
+    "notes": "NOT a target price -- forward multiple context only, per prompts/32 instruction.",
+    "source": {
+      "src_id": "SRC-1396",
+      "quote": null
+    }
+  },
+  {
+    "id": "EST-014",
+    "metric": "forward_pe",
+    "label": "Forward P/E at CMP (base case)",
+    "value": 11.65,
+    "unit": "x",
+    "period": "FY2028",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "scenario": "base",
+    "method": "computed",
+    "formula": "current_price / eps_diluted_FY28E_base",
+    "inputs": [
+      "F-MKT-CURRENT_PRICE-POINT2026-07-15",
+      "EST-008"
+    ],
+    "confidence": "medium",
+    "load_bearing": true,
+    "notes": "NOT a target price -- forward multiple context only.",
+    "source": {
+      "src_id": "SRC-1397",
+      "quote": null
+    }
+  }
+]

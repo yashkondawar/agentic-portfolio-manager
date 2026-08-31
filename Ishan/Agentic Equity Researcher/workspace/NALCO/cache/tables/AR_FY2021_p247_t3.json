@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 247,
+  "table_index": 3,
+  "bbox": [
+    79.6201,
+    385.29891999999995,
+    555.0072666666667,
+    451.99532
+  ],
+  "rows": [
+    [
+      "",
+      "",
+      "Year ended\n31.03.2021",
+      "Year ended\n31.03.2020"
+    ],
+    [
+      "Finance cost",
+      null,
+      "",
+      ""
+    ],
+    [
+      "a.",
+      "Interest expenses on lease liabilities",
+      "4.01",
+      "3.98"
+    ],
+    [
+      "b.",
+      "Others [refer note 32.1]",
+      "3.07",
+      "1.76"
+    ],
+    [
+      "Total finance cost",
+      null,
+      "7.08",
+      "5.74"
+    ]
+  ]
+}

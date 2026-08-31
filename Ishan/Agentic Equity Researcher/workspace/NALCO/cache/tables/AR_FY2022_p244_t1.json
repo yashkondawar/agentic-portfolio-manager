@@ -1,0 +1,37 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 244,
+  "table_index": 1,
+  "bbox": [
+    45.37746,
+    109.62210000000005,
+    454.11,
+    183.98550000000006
+  ],
+  "rows": [
+    [
+      "",
+      "Year ended 31.03.2022"
+    ],
+    [
+      "Finance cost",
+      ""
+    ],
+    [
+      "a. Interest expenses on lease liabilities",
+      "4.13"
+    ],
+    [
+      "b. Interest on shortfall in payment of advance income tax",
+      "7.62"
+    ],
+    [
+      "c. Others",
+      "11.37"
+    ],
+    [
+      "Total finance cost",
+      "23.12"
+    ]
+  ]
+}

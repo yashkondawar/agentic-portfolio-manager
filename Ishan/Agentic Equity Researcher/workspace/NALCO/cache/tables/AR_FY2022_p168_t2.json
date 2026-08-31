@@ -1,0 +1,33 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 168,
+  "table_index": 2,
+  "bbox": [
+    45.54021666666667,
+    354.68525000000005,
+    463.815,
+    406.63300000000004
+  ],
+  "rows": [
+    [
+      "",
+      "",
+      "As at 31.03.2022"
+    ],
+    [
+      null,
+      "Income tax (Net)",
+      "55.38"
+    ],
+    [
+      null,
+      "Total current tax assets",
+      "55.38"
+    ],
+    [
+      "Gross other current financial assets",
+      null,
+      "29.39"
+    ]
+  ]
+}

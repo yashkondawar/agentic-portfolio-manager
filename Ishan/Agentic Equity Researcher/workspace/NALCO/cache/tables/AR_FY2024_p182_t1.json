@@ -1,0 +1,174 @@
+{
+  "doc": "AR_FY2024.pdf",
+  "page": 182,
+  "table_index": 1,
+  "bbox": [
+    51.273620512820514,
+    87.77893750000001,
+    542.7680512820514,
+    426.96599999999995
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      null,
+      "As at 31.03.2024",
+      "As at 31.03.2023"
+    ],
+    [
+      "Deferred tax assets in relation to:",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Provision for defined benefit obligation",
+      "21.15",
+      "(2.25)",
+      "-",
+      "18.90"
+    ],
+    [
+      "Provision for doubtful debts / advances",
+      "68.09",
+      "4.69",
+      "-",
+      "72.78"
+    ],
+    [
+      "FVTPL financial assets",
+      "13.09",
+      "22.40",
+      "-",
+      "35.49"
+    ],
+    [
+      "Temporary Difference due to application of section 43B",
+      "0.91",
+      "0.01",
+      "-",
+      "0.92"
+    ],
+    [
+      "Others",
+      "3.18",
+      "-",
+      "-",
+      "3.18"
+    ],
+    [
+      "Deferred tax assets",
+      "106.42",
+      "24.85",
+      "-",
+      "131.27"
+    ],
+    [
+      "Deferred tax (liabilities) / assets [net]",
+      "(957.77)",
+      "116.09",
+      "0.25",
+      "(841.43)"
+    ],
+    [
+      "2022-23",
+      "Opening balance as\nat 01.04.2022",
+      "Recognised in\nprofit & loss",
+      "Recognised in other\ncomprehensive income",
+      "Closing balance as\nat 31.03.2023"
+    ],
+    [
+      "Deferred tax liabilities relating to:",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Property, plant and equipment",
+      "(1,061.63)",
+      "(0.61)",
+      "-",
+      "(1,062.24)"
+    ],
+    [
+      "Provision for defined benefit obligation (OCI)",
+      "(28.45)",
+      "-",
+      "26.50",
+      "(1.95)"
+    ],
+    [
+      "Deferred tax liabilities",
+      "(1,090.08)",
+      "(0.61)",
+      "26.50",
+      "(1,064.19)"
+    ],
+    [
+      "Deferred tax assets in relation to:",
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Provision for compensated absences and other\nemployee benefits",
+      "4.78",
+      "(4.78)",
+      "-",
+      "0.00"
+    ],
+    [
+      "Provision for defined benefit obligation",
+      "85.47",
+      "(64.32)",
+      "-",
+      "21.15"
+    ],
+    [
+      "Provision for doubtful debts / advances",
+      "68.69",
+      "(0.60)",
+      "-",
+      "68.09"
+    ],
+    [
+      "FVTPL financial assets",
+      "4.05",
+      "9.04",
+      "-",
+      "13.09"
+    ],
+    [
+      "Temporary Difference due to application of section 43B",
+      "55.73",
+      "(54.82)",
+      "-",
+      "0.91"
+    ],
+    [
+      "Others",
+      "3.18",
+      "-",
+      "-",
+      "3.18"
+    ],
+    [
+      "Deferred tax assets",
+      "221.90",
+      "(115.48)",
+      "-",
+      "106.42"
+    ],
+    [
+      "Deferred tax (liabilities) / assets - [net]",
+      "(868.18)",
+      "(116.09)",
+      "26.50",
+      "(957.77)"
+    ]
+  ]
+}

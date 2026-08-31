@@ -1,0 +1,67 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 181,
+  "table_index": 2,
+  "bbox": [
+    79.6201,
+    122.68758333333334,
+    555.0568162162162,
+    244.6610833333333
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      "As at\n31.03.2021",
+      "As at\n31.03.2020"
+    ],
+    [
+      "a)",
+      "Estimated amount of Contracts remaining to be executed on capital account and not provided for",
+      "1308.97",
+      "993.90"
+    ],
+    [
+      "b)",
+      "Other Commitments",
+      "",
+      ""
+    ],
+    [
+      null,
+      "(1) Amount payable to the Government of India but not yet due for payment for allocation of Utkal\nD & E coal block.",
+      "18.11",
+      "18.11"
+    ],
+    [
+      null,
+      "(2) Export obligation for import of capital goods under Export Promotion Capital Goods Scheme.",
+      "Nil",
+      "254.32"
+    ],
+    [
+      null,
+      "(3) Estimated amount of commitment to Govt. of Odisha for allotment of Pottangi Bauxite Mines",
+      "49.89",
+      "Nil"
+    ],
+    [
+      null,
+      "(4) Estimated amount of commitment to Govt. of India (MoEFFC) for 5th Stream Refinery project.",
+      "10.81",
+      "Nil"
+    ],
+    [
+      null,
+      "(5) Corporate environment responsibility (CER) for capital investments",
+      "12.00",
+      "Nil"
+    ],
+    [
+      "Total",
+      null,
+      "1399.78",
+      "1266.33"
+    ]
+  ]
+}

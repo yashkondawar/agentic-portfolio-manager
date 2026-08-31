@@ -1,0 +1,121 @@
+ Sr   Scheme Name   No. of 
+Schemes as on 
+May 31, 2026 
+ No. of Folios 
+as on May 31, 
+2026 
+ Funds 
+Mobilized for 
+the month of 
+May 2026 (INR 
+in crore) 
+ 
+Repurchase/R
+edemption 
+for the month 
+of May 2026 
+(INR in crore) 
+ Net Inflow 
+(+ve)/Outflow (-
+ve) for the month 
+of May 2026 (INR 
+in crore) 
+ Net Assets Under 
+Management as 
+on May 31, 2026 
+(INR in crore) 
+ Average Net 
+Assets Under 
+Management for 
+the month May 
+2026 (INR in 
+crore) 
+ No. of 
+segregated 
+portfolios 
+created as 
+on May 31, 
+2026 
+ Net Assets 
+Under 
+Management 
+in segregated 
+portfolio as on 
+May 31, 2026 
+(INR in crore) 
+ A Open ended Schemes
+ I Income/Debt Oriented Schemes
+i Overnight Fund 37                     7,69,280         6,09,290.59      6,24,815.36   -15,524.77             89,939.73              1,25,683.05         -                -                    
+ii Liquid Fund 42                     31,28,442       3,84,615.25      4,14,296.19   -29,680.94             6,09,456.75           6,47,737.83         -                -                    
+iii Ultra Short Duration Fund 25                     7,90,067         19,017.06          20,634.07       -1,617.01               1,28,380.21           1,31,300.25         -                -                    
+iv Low Duration Fund 25                     8,51,676         8,096.54            17,497.03       -9,400.49               1,29,193.35           1,34,933.90         -                -                    
+v Money Market Fund 27                     5,36,222         44,806.66          69,498.40       -24,691.74             3,10,807.23           3,22,097.34         1.00              -                    
+vi Short Duration Fund 25                     5,66,949         1,900.63            5,787.67         -3,887.05               1,11,749.99           1,14,125.92         -                -                    
+vii Medium Duration Fund 13                     2,39,305         146.40               409.70            -263.30                  25,139.40              25,239.25            2.00              -                    
+viii Medium to Long Duration Fund 13                     99,704             13.49                 242.51            -229.03                  10,506.29              10,622.80            -                -                    
+ix Long Duration Fund 11                     76,052             65.69                 962.40            -896.71                  12,807.24              13,243.07            -                -                    
+x Dynamic Bond Fund 22                     2,18,843         108.71               762.40            -653.69                  31,390.80              31,685.99            -                -                    
+xi Corporate Bond Fund 21                     5,76,950         1,832.78            8,842.72         -7,009.94               1,81,139.27           1,85,169.14         -                -                    
+xii Credit Risk Fund 14                     2,04,891         268.80               219.34            49.46                      21,209.54              21,172.68            4.00              -                    
+xiii Banking and PSU Fund 20                     2,38,409         979.68               1,740.02         -760.34                  76,382.20              76,816.78            -                -                    
+xiv Gilt Fund 23                     1,95,627         321.85               2,005.44         -1,683.60               31,436.31              32,292.92            -                -                    
+xv Gilt Fund with 10 year constant duration 5                        35,292             32.67                 331.43            -298.76                  4,134.93                 4,281.30              -                -                    
+xvi Floater Fund 12                     1,96,111         1,020.56            1,421.18         -400.62                  51,363.93              51,512.06            -                -                    
+ Sub Total - I 
+(i+ii+iii+iv+v+vi+vii+viii+ix+x+xi+xii+xiii+xiv+xv+xvi) 335                   87,23,820       10,72,517.36    11,69,465.87 -96,948.51             18,25,037.17         19,27,914.25       7.00              -                    
+ II Growth/Equity Oriented Schemes
+i Multi Cap Fund 32                     1,16,41,382    4,467.15            2,176.14         2,291.01                2,32,886.94           2,31,906.89         -                -                    
+ii Large Cap Fund 35                     1,71,79,356    5,049.69            3,456.77         1,592.93                3,97,060.82           3,99,830.03         -                -                    
+iii Large & Mid Cap Fund 33                     1,39,42,522    5,819.64            2,541.42         3,278.22                3,39,999.87           3,39,637.48         -                -                    
+iv Mid Cap Fund 33                     2,52,57,209    8,270.23            3,885.16         4,385.06                4,87,793.68           4,85,418.38         -                -                    
+v Small Cap Fund 36                     2,84,49,224    8,783.11            3,837.54         4,945.57                4,04,379.58           4,01,416.02         -                -                    
+vi Dividend Yield Fund 11                     11,96,628       262.17               359.63            -97.46                    31,305.62              31,540.89            -                -                    
+vii Value Fund/Contra Fund 26                     90,13,652       2,621.22            2,111.64         509.57                   2,10,504.18           2,11,703.43         -                -                    
+viii Focused Fund 28                     55,43,597       2,382.68            1,552.44         830.25                   1,74,258.49           1,74,327.08         -                -                    
+ix Sectoral/Thematic Funds 250                   3,23,92,112    8,629.10            7,981.23         647.87                   5,35,187.18           5,34,740.12         -                -                    
+x ELSS 40                     1,63,35,643    1,122.97            1,773.75         -650.78                  2,36,446.07           2,37,710.65         -                -                    
+xi Flexi Cap Fund 45                     2,39,64,185    10,195.86          5,020.33         5,175.54                5,63,895.97           5,64,710.49         -                -                    
+Sub Total - II (i+ii+iii+iv+v+vi+vii+viii+ix+x+xi) 569                   18,49,15,510  57,603.83          34,696.05       22,907.77              36,13,718.41         36,12,941.46       -                -                    
+ III Hybrid Schemes
+i Conservative Hybrid Fund 18                     5,79,761         386.82               364.60            22.22                      29,294.23              29,366.37            1.00              -                    
+ii Balanced Hybrid Fund/Aggressive Hybrid Fund 31                     63,08,714       2,805.91            2,150.67         655.24                   2,51,288.48           2,52,598.54         1.00              -                    
+iii Dynamic Asset Allocation/Balanced Advantage Fund 36                     57,43,821       3,277.24            3,095.91         181.33                   3,16,585.87           3,19,152.10         -                -                    
+iv Multi Asset Allocation Fund 34                     55,12,479       5,787.06            1,858.55         3,928.51                1,90,326.18           2,09,787.33         -                -                    
+v Arbitrage Fund 39                     8,44,817         26,743.63          21,045.73       5,697.90                2,78,956.18           3,33,775.78         -                -                    
+vi Equity Savings Fund 24                     5,28,790         1,313.20            1,238.17         75.03                      49,194.41              53,576.60            1.00              -                    
+Sub Total - III (i+ii+iii+iv+v+vi) 182                   1,95,18,382    40,313.86          29,753.63       10,560.24              11,15,645.34         11,98,256.72       3.00              -                    
+ IV Solution Oriented Schemes
+i Retirement Fund 29                     30,66,819       231.12               163.26            67.85                      31,768.82              31,951.72            -                -                    
+ii Childrens Fund 12                     32,65,924       255.88               53.38              202.50                   26,047.64              25,981.77            -                -                    
+Sub Total - IV (i+ii) 41                     63,32,743       487.00               216.64            270.36                   57,816.45              57,933.49            -                -                    
+ V Other Schemes
+i Index Funds 368                   1,53,69,929    8,766.10            7,822.84         943.26                   3,32,394.72           3,33,234.39         -                -                    
+ii GOLD ETF 26                     1,23,40,801    2,604.73            3,329.77         -725.04                  1,84,570.85           1,83,621.79         -                -                    
+iii Other ETFs 307                   2,70,23,822    19,383.17          20,003.39       -620.22                  9,60,114.99           9,64,382.91         -                -                    
+iv Fund of funds investing overseas 52                     18,91,522       1,043.16            279.17            763.99                   49,430.18              47,967.85            -                -                    
+Sub Total - V (i+ii+iii+iv) 753                   5,66,26,074    31,797.16          31,435.17       361.99                   15,26,510.74         15,29,206.93       -                -                    
+Total A-Open ended Schemes 1,880                27,61,16,529  12,02,719.21    12,65,567.36 -62,848.15             81,38,728.11         83,26,252.85       10.00            -                    
+ B Close Ended Schemes
+ I Income/Debt Oriented Schemes
+i Fixed Term Plan 47                     29,119             -                     1,129.39         -1,129.39               9,860.62                 10,517.28            -                -                    
+ii Capital Protection Oriented Schemes -                    -                   -                     -                  -                          -                          -                        -                -                    
+iii Infrastructure Debt Fund 3                        19                    -                     -                  -                          938.39                    932.26                  -                -                    
+iv Other Debt Scheme 1                        1,75,094         12.88                 39.02              -26.14                    4,909.49                 4,934.35              -                -                    
+Sub Total (i+ii+iii+iv) 51                     2,04,232         12.88                 1,168.41         -1,155.53               15,708.51              16,383.89            -                -                    
+ II Growth/Equity Oriented Schemes
+i ELSS 13                     2,46,238         -                     9.97                -9.97                       3,880.45                 3,911.31              -                -                    
+ii Other Equity Schemes -                    -                   -                     -                  -                          -                          -                        -                -                    
+Sub Total (i+ii) 13                     2,46,238         -                     9.97                -9.97                      3,880.45                 3,911.31              -                -                    
+III Other Schemes -                    -                   -                     -                  -                          -                          -                        -                -                    
+Total B -Close ended Schemes 64                     4,50,470         12.88                 1,178.39         -1,165.51               19,588.96              20,295.20            -                -                    
+ C Interval Schemes
+I Income/Debt Oriented Schemes 2                        798                  -                     7.51                -7.51                       24.58                      30.67                    -                -                    
+II Growth/Equity Oriented Schemes -                    -                   -                     -                  -                          -                          -                        -                -                    
+III Other Schemes -                    -                   -                     -                  -                          -                          -                        -                -                    
+Total C Interval Schemes 2                        798                  -                     7.51                -7.51                      24.58                      30.67                    -                -                    
+Grand Total 1,946                27,65,67,797  12,02,732.09    12,66,753.26 -64,021.17             81,58,341.65         83,46,578.72       10.00            -                    
+Fund of Funds Scheme (Domestic)** ##145 1,27,14,720    5,522.48            4,565.03         957.45                   2,22,799.61           2,24,907.44         -                -                    
+ Monthly Report for the month of May 2026  
+ ** Data in respect Fund of Funds Domestic is shown for information only. The same is included in the respective underlying schemes. 
+## Include NFOs  -
+ 

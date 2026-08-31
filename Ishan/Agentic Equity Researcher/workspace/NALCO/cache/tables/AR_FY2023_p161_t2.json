@@ -1,0 +1,49 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 161,
+  "table_index": 2,
+  "bbox": [
+    45.687333333333335,
+    350.8020000000001,
+    549.2543333333334,
+    431.78100000000006
+  ],
+  "rows": [
+    [
+      "16.A-Cash and cash equivalents Amount in ` Crore",
+      null,
+      null,
+      null
+    ],
+    [
+      "(a)",
+      "",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      null,
+      "Balances with banks",
+      "",
+      ""
+    ],
+    [
+      null,
+      "(1) Balance with scheduled banks",
+      "",
+      ""
+    ],
+    [
+      null,
+      "(i) In current account",
+      "63.29",
+      "412.80"
+    ],
+    [
+      "Total cash and cash equivalents",
+      null,
+      "63.29",
+      "412.80"
+    ]
+  ]
+}

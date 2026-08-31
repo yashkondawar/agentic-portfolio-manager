@@ -1,0 +1,103 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 268,
+  "table_index": 3,
+  "bbox": [
+    51.27365161290323,
+    422.0382,
+    542.5686393939394,
+    649.57352
+  ],
+  "rows": [
+    [
+      "A.",
+      "Non-current",
+      "As at 31.03.2025",
+      "As at 31.03.2024"
+    ],
+    [
+      "",
+      "(a) Capital advances",
+      "253.11",
+      "345.18"
+    ],
+    [
+      null,
+      "(b) Advances other than capital advance:",
+      null,
+      null
+    ],
+    [
+      null,
+      "Advance with Govt. authorities",
+      null,
+      null
+    ],
+    [
+      null,
+      "(1) Customs, excise, sales tax, GST, port trusts etc.",
+      "246.29",
+      "244.55"
+    ],
+    [
+      null,
+      "(2) Other Government authorities",
+      "11.83",
+      "9.87"
+    ],
+    [
+      null,
+      "(c) Others",
+      null,
+      null
+    ],
+    [
+      null,
+      "Prepaid expenses",
+      null,
+      null
+    ],
+    [
+      null,
+      "(1) Deferred employee benefits [refer Note 11.1]",
+      "21.81",
+      "22.39"
+    ],
+    [
+      null,
+      "Gross other non-current assets",
+      "533.04",
+      "621.99"
+    ],
+    [
+      null,
+      "Less: Allowance for bad and doubtful for other non-current assets",
+      null,
+      null
+    ],
+    [
+      null,
+      "(a) Capital advances",
+      "0.01",
+      "0.01"
+    ],
+    [
+      null,
+      "(b) Advances with Excise authority",
+      "0.24",
+      "0.24"
+    ],
+    [
+      null,
+      "Total allowance for bad and doubtful for other non-current assets",
+      "0.25",
+      "0.25"
+    ],
+    [
+      null,
+      "Total other non-current assets",
+      "532.79",
+      "621.74"
+    ]
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 231,
+  "table_index": 2,
+  "bbox": [
+    45.86575,
+    147.71850000000006,
+    549.4577999999999,
+    218.28450000000004
+  ],
+  "rows": [
+    [
+      "",
+      "As at 31.03.2023",
+      "As at 31.03.2022"
+    ],
+    [
+      "Balance at the beginning",
+      "56.43",
+      "55.97"
+    ],
+    [
+      "Additions during the year",
+      "-",
+      "0.56"
+    ],
+    [
+      "Finance Cost added during the year",
+      "4.08",
+      "4.13"
+    ],
+    [
+      "Payment of lease liability",
+      "3.65",
+      "4.23"
+    ],
+    [
+      "Balance at the end of the year",
+      "56.86",
+      "56.43"
+    ]
+  ]
+}

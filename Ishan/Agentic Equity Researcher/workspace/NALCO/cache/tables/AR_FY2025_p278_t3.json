@@ -1,0 +1,115 @@
+{
+  "doc": "AR_FY2025.pdf",
+  "page": 278,
+  "table_index": 3,
+  "bbox": [
+    51.27363076923077,
+    420.99882857142853,
+    542.7405902439025,
+    647.8397600000001
+  ],
+  "rows": [
+    [
+      "",
+      null,
+      "As at 31.03.2025",
+      "As at 31.03.2024"
+    ],
+    [
+      "Claims against the Company not acknowledged as debts",
+      null,
+      null,
+      null
+    ],
+    [
+      "a.",
+      "Demand from statutory authority",
+      null,
+      null
+    ],
+    [
+      "",
+      "1. Odisha Sales tax",
+      "3.77",
+      "3.77"
+    ],
+    [
+      null,
+      "2. Central Sales tax",
+      "277.06",
+      "277.06"
+    ],
+    [
+      null,
+      "3. VAT",
+      "0.69",
+      "0.69"
+    ],
+    [
+      null,
+      "4. Excise duty",
+      "5.46",
+      "19.27"
+    ],
+    [
+      null,
+      "5. Custom duty",
+      "187.20",
+      "183.68"
+    ],
+    [
+      null,
+      "6. Service tax",
+      "8.46",
+      "14.06"
+    ],
+    [
+      null,
+      "7. GST",
+      "37.55",
+      "34.15"
+    ],
+    [
+      null,
+      "8. Income tax",
+      "196.73",
+      "195.26"
+    ],
+    [
+      null,
+      "9. Entry tax",
+      "84.04",
+      "105.65"
+    ],
+    [
+      null,
+      "10. Road tax",
+      "2.65",
+      "2.65"
+    ],
+    [
+      null,
+      "11. Stamp duty",
+      "0.51",
+      "0.51"
+    ],
+    [
+      null,
+      "12. Land acquisition and interest thereon",
+      "123.15",
+      "118.01"
+    ],
+    [
+      null,
+      "13. Dept. of mines Govt. of Odisha",
+      "136.32",
+      "136.32"
+    ],
+    [
+      null,
+      "14. Water Resources Dept. Govt. of Odisha for Water Conservation fund",
+      "119.24",
+      "119.24"
+    ]
+  ]
+}

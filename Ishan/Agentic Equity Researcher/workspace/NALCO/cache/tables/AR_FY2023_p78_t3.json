@@ -1,0 +1,61 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 78,
+  "table_index": 3,
+  "bbox": [
+    45.71533333333333,
+    405.196,
+    549.8478333333334,
+    691.97
+  ],
+  "rows": [
+    [
+      "Sl. No",
+      "Initiative undertaken",
+      "Details of the initiative (Web-link, if any, may be provided along-with summary)",
+      "Outcome of the initiative"
+    ],
+    [
+      "1",
+      "Concurrent reclamation\nand rehabilitation at\nMines",
+      "The mined-out area is concurrently reclaimed and rehabilitated with overburden waste",
+      "No waste dump is required."
+    ],
+    [
+      "2",
+      "Addition of additives\nin diesel to reduce\nconsumption of diesel in\nHEMMs at Mines",
+      "The implementation of special additives in Heavy Earth Moving Machinery (HEMMs)\nto reduce diesel consumption and enhance fuel efficiency demonstrates a commitment\nto sustainable practices and the optimization of machinery performance.",
+      "About 4-5% reduction\nin diesel consumption is\nobserved."
+    ],
+    [
+      "3",
+      "Recycling of treated\nwastewater at Mines",
+      "The treated wastewater from Mines canteen and vehicle wash area are 100% reused for\ndust suppression.",
+      "Water conservation"
+    ],
+    [
+      "4",
+      "Promotion of renewable\nenergy from waste at\nMines",
+      "Biogas plants (3 no’s) have been installed to treat organic wastes from canteen",
+      "The wastes have been fully\ntreated and clean fuel gas is\ngenerated."
+    ],
+    [
+      "5",
+      "Red mud wastewater is\nrecycled for process use\nat Refinery",
+      "Red mud generated during the refining process is discharged into the Red Mud Pond. In\nthe pond, the red mud settles, allowing the water to separate and decant. The decanted\nwater is then pumped back to the refinery process area for reutilization.",
+      "Reduction of freshwater\nconsumption."
+    ],
+    [
+      "6",
+      "Ash Pond wastewater\nis recycled for dry ash\nrepulping at Refinery",
+      "The Ash slurry generated is discharged into the Ash Pond, where the ash particles settle\ndown, and the decanted water is pumped back to the Ash Disposal Pump House in the\nRefinery plant for ash pulping.",
+      "Reduction of freshwater\nconsumption."
+    ],
+    [
+      "7",
+      "Lean slurry project of ash\ndisposal from CPP to\nabandoned allotted mine\nvoid of south Bhratpur\nOCP with recycling of\nwastewater",
+      "NALCO's Captive Power Plant (CPP) successfully implemented a project to dispose\nof ash using the lean slurry disposal method in abandoned mines to achieve 100%\nutilization of the ash generated and reuse the treated water. A Clariflocculator with a\ncapacity of 3000 m3/hr has been installed to further reduce turbidity in the recycled\nwater obtained from the Ash Pond and mine void. This treated water is used for reuse\nin various plant processes, including ash slurry preparation and other plant purposes.",
+      "Achieving 100 % fly ash\nutilization\nRe-use of Ash water for\nprocess requirements."
+    ]
+  ]
+}

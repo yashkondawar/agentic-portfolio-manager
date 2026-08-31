@@ -1,0 +1,58 @@
+{
+  "doc": "PPT_FY2026Q3.pdf",
+  "page": 7,
+  "table_index": 3,
+  "bbox": [
+    39.273849999999996,
+    291.6730375,
+    927.75005,
+    496.17904999999996
+  ],
+  "rows": [
+    [
+      "he info\nSl.\nrelies o\nNo.",
+      "rmation in this document is bei\nn information obtained from so\nSales Parameter",
+      "ng provided by\nurces believed\nUnit",
+      "the Company and is s\nAnnual Target\nto be reliable but do\n2025-26",
+      "ubject to change\nActual\nes not guarantee\nUpto Q3\nFY 2025-26",
+      "without notic\nActual\nits accuracy or\nCPLY",
+      "e. The Company\n% change\ncompleteness.\n(CPLY)"
+    ],
+    [
+      "1",
+      "Alumina /Hydrate Sale",
+      "Lakh Tonne",
+      "12.75",
+      "11.03",
+      "7.59",
+      "45.32"
+    ],
+    [
+      "2",
+      "Aluminium Export",
+      "Lakh Tonne",
+      "0.25",
+      "0.07",
+      "0.06",
+      "16.67"
+    ],
+    [
+      "3",
+      "Domestic Metal Sale",
+      "Lakh Tonne",
+      "4.45",
+      "3.45",
+      "3.28",
+      "5.18"
+    ],
+    [
+      "4",
+      "Total Metal Sale (2+3)",
+      "Lakh Tonne",
+      "4.70",
+      "3.52",
+      "3.35",
+      "5.07"
+    ]
+  ]
+}

@@ -1,0 +1,1849 @@
+[
+  {
+    "id": "F-PQ4-001",
+    "metric": "revenue_from_operations",
+    "label": "Revenue from Operation - FY2026 Full Year",
+    "value": 17843,
+    "unit": "INR_cr",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": true
+  },
+  {
+    "id": "F-PQ4-002",
+    "metric": "revenue_from_operations",
+    "label": "Revenue from Operation - FY2025 Comparator",
+    "value": 16788,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-003",
+    "metric": "revenue_growth_yoy",
+    "label": "Revenue from Operation YoY growth FY2026 vs FY2025",
+    "value": 6.28,
+    "unit": "pct",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-004",
+    "metric": "net_sales",
+    "label": "Net Sales - FY2026 Full Year",
+    "value": 17729,
+    "unit": "INR_cr",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": true
+  },
+  {
+    "id": "F-PQ4-005",
+    "metric": "net_sales",
+    "label": "Net Sales - FY2025 Comparator",
+    "value": 16662,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-006",
+    "metric": "net_sales_growth_yoy",
+    "label": "Net Sales YoY growth FY2026 vs FY2025",
+    "value": 6.40,
+    "unit": "pct",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-007",
+    "metric": "other_operating_income",
+    "label": "Other Operating Income - FY2026",
+    "value": 114,
+    "unit": "INR_cr",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-008",
+    "metric": "other_operating_income",
+    "label": "Other Operating Income - FY2025",
+    "value": 126,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-009",
+    "metric": "other_non_operating_income",
+    "label": "Other Non-Operating Income - FY2026",
+    "value": 666,
+    "unit": "INR_cr",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-010",
+    "metric": "other_non_operating_income",
+    "label": "Other Non-Operating Income - FY2025",
+    "value": 357,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-011",
+    "metric": "total_income",
+    "label": "Total Income - FY2026",
+    "value": 18509,
+    "unit": "INR_cr",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": true
+  },
+  {
+    "id": "F-PQ4-012",
+    "metric": "total_income",
+    "label": "Total Income - FY2025",
+    "value": 17145,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-013",
+    "metric": "total_income_growth_yoy",
+    "label": "Total Income YoY growth FY2026 vs FY2025",
+    "value": 7.96,
+    "unit": "pct",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-014",
+    "metric": "operating_expenses",
+    "label": "Operating Expenses - FY2026",
+    "value": 9896,
+    "unit": "INR_cr",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-015",
+    "metric": "operating_expenses",
+    "label": "Operating Expenses - FY2025",
+    "value": 9223,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-016",
+    "metric": "operating_expenses_growth_yoy",
+    "label": "Operating Expenses YoY growth FY2026 vs FY2025",
+    "value": 7.30,
+    "unit": "pct",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-017",
+    "metric": "ebitda",
+    "label": "EBITDA (excl. Exceptional) - FY2026",
+    "value": 8613,
+    "unit": "INR_cr",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": true
+  },
+  {
+    "id": "F-PQ4-018",
+    "metric": "ebitda",
+    "label": "EBITDA (excl. Exceptional) - FY2025",
+    "value": 7922,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-019",
+    "metric": "ebitda_growth_yoy",
+    "label": "EBITDA YoY growth FY2026 vs FY2025",
+    "value": 8.72,
+    "unit": "pct",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-020",
+    "metric": "depreciation",
+    "label": "Depreciation - FY2026",
+    "value": 745,
+    "unit": "INR_cr",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-021",
+    "metric": "depreciation",
+    "label": "Depreciation - FY2025",
+    "value": 728,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-022",
+    "metric": "depreciation_growth_yoy",
+    "label": "Depreciation YoY growth FY2026 vs FY2025",
+    "value": 2.34,
+    "unit": "pct",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-023",
+    "metric": "finance_cost",
+    "label": "Finance Cost - FY2026",
+    "value": 100,
+    "unit": "INR_cr",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-024",
+    "metric": "finance_cost",
+    "label": "Finance Cost - FY2025",
+    "value": 59,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-025",
+    "metric": "finance_cost_growth_yoy",
+    "label": "Finance Cost YoY growth FY2026 vs FY2025",
+    "value": 69.49,
+    "unit": "pct",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-026",
+    "metric": "pbt",
+    "label": "Profit Before Tax (PBT) - FY2026",
+    "value": 7767,
+    "unit": "INR_cr",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": true
+  },
+  {
+    "id": "F-PQ4-027",
+    "metric": "pbt",
+    "label": "Profit Before Tax (PBT) - FY2025",
+    "value": 7135,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-028",
+    "metric": "pbt_growth_yoy",
+    "label": "PBT YoY growth FY2026 vs FY2025",
+    "value": 8.86,
+    "unit": "pct",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-029",
+    "metric": "pat",
+    "label": "Profit After Tax (PAT) - FY2026",
+    "value": 5816,
+    "unit": "INR_cr",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "load_bearing": true
+  },
+  {
+    "id": "F-PQ4-030",
+    "metric": "pat",
+    "label": "Profit After Tax (PAT) - FY2025",
+    "value": 5325,
+    "unit": "INR_cr",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-031",
+    "metric": "pat_growth_yoy",
+    "label": "PAT YoY growth FY2026 vs FY2025",
+    "value": 9.22,
+    "unit": "pct",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-693"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-032",
+    "metric": "production_bauxite",
+    "label": "Bauxite Production - FY2026 Full Year",
+    "value": 7262,
+    "unit": "thousand_tonnes",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high",
+    "flags": ["company_claim"]
+  },
+  {
+    "id": "F-PQ4-033",
+    "metric": "production_bauxite_q4",
+    "label": "Bauxite Production - Q4 FY2026",
+    "value": 2047,
+    "unit": "thousand_tonnes",
+    "period": "FY2026Q4",
+    "period_type": "Q",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-034",
+    "metric": "production_bauxite_q4_prior_year",
+    "label": "Bauxite Production - Q4 FY2025",
+    "value": 1903,
+    "unit": "thousand_tonnes",
+    "period": "FY2025Q4",
+    "period_type": "Q",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-035",
+    "metric": "production_bauxite_q4_yoy_growth",
+    "label": "Bauxite Production Q4 YoY growth",
+    "value": 7.57,
+    "unit": "pct",
+    "period": "FY2026Q4",
+    "period_type": "Q",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-036",
+    "metric": "production_alumina_hydrate",
+    "label": "Alumina Hydrate Production - FY2026 Full Year",
+    "value": 2076,
+    "unit": "thousand_tonnes",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-037",
+    "metric": "production_alumina_hydrate_q4",
+    "label": "Alumina Hydrate Production - Q4 FY2026",
+    "value": 574,
+    "unit": "thousand_tonnes",
+    "period": "FY2026Q4",
+    "period_type": "Q",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-038",
+    "metric": "production_alumina_hydrate_q4_prior_year",
+    "label": "Alumina Hydrate Production - Q4 FY2025",
+    "value": 585,
+    "unit": "thousand_tonnes",
+    "period": "FY2025Q4",
+    "period_type": "Q",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-039",
+    "metric": "production_alumina_hydrate_q4_yoy_growth",
+    "label": "Alumina Hydrate Production Q4 YoY growth",
+    "value": -1.88,
+    "unit": "pct",
+    "period": "FY2026Q4",
+    "period_type": "Q",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-040",
+    "metric": "production_metal_aluminium",
+    "label": "Metal (Aluminium) Production - FY2026 Full Year",
+    "value": 460,
+    "unit": "thousand_tonnes",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-041",
+    "metric": "production_metal_aluminium_q4",
+    "label": "Metal (Aluminium) Production - Q4 FY2026",
+    "value": 117,
+    "unit": "thousand_tonnes",
+    "period": "FY2026Q4",
+    "period_type": "Q",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-042",
+    "metric": "production_metal_aluminium_q4_prior_year",
+    "label": "Metal (Aluminium) Production - Q4 FY2025",
+    "value": 118,
+    "unit": "thousand_tonnes",
+    "period": "FY2025Q4",
+    "period_type": "Q",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-043",
+    "metric": "production_metal_aluminium_q4_yoy_growth",
+    "label": "Metal (Aluminium) Production Q4 YoY growth",
+    "value": -0.85,
+    "unit": "pct",
+    "period": "FY2026Q4",
+    "period_type": "Q",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-044",
+    "metric": "production_thermal_power",
+    "label": "Thermal Power Production - FY2026 Full Year",
+    "value": 6641,
+    "unit": "MU",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-045",
+    "metric": "production_thermal_power_q4",
+    "label": "Thermal Power Production - Q4 FY2026",
+    "value": 1748,
+    "unit": "MU",
+    "period": "FY2026Q4",
+    "period_type": "Q",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-046",
+    "metric": "production_thermal_power_q4_prior_year",
+    "label": "Thermal Power Production - Q4 FY2025",
+    "value": 1745,
+    "unit": "MU",
+    "period": "FY2025Q4",
+    "period_type": "Q",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-047",
+    "metric": "production_thermal_power_q4_yoy_growth",
+    "label": "Thermal Power Production Q4 YoY growth",
+    "value": 0.17,
+    "unit": "pct",
+    "period": "FY2026Q4",
+    "period_type": "Q",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-048",
+    "metric": "sales_alumina_export",
+    "label": "Alumina - Export Sales - FY2026 Full Year",
+    "value": 1064.6,
+    "unit": "thousand_tonnes",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-049",
+    "metric": "sales_alumina_export_q4",
+    "label": "Alumina - Export Sales - Q4 FY2026",
+    "value": 305.13,
+    "unit": "thousand_tonnes",
+    "period": "FY2026Q4",
+    "period_type": "Q",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-050",
+    "metric": "sales_alumina_export_q4_prior_year",
+    "label": "Alumina - Export Sales - Q4 FY2025",
+    "value": 334.31,
+    "unit": "thousand_tonnes",
+    "period": "FY2025Q4",
+    "period_type": "Q",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-051",
+    "metric": "sales_alumina_export_q4_yoy_growth",
+    "label": "Alumina - Export Sales Q4 YoY growth",
+    "value": -8.7,
+    "unit": "pct",
+    "period": "FY2026Q4",
+    "period_type": "Q",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-052",
+    "metric": "sales_alumina_domestic",
+    "label": "Alumina - Domestic Sales - FY2026 Full Year",
+    "value": 41.4,
+    "unit": "thousand_tonnes",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-053",
+    "metric": "sales_alumina_domestic_q4",
+    "label": "Alumina - Domestic Sales - Q4 FY2026",
+    "value": 38.23,
+    "unit": "thousand_tonnes",
+    "period": "FY2026Q4",
+    "period_type": "Q",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-054",
+    "metric": "sales_alumina_domestic_q4_prior_year",
+    "label": "Alumina - Domestic Sales - Q4 FY2025",
+    "value": 12.36,
+    "unit": "thousand_tonnes",
+    "period": "FY2025Q4",
+    "period_type": "Q",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-055",
+    "metric": "sales_alumina_domestic_q4_yoy_growth",
+    "label": "Alumina - Domestic Sales Q4 YoY growth",
+    "value": 209.3,
+    "unit": "pct",
+    "period": "FY2026Q4",
+    "period_type": "Q",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-056",
+    "metric": "sales_metal_export",
+    "label": "Metal - Export Sales - FY2026 Full Year",
+    "value": 6.1,
+    "unit": "thousand_tonnes",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-057",
+    "metric": "sales_metal_export_q4",
+    "label": "Metal - Export Sales - Q4 FY2026",
+    "value": 6.11,
+    "unit": "thousand_tonnes",
+    "period": "FY2026Q4",
+    "period_type": "Q",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-058",
+    "metric": "sales_metal_export_q4_prior_year",
+    "label": "Metal - Export Sales - Q4 FY2025",
+    "value": 0,
+    "unit": "thousand_tonnes",
+    "period": "FY2025Q4",
+    "period_type": "Q",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-059",
+    "metric": "sales_metal_domestic",
+    "label": "Metal - Domestic Sales - FY2026 Full Year",
+    "value": 454.6,
+    "unit": "thousand_tonnes",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-060",
+    "metric": "sales_metal_domestic_q4",
+    "label": "Metal - Domestic Sales - Q4 FY2026",
+    "value": 116.07,
+    "unit": "thousand_tonnes",
+    "period": "FY2026Q4",
+    "period_type": "Q",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-061",
+    "metric": "sales_metal_domestic_q4_prior_year",
+    "label": "Metal - Domestic Sales - Q4 FY2025",
+    "value": 126.19,
+    "unit": "thousand_tonnes",
+    "period": "FY2025Q4",
+    "period_type": "Q",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-062",
+    "metric": "sales_metal_domestic_q4_yoy_growth",
+    "label": "Metal - Domestic Sales Q4 YoY growth",
+    "value": -8.0,
+    "unit": "pct",
+    "period": "FY2026Q4",
+    "period_type": "Q",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-063",
+    "metric": "bauxite_transportation_fy",
+    "label": "Bauxite Transportation - FY2026 Full Year (Lakh Tonne)",
+    "value": 77.07,
+    "unit": "lakh_tonne",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-064",
+    "metric": "bauxite_transportation_target",
+    "label": "Bauxite Transportation - FY2026 Annual Target (Lakh Tonne)",
+    "value": 77.00,
+    "unit": "lakh_tonne",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-065",
+    "metric": "bauxite_transportation_prior_year",
+    "label": "Bauxite Transportation - FY2025 Actual (Lakh Tonne)",
+    "value": 72.62,
+    "unit": "lakh_tonne",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-066",
+    "metric": "bauxite_transportation_yoy_growth",
+    "label": "Bauxite Transportation YoY growth FY2026 vs FY2025",
+    "value": 6.13,
+    "unit": "pct",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-067",
+    "metric": "alumina_hydrate_sale_fy",
+    "label": "Alumina Hydrate Sale - FY2026 Full Year (Lakh Tonne)",
+    "value": 14.46,
+    "unit": "lakh_tonne",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-068",
+    "metric": "alumina_hydrate_sale_target",
+    "label": "Alumina Hydrate Sale - FY2026 Annual Target (Lakh Tonne)",
+    "value": 12.75,
+    "unit": "lakh_tonne",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-069",
+    "metric": "alumina_hydrate_sale_prior_year",
+    "label": "Alumina Hydrate Sale - FY2025 Actual (Lakh Tonne)",
+    "value": 11.06,
+    "unit": "lakh_tonne",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-070",
+    "metric": "alumina_hydrate_sale_yoy_growth",
+    "label": "Alumina Hydrate Sale YoY growth FY2026 vs FY2025",
+    "value": 30.74,
+    "unit": "pct",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-071",
+    "metric": "aluminium_export_fy",
+    "label": "Aluminium Export - FY2026 Full Year (Lakh Tonne)",
+    "value": 0.13,
+    "unit": "lakh_tonne",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-072",
+    "metric": "aluminium_export_target",
+    "label": "Aluminium Export - FY2026 Annual Target (Lakh Tonne)",
+    "value": 0.25,
+    "unit": "lakh_tonne",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-073",
+    "metric": "aluminium_export_prior_year",
+    "label": "Aluminium Export - FY2025 Actual (Lakh Tonne)",
+    "value": 0.06,
+    "unit": "lakh_tonne",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-074",
+    "metric": "aluminium_export_yoy_growth",
+    "label": "Aluminium Export YoY growth FY2026 vs FY2025",
+    "value": 116.67,
+    "unit": "pct",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-075",
+    "metric": "domestic_metal_sale_fy",
+    "label": "Domestic Metal Sale - FY2026 Full Year (Lakh Tonne)",
+    "value": 4.61,
+    "unit": "lakh_tonne",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-076",
+    "metric": "domestic_metal_sale_target",
+    "label": "Domestic Metal Sale - FY2026 Annual Target (Lakh Tonne)",
+    "value": 4.45,
+    "unit": "lakh_tonne",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-077",
+    "metric": "domestic_metal_sale_prior_year",
+    "label": "Domestic Metal Sale - FY2025 Actual (Lakh Tonne)",
+    "value": 4.55,
+    "unit": "lakh_tonne",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-078",
+    "metric": "domestic_metal_sale_yoy_growth",
+    "label": "Domestic Metal Sale YoY growth FY2026 vs FY2025",
+    "value": 1.32,
+    "unit": "pct",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-079",
+    "metric": "total_metal_sale_fy",
+    "label": "Total Metal Sale (Export + Domestic) - FY2026 Full Year (Lakh Tonne)",
+    "value": 4.74,
+    "unit": "lakh_tonne",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-080",
+    "metric": "total_metal_sale_target",
+    "label": "Total Metal Sale (Export + Domestic) - FY2026 Annual Target (Lakh Tonne)",
+    "value": 4.70,
+    "unit": "lakh_tonne",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-081",
+    "metric": "total_metal_sale_prior_year",
+    "label": "Total Metal Sale (Export + Domestic) - FY2025 Actual (Lakh Tonne)",
+    "value": 4.61,
+    "unit": "lakh_tonne",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-082",
+    "metric": "total_metal_sale_yoy_growth",
+    "label": "Total Metal Sale YoY growth FY2026 vs FY2025",
+    "value": 2.82,
+    "unit": "pct",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-083",
+    "metric": "aluminium_cast_metal_fy",
+    "label": "Aluminium Cast Metal - FY2026 Full Year (Lakh Tonne)",
+    "value": 4.72,
+    "unit": "lakh_tonne",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-084",
+    "metric": "aluminium_cast_metal_target",
+    "label": "Aluminium Cast Metal - FY2026 Annual Target (Lakh Tonne)",
+    "value": 4.70,
+    "unit": "lakh_tonne",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-085",
+    "metric": "aluminium_cast_metal_prior_year",
+    "label": "Aluminium Cast Metal - FY2025 Actual (Lakh Tonne)",
+    "value": 4.60,
+    "unit": "lakh_tonne",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-086",
+    "metric": "aluminium_cast_metal_yoy_growth",
+    "label": "Aluminium Cast Metal YoY growth FY2026 vs FY2025",
+    "value": 2.61,
+    "unit": "pct",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-087",
+    "metric": "net_power_generation_fy",
+    "label": "Net Power Generation - FY2026 Full Year (MU)",
+    "value": 6953,
+    "unit": "MU",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-088",
+    "metric": "net_power_generation_target",
+    "label": "Net Power Generation - FY2026 Annual Target (MU)",
+    "value": 7053,
+    "unit": "MU",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-089",
+    "metric": "net_power_generation_prior_year",
+    "label": "Net Power Generation - FY2025 Actual (MU)",
+    "value": 6641,
+    "unit": "MU",
+    "period": "FY2025",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-090",
+    "metric": "net_power_generation_yoy_growth",
+    "label": "Net Power Generation YoY growth FY2026 vs FY2025",
+    "value": 4.70,
+    "unit": "pct",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-689"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-091",
+    "metric": "wind_power_installed",
+    "label": "Wind Power Installed Capacity - FY2026",
+    "value": 198,
+    "unit": "MW",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-694"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-092",
+    "metric": "wind_power_generated",
+    "label": "Wind Power Generated - FY2026",
+    "value": 307,
+    "unit": "MU",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-694"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-093",
+    "metric": "solar_power_rooftop",
+    "label": "Roof Top Solar Power Installed - FY2026",
+    "value": 1.06,
+    "unit": "MWp",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-694"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-094",
+    "metric": "afforestation_plantation",
+    "label": "Plantation in FY2026",
+    "value": 187969,
+    "unit": "count",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-694"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-095",
+    "metric": "csr_expenditure",
+    "label": "CSR Expenditure - FY2026",
+    "value": 8076.65,
+    "unit": "INR_lakh",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-694"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-096",
+    "metric": "csr_obligation",
+    "label": "CSR Obligation - FY2026",
+    "value": 7913.00,
+    "unit": "INR_lakh",
+    "period": "FY2026",
+    "period_type": "FY",
+    "basis": "na",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-694"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-097",
+    "metric": "q4_fy2026_net_sales",
+    "label": "Q4 FY2026 Net Sales",
+    "value": 4981,
+    "unit": "INR_cr",
+    "period": "FY2026Q4",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-690"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-098",
+    "metric": "q4_fy2025_net_sales",
+    "label": "Q4 FY2025 Net Sales",
+    "value": 5228,
+    "unit": "INR_cr",
+    "period": "FY2025Q4",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-690"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-099",
+    "metric": "q4_net_sales_yoy_change",
+    "label": "Q4 Net Sales YoY Change (%)",
+    "value": -4.72,
+    "unit": "pct",
+    "period": "FY2026Q4",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-690"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-100",
+    "metric": "q4_fy2026_other_op_income",
+    "label": "Q4 FY2026 Other Operating Income",
+    "value": 32,
+    "unit": "INR_cr",
+    "period": "FY2026Q4",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-690"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-101",
+    "metric": "q4_fy2026_revenue_from_operation",
+    "label": "Q4 FY2026 Revenue from Operation",
+    "value": 5013,
+    "unit": "INR_cr",
+    "period": "FY2026Q4",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-690"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-102",
+    "metric": "q4_fy2025_revenue_from_operation",
+    "label": "Q4 FY2025 Revenue from Operation",
+    "value": 5268,
+    "unit": "INR_cr",
+    "period": "FY2025Q4",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-690"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-103",
+    "metric": "q4_revenue_yoy_change",
+    "label": "Q4 Revenue from Operation YoY Change (%)",
+    "value": -4.82,
+    "unit": "pct",
+    "period": "FY2026Q4",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-690"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-104",
+    "metric": "q4_fy2026_other_non_op_income",
+    "label": "Q4 FY2026 Other Non-Operating Income",
+    "value": 197,
+    "unit": "INR_cr",
+    "period": "FY2026Q4",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-690"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-105",
+    "metric": "q4_fy2026_total_income",
+    "label": "Q4 FY2026 Total Income",
+    "value": 5210,
+    "unit": "INR_cr",
+    "period": "FY2026Q4",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-690"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-106",
+    "metric": "q4_fy2026_operating_expenses",
+    "label": "Q4 FY2026 Operating Expenses",
+    "value": 2663,
+    "unit": "INR_cr",
+    "period": "FY2026Q4",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-690"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-107",
+    "metric": "q4_fy2026_ebitda",
+    "label": "Q4 FY2026 EBITDA (excl. Exceptional)",
+    "value": 2547,
+    "unit": "INR_cr",
+    "period": "FY2026Q4",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-690"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-108",
+    "metric": "q4_fy2026_depreciation",
+    "label": "Q4 FY2026 Depreciation",
+    "value": 211,
+    "unit": "INR_cr",
+    "period": "FY2026Q4",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-690"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-109",
+    "metric": "q4_fy2026_finance_cost",
+    "label": "Q4 FY2026 Finance Cost",
+    "value": 24,
+    "unit": "INR_cr",
+    "period": "FY2026Q4",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-690"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-110",
+    "metric": "q4_fy2026_pbt",
+    "label": "Q4 FY2026 Profit Before Tax",
+    "value": 2311,
+    "unit": "INR_cr",
+    "period": "FY2026Q4",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-690"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-111",
+    "metric": "q4_fy2025_pbt",
+    "label": "Q4 FY2025 Profit Before Tax",
+    "value": 2760,
+    "unit": "INR_cr",
+    "period": "FY2025Q4",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-690"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-112",
+    "metric": "q4_pbt_yoy_change",
+    "label": "Q4 PBT YoY Change (%)",
+    "value": -16.27,
+    "unit": "pct",
+    "period": "FY2026Q4",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-690"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-113",
+    "metric": "q4_fy2026_pat",
+    "label": "Q4 FY2026 Profit After Tax",
+    "value": 1718,
+    "unit": "INR_cr",
+    "period": "FY2026Q4",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-690"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-114",
+    "metric": "q4_fy2025_pat",
+    "label": "Q4 FY2025 Profit After Tax",
+    "value": 2078,
+    "unit": "INR_cr",
+    "period": "FY2025Q4",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-690"
+    },
+    "method": "reported",
+    "confidence": "high"
+  },
+  {
+    "id": "F-PQ4-115",
+    "metric": "q4_pat_yoy_change",
+    "label": "Q4 PAT YoY Change (%)",
+    "value": -17.37,
+    "unit": "pct",
+    "period": "FY2026Q4",
+    "period_type": "Q",
+    "basis": "consolidated",
+    "level": 1,
+    "source": {
+      "src_id": "SRC-690"
+    },
+    "method": "reported",
+    "confidence": "high"
+  }
+]

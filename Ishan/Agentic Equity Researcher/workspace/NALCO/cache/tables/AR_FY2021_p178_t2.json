@@ -1,0 +1,188 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 178,
+  "table_index": 2,
+  "bbox": [
+    71.1161,
+    122.68757142857143,
+    546.7756,
+    631.2760999999999
+  ],
+  "rows": [
+    [
+      "",
+      "As at\n31.03.2021",
+      "As at\n31.03.2020"
+    ],
+    [
+      "Deferred tax liabilities",
+      "1,141.28",
+      "1,582.79"
+    ],
+    [
+      "Deferred tax assets",
+      "247.56",
+      "522.18"
+    ],
+    [
+      "",
+      "893.72",
+      "1,060.61"
+    ],
+    [
+      "2019-20 Opening balance Recognised in Recognised in other Closing balance as\nas at 01.04.2019 profit or loss comprehensive at 31.03.2020\nincome",
+      null,
+      null
+    ],
+    [
+      "Deferred tax liabilities relating to:",
+      null,
+      null
+    ],
+    [
+      "Property, plant and equipment (1,545.06) (28.76) — (1,573.82)",
+      null,
+      null
+    ],
+    [
+      "FVTPL financial assets 2.94 (0.58) — 2.36",
+      null,
+      null
+    ],
+    [
+      "Provision for defined benefit obligation (OCI) (18.00) — 6.67 (11.33)",
+      null,
+      null
+    ],
+    [
+      "Deferred tax liabilities (1,560.12) (29.34) 6.67 (1,582.79)",
+      null,
+      null
+    ],
+    [
+      "Deferred tax assets in relation to:",
+      null,
+      null
+    ],
+    [
+      "Provision for compensated absences and other employee benefits 121.35 28.05 — 149.40",
+      null,
+      null
+    ],
+    [
+      "Provision for defined benefit obligation 88.17 2.65 — 90.82",
+      null,
+      null
+    ],
+    [
+      "Provision for doubtful debts / advances 90.24 (1.22) — 89.02",
+      null,
+      null
+    ],
+    [
+      "Temporary Difference due to application of section 43B 125.27 63.25 — 188.52",
+      null,
+      null
+    ],
+    [
+      "MAT credit entitlement — — — —",
+      null,
+      null
+    ],
+    [
+      "Others 4.42 — — 4.42",
+      null,
+      null
+    ],
+    [
+      "Deferred tax assets 429.45 92.73 — 522.18",
+      null,
+      null
+    ],
+    [
+      "Deferred tax (liabilities) / assets - [net] (1,130.67) 63.39 6.67 (1,060.61)",
+      null,
+      null
+    ],
+    [
+      "",
+      null,
+      null
+    ],
+    [
+      "2020-21 Opening balance Recognised in Recognised in other Closing balance as\nas at 01.04.2020 profit or loss comprehensive at 31.03.2021\nincome",
+      null,
+      null
+    ],
+    [
+      "Deferred tax liabilities relating to:",
+      null,
+      null
+    ],
+    [
+      "Property, plant and equipment (1,573.82) 433.37 — (1,140.45)",
+      null,
+      null
+    ],
+    [
+      "FVTPL financial assets 2.36 1.96 — 4.32",
+      null,
+      null
+    ],
+    [
+      "Provision for defined benefit obligation (OCI) (11.33) — 6.18 (5.15)",
+      null,
+      null
+    ],
+    [
+      "Deferred tax liabilities (1,582.79) 435.33 6.18 (1,141.28)",
+      null,
+      null
+    ],
+    [
+      "Deferred tax assets in relation to:",
+      null,
+      null
+    ],
+    [
+      "Provision for compensated absences and other employee benefits 149.40 (41.08) — 108.32",
+      null,
+      null
+    ],
+    [
+      "Provision for defined benefit obligation 90.82 (24.70) — 66.12",
+      null,
+      null
+    ],
+    [
+      "Provision for doubtful debts / advances 89.02 (20.01) — 69.01",
+      null,
+      null
+    ],
+    [
+      "Temporary Difference due to application of section 43B 188.52 (187.59) — 0.93",
+      null,
+      null
+    ],
+    [
+      "MAT credit entitlement — — — —",
+      null,
+      null
+    ],
+    [
+      "Others 4.42 (1.24) — 3.18",
+      null,
+      null
+    ],
+    [
+      "Deferred tax assets 522.18 (274.62) — 247.56",
+      null,
+      null
+    ],
+    [
+      "Deferred tax (liabilities) / assets [net] (1,060.61) 160.71 6.18 (893.72)",
+      null,
+      null
+    ]
+  ]
+}

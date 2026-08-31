@@ -1,0 +1,1 @@
+{"version":"0.0.1","configurations":[{"name":"dashboard","runtimeExecutable":".venv\\Scripts\\python","runtimeArgs":["-m","streamlit","run","dashboard/Home.py","--server.headless","true","--server.port","8501"],"port":8501}]}

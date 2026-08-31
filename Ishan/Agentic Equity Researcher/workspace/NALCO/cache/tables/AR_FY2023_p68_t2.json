@@ -1,0 +1,41 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 68,
+  "table_index": 2,
+  "bbox": [
+    45.6958,
+    229.30650000000003,
+    549.9927142857143,
+    283.21500000000003
+  ],
+  "rows": [
+    [
+      "",
+      "FY 2022-23",
+      null,
+      "FY 2021-22",
+      null
+    ],
+    [
+      null,
+      "Number",
+      "Remarks",
+      "Number",
+      "Remarks"
+    ],
+    [
+      "Number of complaints received in relation to issues of Conflict of Interest of the Directors",
+      "0",
+      "N.A.",
+      "0",
+      "N.A."
+    ],
+    [
+      "Number of complaints received in relation to issues of Conflict of Interest of the KMPs",
+      "0",
+      "N.A.",
+      "0",
+      "N.A."
+    ]
+  ]
+}

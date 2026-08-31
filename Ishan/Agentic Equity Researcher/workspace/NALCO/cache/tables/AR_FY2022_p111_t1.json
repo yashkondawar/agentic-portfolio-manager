@@ -1,0 +1,29 @@
+{
+  "doc": "AR_FY2022.pdf",
+  "page": 111,
+  "table_index": 1,
+  "bbox": [
+    74.518,
+    59.86800000000005,
+    549.9876444444444,
+    118.80500000000006
+  ],
+  "rows": [
+    [
+      "Events",
+      "Tentative Date"
+    ],
+    [
+      "Unaudited Financial results for the first three quarters",
+      "Within 45 days of closure of respective quarter"
+    ],
+    [
+      "Audited Financial results for the year including 4th quarter results",
+      "Within 60 days from date of closure of the Financial Year."
+    ],
+    [
+      "Annual General Meeting for the year ending March 31, 2023",
+      "By September, 2023"
+    ]
+  ]
+}

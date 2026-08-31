@@ -1,0 +1,28 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 196,
+  "table_index": 5,
+  "bbox": [
+    116.47088947368421,
+    316.03884,
+    547.4660952380951,
+    359.89655999999997
+  ],
+  "rows": [
+    [
+      "Particulars",
+      "Year ended\n31.03.2021",
+      "Year ended\n31.03.2020"
+    ],
+    [
+      "Buyback of shares",
+      "109.25",
+      "—"
+    ],
+    [
+      "Dividend paid during the year",
+      "236.4",
+      "265.38"
+    ]
+  ]
+}

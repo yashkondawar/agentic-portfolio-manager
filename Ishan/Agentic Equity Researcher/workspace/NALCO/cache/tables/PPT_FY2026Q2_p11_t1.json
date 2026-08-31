@@ -1,0 +1,21 @@
+{
+  "doc": "PPT_FY2026Q2.pdf",
+  "page": 11,
+  "table_index": 1,
+  "bbox": [
+    23.87995,
+    142.48,
+    375.84000000000003,
+    498.15999999999997
+  ],
+  "rows": [
+    [
+      null,
+      "Global GDP Growth (%)\n5202\n3.5\n,tcO\nOEW\n3.3\nFMI 3.2\n:ecruoS 3.1\n2023 2024 2025 (Estimate) 2026 (Projection)"
+    ],
+    [
+      "9.641\n6.641\nGlobal Alumina Scenario\n5.341\n7.241\n5.041\n5.931\n0.731 7.631\n5202\n’tcO\n,URC\n:ecruoS\n2023 2024 2025 (P) 2026 (P)\nProduction (Global) Consumption (Global)\nFigs in Mln. T",
+      null
+    ]
+  ]
+}

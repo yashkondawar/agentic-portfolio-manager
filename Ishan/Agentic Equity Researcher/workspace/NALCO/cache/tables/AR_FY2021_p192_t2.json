@@ -1,0 +1,97 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 192,
+  "table_index": 2,
+  "bbox": [
+    71.1161,
+    122.68739999999991,
+    546.8366,
+    301.75749999999994
+  ],
+  "rows": [
+    [
+      "37.1 Categories of financial instruments",
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      null,
+      "As at\n31.03.2021",
+      "As at\n31.03.2020"
+    ],
+    [
+      "Financial Assets",
+      null,
+      "",
+      ""
+    ],
+    [
+      "Measured at fair value through profit or loss (FVTPL)",
+      null,
+      "",
+      ""
+    ],
+    [
+      "(a)",
+      "Mandatorily measured:",
+      "",
+      ""
+    ],
+    [
+      null,
+      "(i) Investments in mutual funds",
+      "248.38",
+      "55.01"
+    ],
+    [
+      null,
+      "(ii) Forward contract on foreign currency",
+      "Nil",
+      "Nil"
+    ],
+    [
+      "Measured at Amortised cost",
+      null,
+      "",
+      ""
+    ],
+    [
+      "(a)",
+      "Cash and bank balances",
+      "213.52",
+      "18.47"
+    ],
+    [
+      "(b)",
+      "Other financial assets at amortised cost",
+      "2,124.25",
+      "2,503.11"
+    ],
+    [
+      "",
+      null,
+      "2,586.15",
+      "2,576.59"
+    ],
+    [
+      "Financial Liabilities",
+      null,
+      "",
+      ""
+    ],
+    [
+      "Measured at Amortised cost",
+      null,
+      "1,409.30",
+      "1,282.48"
+    ],
+    [
+      "Financial assets measured at fair value based on Level 1 informations available. The fair value of these assets is marked to an active market which factors the\nuncertainities arising out of COVID-19.",
+      null,
+      null,
+      null
+    ]
+  ]
+}

@@ -1,0 +1,223 @@
+{
+  "doc": "AR_FY2023.pdf",
+  "page": 244,
+  "table_index": 2,
+  "bbox": [
+    45.604,
+    222.2030000000001,
+    549.546,
+    674.521
+  ],
+  "rows": [
+    [
+      "35. Other expenses Amount in ` Crore",
+      null,
+      null,
+      null
+    ],
+    [
+      "",
+      null,
+      "Year ended 31.03.2023",
+      "Year ended 31.03.2022"
+    ],
+    [
+      "(a)",
+      "Stores and spares consumed",
+      "443.69",
+      "381.26"
+    ],
+    [
+      "(b)",
+      "Repair and maintenance to",
+      "",
+      ""
+    ],
+    [
+      null,
+      "(1) Buildings",
+      "68.36",
+      "55.43"
+    ],
+    [
+      null,
+      "(2) Machinery",
+      "209.60",
+      "170.73"
+    ],
+    [
+      null,
+      "(3) Others",
+      "26.20",
+      "25.50"
+    ],
+    [
+      "(c)",
+      "Other Manufacturing Expenses",
+      "",
+      ""
+    ],
+    [
+      null,
+      "(1) Water charges",
+      "34.55",
+      "34.57"
+    ],
+    [
+      null,
+      "(2) Royalty",
+      "414.30",
+      "435.51"
+    ],
+    [
+      null,
+      "(3) Contribution to District Mineral Fund and National Mineral Exploration Trust",
+      "66.29",
+      "69.68"
+    ],
+    [
+      null,
+      "(4) Others",
+      "126.26",
+      "105.60"
+    ],
+    [
+      "(d)",
+      "Freight and handling charges",
+      "",
+      ""
+    ],
+    [
+      null,
+      "(1) Incoming materials (Alumina)",
+      "123.84",
+      "118.96"
+    ],
+    [
+      null,
+      "(2) Outgoing materials",
+      "130.71",
+      "172.41"
+    ],
+    [
+      "(e)",
+      "Auditors remuneration and out-of-pocket expenses",
+      "",
+      ""
+    ],
+    [
+      null,
+      "(i) As Auditors",
+      "0.45",
+      "0.45"
+    ],
+    [
+      null,
+      "(ii) For Taxation matters",
+      "0.09",
+      "0.08"
+    ],
+    [
+      null,
+      "(iii) For Other services",
+      "0.39",
+      "0.36"
+    ],
+    [
+      null,
+      "(iv) For reimbursement of expenses",
+      "0.01",
+      "-"
+    ],
+    [
+      "(f)",
+      "Payment to Cost Auditors",
+      "0.05",
+      "0.03"
+    ],
+    [
+      "(g)",
+      "Security and fire fighting expenses",
+      "164.31",
+      "150.96"
+    ],
+    [
+      "(h)",
+      "Corporate social responsibility expenses [refer note 35.1]",
+      "39.54",
+      "36.91"
+    ],
+    [
+      "(i)",
+      "Administrative and general expenses",
+      "118.74",
+      "101.88"
+    ],
+    [
+      "(j)",
+      "Renewable purchase obligation",
+      "26.03",
+      "51.84"
+    ],
+    [
+      "(k)",
+      "Selling and distribution expenses",
+      "24.36",
+      "33.43"
+    ],
+    [
+      "(l)",
+      "Write off of Inventories, Claims etc.",
+      "3.26",
+      "1.68"
+    ],
+    [
+      "(m)",
+      "Write off of Property Plant & Equipments",
+      "11.55",
+      "8.27"
+    ],
+    [
+      "(n)",
+      "Bad and doubtful Provisions/ (write back)",
+      "36.45",
+      "46.03"
+    ],
+    [
+      "(o)",
+      "Others",
+      "56.54",
+      "63.93"
+    ],
+    [
+      null,
+      "(1) Rent",
+      "0.80",
+      "0.79"
+    ],
+    [
+      null,
+      "(2) Rates and Taxes",
+      "3.72",
+      "4.01"
+    ],
+    [
+      null,
+      "(3) Insurance charges",
+      "16.94",
+      "17.80"
+    ],
+    [
+      null,
+      "(4) Other miscellaneous expenses",
+      "35.08",
+      "41.33"
+    ],
+    [
+      "",
+      "Total other expenses",
+      "2,125.57",
+      "2,065.50"
+    ]
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "doc": "AR_FY2021.pdf",
+  "page": 145,
+  "table_index": 2,
+  "bbox": [
+    56.94292,
+    594.91975,
+    555.3404800000001,
+    698.1966999999999
+  ],
+  "rows": [
+    [
+      "Sl.\nNo.",
+      "Nature of\nStatute",
+      "Nature of\nDisputed\nStatutory dues",
+      "Period to which the amount relates to",
+      "Forum where the dispute is\npending",
+      "Gross disputed\namount\n(₹ Crore)",
+      "Amount deposited under\nprotest/adjusted by Tax\nauthorities (₹ Crore)"
+    ],
+    [
+      "1",
+      "Income Tax Act,\n1961",
+      "Income Tax/TDS/\nInterest",
+      "2002-03, 2003-04, 2004-05, 2005-06",
+      "High Court",
+      "22.06",
+      "61.77"
+    ],
+    [
+      null,
+      null,
+      null,
+      "2016-17",
+      "Commissioner of Income Tax\n(Appeals)",
+      "50.74",
+      "20.54"
+    ],
+    [
+      null,
+      null,
+      null,
+      "2006-07, 2007-08, 2008-09, 2009-10,\n2010-11, 2011-12, 2012-13, 2013-14,\n2014-15, 2015-16",
+      "Asst. Commissioner /Deputy\nCommissioner of Income Tax",
+      "89.90",
+      "396.65"
+    ]
+  ]
+}

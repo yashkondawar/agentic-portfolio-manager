@@ -1,0 +1,42 @@
+[
+  {
+    "id": "OQ-DR2-1",
+    "question": "What is NALCO's current (CY2025/2026) independent cost-curve quartile/decile ranking (Wood Mackenzie, CRU, or equivalent) for alumina and bauxite specifically -- does the company's 'lowest-cost producer' claim still hold, or has the position eroded relative to peers (Hindalco India-upstream cited as 'first decile', Vedanta Aluminium cited as 'lower/first quartile' in more recent press than any NALCO-specific citation found)?",
+    "severity": "medium",
+    "routed_to": "deep-researcher (follow-up) or orchestrator (direct Wood Mackenzie/CRU subscription query if budget allows)",
+    "reason_unresolved": "Only 2016- and 2019-vintage Wood Mackenzie citations for NALCO were locatable via general web search in this pass (18 of 25-search budget used, remainder allocated to core scope items); a current study likely exists behind a paid CRU/Wood Mackenzie subscription not accessible via search.",
+    "origin_file": "dr2_sector_peers"
+  },
+  {
+    "id": "OQ-DR2-2",
+    "question": "What is NALCO's actual export volume/mix to the EU and US specifically -- is the company meaningfully exposed to the 41.7% CBAM-driven decline in Indian unwrought-aluminium exports to the EU, or to the US Section 232 tariff wall, or is its sales base predominantly domestic (in which case these are sector-context risks rather than company-specific ones)?",
+    "severity": "medium",
+    "routed_to": "fundamental-analyst / extraction_deeper (check AR/PPT geography-of-sales disclosures)",
+    "reason_unresolved": "This DR2 pass sourced the external policy/volume facts (CBAM impact, Section 232 restructuring) but did not cross-reference them against NALCO's own company disclosures on export geography, which is an internal-document extraction task, not a web-research task.",
+    "origin_file": "dr2_sector_peers"
+  },
+  {
+    "id": "OQ-DR2-3",
+    "question": "Is there an official-statistics-grade (CRISIL, ICRA, India Ministry of Mines, or Aluminium Association of India) source for India's aluminium demand CAGR to 2030, to upgrade the current corroboration (paid market-research houses only, 5.9-7.8% range) to a primary/regulator-tier source for the company's claimed 6.3-7.2% CAGR?",
+    "severity": "low",
+    "routed_to": "deep-researcher (follow-up) if this figure becomes load-bearing in the final note",
+    "reason_unresolved": "Search results returned only commercial market-research aggregators (TechSci, others); no CRISIL/ICRA-branded report or government/industry-association statistic surfaced in the queries run this pass.",
+    "origin_file": "dr2_sector_peers"
+  },
+  {
+    "id": "OQ-DR2-4",
+    "question": "EGA (Emirates Global Aluminium) peer data (production scale, EBITDA margin, cost position) -- not researched in this pass; triage seed list named it as a possible 6th global peer.",
+    "severity": "low",
+    "routed_to": "deep-researcher (follow-up, if peer-valuation-analyst wants a 6th global peer for completeness)",
+    "reason_unresolved": "Deprioritized under the 25-search budget in favor of the 5 peers (Hindalco, Vedanta, Alcoa, Norsk Hydro, Chalco) with more readily available recent public data; EGA is privately held (Abu Dhabi/Dubai govt JV) with sparser public disclosure, likely requiring more search iterations for a comparable data yield.",
+    "origin_file": "dr2_sector_peers"
+  },
+  {
+    "id": "OQ-DR2-5",
+    "question": "Peer table currency normalization: Hindalco (INR), Vedanta (implicitly INR/USD mixed), Alcoa (USD), Norsk Hydro (NOK), Chalco (RMB/USD) figures were left in native units. Convert to one basis (₹ cr, per citation standard's stated preference) with FX rate + date recorded as an assumption.",
+    "severity": "low",
+    "routed_to": "peer-valuation-analyst",
+    "reason_unresolved": "Out of scope for a research pass -- this is a computation/normalization task better done by peer-valuation-analyst with an explicit assumptions-ledger entry, not re-derived here to avoid an un-cited FX conversion.",
+    "origin_file": "dr2_sector_peers"
+  }
+]
