@@ -43,6 +43,10 @@ class Position:
     entry_rsi_m: float = 0.0
     original_quantity: float = 0.0
     partial_booked: bool = False
+    # Commission paid to open, on the *original* quantity. A partial exit takes
+    # its pro-rata share of this so the two legs of every round trip add up to
+    # what the cash book actually paid.
+    entry_cost: float = 0.0
     highest_close: float = 0.0
     highest_high: float = 0.0
     lowest_low: float = 0.0
@@ -101,6 +105,32 @@ class ClosedTrade:
     exit_rsi_d: float = 0.0
     exit_rsi_w: float = 0.0
     exit_rsi_m: float = 0.0
+    # Explicit two-leg cost attribution, for reporting that has to reconcile
+    # against the cash book. ``pnl`` above nets only the exit commission (it is
+    # the number every existing study is quoted in, so it is left alone); the
+    # entry commission was already taken out of cash at open time. A report that
+    # wants "what did this position really cost me" needs both legs, and
+    # deriving them after the fact is impossible once a partial has split the
+    # position, so they are recorded here at the moment of the fill.
+    entry_value: float = 0.0
+    exit_value: float = 0.0
+    entry_cost: float = 0.0
+    exit_cost: float = 0.0
+
+    @property
+    def gross_pnl(self) -> float:
+        """P&L before either commission leg, on the quantity actually sold."""
+        return (self.exit_price - self.entry_price) * self.quantity
+
+    @property
+    def total_cost(self) -> float:
+        return self.entry_cost + self.exit_cost
+
+    @property
+    def net_pnl(self) -> float:
+        """P&L after *both* commission legs. This is the figure the tax code and
+        the equity curve agree on; ``pnl`` is the legacy exit-only variant."""
+        return self.gross_pnl - self.total_cost
 
 
 @dataclass
@@ -112,6 +142,17 @@ class Portfolio:
     positions: Dict[str, Position] = field(default_factory=dict)
     closed: List[ClosedTrade] = field(default_factory=list)
     equity_curve: List[dict] = field(default_factory=list)
+    # Every leg that moved cash, in order. ``closed`` is round-trip shaped and so
+    # cannot answer "how many orders did I actually place" or "what was the cash
+    # balance after this fill" - a partial exit is one round trip but two fills,
+    # and a scaled position is one entry against several exits.
+    fills: List[dict] = field(default_factory=list)
+    taxes_paid: List[dict] = field(default_factory=list)
+
+    def _record_fill(self, **row) -> None:
+        row["seq"] = len(self.fills) + 1
+        row["cash_after"] = self.cash
+        self.fills.append(row)
 
     # ── Costs ────────────────────────────────────────────────────────────────
     def _commission(self, notional: float) -> float:
@@ -140,10 +181,29 @@ class Portfolio:
             return False
         self.cash -= notional + cost
         pos.original_quantity = pos.quantity
+        pos.entry_cost = cost
         pos.highest_close = pos.entry_price
         pos.highest_high = pos.entry_price
         pos.lowest_low = pos.entry_price
         self.positions[pos.symbol] = pos
+        self._record_fill(
+            date=pos.entry_date,
+            symbol=pos.symbol,
+            sector=pos.sector,
+            side="BUY",
+            reason="ENTRY",
+            quantity=pos.quantity,
+            price=pos.entry_price,
+            value=notional,
+            cost=cost,
+            net_pnl=0.0,
+            st_gain=0.0,
+            lt_gain=0.0,
+            holding_days=0,
+            entry_price=pos.entry_price,
+            resistance=pos.target_price,
+            stop_level=pos.stop_loss,
+        )
         return True
 
     # ── Close (full or partial) ──────────────────────────────────────────────
@@ -174,6 +234,11 @@ class Portfolio:
         self.cash += notional - cost
         pnl = (exit_price - pos.entry_price) * qty - cost
         risk_total = pos.risk_per_share * qty
+        # A partial takes its pro-rata slice of the entry commission, so that the
+        # legs of a scaled-out position sum back to the single commission that
+        # was actually charged at open.
+        base_qty = pos.original_quantity or pos.quantity
+        entry_cost_share = pos.entry_cost * (qty / base_qty) if base_qty > 0 else 0.0
         trade = ClosedTrade(
             symbol=symbol,
             sector=pos.sector,
@@ -199,8 +264,30 @@ class Portfolio:
             exit_rsi_d=float(exit_rsi[0]) if exit_rsi else 0.0,
             exit_rsi_w=float(exit_rsi[1]) if exit_rsi else 0.0,
             exit_rsi_m=float(exit_rsi[2]) if exit_rsi else 0.0,
+            entry_value=pos.entry_price * qty,
+            exit_value=notional,
+            entry_cost=entry_cost_share,
+            exit_cost=cost,
         )
         self.closed.append(trade)
+        self._record_fill(
+            date=exit_date,
+            symbol=symbol,
+            sector=pos.sector,
+            side="SELL",
+            reason=reason,
+            quantity=qty,
+            price=exit_price,
+            value=notional,
+            cost=cost,
+            net_pnl=trade.net_pnl,
+            st_gain=0.0,
+            lt_gain=0.0,
+            holding_days=trade.holding_days,
+            entry_price=pos.entry_price,
+            resistance=pos.target_price,
+            stop_level=pos.stop_loss,
+        )
 
         remaining = pos.quantity - qty
         if remaining <= 0:
@@ -243,6 +330,27 @@ class Portfolio:
         interest = self.cash * ((1.0 + daily) ** sessions - 1.0)
         self.cash += interest
         return interest
+
+    def settle_tax(self, day: date, amount: float, label: str) -> float:
+        """Pay a capital-gains bill out of the cash book.
+
+        Tax matters to a compounding series in a way a post-hoc percentage
+        haircut cannot capture: money paid to the exchequer in year three is not
+        available to be deployed in year four. Deducting it from cash at the
+        settlement date is what makes the resulting equity curve genuinely
+        "net of tax" rather than "gross, minus a number printed at the bottom".
+
+        Returns the amount actually taken. Cash is allowed to go negative here:
+        the bill is due whether or not the book is fully deployed, and silently
+        under-paying would flatter the result.
+        """
+        if amount <= 0:
+            return 0.0
+        self.cash -= amount
+        self.taxes_paid.append(
+            {"date": day, "financial_year": label, "amount": amount}
+        )
+        return amount
 
     def record_equity(
         self, day: date, price_lookup: Callable[[str], Optional[float]], **extra
