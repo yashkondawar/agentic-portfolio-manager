@@ -142,16 +142,32 @@ def _trade_values(trade: Any) -> Tuple[float, float, Optional[date], Optional[da
 
 
 def apply_to_trades(
-    trades: Iterable[Any], cfg: Optional[TaxConfig] = None
+    trades: Iterable[Any],
+    cfg: Optional[TaxConfig] = None,
+    *,
+    use_recorded_costs: bool = False,
 ) -> pd.DataFrame:
-    """Per-trade table with statutory charges and holding-period classification."""
+    """Per-trade table with statutory charges and holding-period classification.
+
+    ``use_recorded_costs`` swaps the modelled statutory charges for the costs the
+    portfolio actually booked (``entry_cost + exit_cost``). Use it when the
+    output has to reconcile against an equity curve: the curve already had
+    execution costs taken out of cash, so charging the statutory model on top
+    would tax a P&L that no cash book ever saw. Left off, behaviour is unchanged
+    for every existing caller.
+    """
     cfg = cfg or TaxConfig()
     rows: List[Dict[str, Any]] = []
     for t in trades:
         entry_value, exit_value, entry_date, exit_date = _trade_values(t)
         if entry_value <= 0 or exit_date is None or entry_date is None:
             continue
-        charges = round_trip_charges(entry_value, exit_value, cfg)
+        if use_recorded_costs:
+            charges = float(_field(t, "entry_cost", 0.0) or 0.0) + float(
+                _field(t, "exit_cost", 0.0) or 0.0
+            )
+        else:
+            charges = round_trip_charges(entry_value, exit_value, cfg)
         gross = exit_value - entry_value
         held = (exit_date - entry_date).days
         rows.append({
@@ -198,6 +214,16 @@ def capital_gains_by_year(
     for fy, group in trade_table.groupby("fy", sort=True):
         st = float(group.loc[~group["long_term"], "net_pnl"].sum())
         lt = float(group.loc[group["long_term"], "net_pnl"].sum())
+        # Gains and losses are reported separately as well as netted: a year that
+        # nets to zero on Rs 50 lakh of gains against Rs 50 lakh of losses is a
+        # very different year from one that simply had no trades.
+        st_leg_all = group.loc[~group["long_term"], "net_pnl"]
+        lt_leg_all = group.loc[group["long_term"], "net_pnl"]
+        st_gain = float(st_leg_all[st_leg_all > 0].sum())
+        st_loss = float(-st_leg_all[st_leg_all < 0].sum())
+        lt_gain = float(lt_leg_all[lt_leg_all > 0].sum())
+        lt_loss = float(-lt_leg_all[lt_leg_all < 0].sum())
+        brought_forward = st_carry + lt_carry
 
         st_net = st - st_carry
         st_carry = 0.0
@@ -239,9 +265,16 @@ def capital_gains_by_year(
             "fy": fy,
             "short_term_pnl": st,
             "long_term_pnl": lt,
+            "short_term_gain": st_gain,
+            "short_term_loss": st_loss,
+            "long_term_gain": lt_gain,
+            "long_term_loss": lt_loss,
+            "loss_brought_forward": brought_forward,
             "taxable_stcg": st_net,
             "taxable_ltcg": taxable_lt,
             "stcg_rate": rate,
+            "tax_on_stcg": stcg_tax,
+            "tax_on_ltcg": ltcg_tax,
             "tax": stcg_tax + ltcg_tax,
             "loss_carried_forward": st_carry + lt_carry,
             "charges": float(group["charges"].sum()),
