@@ -76,6 +76,15 @@ def _parse_args() -> argparse.Namespace:
                         "instead of today's constituent list and yfinance, so "
                         "delisted companies are traded and then die on "
                         "schedule. Needs the bhavcopy/membership stores.")
+    p.add_argument("--pit-prices", action="store_true",
+                   help="Diagnostic: take PRICES from the tape but leave the "
+                        "universe as today's list. Paired with --pit-universe "
+                        "this splits the point-in-time effect into its two "
+                        "causes, since the tape is price-return and yfinance "
+                        "is total-return (dividends folded in).")
+    p.add_argument("--pit-universe", action="store_true",
+                   help="Diagnostic: apply the historical membership gate but "
+                        "keep yfinance prices. See --pit-prices.")
     p.add_argument("--reporting-lag-min", type=int, default=15,
                    help="Min days from quarter-end to result declaration (stagger low)")
     p.add_argument("--reporting-lag-max", type=int, default=45,
@@ -444,26 +453,37 @@ def main() -> int:
     symbols = [u.symbol for u in universe]
     pit_gate = None
     pit_connection = None
-    if args.point_in_time:
+    # --point-in-time is the real switch; the two narrow flags exist so a
+    # difference can be attributed to the universe or the price basis
+    # separately instead of being reported as one lump.
+    want_pit_universe = args.point_in_time or args.pit_universe
+    want_pit_prices = args.point_in_time or args.pit_prices
+    if want_pit_universe or want_pit_prices:
         from core.storage import connect as _connect
-        from scraper.index_membership import membership_intervals
+        from scraper.index_membership import (
+            membership_intervals, resolve_index_name,
+        )
         from scraper.pit_universe import PitUniverse
 
         pit_connection = _connect()
-        intervals = membership_intervals(pit_connection)
+    if want_pit_universe:
+        pit_index = resolve_index_name(pit_connection, cfg.universe_index)
+        intervals = membership_intervals(
+            pit_connection, index_name=pit_index
+        )
         if not intervals:
             raise SystemExit(
                 "--point-in-time needs the membership store. Run: "
                 "python -m scraper.index_membership --import"
             )
-        # Every company that was EVER in the index, not just the current 500.
+        # Every company that was EVER in the index, not just today's list.
         # The per-day gate below decides which of them was tradable when.
         symbols = sorted({row["symbol"] for row in intervals})
         pit_gate = PitUniverse(pit_connection)
         logger.info(
             "Point-in-time universe: %d symbols ever in '%s' "
             "(today's list has %d).",
-            len(symbols), cfg.universe_index, len(universe),
+            len(symbols), pit_index, len(universe),
         )
     if cfg.max_symbols:
         symbols = symbols[: cfg.max_symbols]
@@ -481,7 +501,7 @@ def main() -> int:
 
     # Prices: the whole-market NSE tape in point-in-time mode (it still holds
     # the companies that later delisted), otherwise yfinance for live names.
-    if args.point_in_time:
+    if want_pit_prices:
         from .pit_prices import MarketBarsPrices
         prices = MarketBarsPrices(PRICE_CACHE_DIR, pit_connection)
     else:
@@ -517,11 +537,30 @@ def main() -> int:
         have, tot = calendar.coverage()
         logger.info("Real result dates resolved for %d / %d symbols.", have, tot)
 
+    # Cash dividends belong with the tape, which is a PRICE series: the
+    # ex-date drop is in the quote, so the payout has to be credited
+    # separately or the holder is charged for it and never paid. yfinance
+    # already folds dividends into its adjusted closes, so crediting them
+    # there as well would count the same rupee twice.
+    pit_dividends = None
+    if want_pit_prices:
+        from scraper.corporate_actions import load_dividends
+        pit_dividends = load_dividends(pit_connection, funds.symbols())
+        logger.info(
+            "Dividends: %d symbols with cash payouts credited on ex-date.",
+            len(pit_dividends),
+        )
+
     engine = BacktestEngine(
         cfg, prices, funds, sectors=sectors, calendar=calendar,
-        universe=pit_gate,
+        universe=pit_gate, dividends=pit_dividends,
     )
     engine.run(start, end)
+    if engine.dividend_cash:
+        logger.info(
+            "Dividend cash credited over the run: Rs %.0f",
+            engine.dividend_cash,
+        )
 
     metrics = compute_metrics(
         engine.daily_log, engine.pf.closed, cfg.starting_capital, cfg.goal_capital()

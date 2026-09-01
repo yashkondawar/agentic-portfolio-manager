@@ -114,11 +114,13 @@ CREATE INDEX IF NOT EXISTS idx_bars_date   ON market_bars (trade_date);
 CREATE INDEX IF NOT EXISTS idx_bars_isin   ON market_bars (isin);
 
 -- Symbol/ISIN cross-references drive the rename bridge, and every one of them
--- reads (symbol, isin) for the whole tape. Without this index that pulls the
--- ISIN off the row itself, which is a full scan of ~6M rows and costs ~100s;
--- covered by the index it is ~2s.
-CREATE INDEX IF NOT EXISTS idx_bars_symbol_isin
-    ON market_bars (symbol, isin);
+-- reads (symbol, isin) for the whole tape. Without an index that pulls the
+-- ISIN off the row itself, which is a full scan of ~6M rows and costs ~100s.
+-- trade_date is the third column so "latest ISIN per symbol" -- the question
+-- the rename bridge actually asks -- is answered from the index alone (~2s)
+-- instead of falling back to the table for every group.
+CREATE INDEX IF NOT EXISTS idx_bars_symbol_isin_date
+    ON market_bars (symbol, isin, trade_date);
 
 -- Session ledger, so a resumed backfill skips days it already has. Market
 -- holidays are recorded with rows = 0 rather than left absent; otherwise every

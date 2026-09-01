@@ -256,6 +256,39 @@ def members_on(
     return out
 
 
+def resolve_index_name(
+    connection: sqlite3.Connection, requested: str
+) -> str:
+    """Map a config universe name onto an index the store actually holds.
+
+    Point-in-time mode is only as honest as its membership record, so a
+    request the store cannot serve has to fail loudly. Silently substituting
+    a different index would hand back a universe of a different size and
+    quietly invalidate the comparison the caller is trying to make.
+    """
+    available = [row["index"] for row in coverage(connection)]
+    if not available:
+        raise SystemExit(
+            "--point-in-time needs the membership store. Run: "
+            "python -m scraper.index_membership --import"
+        )
+
+    def key(name: str) -> str:
+        return "".join(ch for ch in name.lower() if ch.isalnum())
+
+    wanted = key(requested)
+    for name in available:
+        if key(name) == wanted:
+            return name
+    raise SystemExit(
+        f"--point-in-time has no membership history for '{requested}'. "
+        f"The store holds: {', '.join(available)}. Either pass "
+        f"--universe with one of those, or import the index first. "
+        f"Falling back silently would change the universe size and make "
+        f"the run incomparable to the non-point-in-time arm."
+    )
+
+
 def membership_intervals(
     connection: sqlite3.Connection, *, index_name: str = DEFAULT_INDEX
 ) -> List[sqlite3.Row]:
