@@ -58,8 +58,10 @@ def run_backtest(
 
     workbook: Optional[Path] = None
     if write_dossier:
-        sheets = dossier.build(cfg, engine, metrics=metrics)
-        workbook = dossier.write(sheets, out / "dossier.xlsx")
+        sheets = dossier.build(
+            cfg, engine, metrics=metrics, nifty500=prices.broad, notes=_notes(cfg)
+        )
+        workbook = dossier.write(sheets, out / _dossier_name(cfg))
 
     logger.info(
         "ATH backtest complete: %d fills, %d round trips, final equity %.0f",
@@ -74,6 +76,41 @@ def run_backtest(
         "results_dir": out,
         "dossier": workbook,
     }
+
+
+def _universe_slug(cfg: AthBreakoutConfig) -> str:
+    """A short, filename-safe label for the universe a run used."""
+    if cfg.pit_index:
+        return "pit_" + "".join(
+            ch if ch.isalnum() else "_" for ch in cfg.pit_index.lower()
+        ).strip("_")
+    return cfg.universe_index
+
+
+def _dossier_name(cfg: AthBreakoutConfig) -> str:
+    """Name the workbook after the universe and window that produced it.
+
+    A fixed ``dossier.xlsx`` silently leaves a stale workbook behind whenever a
+    different universe or window is run, which is an easy way to read the wrong
+    numbers. The filename now states what is inside it.
+    """
+    start = cfg.start_date.isoformat() if cfg.start_date else "start"
+    end = cfg.end_date.isoformat() if cfg.end_date else "end"
+    return f"dossier_{_universe_slug(cfg)}_{start}_{end}.xlsx"
+
+
+def _notes(cfg: AthBreakoutConfig) -> Sequence[str]:
+    if not cfg.pit_index:
+        return (
+            f"Universe: current {cfg.universe_index} constituents applied across "
+            "all history -- this run carries survivorship bias.",
+        )
+    return (
+        f"Universe: point-in-time {cfg.pit_index} membership, so names that "
+        "delisted or left the index are included for the days they qualified.",
+        "Membership gates entries only; a holding that leaves the index rides "
+        "to its trailing stop.",
+    )
 
 
 def _write_csv(path: Path, rows: Sequence[Any]) -> None:
