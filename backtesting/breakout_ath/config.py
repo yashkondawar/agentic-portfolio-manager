@@ -39,6 +39,8 @@ class AthBreakoutConfig:
     momentum_lookback: int = 63
     stale_exit_sessions: int = 21
     universe_index: str = "niftytotalmarket"
+    pit_index: Optional[str] = None
+    membership_db: Optional[Path] = None
     benchmark: str = "^NSEI"
     broad_index: str = "^CRSLDX"
     start_date: Optional[date] = field(default=date(2012, 10, 19))

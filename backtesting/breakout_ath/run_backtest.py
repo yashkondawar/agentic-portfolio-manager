@@ -32,6 +32,22 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--max-positions", type=int, default=None)
     p.add_argument("--sl-pct", type=float, default=None)
     p.add_argument("--ath-band", type=float, default=None)
+    p.add_argument(
+        "--pit-index",
+        default=None,
+        metavar="NAME",
+        help=(
+            "Use point-in-time membership of this index (e.g. 'Nifty 500') "
+            "instead of the current published constituent list. Removes "
+            "survivorship bias."
+        ),
+    )
+    p.add_argument(
+        "--membership-db",
+        type=Path,
+        default=None,
+        help="Path to the SQLite store holding index_membership.",
+    )
     p.add_argument("--results-dir", type=Path, default=None)
     p.add_argument("--no-dossier", action="store_true")
     p.add_argument("-v", "--verbose", action="store_true")
@@ -53,6 +69,8 @@ def main(argv=None) -> int:
         ("max_positions", args.max_positions),
         ("sl_pct", args.sl_pct),
         ("ath_band", args.ath_band),
+        ("pit_index", args.pit_index),
+        ("membership_db", args.membership_db),
     ):
         if value is not None:
             setattr(cfg, attr, value)

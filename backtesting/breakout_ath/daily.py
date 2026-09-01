@@ -124,7 +124,7 @@ def run_daily(
     industries = industry_map()
 
     def industry_of(symbol: str, fallback: str = "Unknown") -> str:
-        return industries.get(symbol.replace(".NS", ""), fallback)
+        return industries.get(symbol) or industries.get(f"{symbol}.NS", fallback)
 
     exits = _exit_actions(cfg, state, live, today, industry_of)
     for item in exits:

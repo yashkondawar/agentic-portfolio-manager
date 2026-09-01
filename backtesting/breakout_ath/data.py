@@ -16,7 +16,12 @@ import pandas as pd
 
 from backtesting.breakout_ath.config import AthBreakoutConfig
 from backtesting.breakout_ath.engine import PriceBundle
-from backtesting.breakout_ath.universe import UniverseMember, load_universe
+from backtesting.breakout_ath.universe import (
+    UniverseMember,
+    load_pit_members,
+    load_universe,
+    membership_matrix,
+)
 from core import bars
 
 logger = logging.getLogger(__name__)
@@ -62,8 +67,19 @@ def load_prices(
     members: Optional[List[UniverseMember]] = None,
     download: bool = False,
 ) -> PriceBundle:
-    """Assemble the price bundle the engine runs on."""
-    members = members or load_universe()
+    """Assemble the price bundle the engine runs on.
+
+    With ``cfg.pit_index`` set the universe comes from the point-in-time
+    membership store — every name that was ever a constituent, including those
+    since delisted — and entries are gated by the membership matrix. Otherwise
+    the current published constituent list is used for the whole history.
+    """
+    if members is None:
+        members = (
+            load_pit_members(cfg.pit_index, db_path=cfg.membership_db)
+            if cfg.pit_index
+            else load_universe()
+        )
     tickers = [m.ticker for m in members]
 
     if download:
@@ -79,9 +95,21 @@ def load_prices(
         closes.index[-1].date(),
     )
 
+    membership = None
+    if cfg.pit_index:
+        membership = membership_matrix(
+            closes.columns, closes.index, cfg.pit_index, db_path=cfg.membership_db
+        )
+        logger.info(
+            "Point-in-time %s membership: %.0f names on average per session",
+            cfg.pit_index,
+            membership.sum(axis=1).mean(),
+        )
+
     return PriceBundle(
         closes=closes,
         industries={m.ticker: m.industry for m in members},
         benchmark=_index_frame(cfg.benchmark, cfg.end_date),
         broad=_index_frame(cfg.broad_index, cfg.end_date),
+        membership=membership,
     )

@@ -209,11 +209,12 @@ columns:
    and net CAGR. The book is ~91% full most of the time, so surplus candidates
    only bite during warm-up and when ranking competes for a single freed slot.
 
-2. **Survivorship bias.** The universe is the *current* NTM750 applied
-   retrospectively. Names that delisted or fell out of the index over the 14
-   years are absent, which flatters returns. A point-in-time constituent
-   history would fix this; the repo's PIT store only starts in 2014 and holds
-   951 symbols, so it cannot cover the 2012 start.
+2. **Survivorship bias.** The headline 2012-2026 run uses the *current* NTM750
+   applied retrospectively, so names that delisted or fell out of the index are
+   absent. This has now been quantified — see §6 — by re-running the identical
+   rules on point-in-time Nifty 500 membership from 2014. The PIT store starts
+   in 2014, so it cannot cover the 2012 start, and it tracks the Nifty 500
+   rather than the NTM750.
 
 3. **Adjusted prices.** Using adjusted closes means the lifetime-high and
    trailing-stop tests run on a series that is revised backwards whenever a
@@ -232,3 +233,86 @@ columns:
 6. **Nothing here is walk-forward validated.** The parameters (28 slots, 16%
    stop, 15% band) came from the reference workbook. They were not re-fit, but
    neither were they chosen out of sample by this repo.
+
+---
+
+## 6. Point-in-time run — survivorship bias quantified
+
+The same rules, unchanged, run against **point-in-time Nifty 500 membership**
+read from the repo's `index_membership` store. A name is only buyable on days
+it was actually a constituent; once held it rides to its trailing stop, because
+a real book does not liquidate on an index reshuffle.
+
+```bash
+python -m backtesting.breakout_ath.run_backtest \
+    --start 2014-01-01 --end 2026-09-01 --capital 500000 \
+    --pit-index "Nifty 500"
+```
+
+**Universe quality.** 951 symbols were ever Nifty 500 members over the window.
+837 of them have price history, giving a mean of **468 investable constituents
+per session** (min 432, max 499) — roughly 94% of the index. The 114 missing
+names are permanently delisted (DHFL, Andhra Bank, Bhushan Steel, Cox & Kings,
+Dena Bank, Amtek Auto and similar) and are unavailable from both the bar store
+and yfinance, so a small residual bias remains and it points the same way.
+
+### Result, ₹5,00,000 start, 2014-01-01 → 2026-09-01 (12.67 years)
+
+| Metric | Net of cost + tax | Before tax | NIFTY 50 |
+|---|---|---|---|
+| CAGR | **23.79%** | 25.14% | 11.17% |
+| Final value | ₹74.6L | ₹85.5L | ₹19.1L |
+| Absolute return | 13.9x | 16.1x | 2.8x |
+| Max drawdown | −29.4% | −23.2% | −38.4% |
+| Volatility | 17.0% | 15.3% | 15.8% |
+| Sharpe | 1.34 | 1.55 | 0.75 |
+| Sortino | 1.81 | 2.13 | 1.04 |
+| Alpha (annual) | 16.4% | 18.4% | — |
+| Beta | 0.66 | 0.60 | 1.00 |
+
+Trade statistics: 1,486 fills, 729 round trips, 28 still open, **50.2% win
+rate**, 160-day average hold, 26.5 mean positions, 5.6% mean cash. Brokerage
+₹4.37L and capital-gains tax ₹10.93L cost a combined **1.83 percentage points
+of CAGR**.
+
+### Year by year
+
+| Year | Portfolio | NIFTY 50 | NIFTY 500 | Universe EW |
+|---|---|---|---|---|
+| 2014* | +105.0% | +31.4% | +37.6% | +83.0% |
+| 2015 | +6.9% | −4.1% | −0.7% | +18.7% |
+| 2016 | −1.4% | +3.0% | +3.8% | +11.3% |
+| 2017 | +59.0% | +28.6% | +35.9% | +61.1% |
+| 2018 | −18.0% | +3.2% | −3.4% | −18.5% |
+| 2019 | +19.4% | +12.0% | +7.7% | −8.4% |
+| 2020 | +36.5% | +14.9% | +16.7% | +38.4% |
+| 2021 | +79.5% | +24.1% | +30.2% | +60.7% |
+| 2022 | −7.8% | +4.3% | +3.0% | +7.3% |
+| 2023 | +66.6% | +20.0% | +25.8% | +50.1% |
+| 2024 | +24.8% | +8.8% | +15.2% | +26.8% |
+| 2025 | −10.9% | +10.5% | +6.7% | −2.2% |
+| 2026* | +6.1% | −7.7% | −2.0% | +5.3% |
+
+\* partial year.
+
+### How to read this
+
+The PIT run changes **two things at once** relative to the headline figures, so
+it is not a clean bias measurement:
+
+1. It removes survivorship bias — the intended fix.
+2. It narrows the universe from NTM750 (which reaches into microcaps) to the
+   Nifty 500, which is a large- and mid-cap index.
+
+Before-cost CAGR falls from ~32% on the current-membership NTM750 to 25.1% on
+the PIT Nifty 500. Both effects push the same direction, and this run cannot
+attribute the gap between them. **Treat ~24% net as the defensible number and
+the 30% headline as optimistic.**
+
+What survives the change is the shape of the edge: beta stays near 0.6, the
+drawdown stays materially shallower than the index, and the sleeve still beats
+NIFTY 50 by roughly 12 points of CAGR with a Sharpe around twice the index.
+The losing years (2018, 2022, 2025) are the same ones, and they track the
+equal-weight universe rather than the cap-weighted index — which is what a
+breadth-driven momentum sleeve should do.
+

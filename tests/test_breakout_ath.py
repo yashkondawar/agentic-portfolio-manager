@@ -20,7 +20,7 @@ from backtesting.breakout_ath.daily import (
     empty_state,
     normalize_state,
 )
-from backtesting.breakout_ath.engine import _reset_key
+from backtesting.breakout_ath.engine import AthBreakoutEngine, PriceBundle, _reset_key
 from backtesting.breakout_ath.portfolio import Portfolio
 
 
@@ -226,3 +226,48 @@ class TestState:
         assert pos["symbol"] == "AAA"
         # The anchor defaults to the entry price for a brand new position.
         assert pos["anchor"] == pytest.approx(10.0)
+
+
+class TestPitMembership:
+    """Point-in-time membership must gate entries but never force an exit."""
+
+    @staticmethod
+    def _bundle(membership):
+        # Two names, one long uptrend so both break out every session.
+        days = pd.bdate_range("2020-01-01", periods=400)
+        rising = pd.Series(range(1, len(days) + 1), index=days, dtype=float)
+        closes = pd.DataFrame({"AAA.NS": rising, "BBB.NS": rising * 2})
+        return PriceBundle(closes=closes, membership=membership)
+
+    def _run(self, membership):
+        cfg = AthBreakoutConfig(
+            max_positions=2, lookback=20, ath_band=0.99, start_capital=100_000.0
+        )
+        return AthBreakoutEngine(cfg, self._bundle(membership)).run()
+
+    def test_non_members_are_never_bought(self):
+        bundle = self._bundle(None)
+        member = pd.DataFrame(
+            True, index=bundle.closes.index, columns=["AAA.NS", "BBB.NS"]
+        )
+        member["BBB.NS"] = False
+
+        bought = {fill.symbol for fill in self._run(member).pf.fills}
+        assert bought == {"AAA.NS"}
+
+    def test_absent_membership_leaves_the_universe_open(self):
+        bought = {fill.symbol for fill in self._run(None).pf.fills}
+        assert bought == {"AAA.NS", "BBB.NS"}
+
+    def test_leaving_the_index_does_not_close_a_position(self):
+        bundle = self._bundle(None)
+        member = pd.DataFrame(
+            True, index=bundle.closes.index, columns=["AAA.NS", "BBB.NS"]
+        )
+        # Everything drops out of the index halfway through.
+        member.iloc[200:] = False
+
+        engine = self._run(member)
+        # Prices only rise, so the trailing stop never fires and both names
+        # must still be held at the end despite having left the index.
+        assert set(engine.pf.positions) == {"AAA.NS", "BBB.NS"}

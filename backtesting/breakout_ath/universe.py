@@ -85,3 +85,71 @@ def load_universe(
 def industry_map(members: Optional[List[UniverseMember]] = None) -> Dict[str, str]:
     """Ticker (``SYMBOL.NS``) to NSE industry label."""
     return {m.ticker: m.industry for m in (members or load_universe())}
+
+
+# ── Point-in-time membership ─────────────────────────────────────────────────
+
+
+def load_pit_members(
+    index_name: str = "Nifty 500", *, db_path: Optional[Path] = None
+) -> List[UniverseMember]:
+    """Every symbol that was *ever* in ``index_name``, per the membership store.
+
+    This deliberately includes names that have since delisted or dropped out —
+    excluding them is precisely the survivorship bias point-in-time membership
+    exists to remove. Whether a name is tradeable on a given day is decided
+    later by :func:`membership_matrix`.
+    """
+    from scraper.index_membership import open_store
+
+    connection = open_store(db_path)
+    rows = connection.execute(
+        "SELECT DISTINCT symbol FROM index_membership WHERE index_name = ?",
+        (index_name,),
+    ).fetchall()
+    symbols = sorted({str(r[0]).strip().upper() for r in rows if r[0]})
+    if not symbols:
+        raise RuntimeError(f"No point-in-time membership recorded for {index_name!r}")
+
+    labels = industry_map()
+    return [
+        UniverseMember(symbol=s, industry=labels.get(f"{s}.NS", "Unknown"))
+        for s in symbols
+    ]
+
+
+def membership_matrix(
+    columns,
+    index,
+    index_name: str = "Nifty 500",
+    *,
+    db_path: Optional[Path] = None,
+):
+    """A boolean ``index x columns`` frame: was this name in the index that day?
+
+    Intervals are half-open — ``valid_from`` inclusive, ``valid_to`` exclusive —
+    and an open ``valid_to`` means the name is still a constituent.
+    """
+    import pandas as pd
+
+    from scraper.index_membership import open_store
+
+    connection = open_store(db_path)
+    rows = connection.execute(
+        "SELECT symbol, valid_from, valid_to FROM index_membership "
+        "WHERE index_name = ?",
+        (index_name,),
+    ).fetchall()
+
+    frame = pd.DataFrame(False, index=index, columns=list(columns))
+    stamps = pd.DatetimeIndex(index)
+    for symbol, valid_from, valid_to in rows:
+        ticker = f"{str(symbol).strip().upper()}.NS"
+        if ticker not in frame.columns:
+            continue
+        start = pd.Timestamp(valid_from)
+        mask = stamps >= start
+        if valid_to:
+            mask &= stamps < pd.Timestamp(valid_to)
+        frame.loc[mask, ticker] = True
+    return frame

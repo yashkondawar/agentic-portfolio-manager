@@ -42,6 +42,9 @@ class PriceBundle:
     industries: Dict[str, str] = field(default_factory=dict)
     benchmark: Optional[pd.DataFrame] = None
     broad: Optional[pd.DataFrame] = None
+    #: Optional point-in-time index membership, aligned to ``closes``. When
+    #: present a name is only buyable on days it was actually a constituent.
+    membership: Optional[pd.DataFrame] = None
 
     @property
     def frames(self) -> Dict[str, pd.DataFrame]:
@@ -96,6 +99,14 @@ class AthBreakoutEngine:
         self.ranks = signals.ranking_matrix(
             self.filled, cfg.selection_rule, cfg.momentum_lookback
         )
+        # Point-in-time membership gates *entries* only. A name that leaves the
+        # index mid-trade is still held to its trailing stop, which is what a
+        # real book would do — you do not liquidate on an index reshuffle.
+        if self.prices.membership is not None:
+            member = self.prices.membership.reindex(
+                index=closes.index, columns=closes.columns
+            ).fillna(False)
+            self.entries &= member.astype(bool)
         self._stale = {symbol: 0 for symbol in closes.columns}
         calendar = closes.index
         if cfg.start_date is not None:
