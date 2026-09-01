@@ -17,8 +17,12 @@ from backtesting.breakout_ath.config import AthBreakoutConfig
 from backtesting.breakout_ath.daily import (
     _exit_actions,
     _refresh_budget,
+    apply_entries,
+    confirm_fills,
     empty_state,
+    ledger_snapshot,
     normalize_state,
+    save_state,
 )
 from backtesting.breakout_ath.engine import AthBreakoutEngine, PriceBundle, _reset_key
 from backtesting.breakout_ath.portfolio import Portfolio
@@ -226,6 +230,119 @@ class TestState:
         assert pos["symbol"] == "AAA"
         # The anchor defaults to the entry price for a brand new position.
         assert pos["anchor"] == pytest.approx(10.0)
+
+    def test_a_v1_book_is_readable(self):
+        """Books written before marks and pending entries existed must still load."""
+        state = normalize_state(
+            {"version": 1, "cash": 900.0, "positions": [], "closed": []}, 1_000.0
+        )
+        assert state["cash"] == pytest.approx(900.0)
+        assert state["pending_entries"] == []
+        assert state["marks"] == {}
+
+
+class TestConfirmFills:
+    """Suggestions are not holdings until the orders actually fill."""
+
+    @staticmethod
+    def _book(tmp_path):
+        state = empty_state(500_000.0)
+        state["pending_entries"] = [
+            {"symbol": "AAA", "industry": "Tech", "budget": 125_000.0, "price": 100.0},
+            {"symbol": "BBB", "industry": "Bank", "budget": 125_000.0, "price": 200.0},
+        ]
+        state["pending_session"] = "2026-09-01"
+        state["last_session"] = "2026-09-01"
+        path = tmp_path / "book.json"
+        save_state(path, state)
+        return path
+
+    def test_only_confirmed_names_reach_the_book(self, tmp_path):
+        path = self._book(tmp_path)
+        state = confirm_fills(
+            [{"symbol": "AAA", "industry": "Tech", "budget": 125_000.0}],
+            day=date(2026, 9, 2),
+            state_path=path,
+            capital=500_000.0,
+        )
+        assert [p["symbol"] for p in state["positions"]] == ["AAA"]
+        # The skipped suggestion must not linger and look like a holding.
+        assert state["pending_entries"] == []
+
+    def test_a_worse_fill_buys_fewer_shares_rather_than_spending_more(self, tmp_path):
+        path = self._book(tmp_path)
+        state = confirm_fills(
+            [{"symbol": "AAA", "budget": 125_000.0, "fill_price": 125.0}],
+            day=date(2026, 9, 2),
+            state_path=path,
+            capital=500_000.0,
+            cost_rate=0.0025,
+        )
+        pos = state["positions"][0]
+        assert pos["entry_price"] == pytest.approx(125.0)
+        assert pos["quantity"] == pytest.approx((125_000.0 * 0.9975) / 125.0)
+        # Cash falls by the budget, never by more.
+        assert state["cash"] == pytest.approx(375_000.0)
+
+    def test_a_fill_can_never_overdraw_the_book(self):
+        state = empty_state(1_000.0)
+        apply_entries(
+            state,
+            [{"symbol": "AAA", "budget": 5_000.0, "price": 10.0}],
+            date(2026, 9, 2),
+        )
+        assert state["cash"] == pytest.approx(0.0)
+
+
+class TestLedgerSnapshot:
+    def test_a_missing_book_reports_that_it_does_not_exist(self, tmp_path):
+        snap = ledger_snapshot(state_path=tmp_path / "absent.json")
+        assert snap["exists"] is False
+        assert snap["as_of"] is None
+
+    def test_the_snapshot_marks_positions_at_the_last_saved_close(self, tmp_path):
+        cfg = AthBreakoutConfig(start_capital=100_000.0, max_positions=4, sl_pct=0.16)
+        state = empty_state(100_000.0)
+        state["cash"] = 90_000.0
+        state["positions"] = [
+            {
+                "symbol": "AAA",
+                "industry": "Tech",
+                "entry_date": "2026-08-01",
+                "entry_price": 100.0,
+                "quantity": 100.0,
+                "anchor": 120.0,
+            }
+        ]
+        state["marks"] = {"AAA": 110.0}
+        state["last_session"] = "2026-09-01"
+        path = tmp_path / "book.json"
+        save_state(path, state)
+
+        snap = ledger_snapshot(cfg, state_path=path, today=date(2026, 9, 2))
+        book = snap["book"]
+        assert book["deployed"] == pytest.approx(11_000.0)
+        assert book["equity"] == pytest.approx(101_000.0)
+        assert book["free_slots"] == 3
+
+        holding = snap["holdings"][0]
+        # The stop trails the anchor, not the entry or the last close.
+        assert holding["stop_level"] == pytest.approx(120.0 * 0.84)
+        assert holding["return_pct"] == pytest.approx(10.0)
+
+    def test_a_book_days_behind_is_flagged_stale(self, tmp_path):
+        state = empty_state(100_000.0)
+        state["last_session"] = "2026-09-01"
+        path = tmp_path / "book.json"
+        save_state(path, state)
+
+        fresh = ledger_snapshot(state_path=path, today=date(2026, 9, 2))
+        assert fresh["freshness"]["stale"] is False
+
+        stale = ledger_snapshot(state_path=path, today=date(2026, 9, 15))
+        assert stale["freshness"]["stale"] is True
+        # Weekends do not count against the book.
+        assert stale["freshness"]["weekdays_behind"] == 10
 
 
 class TestPitMembership:

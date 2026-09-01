@@ -106,6 +106,8 @@ def render_result(result: StrategyResult, *, heading: bool = True) -> None:
         _render_quarterly_results(result.data)
     elif result.strategy_id == "gfs_live":
         _render_gfs_live(result.data)
+    elif result.strategy_id == "breakout_ath_daily":
+        _render_ath_daily(result.data)
     else:
         _render_summary_data(result.data)
 
@@ -118,6 +120,7 @@ def render_result(result: StrategyResult, *, heading: bool = True) -> None:
             "watchlist_curation",
             "qtr_results",
             "gfs_live",
+            "breakout_ath_daily",
         },
     ):
         st.markdown(result.report or "_No report returned._")
@@ -502,6 +505,277 @@ def _gfs_tradebook_table(tradebook: list) -> None:
     stats[2].metric(
         "Total realized P&L", _fmt_inr(sum(t.get("pnl") or 0 for t in tradebook))
     )
+
+
+def render_ath_ledger_snapshot() -> None:
+    """Always-on book view for the ATH sleeve, read straight off its state file."""
+    from backtesting.breakout_ath.daily import ledger_snapshot
+
+    try:
+        snap = ledger_snapshot()
+    except Exception as exc:  # noqa: BLE001 - never let the snapshot break the page
+        st.info(f"No ATH book to show yet ({exc}).")
+        return
+
+    if not snap.get("exists") or not snap.get("as_of"):
+        st.info(
+            "The ATH book has not been created yet. Run the sleeve below — it "
+            "starts flat with the capital you set and records the book from there."
+        )
+        return
+
+    st.markdown("### 📁 ATH sleeve book")
+    st.caption(
+        f"Saved state as of the **{snap['as_of']}** close. Positions are marked at "
+        "the close the last run saw — not a live quote."
+    )
+    stale = snap.get("freshness") or {}
+    if stale.get("stale"):
+        st.warning(
+            f"This book is **{stale.get('weekdays_behind')} weekdays** behind "
+            f"({stale.get('last_session')} vs {stale.get('today')}). Every stop "
+            "below is measured off that old close, so treat the numbers as "
+            "history until you run the sleeve."
+        )
+    _ath_book_metrics(snap.get("book") or {})
+    _ath_pending_entries(snap)
+    st.markdown("#### Holdings")
+    _ath_holdings_table(snap.get("holdings") or [])
+    with st.expander(
+        f"📒 Tradebook — {snap.get('num_closed', 0)} closed trades", expanded=False
+    ):
+        _gfs_tradebook_table(snap.get("tradebook") or [])
+
+
+def _ath_book_metrics(book: dict) -> None:
+    cols = st.columns(5)
+    cols[0].metric("Equity", _fmt_inr(book.get("equity")))
+    cols[1].metric(
+        "Deployed",
+        _fmt_inr(book.get("deployed")),
+        delta=f"{book.get('exposure_pct', 0)}% of book",
+        delta_color="off",
+    )
+    cols[2].metric("Cash", _fmt_inr(book.get("cash")))
+    cols[3].metric(
+        "Open positions",
+        book.get("open_positions", 0),
+        delta=f"{book.get('free_slots', 0)} slots free",
+        delta_color="off",
+    )
+    rpnl = book.get("realized_pnl") or 0.0
+    cols[4].metric("Realized P&L", _fmt_inr(rpnl), delta=round(float(rpnl), 0))
+    total = book.get("total_return_pct")
+    if total is not None:
+        st.caption(
+            f"Since inception ({book.get('opened_on') or '-'}): **{total:+.2f}%** on a "
+            f"{_fmt_inr(book.get('starting_capital'))} starting book · "
+            f"{book.get('closed_trades', 0)} closed trades · "
+            f"{book.get('win_rate_pct', 0)}% win rate · "
+            f"{_fmt_inr(book.get('budget_per_slot'))} per slot."
+        )
+
+
+def _ath_holdings_table(holdings: list) -> None:
+    if not holdings:
+        st.caption("No open positions yet.")
+        return
+    cols = [
+        "symbol",
+        "industry",
+        "quantity",
+        "entry_date",
+        "entry_price",
+        "price",
+        "return_pct",
+        "value",
+        "anchor",
+        "stop_level",
+        "headroom_pct",
+    ]
+    frame = pd.DataFrame(holdings)
+    st.dataframe(
+        frame[[c for c in cols if c in frame.columns]],
+        use_container_width=True,
+        hide_index=True,
+    )
+    st.caption(
+        "`anchor` is the highest close since entry and `stop_level` sits below it "
+        "by the configured trail. `headroom_pct` is how far the last close is "
+        "above that stop — the table is sorted so the nearest to exiting is first."
+    )
+
+
+def _ath_pending_entries(snap: dict) -> None:
+    """The confirm-fills step.
+
+    The run only *suggests* entries; nothing is bought until the orders really
+    fill. Committing them here is what keeps the saved book in step with the
+    account, and it is where a different fill price gets recorded.
+    """
+    pending = snap.get("pending_entries") or []
+    if not pending:
+        return
+
+    st.markdown("#### 🎯 Suggested buys awaiting confirmation")
+    st.warning(
+        f"**{len(pending)} suggestion(s)** from the {snap.get('pending_session')} "
+        "close have not been committed to the book. Place the orders, then "
+        "confirm the fills below so the book records them. Until you do, the "
+        "sleeve will keep selling but never show a new holding."
+    )
+    frame = pd.DataFrame(
+        [
+            {
+                "confirm": True,
+                "symbol": e["symbol"],
+                "industry": e.get("industry", "Unknown"),
+                "budget": round(float(e.get("budget") or 0.0), 2),
+                "suggested_price": round(float(e.get("price") or 0.0), 2),
+                "fill_price": round(float(e.get("price") or 0.0), 2),
+            }
+            for e in pending
+        ]
+    )
+    edited = st.data_editor(
+        frame,
+        use_container_width=True,
+        hide_index=True,
+        disabled=["symbol", "industry", "budget", "suggested_price"],
+        key="ath_confirm_fills_editor",
+    )
+    st.caption(
+        "Edit `fill_price` if the order filled away from the suggested close. "
+        "The budget is what was spent either way, so the quantity is re-derived "
+        "rather than the position size silently drifting."
+    )
+    left, right = st.columns(2)
+    if left.button(
+        "Confirm fills and update the book", type="primary", key="ath_confirm_fills"
+    ):
+        _ath_commit_fills(edited, snap)
+    if right.button("Discard these suggestions", key="ath_discard_fills"):
+        from backtesting.breakout_ath.daily import confirm_fills
+
+        confirm_fills([])
+        st.success("Suggestions discarded. The book is unchanged.")
+        st.rerun()
+
+
+def _ath_commit_fills(edited: Any, snap: dict) -> None:
+    from datetime import date as _date
+
+    from backtesting.breakout_ath.daily import confirm_fills
+
+    rows = (
+        edited.to_dict("records") if isinstance(edited, pd.DataFrame) else list(edited)
+    )
+    fills = [
+        {
+            "symbol": r["symbol"],
+            "industry": r.get("industry", "Unknown"),
+            "budget": float(r.get("budget") or 0.0),
+            "fill_price": float(r.get("fill_price") or r.get("suggested_price") or 0.0),
+        }
+        for r in rows
+        if r.get("confirm")
+    ]
+    session = snap.get("pending_session") or snap.get("as_of")
+    try:
+        day = _date.fromisoformat(str(session))
+    except (TypeError, ValueError):
+        day = _date.today()
+    confirm_fills(fills, day=day)
+    st.success(f"Committed {len(fills)} fill(s) to the book.")
+    st.rerun()
+
+
+def _render_ath_daily(data: dict) -> None:
+    fresh = data.get("freshness") or {}
+    if fresh.get("stale"):
+        st.error(
+            f"**Stale price data — do not act on this.** The newest session "
+            f"available is **{fresh.get('last_session')}**, "
+            f"{fresh.get('weekdays_behind')} weekdays behind "
+            f"{fresh.get('today')}. Refresh the bar store and re-run."
+        )
+
+    st.markdown("### 📁 Book after this run")
+    if not data.get("persisted"):
+        st.warning("Nothing was saved — the run was told not to persist the book.")
+    st.caption(f"Marked to the **{data.get('as_of')}** close.")
+    cols = st.columns(5)
+    cols[0].metric("Equity", _fmt_inr(data.get("equity")))
+    cols[1].metric("Deployed", _fmt_inr(data.get("deployed")))
+    cols[2].metric("Cash", _fmt_inr(data.get("cash")))
+    cols[3].metric("Open positions", data.get("open_positions", 0))
+    cols[4].metric("Free slots", data.get("free_slots", 0))
+
+    exits = data.get("exits") or []
+    st.markdown("### 🔴 Sell")
+    if not exits:
+        st.caption("Nothing to sell — no position has broken its trailing stop.")
+    else:
+        frame = pd.DataFrame(exits)
+        cols_e = [
+            "symbol",
+            "industry",
+            "quantity",
+            "entry_date",
+            "entry_price",
+            "price",
+            "return_pct",
+            "anchor",
+            "stop_level",
+            "proceeds",
+            "reason",
+        ]
+        st.dataframe(
+            frame[[c for c in cols_e if c in frame.columns]],
+            use_container_width=True,
+            hide_index=True,
+        )
+        st.caption(
+            "These are already applied to the saved book — the sleeve exits on "
+            "the close that broke the stop, which is the timing the backtest "
+            "measured."
+        )
+
+    entries = data.get("entries") or []
+    st.markdown("### 🟢 Buy")
+    if not entries:
+        st.caption("Nothing to buy — no fresh breakout, or the book is full.")
+    else:
+        frame = pd.DataFrame(entries)
+        cols_b = [
+            "symbol",
+            "industry",
+            "price",
+            "quantity",
+            "budget",
+            "initial_stop",
+            "momentum",
+            "note",
+        ]
+        st.dataframe(
+            frame[[c for c in cols_b if c in frame.columns]],
+            use_container_width=True,
+            hide_index=True,
+        )
+        st.info(
+            "These are **suggestions, not fills.** They are parked on the book — "
+            "place the orders, then confirm them in the book panel above so the "
+            "sleeve records the positions."
+        )
+
+    holds = data.get("holds") or []
+    if holds:
+        tight = [h for h in holds if h.get("headroom_pct", 1) < 0.05]
+        if tight:
+            st.markdown("### ⚠️ Close to their stops")
+            st.dataframe(pd.DataFrame(tight), use_container_width=True, hide_index=True)
+        with st.expander(f"📊 All {len(holds)} holdings", expanded=False):
+            st.dataframe(pd.DataFrame(holds), use_container_width=True, hide_index=True)
 
 
 def render_gfs_ledger_snapshot() -> None:

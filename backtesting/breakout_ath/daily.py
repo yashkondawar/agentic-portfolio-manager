@@ -12,7 +12,7 @@ from __future__ import annotations
 
 import json
 import logging
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -26,7 +26,7 @@ from .universe import industry_map
 
 logger = logging.getLogger(__name__)
 
-STATE_VERSION = 1
+STATE_VERSION = 2
 
 
 # ── Persisted state ──────────────────────────────────────────────────────────
@@ -41,6 +41,11 @@ def empty_state(capital: float) -> dict:
         "budget_key": None,
         "positions": [],
         "closed": [],
+        "pending_entries": [],
+        "pending_session": None,
+        "marks": {},
+        "equity": float(capital),
+        "opened_on": None,
         "last_session": None,
     }
 
@@ -63,6 +68,9 @@ def normalize_state(payload: Any, capital: float) -> dict:
     state.update({k: v for k, v in payload.items() if k in state})
     state["positions"] = [_normalize_position(p) for p in payload.get("positions", [])]
     state["closed"] = list(payload.get("closed", []))
+    state["pending_entries"] = list(payload.get("pending_entries", []))
+    state["marks"] = dict(payload.get("marks", {}))
+    state["version"] = STATE_VERSION
     return state
 
 
@@ -140,7 +148,17 @@ def run_daily(
     _refresh_budget(cfg, state, today, equity)
     entries = _entry_actions(cfg, state, closes, live, industry_of)
 
+    # The suggestions are parked on the book rather than committed: nothing has
+    # actually been bought yet. They are committed by confirm_fills once the
+    # orders really fill, which is also where a different fill price is taken
+    # into account.
+    state["pending_entries"] = entries
+    state["pending_session"] = today.isoformat()
+    state["marks"] = marks
+    state["equity"] = equity
     state["last_session"] = today.isoformat()
+    if state.get("opened_on") is None:
+        state["opened_on"] = today.isoformat()
     if persist and portfolio_state is None:
         save_state(path, state)
 
@@ -155,6 +173,8 @@ def run_daily(
         "exits": exits,
         "entries": entries,
         "holds": _hold_actions(cfg, state, live),
+        "freshness": _freshness(today.isoformat(), date.today()),
+        "persisted": bool(persist and portfolio_state is None),
         "state": state,
     }
     report["report"] = render_report(report)
@@ -212,15 +232,23 @@ def _apply_exits(cfg: AthBreakoutConfig, state: dict, exits: List[dict]) -> None
         cost = e["proceeds"] * cfg.cost_rate
         e["cost"] = cost
         state["cash"] += e["proceeds"] - cost
+        entry_value = e["entry_price"] * e["quantity"]
+        pnl = e["proceeds"] - cost - entry_value
+        e["pnl"] = pnl
         state["closed"].append(
             {
                 "symbol": e["symbol"],
+                "industry": e.get("industry", "Unknown"),
                 "entry_date": e["entry_date"],
                 "exit_date": e.get("exit_date"),
                 "entry_price": e["entry_price"],
                 "exit_price": e["price"],
                 "quantity": e["quantity"],
                 "exit_reason": e["reason"],
+                "pnl": pnl,
+                "pnl_pct": e["return_pct"] * 100.0,
+                "proceeds": e["proceeds"],
+                "cost": cost,
             }
         )
     state["positions"] = [p for p in state["positions"] if p["symbol"] not in sold]
@@ -328,21 +356,179 @@ def _hold_actions(cfg: AthBreakoutConfig, state: dict, live: pd.Series) -> List[
     return out
 
 
-def apply_entries(state: dict, entries: List[dict], day: date) -> dict:
-    """Commit the suggested entries to the book (used after they actually fill)."""
+def apply_entries(
+    state: dict, entries: List[dict], day: date, *, cost_rate: float = 0.0025
+) -> dict:
+    """Commit filled entries to the book.
+
+    Each entry carries the budget the run allocated to it. If it actually
+    filled at a different price than the close the suggestion was priced off,
+    pass that price as ``fill_price``: the budget is what was spent either way,
+    so the quantity is re-derived rather than the risk silently changing.
+    """
     for e in entries:
-        state["cash"] -= e["budget"]
+        budget = float(e.get("budget") or 0.0)
+        price = float(e.get("fill_price") or e.get("price") or 0.0)
+        if budget <= 0.0 or price <= 0.0:
+            continue
+        budget = min(budget, state["cash"])
+        if budget <= 0.0:
+            continue
+        cost = budget * cost_rate
+        quantity = (budget - cost) / price
+        state["cash"] -= budget
         state["positions"].append(
             {
                 "symbol": e["symbol"],
-                "industry": e["industry"],
+                "industry": e.get("industry", "Unknown"),
                 "entry_date": day.isoformat(),
-                "entry_price": e["price"],
-                "quantity": e["quantity"],
-                "anchor": e["price"],
+                "entry_price": price,
+                "quantity": quantity,
+                "anchor": price,
             }
         )
     return state
+
+
+def confirm_fills(
+    fills: List[dict],
+    *,
+    day: Optional[date] = None,
+    state_path: Optional[Path] = None,
+    capital: float = 0.0,
+    cost_rate: float = 0.0025,
+) -> dict:
+    """Commit some or all of the parked suggestions, then save the book.
+
+    Each fill is matched to its parked suggestion by symbol, so a caller can
+    confirm with nothing but a symbol and let the budget and price default to
+    what the run proposed. Anything left in ``pending_entries`` is dropped: a
+    suggestion you chose not to place should not linger and be mistaken for a
+    holding.
+    """
+    path = Path(state_path or STATE_PATH)
+    state = load_state(path, capital)
+
+    parked = {str(e.get("symbol", "")).upper(): e for e in state["pending_entries"]}
+    merged = []
+    for fill in fills:
+        symbol = str(fill.get("symbol", "")).upper()
+        entry = dict(parked.get(symbol) or {})
+        entry.update({k: v for k, v in fill.items() if v not in (None, "")})
+        entry["symbol"] = symbol
+        merged.append(entry)
+
+    apply_entries(state, merged, day or date.today(), cost_rate=cost_rate)
+    state["pending_entries"] = []
+    state["pending_session"] = None
+    save_state(path, state)
+    return state
+
+
+# ── Book view ────────────────────────────────────────────────────────────────
+
+
+def ledger_snapshot(
+    cfg: Optional[AthBreakoutConfig] = None,
+    *,
+    state_path: Optional[Path] = None,
+    today: Optional[date] = None,
+) -> Dict[str, Any]:
+    """The saved book, read straight off disk — no network, no price download.
+
+    Positions are marked at the closes the last run saw, which is why the
+    freshness block matters: an old book prices every stop off an old close.
+    """
+    cfg = cfg or AthBreakoutConfig()
+    path = Path(state_path or STATE_PATH)
+    if not path.exists():
+        return {"as_of": None, "exists": False}
+
+    state = load_state(path, cfg.start_capital)
+    marks = state.get("marks") or {}
+    holdings = []
+    deployed = 0.0
+    for pos in state["positions"]:
+        price = float(marks.get(pos["symbol"]) or pos["entry_price"])
+        deployed += pos["quantity"] * price
+        stop = pos["anchor"] * cfg.stop_multiple
+        holdings.append(
+            {
+                "symbol": pos["symbol"],
+                "industry": pos.get("industry", "Unknown"),
+                "quantity": pos["quantity"],
+                "entry_date": pos["entry_date"],
+                "entry_price": pos["entry_price"],
+                "price": price,
+                "value": pos["quantity"] * price,
+                "anchor": pos["anchor"],
+                "stop_level": stop,
+                "headroom_pct": (price / stop - 1.0) * 100.0 if stop else 0.0,
+                "return_pct": (
+                    (price / pos["entry_price"] - 1.0) * 100.0
+                    if pos["entry_price"]
+                    else 0.0
+                ),
+            }
+        )
+    holdings.sort(key=lambda r: r["headroom_pct"])
+
+    closed = state.get("closed") or []
+    realized = sum(float(t.get("pnl") or 0.0) for t in closed)
+    wins = [t for t in closed if float(t.get("pnl") or 0.0) > 0]
+    equity = state["cash"] + deployed
+    capital = float(state.get("capital") or cfg.start_capital)
+
+    return {
+        "exists": True,
+        "as_of": state.get("last_session"),
+        "book": {
+            "equity": equity,
+            "cash": state["cash"],
+            "deployed": deployed,
+            "exposure_pct": round(deployed / equity * 100.0, 1) if equity else 0.0,
+            "open_positions": len(state["positions"]),
+            "free_slots": max(0, cfg.max_positions - len(state["positions"])),
+            "budget_per_slot": state.get("budget"),
+            "realized_pnl": realized,
+            "closed_trades": len(closed),
+            "win_rate_pct": (
+                round(len(wins) / len(closed) * 100.0, 1) if closed else 0.0
+            ),
+            "starting_capital": capital,
+            "total_return_pct": (
+                round((equity / capital - 1.0) * 100.0, 2) if capital else 0.0
+            ),
+            "opened_on": state.get("opened_on"),
+        },
+        "holdings": holdings,
+        "pending_entries": state.get("pending_entries") or [],
+        "pending_session": state.get("pending_session"),
+        "tradebook": list(reversed(closed)),
+        "num_closed": len(closed),
+        "freshness": _freshness(state.get("last_session"), today or date.today()),
+    }
+
+
+def _freshness(last_session: Optional[str], today: date) -> dict:
+    """How many weekdays the saved book is behind, ignoring weekends."""
+    if not last_session:
+        return {"stale": False, "last_session": None, "weekdays_behind": 0}
+    try:
+        last = date.fromisoformat(str(last_session))
+    except ValueError:
+        return {"stale": False, "last_session": last_session, "weekdays_behind": 0}
+    behind = sum(
+        1
+        for offset in range(1, (today - last).days + 1)
+        if (last + timedelta(days=offset)).weekday() < 5
+    )
+    return {
+        "stale": behind > 1,
+        "last_session": last.isoformat(),
+        "today": today.isoformat(),
+        "weekdays_behind": behind,
+    }
 
 
 def _score(value: Any) -> float:

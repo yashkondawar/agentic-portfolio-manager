@@ -24,6 +24,7 @@ from ui.components import (
     latest_result,
     latest_run_record,
     page_header,
+    render_ath_ledger_snapshot,
     render_gfs_ledger_snapshot,
     render_qtr_ledger_snapshot,
     render_result,
@@ -120,10 +121,15 @@ def discover_page() -> None:
     page_header(
         "Discover Ideas",
         "Screen broad universes, monitor fresh quarterly-result catalysts, and "
-        "track the GFS multi-timeframe book.",
+        "track the GFS and ATH breakout books.",
     )
-    watchlist_tab, results_tab, gfs_tab = st.tabs(
-        ["Watchlist builder", "Quarterly results", "GFS multi-timeframe"]
+    watchlist_tab, results_tab, gfs_tab, ath_tab = st.tabs(
+        [
+            "Watchlist builder",
+            "Quarterly results",
+            "GFS multi-timeframe",
+            "ATH breakout",
+        ]
     )
     with watchlist_tab:
         _registry_runner("watchlist_curation", "discover_watchlist")
@@ -144,6 +150,18 @@ def discover_page() -> None:
         st.divider()
         _registry_runner("gfs_live", "discover_gfs")
         _basket_action(latest_result("gfs_live"), "gfs")
+    with ath_tab:
+        st.caption(
+            "A trail-only momentum sleeve: buy stocks closing at a 52-week high "
+            "while still within 15% of their lifetime high, and hold until the "
+            "close falls 16% below the peak close since entry. Run it **after "
+            "the close**. Exits apply to the book straight away; buys are "
+            "suggestions you confirm once the orders actually fill."
+        )
+        render_ath_ledger_snapshot()
+        st.divider()
+        _registry_runner("breakout_ath_daily", "discover_ath")
+        _basket_action(latest_result("breakout_ath_daily"), "ath")
 
 
 def research_page() -> None:
@@ -189,19 +207,10 @@ def swing_page() -> None:
         "Swing Desk",
         "Review open trades, evaluate the shared watchlist, and rotate capital.",
     )
-    workflow = st.selectbox(
-        "Workflow",
-        ["breakout_ath_daily", "swing_trading"],
-        format_func=lambda item: registry.get_strategy(item).name,
+    st.caption(
+        "The ATH breakout sleeve moved to **Discover → ATH breakout**, where it "
+        "keeps its own book."
     )
-    if workflow == "breakout_ath_daily":
-        st.info(
-            "This workflow uses its own persisted paper portfolio and does not "
-            "read Zerodha holdings."
-        )
-        _registry_runner(workflow, "breakout_ath_daily")
-        return
-
     source = st.radio(
         "Position source",
         ["Manual editor", "Zerodha snapshot", "Upload JSON/CSV"],
