@@ -32,7 +32,7 @@ class AthBreakoutConfig:
     cost_bps: float = 25.0
     stcg_rate: float = 0.20
     ltcg_rate: float = 0.125
-    start_capital: float = 10_000_000.0
+    start_capital: float = 100_000.0
     signal_price: str = "adjusted"
 
     # ── Plumbing ─────────────────────────────────────────────────────────────

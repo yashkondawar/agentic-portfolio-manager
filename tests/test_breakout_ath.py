@@ -21,6 +21,7 @@ from backtesting.breakout_ath.daily import (
     confirm_fills,
     empty_state,
     ledger_snapshot,
+    load_state,
     normalize_state,
     save_state,
 )
@@ -128,10 +129,14 @@ class TestTrailingStop:
 
 class TestSizing:
     """Commission comes out of the slot budget, and cash falls by the whole
-    budget — the reference book's day one reproduces to the rupee."""
+    budget — the reference book's day one reproduces to the rupee.
+
+    The reference workbook was run at ₹1cr, so these pin that capital
+    explicitly instead of tracking the config default.
+    """
 
     def test_day_one_budget_cost_and_cash(self):
-        cfg = AthBreakoutConfig()
+        cfg = AthBreakoutConfig(start_capital=10_000_000.0)
         pf = Portfolio(cash=cfg.start_capital, cost_rate=cfg.cost_rate)
         budget = cfg.start_capital / cfg.max_positions
         assert budget == pytest.approx(357_142.857142, rel=1e-9)
@@ -149,7 +154,7 @@ class TestSizing:
         assert pf.cash == pytest.approx(9_642_857.142857, rel=1e-9)
 
     def test_quantity_is_fractional(self):
-        cfg = AthBreakoutConfig()
+        cfg = AthBreakoutConfig(start_capital=10_000_000.0)
         pf = Portfolio(cash=cfg.start_capital, cost_rate=cfg.cost_rate)
         pf.open_position(
             symbol="AAA",
@@ -227,9 +232,17 @@ class TestState:
             1_000.0,
         )
         pos = state["positions"][0]
-        assert pos["symbol"] == "AAA"
+        # Price columns and the industry map both key on SYMBOL.NS, so a
+        # position stored bare would never mark, exit, or count as held.
+        assert pos["symbol"] == "AAA.NS"
         # The anchor defaults to the entry price for a brand new position.
         assert pos["anchor"] == pytest.approx(10.0)
+
+    def test_a_bare_symbol_is_canonicalised_to_the_price_column_form(self):
+        state = normalize_state(
+            {"positions": [{"symbol": "aaa", "entry_price": 10.0}]}, 1_000.0
+        )
+        assert state["positions"][0]["symbol"] == "AAA.NS"
 
     def test_a_v1_book_is_readable(self):
         """Books written before marks and pending entries existed must still load."""
@@ -265,9 +278,29 @@ class TestConfirmFills:
             state_path=path,
             capital=500_000.0,
         )
-        assert [p["symbol"] for p in state["positions"]] == ["AAA"]
+        assert [p["symbol"] for p in state["positions"]] == ["AAA.NS"]
         # The skipped suggestion must not linger and look like a holding.
         assert state["pending_entries"] == []
+
+    def test_a_saved_position_still_matches_the_price_columns(self, tmp_path):
+        """The round trip through disk must not break marking or exiting."""
+        path = self._book(tmp_path)
+        confirm_fills(
+            [{"symbol": "AAA", "budget": 125_000.0}],
+            day=date(2026, 9, 2),
+            state_path=path,
+            capital=500_000.0,
+        )
+        reloaded = load_state(path, 500_000.0)
+        pos = reloaded["positions"][0]
+        assert pos["symbol"] == "AAA.NS"
+
+        # A close under the stop must actually produce an exit, which only
+        # happens if the symbol lines up with the price series.
+        live = pd.Series({"AAA.NS": 50.0})
+        cfg = AthBreakoutConfig(sl_pct=0.16)
+        exits = _exit_actions(cfg, reloaded, live, date(2026, 9, 3), lambda s, f="": f)
+        assert [e["symbol"] for e in exits] == ["AAA.NS"]
 
     def test_a_worse_fill_buys_fewer_shares_rather_than_spending_more(self, tmp_path):
         path = self._book(tmp_path)
@@ -306,7 +339,7 @@ class TestLedgerSnapshot:
         state["cash"] = 90_000.0
         state["positions"] = [
             {
-                "symbol": "AAA",
+                "symbol": "AAA.NS",
                 "industry": "Tech",
                 "entry_date": "2026-08-01",
                 "entry_price": 100.0,
@@ -314,7 +347,7 @@ class TestLedgerSnapshot:
                 "anchor": 120.0,
             }
         ]
-        state["marks"] = {"AAA": 110.0}
+        state["marks"] = {"AAA.NS": 110.0}
         state["last_session"] = "2026-09-01"
         path = tmp_path / "book.json"
         save_state(path, state)

@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import json
 import logging
+from dataclasses import replace
 from datetime import date, timedelta
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -80,10 +81,25 @@ def save_state(path: Path, state: dict) -> None:
     path.write_text(json.dumps(state, indent=2, default=str), encoding="utf-8")
 
 
+def _canonical(symbol: str) -> str:
+    """The one symbol form the sleeve uses internally.
+
+    Price columns, the industry map and the backtest all key on ``SYMBOL.NS``.
+    A position stored as a bare ``SYMBOL`` silently fails every one of those
+    lookups, so it is never marked, never exited, and gets suggested again as
+    if it were not held. Accept either form on the way in, store one on the
+    way out.
+    """
+    text = str(symbol or "").strip().upper()
+    if text.endswith(".NS"):
+        text = text[:-3]
+    return f"{text}.NS" if text else ""
+
+
 def _normalize_position(item: Any) -> dict:
     item = dict(item or {})
     return {
-        "symbol": str(item.get("symbol", "")).upper().replace(".NS", ""),
+        "symbol": _canonical(item.get("symbol", "")),
         "industry": item.get("industry", "Unknown"),
         "entry_date": str(item.get("entry_date", "")),
         "entry_price": float(item.get("entry_price", 0.0)),
@@ -112,6 +128,12 @@ def run_daily(
     cfg = cfg or AthBreakoutConfig()
     cfg.validate()
 
+    # end_date pins the *backtest* window so the dossier stays reproducible.
+    # A live run must read to the run-through date instead, or it scans a
+    # frozen close forever and every session looks identical.
+    through = as_of or date.today()
+    cfg = replace(cfg, end_date=through)
+
     path = Path(state_path or STATE_PATH)
     state = (
         normalize_state(portfolio_state, cfg.start_capital)
@@ -128,18 +150,22 @@ def run_daily(
 
     session = closes.index[-1]
     today = session.date()
+    # Two views, exactly as the engine keeps them: entries may only fire on a
+    # session the stock actually traded, but marking and stop-checking use the
+    # last known close so a non-trading day cannot blank out the book.
     live = closes.iloc[-1]
+    filled = closes.ffill().iloc[-1]
     industries = industry_map()
 
     def industry_of(symbol: str, fallback: str = "Unknown") -> str:
         return industries.get(symbol) or industries.get(f"{symbol}.NS", fallback)
 
-    exits = _exit_actions(cfg, state, live, today, industry_of)
+    exits = _exit_actions(cfg, state, filled, today, industry_of)
     for item in exits:
         item["exit_date"] = today.isoformat()
     _apply_exits(cfg, state, exits)
 
-    marks = {p["symbol"]: float(live.get(p["symbol"], 0.0)) for p in state["positions"]}
+    marks = {p["symbol"]: _mark(filled, p) for p in state["positions"]}
     deployed = sum(
         p["quantity"] * marks.get(p["symbol"], 0.0) for p in state["positions"]
     )
@@ -162,6 +188,7 @@ def run_daily(
     if persist and portfolio_state is None:
         save_state(path, state)
 
+    holds = _hold_actions(cfg, state, filled)
     report = {
         "as_of": today.isoformat(),
         "equity": equity,
@@ -172,13 +199,26 @@ def run_daily(
         "budget_per_slot": state["budget"],
         "exits": exits,
         "entries": entries,
-        "holds": _hold_actions(cfg, state, live),
+        "holds": holds,
         "freshness": _freshness(today.isoformat(), date.today()),
         "persisted": bool(persist and portfolio_state is None),
         "state": state,
     }
     report["report"] = render_report(report)
     return report
+
+
+def _mark(prices: pd.Series, position: dict) -> float:
+    """Last known close for a holding, never NaN.
+
+    A name that has stopped trading entirely still has to be worth something on
+    the book; falling back to the entry price keeps equity a real number rather
+    than letting one stale symbol turn the whole total into NaN.
+    """
+    price = prices.get(position["symbol"])
+    if price is None or pd.isna(price) or float(price) <= 0.0:
+        return float(position.get("entry_price") or 0.0)
+    return float(price)
 
 
 def _exit_actions(
@@ -367,9 +407,10 @@ def apply_entries(
     so the quantity is re-derived rather than the risk silently changing.
     """
     for e in entries:
+        symbol = _canonical(e.get("symbol", ""))
         budget = float(e.get("budget") or 0.0)
         price = float(e.get("fill_price") or e.get("price") or 0.0)
-        if budget <= 0.0 or price <= 0.0:
+        if not symbol or budget <= 0.0 or price <= 0.0:
             continue
         budget = min(budget, state["cash"])
         if budget <= 0.0:
@@ -379,7 +420,7 @@ def apply_entries(
         state["cash"] -= budget
         state["positions"].append(
             {
-                "symbol": e["symbol"],
+                "symbol": symbol,
                 "industry": e.get("industry", "Unknown"),
                 "entry_date": day.isoformat(),
                 "entry_price": price,
@@ -409,10 +450,10 @@ def confirm_fills(
     path = Path(state_path or STATE_PATH)
     state = load_state(path, capital)
 
-    parked = {str(e.get("symbol", "")).upper(): e for e in state["pending_entries"]}
+    parked = {_canonical(e.get("symbol", "")): e for e in state["pending_entries"]}
     merged = []
     for fill in fills:
-        symbol = str(fill.get("symbol", "")).upper()
+        symbol = _canonical(fill.get("symbol", ""))
         entry = dict(parked.get(symbol) or {})
         entry.update({k: v for k, v in fill.items() if v not in (None, "")})
         entry["symbol"] = symbol

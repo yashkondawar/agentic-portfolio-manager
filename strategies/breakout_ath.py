@@ -89,7 +89,7 @@ class BreakoutAthBacktestStrategy(BaseStrategy):
                 "capital",
                 "Starting capital (₹)",
                 ParamType.FLOAT,
-                default=500_000.0,
+                default=100_000.0,
                 min=1,
                 group="Capital",
             ),

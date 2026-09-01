@@ -53,7 +53,7 @@ class BreakoutAthDailyStrategy(BaseStrategy):
                 "capital",
                 "Sleeve capital (₹)",
                 ParamType.FLOAT,
-                default=10_000_000.0,
+                default=100_000.0,
                 min=1,
                 help="Used only when creating or resetting the book.",
                 group="Daily run",
