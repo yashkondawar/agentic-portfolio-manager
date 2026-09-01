@@ -6,7 +6,7 @@ import io
 import json
 import os
 import shutil
-from datetime import datetime
+from datetime import datetime, time as dt_time, timezone
 from importlib.util import find_spec
 
 import pandas as pd
@@ -14,15 +14,20 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from core import registry
+from core import scheduler as scheduler_mod
+from core import schedules as schedules_mod
 from core.run_history import get_run, list_runs
 from core.strategy import StrategyResult
 from ui.components import (
     clean_editor_rows,
+    format_run_timestamp,
     latest_result,
+    latest_run_record,
     page_header,
     render_gfs_ledger_snapshot,
     render_qtr_ledger_snapshot,
     render_result,
+    result_from_record,
     result_symbols,
     run_strategy,
 )
@@ -39,6 +44,7 @@ __all__ = [
     "market_temperature_page",
     "portfolio_page",
     "research_page",
+    "schedules_page",
     "settings_page",
     "swing_page",
 ]
@@ -488,9 +494,24 @@ def _registry_runner(strategy_id: str, key_prefix: str) -> None:
     if submitted:
         result = run_strategy(strategy_id, params)
     else:
-        result = latest_result(strategy_id)
+        result = latest_result(strategy_id, from_history=False)
+        if result is None:
+            result = _render_saved_run_notice(strategy_id)
     if result:
         render_result(result)
+
+
+def _render_saved_run_notice(strategy_id: str) -> StrategyResult | None:
+    """Surface the newest persisted run — typically last night's scheduled one."""
+    record = latest_run_record(strategy_id)
+    if not record:
+        return None
+    when = format_run_timestamp(record.get("created_at"))
+    if record.get("status") == "completed":
+        st.caption(f"Showing the saved run from {when}. Use the form to re-run it.")
+    else:
+        st.warning(f"The last run ({when}) did not complete. Re-run it below.")
+    return result_from_record(record)
 
 
 def _basket_action(result: StrategyResult | None, key: str) -> None:
@@ -743,3 +764,291 @@ def kronos_page() -> None:
         st.caption(f"Showing {len(results)} forecast(s).")
         for fc in results:
             _render_kronos_forecast(fc)
+
+
+def schedules_page() -> None:
+    page_header(
+        "Automation & Schedules",
+        "Run the daily strategies unattended so the report is already in the "
+        "database when the market opens. Every page can still re-run on demand.",
+    )
+    _scheduler_health()
+    st.divider()
+
+    rows = _load_schedules()
+    st.subheader("Configured schedules")
+    if not rows:
+        st.info("No schedules yet. Add one below.")
+    for schedule in rows:
+        _schedule_card(schedule)
+
+    st.divider()
+    _schedule_editor(rows)
+    st.divider()
+    _schedule_guidance()
+
+
+def _load_schedules() -> list:
+    try:
+        return schedules_mod.ensure_defaults()
+    except Exception as exc:
+        st.error(f"Could not read schedules: {exc}")
+        return []
+
+
+def _scheduler_health() -> None:
+    age = scheduler_mod.heartbeat_age_seconds()
+    beat = scheduler_mod.read_heartbeat()
+    poll = int(beat.get("poll_seconds") or scheduler_mod.DEFAULT_POLL_SECONDS)
+    status, detail, running = _health_verdict(age, poll)
+
+    left, right = st.columns([1, 2])
+    with left:
+        st.metric("Background scheduler", status)
+    with right:
+        (st.success if running else st.warning)(detail)
+
+    if not running:
+        st.caption(
+            "Schedules only fire while this process runs. Register it once and "
+            "it starts with every logon, restarts itself if it dies, and keeps "
+            "running whether or not this app is open:"
+        )
+        st.code("uv run python -m core.scheduler install-task", language="powershell")
+        st.caption("Or start it by hand in a spare terminal:")
+        st.code("uv run python -m core.scheduler", language="powershell")
+        st.caption(f"Log file: `{scheduler_mod.log_path()}`")
+
+
+def _health_verdict(age: float | None, poll: int) -> tuple[str, str, bool]:
+    if age is None:
+        return "Not running", "The scheduler has never checked in on this machine.", False
+    if age <= max(120, poll * 4):
+        return "Running", f"Last check-in {int(age)}s ago.", True
+    return (
+        "Stale",
+        f"Last check-in was {_humanize_seconds(age)} ago — the process is not running.",
+        False,
+    )
+
+
+def _humanize_seconds(seconds: float) -> str:
+    if seconds < 90:
+        return f"{int(seconds)}s"
+    if seconds < 5400:
+        return f"{int(seconds // 60)}m"
+    if seconds < 172800:
+        return f"{int(seconds // 3600)}h"
+    return f"{int(seconds // 86400)}d"
+
+
+def _schedule_card(schedule) -> None:
+    with st.container(border=True):
+        head, actions = st.columns([3, 1])
+        with head:
+            mark = ":green[Enabled]" if schedule.enabled else ":gray[Paused]"
+            st.markdown(f"**{schedule.name}** · {mark}")
+            st.caption(f"`{schedule.strategy_id}` — {schedule.describe()}")
+        with actions:
+            if st.button(
+                "Run now",
+                key=f"sched_run_{schedule.id}",
+                use_container_width=True,
+                type="primary",
+            ):
+                _run_schedule_now(schedule)
+
+        following = schedule.next_occurrence(datetime.now(timezone.utc))
+        cols = st.columns(3)
+        cols[0].metric(
+            "Next run",
+            following.strftime("%a %d %b, %H:%M") if following else "never",
+        )
+        cols[1].metric("Last status", schedule.last_status or "never run")
+        cols[2].metric("Last run", format_run_timestamp(schedule.last_run_at))
+
+        if schedule.last_error:
+            st.error(schedule.last_error)
+        if schedule.params:
+            st.caption(f"Parameters: `{json.dumps(schedule.params, default=str)}`")
+
+        toggle, remove = st.columns([3, 1])
+        with toggle:
+            wanted = st.toggle(
+                "Enabled",
+                value=schedule.enabled,
+                key=f"sched_enabled_{schedule.id}",
+            )
+            if wanted != schedule.enabled:
+                schedules_mod.set_enabled(schedule.id, wanted)
+                st.rerun()
+        with remove:
+            with st.popover("Delete", use_container_width=True):
+                st.write(f"Delete **{schedule.name}**?")
+                if st.button(
+                    "Yes, delete", key=f"sched_del_{schedule.id}", type="primary"
+                ):
+                    schedules_mod.delete_schedule(schedule.id)
+                    st.rerun()
+
+
+def _run_schedule_now(schedule) -> None:
+    with st.status(f"Running {schedule.name}...", expanded=True) as status:
+        st.write(f"Executing `{schedule.strategy_id}` with the saved parameters.")
+        result = scheduler_mod.run_schedule(schedule)
+        if result.ok:
+            status.update(label="Run completed", state="complete", expanded=False)
+        else:
+            status.update(label="Run failed", state="error", expanded=True)
+    st.session_state.setdefault("latest_results", {})
+    st.session_state["latest_results"][schedule.strategy_id] = result.to_dict()
+    if result.ok:
+        st.success("Saved to run history — the strategy page now shows this run.")
+    else:
+        st.error(result.error or "The strategy failed.")
+
+
+def _schedule_editor(rows: list) -> None:
+    st.subheader("Add or edit a schedule")
+    options = {"➕ New schedule": None}
+    options.update({f"{item.name} ({item.strategy_id})": item.id for item in rows})
+    label = st.selectbox("Schedule", list(options), key="sched_editor_pick")
+    current = next((item for item in rows if item.id == options[label]), None)
+
+    strategy_ids = sorted(cls.id for cls in registry.list_strategies())
+    if not strategy_ids:
+        st.error("No strategies are registered.")
+        return
+    default_strategy = current.strategy_id if current else "gfs_live"
+    if default_strategy not in strategy_ids:
+        default_strategy = strategy_ids[0]
+    strategy_id = st.selectbox(
+        "Strategy",
+        strategy_ids,
+        index=strategy_ids.index(default_strategy),
+        key=f"sched_strategy_{current.id if current else 'new'}",
+    )
+
+    try:
+        strategy = registry.get_strategy(strategy_id)
+    except KeyError as exc:
+        st.error(str(exc))
+        return
+    st.caption(strategy.description)
+
+    key_prefix = f"sched_form_{current.id if current else 'new'}_{strategy_id}"
+    with st.form(f"{key_prefix}_wrapper"):
+        name = st.text_input(
+            "Name",
+            value=current.name if current else strategy.name,
+            key=f"{key_prefix}_name",
+        )
+        timing, days_col = st.columns(2)
+        with timing:
+            default_time = _parse_clock(current.run_at if current else "17:30")
+            run_at = st.time_input(
+                "Run at", value=default_time, step=300, key=f"{key_prefix}_time"
+            )
+            zones = _timezone_choices(current.timezone if current else None)
+            timezone_name = st.selectbox(
+                "Timezone", zones, index=0, key=f"{key_prefix}_tz"
+            )
+        with days_col:
+            chosen_days = current.days_of_week if current else schedules_mod.WEEKDAYS
+            picked = st.multiselect(
+                "Days",
+                list(schedules_mod.DAY_LABELS),
+                default=[schedules_mod.DAY_LABELS[d] for d in chosen_days],
+                key=f"{key_prefix}_days",
+            )
+            catch_up = st.number_input(
+                "Catch-up window (minutes)",
+                min_value=0,
+                max_value=2880,
+                value=int(
+                    current.catch_up_minutes
+                    if current
+                    else schedules_mod.DEFAULT_CATCH_UP_MINUTES
+                ),
+                step=30,
+                help=(
+                    "If the machine was asleep at the scheduled time, still run "
+                    "when it wakes up — as long as it is no later than this."
+                ),
+                key=f"{key_prefix}_catchup",
+            )
+        enabled = st.checkbox(
+            "Enabled",
+            value=current.enabled if current else True,
+            key=f"{key_prefix}_enabled",
+        )
+
+        st.markdown("**Run parameters**")
+        params = render_strategy_params(
+            strategy.param_specs(),
+            key_prefix=key_prefix,
+            defaults=dict(current.params) if current else None,
+        )
+        saved = st.form_submit_button(
+            "Save schedule", type="primary", use_container_width=True
+        )
+
+    if not saved:
+        return
+    try:
+        schedules_mod.save_schedule(
+            schedules_mod.Schedule(
+                id=current.id if current else "",
+                name=name,
+                strategy_id=strategy_id,
+                run_at=run_at.strftime("%H:%M"),
+                days_of_week=tuple(
+                    schedules_mod.DAY_LABELS.index(day) for day in picked
+                ),
+                timezone=timezone_name,
+                enabled=enabled,
+                catch_up_minutes=int(catch_up),
+                params=strategy.coerce_params(params),
+                created_at=current.created_at if current else "",
+                last_fired_key=current.last_fired_key if current else None,
+                last_run_at=current.last_run_at if current else None,
+                last_run_id=current.last_run_id if current else None,
+                last_status=current.last_status if current else None,
+                last_error=current.last_error if current else None,
+            )
+        )
+    except schedules_mod.ScheduleError as exc:
+        st.error(str(exc))
+        return
+    st.success("Schedule saved.")
+    st.rerun()
+
+
+def _parse_clock(value: str) -> dt_time:
+    try:
+        hour, minute = (int(part) for part in str(value).split(":", 1))
+        return dt_time(hour=hour, minute=minute)
+    except (ValueError, TypeError):
+        return dt_time(hour=17, minute=30)
+
+
+def _timezone_choices(current: str | None) -> list[str]:
+    zones = [schedules_mod.DEFAULT_TIMEZONE, "UTC", "America/New_York", "Europe/London"]
+    if current and current in zones:
+        zones.remove(current)
+    if current:
+        zones.insert(0, current)
+    return zones
+
+
+def _schedule_guidance() -> None:
+    st.subheader("Why these default times")
+    for spec in schedules_mod.DEFAULT_SCHEDULES:
+        days = (
+            "every day"
+            if tuple(spec["days_of_week"]) == schedules_mod.ALL_DAYS
+            else "Mon-Fri"
+        )
+        st.markdown(
+            f"**{spec['name']}** — `{spec['run_at']} IST`, {days}\n\n{spec['why']}"
+        )

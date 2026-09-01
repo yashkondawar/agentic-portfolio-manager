@@ -80,12 +80,30 @@ replays the same sessions.
 
 **Windows Task Scheduler**
 
+The workbench now ships its own scheduler, which is the easier route — it keeps
+`gfs_live` and `qtr_results` on their own cadences and writes both to the run
+history so the UI shows them:
+
+```powershell
+uv run python -m core.scheduler install-task
+```
+
+That registers a logon task plus a 30-minute watchdog, and falls back to a
+Startup-folder entry when creating scheduled tasks needs administrator rights.
+See [`core/SCHEDULER.md`](../core/SCHEDULER.md) for the details.
+
+To drive `python -m gfs.run_daily` directly from Task Scheduler instead:
+
 | Field       | Value                                    |
 | ----------- | ---------------------------------------- |
 | Program     | `C:\path\to\python.exe`                   |
 | Arguments   | `-m gfs.run_daily`                        |
 | Start in    | the repository root (**required**)        |
 | Trigger     | Daily, ~17:00 IST, weekdays               |
+
+Either way the run is recorded in the workbench run history, so the GFS tab
+shows it on next page load. Pass `--no-history` to skip that; `--dry-run` never
+records.
 
 Missing a day costs nothing. Miss a fortnight and the next run replays the
 fortnight.

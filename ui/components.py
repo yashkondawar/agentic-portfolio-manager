@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import time
+from datetime import datetime, timezone
 from typing import Any, Iterable
 
 import pandas as pd
@@ -11,7 +12,7 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from core import registry
-from core.run_history import save_run
+from core.run_history import get_run, list_runs, save_run
 from core.strategy import StrategyResult
 
 
@@ -38,9 +39,52 @@ def run_strategy(strategy_id: str, params: dict) -> StrategyResult:
     return result
 
 
-def latest_result(strategy_id: str) -> StrategyResult | None:
+def latest_result(strategy_id: str, *, from_history: bool = True) -> StrategyResult | None:
+    """Latest result for a strategy: this session's, else the newest saved run.
+
+    The history fallback is what makes an overnight scheduled run visible when
+    you open the app in the morning — the browser session that produced it does
+    not exist any more.
+    """
     raw = st.session_state.get("latest_results", {}).get(strategy_id)
-    return StrategyResult(**raw) if raw else None
+    if raw:
+        return StrategyResult(**raw)
+    if not from_history:
+        return None
+    record = latest_run_record(strategy_id)
+    return result_from_record(record) if record else None
+
+
+def latest_run_record(strategy_id: str) -> dict | None:
+    """Newest persisted run for a strategy, or ``None`` when it never ran."""
+    try:
+        rows = list_runs(limit=1, strategy_id=strategy_id)
+        return get_run(rows[0]["id"]) if rows else None
+    except Exception:
+        return None
+
+
+def result_from_record(record: dict) -> StrategyResult:
+    return StrategyResult(
+        strategy_id=record["strategy_id"],
+        status=record["status"],
+        report=record["report"],
+        data=record["data"],
+        error=record["error"],
+    )
+
+
+def format_run_timestamp(value: str | None) -> str:
+    """Render a stored UTC timestamp in the viewer's local time."""
+    if not value:
+        return "unknown time"
+    try:
+        moment = datetime.fromisoformat(value)
+    except ValueError:
+        return value
+    if moment.tzinfo is None:
+        moment = moment.replace(tzinfo=timezone.utc)
+    return moment.astimezone().strftime("%d %b %Y, %H:%M")
 
 
 def render_result(result: StrategyResult, *, heading: bool = True) -> None:

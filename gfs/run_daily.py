@@ -13,11 +13,17 @@ open.
 
 Windows Task Scheduler
 ----------------------
-Point a Basic Task at your interpreter with these settings:
+The workbench scheduler (``python -m core.scheduler``) already runs this
+strategy on a configurable cadence and is the easier option. To drive this
+module directly instead, point a Basic Task at your interpreter with:
 
 * Program:   ``C:\\path\\to\\python.exe``
 * Arguments: ``-m gfs.run_daily``
 * Start in:  the repository root (this matters - the package is imported by path)
+
+Successful and failed runs are written to the workbench run history so the UI
+shows them without re-running; pass ``--no-history`` to skip that. A ``--dry-run``
+is never recorded.
 
 Exit codes: ``0`` success, ``1`` failure. A failure never writes the book, so a
 crashed run cannot leave a half-updated portfolio behind; the next run simply
@@ -29,6 +35,7 @@ from __future__ import annotations
 import argparse
 import logging
 import sys
+import time
 from datetime import date
 
 from .config import LIVE_DEFAULTS, REGIME_MODES
@@ -96,6 +103,11 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="DESTRUCTIVE: delete the saved book (cash, positions, tradebook) first.",
     )
+    p.add_argument(
+        "--no-history",
+        action="store_true",
+        help="Do not record this run in the workbench run history.",
+    )
     p.add_argument("-v", "--verbose", action="store_true")
     return p
 
@@ -123,6 +135,29 @@ def params_from_args(args: argparse.Namespace) -> dict:
     }
 
 
+def _persist(params: dict, payload: dict, duration_ms: int, error: str | None) -> None:
+    """Record the run so the Streamlit UI shows it without re-running anything."""
+    try:
+        from core.run_history import save_run
+        from core.strategy import StrategyResult
+
+        save_run(
+            StrategyResult(
+                strategy_id="gfs_live",
+                status="failed" if error else "completed",
+                report=payload.get("report", "") or (error or ""),
+                data=payload.get("data", {}) or {},
+                error=error,
+            ),
+            params,
+            duration_ms=duration_ms,
+        )
+    except Exception:  # history is a convenience, never a reason to fail the job
+        logging.getLogger("gfs.run_daily").warning(
+            "Could not write the run to history.", exc_info=True
+        )
+
+
 def main(argv=None) -> int:
     args = build_parser().parse_args(argv)
     logging.basicConfig(
@@ -133,11 +168,22 @@ def main(argv=None) -> int:
         logging.getLogger("gfs.run_daily").warning(
             "--reset-book will erase the saved GFS book, including its tradebook."
         )
+    params = params_from_args(args)
+    # A dry run is a what-if; letting it become "the latest run" would make the
+    # UI show a report for a book that was never written.
+    record = not (args.no_history or args.dry_run)
+    started = time.perf_counter()
     try:
-        result = engine.run(params_from_args(args))
+        result = engine.run(params)
     except Exception as exc:  # noqa: BLE001 - a scheduled job must report, not traceback
         logging.getLogger("gfs.run_daily").exception("GFS live run failed: %s", exc)
+        if record:
+            _persist(
+                params, {}, int((time.perf_counter() - started) * 1000), str(exc)
+            )
         return 1
+    if record:
+        _persist(params, result, int((time.perf_counter() - started) * 1000), None)
     print(result["report"])
     return 0
 

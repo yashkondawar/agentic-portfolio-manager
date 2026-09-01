@@ -74,12 +74,37 @@ scripts:
 | Portfolio Review | Concentration, risk, conviction, and rebalancing review |
 | Backtest Lab | Historical return/risk metrics, equity curve, and trade log |
 | Broker & Holdings | Read-only Zerodha holdings, positions, margins, and orders |
+| Automation & Schedules | Daily unattended runs, their parameters, and scheduler health |
 | Settings & Catalog | Integration setup and every strategy parameter |
 
 Forms are generated from each strategy's `ParamSpec`, so new registered
 strategies and parameters become discoverable without adding another CLI-only
 workflow. Reports and structured data can be downloaded, and sanitized run
 history is stored in the local SQLite database described below.
+
+### Automation & Schedules
+
+Both daily strategies are *post-close* jobs whose output is meant to be read
+before the **next** open, so they run unattended overnight rather than by hand
+at 09:15. Install once and the scheduler starts with every logon, restarts
+itself if it dies, and keeps running whether or not the app is open:
+
+```bash
+uv run python -m core.scheduler install-task   # set it up (once)
+uv run python -m core.scheduler list           # inspect the configured jobs
+uv run python -m core.scheduler once           # fire whatever is due, then exit
+```
+
+Defaults, seeded on first use and editable on the **Automation & Schedules**
+page: `gfs_live` at 17:30 IST Mon-Fri, `qtr_results` at 19:30 IST daily, plus an
+optional 08:15 pre-open pass that ships disabled.
+
+Every scheduled run is written to the run history, so opening the app in the
+morning shows last night's report without re-running anything. A run button on
+every page still forces a fresh run at any time.
+
+Full details — timing rationale, catch-up behaviour, crash recovery, log
+locations and troubleshooting — are in [`core/SCHEDULER.md`](core/SCHEDULER.md).
 
 ### Local storage
 

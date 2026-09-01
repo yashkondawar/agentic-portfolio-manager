@@ -166,6 +166,27 @@ def _initialize_schema(connection: sqlite3.Connection) -> None:
             UNIQUE (group_id, name)
         );
 
+        CREATE TABLE IF NOT EXISTS schedules (
+            id TEXT PRIMARY KEY,
+            name TEXT NOT NULL,
+            strategy_id TEXT NOT NULL,
+            enabled INTEGER NOT NULL DEFAULT 1,
+            run_at TEXT NOT NULL,
+            days_of_week TEXT NOT NULL,
+            timezone TEXT NOT NULL,
+            catch_up_minutes INTEGER NOT NULL DEFAULT 720,
+            params_json TEXT NOT NULL,
+            created_at TEXT NOT NULL,
+            updated_at TEXT NOT NULL,
+            last_fired_key TEXT,
+            last_run_at TEXT,
+            last_run_id TEXT,
+            last_status TEXT,
+            last_error TEXT
+        );
+        CREATE INDEX IF NOT EXISTS idx_schedules_strategy
+            ON schedules(strategy_id);
+
         CREATE TABLE IF NOT EXISTS application_logs (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             created_at TEXT NOT NULL,
