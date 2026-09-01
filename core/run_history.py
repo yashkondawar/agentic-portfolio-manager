@@ -3,21 +3,15 @@
 from __future__ import annotations
 
 import json
-import os
-import sqlite3
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, Optional
 
+from core.storage import connection_scope, database_path
 from core.strategy import StrategyResult
 
-_db_override = os.getenv("TRADER_WORKBENCH_DB", "").strip()
-DEFAULT_DB_PATH = (
-    Path(_db_override)
-    if _db_override
-    else Path(__file__).resolve().parents[1] / ".trader_workbench" / "runs.sqlite3"
-)
+DEFAULT_DB_PATH = database_path()
 _SENSITIVE_MARKERS = ("token", "secret", "password", "api_key", "apikey")
 
 
@@ -26,11 +20,11 @@ def save_run(
     params: Dict[str, Any],
     *,
     duration_ms: int,
-    db_path: Path = DEFAULT_DB_PATH,
+    db_path: Optional[Path] = None,
 ) -> str:
     run_id = uuid.uuid4().hex
     created_at = datetime.now(timezone.utc).isoformat()
-    with _connect(db_path) as connection:
+    with connection_scope(db_path) as connection:
         connection.execute(
             """
             INSERT INTO runs (
@@ -57,7 +51,7 @@ def list_runs(
     *,
     limit: int = 25,
     strategy_id: Optional[str] = None,
-    db_path: Path = DEFAULT_DB_PATH,
+    db_path: Optional[Path] = None,
 ) -> list[dict]:
     query = (
         "SELECT id, strategy_id, status, created_at, duration_ms, error " "FROM runs"
@@ -68,7 +62,7 @@ def list_runs(
         values.append(strategy_id)
     query += " ORDER BY created_at DESC LIMIT ?"
     values.append(max(1, int(limit)))
-    with _connect(db_path) as connection:
+    with connection_scope(db_path) as connection:
         rows = connection.execute(query, values).fetchall()
     return [dict(row) for row in rows]
 
@@ -76,9 +70,9 @@ def list_runs(
 def get_run(
     run_id: str,
     *,
-    db_path: Path = DEFAULT_DB_PATH,
+    db_path: Optional[Path] = None,
 ) -> Optional[dict]:
-    with _connect(db_path) as connection:
+    with connection_scope(db_path) as connection:
         row = connection.execute(
             "SELECT * FROM runs WHERE id = ?",
             (run_id,),
@@ -105,25 +99,3 @@ def sanitize(value: Any) -> Any:
     if isinstance(value, (list, tuple)):
         return [sanitize(item) for item in value]
     return value
-
-
-def _connect(db_path: Path) -> sqlite3.Connection:
-    db_path.parent.mkdir(parents=True, exist_ok=True)
-    connection = sqlite3.connect(db_path)
-    connection.row_factory = sqlite3.Row
-    connection.execute(
-        """
-        CREATE TABLE IF NOT EXISTS runs (
-            id TEXT PRIMARY KEY,
-            strategy_id TEXT NOT NULL,
-            status TEXT NOT NULL,
-            created_at TEXT NOT NULL,
-            duration_ms INTEGER NOT NULL,
-            params_json TEXT NOT NULL,
-            report TEXT NOT NULL,
-            data_json TEXT NOT NULL,
-            error TEXT
-        )
-        """
-    )
-    return connection

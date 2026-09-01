@@ -12,14 +12,13 @@ All values are overridable from the CLI (see ``run_backtest.py``).
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
-from typing import List, Optional
+from typing import Optional
 
 HERE = Path(__file__).resolve().parent
 DATA_CACHE_DIR = HERE / "data_cache"
-RESULTS_DIR = HERE / "results"
 
 
 @dataclass

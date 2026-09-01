@@ -116,16 +116,85 @@ scripts:
 | Dashboard | Shared idea basket, readiness, and recent persisted runs |
 | Discover Ideas | Watchlist screening and quarterly-results catalysts |
 | Stock Research | Parallel specialist agents or sequential supervisor |
+| Market Temperature | Long-horizon read on whether an index is unusually cheap or expensive, used to pace new-money deployment |
 | Swing Desk | Manage open swing positions and evaluate new entries |
 | Portfolio Review | Concentration, risk, conviction, and rebalancing review |
 | Backtest Lab | Historical return/risk metrics, equity curve, and trade log |
 | Broker & Holdings | Read-only Zerodha holdings, positions, margins, and orders |
+| Automation & Schedules | Daily unattended runs, their parameters, and scheduler health |
 | Settings & Catalog | Integration setup and every strategy parameter |
 
 Forms are generated from each strategy's `ParamSpec`, so new registered
 strategies and parameters become discoverable without adding another CLI-only
 workflow. Reports and structured data can be downloaded, and sanitized run
-history is stored locally under `.trader_workbench/`.
+history is stored in the local SQLite database described below.
+
+### Automation & Schedules
+
+Both daily strategies are *post-close* jobs whose output is meant to be read
+before the **next** open, so they run unattended overnight rather than by hand
+at 09:15. Install once and the scheduler starts with every logon, restarts
+itself if it dies, and keeps running whether or not the app is open:
+
+```bash
+uv run python -m core.scheduler install-task   # set it up (once)
+uv run python -m core.scheduler list           # inspect the configured jobs
+uv run python -m core.scheduler once           # fire whatever is due, then exit
+```
+
+Defaults, seeded on first use and editable on the **Automation & Schedules**
+page: `gfs_live` at 17:30 IST Mon-Fri, `qtr_results` at 19:30 IST daily, plus an
+optional 08:15 pre-open pass that ships disabled.
+
+Every scheduled run is written to the run history, so opening the app in the
+morning shows last night's report without re-running anything. A run button on
+every page still forces a fresh run at any time.
+
+Full details — timing rationale, catch-up behaviour, crash recovery, log
+locations and troubleshooting — are in [`core/SCHEDULER.md`](core/SCHEDULER.md).
+
+### Backtest dossier
+
+The `qtr_results` strategy exports a nine-sheet Excel workbook matching the
+layout of the reference `dossier_*.xlsx` files — summary metrics on three cost
+bases against NIFTY 50, equity curve, per-position and per-fill ledgers, yearly
+returns, and a financial-year capital-gains ledger with carry-forward:
+
+```bash
+uv run python -m backtesting.qtr_results.build_dossier
+```
+
+Output lands in `backtesting/qtr_results/results/qtr_results_dossier.xlsx`. See
+[`backtesting/qtr_results/DOSSIER.md`](backtesting/qtr_results/DOSSIER.md) for
+the flags, the cost/tax model, and the limits worth knowing before quoting a
+number.
+
+### Local storage
+
+All durable application data uses one SQLite database outside the repository:
+runs, reports and backtest artifacts, scraper/backtest caches, watchlists, and
+quarterly-strategy state. On Windows the default is
+`%LOCALAPPDATA%\AgenticPortfolioManager\portfolio.sqlite3`. Set
+`PORTFOLIO_DB_PATH` in `.env` to use another local path. SQLite runs in WAL mode
+and requires no service, container, account, or network connection.
+
+```bash
+python -m core.storage path
+python -m core.storage summary
+python -m core.storage list-artifacts --limit 20
+python -m core.storage logs --level ERROR --limit 50
+python -m core.storage export <group-id> C:\exports\backtest
+python -m core.storage migrate --repo-root .
+python -m core.storage migrate --repo-root . --replace-state
+```
+
+The migration command imports legacy `.trader_workbench/`, `qtr_results/state/`,
+backtest caches/results, and known generated reports without deleting them. It is
+safe to rerun. Use `--replace-state` when the legacy folder contains the current
+authoritative mutable state; run and artifact history is still only appended.
+Inspect or edit the database directly with `sqlite3` or a desktop
+tool such as DB Browser for SQLite. Explicit CLI output paths remain available
+as exports; they are no longer the primary store.
 
 **Trading safety:** the UI is decision-support only. Zerodha integration can
 authenticate and read account data, and research can show proposed orders, but

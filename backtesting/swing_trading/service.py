@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import csv
-import json
+import io
 import logging
 from dataclasses import asdict
 from datetime import date, datetime
@@ -11,7 +11,8 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, Optional
 from uuid import uuid4
 
-from .config import DATA_CACHE_DIR, RESULTS_DIR, BacktestConfig
+from core.storage import save_artifacts
+from .config import DATA_CACHE_DIR, BacktestConfig
 from .data import PointInTimeData
 from .engine import BacktestEngine
 from .metrics import compute_metrics, render_summary
@@ -91,9 +92,8 @@ def run_backtest(
             f"{cfg.end_date.isoformat()}_{datetime.now():%Y%m%dT%H%M%S}_"
             f"{uuid4().hex[:8]}"
         )
-        output_dir = RESULTS_DIR / run_tag
-        _write_outputs(
-            output_dir,
+        artifacts = _store_outputs(
+            run_tag,
             cfg,
             metrics,
             summary,
@@ -102,17 +102,6 @@ def run_backtest(
             engine.watchlist_log,
             open_positions,
         )
-        artifacts = {
-            name: str(output_dir / name)
-            for name in (
-                "summary.txt",
-                "summary.json",
-                "trades.csv",
-                "equity_curve.csv",
-                "watchlists.json",
-                "open_positions.json",
-            )
-        }
 
     return {
         "summary": summary,
@@ -147,8 +136,8 @@ def _jsonable(value: Any) -> Any:
     return value
 
 
-def _write_outputs(
-    output_dir: Path,
+def _store_outputs(
+    run_tag: str,
     cfg: BacktestConfig,
     metrics: Dict[str, Any],
     summary: str,
@@ -156,18 +145,11 @@ def _write_outputs(
     equity_curve: list[dict],
     watchlists: list[dict],
     open_positions: list[dict],
-) -> None:
-    output_dir.mkdir(parents=True, exist_ok=True)
-    (output_dir / "summary.txt").write_text(summary, encoding="utf-8")
-    (output_dir / "summary.json").write_text(
-        json.dumps(
-            {"config": _jsonable(asdict(cfg)), "metrics": metrics},
-            indent=2,
-        ),
-        encoding="utf-8",
-    )
-    _write_csv(
-        output_dir / "trades.csv",
+) -> Dict[str, str]:
+    stored = {
+        "summary.txt": summary,
+        "summary.json": {"config": _jsonable(asdict(cfg)), "metrics": metrics},
+        "trades.csv": _render_csv(
         trades,
         [
             "symbol",
@@ -182,9 +164,8 @@ def _write_outputs(
             "holding_days",
             "exit_reason",
         ],
-    )
-    _write_csv(
-        output_dir / "equity_curve.csv",
+        ),
+        "equity_curve.csv": _render_csv(
         equity_curve,
         [
             "date",
@@ -194,19 +175,27 @@ def _write_outputs(
             "open_positions",
             "watchlist_size",
         ],
+        ),
+        "watchlists.json": watchlists,
+        "open_positions.json": open_positions,
+    }
+    _, references = save_artifacts(
+        "swing_backtest",
+        run_tag,
+        stored,
+        metadata={"config": _jsonable(asdict(cfg)), "metrics": metrics},
+        content_types={
+            "summary.txt": "text/plain",
+            "trades.csv": "text/csv",
+            "equity_curve.csv": "text/csv",
+        },
     )
-    (output_dir / "watchlists.json").write_text(
-        json.dumps(watchlists, indent=2),
-        encoding="utf-8",
-    )
-    (output_dir / "open_positions.json").write_text(
-        json.dumps(open_positions, indent=2),
-        encoding="utf-8",
-    )
+    return references
 
 
-def _write_csv(path: Path, rows: list[dict], fieldnames: list[str]) -> None:
-    with path.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fieldnames, extrasaction="ignore")
-        writer.writeheader()
-        writer.writerows(rows)
+def _render_csv(rows: list[dict], fieldnames: list[str]) -> str:
+    handle = io.StringIO(newline="")
+    writer = csv.DictWriter(handle, fieldnames=fieldnames, extrasaction="ignore")
+    writer.writeheader()
+    writer.writerows(rows)
+    return handle.getvalue()

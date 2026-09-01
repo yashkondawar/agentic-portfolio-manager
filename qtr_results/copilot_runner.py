@@ -15,6 +15,7 @@ import uuid
 from pathlib import Path
 from typing import List, Optional
 
+from core.storage import runtime_dir
 from swing_trading_copilot import (  # verified plumbing
     _resolve_copilot_bin,
     _write_scraper_mcp_config,
@@ -53,8 +54,8 @@ def run_copilot(
     """Run the Copilot CLI non-interactively on a prompt; stream + return stdout."""
     copilot_bin = _resolve_copilot_bin()
 
-    tmp_dir = Path.cwd() / ".copilot_tmp"
-    tmp_dir.mkdir(exist_ok=True)
+    tmp_dir = runtime_dir() / "copilot"
+    tmp_dir.mkdir(parents=True, exist_ok=True)
     prompt_file = tmp_dir / f"qtr-prompt-{uuid.uuid4().hex[:8]}.md"
     prompt_file.write_text(prompt_text, encoding="utf-8")
 

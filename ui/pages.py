@@ -6,25 +6,48 @@ import io
 import json
 import os
 import shutil
-from datetime import datetime
+from datetime import datetime, time as dt_time, timezone
 from importlib.util import find_spec
 
 import pandas as pd
+import plotly.graph_objects as go
 import streamlit as st
 
 from core import registry
+from core import scheduler as scheduler_mod
+from core import schedules as schedules_mod
 from core.run_history import get_run, list_runs
 from core.strategy import StrategyResult
 from ui.components import (
     clean_editor_rows,
+    format_run_timestamp,
     latest_result,
+    latest_run_record,
     page_header,
+    render_gfs_ledger_snapshot,
+    render_qtr_ledger_snapshot,
     render_result,
+    result_from_record,
     result_symbols,
     run_strategy,
 )
 from ui.forms import render_strategy_params
+from ui.market_temperature import market_temperature_page
 from ui.state import add_symbols, clear_symbols
+
+__all__ = [
+    "backtest_page",
+    "broker_page",
+    "dashboard_page",
+    "discover_page",
+    "kronos_page",
+    "market_temperature_page",
+    "portfolio_page",
+    "research_page",
+    "schedules_page",
+    "settings_page",
+    "swing_page",
+]
 
 
 def dashboard_page() -> None:
@@ -96,15 +119,31 @@ def dashboard_page() -> None:
 def discover_page() -> None:
     page_header(
         "Discover Ideas",
-        "Screen broad universes and monitor fresh quarterly-result catalysts.",
+        "Screen broad universes, monitor fresh quarterly-result catalysts, and "
+        "track the GFS multi-timeframe book.",
     )
-    watchlist_tab, results_tab = st.tabs(["Watchlist builder", "Quarterly results"])
+    watchlist_tab, results_tab, gfs_tab = st.tabs(
+        ["Watchlist builder", "Quarterly results", "GFS multi-timeframe"]
+    )
     with watchlist_tab:
         _registry_runner("watchlist_curation", "discover_watchlist")
         _basket_action(latest_result("watchlist_curation"), "watchlist")
     with results_tab:
+        render_qtr_ledger_snapshot()
+        st.divider()
         _registry_runner("qtr_results", "discover_results")
         _basket_action(latest_result("qtr_results"), "quarterly")
+    with gfs_tab:
+        st.caption(
+            "Grandfather (monthly RSI) and Father (weekly RSI) confirm the trend "
+            "while the Son (daily RSI) pulls back. Run it **after the market "
+            "closes**: it replays every session since the last run and tells you "
+            "what to place at the next open."
+        )
+        render_gfs_ledger_snapshot()
+        st.divider()
+        _registry_runner("gfs_live", "discover_gfs")
+        _basket_action(latest_result("gfs_live"), "gfs")
 
 
 def research_page() -> None:
@@ -333,6 +372,7 @@ def broker_page() -> None:
             st.session_state["broker_cash"] = broker.available_cash()
             st.session_state["broker_holdings"] = broker.holdings_for_strategy()
             st.session_state["broker_positions"] = broker.positions_for_strategy()
+            st.session_state["broker_swing_positions"] = broker.swing_positions()
             st.session_state["broker_orders"] = broker.orders()
             st.session_state["broker_refreshed_at"] = datetime.now().isoformat()
         except Exception as exc:
@@ -476,9 +516,24 @@ def _registry_runner(strategy_id: str, key_prefix: str) -> None:
     if submitted:
         result = run_strategy(strategy_id, params)
     else:
-        result = latest_result(strategy_id)
+        result = latest_result(strategy_id, from_history=False)
+        if result is None:
+            result = _render_saved_run_notice(strategy_id)
     if result:
         render_result(result)
+
+
+def _render_saved_run_notice(strategy_id: str) -> StrategyResult | None:
+    """Surface the newest persisted run — typically last night's scheduled one."""
+    record = latest_run_record(strategy_id)
+    if not record:
+        return None
+    when = format_run_timestamp(record.get("created_at"))
+    if record.get("status") == "completed":
+        st.caption(f"Showing the saved run from {when}. Use the form to re-run it.")
+    else:
+        st.warning(f"The last run ({when}) did not complete. Re-run it below.")
+    return result_from_record(record)
 
 
 def _basket_action(result: StrategyResult | None, key: str) -> None:
@@ -538,7 +593,13 @@ def _holding_source(source: str) -> list[dict]:
 
 def _position_source(source: str) -> list[dict]:
     if source == "Zerodha snapshot":
-        rows = st.session_state.get("broker_positions", [])
+        # A swing trade is a delivery position, so it lives in the holdings book.
+        # Kite's ``positions`` book only covers today's trades and is empty for a
+        # delivery-only account, which is why this page used to report no
+        # snapshot while the Portfolio page loaded fine.
+        rows = st.session_state.get("broker_swing_positions") or st.session_state.get(
+            "broker_positions", []
+        )
         if not rows:
             st.warning("Refresh the Broker page before using a Zerodha snapshot.")
         return rows
@@ -572,3 +633,444 @@ def _broker():
         broker = ReadOnlyZerodha()
         st.session_state["broker"] = broker
     return broker
+
+
+# ── Kronos forecast visualization ───────────────────────────────────────────
+
+
+def _parse_tickers(raw: str) -> list[str]:
+    """Split a free-form ticker blob (commas / whitespace / newlines) into symbols."""
+    seen: dict[str, None] = {}
+    for chunk in raw.replace(",", " ").split():
+        sym = chunk.strip().upper()
+        if sym:
+            seen.setdefault(sym, None)
+    return list(seen.keys())
+
+
+def _kronos_chart(fc) -> go.Figure:
+    """History close line + forecast percentile cone (p10-p90) with a median path."""
+    figure = go.Figure()
+    hist = fc.history
+    figure.add_trace(
+        go.Scatter(
+            x=list(hist.index),
+            y=list(hist["close"]),
+            name="History (close)",
+            line={"color": "#4f7cff", "width": 2},
+        )
+    )
+
+    # Anchor the forecast cone at the last actual close so it reads continuously.
+    bands = fc.bands
+    x_fc = [fc.last_date] + list(bands.index)
+
+    def _series(col: str) -> list[float]:
+        return [fc.last_close] + list(bands[col])
+
+    # Outer cone p10–p90 (light) then inner p25–p75 (darker) as stacked fills.
+    figure.add_trace(
+        go.Scatter(x=x_fc, y=_series("p90"), name="p90", line={"width": 0}, showlegend=False)
+    )
+    figure.add_trace(
+        go.Scatter(
+            x=x_fc, y=_series("p10"), name="p10–p90", fill="tonexty",
+            fillcolor="rgba(79,124,255,0.12)", line={"width": 0},
+        )
+    )
+    figure.add_trace(
+        go.Scatter(x=x_fc, y=_series("p75"), name="p75", line={"width": 0}, showlegend=False)
+    )
+    figure.add_trace(
+        go.Scatter(
+            x=x_fc, y=_series("p25"), name="p25–p75", fill="tonexty",
+            fillcolor="rgba(79,124,255,0.25)", line={"width": 0},
+        )
+    )
+    figure.add_trace(
+        go.Scatter(
+            x=x_fc, y=_series("p50"), name="Median forecast",
+            line={"color": "#f5a623", "width": 2, "dash": "dot"},
+            mode="lines+markers",
+        )
+    )
+    figure.update_layout(
+        height=420,
+        margin={"l": 10, "r": 10, "t": 30, "b": 10},
+        yaxis_title="Price (₹)",
+        legend={"orientation": "h", "yanchor": "bottom", "y": 1.02, "x": 0},
+        hovermode="x unified",
+    )
+    return figure
+
+
+def _render_kronos_forecast(fc) -> None:
+    plain = fc.symbol
+    if not fc.ok:
+        st.subheader(plain)
+        st.warning(f"Could not forecast **{plain}**: {fc.error}")
+        st.divider()
+        return
+
+    sig = fc.signal
+    tone = {"BUY": "🟢", "HOLD": "🟡", "AVOID": "🔴"}.get(sig.direction, "⚪")
+    st.subheader(f"{tone} {plain} — {sig.direction} ({sig.confidence} confidence)")
+
+    row = st.columns(5)
+    row[0].metric("Last close", f"₹{fc.last_close:,.2f}")
+    row[1].metric("P(up)", f"{sig.prob_up:.0%}")
+    row[2].metric("Expected return", f"{sig.expected_return:+.1%}")
+    row[3].metric(f"Target ({fc.pred_len}d)", f"₹{sig.suggested_target:,.2f}")
+    row[4].metric("Reward:Risk", f"{sig.reward_risk:.2f}:1")
+
+    st.plotly_chart(_kronos_chart(fc), use_container_width=True)
+    st.caption(sig.rationale)
+    st.divider()
+
+
+def kronos_page() -> None:
+    page_header(
+        "Kronos Forecast Lab",
+        "Zero-shot OHLCV foundation-model price forecasts for any NSE ticker.",
+    )
+    st.warning(
+        "Indicative only. Kronos is a general-purpose forecaster run zero-shot on "
+        "daily NSE bars (out-of-distribution). Read the **shape and spread** of the "
+        "forecast cone, not the exact price — absolute levels can be biased. Not "
+        "investment advice; this app never places orders.",
+        icon="⚠️",
+    )
+
+    raw = st.text_area(
+        "Tickers",
+        value=st.session_state.get("kronos_tickers", "RELIANCE, TCS, INFY"),
+        help="One or more NSE symbols separated by commas, spaces, or new lines. "
+        "'.NS' is added automatically.",
+        height=80,
+    )
+    with st.expander("Model settings", expanded=False):
+        cols = st.columns(3)
+        pred_len = cols[0].slider("Forecast horizon (days)", 3, 30, 10)
+        sample_paths = cols[1].slider("Sample paths", 5, 40, 20, help="More paths = smoother cone, slower on CPU.")
+        history_bars = cols[2].slider("History window (bars)", 60, 400, 250)
+        st.caption("Model: **Kronos-base** (102M) on CPU. First run downloads weights (~100MB).")
+
+    if st.button("Run forecast", type="primary"):
+        tickers = _parse_tickers(raw)
+        if not tickers:
+            st.error("Enter at least one ticker.")
+            return
+        st.session_state["kronos_tickers"] = raw
+        try:
+            from kronos.predictor import KronosUnavailable
+            from kronos.viz import base_config, forecast_many_for_chart
+
+            cfg = base_config(pred_len=pred_len, sample_paths=sample_paths)
+            with st.status(
+                f"Forecasting {len(tickers)} ticker(s) with Kronos-base…", expanded=True
+            ) as status:
+                st.write("Loading model + fetching price history (first run is slower)…")
+                results = forecast_many_for_chart(
+                    tickers, config=cfg, history_bars=history_bars
+                )
+                status.update(label="Forecast complete", state="complete", expanded=False)
+            st.session_state["kronos_results"] = results
+        except KronosUnavailable as exc:
+            st.session_state.pop("kronos_results", None)
+            st.error("Kronos model is not installed in this environment.")
+            st.code(str(exc))
+            return
+
+    results = st.session_state.get("kronos_results")
+    if results:
+        st.caption(f"Showing {len(results)} forecast(s).")
+        for fc in results:
+            _render_kronos_forecast(fc)
+
+
+def schedules_page() -> None:
+    page_header(
+        "Automation & Schedules",
+        "Run the daily strategies unattended so the report is already in the "
+        "database when the market opens. Every page can still re-run on demand.",
+    )
+    _scheduler_health()
+    st.divider()
+
+    rows = _load_schedules()
+    st.subheader("Configured schedules")
+    if not rows:
+        st.info("No schedules yet. Add one below.")
+    for schedule in rows:
+        _schedule_card(schedule)
+
+    st.divider()
+    _schedule_editor(rows)
+    st.divider()
+    _schedule_guidance()
+
+
+def _load_schedules() -> list:
+    try:
+        return schedules_mod.ensure_defaults()
+    except Exception as exc:
+        st.error(f"Could not read schedules: {exc}")
+        return []
+
+
+def _scheduler_health() -> None:
+    age = scheduler_mod.heartbeat_age_seconds()
+    beat = scheduler_mod.read_heartbeat()
+    poll = int(beat.get("poll_seconds") or scheduler_mod.DEFAULT_POLL_SECONDS)
+    status, detail, running = _health_verdict(age, poll)
+
+    left, right = st.columns([1, 2])
+    with left:
+        st.metric("Background scheduler", status)
+    with right:
+        (st.success if running else st.warning)(detail)
+
+    if not running:
+        st.caption(
+            "Schedules only fire while this process runs. Register it once and "
+            "it starts with every logon, restarts itself if it dies, and keeps "
+            "running whether or not this app is open:"
+        )
+        st.code("uv run python -m core.scheduler install-task", language="powershell")
+        st.caption("Or start it by hand in a spare terminal:")
+        st.code("uv run python -m core.scheduler", language="powershell")
+        st.caption(f"Log file: `{scheduler_mod.log_path()}`")
+
+
+def _health_verdict(age: float | None, poll: int) -> tuple[str, str, bool]:
+    if age is None:
+        return "Not running", "The scheduler has never checked in on this machine.", False
+    if age <= max(120, poll * 4):
+        return "Running", f"Last check-in {int(age)}s ago.", True
+    return (
+        "Stale",
+        f"Last check-in was {_humanize_seconds(age)} ago — the process is not running.",
+        False,
+    )
+
+
+def _humanize_seconds(seconds: float) -> str:
+    if seconds < 90:
+        return f"{int(seconds)}s"
+    if seconds < 5400:
+        return f"{int(seconds // 60)}m"
+    if seconds < 172800:
+        return f"{int(seconds // 3600)}h"
+    return f"{int(seconds // 86400)}d"
+
+
+def _schedule_card(schedule) -> None:
+    with st.container(border=True):
+        head, actions = st.columns([3, 1])
+        with head:
+            mark = ":green[Enabled]" if schedule.enabled else ":gray[Paused]"
+            st.markdown(f"**{schedule.name}** · {mark}")
+            st.caption(f"`{schedule.strategy_id}` — {schedule.describe()}")
+        with actions:
+            if st.button(
+                "Run now",
+                key=f"sched_run_{schedule.id}",
+                use_container_width=True,
+                type="primary",
+            ):
+                _run_schedule_now(schedule)
+
+        following = schedule.next_occurrence(datetime.now(timezone.utc))
+        cols = st.columns(3)
+        cols[0].metric(
+            "Next run",
+            following.strftime("%a %d %b, %H:%M") if following else "never",
+        )
+        cols[1].metric("Last status", schedule.last_status or "never run")
+        cols[2].metric("Last run", format_run_timestamp(schedule.last_run_at))
+
+        if schedule.last_error:
+            st.error(schedule.last_error)
+        if schedule.params:
+            st.caption(f"Parameters: `{json.dumps(schedule.params, default=str)}`")
+
+        toggle, remove = st.columns([3, 1])
+        with toggle:
+            wanted = st.toggle(
+                "Enabled",
+                value=schedule.enabled,
+                key=f"sched_enabled_{schedule.id}",
+            )
+            if wanted != schedule.enabled:
+                schedules_mod.set_enabled(schedule.id, wanted)
+                st.rerun()
+        with remove:
+            with st.popover("Delete", use_container_width=True):
+                st.write(f"Delete **{schedule.name}**?")
+                if st.button(
+                    "Yes, delete", key=f"sched_del_{schedule.id}", type="primary"
+                ):
+                    schedules_mod.delete_schedule(schedule.id)
+                    st.rerun()
+
+
+def _run_schedule_now(schedule) -> None:
+    with st.status(f"Running {schedule.name}...", expanded=True) as status:
+        st.write(f"Executing `{schedule.strategy_id}` with the saved parameters.")
+        result = scheduler_mod.run_schedule(schedule)
+        if result.ok:
+            status.update(label="Run completed", state="complete", expanded=False)
+        else:
+            status.update(label="Run failed", state="error", expanded=True)
+    st.session_state.setdefault("latest_results", {})
+    st.session_state["latest_results"][schedule.strategy_id] = result.to_dict()
+    if result.ok:
+        st.success("Saved to run history — the strategy page now shows this run.")
+    else:
+        st.error(result.error or "The strategy failed.")
+
+
+def _schedule_editor(rows: list) -> None:
+    st.subheader("Add or edit a schedule")
+    options = {"➕ New schedule": None}
+    options.update({f"{item.name} ({item.strategy_id})": item.id for item in rows})
+    label = st.selectbox("Schedule", list(options), key="sched_editor_pick")
+    current = next((item for item in rows if item.id == options[label]), None)
+
+    strategy_ids = sorted(cls.id for cls in registry.list_strategies())
+    if not strategy_ids:
+        st.error("No strategies are registered.")
+        return
+    default_strategy = current.strategy_id if current else "gfs_live"
+    if default_strategy not in strategy_ids:
+        default_strategy = strategy_ids[0]
+    strategy_id = st.selectbox(
+        "Strategy",
+        strategy_ids,
+        index=strategy_ids.index(default_strategy),
+        key=f"sched_strategy_{current.id if current else 'new'}",
+    )
+
+    try:
+        strategy = registry.get_strategy(strategy_id)
+    except KeyError as exc:
+        st.error(str(exc))
+        return
+    st.caption(strategy.description)
+
+    key_prefix = f"sched_form_{current.id if current else 'new'}_{strategy_id}"
+    with st.form(f"{key_prefix}_wrapper"):
+        name = st.text_input(
+            "Name",
+            value=current.name if current else strategy.name,
+            key=f"{key_prefix}_name",
+        )
+        timing, days_col = st.columns(2)
+        with timing:
+            default_time = _parse_clock(current.run_at if current else "17:30")
+            run_at = st.time_input(
+                "Run at", value=default_time, step=300, key=f"{key_prefix}_time"
+            )
+            zones = _timezone_choices(current.timezone if current else None)
+            timezone_name = st.selectbox(
+                "Timezone", zones, index=0, key=f"{key_prefix}_tz"
+            )
+        with days_col:
+            chosen_days = current.days_of_week if current else schedules_mod.WEEKDAYS
+            picked = st.multiselect(
+                "Days",
+                list(schedules_mod.DAY_LABELS),
+                default=[schedules_mod.DAY_LABELS[d] for d in chosen_days],
+                key=f"{key_prefix}_days",
+            )
+            catch_up = st.number_input(
+                "Catch-up window (minutes)",
+                min_value=0,
+                max_value=2880,
+                value=int(
+                    current.catch_up_minutes
+                    if current
+                    else schedules_mod.DEFAULT_CATCH_UP_MINUTES
+                ),
+                step=30,
+                help=(
+                    "If the machine was asleep at the scheduled time, still run "
+                    "when it wakes up — as long as it is no later than this."
+                ),
+                key=f"{key_prefix}_catchup",
+            )
+        enabled = st.checkbox(
+            "Enabled",
+            value=current.enabled if current else True,
+            key=f"{key_prefix}_enabled",
+        )
+
+        st.markdown("**Run parameters**")
+        params = render_strategy_params(
+            strategy.param_specs(),
+            key_prefix=key_prefix,
+            defaults=dict(current.params) if current else None,
+        )
+        saved = st.form_submit_button(
+            "Save schedule", type="primary", use_container_width=True
+        )
+
+    if not saved:
+        return
+    try:
+        schedules_mod.save_schedule(
+            schedules_mod.Schedule(
+                id=current.id if current else "",
+                name=name,
+                strategy_id=strategy_id,
+                run_at=run_at.strftime("%H:%M"),
+                days_of_week=tuple(
+                    schedules_mod.DAY_LABELS.index(day) for day in picked
+                ),
+                timezone=timezone_name,
+                enabled=enabled,
+                catch_up_minutes=int(catch_up),
+                params=strategy.coerce_params(params),
+                created_at=current.created_at if current else "",
+                last_fired_key=current.last_fired_key if current else None,
+                last_run_at=current.last_run_at if current else None,
+                last_run_id=current.last_run_id if current else None,
+                last_status=current.last_status if current else None,
+                last_error=current.last_error if current else None,
+            )
+        )
+    except schedules_mod.ScheduleError as exc:
+        st.error(str(exc))
+        return
+    st.success("Schedule saved.")
+    st.rerun()
+
+
+def _parse_clock(value: str) -> dt_time:
+    try:
+        hour, minute = (int(part) for part in str(value).split(":", 1))
+        return dt_time(hour=hour, minute=minute)
+    except (ValueError, TypeError):
+        return dt_time(hour=17, minute=30)
+
+
+def _timezone_choices(current: str | None) -> list[str]:
+    zones = [schedules_mod.DEFAULT_TIMEZONE, "UTC", "America/New_York", "Europe/London"]
+    if current and current in zones:
+        zones.remove(current)
+    if current:
+        zones.insert(0, current)
+    return zones
+
+
+def _schedule_guidance() -> None:
+    st.subheader("Why these default times")
+    for spec in schedules_mod.DEFAULT_SCHEDULES:
+        days = (
+            "every day"
+            if tuple(spec["days_of_week"]) == schedules_mod.ALL_DAYS
+            else "Mon-Fri"
+        )
+        st.markdown(
+            f"**{spec['name']}** — `{spec['run_at']} IST`, {days}\n\n{spec['why']}"
+        )

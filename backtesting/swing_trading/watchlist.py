@@ -49,7 +49,22 @@ logger = logging.getLogger("backtest.watchlist")
 def load_universe(cfg: BacktestConfig) -> List[UniverseStock]:
     if cfg.universe_file is not None:
         return load_universe_from_file(Path(cfg.universe_file))
-    return load_universe_from_index(cfg.universe_index)
+    # Support a comma-separated union of indices, e.g. "nifty500,niftysmallcap250",
+    # so the earnings-drift scan can reach the mid/small-cap zone where PEAD alpha
+    # concentrates. Symbols are de-duplicated, first occurrence (with its industry)
+    # winning.
+    keys = [k.strip() for k in str(cfg.universe_index).split(",") if k.strip()]
+    if len(keys) <= 1:
+        return load_universe_from_index(cfg.universe_index)
+    seen: set[str] = set()
+    merged: List[UniverseStock] = []
+    for key in keys:
+        for u in load_universe_from_index(key):
+            if u.symbol not in seen:
+                seen.add(u.symbol)
+                merged.append(u)
+    logger.info("Merged universe %s → %d unique symbols", keys, len(merged))
+    return merged
 
 
 def _benchmark_ret_3m(data: PointInTimeData, day: date) -> Optional[float]:

@@ -29,6 +29,7 @@ from typing import Dict, List, Optional, Tuple
 from qtr_results.targets import build_target_plan
 
 from . import analysis as an
+from . import ranking, signals
 from . import strategy
 from .config import BacktestConfig
 from .data import FundamentalsStore, PointInTimeData, ResultsCalendarStore, SectorStore
@@ -45,12 +46,17 @@ class BacktestEngine:
         funds: FundamentalsStore,
         sectors: Optional[SectorStore] = None,
         calendar: Optional[ResultsCalendarStore] = None,
+        universe: Optional[object] = None,
     ):
         self.cfg = cfg
         self.prices = prices
         self.funds = funds
         self.sectors = sectors
         self.calendar = calendar
+        # Point-in-time index membership. When absent every name with data is
+        # tradable on every day, which is the survivorship-biased behaviour the
+        # backtest had before: today's index members, back-applied to history.
+        self.universe = universe
         self.pf = Portfolio(cash=cfg.starting_capital, commission_pct=cfg.commission_pct)
         # symbol -> (raw, quarters, metrics)
         self.parsed: Dict[str, Tuple[dict, list, dict]] = {}
@@ -63,12 +69,76 @@ class BacktestEngine:
         self.event_log: List[dict] = []
         # Per-event filter tallies for the summary output.
         self.filter_stats: Dict[str, int] = {}
+        # B8b: sector -> structural median point-in-time D/E (sector_relative mode).
+        self._sector_de_median: Dict[str, float] = {}
 
     def _bump(self, reason: str) -> None:
         self.filter_stats[reason] = self.filter_stats.get(reason, 0) + 1
 
     def _sector_of(self, sym: str) -> str:
         return self.sectors.get(sym) if self.sectors else "UNKNOWN"
+
+    # ── B8b: sector-relative leverage gate ─────────────────────────────────────
+    def _build_sector_debt_baseline(self) -> None:
+        """Compute a structural per-sector median debt/equity (sector_relative mode).
+
+        For every parsed name we take its LATEST point-in-time D/E (latest annual
+        balance sheet in the data) and group by yfinance sector, excluding
+        financials (structurally levered — never in the baseline). A sector needs
+        ``sector_debt_min_peers`` names or it is left out (candidates there fall
+        back to the absolute floor). Sector capital-intensity is structurally
+        stable (see data.py), so one median per sector is a fair, low-variance
+        threshold; it is a THRESHOLD baseline only (never used to pick names), so
+        the aggregate look-ahead it carries does not leak into per-name selection.
+        """
+        buckets: Dict[str, List[float]] = {}
+        for sym, (raw, quarters, _m) in self.parsed.items():
+            if not quarters:
+                continue
+            qm = an.quality_metrics(raw, quarters[-1])
+            if qm.is_financial or qm.debt_to_equity is None:
+                continue
+            buckets.setdefault(self._sector_of(sym), []).append(qm.debt_to_equity)
+        self._sector_de_median = {}
+        for sec, vals in buckets.items():
+            if len(vals) < self.cfg.sector_debt_min_peers:
+                continue
+            vals.sort()
+            n = len(vals)
+            med = vals[n // 2] if n % 2 else 0.5 * (vals[n // 2 - 1] + vals[n // 2])
+            self._sector_de_median[sec] = med
+        logger.info(
+            "Sector-relative debt gate: baseline for %d sectors "
+            "(factor %.1f, floor %s).",
+            len(self._sector_de_median), self.cfg.sector_debt_factor,
+            self.cfg.max_debt_to_equity,
+        )
+
+    def _sector_debt_cap(self, sector: str) -> float:
+        """Leverage cap for ``sector`` = max(floor, factor × sector-median D/E).
+
+        A sector with too few peers (or an unknown one) falls back to the flat
+        floor, so a data-thin sector is never handed a looser gate by accident.
+        """
+        floor = self.cfg.max_debt_to_equity
+        med = self._sector_de_median.get(sector)
+        if med is None:
+            return floor
+        return max(floor, self.cfg.sector_debt_factor * med)
+
+    def _debt_ok(self, qm: "an.QualityMetrics", sector: str) -> bool:
+        """True if ``qm`` clears the leverage gate under the active mode.
+
+        Callers apply the banks/NBFC exemption before calling; a missing D/E or a
+        disabled cap never rejects (data-gap safe), matching the legacy gate.
+        """
+        if self.cfg.max_debt_to_equity is None or qm.debt_to_equity is None:
+            return True
+        if self.cfg.debt_gate_mode == "sector_relative":
+            cap = self._sector_debt_cap(sector)
+        else:
+            cap = self.cfg.max_debt_to_equity
+        return qm.debt_to_equity <= cap
 
     # ── price helpers ─────────────────────────────────────────────────────────
     def _price_lookup(self, day: date):
@@ -87,7 +157,7 @@ class BacktestEngine:
         if not calendar:
             return
         first, last = calendar[0], calendar[-1]
-        n_real = n_est = 0
+        n_real = n_est = n_off_index = 0
         use_real = self.cfg.use_real_decl_dates and self.calendar is not None
         for sym in self.funds.symbols():
             if not self.prices.has(sym):
@@ -115,6 +185,17 @@ class BacktestEngine:
                 # Clean-regime option: trade only events with a REAL NSE date.
                 if self.cfg.real_dates_only and not ev.decl_date_real:
                     continue
+                # Point-in-time membership. The name has to have been in the
+                # index ON the day the result landed, not merely be in it now.
+                # Without this a 2015 signal is screened against the 2026
+                # constituent list, which only contains companies that went on
+                # to survive and stay big -- the strategy gets credit for a
+                # selection no one could have made at the time.
+                if self.universe is not None and not self.universe.contains(
+                    ev.symbol, ev.decl_date
+                ):
+                    n_off_index += 1
+                    continue
                 # First trading session on/after the declaration date. When the
                 # real announcement was after market close (the norm), the fill
                 # happens the NEXT session's open — handled by _fill_pending.
@@ -137,9 +218,10 @@ class BacktestEngine:
                         self.anticip_by_day.setdefault(entry_day, []).append((ev, signal_day))
         logger.info(
             "Prepared %d result events across %d signal days "
-            "(%d real NSE dates, %d estimated-lag fallbacks).",
+            "(%d real NSE dates, %d estimated-lag fallbacks, "
+            "%d dropped as not-in-index on the day).",
             sum(len(v) for v in self.events_by_day.values()), len(self.events_by_day),
-            n_real, n_est,
+            n_real, n_est, n_off_index,
         )
 
     # ── main loop ─────────────────────────────────────────────────────────────
@@ -148,6 +230,8 @@ class BacktestEngine:
         if not calendar:
             raise SystemExit("No trading days in range — check dates / data.")
         self._prepare_events(calendar)
+        if self.cfg.debt_gate_mode == "sector_relative":
+            self._build_sector_debt_baseline()
         logger.info("Backtest %s → %s | %d trading days", calendar[0], calendar[-1], len(calendar))
 
         for d in calendar:
@@ -189,10 +273,26 @@ class BacktestEngine:
 
             raw, quarters, metrics = self.parsed[ev.symbol]
             analysis = an.analyze_event(raw, quarters, metrics, ev.q_idx, fill, cfg=self.cfg)
-            if not analysis.is_strong:
+            # Legacy path gates the fill on the absolute "strong" threshold. The
+            # cross-sectional path already selected on relative rank, so it does
+            # not re-impose that absolute gate here.
+            if not self.cfg.cross_sectional and not analysis.is_strong:
                 self._bump("weak_at_fill")
                 continue
             plan = build_target_plan(analysis, fill)
+            if plan is None and self.cfg.cross_sectional:
+                # No PE anchor (banks/PSUs/holding cos): fall back to a static
+                # target so a ranked pick is still takeable. The time-stop is the
+                # primary exit in the cross-sectional design; the target is a cap.
+                from qtr_results.targets import TargetPlan
+                plan = TargetPlan(
+                    method="static",
+                    entry_price=fill,
+                    target_pct=self.cfg.target_max_pct,
+                    target_price=round(fill * (1 + self.cfg.target_max_pct / 100.0), 2),
+                    trailing_stop_pct=0.0,  # informational; ATR stop set in make_position
+                    raw_upside_pct=None,
+                )
             if plan is None:
                 continue
 
@@ -386,11 +486,7 @@ class BacktestEngine:
             # over-levered balance sheet is not a "good" result we want to ride.
             qm = an.quality_metrics(raw, quarters[pos.result_q_idx])
             apply_debt = self.cfg.apply_quality_to_financials or not qm.is_financial
-            debt_ok = not (
-                self.cfg.max_debt_to_equity is not None and apply_debt
-                and qm.debt_to_equity is not None
-                and qm.debt_to_equity > self.cfg.max_debt_to_equity
-            )
+            debt_ok = (not apply_debt) or self._debt_ok(qm, self._sector_of(sym))
             if analysis.is_strong and debt_ok:
                 plan = build_target_plan(analysis, px)
                 if plan is not None:
@@ -478,6 +574,8 @@ class BacktestEngine:
             return
 
         scored: List[Tuple[float, an.ResultEvent, object]] = []
+        candidates: List[ranking.Candidate] = []
+        bench_bars = self.prices.benchmark_as_of(day) if self.cfg.use_sue else None
         for ev in events:
             if self.pf.has_open(ev.symbol):
                 continue
@@ -499,6 +597,19 @@ class BacktestEngine:
             # B8 — point-in-time balance-sheet quality (leverage + ROCE).
             qm = an.quality_metrics(raw, ev.quarter_label)
 
+            # Earnings-SURPRISE signals (ideal-state redesign): SUE from the EPS
+            # history, plus the declaration-day abnormal return. Point-in-time —
+            # SUE uses quarters <= q_idx, the reaction uses bars <= signal day.
+            sue = reaction = None
+            if self.cfg.use_sue:
+                eps_series = an._series(metrics, "eps")
+                sue = signals.compute_sue(
+                    eps_series, quarters, ev.q_idx, window=self.cfg.sue_window
+                )
+                reaction = signals.announcement_reaction(
+                    bars, bench_bars, lookback=self.cfg.reaction_lookback
+                )
+
             self.event_log.append({
                 "signal_date": day.isoformat(),
                 "symbol": ev.symbol,
@@ -515,8 +626,38 @@ class BacktestEngine:
                 "liquid": liquid,
                 "debt_to_equity": qm.debt_to_equity,
                 "roce": qm.roce,
+                "sue": sue,
+                "reaction": reaction,
             })
 
+            # ── Cross-sectional path (opt-in) ─────────────────────────────────
+            # Rank the day's field against itself instead of gating on absolute
+            # thresholds. Leverage is a graded tilt here, NOT a hard reject, so the
+            # only hard gates that remain are the market-microstructure ones
+            # (liquidity + trend confirmation) plus a computable signal.
+            if self.cfg.cross_sectional:
+                if not liquid:
+                    self._bump("illiquid")
+                    continue
+                if not confirmed:
+                    self._bump(f"unconfirmed_{reason or 'na'}")
+                    continue
+                signal_val = sue if sue is not None else analysis.strength_score
+                if signal_val is None:
+                    self._bump("no_signal")
+                    continue
+                candidates.append(ranking.Candidate(
+                    symbol=ev.symbol,
+                    sue=sue,
+                    reaction=reaction,
+                    strength_score=analysis.strength_score,
+                    debt_to_equity=qm.debt_to_equity,
+                    is_financial=qm.is_financial,
+                    payload=ev,
+                ))
+                continue
+
+            # ── Legacy absolute-threshold path (default, unchanged) ───────────
             if not analysis.is_strong:
                 self._bump("weak_result")
                 continue
@@ -529,14 +670,10 @@ class BacktestEngine:
 
             # B8 — reject over-levered / low-quality balance sheets. Banks/NBFCs
             # are exempt from the debt gate unless explicitly enabled; a missing
-            # value never rejects (data-gap safe).
+            # value never rejects (data-gap safe). Under sector_relative mode the
+            # cap is the name's own-sector norm (see _debt_ok).
             apply_debt = self.cfg.apply_quality_to_financials or not qm.is_financial
-            if (
-                self.cfg.max_debt_to_equity is not None
-                and apply_debt
-                and qm.debt_to_equity is not None
-                and qm.debt_to_equity > self.cfg.max_debt_to_equity
-            ):
+            if apply_debt and not self._debt_ok(qm, self._sector_of(ev.symbol)):
                 self._bump("high_debt")
                 continue
             if (
@@ -550,6 +687,24 @@ class BacktestEngine:
 
             scored.append((analysis.strength_score, ev, analysis))
 
-        scored.sort(key=lambda t: t[0], reverse=True)
         take = min(capacity, self.cfg.max_new_per_day)
+        if self.cfg.cross_sectional:
+            ranked = ranking.composite_scores(
+                candidates,
+                w_sue=self.cfg.w_sue,
+                w_reaction=self.cfg.w_reaction,
+                w_quality=self.cfg.w_quality,
+            )
+            picks = ranking.select_top(
+                ranked,
+                top_quantile=self.cfg.top_quantile,
+                cap=take,
+                min_score=self.cfg.min_composite_score,
+            )
+            if picks:
+                self._bump("xsection_selected")
+            self.pending = [p.payload for p in picks]
+            return
+
+        scored.sort(key=lambda t: t[0], reverse=True)
         self.pending = [ev for _, ev, _ in scored[:take]]

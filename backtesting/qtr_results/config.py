@@ -24,7 +24,6 @@ from qtr_results import config as live_config
 HERE = Path(__file__).resolve().parent
 PRICE_CACHE_DIR = HERE / "data_cache"
 FUND_CACHE_DIR = HERE / "fundamentals_cache"
-RESULTS_DIR = HERE / "results"
 
 
 @dataclass
@@ -91,17 +90,44 @@ class BacktestConfig:
     min_qoq_profit_growth: float = live_config.MIN_QOQ_PROFIT_GROWTH   # 5%
     min_yoy_eps_growth: float = live_config.MIN_YOY_EPS_GROWTH         # 15%
 
+    # Which line grades the result: "eps" (screener's split-adjusted EPS) or
+    # "net_profit". As-filed NSE data quotes EPS on the share count of the day,
+    # so a split reads as an earnings collapse — grade on net profit there.
+    growth_metric: str = "eps"
+
+    # Where quarterly fundamentals come from:
+    #   "screener" — the ~3-year retro-restated screener.in cache, fetched live.
+    #   "store"    — the durable point-in-time store, which unions as-filed NSE
+    #                filings (Dec-2011 to Dec-2024) with screener's recent tail
+    #                into one continuous series. See scraper/NSE_FUNDAMENTALS.md.
+    # "nse" is accepted as a legacy alias for "store".
+    fundamentals_source: str = "screener"
+
     # ── Target band + trailing stop + holding window ─────────────────────────
     # Targets mirror the live playbook (10-20% PE-rerating band). The holding
     # window and trailing-stop mechanics are the backtest's own — see below.
     target_min_pct: float = live_config.TARGET_MIN_PCT                 # 10%
     target_max_pct: float = live_config.TARGET_MAX_PCT                 # 20%
 
+    # "Ride-the-wave" exit: when True the fixed PE-rerating profit target is
+    # DISABLED and a position is only closed by the ATR trailing stop or the
+    # time-stop. This lets a genuine earnings-momentum winner run the full swing
+    # (e.g. a +50% PEAD move) instead of being clipped at +20% — at the cost of
+    # giving back the last ATR-band of every runner. Pair with a wider
+    # ``max_holding_days`` so the time-stop doesn't cut the drift short.
+    #
+    # DEFAULT True: on the Nifty-500 union / 2023-2026 study the fixed +20% cap
+    # was almost never the binding exit (only 11 of 70 winners ever exceeded it)
+    # and clipped the few real runners, so ride-the-wave dominated the capped
+    # variant on every axis (hedged Sharpe 0.42 → higher, avg win +20%).
+    disable_profit_target: bool = True
+
     # Holding window: post-earnings-announcement drift (PEAD) in Indian equities
     # is strongest over 30-90 days after declaration, not 15-21 (Sehgal & Bijoy
     # 2015; NSE working papers). The live 21-day time-stop kills winners well
     # before their fundamental thesis can play out, so the backtest extends it.
-    max_holding_days: int = 60
+    # The wide ATR trail (below) needs room to ride, so 90 not 60.
+    max_holding_days: int = 90
 
     # ── Trailing stop (ATR-based, DECOUPLED from target) ─────────────────────
     # The original stop was ``target_pct/2`` which gave tight 5-10% stops on
@@ -111,7 +137,16 @@ class BacktestConfig:
     # stop measured in each stock's own volatility units, computed point-in-time
     # from the OHLCV history BEFORE the entry day.
     atr_period: int = 14                       # ATR lookback in sessions
-    atr_stop_multiplier: float = 2.5           # stop distance = 2.5 x ATR
+    # Stop distance = atr_stop_multiplier x ATR. A multiplier sweep (2.5/3/3.5/4/
+    # 5/6) on the Nifty-500 / 2023-2026 study showed 2.5 was far too tight for
+    # volatile mid/small-caps (4-5%/day ATR ⇒ a ~10% trail that whipsaws winners
+    # out on the FIRST normal pullback). Widening to 6x was the most REGIME-STABLE
+    # setting in a split-half test (H1 17.6% / H2 18.6% CAGR — the only value that
+    # repeated across both halves; 3.5/4x were front-loaded to the 2023-24 bull).
+    # Trade-off: a 6x trail ≈ ~27% giveback from the peak and a ~70-day hold, so it
+    # is a position-trade horizon and is UNTESTED against a sustained bear — pair
+    # with ``regime_filter`` for the downside tail the wide stop cannot handle.
+    atr_stop_multiplier: float = 6.0           # stop distance = 6 x ATR
     # Safety fallbacks in case ATR can't be computed (insufficient history).
     fallback_stop_pct: float = 8.0             # default 8% stop distance
 
@@ -176,6 +211,30 @@ class BacktestConfig:
     min_roce: Optional[float] = None             # e.g. 15 (%) quality floor
     apply_quality_to_financials: bool = False    # exempt banks/NBFCs from debt gate
 
+    # ── B8b: sector-relative debt gate (option 2) ────────────────────────────
+    # The flat ``max_debt_to_equity`` cap judges every business against the same
+    # near-zero-debt bar, so structurally capital-intensive winners (shippers,
+    # cement, capital goods, power) get rejected on leverage that is normal — even
+    # exemplary — FOR THEIR SECTOR. Concrete miss: GESHIP posted +155% YoY profit
+    # (strength 92/100) but was dropped purely because D/E 0.064 > the 0.05 cap.
+    # In ``"sector_relative"`` mode the cap becomes
+    #     max(max_debt_to_equity, sector_debt_factor × sector-median D/E)
+    # so an asset-light sector collapses to the tight floor while a capital-
+    # intensive sector earns a proportional allowance — a name is judged against
+    # its OWN sector's balance-sheet norm, not an IT company's. The sector median
+    # is a structural baseline (each name's latest point-in-time D/E, financials
+    # excluded); sector capital-intensity is structurally stable (see data.py), so
+    # a single median is a fair, low-variance threshold. ``"absolute"`` = legacy
+    # flat cap. Validated in backtesting (nifty500, 2023-2026): vs the flat 0.05
+    # floor it lifted hedged alpha +6.9% → +63.4%, Sharpe 0.24 → 1.40, PF 1.24 →
+    # 2.11, and — the decisive evidence — rescued the H2 correction regime from a
+    # LOSING book (hedged -2.6%, PF 0.91) to +36.3% (PF 1.72). Robust across a
+    # ×1.5-5.0 factor plateau. Now the DEFAULT; pass ``--debt-gate-mode absolute``
+    # to reproduce the legacy flat-cap behaviour.
+    debt_gate_mode: str = "sector_relative"      # "sector_relative" | "absolute"
+    sector_debt_factor: float = 2.0              # cap = factor × sector-median D/E
+    sector_debt_min_peers: int = 4               # need >= N peers, else use the floor
+
     # ── Market-regime throttle (B9) ───────────────────────────────────────────
     # The stock-selection filters (B1-B8) fix pick QUALITY but not portfolio
     # DRAWDOWN: earnings-momentum longs take correlated hits in a broad market
@@ -187,6 +246,49 @@ class BacktestConfig:
     regime_filter: bool = False                  # opt-in; validated before default
     regime_ma_period: int = 100                  # benchmark SMA period (sessions)
     regime_require_slope: bool = False           # also require non-declining SMA
+
+    # ── Earnings-SURPRISE signal (SUE) — ideal-state redesign ────────────────
+    # The legacy gate is ABSOLUTE growth (yoy_profit >= 20%), which is the wrong
+    # economic object: +20% YoY when the market expected +40% is a negative
+    # surprise and the stock falls. PEAD is driven by the surprise vs EXPECTATION.
+    # When enabled, we compute Standardized Unexpected Earnings (Foster-Olsen-
+    # Shevlin) from the company's own EPS history — no consensus vendor needed —
+    # and surface it on the event log; under `cross_sectional` it becomes the
+    # primary ranking signal. Off by default so the legacy path is unchanged.
+    use_sue: bool = False
+    sue_window: int = 8                          # trailing quarters for SUE drift/vol
+    reaction_lookback: int = 1                   # sessions for the declaration reaction
+
+    # ── Cross-sectional construction (top-quantile) ──────────────────────────
+    # The legacy engine buys EVERY name clearing fixed thresholds (basket size
+    # drifts with the tape). When enabled, the day's candidates are ranked against
+    # each other by a composite z-score (SUE + declaration reaction + a graded
+    # leverage tilt) and only the top slice is bought — self-normalizing to how
+    # strong the season is. Off by default (opt-in).
+    cross_sectional: bool = False
+    top_quantile: Optional[float] = 0.20         # keep the top fraction of the field
+    min_composite_score: Optional[float] = None  # optional absolute floor on the z-score
+    w_sue: float = 0.5                           # composite weight — surprise leads
+    w_reaction: float = 0.3                      # composite weight — price confirmation
+    w_quality: float = 0.2                       # composite weight — leverage tilt (soft)
+
+    # ── Beta-hedge overlay (isolate the alpha) ───────────────────────────────
+    # A long-only earnings book is dominated by market direction; hedging its net
+    # beta with a short index overlay isolates the PEAD alpha — and is the honest
+    # out-of-sample test (if the hedged alpha isn't positive, there is no edge).
+    # Applied as a post-hoc overlay on the equity curve, so the long-only path is
+    # byte-for-byte unchanged. Off by default.
+    hedge_enabled: bool = False
+    hedge_ratio: float = 1.0                     # fraction of beta to short (1 = neutral)
+    hedge_book_beta: float = 1.0                 # assumed beta (replaced by measured one)
+    hedge_use_measured_beta: bool = True         # estimate book beta via OLS when possible
+    hedge_annual_carry_pct: float = 1.0          # roll/borrow carry on the short (%/yr)
+    hedge_commission_pct: float = 0.02           # per-side cost on hedge rebalancing (%)
+
+    # ── Validation / honesty ─────────────────────────────────────────────────
+    # Number of configurations explored to arrive at this run. Feeds the DEFLATED
+    # Sharpe so a curve-fit result can't masquerade as an edge. Set it honestly.
+    num_trials: int = 1
 
     # ── Portfolio sizing (the capital overlay the live signal-tracker lacks) ──
     # The live strategy is a signal/ledger tracker with no position sizing; a
@@ -210,3 +312,59 @@ class BacktestConfig:
 
     def goal_capital(self) -> float:
         return self.starting_capital * (1 + self.goal_return_pct / 100.0)
+
+
+def live_mirror_config(**overrides) -> BacktestConfig:
+    """A :class:`BacktestConfig` pinned to what the LIVE ``qtr_results`` runs today.
+
+    Several backtest defaults have drifted away from the live strategy (the
+    backtest halved the static target tiers and still sizes at the pre-validation
+    2% risk budget). A dossier that claims to describe the live setup must not
+    inherit that drift, so every value the live strategy owns is read straight
+    from ``qtr_results.config`` rather than restated here.
+
+    Deliberately left at backtest defaults: the sector concentration cap and the
+    OHLC-aware fills, which are risk controls the live engine simply lacks. Left
+    OFF: regime filter, PE-percentile cap, anticipation mode, SUE and
+    cross-sectional ranking — all backtest-only research switches. The live
+    Tier-2 LLM conviction gate has no point-in-time equivalent and therefore
+    cannot be represented at all.
+    """
+    cfg = BacktestConfig(
+        risk_per_trade_pct=live_config.RISK_PER_TRADE_PCT,
+        max_positions=live_config.MAX_POSITIONS,
+        max_position_pct=live_config.MAX_POSITION_PCT,
+        commission_pct=live_config.COMMISSION_PCT,
+        max_holding_days=live_config.MAX_HOLDING_DAYS,
+        atr_period=live_config.ATR_PERIOD,
+        atr_stop_multiplier=live_config.ATR_STOP_MULTIPLIER,
+        fallback_stop_pct=live_config.FALLBACK_STOP_PCT,
+        target_min_pct=live_config.TARGET_MIN_PCT,
+        target_max_pct=live_config.TARGET_MAX_PCT,
+        static_target_tiers=tuple(live_config.STATIC_TARGET_TIERS),
+        min_yoy_profit_growth=live_config.MIN_YOY_PROFIT_GROWTH,
+        min_qoq_profit_growth=live_config.MIN_QOQ_PROFIT_GROWTH,
+        min_yoy_eps_growth=live_config.MIN_YOY_EPS_GROWTH,
+        disable_profit_target=True,
+        require_uptrend=True,
+        debt_gate_mode="sector_relative",
+        regime_filter=False,
+        anticipation_mode=False,
+        use_sue=False,
+        cross_sectional=False,
+    )
+    for key, value in overrides.items():
+        if not hasattr(cfg, key):
+            raise AttributeError(f"BacktestConfig has no field '{key}'")
+        setattr(cfg, key, value)
+    return cfg
+
+
+#: Accepted values for ``QtrBacktestConfig.fundamentals_source``. "nse" predates
+#: the store holding more than one source and is kept working as an alias.
+FUNDAMENTALS_SOURCES = ("screener", "store", "nse")
+
+
+def normalize_fundamentals_source(value: str) -> str:
+    """Fold the legacy "nse" alias onto "store"."""
+    return "store" if value == "nse" else value

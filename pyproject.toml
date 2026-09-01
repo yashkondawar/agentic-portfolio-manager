@@ -13,6 +13,7 @@ dependencies = [
     "kiteconnect>=5.2.1",
     "langchain>=0.3.27",
     "langchain-mcp-adapters>=0.1.9",
+    "openpyxl>=3.1.5",
     "pandas>=2.3.1",
     "plotly>=6.2.0",
     "pytest>=8.4.1",
@@ -20,5 +21,16 @@ dependencies = [
     "requests>=2.32.4",
     "streamlit>=1.48.0",
     "ta>=0.11.0",
+    "tzdata>=2024.1",
     "yfinance>=1.5.2",
+]
+
+[project.optional-dependencies]
+# Kronos price-forecasting integration (CPU-friendly, no GPU required).
+# Kronos itself is NOT on PyPI: clone https://github.com/shiyu-coder/Kronos and
+# set KRONOS_REPO_PATH to the checkout. See kronos/README.md.
+kronos = [
+    "torch>=2.2.0",
+    "huggingface_hub>=0.24.0",
+    "einops>=0.8.0",
 ]

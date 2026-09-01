@@ -4,7 +4,9 @@ Primary method is a **PE re-rating** target: holding the market's assigned
 multiple constant against the freshly-grown TTM EPS gives a fair price; the
 implied upside is floored/capped into the configured 10-20% band. When PE / EPS
 data is unavailable we fall back to a **static tier** keyed on result strength.
-A dynamic trailing stop is set at ``target_pct / 2`` (user preference).
+The trailing stop is an **ATR-based** volatility distance (``ATR_STOP_MULTIPLIER
+x ATR``), decoupled from the target; with ride-the-wave (``DISABLE_PROFIT_TARGET``)
+the target is a reference only and the exit is the ATR trail or the time-stop.
 """
 
 from __future__ import annotations
@@ -24,6 +26,8 @@ class TargetPlan:
     target_pct: float
     target_price: float
     trailing_stop_pct: float
+    stop_distance_abs: Optional[float] = None  # ₹ per-share risk (ATR-based)
+    stop_basis: str = "atr"                     # "atr" | "fallback_pct" | "ratio"
     raw_upside_pct: Optional[float] = None
     justified_pe: Optional[float] = None
     ttm_eps: Optional[float] = None
@@ -34,6 +38,24 @@ class TargetPlan:
 
     def to_dict(self) -> Dict[str, Any]:
         return self.__dict__.copy()
+
+
+def _resolve_stop(entry_price: float, atr: Optional[float]) -> Tuple[float, float, str]:
+    """Return ``(stop_distance_abs, trailing_stop_pct, basis)`` for an entry.
+
+    Prefers an ATR-based distance (``ATR_STOP_MULTIPLIER x ATR``) measured in the
+    stock's own volatility, matching the backtest; falls back to
+    ``FALLBACK_STOP_PCT`` of entry when ATR is unavailable (thin history). The
+    percent form is derived for display / the legacy percent-based ledger path.
+    """
+    if atr and atr > 0:
+        dist = config.ATR_STOP_MULTIPLIER * atr
+        basis = "atr"
+    else:
+        dist = entry_price * config.FALLBACK_STOP_PCT / 100.0
+        basis = "fallback_pct"
+    pct = round(dist / entry_price * 100.0, 2) if entry_price > 0 else 0.0
+    return round(dist, 2), pct, basis
 
 
 def _static_target_pct(strength_score: float) -> float:
@@ -66,19 +88,25 @@ def build_target_plan(
     analysis: AnalysisResult,
     entry_price: float,
     conviction: Optional[float] = None,
+    atr: Optional[float] = None,
 ) -> Optional[TargetPlan]:
     """Compute the target/exit plan for a qualifying pick.
 
     ``entry_price`` is the intended entry (current market price). ``conviction``
     (0-1, from the Tier-2 LLM layer) shapes the exit: it lowers the target cap and
     shortens the hold for low-conviction names and lets high-conviction names ride
-    toward the full band. Returns ``None`` only when no usable entry price is
+    toward the full band. ``atr`` (in ₹, from the trailing OHLC window) sets the
+    volatility-based trailing-stop distance; when absent the stop falls back to a
+    fixed percent of entry. With ``config.DISABLE_PROFIT_TARGET`` the target price
+    is a REFERENCE only (ride-the-wave) -- the ledger exits on the ATR trail or the
+    time-stop, not the target. Returns ``None`` only when no usable entry price is
     available.
     """
     if not entry_price or entry_price <= 0:
         return None
 
     target_cap, max_hold = _conviction_band(conviction)
+    stop_abs, stop_pct, stop_basis = _resolve_stop(entry_price, atr)
 
     pe = analysis.current_pe
     ttm_eps = analysis.ttm_eps
@@ -90,7 +118,6 @@ def build_target_plan(
         raw_upside = (fair_price - entry_price) / entry_price * 100.0
         target_pct = clamp(raw_upside, config.TARGET_MIN_PCT, target_cap)
         target_price = entry_price * (1 + target_pct / 100.0)
-        trailing = round(target_pct * config.TRAILING_STOP_RATIO, 2)
         note = (
             f"PE re-rating: fair Rs {fair_price:,.2f} = P/E {justified_pe:g} x TTM EPS "
             f"{ttm_eps:g}; raw upside {raw_upside:+.1f}% clamped to {target_pct:.1f}%."
@@ -100,7 +127,9 @@ def build_target_plan(
             entry_price=round(entry_price, 2),
             target_pct=round(target_pct, 2),
             target_price=round(target_price, 2),
-            trailing_stop_pct=trailing,
+            trailing_stop_pct=stop_pct,
+            stop_distance_abs=stop_abs,
+            stop_basis=stop_basis,
             raw_upside_pct=round(raw_upside, 2),
             justified_pe=round(justified_pe, 2),
             ttm_eps=round(ttm_eps, 2),
@@ -112,13 +141,14 @@ def build_target_plan(
     # ── Fallback: static tier by strength ──────────────────────────────────
     target_pct = min(_static_target_pct(analysis.strength_score), target_cap)
     target_price = entry_price * (1 + target_pct / 100.0)
-    trailing = round(target_pct * config.TRAILING_STOP_RATIO, 2)
     return TargetPlan(
         method="static",
         entry_price=round(entry_price, 2),
         target_pct=round(target_pct, 2),
         target_price=round(target_price, 2),
-        trailing_stop_pct=trailing,
+        trailing_stop_pct=stop_pct,
+        stop_distance_abs=stop_abs,
+        stop_basis=stop_basis,
         max_holding_days=max_hold,
         notes=(
             f"Static tier: strength {analysis.strength_score:.0f} → {target_pct:.0f}% "

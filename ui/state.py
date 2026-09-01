@@ -14,6 +14,7 @@ def initialize_state() -> None:
         "broker": None,
         "broker_holdings": [],
         "broker_positions": [],
+        "broker_swing_positions": [],
         "manual_holdings": [
             {"symbol": "", "quantity": 0.0, "buy_price": 0.0, "last_price": None}
         ],

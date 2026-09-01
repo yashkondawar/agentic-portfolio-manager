@@ -8,8 +8,11 @@ from ui.pages import (
     broker_page,
     dashboard_page,
     discover_page,
+    kronos_page,
+    market_temperature_page,
     portfolio_page,
     research_page,
+    schedules_page,
     settings_page,
     swing_page,
 )
@@ -58,6 +61,14 @@ navigation = st.navigation(
             st.Page(
                 research_page, title="Stock Research", icon=":material/query_stats:"
             ),
+            st.Page(
+                market_temperature_page,
+                title="Market Temperature",
+                icon=":material/thermostat:",
+            ),
+            st.Page(
+                kronos_page, title="Kronos Forecast Lab", icon=":material/insights:"
+            ),
         ],
         "Portfolio": [
             st.Page(
@@ -75,6 +86,11 @@ navigation = st.navigation(
                 broker_page,
                 title="Broker & Holdings",
                 icon=":material/account_balance:",
+            ),
+            st.Page(
+                schedules_page,
+                title="Automation & Schedules",
+                icon=":material/schedule:",
             ),
             st.Page(
                 settings_page, title="Settings & Catalog", icon=":material/settings:"

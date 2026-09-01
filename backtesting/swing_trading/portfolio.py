@@ -7,8 +7,12 @@ daily equity curve. Pure accounting — all trading DECISIONS live in
 ``strategy.py``; this module only records the consequences and applies costs.
 """
 
-from __future__ import annotations
-
+# NOTE: intentionally NOT using `from __future__ import annotations`. These
+# dataclasses only reference concrete, already-imported types, and stringized
+# annotations force dataclasses into a code path
+# (`sys.modules[cls.__module__].__dict__`) that crashes with AttributeError
+# when this module is loaded by a loader that doesn't register it in
+# sys.modules (e.g. the Copilot agent runtime). Real annotations avoid it.
 from dataclasses import dataclass, field
 from datetime import date
 from typing import Callable, Dict, List, Optional

@@ -64,8 +64,13 @@ Examples
         --save analysis.md
 """
 
-from __future__ import annotations
-
+# NOTE: intentionally NOT using `from __future__ import annotations`. The
+# dataclasses below only reference concrete, already-imported types, and
+# stringized annotations force dataclasses into a code path
+# (`sys.modules[cls.__module__].__dict__`) that raises AttributeError when this
+# module is loaded by a loader that doesn't register it in sys.modules (e.g.
+# the Copilot agent runtime imports it as a bare top-level module). Using real
+# annotations keeps class creation independent of sys.modules state.
 import argparse
 import json
 import logging
@@ -73,13 +78,14 @@ import os
 import shutil
 import subprocess
 import sys
-import tempfile
 import threading
 import uuid
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import List, Optional, TextIO
+
+from core.storage import runtime_dir, save_artifacts
 
 from dotenv import load_dotenv
 
@@ -823,10 +829,8 @@ def run_analysis(
         scraper_tools=scraper_tools,
     )
 
-    # Temp file MUST live inside the workspace so Copilot can read it
-    # without extra --add-dir grants.
-    tmp_dir = Path.cwd() / ".copilot_tmp"
-    tmp_dir.mkdir(exist_ok=True)
+    tmp_dir = runtime_dir() / "copilot"
+    tmp_dir.mkdir(parents=True, exist_ok=True)
     prompt_file = tmp_dir / f"prompt-{uuid.uuid4().hex[:8]}.md"
     prompt_file.write_text(full_prompt, encoding="utf-8")
 
@@ -1193,7 +1197,7 @@ def main() -> int:
     copilot_log_path: Optional[Path] = args.copilot_log
     if copilot_log_path is not None and str(copilot_log_path).lower() == "auto":
         stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-        copilot_log_path = Path("logs") / f"copilot-{stamp}.log"
+        copilot_log_path = runtime_dir() / "logs" / f"copilot-{stamp}.log"
     if copilot_log_path is not None:
         print(f"Copilot log:    {copilot_log_path} (level={args.copilot_log_level})")
     if cash_available is not None:
@@ -1224,6 +1228,23 @@ def main() -> int:
     except Exception as e:
         logger.exception("Analysis failed: %s", e)
         return 1
+
+    archived = {"report.md": result}
+    if copilot_log_path is not None and copilot_log_path.exists():
+        archived["copilot.log"] = copilot_log_path.read_text(
+            encoding="utf-8", errors="replace"
+        )
+    group_id, _ = save_artifacts(
+        "portfolio_analysis",
+        f"{template.name}-{datetime.now():%Y%m%dT%H%M%S}",
+        archived,
+        metadata={
+            "template": template.name,
+            "holdings": [holding.symbol for holding in holdings],
+        },
+        content_types={"report.md": "text/markdown", "copilot.log": "text/plain"},
+    )
+    logger.info("Archived analysis at sqlite://artifacts/%s", group_id)
 
     if args.save:
         args.save.parent.mkdir(parents=True, exist_ok=True)

@@ -16,6 +16,7 @@ from typing import Any, Dict, List, Optional, Tuple
 from scraper.screener import scrape_fundamentals
 
 from qtr_results import config
+from qtr_results.sectors import sector_for
 from qtr_results.util import parse_number, pct_change
 
 logger = logging.getLogger("qtr_results.analysis")
@@ -38,6 +39,7 @@ class AnalysisResult:
     debt_to_equity: Optional[float] = None
     roce: Optional[float] = None
     is_financial: bool = False
+    sector: str = ""
     strength_score: float = 0.0
     is_strong: bool = False
     rationale: str = ""
@@ -60,7 +62,15 @@ def _norm_label(label: str) -> str:
     s = re.sub(r"[^a-z% ]", "", (label or "").lower()).strip()
     if "sales" in s or "revenue" in s or "income" in s and "other" not in s:
         return "sales"
-    if "net profit" in s or (s.startswith("profit") and "operating" not in s):
+    if "net profit" in s:
+        return "net_profit"
+    # Must be tested before the generic "profit…" catch-all below: screener puts
+    # "Profit before tax" ABOVE "Net Profit+", so without this the pre-tax line
+    # would claim the net_profit slot and every "profit growth" number in the
+    # system would silently be measuring PBT.
+    if "before tax" in s or s == "pbt":
+        return "profit_before_tax"
+    if s.startswith("profit") and "operating" not in s:
         return "net_profit"
     if "operating profit" in s:
         return "operating_profit"
@@ -252,19 +262,30 @@ def analyze_symbol(symbol: str) -> AnalysisResult:
 
     # B8 — reject over-levered balance sheets (validated in backtesting). Banks/
     # NBFCs are exempt unless explicitly enabled; a missing value never rejects.
+    # B8b — in "sector_relative" mode the cap is scaled to the candidate's own
+    # yfinance sector (max(floor, factor × sector-median D/E)), so a capital-
+    # intensive winner like GESHIP is judged against shipping/industrial norms
+    # rather than an asset-light 0.05 bar. The sector is looked up lazily (only
+    # for names that already passed the growth filters) and an unresolved sector
+    # falls back to the flat floor.
+    sector = ""
     apply_debt = config.APPLY_QUALITY_TO_FINANCIALS or not is_financial
     if (
         is_strong
         and config.MAX_DEBT_TO_EQUITY is not None
         and apply_debt
         and debt_to_equity is not None
-        and debt_to_equity > config.MAX_DEBT_TO_EQUITY
     ):
-        is_strong = False
-        logger.info(
-            "%s rejected by debt gate: debt/equity %.2f > %.2f",
-            symbol, debt_to_equity, config.MAX_DEBT_TO_EQUITY,
-        )
+        cap = config.MAX_DEBT_TO_EQUITY
+        if getattr(config, "DEBT_GATE_MODE", "absolute") == "sector_relative":
+            sector = sector_for(symbol)
+            cap = config.sector_debt_cap(sector)
+        if debt_to_equity > cap:
+            is_strong = False
+            logger.info(
+                "%s rejected by debt gate: debt/equity %.3f > %.3f (sector=%s)",
+                symbol, debt_to_equity, cap, sector or "n/a",
+            )
 
     result = AnalysisResult(
         symbol=symbol,
@@ -282,6 +303,7 @@ def analyze_symbol(symbol: str) -> AnalysisResult:
         debt_to_equity=debt_to_equity,
         roce=roce,
         is_financial=is_financial,
+        sector=sector,
         strength_score=score,
         is_strong=bool(is_strong),
         raw_top_ratios=top,
