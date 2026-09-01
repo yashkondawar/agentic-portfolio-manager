@@ -30,6 +30,7 @@ _STRATEGY_MODULES = (
     "swing_backtest",
     "breakout_52w",
     "breakout_52w_daily",
+    "breakout_ath_daily",
 )
 
 # Maps strategy module name -> the exception that stopped it importing. Empty

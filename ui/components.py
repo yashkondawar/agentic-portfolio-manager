@@ -147,6 +147,12 @@ def result_symbols(result: StrategyResult) -> list[str]:
             for item in data.get("new_entries", [])
             if item.get("symbol")
         ]
+    if result.strategy_id == "breakout_ath_daily":
+        return [
+            str(item["symbol"])
+            for item in data.get("entries", [])
+            if item.get("symbol")
+        ]
     if result.strategy_id == "gfs_live":
         # The actionable set is the queued buys, not the whole watchlist.
         return [

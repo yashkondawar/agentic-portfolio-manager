@@ -2,7 +2,8 @@ from datetime import date
 
 import pandas as pd
 
-from backtesting.swing_trading.data import PointInTimeData, _cache_tag
+from backtesting.swing_trading.data import _cache_tag
+from core.bars import normalise_frame
 
 
 def test_cache_tag_includes_symbol_identity_and_benchmark():
@@ -37,7 +38,7 @@ def test_normalise_accepts_yfinance_ticker_first_multiindex():
         index=pd.to_datetime(["2026-07-24"]),
     )
 
-    normalized = PointInTimeData._normalise(raw)
+    normalized = normalise_frame(raw)
 
     assert normalized is not None
     assert list(normalized.columns) == ["Open", "High", "Low", "Close", "Volume"]

@@ -56,4 +56,5 @@ def test_registry_exposes_every_workbench_strategy():
         "swing_backtest",
         "breakout_52w_backtest",
         "breakout_52w_daily",
+        "breakout_ath_daily",
     }
