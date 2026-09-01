@@ -72,6 +72,36 @@ class ClosedTrade:
     method: str
     strength_score: float
     sector: str = "UNKNOWN"
+    gross_pnl: float = 0.0    # before commission, both legs
+    costs: float = 0.0        # entry + exit commission actually charged
+
+
+@dataclass
+class Fill:
+    """One executed leg (BUY or SELL).
+
+    The backtest natively records only closed round trips; the dossier needs a
+    chronological fill blotter, so every leg is journalled here as it happens.
+    ``anchor`` is the ratcheting ``highest_price`` the ATR trailing stop is
+    measured from — the qtr_results analogue of a breakout anchor.
+    """
+
+    seq: int
+    day: date
+    symbol: str
+    sector: str
+    side: str                 # "BUY" | "SELL"
+    reason: str
+    quantity: float
+    price: float
+    value: float
+    cost: float
+    cash_after: float
+    entry_price: float
+    anchor: float
+    stop_level: float
+    net_pnl: Optional[float] = None      # SELL legs only
+    holding_days: Optional[int] = None   # SELL legs only
 
 
 @dataclass
@@ -81,10 +111,14 @@ class Portfolio:
     positions: Dict[str, Position] = field(default_factory=dict)
     closed: List[ClosedTrade] = field(default_factory=list)
     equity_curve: List[dict] = field(default_factory=list)
+    fills: List[Fill] = field(default_factory=list)
 
     # ── Costs ─────────────────────────────────────────────────────────────────
     def _cost(self, notional: float) -> float:
         return notional * self.commission_pct / 100.0
+
+    def _journal(self, **kwargs) -> None:
+        self.fills.append(Fill(seq=len(self.fills) + 1, **kwargs))
 
     # ── Open ──────────────────────────────────────────────────────────────────
     def has_open(self, symbol: str) -> bool:
@@ -97,6 +131,21 @@ class Portfolio:
             return False
         self.cash -= notional + cost
         self.positions[pos.symbol] = pos
+        self._journal(
+            day=pos.entry_date,
+            symbol=pos.symbol,
+            sector=pos.sector,
+            side="BUY",
+            reason=pos.method,
+            quantity=pos.quantity,
+            price=pos.entry_price,
+            value=notional,
+            cost=cost,
+            cash_after=self.cash,
+            entry_price=pos.entry_price,
+            anchor=pos.highest_price,
+            stop_level=pos.stop_price,
+        )
         return True
 
     # ── Close (full) ──────────────────────────────────────────────────────────
@@ -112,7 +161,9 @@ class Portfolio:
         self.cash += notional - cost
         # Net PnL charges BOTH legs' commission (entry cost was paid at open).
         entry_cost = self._cost(pos.entry_price * qty)
-        pnl = (exit_price - pos.entry_price) * qty - cost - entry_cost
+        gross = (exit_price - pos.entry_price) * qty
+        pnl = gross - cost - entry_cost
+        holding_days = (exit_date - pos.entry_date).days
         trade = ClosedTrade(
             symbol=symbol,
             quantity=qty,
@@ -123,13 +174,32 @@ class Portfolio:
             pnl=pnl,
             pnl_pct=(exit_price - pos.entry_price) / pos.entry_price * 100.0,
             exit_reason=reason,
-            holding_days=(exit_date - pos.entry_date).days,
+            holding_days=holding_days,
             result_quarter=pos.result_quarter,
             method=pos.method,
             strength_score=pos.strength_score,
             sector=pos.sector,
+            gross_pnl=gross,
+            costs=cost + entry_cost,
         )
         self.closed.append(trade)
+        self._journal(
+            day=exit_date,
+            symbol=symbol,
+            sector=pos.sector,
+            side="SELL",
+            reason=reason,
+            quantity=qty,
+            price=exit_price,
+            value=notional,
+            cost=cost,
+            cash_after=self.cash,
+            entry_price=pos.entry_price,
+            anchor=pos.highest_price,
+            stop_level=pos.stop_price,
+            net_pnl=pnl,
+            holding_days=holding_days,
+        )
         del self.positions[symbol]
         return trade
 

@@ -106,6 +106,22 @@ every page still forces a fresh run at any time.
 Full details — timing rationale, catch-up behaviour, crash recovery, log
 locations and troubleshooting — are in [`core/SCHEDULER.md`](core/SCHEDULER.md).
 
+### Backtest dossier
+
+The `qtr_results` strategy exports a nine-sheet Excel workbook matching the
+layout of the reference `dossier_*.xlsx` files — summary metrics on three cost
+bases against NIFTY 50, equity curve, per-position and per-fill ledgers, yearly
+returns, and a financial-year capital-gains ledger with carry-forward:
+
+```bash
+uv run python -m backtesting.qtr_results.build_dossier
+```
+
+Output lands in `backtesting/qtr_results/results/qtr_results_dossier.xlsx`. See
+[`backtesting/qtr_results/DOSSIER.md`](backtesting/qtr_results/DOSSIER.md) for
+the flags, the cost/tax model, and the limits worth knowing before quoting a
+number.
+
 ### Local storage
 
 All durable application data uses one SQLite database outside the repository:
