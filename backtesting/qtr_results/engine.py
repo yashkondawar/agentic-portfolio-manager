@@ -47,6 +47,7 @@ class BacktestEngine:
         sectors: Optional[SectorStore] = None,
         calendar: Optional[ResultsCalendarStore] = None,
         universe: Optional[object] = None,
+        dividends: Optional[Dict[str, Dict[date, float]]] = None,
     ):
         self.cfg = cfg
         self.prices = prices
@@ -57,6 +58,10 @@ class BacktestEngine:
         # tradable on every day, which is the survivorship-biased behaviour the
         # backtest had before: today's index members, back-applied to history.
         self.universe = universe
+        # symbol -> ex_date -> rupees per share. Only meaningful against a
+        # price (unadjusted) series; see _credit_dividends.
+        self.dividends = dividends or {}
+        self.dividend_cash = 0.0
         self.pf = Portfolio(cash=cfg.starting_capital, commission_pct=cfg.commission_pct)
         # symbol -> (raw, quarters, metrics)
         self.parsed: Dict[str, Tuple[dict, list, dict]] = {}
@@ -236,6 +241,7 @@ class BacktestEngine:
 
         for d in calendar:
             opened_today: set = set()
+            self._credit_dividends(d)       # ex-date cash for names held overnight
             self._process_result_exits(d)   # B10: dump weak-result positions at open
             if self.cfg.anticipation_mode:
                 self._fill_anticipation(d, opened_today)
@@ -254,6 +260,28 @@ class BacktestEngine:
                 self._discover_and_queue(d)
 
     # ── 1) fills ──────────────────────────────────────────────────────────────
+    def _credit_dividends(self, day: date) -> None:
+        """Pay cash dividends to positions held into the ex-date.
+
+        Called at the very top of the day, before any of today's exits or
+        fills, which is exactly the entitlement rule: you receive the dividend
+        if you held the shares at the previous close. A name bought today does
+        not qualify, and a name sold today still does.
+
+        This only makes sense on an unadjusted price series. Feeding it a
+        vendor "adjusted" series would double-count, since there the payout is
+        already baked into the quote.
+        """
+        if not self.dividends:
+            return
+        for pos in self.pf.positions.values():
+            per_share = self.dividends.get(pos.symbol, {}).get(day)
+            if not per_share:
+                continue
+            cash = per_share * pos.quantity
+            self.pf.cash += cash
+            self.dividend_cash += cash
+
     def _fill_pending(self, day: date, opened_today: set) -> None:
         if not self.pending:
             return

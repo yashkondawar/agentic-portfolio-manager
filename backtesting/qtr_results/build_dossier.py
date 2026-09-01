@@ -85,13 +85,17 @@ LEAD_NOTES = (
 
 #: Used when the run screens against the index as it stands today.
 BIASED_UNIVERSE_NOTES = (
-    "SURVIVORSHIP BIAS is the largest unquantified distortion here. The universe "
+    "SURVIVORSHIP BIAS is present and NOT corrected here. The universe "
     "is TODAY's NIFTY 500 projected backwards, so names that were delisted, "
     "acquired or that collapsed out of the index never appear, while names that "
-    "earned their way in are present from the start. The longer the window, the "
-    "worse this gets. Treat the reported edge as an upper bound; a point-in-time "
-    "constituent list would lower it by an amount this run cannot measure. Rerun "
-    "with --point-in-time to remove it.",
+    "earned their way in are present from the start. Rerun with --point-in-time "
+    "to remove it. Measured on the 2014-2026 window that correction costs about "
+    "1.0 percentage points of CAGR and widens the worst drawdown, so treat the "
+    "numbers here as an upper bound.",
+    "Benchmarks are price indices and this run credits no dividends, so the "
+    "strategy curve excludes them too. The comparison is like-for-like on that "
+    "point; it is net of costs and, in the first column, net of capital-gains "
+    "tax, which errs slightly against the strategy.",
 )
 
 #: Swapped in for the survivorship warning above when the run is point-in-time.
@@ -110,18 +114,41 @@ PIT_NOTES = (
     "bonuses are back-adjusted from NSE corporate-action filings we parse "
     "ourselves, so the series is reproducible; raw exchange closes are never "
     "restated behind our back.",
+    "Cash dividends are credited to the account on the ex-date rather than "
+    "folded into the price. Vendor 'adjusted' series remove the ex-date drop, "
+    "and because this strategy exits on an ATR trailing stop, a series without "
+    "that drop quietly flatters every stop-based exit: on a like-for-like "
+    "comparison 382 of 402 trades were identical and the 20 that differed were "
+    "all a real trailing stop being replaced by a later, kinder time stop. "
+    "Keeping the drop and paying the cash separately is the only treatment "
+    "that is right in both directions. Measured payout is ~2.3-2.6% a year on "
+    "deployed capital.",
     "The adjustment was validated by counting single-day falls worse than 40% "
     "across 2.4M returns: 380 raw, 11 after adjustment, none introduced. The 11 "
     "that remain are real collapses -- DHFL, YES Bank, Jet Airways, Infibeam "
     "and four microcap failures -- and are deliberately left in the data. "
     "Removing them by inference would erase genuine losses and put the upward "
     "bias straight back.",
+    "Because the account now receives dividends while the NIFTY benchmarks "
+    "remain price indices that exclude them, the benchmark comparison in this "
+    "run favours the strategy by roughly the index yield. Read the absolute "
+    "return as sound and the outperformance as flattered by about 1-1.5% a "
+    "year.",
     "Two residual limits are worth naming. Index entries before press-release "
     "coverage are back-dated by the membership source, so the liquidity rank "
     "above stands in for the market-cap test NSE actually applies; it was "
     "calibrated on 2022-2025, where membership is exact, to retain >=99% of a "
     "known-correct list. And demergers cannot be restated from a filing alone, "
     "so those dates are flagged and excluded rather than guessed.",
+    "One bias is removed on the universe but not yet on the fundamentals. "
+    "Filings after March 2025 come from a survivor-only cache and cover ~455 "
+    "companies against ~1,500 in earlier quarters, so the final stretch grades "
+    "a narrower, survivor-only candidate pool. Note this does NOT mean the tail "
+    "should be dropped to get a cleaner number: ending the run at 2025-03-31 "
+    "RAISES CAGR from 12.7% to 15.1%, because 2024-25 was the strategy's worst "
+    "stretch. The full window is the conservative claim and is the one to "
+    "quote; the weaker tail coverage is a caveat on that number, not a licence "
+    "to truncate it.",
     "Historical NIFTY 500 membership is derived from "
     "github.com/aditya-jha/nse-historical-membership, used under CC BY 4.0. "
     "Measured against NSE's current official list it agrees on 497 of 500 "
@@ -135,9 +162,6 @@ TAIL_NOTES = (
     "Costs are the live 0.20% per-side proxy, which the live config documents as "
     "covering STT and exchange charges as well as slippage. Statutory charges are "
     "not billed a second time in the tax ledger.",
-    "Benchmarks are price indices; the strategy curve is net of costs and, in the "
-    "first column, net of capital-gains tax. That makes the comparison slightly "
-    "unfair to the strategy, which is the safer direction to err.",
     "Tax is charged against equity on 31 March of each financial year, the day the "
     "liability crystallises, rather than on the day it is actually remitted.",
 )
@@ -297,23 +321,28 @@ def main(argv=None) -> int:
     pit_connection = None
     if args.point_in_time:
         from core.storage import connect as _connect
-        from scraper.index_membership import membership_intervals
+        from scraper.index_membership import (
+            membership_intervals, resolve_index_name,
+        )
         from scraper.pit_universe import PitUniverse
 
         pit_connection = _connect()
-        intervals = membership_intervals(pit_connection)
+        pit_index = resolve_index_name(pit_connection, cfg.universe_index)
+        intervals = membership_intervals(
+            pit_connection, index_name=pit_index
+        )
         if not intervals:
             raise SystemExit(
                 "--point-in-time needs the membership store. Run: "
                 "python -m scraper.index_membership --import"
             )
-        # Every company that was EVER in the index, not just the current 500.
+        # Every company that was EVER in the index, not just today's list.
         # The per-day gate below decides which of them was tradable when.
         symbols = sorted({row["symbol"] for row in intervals})
         pit_gate = PitUniverse(pit_connection)
         logger.info(
             "Point-in-time universe: %d symbols ever in '%s' (today's list "
-            "has %d).", len(symbols), cfg.universe_index, len(universe),
+            "has %d).", len(symbols), pit_index, len(universe),
         )
     if cfg.max_symbols:
         symbols = symbols[: cfg.max_symbols]
@@ -351,9 +380,18 @@ def main(argv=None) -> int:
     have, total = calendar.coverage()
     logger.info("Real result dates resolved for %d / %d symbols.", have, total)
 
+    pit_dividends = None
+    if args.point_in_time:
+        from scraper.corporate_actions import load_dividends
+        pit_dividends = load_dividends(pit_connection, funds.symbols())
+        logger.info(
+            "Dividends: %d symbols with cash payouts credited on ex-date.",
+            len(pit_dividends),
+        )
+
     engine = BacktestEngine(
         cfg, prices, funds, sectors=sectors, calendar=calendar,
-        universe=pit_gate,
+        universe=pit_gate, dividends=pit_dividends,
     )
     engine.run(start, end)
 

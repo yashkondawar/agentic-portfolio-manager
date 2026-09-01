@@ -88,13 +88,23 @@ def _build_canonical_groups(
     last_seen: Dict[str, str] = {}
     by_isin: Dict[str, Set[str]] = {}
     isin_of: Dict[str, str] = {}
+    # Grouped by (symbol, isin) rather than symbol alone: a ticker can print
+    # under more than one ISIN over its life, and a bare `GROUP BY symbol`
+    # lets SQLite hand back whichever one it happens to see first. Taking the
+    # ISIN attached to the symbol's most recent bar makes that choice defined
+    # instead of arbitrary, and keeps the read index-only.
     for symbol, isin, last in connection.execute(
-        "SELECT symbol, isin, MAX(trade_date) FROM market_bars GROUP BY symbol"
+        "SELECT symbol, isin, MAX(trade_date) FROM market_bars"
+        " GROUP BY symbol, isin"
     ):
-        last_seen[symbol] = last
+        if last > last_seen.get(symbol, ""):
+            last_seen[symbol] = last
+            if isin:
+                isin_of[symbol] = isin
         if isin:
+            # Every ISIN the ticker ever traded under still links it to its
+            # peers, so a rename is bridged from either side.
             by_isin.setdefault(isin, set()).add(symbol)
-            isin_of[symbol] = isin
 
     groups: Dict[str, Set[str]] = {}
     canonical_of: Dict[str, str] = {}

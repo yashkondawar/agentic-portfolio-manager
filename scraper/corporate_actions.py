@@ -27,10 +27,20 @@ The factor is what a *pre*-ex-date price must be multiplied by to be comparable
 with post-ex-date prices. :func:`adjustment_series` accumulates it backwards so
 any historical close can be restated onto today's share base in one multiply.
 
-Dividends are parsed and stored, but deliberately **not** applied by default.
-The engine compares against NIFTY 50, a price index that excludes dividends, so
-adjusting the stocks but not the benchmark would manufacture alpha of roughly
-the dividend yield (~1.3%/yr). Pass ``include_dividends=True`` to opt in.
+Dividends are never folded into the *price* factor: doing so would erase the
+real ex-date drop, and because the strategy exits on an ATR trailing stop, a
+series without that drop systematically flatters stop-based exits. Measured on
+the 2014-2026 run, back-adjusted vendor data left 382 of 402 trades identical
+and turned 20 genuine ``trailing_stop`` exits into later ``time_stop`` ones.
+
+The correct treatment is to keep the drop on the tape and pay the cash
+separately: :func:`load_dividends` returns per-symbol ex-date payouts that the
+backtest engine credits to cash on the ex-date. Measured yield on deployed
+capital over 2014-2026 is ~2.3-2.6%/yr (an earlier note in this file claimed
+~1.3%/yr; that figure was wrong). Note the engine's NIFTY 50 benchmark is a
+price index, so a dividend-credited equity curve is being compared against a
+benchmark that excludes them -- the strategy is flattered by roughly the index
+yield in that comparison, though not in its own absolute return.
 
     uv run python -m scraper.corporate_actions --from 2012-01-01   # backfill
     uv run python -m scraper.corporate_actions --status
@@ -621,6 +631,46 @@ def load_demergers(
             if wanted is not None and target not in wanted:
                 continue
             out.setdefault(target, set()).add(ex_date)
+    return out
+
+
+def load_dividends(
+    connection: sqlite3.Connection,
+    symbols: Optional[Sequence[str]] = None,
+    *,
+    resolve_renames: bool = True,
+) -> Dict[str, Dict[date, float]]:
+    """Per-symbol cash dividends, keyed by ex-date, in rupees per share.
+
+    These are deliberately NOT folded into the price series. On the ex-date
+    the quote really does drop by roughly the payout, and that drop is not an
+    artefact -- a live trailing stop sees it and can fire on it. Vendor
+    "adjusted" series erase the gap, which quietly flatters every stop-based
+    exit by hiding a move that would have happened to a real holder.
+
+    Keeping the price drop and paying the cash separately reproduces what
+    actually happens to the holder: a lower quote and a credit in the bank.
+
+    Several payouts can share one ex-date (an interim and a special, say), so
+    amounts are summed rather than overwritten.
+    """
+    rows = connection.execute(
+        "SELECT symbol, ex_date, dividend FROM corporate_actions"
+        " WHERE kind = 'dividend' AND dividend IS NOT NULL AND dividend > 0"
+    ).fetchall()
+    aliases = _isin_aliases(connection) if resolve_renames else {}
+    wanted = (
+        {s.strip().upper() for s in symbols if s} if symbols else None
+    )
+    out: Dict[str, Dict[date, float]] = {}
+    for row in rows:
+        ex_date = date.fromisoformat(row["ex_date"])
+        amount = float(row["dividend"])
+        for target in aliases.get(row["symbol"], {row["symbol"]}):
+            if wanted is not None and target not in wanted:
+                continue
+            per_day = out.setdefault(target, {})
+            per_day[ex_date] = per_day.get(ex_date, 0.0) + amount
     return out
 
 
