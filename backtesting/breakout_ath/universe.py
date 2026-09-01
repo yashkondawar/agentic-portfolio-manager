@@ -90,6 +90,44 @@ def industry_map(members: Optional[List[UniverseMember]] = None) -> Dict[str, st
 # ── Point-in-time membership ─────────────────────────────────────────────────
 
 
+def _membership_rows(index_name: str, db_path: Optional[Path]) -> List[tuple]:
+    """Membership intervals for ``index_name``, with a sane fallback.
+
+    ``PORTFOLIO_DB_PATH`` is normally pointed at a private *bar* store, and
+    that also redirects ``open_store``. Membership lives in the application
+    database, so when the configured store has nothing for this index we retry
+    the default location before giving up.
+    """
+    from core.storage import default_data_dir
+    from scraper.index_membership import open_store
+
+    tried: List[str] = []
+    candidates: List[Optional[Path]] = [db_path]
+    if db_path is None:
+        candidates.append(default_data_dir() / "portfolio.sqlite3")
+
+    for candidate in candidates:
+        if candidate is not None and not Path(candidate).exists():
+            tried.append(f"{candidate} (missing)")
+            continue
+        connection = open_store(candidate)
+        rows = connection.execute(
+            "SELECT symbol, valid_from, valid_to FROM index_membership "
+            "WHERE index_name = ?",
+            (index_name,),
+        ).fetchall()
+        if rows:
+            return rows
+        tried.append(str(candidate) if candidate else "PORTFOLIO_DB_PATH/default")
+
+    raise RuntimeError(
+        f"No point-in-time membership recorded for {index_name!r}. Looked in: "
+        + ", ".join(tried)
+        + ". Populate it with `python -m scraper.index_membership`, or pass "
+        "membership_db to point at the database that holds index_membership."
+    )
+
+
 def load_pit_members(
     index_name: str = "Nifty 500", *, db_path: Optional[Path] = None
 ) -> List[UniverseMember]:
@@ -100,16 +138,8 @@ def load_pit_members(
     exists to remove. Whether a name is tradeable on a given day is decided
     later by :func:`membership_matrix`.
     """
-    from scraper.index_membership import open_store
-
-    connection = open_store(db_path)
-    rows = connection.execute(
-        "SELECT DISTINCT symbol FROM index_membership WHERE index_name = ?",
-        (index_name,),
-    ).fetchall()
+    rows = _membership_rows(index_name, db_path)
     symbols = sorted({str(r[0]).strip().upper() for r in rows if r[0]})
-    if not symbols:
-        raise RuntimeError(f"No point-in-time membership recorded for {index_name!r}")
 
     labels = industry_map()
     return [
@@ -132,14 +162,7 @@ def membership_matrix(
     """
     import pandas as pd
 
-    from scraper.index_membership import open_store
-
-    connection = open_store(db_path)
-    rows = connection.execute(
-        "SELECT symbol, valid_from, valid_to FROM index_membership "
-        "WHERE index_name = ?",
-        (index_name,),
-    ).fetchall()
+    rows = _membership_rows(index_name, db_path)
 
     frame = pd.DataFrame(False, index=index, columns=list(columns))
     stamps = pd.DatetimeIndex(index)

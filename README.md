@@ -14,12 +14,12 @@ and run them uniformly.
 | `sequential_agents` | Copilot SDK agents run in four research stages | research |
 | `parallel_agents`   | Concurrent multi-analyst fan-out + risk/portfolio managers | research |
 | `swing_trading`     | Daily swing-trading copilot | swing |
-| `breakout_52w_daily`| Daily Nifty 500 breakout scanner + paper portfolio | swing |
+| `breakout_ath_daily`| Daily all-time-high breakout sleeve + paper portfolio | swing |
 | `portfolio_analysis`| Holistic portfolio review + rebalancing | portfolio |
 | `watchlist_curation`| Universe screening + LLM curation | watchlist |
 | `qtr_results`       | Quarterly-results momentum + tracked exits | swing |
 | `swing_backtest`    | Point-in-time validation of the swing playbook | backtest |
-| `breakout_52w_backtest` | Deterministic 52-week-high breakout system | backtest |
+| `breakout_ath_backtest` | Trail-only all-time-high breakout sleeve | backtest |
 
 **Layout**
 
@@ -39,52 +39,37 @@ run.py           # single CLI + programmatic entry point
 python run.py --list                 # discover all strategies + their params
 python run.py --list --json          # machine-readable specs (for a UI)
 python run.py parallel_agents --param symbols="RELIANCE,TCS" --param use_llm=true
-python run.py breakout_52w_backtest --param symbols="RELIANCE,TCS,INFY"
-python run.py breakout_52w_daily
+python run.py breakout_ath_backtest --param start=2014-01-01
+python run.py breakout_ath_daily
 ```
 
-`breakout_52w_daily` scans the selected NSE index (Nifty 500 by default), so
-`symbols` is only a focused-universe override. It keeps its paper portfolio at
-`.trader_workbench/breakout_52w_portfolio.json`: close-of-day signals are queued,
-validated at the next session's open, and then managed on later daily runs.
-Every result also includes the complete `portfolio_state` JSON for backup,
-inspection, or use as an explicit state override.
+`breakout_ath_daily` scans the Nifty Total Market 750 and keeps its own paper
+portfolio, so it never reads Zerodha holdings. Close-of-day signals are applied
+to the persisted book, and every result includes the complete `portfolio_state`
+JSON for backup, inspection, or use as an explicit state override.
 
-The cross-regime defaults require a close at least 0.5% above the prior high,
-2.0x relative volume, three-month return at least 15 percentage points above
-the Nifty, and a 50-day SMA that has risen at least 2% over 20 sessions. Each
-trade risks 1% of equity to a 1.5 ATR initial stop. Backtests model the stop
-before the target when both prices occur in one daily candle. For live use,
-place both exit orders after entry; the daily workflow reports and persists
-their exact levels but does not submit broker orders.
+The sleeve is deliberately simple: a stock is bought when it closes above every
+close of the prior 252 sessions while still within 15% of its lifetime closing
+high. Candidates are ranked by three-month momentum and fill whatever of the 28
+slots are free, each sized to an equal share of equity that is re-struck
+quarterly. There is no profit target, no time exit and no regime filter -- a
+position is held until its close falls 16% below the highest close it has made
+since entry. That single trailing stop is the only risk control.
 
-An institutional hardening pass (see
-`docs/52-week-breakout-strategy-finance-review.md`, section 18) adds a realistic
-Indian delivery-cost model (~0.33% round-trip), a diversification framework (up
-to 12 positions with per-sector and pairwise-correlation caps and a 15%
-per-name notional cap), and partial-profit booking. Continuous regime
-scaling is implemented but **disabled by default** because the simple binary
-market gate produced better drawdowns and Sharpe across every test window.
+Entries and exits are computed by the same functions the backtest uses, so the
+live sleeve cannot drift from the validated strategy.
 
-A subsequent trade-management pass (section 19) widened the initial stop to
-1.5 ATR, widened the Chandelier trail from 2 ATR to 4 ATR, and cut the
-partial-profit booking from half the position at 2.5 ATR to **20% at 3.5 ATR**,
-so winners keep most of their size instead of being halved early. Entry filters
-were left untouched: an exit-time study of 727 trades found day-one losers and
-multi-week winners statistically indistinguishable at entry, so the edge is in
-trade management, not in more selective entries.
+`breakout_ath_backtest` runs the same rules over history and writes a nine-sheet
+Excel dossier covering the equity curve, trades, yearly and rolling returns, and
+a capital-gains tax ledger. Set a point-in-time universe to scan each index as
+it actually stood on the day, which removes survivorship bias.
 
-Under these realistic-cost defaults, the five-year simulation
-(2021-07-24 through 2026-07-24, ₹500,000 initial cash) produces roughly
-24.3% CAGR, -14.5% maximum drawdown, 1.36 Sharpe, a 1.96 profit factor, and a
-~47% win rate, ending near ₹14.8 lakh. The same change improves 2012-2014,
-2019, 2022-2024 and 2025-2026, and is roughly 3 percentage points worse across
-the choppy 2015-2018 stretch, where the wider trail gives back more in
-sideways markets.
-The strategy is signal-scarce (≈28% average exposure), so its edge comes from
-selectivity — relaxing filters to deploy more capital was tested and degraded
-every window. All figures use today's Nifty 500 membership and therefore retain
-survivorship bias; they are validation results, not a return guarantee.
+Over 2014-01-01 to 2026-09-01 on point-in-time Nifty 500 membership, starting
+from Rs 5,00,000, it returns 23.79% CAGR net of costs and tax against 11.17% for
+the NIFTY 50, with a -29.4% maximum drawdown, 1.34 Sharpe, 0.66 beta and a 50.2%
+win rate across 729 round trips. See `docs/ath-breakout-strategy.md` for the
+full write-up, including the known gaps -- these are validation results, not a
+return guarantee.
 
 **Integrate a UI** — everything a front end needs comes from the registry:
 

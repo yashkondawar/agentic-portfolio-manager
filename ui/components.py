@@ -39,7 +39,9 @@ def run_strategy(strategy_id: str, params: dict) -> StrategyResult:
     return result
 
 
-def latest_result(strategy_id: str, *, from_history: bool = True) -> StrategyResult | None:
+def latest_result(
+    strategy_id: str, *, from_history: bool = True
+) -> StrategyResult | None:
     """Latest result for a strategy: this session's, else the newest saved run.
 
     The history fallback is what makes an overnight scheduled run visible when
@@ -94,10 +96,8 @@ def render_result(result: StrategyResult, *, heading: bool = True) -> None:
         st.error(result.error or result.report or "Strategy failed")
         return
 
-    if result.strategy_id in {"swing_backtest", "breakout_52w_backtest"}:
+    if result.strategy_id == "swing_backtest":
         _render_backtest(result.data)
-    elif result.strategy_id == "breakout_52w_daily":
-        _render_breakout_daily(result.data)
     elif result.strategy_id == "parallel_agents":
         _render_decisions(result.data.get("decisions", {}))
     elif result.strategy_id == "watchlist_curation":
@@ -114,7 +114,6 @@ def render_result(result: StrategyResult, *, heading: bool = True) -> None:
         expanded=result.strategy_id
         not in {
             "swing_backtest",
-            "breakout_52w_backtest",
             "parallel_agents",
             "watchlist_curation",
             "qtr_results",
@@ -141,12 +140,6 @@ def result_symbols(result: StrategyResult) -> list[str]:
         ]
     if result.strategy_id == "parallel_agents":
         return list(data.get("decisions", {}))
-    if result.strategy_id == "breakout_52w_daily":
-        return [
-            str(item["symbol"])
-            for item in data.get("new_entries", [])
-            if item.get("symbol")
-        ]
     if result.strategy_id == "breakout_ath_daily":
         return [
             str(item["symbol"])
@@ -219,9 +212,19 @@ def _holdings_table(holdings: list) -> None:
         st.caption("No open positions.")
         return
     cols = [
-        "symbol", "company", "quantity", "entry_price", "last_price",
-        "invested", "market_value", "unrealized_pnl", "unrealized_pct",
-        "stop_price", "target_price", "days_held", "conviction",
+        "symbol",
+        "company",
+        "quantity",
+        "entry_price",
+        "last_price",
+        "invested",
+        "market_value",
+        "unrealized_pnl",
+        "unrealized_pct",
+        "stop_price",
+        "target_price",
+        "days_held",
+        "conviction",
     ]
     frame = pd.DataFrame(holdings)
     frame = frame[[c for c in cols if c in frame.columns]]
@@ -233,9 +236,18 @@ def _tradebook_table(tradebook: list) -> None:
         st.caption("No closed trades yet — the tradebook fills as positions exit.")
         return
     cols = [
-        "symbol", "company", "entry_date", "exit_date", "days_held",
-        "quantity", "entry_price", "exit_price", "invested",
-        "realized_pnl", "realized_pct", "exit_reason",
+        "symbol",
+        "company",
+        "entry_date",
+        "exit_date",
+        "days_held",
+        "quantity",
+        "entry_price",
+        "exit_price",
+        "invested",
+        "realized_pnl",
+        "realized_pct",
+        "exit_reason",
     ]
     frame = pd.DataFrame(tradebook)
     frame = frame[[c for c in cols if c in frame.columns]]
@@ -307,15 +319,30 @@ def _render_quarterly_results(data: dict) -> None:
     if not actions:
         st.caption("No buy/sell actions today. Existing positions (if any) are held.")
     else:
-        for label, kind in (("🟢 Buy", "BUY"), ("🔴 Sell", "SELL"), ("⚪ Hold", "HOLD")):
+        for label, kind in (
+            ("🟢 Buy", "BUY"),
+            ("🔴 Sell", "SELL"),
+            ("⚪ Hold", "HOLD"),
+        ):
             rows = [a for a in actions if a.get("action") == kind]
             if not rows:
                 continue
             st.markdown(f"**{label}** ({len(rows)})")
             frame = pd.DataFrame(rows)
-            cols = [c for c in ["symbol", "company", "quantity", "price", "value",
-                                "stop_price", "target_price", "detail"]
-                    if c in frame.columns]
+            cols = [
+                c
+                for c in [
+                    "symbol",
+                    "company",
+                    "quantity",
+                    "price",
+                    "value",
+                    "stop_price",
+                    "target_price",
+                    "detail",
+                ]
+                if c in frame.columns
+            ]
             st.dataframe(frame[cols], use_container_width=True, hide_index=True)
 
     # 3) Filtering funnel — how the day's declarers narrowed to the buys.
@@ -342,8 +369,19 @@ def _render_quarterly_results(data: dict) -> None:
                 frame["outcome"] = frame["status"].map(
                     lambda s: _FUNNEL_STATUS_LABELS.get(s, s)
                 )
-            cols = [c for c in ["symbol", "company", "result_date", "strength",
-                                "stage", "outcome", "reason"] if c in frame.columns]
+            cols = [
+                c
+                for c in [
+                    "symbol",
+                    "company",
+                    "result_date",
+                    "strength",
+                    "stage",
+                    "outcome",
+                    "reason",
+                ]
+                if c in frame.columns
+            ]
             st.dataframe(frame[cols], use_container_width=True, hide_index=True)
 
     # 4) Tradebook (closed trades) + upcoming heads-up.
@@ -400,9 +438,21 @@ def _gfs_holdings_table(holdings: list, shadow: dict | None = None) -> None:
         st.caption("No open positions. The regime or the sector gate may be shut.")
         return
     cols = [
-        "symbol", "sector", "quantity", "entry_date", "entry_price", "last_price",
-        "unrealized_pct", "value", "stop_price", "target_price", "days_held",
-        "rsi_d", "rsi_w", "rsi_m", "shadow_exit",
+        "symbol",
+        "sector",
+        "quantity",
+        "entry_date",
+        "entry_price",
+        "last_price",
+        "unrealized_pct",
+        "value",
+        "stop_price",
+        "target_price",
+        "days_held",
+        "rsi_d",
+        "rsi_w",
+        "rsi_m",
+        "shadow_exit",
     ]
     frame = pd.DataFrame(holdings)
     frame = frame[[c for c in cols if c in frame.columns]]
@@ -427,9 +477,20 @@ def _gfs_tradebook_table(tradebook: list) -> None:
         st.caption("No closed trades yet — the tradebook fills as positions exit.")
         return
     cols = [
-        "symbol", "sector", "entry_date", "exit_date", "holding_days", "quantity",
-        "entry_price", "exit_price", "pnl", "pnl_pct", "r_multiple",
-        "entry_rsi", "exit_rsi", "exit_reason",
+        "symbol",
+        "sector",
+        "entry_date",
+        "exit_date",
+        "holding_days",
+        "quantity",
+        "entry_price",
+        "exit_price",
+        "pnl",
+        "pnl_pct",
+        "r_multiple",
+        "entry_rsi",
+        "exit_rsi",
+        "exit_reason",
     ]
     frame = pd.DataFrame(tradebook)
     frame = frame[[c for c in cols if c in frame.columns]]
@@ -507,8 +568,17 @@ def _gfs_orders_tables(orders: list) -> None:
         (
             "🟢 Buy",
             "BUY",
-            ["symbol", "sector", "quantity", "reference_price", "stop_price",
-             "rsi_m", "rsi_w", "rsi_d", "resistance"],
+            [
+                "symbol",
+                "sector",
+                "quantity",
+                "reference_price",
+                "stop_price",
+                "rsi_m",
+                "rsi_w",
+                "rsi_d",
+                "resistance",
+            ],
         ),
         (
             "🔴 Sell",
@@ -637,8 +707,16 @@ def _render_gfs_live(data: dict) -> None:
                     lambda s: _GFS_STATUS_LABELS.get(s, s)
                 )
             cols = [
-                "symbol", "sector", "sector_rank", "close", "rsi_m", "rsi_w", "rsi_d",
-                "headroom_pct", "resistance", "outcome",
+                "symbol",
+                "sector",
+                "sector_rank",
+                "close",
+                "rsi_m",
+                "rsi_w",
+                "rsi_d",
+                "headroom_pct",
+                "resistance",
+                "outcome",
             ]
             st.dataframe(
                 frame[[c for c in cols if c in frame.columns]],
@@ -687,7 +765,9 @@ def _render_gfs_live(data: dict) -> None:
         )
         st.plotly_chart(fig, use_container_width=True)
 
-    with st.expander(f"📒 Tradebook — {len(data.get('tradebook') or [])} closed trades"):
+    with st.expander(
+        f"📒 Tradebook — {len(data.get('tradebook') or [])} closed trades"
+    ):
         _gfs_tradebook_table(data.get("tradebook") or [])
 
     # 8) Diagnostics and the exact configuration that produced all of the above.
@@ -716,33 +796,6 @@ def _render_gfs_live(data: dict) -> None:
             note = diag.get("universe_note")
             if note:
                 st.caption(note)
-
-
-def _render_breakout_daily(data: dict) -> None:
-    first = st.columns(4)
-    first[0].metric("As of", data.get("as_of", "-"))
-    first[1].metric(
-        "Market regime",
-        "Longs enabled" if data.get("regime_allows_entries") else "No new longs",
-    )
-    first[2].metric("Portfolio equity", f"₹{data.get('portfolio_equity', 0):,.0f}")
-    first[3].metric("Open risk", _pct(data.get("open_risk_pct")))
-    second = st.columns(3)
-    second[0].metric("Open positions", data.get("open_positions", 0))
-    second[1].metric("Pending entries", data.get("pending_entries_count", 0))
-    second[2].metric("Universe scanned", data.get("universe_size", 0))
-
-    for title, key in (
-        ("Position actions", "position_actions"),
-        ("New entries for next open", "new_entries"),
-        ("Pending for next open", "pending_entries"),
-        ("Filled from prior signals", "filled_entries"),
-        ("Lapsed or rejected entries", "rejected_entries"),
-    ):
-        rows = data.get(key) or []
-        if rows:
-            st.markdown(f"#### {title}")
-            st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
 
 
 def _render_backtest(data: dict) -> None:

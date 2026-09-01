@@ -28,8 +28,7 @@ _STRATEGY_MODULES = (
     "qtr_results",
     "gfs_live",
     "swing_backtest",
-    "breakout_52w",
-    "breakout_52w_daily",
+    "breakout_ath",
     "breakout_ath_daily",
 )
 

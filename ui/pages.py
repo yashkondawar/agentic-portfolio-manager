@@ -191,15 +191,15 @@ def swing_page() -> None:
     )
     workflow = st.selectbox(
         "Workflow",
-        ["breakout_52w_daily", "swing_trading"],
+        ["breakout_ath_daily", "swing_trading"],
         format_func=lambda item: registry.get_strategy(item).name,
     )
-    if workflow == "breakout_52w_daily":
+    if workflow == "breakout_ath_daily":
         st.info(
             "This workflow uses its own persisted paper portfolio and does not "
             "read Zerodha holdings."
         )
-        _registry_runner(workflow, "breakout_52w_daily")
+        _registry_runner(workflow, "breakout_ath_daily")
         return
 
     source = st.radio(
@@ -308,7 +308,7 @@ def backtest_page() -> None:
     )
     strategy_id = st.selectbox(
         "Strategy",
-        ["swing_backtest", "breakout_52w_backtest"],
+        ["swing_backtest", "breakout_ath_backtest"],
         format_func=lambda item: registry.get_strategy(item).name,
     )
     _registry_runner(strategy_id, f"backtest_{strategy_id}")
@@ -502,11 +502,7 @@ def _registry_runner(strategy_id: str, key_prefix: str) -> None:
             key_prefix=key_prefix,
             defaults=(
                 {"symbols": st.session_state.get("symbol_basket", [])}
-                if strategy_id
-                in {
-                    "swing_backtest",
-                    "breakout_52w_backtest",
-                }
+                if strategy_id == "swing_backtest"
                 else None
             ),
         )
@@ -670,26 +666,40 @@ def _kronos_chart(fc) -> go.Figure:
 
     # Outer cone p10–p90 (light) then inner p25–p75 (darker) as stacked fills.
     figure.add_trace(
-        go.Scatter(x=x_fc, y=_series("p90"), name="p90", line={"width": 0}, showlegend=False)
-    )
-    figure.add_trace(
         go.Scatter(
-            x=x_fc, y=_series("p10"), name="p10–p90", fill="tonexty",
-            fillcolor="rgba(79,124,255,0.12)", line={"width": 0},
-        )
-    )
-    figure.add_trace(
-        go.Scatter(x=x_fc, y=_series("p75"), name="p75", line={"width": 0}, showlegend=False)
-    )
-    figure.add_trace(
-        go.Scatter(
-            x=x_fc, y=_series("p25"), name="p25–p75", fill="tonexty",
-            fillcolor="rgba(79,124,255,0.25)", line={"width": 0},
+            x=x_fc, y=_series("p90"), name="p90", line={"width": 0}, showlegend=False
         )
     )
     figure.add_trace(
         go.Scatter(
-            x=x_fc, y=_series("p50"), name="Median forecast",
+            x=x_fc,
+            y=_series("p10"),
+            name="p10–p90",
+            fill="tonexty",
+            fillcolor="rgba(79,124,255,0.12)",
+            line={"width": 0},
+        )
+    )
+    figure.add_trace(
+        go.Scatter(
+            x=x_fc, y=_series("p75"), name="p75", line={"width": 0}, showlegend=False
+        )
+    )
+    figure.add_trace(
+        go.Scatter(
+            x=x_fc,
+            y=_series("p25"),
+            name="p25–p75",
+            fill="tonexty",
+            fillcolor="rgba(79,124,255,0.25)",
+            line={"width": 0},
+        )
+    )
+    figure.add_trace(
+        go.Scatter(
+            x=x_fc,
+            y=_series("p50"),
+            name="Median forecast",
             line={"color": "#f5a623", "width": 2, "dash": "dot"},
             mode="lines+markers",
         )
@@ -751,9 +761,13 @@ def kronos_page() -> None:
     with st.expander("Model settings", expanded=False):
         cols = st.columns(3)
         pred_len = cols[0].slider("Forecast horizon (days)", 3, 30, 10)
-        sample_paths = cols[1].slider("Sample paths", 5, 40, 20, help="More paths = smoother cone, slower on CPU.")
+        sample_paths = cols[1].slider(
+            "Sample paths", 5, 40, 20, help="More paths = smoother cone, slower on CPU."
+        )
         history_bars = cols[2].slider("History window (bars)", 60, 400, 250)
-        st.caption("Model: **Kronos-base** (102M) on CPU. First run downloads weights (~100MB).")
+        st.caption(
+            "Model: **Kronos-base** (102M) on CPU. First run downloads weights (~100MB)."
+        )
 
     if st.button("Run forecast", type="primary"):
         tickers = _parse_tickers(raw)
@@ -769,11 +783,15 @@ def kronos_page() -> None:
             with st.status(
                 f"Forecasting {len(tickers)} ticker(s) with Kronos-base…", expanded=True
             ) as status:
-                st.write("Loading model + fetching price history (first run is slower)…")
+                st.write(
+                    "Loading model + fetching price history (first run is slower)…"
+                )
                 results = forecast_many_for_chart(
                     tickers, config=cfg, history_bars=history_bars
                 )
-                status.update(label="Forecast complete", state="complete", expanded=False)
+                status.update(
+                    label="Forecast complete", state="complete", expanded=False
+                )
             st.session_state["kronos_results"] = results
         except KronosUnavailable as exc:
             st.session_state.pop("kronos_results", None)
@@ -844,7 +862,11 @@ def _scheduler_health() -> None:
 
 def _health_verdict(age: float | None, poll: int) -> tuple[str, str, bool]:
     if age is None:
-        return "Not running", "The scheduler has never checked in on this machine.", False
+        return (
+            "Not running",
+            "The scheduler has never checked in on this machine.",
+            False,
+        )
     if age <= max(120, poll * 4):
         return "Running", f"Last check-in {int(age)}s ago.", True
     return (
