@@ -405,6 +405,22 @@ DEFAULT_SCHEDULES: tuple[dict[str, Any], ...] = (
         ),
     },
     {
+        "name": "ATH breakout sleeve (post-close)",
+        "strategy_id": "breakout_ath_daily",
+        "run_at": "18:30",
+        "days_of_week": WEEKDAYS,
+        "params": {},
+        "why": (
+            "The sleeve decides on the daily close: entries fire on a close "
+            "above the 252-day high and the trailing stop is checked against "
+            "the close, so there is exactly one decision point per session and "
+            "running more often than daily cannot change the answer. 18:30 is "
+            "after the exchange candle has settled and an hour behind the GFS "
+            "job so the two do not pull prices at once. The orders are for "
+            "tomorrow's open."
+        ),
+    },
+    {
         "name": "Quarterly results ledger (evening)",
         "strategy_id": "qtr_results",
         "run_at": "19:30",

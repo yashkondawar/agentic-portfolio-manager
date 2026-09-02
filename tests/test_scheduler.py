@@ -94,7 +94,11 @@ def test_time_and_day_inputs_are_validated(db):
 
 def test_defaults_are_seeded_once(db):
     first = schedules.ensure_defaults(db_path=db)
-    assert {item.strategy_id for item in first} == {"gfs_live", "qtr_results"}
+    assert {item.strategy_id for item in first} == {
+        "gfs_live",
+        "qtr_results",
+        "breakout_ath_daily",
+    }
     schedules.delete_schedule(first[0].id, db_path=db)
     second = schedules.ensure_defaults(db_path=db)
     assert len(second) == len(first) - 1  # never re-seeds over a user's edits
@@ -179,6 +183,26 @@ def test_default_schedules_land_after_the_nse_close():
     gfs_hour = int(by_strategy["gfs_live"]["run_at"].split(":")[0])
     assert gfs_hour >= 16  # NSE closes 15:30 IST; bars publish around 16:00
     assert all(spec["why"] for spec in schedules.DEFAULT_SCHEDULES)
+
+
+def test_the_ath_sleeve_runs_once_a_day_after_the_close():
+    """Close-based rules have one decision point, so one weekday run.
+
+    Firing it intraday would test a closing breakout and a closing stop
+    against a price that is not the close yet, which is a different strategy
+    from the one that was backtested.
+    """
+    ath = [
+        spec
+        for spec in schedules.DEFAULT_SCHEDULES
+        if spec["strategy_id"] == "breakout_ath_daily"
+    ]
+    assert len(ath) == 1
+    spec = ath[0]
+    hour, minute = (int(part) for part in spec["run_at"].split(":"))
+    assert (hour, minute) > (15, 30)  # never during the session
+    assert hour >= 16  # and after the exchange candle has published
+    assert tuple(spec["days_of_week"]) == schedules.WEEKDAYS
 
 
 def test_timezone_resolution_survives_a_missing_tz_database(monkeypatch):
