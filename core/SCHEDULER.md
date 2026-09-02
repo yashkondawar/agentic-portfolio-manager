@@ -118,6 +118,24 @@ It is regenerated on every install and safe to delete. It exists because:
 is powered on at the lock screen with nobody logged in is not running the
 scheduler. A true boot-time Windows service would fix that and needs admin.
 
+## Which code the daemon runs
+
+`install-task` bakes the repo path it was installed from into the generated
+launcher, and the daemon `chdir`s there. The schedules table, however, lives in
+the shared app database that every checkout of the repo opens.
+
+So a schedule created from a feature-branch worktree is visible to the daemon
+immediately, but the daemon will run **main's** code and fail with
+`Unknown strategy '<id>'` until the branch is merged. That is the desired
+behaviour — an unmerged strategy should never trade — but it means:
+
+- **merging to main is the deploy step** for a new scheduled strategy;
+- create the schedule **disabled** if you add it before the merge, otherwise it
+  fails once a day until then.
+
+Re-point the daemon at a different checkout by re-running `install-task` from
+there.
+
 ## Timing semantics
 
 Schedules are time-of-day, not cron expressions: `HH:MM` + a set of weekdays +
