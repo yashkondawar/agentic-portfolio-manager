@@ -14,10 +14,12 @@ and run them uniformly.
 | `sequential_agents` | Copilot SDK agents run in four research stages | research |
 | `parallel_agents`   | Concurrent multi-analyst fan-out + risk/portfolio managers | research |
 | `swing_trading`     | Daily swing-trading copilot | swing |
+| `breakout_ath_daily`| Daily all-time-high breakout sleeve + paper portfolio | swing |
 | `portfolio_analysis`| Holistic portfolio review + rebalancing | portfolio |
 | `watchlist_curation`| Universe screening + LLM curation | watchlist |
 | `qtr_results`       | Quarterly-results momentum + tracked exits | swing |
 | `swing_backtest`    | Point-in-time validation of the swing playbook | backtest |
+| `breakout_ath_backtest` | Trail-only all-time-high breakout sleeve | backtest |
 
 **Layout**
 
@@ -37,7 +39,37 @@ run.py           # single CLI + programmatic entry point
 python run.py --list                 # discover all strategies + their params
 python run.py --list --json          # machine-readable specs (for a UI)
 python run.py parallel_agents --param symbols="RELIANCE,TCS" --param use_llm=true
+python run.py breakout_ath_backtest --param start=2014-01-01
+python run.py breakout_ath_daily
 ```
+
+`breakout_ath_daily` scans the Nifty Total Market 750 and keeps its own paper
+portfolio, so it never reads Zerodha holdings. Close-of-day signals are applied
+to the persisted book, and every result includes the complete `portfolio_state`
+JSON for backup, inspection, or use as an explicit state override.
+
+The sleeve is deliberately simple: a stock is bought when it closes above every
+close of the prior 252 sessions while still within 15% of its lifetime closing
+high. Candidates are ranked by three-month momentum and fill whatever of the 28
+slots are free, each sized to an equal share of equity that is re-struck
+quarterly. There is no profit target, no time exit and no regime filter -- a
+position is held until its close falls 16% below the highest close it has made
+since entry. That single trailing stop is the only risk control.
+
+Entries and exits are computed by the same functions the backtest uses, so the
+live sleeve cannot drift from the validated strategy.
+
+`breakout_ath_backtest` runs the same rules over history and writes a nine-sheet
+Excel dossier covering the equity curve, trades, yearly and rolling returns, and
+a capital-gains tax ledger. Set a point-in-time universe to scan each index as
+it actually stood on the day, which removes survivorship bias.
+
+Over 2014-01-01 to 2026-09-01 on point-in-time Nifty 500 membership, starting
+from Rs 5,00,000, it returns 23.79% CAGR net of costs and tax against 11.17% for
+the NIFTY 50, with a -29.4% maximum drawdown, 1.34 Sharpe, 0.66 beta and a 50.2%
+win rate across 729 round trips. See `docs/ath-breakout-strategy.md` for the
+full write-up, including the known gaps -- these are validation results, not a
+return guarantee.
 
 **Integrate a UI** — everything a front end needs comes from the registry:
 

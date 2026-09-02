@@ -39,7 +39,9 @@ def run_strategy(strategy_id: str, params: dict) -> StrategyResult:
     return result
 
 
-def latest_result(strategy_id: str, *, from_history: bool = True) -> StrategyResult | None:
+def latest_result(
+    strategy_id: str, *, from_history: bool = True
+) -> StrategyResult | None:
     """Latest result for a strategy: this session's, else the newest saved run.
 
     The history fallback is what makes an overnight scheduled run visible when
@@ -104,6 +106,8 @@ def render_result(result: StrategyResult, *, heading: bool = True) -> None:
         _render_quarterly_results(result.data)
     elif result.strategy_id == "gfs_live":
         _render_gfs_live(result.data)
+    elif result.strategy_id == "breakout_ath_daily":
+        _render_ath_daily(result.data)
     else:
         _render_summary_data(result.data)
 
@@ -116,6 +120,7 @@ def render_result(result: StrategyResult, *, heading: bool = True) -> None:
             "watchlist_curation",
             "qtr_results",
             "gfs_live",
+            "breakout_ath_daily",
         },
     ):
         st.markdown(result.report or "_No report returned._")
@@ -138,6 +143,12 @@ def result_symbols(result: StrategyResult) -> list[str]:
         ]
     if result.strategy_id == "parallel_agents":
         return list(data.get("decisions", {}))
+    if result.strategy_id == "breakout_ath_daily":
+        return [
+            str(item["symbol"])
+            for item in data.get("entries", [])
+            if item.get("symbol")
+        ]
     if result.strategy_id == "gfs_live":
         # The actionable set is the queued buys, not the whole watchlist.
         return [
@@ -204,9 +215,19 @@ def _holdings_table(holdings: list) -> None:
         st.caption("No open positions.")
         return
     cols = [
-        "symbol", "company", "quantity", "entry_price", "last_price",
-        "invested", "market_value", "unrealized_pnl", "unrealized_pct",
-        "stop_price", "target_price", "days_held", "conviction",
+        "symbol",
+        "company",
+        "quantity",
+        "entry_price",
+        "last_price",
+        "invested",
+        "market_value",
+        "unrealized_pnl",
+        "unrealized_pct",
+        "stop_price",
+        "target_price",
+        "days_held",
+        "conviction",
     ]
     frame = pd.DataFrame(holdings)
     frame = frame[[c for c in cols if c in frame.columns]]
@@ -218,9 +239,18 @@ def _tradebook_table(tradebook: list) -> None:
         st.caption("No closed trades yet — the tradebook fills as positions exit.")
         return
     cols = [
-        "symbol", "company", "entry_date", "exit_date", "days_held",
-        "quantity", "entry_price", "exit_price", "invested",
-        "realized_pnl", "realized_pct", "exit_reason",
+        "symbol",
+        "company",
+        "entry_date",
+        "exit_date",
+        "days_held",
+        "quantity",
+        "entry_price",
+        "exit_price",
+        "invested",
+        "realized_pnl",
+        "realized_pct",
+        "exit_reason",
     ]
     frame = pd.DataFrame(tradebook)
     frame = frame[[c for c in cols if c in frame.columns]]
@@ -292,15 +322,30 @@ def _render_quarterly_results(data: dict) -> None:
     if not actions:
         st.caption("No buy/sell actions today. Existing positions (if any) are held.")
     else:
-        for label, kind in (("🟢 Buy", "BUY"), ("🔴 Sell", "SELL"), ("⚪ Hold", "HOLD")):
+        for label, kind in (
+            ("🟢 Buy", "BUY"),
+            ("🔴 Sell", "SELL"),
+            ("⚪ Hold", "HOLD"),
+        ):
             rows = [a for a in actions if a.get("action") == kind]
             if not rows:
                 continue
             st.markdown(f"**{label}** ({len(rows)})")
             frame = pd.DataFrame(rows)
-            cols = [c for c in ["symbol", "company", "quantity", "price", "value",
-                                "stop_price", "target_price", "detail"]
-                    if c in frame.columns]
+            cols = [
+                c
+                for c in [
+                    "symbol",
+                    "company",
+                    "quantity",
+                    "price",
+                    "value",
+                    "stop_price",
+                    "target_price",
+                    "detail",
+                ]
+                if c in frame.columns
+            ]
             st.dataframe(frame[cols], use_container_width=True, hide_index=True)
 
     # 3) Filtering funnel — how the day's declarers narrowed to the buys.
@@ -327,8 +372,19 @@ def _render_quarterly_results(data: dict) -> None:
                 frame["outcome"] = frame["status"].map(
                     lambda s: _FUNNEL_STATUS_LABELS.get(s, s)
                 )
-            cols = [c for c in ["symbol", "company", "result_date", "strength",
-                                "stage", "outcome", "reason"] if c in frame.columns]
+            cols = [
+                c
+                for c in [
+                    "symbol",
+                    "company",
+                    "result_date",
+                    "strength",
+                    "stage",
+                    "outcome",
+                    "reason",
+                ]
+                if c in frame.columns
+            ]
             st.dataframe(frame[cols], use_container_width=True, hide_index=True)
 
     # 4) Tradebook (closed trades) + upcoming heads-up.
@@ -432,9 +488,20 @@ def _gfs_tradebook_table(tradebook: list) -> None:
         st.caption("No closed trades yet — the tradebook fills as positions exit.")
         return
     cols = [
-        "symbol", "sector", "entry_date", "exit_date", "holding_days", "quantity",
-        "entry_price", "exit_price", "pnl", "pnl_pct", "r_multiple",
-        "entry_rsi", "exit_rsi", "exit_reason",
+        "symbol",
+        "sector",
+        "entry_date",
+        "exit_date",
+        "holding_days",
+        "quantity",
+        "entry_price",
+        "exit_price",
+        "pnl",
+        "pnl_pct",
+        "r_multiple",
+        "entry_rsi",
+        "exit_rsi",
+        "exit_reason",
     ]
     frame = pd.DataFrame(tradebook)
     frame = frame[[c for c in cols if c in frame.columns]]
@@ -446,6 +513,310 @@ def _gfs_tradebook_table(tradebook: list) -> None:
     stats[2].metric(
         "Total realized P&L", _fmt_inr(sum(t.get("pnl") or 0 for t in tradebook))
     )
+
+
+def render_ath_ledger_snapshot() -> None:
+    """Always-on book view for the ATH sleeve, read straight off its state file."""
+    from backtesting.breakout_ath.daily import ledger_snapshot
+
+    try:
+        snap = ledger_snapshot()
+    except Exception as exc:  # noqa: BLE001 - never let the snapshot break the page
+        st.info(f"No ATH book to show yet ({exc}).")
+        return
+
+    if not snap.get("exists") or not snap.get("as_of"):
+        st.info(
+            "The ATH book has not been created yet. Run the sleeve below — it "
+            "starts flat with the capital you set and records the book from there."
+        )
+        return
+
+    st.markdown("### 📁 ATH sleeve book")
+    st.caption(
+        f"Saved state as of the **{snap['as_of']}** close. Positions are marked at "
+        "the close the last run saw — not a live quote."
+    )
+    stale = snap.get("freshness") or {}
+    if stale.get("stale"):
+        st.warning(
+            f"This book is **{stale.get('weekdays_behind')} weekdays** behind "
+            f"({stale.get('last_session')} vs {stale.get('today')}). Every stop "
+            "below is measured off that old close, so treat the numbers as "
+            "history until you run the sleeve."
+        )
+    _ath_book_metrics(snap.get("book") or {})
+    _ath_pending_entries(snap)
+    st.markdown("#### Holdings")
+    _ath_holdings_table(snap.get("holdings") or [])
+    with st.expander(
+        f"📒 Tradebook — {snap.get('num_closed', 0)} closed trades", expanded=False
+    ):
+        _gfs_tradebook_table(snap.get("tradebook") or [])
+
+
+def _ath_book_metrics(book: dict) -> None:
+    cols = st.columns(6)
+    cols[0].metric("Equity", _fmt_inr(book.get("equity")))
+    cols[1].metric(
+        "Deployed",
+        _fmt_inr(book.get("deployed")),
+        delta=f"{book.get('exposure_pct', 0)}% of book",
+        delta_color="off",
+    )
+    cols[2].metric("Cash", _fmt_inr(book.get("cash")))
+    cols[3].metric(
+        "Open positions",
+        book.get("open_positions", 0),
+        delta=f"{book.get('free_slots', 0)} slots free",
+        delta_color="off",
+    )
+    upnl = book.get("unrealized_pnl") or 0.0
+    cols[4].metric(
+        "Unrealised P&L",
+        _fmt_inr(upnl),
+        delta=f"{book.get('unrealized_pct', 0):+.2f}%",
+    )
+    rpnl = book.get("realized_pnl") or 0.0
+    cols[5].metric("Realized P&L", _fmt_inr(rpnl), delta=round(float(rpnl), 0))
+    if book.get("open_positions"):
+        flat = book.get("flat") or 0
+        tail = f" / {flat} not yet marked" if flat else ""
+        st.caption(
+            f"Open positions cost {_fmt_inr(book.get('invested'))} and are marked at "
+            f"{_fmt_inr(book.get('deployed'))} — "
+            f"**{book.get('winners', 0)} up / {book.get('losers', 0)} down{tail}**. "
+            f"Unrealised + realised = **{_fmt_inr(book.get('total_pnl'))}** total P&L."
+        )
+    total = book.get("total_return_pct")
+    if total is not None:
+        st.caption(
+            f"Since inception ({book.get('opened_on') or '-'}): **{total:+.2f}%** on a "
+            f"{_fmt_inr(book.get('starting_capital'))} starting book · "
+            f"{book.get('closed_trades', 0)} closed trades · "
+            f"{book.get('win_rate_pct', 0)}% win rate · "
+            f"{_fmt_inr(book.get('budget_per_slot'))} per slot."
+        )
+
+
+def _ath_holdings_table(holdings: list) -> None:
+    if not holdings:
+        st.caption("No open positions yet.")
+        return
+    cols = [
+        "symbol",
+        "industry",
+        "quantity",
+        "entry_date",
+        "entry_price",
+        "price",
+        "return_pct",
+        "pnl",
+        "value",
+        "anchor",
+        "stop_level",
+        "headroom_pct",
+    ]
+    frame = pd.DataFrame(holdings)
+    st.dataframe(
+        frame[[c for c in cols if c in frame.columns]],
+        use_container_width=True,
+        hide_index=True,
+    )
+    st.caption(
+        "`anchor` is the highest close since entry and `stop_level` sits below it "
+        "by the configured trail. `headroom_pct` is how far the last close is "
+        "above that stop — the table is sorted so the nearest to exiting is first."
+    )
+
+
+def _ath_pending_entries(snap: dict) -> None:
+    """The confirm-fills step.
+
+    The run only *suggests* entries; nothing is bought until the orders really
+    fill. Committing them here is what keeps the saved book in step with the
+    account, and it is where a different fill price gets recorded.
+    """
+    pending = snap.get("pending_entries") or []
+    if not pending:
+        return
+
+    st.markdown("#### 🎯 Suggested buys awaiting confirmation")
+    st.warning(
+        f"**{len(pending)} suggestion(s)** from the {snap.get('pending_session')} "
+        "close have not been committed to the book. Place the orders, then "
+        "confirm the fills below so the book records them. Until you do, the "
+        "sleeve will keep selling but never show a new holding."
+    )
+    frame = pd.DataFrame(
+        [
+            {
+                "confirm": True,
+                "symbol": e["symbol"],
+                "industry": e.get("industry", "Unknown"),
+                "budget": round(float(e.get("budget") or 0.0), 2),
+                "suggested_price": round(float(e.get("price") or 0.0), 2),
+                "fill_price": round(float(e.get("price") or 0.0), 2),
+            }
+            for e in pending
+        ]
+    )
+    edited = st.data_editor(
+        frame,
+        use_container_width=True,
+        hide_index=True,
+        disabled=["symbol", "industry", "budget", "suggested_price"],
+        key="ath_confirm_fills_editor",
+    )
+    st.caption(
+        "Edit `fill_price` if the order filled away from the suggested close. "
+        "The budget is what was spent either way, so the quantity is re-derived "
+        "rather than the position size silently drifting."
+    )
+    left, right = st.columns(2)
+    if left.button(
+        "Confirm fills and update the book", type="primary", key="ath_confirm_fills"
+    ):
+        _ath_commit_fills(edited, snap)
+    if right.button("Discard these suggestions", key="ath_discard_fills"):
+        from backtesting.breakout_ath.daily import confirm_fills
+
+        confirm_fills([])
+        st.success("Suggestions discarded. The book is unchanged.")
+        st.rerun()
+
+
+def _ath_commit_fills(edited: Any, snap: dict) -> None:
+    from datetime import date as _date
+
+    from backtesting.breakout_ath.daily import confirm_fills
+
+    rows = (
+        edited.to_dict("records") if isinstance(edited, pd.DataFrame) else list(edited)
+    )
+    fills = [
+        {
+            "symbol": r["symbol"],
+            "industry": r.get("industry", "Unknown"),
+            "budget": float(r.get("budget") or 0.0),
+            "fill_price": float(r.get("fill_price") or r.get("suggested_price") or 0.0),
+        }
+        for r in rows
+        if r.get("confirm")
+    ]
+    session = snap.get("pending_session") or snap.get("as_of")
+    try:
+        day = _date.fromisoformat(str(session))
+    except (TypeError, ValueError):
+        day = _date.today()
+    confirm_fills(fills, day=day)
+    st.success(f"Committed {len(fills)} fill(s) to the book.")
+    st.rerun()
+
+
+def _render_ath_daily(data: dict) -> None:
+    fresh = data.get("freshness") or {}
+    if fresh.get("stale"):
+        st.error(
+            f"**Stale price data — do not act on this.** The newest session "
+            f"available is **{fresh.get('last_session')}**, "
+            f"{fresh.get('weekdays_behind')} weekdays behind "
+            f"{fresh.get('today')}. Refresh the bar store and re-run."
+        )
+
+    st.markdown("### 📁 Book after this run")
+    if not data.get("persisted"):
+        st.warning("Nothing was saved — the run was told not to persist the book.")
+    st.caption(f"Marked to the **{data.get('as_of')}** close.")
+    cols = st.columns(6)
+    cols[0].metric("Equity", _fmt_inr(data.get("equity")))
+    cols[1].metric("Deployed", _fmt_inr(data.get("deployed")))
+    cols[2].metric("Cash", _fmt_inr(data.get("cash")))
+    unreal = data.get("unrealized") or {}
+    cols[3].metric(
+        "Unrealised P&L",
+        _fmt_inr(unreal.get("pnl")),
+        delta=f"{unreal.get('pct', 0.0):+.2f}%",
+    )
+    cols[4].metric("Open positions", data.get("open_positions", 0))
+    cols[5].metric("Free slots", data.get("free_slots", 0))
+    if unreal.get("positions"):
+        flat = unreal.get("flat") or 0
+        tail = f" / {flat} not yet marked" if flat else ""
+        st.caption(
+            f"{_fmt_inr(unreal.get('invested'))} invested across "
+            f"{unreal.get('positions')} holdings, marked at "
+            f"{_fmt_inr(unreal.get('market_value'))} — "
+            f"**{unreal.get('winners', 0)} up / {unreal.get('losers', 0)} down{tail}**. "
+            "This is mark-to-market on open positions only; closed trades sit in "
+            "realised P&L on the book panel."
+        )
+
+    exits = data.get("exits") or []
+    st.markdown("### 🔴 Sell")
+    if not exits:
+        st.caption("Nothing to sell — no position has broken its trailing stop.")
+    else:
+        frame = pd.DataFrame(exits)
+        cols_e = [
+            "symbol",
+            "industry",
+            "quantity",
+            "entry_date",
+            "entry_price",
+            "price",
+            "return_pct",
+            "anchor",
+            "stop_level",
+            "proceeds",
+            "reason",
+        ]
+        st.dataframe(
+            frame[[c for c in cols_e if c in frame.columns]],
+            use_container_width=True,
+            hide_index=True,
+        )
+        st.caption(
+            "These are already applied to the saved book — the sleeve exits on "
+            "the close that broke the stop, which is the timing the backtest "
+            "measured."
+        )
+
+    entries = data.get("entries") or []
+    st.markdown("### 🟢 Buy")
+    if not entries:
+        st.caption("Nothing to buy — no fresh breakout, or the book is full.")
+    else:
+        frame = pd.DataFrame(entries)
+        cols_b = [
+            "symbol",
+            "industry",
+            "price",
+            "quantity",
+            "budget",
+            "initial_stop",
+            "momentum",
+            "note",
+        ]
+        st.dataframe(
+            frame[[c for c in cols_b if c in frame.columns]],
+            use_container_width=True,
+            hide_index=True,
+        )
+        st.info(
+            "These are **suggestions, not fills.** They are parked on the book — "
+            "place the orders, then confirm them in the book panel above so the "
+            "sleeve records the positions."
+        )
+
+    holds = data.get("holds") or []
+    if holds:
+        tight = [h for h in holds if h.get("headroom_pct", 1) < 0.05]
+        if tight:
+            st.markdown("### ⚠️ Close to their stops")
+            st.dataframe(pd.DataFrame(tight), use_container_width=True, hide_index=True)
+        with st.expander(f"📊 All {len(holds)} holdings", expanded=False):
+            st.dataframe(pd.DataFrame(holds), use_container_width=True, hide_index=True)
 
 
 def render_gfs_ledger_snapshot() -> None:
@@ -512,8 +883,17 @@ def _gfs_orders_tables(orders: list) -> None:
         (
             "🟢 Buy",
             "BUY",
-            ["symbol", "sector", "quantity", "reference_price", "stop_price",
-             "rsi_m", "rsi_w", "rsi_d", "resistance"],
+            [
+                "symbol",
+                "sector",
+                "quantity",
+                "reference_price",
+                "stop_price",
+                "rsi_m",
+                "rsi_w",
+                "rsi_d",
+                "resistance",
+            ],
         ),
         (
             "🔴 Sell",
@@ -642,8 +1022,16 @@ def _render_gfs_live(data: dict) -> None:
                     lambda s: _GFS_STATUS_LABELS.get(s, s)
                 )
             cols = [
-                "symbol", "sector", "sector_rank", "close", "rsi_m", "rsi_w", "rsi_d",
-                "headroom_pct", "resistance", "outcome",
+                "symbol",
+                "sector",
+                "sector_rank",
+                "close",
+                "rsi_m",
+                "rsi_w",
+                "rsi_d",
+                "headroom_pct",
+                "resistance",
+                "outcome",
             ]
             st.dataframe(
                 frame[[c for c in cols if c in frame.columns]],
@@ -692,7 +1080,9 @@ def _render_gfs_live(data: dict) -> None:
         )
         st.plotly_chart(fig, use_container_width=True)
 
-    with st.expander(f"📒 Tradebook — {len(data.get('tradebook') or [])} closed trades"):
+    with st.expander(
+        f"📒 Tradebook — {len(data.get('tradebook') or [])} closed trades"
+    ):
         _gfs_tradebook_table(data.get("tradebook") or [])
 
     # 8) Diagnostics and the exact configuration that produced all of the above.

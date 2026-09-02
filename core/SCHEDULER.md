@@ -36,11 +36,19 @@ table is empty, so it never overwrites your changes.
 | Job | When | Why this time |
 |-----|------|---------------|
 | `gfs_live` | 17:30 IST, Mon-Fri | NSE closes at 15:30 and the bar store needs the exchange to publish today's candle (~16:00). 17:30 leaves headroom, and the engine's orders are for tomorrow's open anyway. |
+| `breakout_ath_daily` | 18:30 IST, Mon-Fri | The sleeve decides on the daily close — entries fire on a close above the 252-day high and the trailing stop is checked against the close — so there is exactly one decision point per session and running more often cannot change the answer. An hour behind `gfs_live` so the two do not pull prices at once. |
 | `qtr_results` | 19:30 IST, every day | Indian boards approve results after the close and filings keep landing all evening. 19:30 catches the day's batch, and running all seven days picks up the Saturday board meetings banks and NBFCs favour. Exit management still uses the last available close. |
 | `qtr_results` (pre-open) | 08:15 IST, Mon-Fri, **disabled** | Optional second pass for filings that land late at night, so the action list is current when you open the app at 09:15. Off by default because the evening run usually already has them. |
 
 Both strategies are *post-close* jobs: their output is meant to be read before
 the **next** open, which is why none of them run during market hours.
+
+**Why nothing runs intraday.** Every strategy here is close-based. Firing a
+close-triggered rule against a price that is not yet the close would act on a
+level the stock may not hold, and the ATH sleeve's stop in particular is a
+*closing* stop — reacting to an intraday breach would exit on noise the
+backtest never exited on and quietly break the validated edge. The cost of
+waiting is one overnight gap between the signal and the fill.
 
 ## CLI
 
@@ -109,6 +117,24 @@ It is regenerated on every install and safe to delete. It exists because:
 `ONLOGON` and the Startup folder both mean **logon**, not boot. A machine that
 is powered on at the lock screen with nobody logged in is not running the
 scheduler. A true boot-time Windows service would fix that and needs admin.
+
+## Which code the daemon runs
+
+`install-task` bakes the repo path it was installed from into the generated
+launcher, and the daemon `chdir`s there. The schedules table, however, lives in
+the shared app database that every checkout of the repo opens.
+
+So a schedule created from a feature-branch worktree is visible to the daemon
+immediately, but the daemon will run **main's** code and fail with
+`Unknown strategy '<id>'` until the branch is merged. That is the desired
+behaviour — an unmerged strategy should never trade — but it means:
+
+- **merging to main is the deploy step** for a new scheduled strategy;
+- create the schedule **disabled** if you add it before the merge, otherwise it
+  fails once a day until then.
+
+Re-point the daemon at a different checkout by re-running `install-task` from
+there.
 
 ## Timing semantics
 

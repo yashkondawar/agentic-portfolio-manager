@@ -18,6 +18,36 @@ from datetime import date
 from typing import Callable, Dict, List, Optional
 
 
+@dataclass(frozen=True)
+class CostModel:
+    """Realistic Indian equity **delivery** (CNC) transaction costs.
+
+    All ``*_pct`` values are a percentage of the traded notional. ``slippage_bps``
+    models spread + market impact and is applied per side in basis points. STT and
+    the exchange/SEBI/GST stack apply on both buy and sell; stamp duty is buy-only.
+    """
+
+    brokerage_pct: float = 0.0  # discount brokers: free delivery
+    stt_pct: float = 0.1  # securities transaction tax, per side
+    exchange_txn_pct: float = 0.00297  # NSE transaction charge
+    sebi_pct: float = 0.0001  # SEBI turnover fee (₹10 / crore)
+    gst_pct: float = 18.0  # GST on brokerage + exchange + SEBI
+    stamp_duty_pct: float = 0.015  # buy side only
+    slippage_bps: float = 5.0  # spread + impact, per side
+
+    def charge(self, notional: float, side: str = "buy") -> float:
+        if notional <= 0:
+            return 0.0
+        brokerage = notional * self.brokerage_pct / 100.0
+        stt = notional * self.stt_pct / 100.0
+        exchange = notional * self.exchange_txn_pct / 100.0
+        sebi = notional * self.sebi_pct / 100.0
+        gst = (brokerage + exchange + sebi) * self.gst_pct / 100.0
+        stamp = notional * self.stamp_duty_pct / 100.0 if side == "buy" else 0.0
+        slippage = notional * self.slippage_bps / 1e4
+        return brokerage + stt + exchange + sebi + gst + stamp + slippage
+
+
 @dataclass
 class Position:
     symbol: str
@@ -30,7 +60,13 @@ class Position:
     atr_at_entry: float
     setup: str = "Momentum"
     partial_booked: bool = False
-    highest_close: float = 0.0     # for trailing-stop logic
+    highest_close: float = 0.0  # for trailing-stop logic
+    breakout_level: float = 0.0
+    breakout_signal_date: Optional[date] = None
+    highest_high: float = 0.0
+    below_breakout_closes: int = 0
+    bars_held: int = 0
+    trailing_active: bool = False
 
     @property
     def invested(self) -> float:
@@ -64,22 +100,25 @@ class ClosedTrade:
 class Portfolio:
     cash: float
     commission_pct: float = 0.05
+    cost_model: Optional[CostModel] = None
     positions: Dict[str, Position] = field(default_factory=dict)
     closed: List[ClosedTrade] = field(default_factory=list)
     equity_curve: List[dict] = field(default_factory=list)
 
     # ── Costs ─────────────────────────────────────────────────────────────────
-    def _cost(self, notional: float) -> float:
+    def _cost(self, notional: float, side: str = "buy") -> float:
+        if self.cost_model is not None:
+            return self.cost_model.charge(notional, side)
         return notional * self.commission_pct / 100.0
 
     # ── Open / add ────────────────────────────────────────────────────────────
     def can_afford(self, price: float, quantity: float) -> bool:
         notional = price * quantity
-        return notional + self._cost(notional) <= self.cash + 1e-6
+        return notional + self._cost(notional, "buy") <= self.cash + 1e-6
 
     def open_position(self, pos: Position) -> bool:
         notional = pos.entry_price * pos.quantity
-        cost = self._cost(notional)
+        cost = self._cost(notional, "buy")
         if notional + cost > self.cash + 1e-6:
             return False
         self.cash -= notional + cost
@@ -104,9 +143,10 @@ class Portfolio:
         if qty <= 0:
             return None
         notional = exit_price * qty
-        cost = self._cost(notional)
+        cost = self._cost(notional, "sell")
         self.cash += notional - cost
-        pnl = (exit_price - pos.entry_price) * qty - cost
+        entry_cost = self._cost(pos.entry_price * qty, "buy")
+        pnl = (exit_price - pos.entry_price) * qty - entry_cost - cost
         trade = ClosedTrade(
             symbol=symbol,
             quantity=qty,
@@ -141,7 +181,9 @@ class Portfolio:
     def total_equity(self, price_lookup: Callable[[str], Optional[float]]) -> float:
         return self.cash + self.deployed_value(price_lookup)
 
-    def record_equity(self, day: date, price_lookup: Callable[[str], Optional[float]]) -> dict:
+    def record_equity(
+        self, day: date, price_lookup: Callable[[str], Optional[float]]
+    ) -> dict:
         deployed = self.deployed_value(price_lookup)
         equity = self.cash + deployed
         snap = {

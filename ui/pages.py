@@ -24,6 +24,7 @@ from ui.components import (
     latest_result,
     latest_run_record,
     page_header,
+    render_ath_ledger_snapshot,
     render_gfs_ledger_snapshot,
     render_qtr_ledger_snapshot,
     render_result,
@@ -120,10 +121,15 @@ def discover_page() -> None:
     page_header(
         "Discover Ideas",
         "Screen broad universes, monitor fresh quarterly-result catalysts, and "
-        "track the GFS multi-timeframe book.",
+        "track the GFS and ATH breakout books.",
     )
-    watchlist_tab, results_tab, gfs_tab = st.tabs(
-        ["Watchlist builder", "Quarterly results", "GFS multi-timeframe"]
+    watchlist_tab, results_tab, gfs_tab, ath_tab = st.tabs(
+        [
+            "Watchlist builder",
+            "Quarterly results",
+            "GFS multi-timeframe",
+            "ATH breakout",
+        ]
     )
     with watchlist_tab:
         _registry_runner("watchlist_curation", "discover_watchlist")
@@ -144,6 +150,18 @@ def discover_page() -> None:
         st.divider()
         _registry_runner("gfs_live", "discover_gfs")
         _basket_action(latest_result("gfs_live"), "gfs")
+    with ath_tab:
+        st.caption(
+            "A trail-only momentum sleeve: buy stocks closing at a 52-week high "
+            "while still within 15% of their lifetime high, and hold until the "
+            "close falls 16% below the peak close since entry. Run it **after "
+            "the close**. Exits apply to the book straight away; buys are "
+            "suggestions you confirm once the orders actually fill."
+        )
+        render_ath_ledger_snapshot()
+        st.divider()
+        _registry_runner("breakout_ath_daily", "discover_ath")
+        _basket_action(latest_result("breakout_ath_daily"), "ath")
 
 
 def research_page() -> None:
@@ -188,6 +206,10 @@ def swing_page() -> None:
     page_header(
         "Swing Desk",
         "Review open trades, evaluate the shared watchlist, and rotate capital.",
+    )
+    st.caption(
+        "The ATH breakout sleeve moved to **Discover → ATH breakout**, where it "
+        "keeps its own book."
     )
     source = st.radio(
         "Position source",
@@ -288,12 +310,17 @@ def portfolio_page() -> None:
 def backtest_page() -> None:
     page_header(
         "Backtest Lab",
-        "Validate the swing playbook with point-in-time data and next-session fills.",
+        "Validate deterministic trading systems with point-in-time data and next-session fills.",
     )
     st.warning(
         "Historical results include modeled costs but do not guarantee future returns."
     )
-    _registry_runner("swing_backtest", "backtest")
+    strategy_id = st.selectbox(
+        "Strategy",
+        ["swing_backtest", "breakout_ath_backtest"],
+        format_func=lambda item: registry.get_strategy(item).name,
+    )
+    _registry_runner(strategy_id, f"backtest_{strategy_id}")
 
 
 def broker_page() -> None:
@@ -648,26 +675,40 @@ def _kronos_chart(fc) -> go.Figure:
 
     # Outer cone p10–p90 (light) then inner p25–p75 (darker) as stacked fills.
     figure.add_trace(
-        go.Scatter(x=x_fc, y=_series("p90"), name="p90", line={"width": 0}, showlegend=False)
-    )
-    figure.add_trace(
         go.Scatter(
-            x=x_fc, y=_series("p10"), name="p10–p90", fill="tonexty",
-            fillcolor="rgba(79,124,255,0.12)", line={"width": 0},
-        )
-    )
-    figure.add_trace(
-        go.Scatter(x=x_fc, y=_series("p75"), name="p75", line={"width": 0}, showlegend=False)
-    )
-    figure.add_trace(
-        go.Scatter(
-            x=x_fc, y=_series("p25"), name="p25–p75", fill="tonexty",
-            fillcolor="rgba(79,124,255,0.25)", line={"width": 0},
+            x=x_fc, y=_series("p90"), name="p90", line={"width": 0}, showlegend=False
         )
     )
     figure.add_trace(
         go.Scatter(
-            x=x_fc, y=_series("p50"), name="Median forecast",
+            x=x_fc,
+            y=_series("p10"),
+            name="p10–p90",
+            fill="tonexty",
+            fillcolor="rgba(79,124,255,0.12)",
+            line={"width": 0},
+        )
+    )
+    figure.add_trace(
+        go.Scatter(
+            x=x_fc, y=_series("p75"), name="p75", line={"width": 0}, showlegend=False
+        )
+    )
+    figure.add_trace(
+        go.Scatter(
+            x=x_fc,
+            y=_series("p25"),
+            name="p25–p75",
+            fill="tonexty",
+            fillcolor="rgba(79,124,255,0.25)",
+            line={"width": 0},
+        )
+    )
+    figure.add_trace(
+        go.Scatter(
+            x=x_fc,
+            y=_series("p50"),
+            name="Median forecast",
             line={"color": "#f5a623", "width": 2, "dash": "dot"},
             mode="lines+markers",
         )
@@ -729,9 +770,13 @@ def kronos_page() -> None:
     with st.expander("Model settings", expanded=False):
         cols = st.columns(3)
         pred_len = cols[0].slider("Forecast horizon (days)", 3, 30, 10)
-        sample_paths = cols[1].slider("Sample paths", 5, 40, 20, help="More paths = smoother cone, slower on CPU.")
+        sample_paths = cols[1].slider(
+            "Sample paths", 5, 40, 20, help="More paths = smoother cone, slower on CPU."
+        )
         history_bars = cols[2].slider("History window (bars)", 60, 400, 250)
-        st.caption("Model: **Kronos-base** (102M) on CPU. First run downloads weights (~100MB).")
+        st.caption(
+            "Model: **Kronos-base** (102M) on CPU. First run downloads weights (~100MB)."
+        )
 
     if st.button("Run forecast", type="primary"):
         tickers = _parse_tickers(raw)
@@ -747,11 +792,15 @@ def kronos_page() -> None:
             with st.status(
                 f"Forecasting {len(tickers)} ticker(s) with Kronos-base…", expanded=True
             ) as status:
-                st.write("Loading model + fetching price history (first run is slower)…")
+                st.write(
+                    "Loading model + fetching price history (first run is slower)…"
+                )
                 results = forecast_many_for_chart(
                     tickers, config=cfg, history_bars=history_bars
                 )
-                status.update(label="Forecast complete", state="complete", expanded=False)
+                status.update(
+                    label="Forecast complete", state="complete", expanded=False
+                )
             st.session_state["kronos_results"] = results
         except KronosUnavailable as exc:
             st.session_state.pop("kronos_results", None)
@@ -822,7 +871,11 @@ def _scheduler_health() -> None:
 
 def _health_verdict(age: float | None, poll: int) -> tuple[str, str, bool]:
     if age is None:
-        return "Not running", "The scheduler has never checked in on this machine.", False
+        return (
+            "Not running",
+            "The scheduler has never checked in on this machine.",
+            False,
+        )
     if age <= max(120, poll * 4):
         return "Running", f"Last check-in {int(age)}s ago.", True
     return (

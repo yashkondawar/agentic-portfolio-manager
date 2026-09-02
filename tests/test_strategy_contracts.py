@@ -54,4 +54,6 @@ def test_registry_exposes_every_workbench_strategy():
         "qtr_results",
         "gfs_live",
         "swing_backtest",
+        "breakout_ath_backtest",
+        "breakout_ath_daily",
     }

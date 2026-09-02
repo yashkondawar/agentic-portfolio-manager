@@ -216,6 +216,8 @@ backtesting/swing_trading/results/
 backtesting/qtr_results/data_cache/
 backtesting/qtr_results/fundamentals_cache/
 backtesting/qtr_results/results/
+backtesting/breakout_ath/data_cache/
+backtesting/breakout_ath/results/
 
 # Generated dossier workbooks (regenerate with backtesting.gfs.run_dossier)
 reports/
