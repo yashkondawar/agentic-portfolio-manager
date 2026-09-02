@@ -233,8 +233,9 @@ why.
 **Stale-data banner** — if it appears, read nothing else until you have fixed it.
 See §5a.
 
-**Book** — equity, cash, deployed and exposure. Exposure of 40–60% is normal; see
-§7.
+**Book** — equity, cash, deployed and exposure, plus realised P&L from the
+tradebook and unrealised P&L on the open positions (marked at the last close the
+run saw). Exposure of 40–60% is normal; see §7.
 
 **Market regime banner** — green means new entries are allowed; red means the
 breadth gate is shut and nothing new will be bought today. Open positions are
@@ -253,8 +254,8 @@ still managed either way.
 you last ran it. This is the reconciliation view: it is what the model believes
 your account did.
 
-**Holdings** — entry and current price, unrealised %, the current (ratcheted)
-stop, days held, and the live G/F/S RSI triplet.
+**Holdings** — entry and current price, unrealised P&L in ₹ and %, the current
+(ratcheted) stop, days held, and the live G/F/S RSI triplet.
 
 **Top-down funnel** — universe → names with enough history → names meeting the
 GFS condition → regime open → strong sector → queued. When you get no signals,

@@ -861,6 +861,65 @@ clearly necessary; the question was only which leg.
 
 ---
 
+## 16. The after-tax number
+
+Every figure in the chapters above is quoted **before capital-gains tax**. That
+was fine for comparing rules against each other, but it is not what lands in the
+account. Building the results dossier (`run_dossier.py`, see
+[DOSSIER.md](DOSSIER.md)) forced the question.
+
+Tax is charged the way it is actually levied: assessed per Indian financial year,
+with short-term losses set off against gains and the remainder carried forward,
+and **debited from cash each April**. That last part is the bit that cannot be
+approximated by subtracting a percentage at the end - tax paid in year three is
+capital that never compounds in year four.
+
+Full NIFTY 500, 2016-01-04 → 2026-08-31, ₹1 crore, 485 names:
+
+| | CAGR | Max DD | Sharpe | Final value |
+|---|---|---|---|---|
+| Before cost & tax | 26.97% | −24.5% | 1.37 | ₹12.73 cr |
+| Before tax | 26.09% | −23.4% | 1.32 | ₹11.82 cr |
+| **Net of cost + tax** | **22.96%** | **−26.3%** | **1.18** | **₹9.05 cr** |
+| NIFTY 50 | 11.17% | −38.4% | 0.75 | ₹3.09 cr |
+
+**Frictions cost 4.01% a year**, of which brokerage and slippage are only ₹16.9
+lakh against ₹1.24 crore of tax. The edge survives comfortably, but any GFS
+number quoted above this chapter is overstating the outcome by roughly four
+points of CAGR.
+
+### Why GFS is taxed badly
+
+**Long-term gains are zero in every single financial year.** Average holding is
+62 days; nothing has ever crossed the 365-day line. GFS is taxed entirely at the
+short-term rate (20% post-July-2024, 15% before), and gets no benefit from the
+₹1.25 lakh long-term exemption. This is structural to a mean-reversion strategy
+with an RSI-70 exit, not a data artefact — and it is the single largest argument
+for pairing GFS with a long-horizon strategy rather than running it alone.
+
+### Two findings worth keeping
+
+**Rolling five-year windows never lose to the index.** Across 68 overlapping
+5-year windows, the net-of-tax portfolio beat the NIFTY 50 in *all 68*. Its worst
+window still returned +17.0% CAGR; the index's worst was +8.5%. Given how much of
+chapters 8-15 was spent worrying about sub-period fragility, this is the most
+reassuring single statistic in the file.
+
+**Beta of 0.45 is not defensiveness.** It is an artefact of sitting in cash 36%
+of the time. Do not read it as a low-volatility characteristic of the holdings.
+
+### A bug this chapter exists to record
+
+The closing financial year's tax bill falls due the *following* April — after the
+backtest ends. The first implementation therefore reported the last year's gains
+in the ledger but never deducted them from equity. That silently inflated final
+value by **36% of the entire tax bill**. The engine now forces a settlement on
+the final session. It is exactly the class of error that only appears in a branch
+that never runs during normal use, and `tests/test_gfs_dossier.py` now asserts
+tax paid equals tax assessed.
+
+---
+
 ## Scoreboard
 
 ### Adopted

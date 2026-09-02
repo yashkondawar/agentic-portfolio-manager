@@ -219,6 +219,9 @@ backtesting/qtr_results/results/
 backtesting/breakout_ath/data_cache/
 backtesting/breakout_ath/results/
 
+# Generated dossier workbooks (regenerate with backtesting.gfs.run_dossier)
+reports/
+
 # Quarterly-results strategy persistent state (ledger + long-term memory)
 qtr_results/state/
 

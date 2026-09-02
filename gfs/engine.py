@@ -285,6 +285,9 @@ def _build_payload(
             "open_positions": len(holdings),
             "closed_trades": len(book.closed),
             "realized_pnl": round(sum(t.pnl for t in book.closed), 2),
+            "unrealized_pnl": round(
+                sum(h["unrealized_pnl"] for h in holdings), 2
+            ),
             "total_return_pct": _round(
                 (equity / book.starting_capital - 1.0) * 100.0
                 if book.starting_capital > 0
@@ -438,7 +441,9 @@ def _holdings(
                 "entry_date": pos.entry_date.isoformat(),
                 "entry_price": round(pos.entry_price, 2),
                 "last_price": _round(mark),
+                "invested": round(pos.quantity * pos.entry_price, 2),
                 "value": round(pos.quantity * mark, 2),
+                "unrealized_pnl": round(pos.quantity * (mark - pos.entry_price), 2),
                 "unrealized_pct": _round((mark / pos.entry_price - 1.0) * 100.0),
                 "stop_price": round(pos.stop_loss, 2),
                 "stop_distance_pct": _round((mark / pos.stop_loss - 1.0) * 100.0)
@@ -797,7 +802,9 @@ def ledger_snapshot() -> Dict[str, Any]:
                 "entry_date": pos.entry_date.isoformat(),
                 "entry_price": round(pos.entry_price, 2),
                 "last_price": round(mark, 2),
+                "invested": round(pos.quantity * pos.entry_price, 2),
                 "value": round(value, 2),
+                "unrealized_pnl": round(pos.quantity * (mark - pos.entry_price), 2),
                 "unrealized_pct": round((mark / pos.entry_price - 1.0) * 100.0, 2),
                 "stop_price": round(pos.stop_loss, 2),
                 "stop_distance_pct": round((mark / pos.stop_loss - 1.0) * 100.0, 2)
@@ -840,6 +847,9 @@ def ledger_snapshot() -> Dict[str, Any]:
             "open_positions": len(holdings),
             "closed_trades": len(book.closed),
             "realized_pnl": round(sum(t.pnl for t in book.closed), 2),
+            "unrealized_pnl": round(
+                sum(h["unrealized_pnl"] for h in holdings), 2
+            ),
             "total_return_pct": round(
                 (equity / book.starting_capital - 1.0) * 100.0, 2
             )
@@ -911,6 +921,10 @@ def render_report(data: Dict[str, Any]) -> str:
         f" Open {b.get('open_positions')}  |  closed trades {b.get('closed_trades')}"
         f"  |  realised {b.get('realized_pnl')}"
     )
+    upnl = b.get("unrealized_pnl")
+    if upnl is None:
+        upnl = sum(h.get("unrealized_pnl") or 0.0 for h in (data.get("holdings") or []))
+    lines.append(f" Unrealised P&L on open positions: {float(upnl):+,.2f}")
     total = b.get("total_return_pct")
     if total is not None:
         lines.append(f" Total return since inception: {total:+.2f}%")

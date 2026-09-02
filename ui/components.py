@@ -414,8 +414,26 @@ _GFS_STATUS_LABELS = {
 }
 
 
-def _gfs_book_metrics(book: dict) -> None:
-    cols = st.columns(5)
+def _gfs_unrealized(book: dict, holdings: list) -> float:
+    """Book-level unrealised P&L, derived from the holdings when the payload
+    predates the field — a run recorded before it existed must not read ₹0."""
+    value = book.get("unrealized_pnl")
+    if value is not None:
+        return float(value)
+    total = 0.0
+    for row in holdings or []:
+        pnl = row.get("unrealized_pnl")
+        if pnl is None:
+            entry, last = row.get("entry_price"), row.get("last_price")
+            if entry is None or last is None:
+                continue
+            pnl = (float(last) - float(entry)) * float(row.get("quantity") or 0)
+        total += float(pnl)
+    return round(total, 2)
+
+
+def _gfs_book_metrics(book: dict, holdings: list | None = None) -> None:
+    cols = st.columns(6)
     cols[0].metric("Equity", _fmt_inr(book.get("equity")))
     cols[1].metric(
         "Deployed",
@@ -425,8 +443,10 @@ def _gfs_book_metrics(book: dict) -> None:
     )
     cols[2].metric("Cash", _fmt_inr(book.get("cash")))
     cols[3].metric("Open positions", book.get("open_positions", 0))
+    upnl = _gfs_unrealized(book, holdings or [])
+    cols[4].metric("Unrealized P&L", _fmt_inr(upnl), delta=round(upnl, 0))
     rpnl = book.get("realized_pnl") or 0.0
-    cols[4].metric("Realized P&L", _fmt_inr(rpnl), delta=round(float(rpnl), 0))
+    cols[5].metric("Realized P&L", _fmt_inr(rpnl), delta=round(float(rpnl), 0))
     total = book.get("total_return_pct")
     if total is not None:
         st.caption(
@@ -441,21 +461,9 @@ def _gfs_holdings_table(holdings: list, shadow: dict | None = None) -> None:
         st.caption("No open positions. The regime or the sector gate may be shut.")
         return
     cols = [
-        "symbol",
-        "sector",
-        "quantity",
-        "entry_date",
-        "entry_price",
-        "last_price",
-        "unrealized_pct",
-        "value",
-        "stop_price",
-        "target_price",
-        "days_held",
-        "rsi_d",
-        "rsi_w",
-        "rsi_m",
-        "shadow_exit",
+        "symbol", "sector", "quantity", "entry_date", "entry_price", "last_price",
+        "unrealized_pnl", "unrealized_pct", "value", "stop_price", "target_price",
+        "days_held", "rsi_d", "rsi_w", "rsi_m", "shadow_exit",
     ]
     frame = pd.DataFrame(holdings)
     frame = frame[[c for c in cols if c in frame.columns]]
@@ -842,7 +850,7 @@ def render_gfs_ledger_snapshot() -> None:
             "stops and the shadow exit are all computed off that old close, so "
             "treat them as history until you run the strategy."
         )
-    _gfs_book_metrics(snap.get("book") or {})
+    _gfs_book_metrics(snap.get("book") or {}, snap.get("holdings") or [])
     pending_orders = snap.get("orders") or []
     if pending_orders:
         st.markdown("#### 🎯 Orders waiting for the next open")
@@ -941,7 +949,7 @@ def _render_gfs_live(data: dict) -> None:
             f"Marked to the **{as_of}** close · {replayed} session(s) replayed since "
             "the last run."
         )
-    _gfs_book_metrics(data.get("book") or {})
+    _gfs_book_metrics(data.get("book") or {}, data.get("holdings") or [])
 
     # 2) The regime banner — the single gate that decides whether GFS trades.
     diag = data.get("diagnostics") or {}
