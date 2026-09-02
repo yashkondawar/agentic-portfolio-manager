@@ -548,7 +548,7 @@ def render_ath_ledger_snapshot() -> None:
 
 
 def _ath_book_metrics(book: dict) -> None:
-    cols = st.columns(5)
+    cols = st.columns(6)
     cols[0].metric("Equity", _fmt_inr(book.get("equity")))
     cols[1].metric(
         "Deployed",
@@ -563,8 +563,23 @@ def _ath_book_metrics(book: dict) -> None:
         delta=f"{book.get('free_slots', 0)} slots free",
         delta_color="off",
     )
+    upnl = book.get("unrealized_pnl") or 0.0
+    cols[4].metric(
+        "Unrealised P&L",
+        _fmt_inr(upnl),
+        delta=f"{book.get('unrealized_pct', 0):+.2f}%",
+    )
     rpnl = book.get("realized_pnl") or 0.0
-    cols[4].metric("Realized P&L", _fmt_inr(rpnl), delta=round(float(rpnl), 0))
+    cols[5].metric("Realized P&L", _fmt_inr(rpnl), delta=round(float(rpnl), 0))
+    if book.get("open_positions"):
+        flat = book.get("flat") or 0
+        tail = f" / {flat} not yet marked" if flat else ""
+        st.caption(
+            f"Open positions cost {_fmt_inr(book.get('invested'))} and are marked at "
+            f"{_fmt_inr(book.get('deployed'))} — "
+            f"**{book.get('winners', 0)} up / {book.get('losers', 0)} down{tail}**. "
+            f"Unrealised + realised = **{_fmt_inr(book.get('total_pnl'))}** total P&L."
+        )
     total = book.get("total_return_pct")
     if total is not None:
         st.caption(
@@ -588,6 +603,7 @@ def _ath_holdings_table(holdings: list) -> None:
         "entry_price",
         "price",
         "return_pct",
+        "pnl",
         "value",
         "anchor",
         "stop_level",
@@ -704,12 +720,29 @@ def _render_ath_daily(data: dict) -> None:
     if not data.get("persisted"):
         st.warning("Nothing was saved — the run was told not to persist the book.")
     st.caption(f"Marked to the **{data.get('as_of')}** close.")
-    cols = st.columns(5)
+    cols = st.columns(6)
     cols[0].metric("Equity", _fmt_inr(data.get("equity")))
     cols[1].metric("Deployed", _fmt_inr(data.get("deployed")))
     cols[2].metric("Cash", _fmt_inr(data.get("cash")))
-    cols[3].metric("Open positions", data.get("open_positions", 0))
-    cols[4].metric("Free slots", data.get("free_slots", 0))
+    unreal = data.get("unrealized") or {}
+    cols[3].metric(
+        "Unrealised P&L",
+        _fmt_inr(unreal.get("pnl")),
+        delta=f"{unreal.get('pct', 0.0):+.2f}%",
+    )
+    cols[4].metric("Open positions", data.get("open_positions", 0))
+    cols[5].metric("Free slots", data.get("free_slots", 0))
+    if unreal.get("positions"):
+        flat = unreal.get("flat") or 0
+        tail = f" / {flat} not yet marked" if flat else ""
+        st.caption(
+            f"{_fmt_inr(unreal.get('invested'))} invested across "
+            f"{unreal.get('positions')} holdings, marked at "
+            f"{_fmt_inr(unreal.get('market_value'))} — "
+            f"**{unreal.get('winners', 0)} up / {unreal.get('losers', 0)} down{tail}**. "
+            "This is mark-to-market on open positions only; closed trades sit in "
+            "realised P&L on the book panel."
+        )
 
     exits = data.get("exits") or []
     st.markdown("### 🔴 Sell")

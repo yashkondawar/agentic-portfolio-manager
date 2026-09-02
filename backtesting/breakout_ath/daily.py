@@ -194,6 +194,9 @@ def run_daily(
         "equity": equity,
         "cash": state["cash"],
         "deployed": deployed,
+        "unrealized": _unrealized(
+            state["positions"], lambda p: marks.get(p["symbol"], 0.0)
+        ),
         "open_positions": len(state["positions"]),
         "free_slots": max(0, cfg.max_positions - len(state["positions"])),
         "budget_per_slot": state["budget"],
@@ -219,6 +222,41 @@ def _mark(prices: pd.Series, position: dict) -> float:
     if price is None or pd.isna(price) or float(price) <= 0.0:
         return float(position.get("entry_price") or 0.0)
     return float(price)
+
+
+def _unrealized(positions: List[dict], mark_of: Any) -> Dict[str, Any]:
+    """Open-position P&L: what the holdings are worth now versus what they cost.
+
+    Cost basis is quantity x entry price, so this is purely the mark-to-market
+    move on the shares still held — realised P&L from closed trades is tracked
+    separately and the two must not be mixed.
+    """
+    invested = 0.0
+    value = 0.0
+    winners = 0
+    losers = 0
+    for pos in positions:
+        price = float(mark_of(pos))
+        invested += pos["quantity"] * pos["entry_price"]
+        value += pos["quantity"] * price
+        # Counted separately rather than "not a winner": a position confirmed
+        # today has no mark yet and sits exactly at its entry, and calling that
+        # a loser overstates how much of the book is under water.
+        if price > pos["entry_price"]:
+            winners += 1
+        elif price < pos["entry_price"]:
+            losers += 1
+    pnl = value - invested
+    return {
+        "invested": invested,
+        "market_value": value,
+        "pnl": pnl,
+        "pct": (pnl / invested * 100.0) if invested else 0.0,
+        "winners": winners,
+        "losers": losers,
+        "flat": len(positions) - winners - losers,
+        "positions": len(positions),
+    }
 
 
 def _exit_actions(
@@ -389,6 +427,7 @@ def _hold_actions(cfg: AthBreakoutConfig, state: dict, live: pd.Series) -> List[
                 "return_pct": (
                     price / pos["entry_price"] - 1.0 if pos["entry_price"] else 0.0
                 ),
+                "pnl": pos["quantity"] * (price - pos["entry_price"]),
                 "entry_date": pos["entry_date"],
             }
         )
@@ -502,6 +541,8 @@ def ledger_snapshot(
                 "entry_price": pos["entry_price"],
                 "price": price,
                 "value": pos["quantity"] * price,
+                "cost_basis": pos["quantity"] * pos["entry_price"],
+                "pnl": pos["quantity"] * (price - pos["entry_price"]),
                 "anchor": pos["anchor"],
                 "stop_level": stop,
                 "headroom_pct": (price / stop - 1.0) * 100.0 if stop else 0.0,
@@ -513,6 +554,11 @@ def ledger_snapshot(
             }
         )
     holdings.sort(key=lambda r: r["headroom_pct"])
+
+    unrealized = _unrealized(
+        state["positions"],
+        lambda p: float(marks.get(p["symbol"]) or p["entry_price"]),
+    )
 
     closed = state.get("closed") or []
     realized = sum(float(t.get("pnl") or 0.0) for t in closed)
@@ -532,6 +578,13 @@ def ledger_snapshot(
             "free_slots": max(0, cfg.max_positions - len(state["positions"])),
             "budget_per_slot": state.get("budget"),
             "realized_pnl": realized,
+            "unrealized_pnl": unrealized["pnl"],
+            "unrealized_pct": round(unrealized["pct"], 2),
+            "invested": unrealized["invested"],
+            "winners": unrealized["winners"],
+            "losers": unrealized["losers"],
+            "flat": unrealized["flat"],
+            "total_pnl": realized + unrealized["pnl"],
             "closed_trades": len(closed),
             "win_rate_pct": (
                 round(len(wins) / len(closed) * 100.0, 1) if closed else 0.0
@@ -586,6 +639,15 @@ def render_report(data: dict) -> str:
         f"  equity {data['equity']:,.0f} | cash {data['cash']:,.0f} "
         f"| {data['open_positions']} open | {data['free_slots']} slots free",
     ]
+    unreal = data.get("unrealized") or {}
+    if unreal.get("positions"):
+        flat = unreal.get("flat") or 0
+        tail = f" / {flat} not yet marked" if flat else ""
+        lines.append(
+            f"  unrealised P&L {unreal['pnl']:+,.0f} ({unreal['pct']:+.2f}%) "
+            f"on {unreal['invested']:,.0f} invested "
+            f"| {unreal['winners']} up / {unreal['losers']} down{tail}"
+        )
     if data["exits"]:
         lines.append(f"  SELL ({len(data['exits'])}):")
         for e in data["exits"]:

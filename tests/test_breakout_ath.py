@@ -17,12 +17,14 @@ from backtesting.breakout_ath.config import AthBreakoutConfig
 from backtesting.breakout_ath.daily import (
     _exit_actions,
     _refresh_budget,
+    _unrealized,
     apply_entries,
     confirm_fills,
     empty_state,
     ledger_snapshot,
     load_state,
     normalize_state,
+    render_report,
     save_state,
 )
 from backtesting.breakout_ath.engine import AthBreakoutEngine, PriceBundle, _reset_key
@@ -363,6 +365,81 @@ class TestLedgerSnapshot:
         assert holding["stop_level"] == pytest.approx(120.0 * 0.84)
         assert holding["return_pct"] == pytest.approx(10.0)
 
+    def test_unrealised_pnl_is_marked_against_cost_not_equity(self, tmp_path):
+        """Unrealised P&L must be mark minus cost basis on open positions only.
+
+        Netting it against cash or realised P&L would double count, so this
+        pins the two as separate numbers that add up to the total.
+        """
+        cfg = AthBreakoutConfig(start_capital=100_000.0, max_positions=4, sl_pct=0.16)
+        state = empty_state(100_000.0)
+        state["cash"] = 78_000.0
+        state["positions"] = [
+            {
+                "symbol": "AAA.NS",
+                "industry": "Tech",
+                "entry_date": "2026-08-01",
+                "entry_price": 100.0,
+                "quantity": 100.0,
+                "anchor": 120.0,
+            },
+            {
+                "symbol": "BBB.NS",
+                "industry": "Pharma",
+                "entry_date": "2026-08-05",
+                "entry_price": 120.0,
+                "quantity": 100.0,
+                "anchor": 130.0,
+            },
+        ]
+        state["marks"] = {"AAA.NS": 110.0, "BBB.NS": 90.0}
+        state["closed"] = [{"symbol": "CCC.NS", "pnl": 4_000.0}]
+        path = tmp_path / "book.json"
+        save_state(path, state)
+
+        book = ledger_snapshot(cfg, state_path=path, today=date(2026, 9, 2))["book"]
+        # 22,000 cost basis, 20,000 marked.
+        assert book["invested"] == pytest.approx(22_000.0)
+        assert book["unrealized_pnl"] == pytest.approx(-2_000.0)
+        assert book["unrealized_pct"] == pytest.approx(-9.09, abs=0.01)
+        assert book["winners"] == 1 and book["losers"] == 1
+        # Realised stays its own number; the two only combine in the total.
+        assert book["realized_pnl"] == pytest.approx(4_000.0)
+        assert book["total_pnl"] == pytest.approx(2_000.0)
+
+    def test_each_holding_carries_its_own_rupee_pnl(self, tmp_path):
+        cfg = AthBreakoutConfig(start_capital=100_000.0, max_positions=4, sl_pct=0.16)
+        state = empty_state(100_000.0)
+        state["cash"] = 90_000.0
+        state["positions"] = [
+            {
+                "symbol": "AAA.NS",
+                "industry": "Tech",
+                "entry_date": "2026-08-01",
+                "entry_price": 100.0,
+                "quantity": 100.0,
+                "anchor": 120.0,
+            }
+        ]
+        state["marks"] = {"AAA.NS": 110.0}
+        path = tmp_path / "book.json"
+        save_state(path, state)
+
+        holding = ledger_snapshot(cfg, state_path=path, today=date(2026, 9, 2))[
+            "holdings"
+        ][0]
+        assert holding["cost_basis"] == pytest.approx(10_000.0)
+        assert holding["pnl"] == pytest.approx(1_000.0)
+
+    def test_an_empty_book_reports_zero_rather_than_dividing_by_zero(self, tmp_path):
+        state = empty_state(100_000.0)
+        path = tmp_path / "book.json"
+        save_state(path, state)
+
+        book = ledger_snapshot(state_path=path, today=date(2026, 9, 2))["book"]
+        assert book["unrealized_pnl"] == pytest.approx(0.0)
+        assert book["unrealized_pct"] == pytest.approx(0.0)
+
     def test_a_book_days_behind_is_flagged_stale(self, tmp_path):
         state = empty_state(100_000.0)
         state["last_session"] = "2026-09-01"
@@ -376,6 +453,82 @@ class TestLedgerSnapshot:
         assert stale["freshness"]["stale"] is True
         # Weekends do not count against the book.
         assert stale["freshness"]["weekdays_behind"] == 10
+
+
+class TestUnrealizedReport:
+    def test_the_report_states_unrealised_pnl_when_the_book_holds_something(self):
+        positions = [
+            {"symbol": "AAA.NS", "entry_price": 100.0, "quantity": 10.0},
+            {"symbol": "BBB.NS", "entry_price": 50.0, "quantity": 10.0},
+        ]
+        marks = {"AAA.NS": 120.0, "BBB.NS": 45.0}
+        block = _unrealized(positions, lambda p: marks[p["symbol"]])
+        assert block["invested"] == pytest.approx(1_500.0)
+        assert block["pnl"] == pytest.approx(150.0)
+        assert block["winners"] == 1 and block["losers"] == 1
+
+        text = render_report(
+            {
+                "as_of": "2026-09-01",
+                "equity": 100_000.0,
+                "cash": 98_500.0,
+                "open_positions": 2,
+                "free_slots": 26,
+                "unrealized": block,
+                "exits": [],
+                "entries": [],
+                "holds": [],
+            }
+        )
+        assert "unrealised P&L +150" in text
+        assert "1 up / 1 down" in text
+
+    def test_a_position_still_at_its_entry_is_neither_up_nor_down(self):
+        """A fill confirmed today has no mark yet and prices at entry.
+
+        Calling that a loser overstates how much of the book is under water,
+        so it is reported separately as not yet marked.
+        """
+        positions = [
+            {"symbol": "AAA.NS", "entry_price": 100.0, "quantity": 10.0},
+            {"symbol": "NEW.NS", "entry_price": 80.0, "quantity": 10.0},
+        ]
+        marks = {"AAA.NS": 120.0, "NEW.NS": 80.0}
+        block = _unrealized(positions, lambda p: marks[p["symbol"]])
+        assert block["winners"] == 1
+        assert block["losers"] == 0
+        assert block["flat"] == 1
+
+        text = render_report(
+            {
+                "as_of": "2026-09-01",
+                "equity": 100_000.0,
+                "cash": 98_500.0,
+                "open_positions": 2,
+                "free_slots": 26,
+                "unrealized": block,
+                "exits": [],
+                "entries": [],
+                "holds": [],
+            }
+        )
+        assert "1 not yet marked" in text
+
+    def test_an_empty_book_does_not_print_a_pnl_line(self):
+        text = render_report(
+            {
+                "as_of": "2026-09-01",
+                "equity": 100_000.0,
+                "cash": 100_000.0,
+                "open_positions": 0,
+                "free_slots": 28,
+                "unrealized": _unrealized([], lambda p: 0.0),
+                "exits": [],
+                "entries": [],
+                "holds": [],
+            }
+        )
+        assert "unrealised" not in text
 
 
 class TestPitMembership:
