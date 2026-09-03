@@ -312,3 +312,73 @@ def test_native_requires_explicit_model(monkeypatch: pytest.MonkeyPatch) -> None
     monkeypatch.delenv("NATIVE_MODEL", raising=False)
     with pytest.raises(RuntimeError, match="AI_MODEL is not set"):
         _default_model()
+
+
+# ---------------------------------------------------------------------------
+# Optional-dependency contract
+#
+# github-copilot-sdk is an *extra*, not a hard dependency. A user on the
+# `native` backend must be able to start the app without it. This is easy to
+# regress: any new module-scope `import copilot` anywhere in the startup path
+# would break every non-Copilot user, and would be invisible on a dev machine
+# that has the SDK installed. Run it in a subprocess with the import blocked.
+# ---------------------------------------------------------------------------
+
+_NO_SDK_PROBE = """
+import sys, importlib.abc
+
+
+class _Block(importlib.abc.MetaPathFinder):
+    def find_spec(self, name, path=None, target=None):
+        if name == "copilot" or name.startswith("copilot."):
+            raise ModuleNotFoundError("No module named 'copilot'")
+        return None
+
+
+sys.meta_path.insert(0, _Block())
+
+import main  # noqa: F401
+import app  # noqa: F401
+
+import core.llm as llm
+
+assert llm.SDK_AVAILABLE is False, "probe failed to hide the SDK"
+
+for call in (
+    llm.validate_copilot_configuration,
+    lambda: llm.copilot_tools([]),
+    llm.CopilotLLM,
+):
+    try:
+        call()
+    except llm.CopilotConfigurationError as exc:
+        assert "AI_AGENT_BACKEND=native" in str(exc), f"unhelpful message: {exc}"
+    else:  # pragma: no cover - only on regression
+        raise AssertionError(f"{call} did not raise without the SDK")
+
+from core.agent import get_agent_runner
+
+assert type(get_agent_runner("native")).__name__ == "NativeRunner"
+
+print("NO_SDK_OK")
+"""
+
+
+def test_app_starts_and_fails_helpfully_without_the_copilot_sdk() -> None:
+    """`main` and `app` must import with the SDK absent, and Copilot-only
+    entry points must raise an actionable error rather than ImportError."""
+    import subprocess
+    import sys as _sys
+
+    repo_root = Path(__file__).resolve().parents[1]
+    proc = subprocess.run(
+        [_sys.executable, "-c", _NO_SDK_PROBE],
+        cwd=repo_root,
+        capture_output=True,
+        text=True,
+        timeout=300,
+    )
+    assert "NO_SDK_OK" in proc.stdout, (
+        "app does not start without github-copilot-sdk.\n"
+        f"stdout:\n{proc.stdout}\nstderr:\n{proc.stderr[-3000:]}"
+    )

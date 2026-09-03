@@ -1130,16 +1130,53 @@ whose selling point is "nothing but one key".
 |---|---|
 | `pyflakes` on all new/changed files | clean (one pre-existing unrelated warning in `watchlist_curator.py`) |
 | All four refactored modules import | pass |
-| Full suite `pytest tests/` | **524 passed**, zero regressions |
-| `tests/test_agent_port.py` | 17 passed |
+| Full suite `pytest tests/` | **525 passed**, zero regressions |
+| `tests/test_agent_port.py` | 18 passed |
 | Golden argv contract test | passes — Copilot CLI invocation is byte-identical to pre-refactor |
 | `NativeRunner._load_tools()` against real `mcp_server.py` | all 10 tools loaded |
 | `tests/test_llm.py` without the SDK installed | skips cleanly via `pytest.importorskip("copilot")` |
+| `main` + `app` import with `copilot` blocked | passes (see §25 — this failed at first) |
 
 The golden argv test is the regression guard that matters most: it pins the exact argument vector
 so the owner's working Copilot setup cannot silently break from future port changes.
 
-## 25. Honest gaps
+## 25. A defect found *after* the first commit — and the lesson in it
+
+The first commit moved `github-copilot-sdk` from a hard dependency to the `[copilot]` extra and
+updated the README to tell the Gemini user to run `uv sync --extra gemini`. That advice would have
+failed on the very first command.
+
+`core/llm.py` still imported the SDK at **module scope**, and `main.py` imports `core.llm` at
+module scope. So:
+
+```
+$ streamlit run app.py
+ModuleNotFoundError: No module named 'copilot'
+```
+
+Neither friend could start the application at all. The refactor was verified by a 524-test suite
+that passed — because the suite runs on a machine where the SDK *is* installed. **The tests could
+not see the bug they were most needed for.** Optional-dependency handling is invisible to a test
+suite running in an environment that has the dependency.
+
+Fix: the import in `core/llm.py` is now guarded, exposing `SDK_AVAILABLE`, and every entry point
+that genuinely needs the SDK (`validate_copilot_configuration`, `_runtime_connection`,
+`copilot_tools`, and therefore `run_copilot_prompt` and `CopilotLLM`) calls `_require_sdk()` first.
+This is safe because `from __future__ import annotations` makes the type hints referencing SDK
+types lazy, and every *runtime* use already sat inside a function body. A missing install now
+surfaces as:
+
+> The GitHub Copilot SDK is not installed, so the 'copilot_cli' backend is unavailable. Either
+> install it with `pip install -e ".[copilot]"` ... or switch to a backend that only needs an API
+> key by setting AI_AGENT_BACKEND=native ...
+
+Guarded by `test_app_starts_and_fails_helpfully_without_the_copilot_sdk`, which imports `main` and
+`app` in a **subprocess with a `MetaPathFinder` that blocks `copilot`**. A subprocess is necessary:
+the SDK is already imported in the parent test process, so the condition cannot be simulated
+in-process. This is the only test in the suite that can catch a re-introduced module-scope import,
+and any future one will now fail it.
+
+## 26. Honest gaps (still open)
 
 - **`NativeRunner` has never been run against a real model.** No API key was available in this
   environment. The tool-calling loop is unit-tested with a stub and MCP loading is verified live,
@@ -1149,14 +1186,14 @@ so the owner's working Copilot setup cannot silently break from future port chan
 - **`AI_MAX_CONCURRENCY` is not implemented.** `strategies/parallel_agents.py` fans out
   concurrently and will 429 a free Gemini tier. Item 5 in §19 remains open and is the most likely
   first complaint from the Gemini user.
-- **`core/llm.py` is untouched.** `DEFAULT_COPILOT_MODEL`, `validate_copilot_configuration()`
-  probing `~/.copilot`, and `get_llm(temperature)` silently discarding `temperature` are all still
-  there. That is step 4 (Path A hygiene), explicitly out of scope here.
+- **`core/llm.py` config hygiene is untouched.** `DEFAULT_COPILOT_MODEL`,
+  `validate_copilot_configuration()` probing `~/.copilot`, and `get_llm(temperature)` silently
+  discarding `temperature` are all still there. That is step 4 (Path A), explicitly out of scope.
 - **`claude_code` runner is not implemented.** `_load_claude_code()` raises a clear
   not-implemented error. The Pro/Max friend is still unserved; a Claude *API key* works today via
   `native`.
 
-## 26. Where each of the three users stands now
+## 27. Where each of the three users stands now
 
 | User | Status after steps 1–2 |
 |---|---|

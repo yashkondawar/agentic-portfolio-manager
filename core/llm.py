@@ -1,4 +1,14 @@
-"""GitHub Copilot SDK integration used by all model-backed workflows."""
+"""GitHub Copilot SDK integration used by all model-backed workflows.
+
+The Copilot SDK is an *optional* dependency: the agent backend is selectable
+via ``AI_AGENT_BACKEND`` (see :mod:`core.agent`), and users on the ``native``
+backend have no reason to install it. Importing this module must therefore
+succeed without it — otherwise ``main``/``app`` would fail to start for anyone
+who is not a Copilot subscriber. The import is guarded and every entry point
+that genuinely needs the SDK calls :func:`_require_sdk` first, so a missing
+install surfaces as an actionable error at the point of use instead of a bare
+``ModuleNotFoundError`` at startup.
+"""
 
 from __future__ import annotations
 
@@ -13,11 +23,22 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, AsyncIterator, Iterable, Sequence
 
-from copilot import CopilotClient, RuntimeConnection
-from copilot.client import StopError
-from copilot.session import PermissionDecisionUserNotAvailable
-from copilot.session_events import AssistantMessageData
-from copilot.tools import Tool, ToolInvocation, ToolResult
+try:
+    from copilot import CopilotClient, RuntimeConnection
+    from copilot.client import StopError
+    from copilot.session import PermissionDecisionUserNotAvailable
+    from copilot.session_events import AssistantMessageData
+    from copilot.tools import Tool, ToolInvocation, ToolResult
+
+    SDK_AVAILABLE = True
+    _SDK_IMPORT_ERROR: ImportError | None = None
+except ImportError as exc:  # pragma: no cover - exercised via import-blocking test
+    CopilotClient = RuntimeConnection = None  # type: ignore[assignment]
+    StopError = PermissionDecisionUserNotAvailable = None  # type: ignore[assignment]
+    AssistantMessageData = Tool = ToolInvocation = ToolResult = None  # type: ignore[assignment]
+
+    SDK_AVAILABLE = False
+    _SDK_IMPORT_ERROR = exc
 
 logger = logging.getLogger(__name__)
 
@@ -42,6 +63,19 @@ logging.getLogger("copilot._jsonrpc").addFilter(_IgnoreUnsupportedShutdown())
 
 class CopilotConfigurationError(RuntimeError):
     """Raised when the local Copilot SDK runtime cannot be used."""
+
+
+def _require_sdk() -> None:
+    """Fail with an actionable message when the optional SDK is missing."""
+    if SDK_AVAILABLE:
+        return
+    raise CopilotConfigurationError(
+        "The GitHub Copilot SDK is not installed, so the 'copilot_cli' backend "
+        "is unavailable. Either install it with `pip install -e \".[copilot]\"` "
+        "(needs a Copilot subscription), or switch to a backend that only needs "
+        "an API key by setting AI_AGENT_BACKEND=native and AI_MODEL in your "
+        f".env. See README.md 'Choosing a model provider'. ({_SDK_IMPORT_ERROR})"
+    )
 
 
 @dataclass(frozen=True)
@@ -74,6 +108,8 @@ def get_copilot_timeout() -> float:
 
 def validate_copilot_configuration() -> None:
     """Fail early when neither the CLI nor an explicit SDK runtime exists."""
+    _require_sdk()
+
     explicit_path = os.getenv("COPILOT_CLI_PATH", "").strip()
     if explicit_path and not Path(explicit_path).is_file():
         raise CopilotConfigurationError(
@@ -97,6 +133,7 @@ def validate_copilot_configuration() -> None:
 
 
 def _runtime_connection() -> RuntimeConnection:
+    _require_sdk()
     explicit_path = os.getenv("COPILOT_CLI_PATH", "").strip()
     if explicit_path:
         return RuntimeConnection.for_stdio(path=explicit_path)
@@ -174,6 +211,7 @@ def _tool_result_text(result: Any) -> str:
 
 def copilot_tools(langchain_tools: Iterable[Any]) -> list[Tool]:
     """Adapt LangChain tools to read-only Copilot SDK custom tools."""
+    _require_sdk()
     sdk_tools: list[Tool] = []
     for langchain_tool in langchain_tools:
         name = getattr(langchain_tool, "name", "")
