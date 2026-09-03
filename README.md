@@ -188,7 +188,9 @@ completes the session without copying a request token into the UI.
 
 ### Prerequisites
 - Python 3.12+
-- GitHub Copilot subscription with Copilot CLI installed and signed in
+- **One** model provider — either a GitHub Copilot subscription, or any LLM API
+  key (Gemini / OpenAI / Anthropic), or a local Ollama install. See
+  [Choosing a model provider](#choosing-a-model-provider).
 - Bright Data account only when the optional paid data source is enabled
 
 ### Installation
@@ -199,23 +201,26 @@ completes the session without copying a request token into the UI.
    cd nse-stock-research-system
    ```
 
-2. **Install dependencies**
+2. **Install dependencies** — pick the extra matching your provider
    ```bash
-   uv sync
+   uv sync --extra copilot     # GitHub Copilot CLI (default)
+   uv sync --extra gemini      # Gemini API key
+   uv sync --extra openai      # OpenAI API key
+   uv sync --extra anthropic   # Anthropic API key
    ```
 
 3. **Set up environment variables**
    ```bash
    cp example.env .env
-   # Edit optional data-source and broker settings
+   # Edit the AGENT BACKEND block at the top, plus data-source/broker settings
    ```
 
-4. **Verify GitHub Copilot CLI**
+4. **Verify your provider**
    ```bash
-   copilot --version
+   copilot --version           # only for AI_AGENT_BACKEND=copilot_cli
    ```
-   Run `copilot` once and complete sign-in if prompted. The application uses
-   this existing login through the GitHub Copilot SDK.
+   For `copilot_cli`, run `copilot` once and complete sign-in if prompted.
+   For `native`, nothing to verify — just make sure the API key is in `.env`.
 
 5. **Install Bright Data MCP (optional)**
    ```bash
@@ -237,15 +242,46 @@ completes the session without copying a request token into the UI.
 
 ## 🔧 Configuration
 
-### Model Setup
+### Choosing a model provider
 
-GitHub Copilot is the only model provider. No separate model API key is
-required. The default model is `claude-opus-4.7`; override it in `.env`:
+The research agents run on a pluggable harness selected by `AI_AGENT_BACKEND`.
+Strategy logic, prompts and the ten scraper MCP tools are identical across all
+of them — only the harness changes.
+
+| You have | `AI_AGENT_BACKEND` | Extra install | Needs a CLI? |
+|---|---|---|---|
+| GitHub Copilot subscription | `copilot_cli` *(default)* | `--extra copilot` + `npm i -g @github/copilot` | yes |
+| Any LLM API key | `native` | `--extra gemini` / `openai` / `anthropic` | **no** |
+| Nothing, but a local GPU/CPU | `native` + Ollama | — | no |
+| Claude Pro/Max subscription | *not yet supported* — see [the plan](docs/multi-provider-plan.md) | — | — |
+
+**GitHub Copilot (default).** Uses your existing Copilot login; no model API
+key required.
 
 ```bash
+AI_AGENT_BACKEND=copilot_cli
 COPILOT_MODEL=claude-opus-4.7
 COPILOT_TIMEOUT=300
 ```
+
+**Any API key — no CLI, no subscription, no GitHub account.** This is also the
+only backend that runs in a container or in CI.
+
+```bash
+AI_AGENT_BACKEND=native
+AI_MODEL=google_genai:gemini-2.5-pro   # + GOOGLE_API_KEY
+# AI_MODEL=openai:gpt-4o               # + OPENAI_API_KEY
+# AI_MODEL=anthropic:claude-sonnet-4-5 # + ANTHROPIC_API_KEY
+# AI_MODEL=ollama:llama3.1             # fully local, no API key at all
+WEB_GROUNDING=false
+```
+
+> **Why `WEB_GROUNDING=false` for `native`:** unlike the vendor CLIs there is no
+> built-in web-browsing tool, so a run that requires live browsing is rejected
+> up front rather than quietly returning a report that looks complete but was
+> written without current information. The scraper MCP tools — live prices,
+> fundamentals, technicals, news and `scrape_url` — work on **every** backend,
+> because they are plain MCP.
 
 #### Bright Data API Token (optional)
 1. Sign up at [Bright Data](https://brightdata.com)
@@ -380,31 +416,42 @@ For support and questions:
 
 **Common Issues:**
 
-1. **Copilot Authentication or Model Errors**
+1. **Copilot Authentication or Model Errors** (`AI_AGENT_BACKEND=copilot_cli`)
    - Run `copilot` and complete sign-in with a Copilot-enabled account
    - Verify `COPILOT_MODEL` is available to your Copilot subscription
    - On restricted Windows machines, set `COPILOT_CLI_PATH` to the signed
      `copilot.exe` installation
+   - No Copilot subscription? Switch to `AI_AGENT_BACKEND=native` — see
+     [Choosing a model provider](#choosing-a-model-provider)
 
-2. **MCP Installation Issues**
+2. **`UnsupportedCapability: backend 'native' cannot satisfy web_search`**
+   - The `native` backend has no built-in web browsing. Set
+     `WEB_GROUNDING=false` in `.env`, or pass `--no-web-grounding` on the CLI.
+   - The scraper MCP tools still supply live prices, fundamentals, technicals
+     and news, so reports stay grounded in current data.
+
+3. **`ModuleNotFoundError: copilot` / `langchain`**
+   - The provider SDKs are optional extras. Install the one matching your
+     backend: `uv sync --extra copilot` or `uv sync --extra gemini`.
+
+4. **MCP Installation Issues**
    ```bash
    # Reinstall MCP globally
    npm uninstall -g @brightdata/mcp
    npm install -g @brightdata/mcp
    ```
 
-3. **Streamlit Issues**
+5. **Streamlit Issues**
    ```bash
    # Clear Streamlit cache
    streamlit cache clear
    ```
 
-4. **Import Errors**
+6. **Import Errors**
    ```bash
    # Reinstall dependencies
    pip install -r requirements.txt --force-reinstall
    ```
-
 ## 🔄 Version History
 
 - **v1.0.0** - Initial release with multi-agent architecture

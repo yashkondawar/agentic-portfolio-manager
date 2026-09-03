@@ -75,16 +75,13 @@ import argparse
 import json
 import logging
 import os
-import shutil
-import subprocess
-import sys
-import threading
-import uuid
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import List, Optional, TextIO
+from typing import List, Optional
 
+from core.agent import AgentRequest, Capability, run_agent, scraper_mcp
+from core.agent.mcp import SCRAPER_MCP_SERVER_NAME
 from core.storage import runtime_dir, save_artifacts
 
 from dotenv import load_dotenv
@@ -539,7 +536,7 @@ gracefully but proceed; do not block on a single missing source.
 # system prompt telling the model to prefer these tools over web-fetch
 # wherever applicable.
 
-SCRAPER_MCP_SERVER_NAME = "indian-stock-data"
+# SCRAPER_MCP_SERVER_NAME is imported from core.agent.mcp — defined once.
 
 SCRAPER_MCP_TOOLS = [
     "fetch_stock_price",
@@ -614,36 +611,14 @@ def _augment_with_grounding(
 
 
 def _write_scraper_mcp_config(tmp_dir: Path) -> Path:
-    """Write a Copilot CLI MCP config file pointing at the local scraper
-    MCP server (`mcp_server.py`). Returns the path so the caller can pass
-    it via `--additional-mcp-config @<path>`.
+    """Deprecated shim — kept so any out-of-tree caller keeps working.
 
-    We use absolute paths and `sys.executable` so the spawn works
-    regardless of where `copilot` is launched from.
+    The scraper MCP server is now described provider-neutrally in
+    ``core.agent.mcp.scraper_mcp()`` and rendered by whichever backend runs.
     """
-    repo_root = Path(__file__).resolve().parent
-    server_script = repo_root / "mcp_server.py"
-    if not server_script.exists():
-        raise FileNotFoundError(
-            f"Scraper MCP server not found at {server_script}. "
-            "Disable with --no-scraper-tools or fix the path."
-        )
+    from core.agent.runners.copilot_cli import write_mcp_config
 
-    config = {
-        "mcpServers": {
-            SCRAPER_MCP_SERVER_NAME: {
-                "type": "stdio",
-                "command": sys.executable,
-                "args": [str(server_script)],
-                "cwd": str(repo_root),
-                "tools": ["*"],
-            }
-        }
-    }
-
-    cfg_path = tmp_dir / f"mcp-{uuid.uuid4().hex[:8]}.json"
-    cfg_path.write_text(json.dumps(config, indent=2), encoding="utf-8")
-    return cfg_path
+    return write_mcp_config(scraper_mcp(), tmp_dir)
 
 
 def resolve_template(name: Optional[str]) -> PromptTemplate:
@@ -764,25 +739,19 @@ def build_full_prompt(
 # ─── GitHub Copilot CLI invocation ─────────────────────────────────────────
 
 def _resolve_copilot_bin() -> str:
-    """Locate the `copilot` executable."""
-    explicit = os.getenv("COPILOT_BIN")
-    if explicit:
-        if not Path(explicit).exists():
-            raise RuntimeError(f"COPILOT_BIN points to non-existent path: {explicit}")
-        return explicit
+    """Deprecated shim — see ``core.agent.runners.copilot_cli.resolve_copilot_bin``."""
+    from core.agent.runners.copilot_cli import resolve_copilot_bin
 
-    # On Windows the global npm bin is usually `copilot.cmd`
-    for name in ("copilot", "copilot.cmd", "copilot.exe"):
-        path = shutil.which(name)
-        if path:
-            return path
+    return resolve_copilot_bin()
 
-    raise RuntimeError(
-        "GitHub Copilot CLI not found on PATH.\n"
-        "Install with:  npm install -g @github/copilot\n"
-        "Then run `copilot` once to authenticate.\n"
-        "Or set COPILOT_BIN to the absolute path of the binary."
-    )
+
+_PORTFOLIO_HANDOFF = (
+    "Read the file `{path}` in its entirety using your "
+    "file-read tool. It contains a system role description, a portfolio "
+    "table, and a user analysis request. Follow the instructions in that "
+    "file exactly and respond with ONLY the final Markdown report — do "
+    "not echo the prompt or describe what you are doing."
+)
 
 
 def run_analysis(
@@ -797,29 +766,23 @@ def run_analysis(
     copilot_log: Optional[Path] = None,
     log_level: str = "debug",
 ) -> str:
-    """Invoke the Copilot CLI in non-interactive mode and return its stdout.
+    """Run the portfolio analysis on the configured agent backend.
 
-    The full prompt (system instructions + portfolio table + investor
-    context + user request) is written to a temp file inside the current
-    working directory, and we ask Copilot to read it. This avoids the
-    Windows cmd.exe ~8191-char command line limit when the portfolio is
-    large.
+    The harness is selected by ``AI_AGENT_BACKEND`` (default ``copilot_cli``).
 
-    When `web_grounding` is True, the prompt instructs the model to use
-    web tools to back its findings, and `--allow-all-urls` is passed so
-    URL approval prompts don't block the headless run.
+    When `web_grounding` is True the prompt instructs the model to back its
+    findings with live sources, and the backend is asked for the
+    ``WEB_SEARCH`` capability — a backend that cannot provide it fails fast
+    rather than silently returning an ungrounded report.
 
-    When `scraper_tools` is True, the local scraper MCP server
-    (`mcp_server.py`) is attached via `--additional-mcp-config`, exposing
-    Indian-equity scraper tools (screener.in, yfinance, TA) directly to
-    the model.
+    When `scraper_tools` is True the local scraper MCP server
+    (`mcp_server.py`) is attached, exposing Indian-equity scraper tools
+    (screener.in, yfinance, TA) to the model. This works on every backend,
+    because it is plain MCP.
 
-    When `copilot_log` is provided, the Copilot CLI is started with
-    `--log-level=<log_level>` (default `debug`) and its stderr is
-    tee'd live to both that file AND the parent console (prefixed
-    `[copilot]`), giving you visibility into MCP tool invocations.
+    When `copilot_log` is provided, harness diagnostics are tee'd to that file
+    as well as the console.
     """
-    copilot_bin = _resolve_copilot_bin()
     full_prompt = build_full_prompt(
         holdings,
         user_prompt,
@@ -829,162 +792,26 @@ def run_analysis(
         scraper_tools=scraper_tools,
     )
 
-    tmp_dir = runtime_dir() / "copilot"
-    tmp_dir.mkdir(parents=True, exist_ok=True)
-    prompt_file = tmp_dir / f"prompt-{uuid.uuid4().hex[:8]}.md"
-    prompt_file.write_text(full_prompt, encoding="utf-8")
-
-    short_prompt = (
-        f"Read the file `{prompt_file.as_posix()}` in its entirety using your "
-        "file-read tool. It contains a system role description, a portfolio "
-        "table, and a user analysis request. Follow the instructions in that "
-        "file exactly and respond with ONLY the final Markdown report — do "
-        "not echo the prompt or describe what you are doing."
-    )
-
-    # `-p / --prompt` runs the CLI in programmatic (non-interactive) mode.
-    # `--allow-all-tools` skips the tool-permission prompts that would otherwise
-    # block a fully-headless run. `-s` strips stats noise so we get just the
-    # agent response.
-    cmd: List[str] = [
-        copilot_bin,
-        "-p", short_prompt,
-        "--allow-all-tools",
-        "--add-dir", str(tmp_dir),
-        "-s",
-    ]
-
-    # When web grounding is enabled, allow all URLs so web-fetch / search
-    # tools don't trigger an interactive approval prompt mid-run.
-    if web_grounding:
-        cmd.append("--allow-all-urls")
-
-    # Attach the local scraper MCP server so the model can call the
-    # screener.in / yfinance / TA tools directly. Written to a temp config
-    # file and passed via `--additional-mcp-config @<path>`.
-    scraper_cfg_file: Optional[Path] = None
+    mcp_servers: dict = {}
     if scraper_tools:
         try:
-            scraper_cfg_file = _write_scraper_mcp_config(tmp_dir)
-            cmd.extend(["--additional-mcp-config", f"@{scraper_cfg_file}"])
-            logger.info("Scraper MCP server attached via %s", scraper_cfg_file.name)
+            mcp_servers = scraper_mcp()
         except FileNotFoundError as e:
             logger.warning("Skipping scraper tools: %s", e)
-            scraper_tools = False
 
-    # When a log file is requested, ask the CLI to emit debug-level info to
-    # stderr so we can capture tool calls, MCP boot messages, etc.
-    if copilot_log is not None:
-        cmd.extend(["--log-level", log_level])
-        copilot_log.parent.mkdir(parents=True, exist_ok=True)
-
-    chosen_model = model or os.getenv("COPILOT_MODEL")
-    if chosen_model:
-        cmd.extend(["--model", chosen_model])
-
-    if extra_cli_args:
-        cmd.extend(extra_cli_args)
-
-    logger.info(
-        "Invoking Copilot CLI (%s) with %d holdings%s "
-        "(prompt file: %s, %d bytes, web_grounding=%s, scraper_tools=%s, log=%s)",
-        copilot_bin,
-        len(holdings),
-        f", model={chosen_model}" if chosen_model else "",
-        prompt_file.name,
-        prompt_file.stat().st_size,
-        web_grounding,
-        scraper_tools,
-        copilot_log if copilot_log else "—",
+    request = AgentRequest(
+        prompt=full_prompt,
+        label="portfolio",
+        handoff_instruction=_PORTFOLIO_HANDOFF,
+        mcp_servers=mcp_servers,
+        requires=frozenset({Capability.WEB_SEARCH}) if web_grounding else frozenset(),
+        model=model,
+        log_file=copilot_log,
+        log_level=log_level,
+        extra_cli_args=tuple(extra_cli_args or ()),
     )
-
-    # Open the log file in append mode so multiple runs in one session
-    # don't overwrite each other.
-    log_handle: Optional[TextIO] = None
-    if copilot_log is not None:
-        log_handle = open(copilot_log, "a", encoding="utf-8", errors="replace")
-        log_handle.write(
-            f"\n{'='*72}\n"
-            f"Copilot CLI run @ {datetime.now().isoformat(timespec='seconds')}\n"
-            f"cmd: {cmd}\n"
-            f"web_grounding={web_grounding}  scraper_tools={scraper_tools}  model={chosen_model}\n"
-            f"{'='*72}\n"
-        )
-        log_handle.flush()
-
-    def _pump_stderr(pipe, sink: Optional[TextIO]) -> None:
-        """Tee Copilot stderr to console (prefixed) and optional log file."""
-        try:
-            for raw in iter(pipe.readline, ""):
-                if not raw:
-                    break
-                # Live console echo so tool calls are visible during the run.
-                # Use sys.stderr so it stays distinct from the streamed report.
-                sys.stderr.write(f"[copilot] {raw}")
-                sys.stderr.flush()
-                if sink is not None:
-                    sink.write(raw)
-                    sink.flush()
-        finally:
-            try:
-                pipe.close()
-            except Exception:  # noqa: BLE001
-                pass
-
-    try:
-        # Stream stdout live so the user sees the analysis as it's generated.
-        proc = subprocess.Popen(
-            cmd,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            encoding="utf-8",
-            errors="replace",
-            bufsize=1,
-        )
-
-        # Spin up a background thread to consume stderr live; otherwise a
-        # chatty MCP/log stream can fill the pipe buffer and deadlock.
-        stderr_thread = threading.Thread(
-            target=_pump_stderr,
-            args=(proc.stderr, log_handle),
-            daemon=True,
-        )
-        stderr_thread.start()
-
-        captured: List[str] = []
-        assert proc.stdout is not None
-        for line in proc.stdout:
-            captured.append(line)
-            print(line, end="", flush=True)
-
-        return_code = proc.wait()
-        stderr_thread.join(timeout=5.0)
-
-        if return_code != 0:
-            raise RuntimeError(
-                f"Copilot CLI exited with code {return_code}. "
-                f"See log: {copilot_log}" if copilot_log else
-                f"Copilot CLI exited with code {return_code}."
-            )
-
-        return "".join(captured)
-    finally:
-        if log_handle is not None:
-            try:
-                log_handle.close()
-            except Exception:  # noqa: BLE001
-                pass
-        # Best-effort cleanup of per-run temp files (prompt + MCP config).
-        try:
-            prompt_file.unlink(missing_ok=True)
-        except OSError:
-            pass
-        if scraper_cfg_file is not None:
-            try:
-                scraper_cfg_file.unlink(missing_ok=True)
-            except OSError:
-                pass
+    logger.info("Portfolio analysis — %d holdings", len(holdings))
+    return run_agent(request).text
 
 
 # ─── CLI ───────────────────────────────────────────────────────────────────

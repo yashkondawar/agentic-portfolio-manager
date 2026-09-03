@@ -1,0 +1,116 @@
+"""Backend registry for the agent port.
+
+Selection is a single environment variable::
+
+    AI_AGENT_BACKEND = copilot_cli (default) | native | claude_code
+
+Backends are imported lazily so that choosing one never requires the others'
+dependencies to be installed — the whole point of the exercise is that a user
+with only a Gemini key never has to install the Copilot CLI, and vice versa.
+"""
+
+from __future__ import annotations
+
+import logging
+import os
+from typing import Callable
+
+from core.agent.mcp import SCRAPER_MCP_SERVER_NAME, scraper_mcp, scraper_server_path
+from core.agent.types import (
+    AgentRequest,
+    AgentResult,
+    AgentRunner,
+    Capability,
+    McpServerSpec,
+    OutputSink,
+    UnsupportedCapability,
+)
+
+logger = logging.getLogger("core.agent")
+
+__all__ = [
+    "AgentRequest",
+    "AgentResult",
+    "AgentRunner",
+    "Capability",
+    "McpServerSpec",
+    "OutputSink",
+    "UnsupportedCapability",
+    "SCRAPER_MCP_SERVER_NAME",
+    "scraper_mcp",
+    "scraper_server_path",
+    "get_agent_runner",
+    "available_backends",
+    "run_agent",
+    "DEFAULT_BACKEND",
+]
+
+DEFAULT_BACKEND = "copilot_cli"
+
+
+def _load_copilot_cli() -> AgentRunner:
+    from core.agent.runners.copilot_cli import CopilotCliRunner
+
+    return CopilotCliRunner()
+
+
+def _load_native() -> AgentRunner:
+    from core.agent.runners.native import NativeRunner
+
+    return NativeRunner()
+
+
+def _load_claude_code() -> AgentRunner:
+    raise RuntimeError(
+        "The 'claude_code' backend is not implemented yet.\n"
+        "Use AI_AGENT_BACKEND=native with an Anthropic API key, or "
+        "AI_AGENT_BACKEND=copilot_cli."
+    )
+
+
+_REGISTRY: dict[str, Callable[[], AgentRunner]] = {
+    "copilot_cli": _load_copilot_cli,
+    "native": _load_native,
+    "claude_code": _load_claude_code,
+}
+
+
+def available_backends() -> list[str]:
+    return sorted(_REGISTRY)
+
+
+def get_agent_runner(name: str | None = None) -> AgentRunner:
+    """Return the configured agent backend.
+
+    Args:
+        name: Explicit backend name. Defaults to ``AI_AGENT_BACKEND``, then to
+            :data:`DEFAULT_BACKEND` so existing Copilot setups are unaffected.
+    """
+    chosen = (name or os.getenv("AI_AGENT_BACKEND") or DEFAULT_BACKEND).strip()
+    loader = _REGISTRY.get(chosen)
+    if loader is None:
+        raise ValueError(
+            f"Unknown agent backend {chosen!r}. "
+            f"Valid options: {', '.join(available_backends())}."
+        )
+    return loader()
+
+
+def run_agent(
+    request: AgentRequest,
+    *,
+    backend: str | None = None,
+    on_output: OutputSink | None = None,
+) -> AgentResult:
+    """Run one agent turn, checking capabilities before spending any tokens.
+
+    The capability check is the reason this wrapper exists. A backend without
+    live web access must not quietly produce a swing-trade report that looks
+    complete but was written with no current news in it — in a financial tool
+    that is a correctness failure, not a degraded experience.
+    """
+    runner = get_agent_runner(backend)
+    missing = request.missing_from(runner.capabilities)
+    if missing:
+        raise UnsupportedCapability(runner.name, missing)
+    return runner.run(request, on_output=on_output)

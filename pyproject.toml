@@ -9,7 +9,6 @@ dependencies = [
     "black>=25.1.0",
     "flake8>=7.3.0",
     "flask>=3.1.3",
-    "github-copilot-sdk>=1.0.8",
     "kiteconnect>=5.2.1",
     "langchain>=0.3.27",
     "langchain-mcp-adapters>=0.1.9",
@@ -26,6 +25,30 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+# ── Agent backends (pick ONE; see docs/multi-provider-plan.md) ────────────────
+# The harness is selected at runtime with AI_AGENT_BACKEND.
+
+# AI_AGENT_BACKEND=copilot_cli (default). Also needs the CLI binary itself:
+#   npm install -g @github/copilot
+copilot = [
+    "github-copilot-sdk>=1.0.8",
+]
+
+# AI_AGENT_BACKEND=native — no vendor CLI, no subscription, no GitHub account.
+# The base install already has langchain + langchain-mcp-adapters, so you only
+# need the provider package matching AI_MODEL:
+gemini = ["langchain-google-genai>=2.0.0"]
+openai = ["langchain-openai>=0.2.0"]
+anthropic = ["langchain-anthropic>=0.3.0"]
+
+# Convenience aggregate for contributors who want every backend available.
+all = [
+    "github-copilot-sdk>=1.0.8",
+    "langchain-google-genai>=2.0.0",
+    "langchain-openai>=0.2.0",
+    "langchain-anthropic>=0.3.0",
+]
+
 # Kronos price-forecasting integration (CPU-friendly, no GPU required).
 # Kronos itself is NOT on PyPI: clone https://github.com/shiyu-coder/Kronos and
 # set KRONOS_REPO_PATH to the checkout. See kronos/README.md.

@@ -3,12 +3,22 @@ from contextlib import asynccontextmanager
 from types import SimpleNamespace
 
 import pytest
-from copilot.session_events import AssistantMessageData
-from copilot.tools import ToolInvocation
 
-import core.llm as llm_module
-import main
-from core.llm import (
+# The Copilot SDK is an optional dependency now that the agent backend is
+# pluggable (AI_AGENT_BACKEND). Skip this whole module rather than failing the
+# suite for users running the `native` or `claude_code` backends, who have no
+# reason to install it.
+pytest.importorskip(
+    "copilot",
+    reason="github-copilot-sdk not installed; install with `pip install -e '.[copilot]'`",
+)
+
+from copilot.session_events import AssistantMessageData  # noqa: E402
+from copilot.tools import ToolInvocation  # noqa: E402
+
+import core.llm as llm_module  # noqa: E402
+import main  # noqa: E402
+from core.llm import (  # noqa: E402
     CopilotConfigurationError,
     CopilotLLM,
     copilot_tools,
@@ -17,7 +27,7 @@ from core.llm import (
     run_copilot_prompt,
     validate_copilot_configuration,
 )
-from strategies.parallel_agents import ParallelAgentsStrategy
+from strategies.parallel_agents import ParallelAgentsStrategy  # noqa: E402
 
 
 def test_copilot_defaults(monkeypatch):

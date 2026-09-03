@@ -2,10 +2,21 @@
 streamlit
 langchain
 langchain-mcp-adapters
-github-copilot-sdk
 plotly
 pandas
 python-dotenv
+
+# ── Agent backend (pick ONE) ───────────────────────────────────────────────
+# Selected at runtime with AI_AGENT_BACKEND. See docs/multi-provider-plan.md.
+#
+#   AI_AGENT_BACKEND=copilot_cli   (default)  needs the CLI: npm i -g @github/copilot
+# github-copilot-sdk
+#
+#   AI_AGENT_BACKEND=native        no CLI, no subscription — just an API key.
+#   Install the one package matching AI_MODEL:
+# langchain-google-genai        # AI_MODEL=google_genai:gemini-2.5-pro
+# langchain-openai              # AI_MODEL=openai:gpt-4o
+# langchain-anthropic           # AI_MODEL=anthropic:claude-sonnet-4-5
 
 # Free scraper module (replaces Bright Data)
 yfinance
