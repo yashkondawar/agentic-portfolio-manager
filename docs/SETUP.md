@@ -180,6 +180,19 @@ paste your API key — or, for Claude Pro/Max, the `sk-ant-oat` code from step 3
 into the box, and press Save. The app writes it down for you and remembers it
 next time.
 
+**If you have more than one**, the app picks one for you and says which on the
+Settings page. Read that line once, because the two Claude options cost money in
+different ways: a Pro/Max subscription is already paid for, while a Claude API
+key is billed per use on your card.
+
+If you have both, what decides it is whether you did the `sk-ant-oat` step in
+step 3. With that code saved, the app uses your subscription and leaves the card
+alone. Without it, the app cannot tell you have a subscription at all, so it
+falls back to the key and you end up paying twice for the same thing. Either
+save the code, or go to **Settings & Catalog**, pick **Claude Code** and press
+Save. Whenever the two are mixed up the app writes a line in its logs naming
+which one is paying.
+
 <details>
 <summary>Prefer to set it up by hand? Click here.</summary>
 

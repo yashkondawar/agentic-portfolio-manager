@@ -1232,6 +1232,28 @@ def test_a_subscription_token_selects_the_claude_backend(
     assert choice.resolved is True
 
 
+def test_the_subscription_wins_when_a_key_is_also_present(
+    clean_env: pytest.MonkeyPatch, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A user holding both credentials must not be billed twice.
+
+    docs/SETUP.md promises that saving the ``sk-ant-oat`` code makes the
+    already-paid-for subscription win over a metered ``ANTHROPIC_API_KEY``. That
+    promise is this precedence rule, so it needs a test of its own: the two
+    halves being individually correct would not catch a reordering that only
+    misfires when both are set.
+    """
+    from core.agent import detect as detect_mod
+
+    monkeypatch.setattr(detect_mod, "_copilot_ready", lambda: False)
+    monkeypatch.setattr(detect_mod, "_claude_code_ready", lambda: True)
+    monkeypatch.setattr(detect_mod, "_native_ready", lambda: True)
+    clean_env.setenv("CLAUDE_CODE_OAUTH_TOKEN", "sk-ant-oat-token")
+    clean_env.setenv("ANTHROPIC_API_KEY", "sk-ant-key")
+
+    assert detect_mod.detect_backend().backend == "claude_code"
+
+
 def test_an_api_key_alone_still_prefers_the_cheaper_native_backend(
     clean_env: pytest.MonkeyPatch, monkeypatch: pytest.MonkeyPatch
 ) -> None:
