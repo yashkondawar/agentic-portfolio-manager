@@ -2,6 +2,12 @@
 
 A sophisticated multi-agent AI system for analyzing Indian NSE-listed stocks using real-time data, technical indicators, news sentiment, and advanced AI reasoning.
 
+> **New here, or setting this up on a fresh machine?** Follow
+> **[docs/SETUP.md](docs/SETUP.md)** instead — a plain-English, step-by-step
+> walkthrough covering installation, picking a model provider, the database,
+> downloading historical data, safely sharing that data with a friend, and
+> turning on the background scheduler. This README is the technical reference.
+
 ## 🧭 Unified Strategy Architecture
 
 Every "system" in this project pursues the same goal — turning market data into
@@ -197,8 +203,8 @@ completes the session without copying a request token into the UI.
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/rooneyrulz/agentic-stock-research-system
-   cd nse-stock-research-system
+   git clone https://github.com/yashkondawar/agentic-portfolio-manager.git
+   cd agentic-portfolio-manager
    ```
 
 2. **Install dependencies** — pick the extra matching your provider
@@ -318,6 +324,41 @@ WEB_GROUNDING=false
 - **Short-term Trading (1-7 days)**: Focus on momentum, technical breakouts, and news catalysts
 - **Medium-term Investment (1-4 weeks)**: Emphasis on earnings, sector trends, and technical setups  
 - **General Market Analysis**: Broad market overview with top stock picks across sectors
+
+## 🗄️ Local data store
+
+All persistence is one SQLite file, created on first run in the per-user data
+directory (`%LOCALAPPDATA%\AgenticPortfolioManager\portfolio.sqlite3` on
+Windows, `~/Library/Application Support/...` on macOS) — deliberately outside
+the repo, so re-cloning never destroys data. Override with `PORTFOLIO_DB_PATH`.
+
+```bash
+python -m core.storage path       # where is it
+python -m core.storage summary    # what is in it
+```
+
+### Sharing market history
+
+That single file mixes two very different classes of data: market history,
+which is identical for every user and expensive to rebuild, and private state —
+API keys, the Zerodha access token, holdings and saved reports. **Copying the
+raw file to share data therefore leaks credentials.**
+
+Use the export instead, which copies an explicit allow-list of market-data
+tables into a fresh database and nothing else:
+
+```bash
+python -m core.storage share market-history.sqlite3          # sender
+python -m core.storage import-shared market-history.sqlite3  # receiver
+```
+
+The import creates any tables the receiver lacks (so it works on a fresh
+machine) and uses `INSERT OR IGNORE`, making it idempotent and non-destructive.
+
+The allow-list in `MARKET_DATA_TABLES` is deliberately an allow-list rather
+than a block-list of private tables: forgetting to list a market table costs
+the recipient some data, whereas forgetting to block a private table leaks a
+broker token, and only one of those is recoverable.
 
 ## 📈 Sample Output
 

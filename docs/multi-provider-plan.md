@@ -1353,3 +1353,89 @@ one, and those decisions do not announce themselves - `12` is just an integer.
 
 546 tests pass.
 
+
+---
+
+## 31. Onboarding a second machine: what the port left undone
+
+Parts I-VI made the app *run* on any provider. This section covers what
+happened when the remaining question was asked - "a friend clones this today;
+what do they actually do?" - and the two defects that question exposed.
+
+### 31.1 Status against the §19 priority list
+
+| # | Work | State |
+|---|------|-------|
+| 1 | `AgentRunner` port + `copilot_cli` extraction | Done (`8b6d0a9`) |
+| 2 | `native` runner (LangChain + MCP) | Done (`8b6d0a9`, `a413332`) |
+| 3 | `claude_code` runner | **Not done** |
+| 4 | Path A: BYOK env vars + config hygiene | **Not done** |
+| 5 | Concurrency throttle | Done (`512f64c`) |
+
+Shipped beyond the plan: provider auto-detection and Settings-page selection
+(`2c8b26a`), and the sequential workflow ported off the SDK (`5fc9b7e`).
+
+The gap that still matters is #3. A Gemini or OpenAI key works today. An
+Anthropic *API key* works today. A Claude **Pro/Max subscription** does not,
+because those plans sell a CLI seat and not API access, and `native` speaks
+only to APIs. That friend remains unserved, and the setup guide says so plainly
+rather than letting them discover it after installing.
+
+### 31.2 The database was not shareable, and that was not obvious
+
+Backfilling market history costs hours, so the natural question - "can I just
+send my friend the database file?" - has an appealing answer. The honest answer
+was no. One SQLite file holds everything, and alongside the market history sits
+`credentials/zerodha_access_token` (`zerodha/client.py`), the portfolio
+document, saved reports and schedule parameters.
+
+Nothing warned about this. The file is a single artifact with a neutral name,
+and copying it is the obvious move. Documenting the hazard would have been a
+poor fix: the useful data and the dangerous data are genuinely mixed, so a
+caveat asks the user to solve the problem themselves, every time.
+
+So the capability was built instead. `export_market_data()` copies an explicit
+**allow-list** of market tables into a new database; `import_market_data()`
+creates missing tables from the sender's schema and uses `INSERT OR IGNORE`,
+making it idempotent and safe on a machine that already has data.
+
+The allow-list direction is the whole design. A block-list of private tables
+fails open: the next feature that stores something personal leaks by default,
+silently, and a leaked broker token cannot be recalled. An allow-list fails
+closed - the next market table is simply absent until someone adds it, and the
+cost is that the recipient downloads a little more. Asymmetric consequences
+justify the less convenient default. A test asserts the exported bytes do not
+contain a seeded token.
+
+### 31.3 A first-run command that crashed on Windows
+
+`python -m scraper.bhavcopy --help` raised `UnicodeEncodeError` on Windows.
+`argparse` was handed the module docstring as its description, that docstring
+contained `\u2192`, and a cp1252 console cannot encode it.
+
+This is the same cp1252 hazard noted for log strings, but its position makes it
+far worse: it is a `--help` on a command the setup guide tells a newcomer to
+run, so it fails before any real work begins, and the traceback implicates
+`argparse` rather than the character responsible.
+
+The suite could never have caught it. pytest captures output through a UTF-8
+pipe, so the encoding that breaks is the one tests never use. `test_cli_help.py`
+therefore asserts the *property* rather than the behaviour: the help text of
+every documented entry point must survive a round trip through cp1252. The
+failure message names the character, its code point and its line, and gives the
+ASCII replacement.
+
+### 31.4 The recurring lesson
+
+Every defect in §29, §30 and §31 came from asking what a *different* machine
+would do - a machine without the Copilot CLI, without a subscription, with a
+free-tier key, with a cp1252 console. None came from the test suite, because a
+suite runs in the environment the author already has.
+
+The mitigations that generalise are the ones that encode the absent
+environment as an assertion: pin the default concurrency per backend, assert
+help text against the console encoding the author does not use, assert the
+export's bytes against a secret the author seeded. Each converts "remember to
+consider the other machine" into something that fails loudly on this one.
+
+556 tests pass.
