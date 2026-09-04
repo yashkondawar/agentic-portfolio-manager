@@ -29,6 +29,9 @@ import os
 import sys
 from typing import Any, Sequence
 
+from core.agent.loop import DEFAULT_MAX_TURNS
+from core.agent.loop import invoke_tool as _loop_invoke_tool
+from core.agent.loop import text_of as _loop_text_of
 from core.agent.types import (
     AgentRequest,
     AgentResult,
@@ -39,11 +42,6 @@ from core.agent.types import (
 logger = logging.getLogger("core.agent.native")
 
 __all__ = ["NativeRunner", "DEFAULT_MAX_TURNS"]
-
-#: Safety valve on the tool-calling loop. Research prompts here fan out over
-#: ~10 scraper tools across a shortlist, so this needs headroom, but an
-#: unbounded loop on a paid API is a bill nobody wants.
-DEFAULT_MAX_TURNS = 25
 
 _MISSING_DEPS_HINT = (
     "The 'native' agent backend needs LangChain plus a provider package.\n"
@@ -56,19 +54,31 @@ _MISSING_DEPS_HINT = (
 
 
 def _default_model() -> str:
-    model = (
-        os.getenv("AI_MODEL")
-        or os.getenv("NATIVE_MODEL")
-        or ""
-    ).strip()
-    if not model:
-        raise RuntimeError(
-            "AI_MODEL is not set. The 'native' backend needs an explicit model, "
-            "e.g. AI_MODEL=google_genai:gemini-2.5-pro or AI_MODEL=openai:gpt-4o.\n"
-            "There is no sensible default because the model determines which "
-            "API key is required."
-        )
-    return model
+    """Resolve the model string for the native backend.
+
+    ``AI_MODEL`` wins when set. Otherwise fall back to the model implied by
+    whichever API key is present: someone whose only credential is a
+    ``GOOGLE_API_KEY`` has already told us which provider they can reach, and
+    making them restate it as ``AI_MODEL`` is a second setup step that buys
+    nothing. The inference is announced by :func:`core.agent.detect.detect_backend`,
+    so it is never silent.
+    """
+    model = (os.getenv("AI_MODEL") or os.getenv("NATIVE_MODEL") or "").strip()
+    if model:
+        return model
+
+    from core.agent.detect import provider_for_key
+
+    inferred = provider_for_key()
+    if inferred:
+        return inferred[1]
+
+    raise RuntimeError(
+        "No model provider is configured. The 'native' backend needs either an "
+        "API key (GOOGLE_API_KEY, OPENAI_API_KEY or ANTHROPIC_API_KEY) or an "
+        "explicit AI_MODEL, e.g. AI_MODEL=google_genai:gemini-2.5-pro.\n"
+        "Set one in .env, or use the Settings page in the app."
+    )
 
 
 class NativeRunner:
@@ -113,59 +123,18 @@ class NativeRunner:
         emit: OutputSink,
     ) -> str:
         from langchain.chat_models import init_chat_model
-        from langchain_core.messages import (
-            AIMessage,
-            HumanMessage,
-            ToolMessage,
-        )
+
+        from core.agent.loop import run_tool_loop
 
         tools = await self._load_tools(request)
-        model: Any = init_chat_model(model_id)
-        if tools:
-            model = model.bind_tools(tools)
-        by_name = {t.name: t for t in tools}
-
         # The prompt is passed inline. The Copilot CLI's write-to-file dance is
         # a command-line length workaround and has no place here.
-        messages: list[Any] = [HumanMessage(content=request.prompt)]
-
-        max_turns = int(os.getenv("AI_MAX_TURNS", DEFAULT_MAX_TURNS))
-        final = ""
-
-        for turn in range(max_turns):
-            response: AIMessage = await model.ainvoke(messages)
-            messages.append(response)
-
-            tool_calls = getattr(response, "tool_calls", None) or []
-            if not tool_calls:
-                final = self._text_of(response)
-                emit(final)
-                break
-
-            logger.info(
-                "turn %d/%d: model requested %d tool call(s): %s",
-                turn + 1,
-                max_turns,
-                len(tool_calls),
-                ", ".join(c.get("name", "?") for c in tool_calls),
-            )
-            for call in tool_calls:
-                messages.append(
-                    ToolMessage(
-                        content=await self._invoke_tool(by_name, call),
-                        tool_call_id=call.get("id", ""),
-                    )
-                )
-        else:
-            raise RuntimeError(
-                f"Native agent hit the {max_turns}-turn limit without producing a "
-                f"final answer. Raise AI_MAX_TURNS if this is a genuinely large "
-                f"research run."
-            )
-
-        if not final.strip():
-            raise RuntimeError("Native agent returned an empty response.")
-        return final
+        return await run_tool_loop(
+            model=init_chat_model(model_id),
+            tools=tools,
+            prompt=request.prompt,
+            emit=emit,
+        )
 
     async def _load_tools(self, request: AgentRequest) -> Sequence[Any]:
         """Render our provider-neutral MCP specs into LangChain tools."""
@@ -192,41 +161,7 @@ class NativeRunner:
         )
         return tools
 
-    @staticmethod
-    async def _invoke_tool(by_name: dict[str, Any], call: dict) -> str:
-        """Run one tool call, converting failures into text the model can read.
-
-        A raised exception would abort the whole research run; handing the
-        error back as a tool result lets the model route around a single dead
-        scraper, which is the behaviour the vendor harnesses have.
-        """
-        name = call.get("name", "")
-        tool = by_name.get(name)
-        if tool is None:
-            return f"Tool {name!r} is not available."
-        try:
-            result = await tool.ainvoke(call.get("args", {}))
-        except Exception as exc:  # noqa: BLE001
-            logger.warning("MCP tool %s failed: %s", name, exc)
-            return f"Tool {name!r} failed: {exc}"
-        return result if isinstance(result, str) else str(result)
-
-    @staticmethod
-    def _text_of(message: Any) -> str:
-        """Flatten a chat message's content to text.
-
-        Anthropic-style models return a list of content blocks rather than a
-        string, so a bare ``str(content)`` would leak Python repr into reports.
-        """
-        content = getattr(message, "content", "")
-        if isinstance(content, str):
-            return content
-        if isinstance(content, list):
-            parts: list[str] = []
-            for block in content:
-                if isinstance(block, str):
-                    parts.append(block)
-                elif isinstance(block, dict) and block.get("type") == "text":
-                    parts.append(block.get("text", ""))
-            return "".join(parts)
-        return str(content)
+    # Retained as thin aliases: the implementations now live in core.agent.loop
+    # so main.py's sequential stages share exactly this behaviour.
+    _invoke_tool = staticmethod(_loop_invoke_tool)
+    _text_of = staticmethod(_loop_text_of)

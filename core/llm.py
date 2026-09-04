@@ -73,7 +73,8 @@ def _require_sdk() -> None:
         "The GitHub Copilot SDK is not installed, so the 'copilot_cli' backend "
         "is unavailable. Either install it with `pip install -e \".[copilot]\"` "
         "(needs a Copilot subscription), or switch to a backend that only needs "
-        "an API key by setting AI_AGENT_BACKEND=native and AI_MODEL in your "
+        "an API key by setting AI_AGENT_BACKEND=native and one of "
+        "GOOGLE_API_KEY / OPENAI_API_KEY / ANTHROPIC_API_KEY in your "
         f".env. See README.md 'Choosing a model provider'. ({_SDK_IMPORT_ERROR})"
     )
 

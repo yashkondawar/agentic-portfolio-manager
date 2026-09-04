@@ -1237,19 +1237,88 @@ an analysis. Choosing `native` sets `WEB_GROUNDING=false` automatically and says
 `agents/portfolio_manager.py` use - so `parallel_agents` runs on any provider with no change to the
 agents themselves. Temperature, which Copilot ignores, is honoured natively.
 
-### The remaining hole, stated plainly
+### The remaining hole, now closed
 
-`main.py` still calls `run_copilot_prompt` / `copilot_client` directly - Surface B, never ported.
-So the **sequential-agents** strategy is Copilot-only. Rather than let it fail with a confusing
-"SDK not installed", it now checks the selected backend and says which workflows *do* run
-everywhere. Porting `StockResearchSystem` to the agent port is the natural next step.
+`main.py` still called `run_copilot_prompt` / `copilot_client` directly - Surface B, never ported - so
+the **sequential-agents** strategy was Copilot-only. §29 closes it.
 
 | Strategy | Runs on `native`? |
 |---|---|
 | Swing / portfolio / watchlist / qtr-results | yes - go through the agent port |
 | Parallel agents | yes - via provider-aware `get_llm()` |
-| Sequential agents | **no** - `main.StockResearchSystem` still calls the SDK directly |
+| Sequential agents | yes - since §29 |
 
 534 tests pass, including six that pin the detection precedence (a reshuffle would silently move
 users onto a provider they did not pick) and three that prove a UI save cannot shred a hand-edited
 `.env`.
+
+---
+
+## Part VII - Closing the last hole
+
+## 29. Porting the sequential workflow off the SDK
+
+### Why `AgentRequest` was the wrong tool
+
+The obvious move was to route `main.py` through `run_agent()` like the other four surfaces. That is
+wrong, and the reason is worth recording: `AgentRequest` carries **`mcp_servers`**, but `main.py`'s
+tools are **in-process LangChain tools** from `scraper.get_all_scraper_tools()`. They are Python
+objects in the same process, not a stdio server to spawn. Forcing them through MCP would mean
+standing up a server just to talk to ourselves.
+
+What `main.py` actually needed was not the transport - it was the **loop**.
+
+### The extraction
+
+`NativeRunner` already contained a tool-calling loop. It is now `core/agent/loop.py`:
+
+```python
+run_tool_loop(model=..., tools=..., prompt=..., emit=None, max_turns=None) -> str
+```
+
+The loop cannot tell where its tools came from - MCP-derived or in-process, they are both just
+LangChain tools with `.name` and `.ainvoke()`. So one implementation serves both callers, and the
+turn limit, the tolerate-a-failing-tool behaviour and the Anthropic content-block flattening cannot
+drift apart between them. `NativeRunner` now delegates to it.
+
+### The port
+
+`StockResearchSystem` gained two small things and lost its hard dependency on the SDK:
+
+* `_resolve_backend()` - detects once, lazily. Not in `__init__`, so merely constructing the object
+  never inspects the environment or fires the one-time provider announcement.
+* `_stage_host()` - an `asynccontextmanager` that yields *whatever the backend needs held open across
+  the four stages*: the Copilot SDK client, or - for every other provider - a chat model. Both arrive
+  at `_run_stage` as `client`, and the dispatch there is a single `if`.
+
+Stage prompts, the `_STAGE_TOOLS` per-stage tool policy and the four-stage sequence are untouched.
+The guard added in §28 is gone; `sequential_agents` now validates the Copilot toolchain only when
+Copilot is the selected backend.
+
+### A bug the simulation caught
+
+Re-running the "Gemini friend" simulation surfaced something the test suite could not: `get_llm()`
+refused to start because `AI_MODEL` was unset - **even though detection had already printed
+`google_genai:gemini-2.5-pro` in its own reason string.** The user was being asked to restate a fact
+the program had just deduced.
+
+The original comment claimed "there is no sensible default because the model determines which API
+key is required." That was true when written and false once `detect.provider_for_key()` existed:
+the implication runs the other way, and the *key* determines the model. `_default_model()` now falls
+back to the key-implied model, and raises only when there is genuinely nothing to infer from.
+
+This is the third defect found by simulating a user's machine rather than by running the tests
+(after the module-scope `import copilot` in §25 and the em-dash/`ImportError` pair in §27). The
+pattern is consistent enough to state as a rule: **a test suite running on the maintainer's machine
+cannot see the maintainer's assumptions.** Only an environment that lacks what the maintainer has
+can do that.
+
+### Verification
+
+* 539 tests pass, including a new one driving all four stages on a non-Copilot backend.
+* End-to-end with the SDK import blocked, no CLI on `PATH`, and only `GOOGLE_API_KEY`: detection
+  chose `native`, all nine scraper tools loaded, four stages ran, and the real `search_nse_stocks`
+  scraper tool executed through `run_tool_loop` and its result reached the model.
+
+Every strategy in the repo now runs on every backend.
+

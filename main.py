@@ -1,4 +1,4 @@
-"""Sequential stock research powered by authenticated GitHub Copilot SDK."""
+"""Sequential stock research, runnable on any configured model provider."""
 
 from __future__ import annotations
 
@@ -6,10 +6,11 @@ import asyncio
 import logging
 import os
 import uuid
+from contextlib import asynccontextmanager
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, AsyncIterator, Dict, List, Optional
 
 from dotenv import load_dotenv
 
@@ -103,17 +104,33 @@ class StockResearchSystem:
         self.use_free_scraper = os.getenv("USE_FREE_SCRAPER", "true").lower() == "true"
         self.client = None
         self.tools: list[Any] = []
+        self.backend: str = ""
+        """Resolved lazily; empty until :meth:`initialize` or first use."""
+
+    def _resolve_backend(self) -> str:
+        """Return the selected backend, detecting it once if needed.
+
+        Detection is deferred rather than done in ``__init__`` so that merely
+        constructing the system never inspects the environment or emits the
+        one-time provider announcement.
+        """
+        if not self.backend:
+            from core.agent.detect import detect_backend
+
+            self.backend = detect_backend().backend
+        return self.backend
 
     async def initialize(self) -> None:
-        """Load read-only research tools and validate Copilot readiness."""
-        validate_copilot_configuration()
+        """Load read-only research tools and validate provider readiness."""
+        if self._resolve_backend() == "copilot_cli":
+            validate_copilot_configuration()
         if self.use_free_scraper:
             self.tools = self._get_free_tools()
         else:
             self.tools = await self._get_bright_data_tools()
         logger.info(
-            "Sequential Copilot research initialized",
-            extra={"tool_count": len(self.tools)},
+            "Sequential research initialized",
+            extra={"tool_count": len(self.tools), "backend": self.backend},
         )
 
     def _get_free_tools(self) -> list[Any]:
@@ -185,24 +202,48 @@ class StockResearchSystem:
         context: str,
     ) -> str:
         agent_id_ctx.set(stage_name)
+        backend = self._resolve_backend()
         tools = self._tools_for_stage(stage_name)
-        logger.info("Starting sequential Copilot stage")
-        output = await run_copilot_prompt(
-            self._stage_prompt(
-                stage_name=stage_name,
-                instructions=instructions,
-                user_query=user_query,
-                context=context,
-                tools=tools,
-            ),
-            client=client,
+        logger.info("Starting sequential stage", extra={"backend": backend})
+        prompt = self._stage_prompt(
+            stage_name=stage_name,
+            instructions=instructions,
+            user_query=user_query,
+            context=context,
             tools=tools,
         )
-        logger.info("Completed sequential Copilot stage")
+
+        if backend == "copilot_cli":
+            output = await run_copilot_prompt(prompt, client=client, tools=tools)
+        else:
+            # Same in-process LangChain tools, driven by the shared tool loop.
+            # `client` is the unbound chat model; the loop binds the tools.
+            from core.agent.loop import run_tool_loop
+
+            output = await run_tool_loop(model=client, tools=tools, prompt=prompt)
+
+        logger.info("Completed sequential stage")
         return output
 
+    @asynccontextmanager
+    async def _stage_host(self) -> AsyncIterator[Any]:
+        """Yield whatever the selected backend needs held open across stages.
+
+        Copilot reuses one SDK client for all four stages; the native path has
+        no session to keep alive, so it yields a chat model instead. Both are
+        passed to ``_run_stage`` as ``client``.
+        """
+        if self._resolve_backend() == "copilot_cli":
+            async with copilot_client() as client:
+                yield client
+            return
+
+        from core.llm import get_llm
+
+        yield get_llm()
+
     async def analyze_stocks(self, user_query: str | None = None) -> Dict[str, Any]:
-        """Run the complete four-stage Copilot research workflow."""
+        """Run the complete four-stage research workflow on any provider."""
         session_id = str(uuid.uuid4())
         session_id_ctx.set(session_id)
         agent_id_ctx.set("supervisor")
@@ -220,7 +261,7 @@ class StockResearchSystem:
         messages: list[dict[str, str]] = []
         context_parts: list[str] = []
 
-        async with copilot_client() as client:
+        async with self._stage_host() as client:
             for stage_name, instructions in stages:
                 output = await self._run_stage(
                     client=client,

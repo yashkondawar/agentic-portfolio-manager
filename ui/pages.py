@@ -470,6 +470,8 @@ def _render_backend_form(choice) -> None:
             value=os.getenv("AI_MODEL", "").strip()
             or (choice.model or "google_genai:gemini-2.5-pro"),
             help=(
+                "Optional — inferred from whichever API key you set below. "
+                "Override here, or set it for a local model. "
                 "provider:model — e.g. google_genai:gemini-2.5-pro, "
                 "openai:gpt-4o, anthropic:claude-sonnet-4-5, ollama:llama3.1"
             ),

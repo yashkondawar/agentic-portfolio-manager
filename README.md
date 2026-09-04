@@ -11,7 +11,7 @@ and run them uniformly.
 
 | Strategy id | System | Category |
 |-------------|--------|----------|
-| `sequential_agents` | Copilot SDK agents run in four research stages | research |
+| `sequential_agents` | Four research stages run in sequence, on any provider | research |
 | `parallel_agents`   | Concurrent multi-analyst fan-out + risk/portfolio managers | research |
 | `swing_trading`     | Daily swing-trading copilot | swing |
 | `portfolio_analysis`| Holistic portfolio review + rebalancing | portfolio |
@@ -246,11 +246,25 @@ completes the session without copying a request token into the UI.
 
 The research agents run on a pluggable harness selected by `AI_AGENT_BACKEND`.
 Strategy logic, prompts and the ten scraper MCP tools are identical across all
-of them — only the harness changes.
+of them — only the harness changes, so **every workflow runs on every backend**.
+
+**You usually don't need to set anything.** On first run the app detects what
+your machine can actually do and says so in the logs:
+
+```
+No Copilot CLI found, but GOOGLE_API_KEY is set — using the native backend
+with Google Gemini (google_genai:gemini-2.5-pro).
+```
+
+To change or confirm the choice, open **Settings & Catalog** in the sidebar. It
+shows which backends are ready on this machine, lets you pick one and paste an
+API key, and **saves to `.env`** so the choice survives a restart. Detection is
+never silent — an API key costs money, so the app always tells you which
+provider it picked and why.
 
 | You have | `AI_AGENT_BACKEND` | Extra install | Needs a CLI? |
 |---|---|---|---|
-| GitHub Copilot subscription | `copilot_cli` *(default)* | `--extra copilot` + `npm i -g @github/copilot` | yes |
+| GitHub Copilot subscription | `copilot_cli` | `--extra copilot` + `npm i -g @github/copilot` | yes |
 | Any LLM API key | `native` | `--extra gemini` / `openai` / `anthropic` | **no** |
 | Nothing, but a local GPU/CPU | `native` + Ollama | — | no |
 | Claude Pro/Max subscription | *not yet supported* — see [the plan](docs/multi-provider-plan.md) | — | — |
@@ -265,11 +279,13 @@ COPILOT_TIMEOUT=300
 ```
 
 **Any API key — no CLI, no subscription, no GitHub account.** This is also the
-only backend that runs in a container or in CI.
+only backend that runs in a container or in CI. `AI_MODEL` is **optional**: with
+a single API key set, the matching model is inferred.
 
 ```bash
 AI_AGENT_BACKEND=native
-AI_MODEL=google_genai:gemini-2.5-pro   # + GOOGLE_API_KEY
+GOOGLE_API_KEY=...                     # that's enough — model is inferred
+# AI_MODEL=google_genai:gemini-2.5-pro # set only to override the inference
 # AI_MODEL=openai:gpt-4o               # + OPENAI_API_KEY
 # AI_MODEL=anthropic:claude-sonnet-4-5 # + ANTHROPIC_API_KEY
 # AI_MODEL=ollama:llama3.1             # fully local, no API key at all

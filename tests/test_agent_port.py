@@ -8,6 +8,7 @@ the CLI and the repo owner's working setup is at risk.
 
 from __future__ import annotations
 
+import contextlib
 import json
 import os
 from pathlib import Path
@@ -314,13 +315,49 @@ def test_native_flattens_anthropic_style_content_blocks() -> None:
     assert NativeRunner._text_of(_Msg()) == "Hello world"
 
 
-def test_native_requires_explicit_model(monkeypatch: pytest.MonkeyPatch) -> None:
-    """No silent default — the model determines which API key is needed."""
+def test_native_model_is_inferred_from_the_single_api_key(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """One key is enough. Restating it as AI_MODEL buys the user nothing.
+
+    Someone whose only credential is a GOOGLE_API_KEY has already said which
+    provider they can reach; demanding AI_MODEL too is a second setup step and
+    was the exact wall the Gemini-only user hit.
+    """
     from core.agent.runners.native import _default_model
 
-    monkeypatch.delenv("AI_MODEL", raising=False)
+    for var in ("AI_MODEL", "NATIVE_MODEL", "OPENAI_API_KEY", "ANTHROPIC_API_KEY"):
+        monkeypatch.delenv(var, raising=False)
+    monkeypatch.setenv("GOOGLE_API_KEY", "k")
+    assert _default_model() == "google_genai:gemini-2.5-pro"
+
+
+def test_native_explicit_model_beats_the_inferred_one(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from core.agent.runners.native import _default_model
+
     monkeypatch.delenv("NATIVE_MODEL", raising=False)
-    with pytest.raises(RuntimeError, match="AI_MODEL is not set"):
+    monkeypatch.setenv("GOOGLE_API_KEY", "k")
+    monkeypatch.setenv("AI_MODEL", "openai:gpt-4o")
+    assert _default_model() == "openai:gpt-4o"
+
+
+def test_native_raises_when_nothing_at_all_is_configured(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """With no key and no model there is genuinely nothing to infer."""
+    from core.agent.runners.native import _default_model
+
+    for var in (
+        "AI_MODEL",
+        "NATIVE_MODEL",
+        "GOOGLE_API_KEY",
+        "OPENAI_API_KEY",
+        "ANTHROPIC_API_KEY",
+    ):
+        monkeypatch.delenv(var, raising=False)
+    with pytest.raises(RuntimeError, match="No model provider is configured"):
         _default_model()
 
 
@@ -553,3 +590,119 @@ def test_blank_value_clears_the_live_environment(
 
     settings.persist_settings({"AI_MODEL": ""})
     assert "AI_MODEL" not in os.environ
+
+
+# ---------------------------------------------------------------------------
+# Shared tool loop + provider-neutral sequential workflow
+# ---------------------------------------------------------------------------
+
+
+class _FakeTool:
+    def __init__(self, name: str, result: str = "tool-output") -> None:
+        self.name = name
+        self._result = result
+        self.calls: list[dict] = []
+
+    async def ainvoke(self, args):
+        self.calls.append(args)
+        return self._result
+
+
+class _FakeModel:
+    """Chat model that emits a scripted sequence of responses."""
+
+    def __init__(self, script) -> None:
+        self._script = list(script)
+        self.bound_tools = None
+
+    def bind_tools(self, tools):
+        self.bound_tools = list(tools)
+        return self
+
+    async def ainvoke(self, messages):
+        return self._script.pop(0)
+
+
+class _Msg:
+    def __init__(self, content="", tool_calls=None) -> None:
+        self.content = content
+        self.tool_calls = tool_calls or []
+
+
+def test_tool_loop_runs_tools_then_returns_final_text() -> None:
+    import asyncio as _asyncio
+
+    from core.agent.loop import run_tool_loop
+
+    tool = _FakeTool("get_price", "1234")
+    model = _FakeModel(
+        [
+            _Msg(tool_calls=[{"name": "get_price", "args": {"s": "TCS"}, "id": "1"}]),
+            _Msg(content="TCS trades at 1234."),
+        ]
+    )
+
+    out = _asyncio.run(
+        run_tool_loop(model=model, tools=[tool], prompt="price of TCS?")
+    )
+    assert out == "TCS trades at 1234."
+    assert tool.calls == [{"s": "TCS"}]
+    assert model.bound_tools == [tool]
+
+
+def test_tool_loop_turn_limit_is_enforced() -> None:
+    """An unbounded loop against a paid API is a bill nobody wants."""
+    import asyncio as _asyncio
+
+    from core.agent.loop import run_tool_loop
+
+    tool = _FakeTool("spin")
+    model = _FakeModel(
+        [_Msg(tool_calls=[{"name": "spin", "args": {}, "id": "x"}])] * 10
+    )
+
+    with pytest.raises(RuntimeError, match="turn limit"):
+        _asyncio.run(
+            run_tool_loop(model=model, tools=[tool], prompt="go", max_turns=3)
+        )
+
+
+def test_sequential_workflow_runs_on_a_non_copilot_backend(
+    clean_env: pytest.MonkeyPatch,
+) -> None:
+    """The four-stage workflow must not require Copilot any more.
+
+    Previously main.StockResearchSystem called the SDK directly, so this
+    strategy was the one workflow both non-Copilot users could not run.
+    """
+    import asyncio as _asyncio
+
+    import main as main_mod
+
+    clean_env.setenv("AI_AGENT_BACKEND", "native")
+    clean_env.setenv("USE_FREE_SCRAPER", "true")
+
+    system = main_mod.StockResearchSystem()
+    system.tools = [_FakeTool("get_stock_price", "999")]
+    system.backend = "native"
+
+    # Four stages, each answering without calling a tool.
+    model = _FakeModel([_Msg(content=f"stage {i} done") for i in range(4)])
+    system._stage_host = lambda: _null_host(model)
+
+    result = _asyncio.run(system.analyze_stocks("find me a stock"))
+
+    assert result["status"] == "completed"
+    assert len(result["messages"]) == 4
+    assert [m["name"] for m in result["messages"]] == [
+        "stock_finder_agent",
+        "market_data_agent",
+        "news_analyst_agent",
+        "recommendation_agent",
+    ]
+    assert result["messages"][0]["content"] == "stage 0 done"
+
+
+@contextlib.asynccontextmanager
+async def _null_host(model):
+    yield model

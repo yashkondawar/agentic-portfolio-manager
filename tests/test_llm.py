@@ -163,6 +163,9 @@ def test_sequential_research_runs_four_copilot_stages(monkeypatch):
         )
         return outputs[len(calls) - 1]
 
+    # The workflow now runs on any provider, so pin the backend rather than
+    # relying on whatever this machine happens to have configured.
+    monkeypatch.setenv("AI_AGENT_BACKEND", "copilot_cli")
     monkeypatch.setattr(main, "copilot_client", fake_client)
     monkeypatch.setattr(main, "run_copilot_prompt", fake_run)
 
