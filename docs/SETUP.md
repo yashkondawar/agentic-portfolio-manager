@@ -484,6 +484,36 @@ AI_MAX_CONCURRENCY=2
 **A download stopped partway through**
 Just run the same command again. It continues from where it stopped.
 
+**The install fails with "Failed to fetch", "HandshakeFailure" or "Connect"**
+You are almost certainly on a work, school or VPN network that inspects secure
+connections, so the installer does not trust it. Add `--native-tls` to the end
+of your install line, which tells the installer to use the certificates your
+computer already trusts:
+
+```
+uv sync --extra claude --native-tls
+```
+
+(swap `claude` for whichever provider you chose). If it still fails, your
+network probably requires you to download packages from an internal mirror
+rather than the public one. Ask your IT team for the mirror address, then run
+the install once more with it — replacing the example address below:
+
+Windows PowerShell:
+```
+$env:UV_DEFAULT_INDEX = "https://your-company-mirror/pypi/simple/"
+uv sync --extra claude --native-tls
+```
+
+macOS:
+```
+export UV_DEFAULT_INDEX="https://your-company-mirror/pypi/simple/"
+uv sync --extra claude --native-tls
+```
+
+You only need to do this the first time. Afterwards `uv run streamlit run
+app.py` starts the app normally, because everything is already downloaded.
+
 **The app will not start at all**
 Make sure you ran the `uv sync` line for your provider in
 [step 3](#3-install-it) — a different provider's line will not do. Then try:
