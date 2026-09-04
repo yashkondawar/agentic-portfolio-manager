@@ -62,7 +62,22 @@ class SequentialAgentsStrategy(BaseStrategy):
         ]
 
     def run(self, params: Dict[str, Any]) -> StrategyResult:
+        # This strategy drives main.StockResearchSystem, which still calls the
+        # Copilot SDK directly rather than going through the agent port, so it
+        # cannot run on another provider yet. Say that plainly instead of
+        # surfacing a bare "SDK not installed" error to someone who
+        # deliberately selected a different backend.
+        from core.agent.detect import detect_backend
         from core.llm import validate_copilot_configuration
+
+        choice = detect_backend()
+        if choice.backend != "copilot_cli":
+            raise RuntimeError(
+                f"The '{self.name}' strategy currently requires the Copilot "
+                f"backend, but '{choice.backend}' is selected. Use the "
+                f"parallel-agents strategy or the swing/portfolio/watchlist "
+                f"workflows, which run on any provider."
+            )
 
         validate_copilot_configuration()
 

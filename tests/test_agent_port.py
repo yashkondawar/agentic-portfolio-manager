@@ -9,6 +9,7 @@ the CLI and the repo owner's working setup is at risk.
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 
 import pytest
@@ -154,8 +155,17 @@ def test_request_without_web_search_passes_capability_check() -> None:
 # ─── Registry ─────────────────────────────────────────────────────────────────
 
 def test_default_backend_is_copilot_cli(monkeypatch: pytest.MonkeyPatch) -> None:
-    """Existing setups must be unaffected by the refactor."""
+    """On a machine with Copilot installed, the refactor changes nothing.
+
+    Forced rather than inferred: since detection landed, an un-pinned version
+    of this test would pass or fail depending on whether the machine running
+    it happens to have the Copilot CLI.
+    """
+    import core.agent.detect as detect
+
     monkeypatch.delenv("AI_AGENT_BACKEND", raising=False)
+    monkeypatch.delenv("AI_MODEL", raising=False)
+    monkeypatch.setattr(detect, "_copilot_ready", lambda: True)
     assert get_agent_runner().name == "copilot_cli"
 
 
@@ -382,3 +392,164 @@ def test_app_starts_and_fails_helpfully_without_the_copilot_sdk() -> None:
         "app does not start without github-copilot-sdk.\n"
         f"stdout:\n{proc.stdout}\nstderr:\n{proc.stderr[-3000:]}"
     )
+
+
+# ---------------------------------------------------------------------------
+# First-run backend detection
+#
+# The point of detection is that a user who has never opened Settings still
+# gets a working default. These tests pin the precedence order, because a
+# reshuffle would silently move users onto a provider (and a bill) they did
+# not choose.
+# ---------------------------------------------------------------------------
+
+
+@pytest.fixture
+def clean_env(monkeypatch: pytest.MonkeyPatch) -> pytest.MonkeyPatch:
+    for var in (
+        "AI_AGENT_BACKEND",
+        "AI_MODEL",
+        "NATIVE_MODEL",
+        "COPILOT_CLI_PATH",
+        "COPILOT_BIN",
+        "GOOGLE_API_KEY",
+        "OPENAI_API_KEY",
+        "ANTHROPIC_API_KEY",
+    ):
+        monkeypatch.delenv(var, raising=False)
+    return monkeypatch
+
+
+def test_explicit_backend_always_wins(clean_env: pytest.MonkeyPatch) -> None:
+    from core.agent.detect import detect_backend
+
+    clean_env.setenv("AI_AGENT_BACKEND", "native")
+    clean_env.setenv("GOOGLE_API_KEY", "x")
+    choice = detect_backend()
+    assert choice.backend == "native"
+    assert choice.explicit is True
+
+
+def test_copilot_is_preferred_when_fully_installed(
+    clean_env: pytest.MonkeyPatch,
+) -> None:
+    import core.agent.detect as detect
+
+    clean_env.setattr(detect, "_copilot_ready", lambda: True)
+    clean_env.setenv("GOOGLE_API_KEY", "x")
+
+    choice = detect.detect_backend()
+    assert choice.backend == "copilot_cli"
+    assert choice.explicit is False
+    assert choice.resolved is True
+
+
+def test_api_key_selects_native_when_copilot_is_absent(
+    clean_env: pytest.MonkeyPatch,
+) -> None:
+    import core.agent.detect as detect
+
+    clean_env.setattr(detect, "_copilot_ready", lambda: False)
+    clean_env.setattr(detect, "_native_ready", lambda: True)
+    clean_env.setenv("GOOGLE_API_KEY", "x")
+
+    choice = detect.detect_backend()
+    assert choice.backend == "native"
+    assert choice.model == "google_genai:gemini-2.5-pro"
+    assert "GOOGLE_API_KEY" in choice.reason
+
+
+def test_nothing_installed_is_flagged_unresolved(clean_env: pytest.MonkeyPatch) -> None:
+    """A bare machine must not look like a working Copilot install."""
+    import core.agent.detect as detect
+
+    clean_env.setattr(detect, "_copilot_ready", lambda: False)
+    clean_env.setattr(detect, "_native_ready", lambda: False)
+
+    choice = detect.detect_backend()
+    assert choice.resolved is False
+    assert "No model provider detected" in choice.reason
+
+
+def test_api_key_without_langchain_is_unresolved_not_silently_copilot(
+    clean_env: pytest.MonkeyPatch,
+) -> None:
+    """Having a key but no LangChain is a setup error, not a Copilot user."""
+    import core.agent.detect as detect
+
+    clean_env.setattr(detect, "_copilot_ready", lambda: False)
+    clean_env.setattr(detect, "_native_ready", lambda: False)
+    clean_env.setenv("OPENAI_API_KEY", "x")
+
+    choice = detect.detect_backend()
+    assert choice.resolved is False
+    assert "LangChain is not installed" in choice.reason
+
+
+def test_ai_model_alone_implies_native(clean_env: pytest.MonkeyPatch) -> None:
+    import core.agent.detect as detect
+
+    clean_env.setattr(detect, "_copilot_ready", lambda: True)
+    clean_env.setenv("AI_MODEL", "ollama:llama3.1")
+
+    choice = detect.detect_backend()
+    assert choice.backend == "native"
+    assert choice.model == "ollama:llama3.1"
+
+
+# ---------------------------------------------------------------------------
+# Settings persistence
+# ---------------------------------------------------------------------------
+
+
+def test_persist_settings_preserves_comments_and_unmanaged_keys(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Saving from the UI must not shred a hand-edited .env."""
+    import core.agent.settings as settings
+
+    env = tmp_path / ".env"
+    env.write_text(
+        "# my notes\nZERODHA_API_KEY=secret\n\n# section\nUSE_FREE_SCRAPER=true\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(settings, "env_file", lambda: env)
+
+    settings.persist_settings(
+        {"AI_AGENT_BACKEND": "native", "AI_MODEL": "openai:gpt-4o"}
+    )
+
+    text = env.read_text(encoding="utf-8")
+    assert "# my notes" in text
+    assert "ZERODHA_API_KEY=secret" in text
+    assert "AI_AGENT_BACKEND=native" in text
+    assert "AI_MODEL=openai:gpt-4o" in text
+    assert os.environ["AI_MODEL"] == "openai:gpt-4o"
+
+
+def test_persist_settings_rejects_unmanaged_keys(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A settings form must not be able to write arbitrary env vars."""
+    import core.agent.settings as settings
+
+    env = tmp_path / ".env"
+    env.write_text("", encoding="utf-8")
+    monkeypatch.setattr(settings, "env_file", lambda: env)
+
+    with pytest.raises(ValueError, match="unmanaged keys"):
+        settings.persist_settings({"PATH": "/tmp/evil"})
+
+
+def test_blank_value_clears_the_live_environment(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import core.agent.settings as settings
+
+    env = tmp_path / ".env"
+    env.write_text("", encoding="utf-8")
+    monkeypatch.setattr(settings, "env_file", lambda: env)
+    monkeypatch.setenv("AI_MODEL", "openai:gpt-4o")
+
+    settings.persist_settings({"AI_MODEL": ""})
+    assert "AI_MODEL" not in os.environ

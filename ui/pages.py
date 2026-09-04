@@ -383,27 +383,186 @@ def broker_page() -> None:
             st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
 
 
+def _backend_readiness(choice) -> list[dict[str, str]]:
+    """Readiness rows for the *selected* backend only.
+
+    The previous table always reported Copilot CLI/SDK status, which told a
+    native-backend user nothing useful and made a working setup look broken.
+    """
+    from core.agent.detect import API_KEY_MODELS
+
+    if choice.backend == "copilot_cli":
+        return [
+            {
+                "Capability": "Copilot CLI",
+                "Status": "Ready" if shutil.which("copilot") else "Not found",
+            },
+            {
+                "Capability": "Copilot SDK",
+                "Status": "Ready" if find_spec("copilot") else "Not installed",
+            },
+            {
+                "Capability": "Model",
+                "Status": os.getenv("COPILOT_MODEL", "").strip() or "claude-opus-4.7",
+            },
+        ]
+
+    if choice.backend == "native":
+        keys = [
+            label
+            for env_var, _model, label in API_KEY_MODELS
+            if os.getenv(env_var, "").strip()
+        ]
+        return [
+            {
+                "Capability": "LangChain",
+                "Status": "Ready" if find_spec("langchain") else "Not installed",
+            },
+            {
+                "Capability": "API key",
+                "Status": ", ".join(keys) if keys else "None set",
+            },
+            {
+                "Capability": "Model",
+                "Status": os.getenv("AI_MODEL", "").strip() or "Not set",
+            },
+            {
+                "Capability": "Web grounding",
+                "Status": (
+                    "Must be off for this backend"
+                    if os.getenv("WEB_GROUNDING", "true").lower() == "true"
+                    else "Off (correct)"
+                ),
+            },
+        ]
+
+    return [{"Capability": choice.backend, "Status": "Not implemented yet"}]
+
+
+def _render_backend_form(choice) -> None:
+    """Provider selector plus only the fields that provider actually uses."""
+    from core.agent import available_backends
+    from core.agent.detect import API_KEY_MODELS
+    from core.agent.settings import persist_settings
+
+    backends = available_backends()
+    labels = {
+        "copilot_cli": "GitHub Copilot  ·  needs a subscription + the Copilot CLI",
+        "native": "Direct API key  ·  Gemini / OpenAI / Anthropic / Ollama",
+        "claude_code": "Claude Code  ·  not implemented yet",
+    }
+
+    with st.form("agent_backend"):
+        selected = st.selectbox(
+            "Model provider",
+            backends,
+            index=backends.index(choice.backend) if choice.backend in backends else 0,
+            format_func=lambda name: labels.get(name, name),
+        )
+
+        copilot_model = st.text_input(
+            "Copilot model",
+            value=os.getenv("COPILOT_MODEL", "").strip() or "claude-opus-4.7",
+            help="Model ID available to your Copilot subscription.",
+        )
+        ai_model = st.text_input(
+            "Model (native backend)",
+            value=os.getenv("AI_MODEL", "").strip()
+            or (choice.model or "google_genai:gemini-2.5-pro"),
+            help=(
+                "provider:model — e.g. google_genai:gemini-2.5-pro, "
+                "openai:gpt-4o, anthropic:claude-sonnet-4-5, ollama:llama3.1"
+            ),
+        )
+        key_values: dict[str, str] = {}
+        for env_var, _model, label in API_KEY_MODELS:
+            key_values[env_var] = st.text_input(
+                f"{label} API key",
+                value=os.getenv(env_var, ""),
+                type="password",
+                help="Stored in .env, which is git-ignored. Leave blank to skip.",
+            )
+
+        free_scraper = st.checkbox(
+            "Use free scraper",
+            value=os.getenv("USE_FREE_SCRAPER", "true").lower() == "true",
+        )
+        saved = st.form_submit_button("Save to .env", type="primary")
+
+    if not saved:
+        return
+
+    updates: dict[str, str | None] = {
+        "AI_AGENT_BACKEND": selected,
+        "USE_FREE_SCRAPER": "true" if free_scraper else "false",
+        "COPILOT_MODEL": copilot_model,
+        **key_values,
+    }
+    if selected == "native":
+        updates["AI_MODEL"] = ai_model
+        # The native backend has no browsing tool, so a request that demands
+        # one is rejected before any tokens are spent. Flipping this for the
+        # user is the difference between "it works" and an error they have no
+        # way to interpret.
+        updates["WEB_GROUNDING"] = "false"
+    else:
+        updates["AI_MODEL"] = None
+
+    try:
+        path = persist_settings(updates)
+    except (OSError, ValueError) as exc:
+        st.error(f"Could not save settings: {exc}")
+        return
+
+    st.session_state["broker"] = None
+    st.success(f"Saved to {path}. Applied to this session too.")
+    if selected == "native":
+        st.info(
+            "Web grounding was turned off automatically — the native backend "
+            "has no built-in browsing. The scraper tools (live prices, "
+            "fundamentals, technicals, news) still run."
+        )
+    st.rerun()
+
+
+def _render_connection_test() -> None:
+    """Let the user prove the provider works before starting a long analysis.
+
+    Without this the first feedback on a bad key arrives minutes into a run.
+    """
+    if not st.button("Test provider connection"):
+        return
+    from core.agent import AgentRequest, run_agent
+
+    with st.spinner("Contacting the model…"):
+        try:
+            result = run_agent(
+                AgentRequest(prompt="Reply with exactly: OK", label="probe")
+            )
+        except Exception as exc:  # noqa: BLE001 - surface any provider error verbatim
+            st.error(f"{type(exc).__name__}: {exc}")
+            return
+    st.success(f"{result.backend} replied: {result.text.strip()[:200]}")
+
+
 def settings_page() -> None:
     page_header(
         "Settings & Strategy Catalog",
         "Configure local integrations and inspect every available strategy control.",
     )
-    from core.llm import DEFAULT_COPILOT_MODEL
+    from core.agent.detect import detect_backend
 
-    copilot_model = os.getenv("COPILOT_MODEL", "").strip() or DEFAULT_COPILOT_MODEL
-    readiness = [
-        {
-            "Capability": "GitHub Copilot CLI",
-            "Status": "Ready" if shutil.which("copilot") else "Not found",
-        },
-        {
-            "Capability": "GitHub Copilot SDK",
-            "Status": "Ready" if find_spec("copilot") else "Not installed",
-        },
-        {
-            "Capability": "Copilot model",
-            "Status": copilot_model,
-        },
+    choice = detect_backend()
+
+    st.subheader("Model provider")
+    if choice.explicit:
+        st.caption(choice.reason)
+    elif choice.resolved:
+        st.info(f"Auto-detected **{choice.backend}**. {choice.reason}")
+    else:
+        st.warning(f"No provider configured. {choice.reason}")
+
+    readiness = _backend_readiness(choice) + [
         {
             "Capability": "Zerodha credentials",
             "Status": (
@@ -423,30 +582,13 @@ def settings_page() -> None:
     ]
     st.dataframe(pd.DataFrame(readiness), use_container_width=True, hide_index=True)
 
-    with st.form("integration_settings"):
-        model = st.text_input(
-            "GitHub Copilot model",
-            value=copilot_model,
-            help=(
-                "Model ID available to your Copilot subscription. "
-                "The repository default is claude-opus-4.7."
-            ),
-        )
-        free_scraper = st.checkbox(
-            "Use free scraper",
-            value=os.getenv("USE_FREE_SCRAPER", "true").lower() == "true",
-        )
-        save = st.form_submit_button("Apply for this app process")
-    if save:
-        os.environ["USE_FREE_SCRAPER"] = "true" if free_scraper else "false"
-        if model.strip():
-            os.environ["COPILOT_MODEL"] = model.strip()
-        st.session_state["broker"] = None
-        st.success("Copilot settings applied for this app process.")
+    _render_backend_form(choice)
+    _render_connection_test()
 
     st.caption(
-        "Copilot SDK uses your existing Copilot CLI login; no model API key is "
-        "required. Zerodha app credentials are read from the environment."
+        "Settings are written to .env (git-ignored) and applied immediately. "
+        "Strategy logic, prompts and scraper tools are identical on every "
+        "provider — only the runner changes."
     )
 
     st.subheader("Strategy catalog")

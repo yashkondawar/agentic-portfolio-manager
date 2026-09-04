@@ -347,11 +347,51 @@ class CopilotLLM:
         return CopilotResponse(content=content)
 
 
-def get_llm(temperature: float | None = None) -> CopilotLLM:
-    """Return the repository's GitHub Copilot SDK model adapter."""
+def get_llm(temperature: float | None = None):
+    """Return a chat model for the configured backend.
+
+    Both the Copilot adapter and LangChain chat models expose
+    ``invoke(messages).content``, which is the entire interface the parallel
+    analyst agents use — so this can switch provider without touching them.
+
+    Temperature is honoured on the native backend and ignored on Copilot,
+    whose model behaviour is host-managed.
+    """
+    from core.agent.detect import detect_backend
+
+    choice = detect_backend()
+    if choice.backend == "native":
+        return _native_llm(temperature)
+
     if temperature is not None:
         logger.debug("Copilot SDK ignores temperature; model behavior is host-managed.")
     return CopilotLLM()
+
+
+def _native_llm(temperature: float | None):
+    """Build a LangChain chat model from ``AI_MODEL``."""
+    try:
+        from langchain.chat_models import init_chat_model
+    except ImportError as exc:  # pragma: no cover - depends on optional extra
+        raise CopilotConfigurationError(
+            "The native backend needs LangChain. Install it with "
+            '`pip install -e ".[gemini]"` (or [openai] / [anthropic]).'
+        ) from exc
+
+    from core.agent.runners.native import _default_model
+
+    model = _default_model()
+    kwargs = {} if temperature is None else {"temperature": temperature}
+    try:
+        return init_chat_model(model, **kwargs)
+    except ImportError as exc:
+        # LangChain loads the provider package lazily, so a model string can
+        # name a provider whose package was never installed. Name the model so
+        # the user can see which half of the pair is wrong.
+        raise CopilotConfigurationError(
+            f"AI_MODEL={model} needs a provider package that is not installed. "
+            f"{exc}"
+        ) from exc
 
 
 __all__ = [

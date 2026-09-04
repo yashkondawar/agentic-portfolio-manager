@@ -1200,3 +1200,56 @@ and any future one will now fail it.
 | Repo owner (Copilot subscription) | **Unchanged.** `copilot_cli` is the default; argv pinned by a golden test. |
 | Gemini-API-key friend | **Served.** `pip install -e ".[gemini]"`, set `AI_AGENT_BACKEND=native`, `AI_MODEL=google_genai:gemini-2.5-pro`, `WEB_GROUNDING=false`. No CLI, no GitHub account, no subscription. |
 | Claude Pro/Max friend | **Still blocked** on step 3. A Claude API key would work today via `native`; the subscription would not. |
+
+## 28. Follow-up: making provider choice reachable from the UI
+
+Steps 1-2 made the backend *switchable*; they did not make it *discoverable*. Two gaps remained:
+
+1. **`DEFAULT_BACKEND = "copilot_cli"` baked the owner's setup in as everyone's default.** A user
+   whose only credential is a Gemini key launched the app, saw "Copilot CLI: Not found", and had
+   nothing on screen telling them another backend existed.
+2. **The Settings page wrote to `os.environ` only** ("Apply for this app process"), so every choice
+   was lost on restart - fine for the owner, whose defaults already worked, useless for someone who
+   has to configure a provider *before* they can run anything.
+
+### What changed
+
+**`core/agent/detect.py`** - `detect_backend()` inspects the machine when `AI_AGENT_BACKEND` is
+unset, in this precedence: explicit env var, then `AI_MODEL`, then a working Copilot CLI *and* SDK,
+then any provider API key plus LangChain, else an unresolved fallback. Every result carries a
+human-readable `reason`, logged once per process and shown in Settings. Auto-selection is never
+silent: an API key costs money, and a user who believes they are on Copilot while burning Gemini
+quota has been badly served.
+
+**`core/agent/settings.py`** - `persist_settings()` writes to `.env` (git-ignored) via
+`dotenv.set_key`, which updates keys in place and leaves comments intact, and mirrors into
+`os.environ` so changes apply without a restart. Writes are restricted to a `MANAGED_KEYS`
+allow-list - a settings form must not be able to write arbitrary variables into a file holding
+credentials.
+
+**Settings page** - provider selector, readiness rows for the *selected* backend only (the old
+table always reported Copilot status, making a working native setup look broken), API-key fields,
+and a "Test provider connection" button so a bad key surfaces in seconds rather than minutes into
+an analysis. Choosing `native` sets `WEB_GROUNDING=false` automatically and says so.
+
+**`get_llm()` is now provider-aware.** Both `CopilotLLM` and LangChain chat models expose
+`invoke(messages).content`, which is the entire interface `agents/investor_agents.py` and
+`agents/portfolio_manager.py` use - so `parallel_agents` runs on any provider with no change to the
+agents themselves. Temperature, which Copilot ignores, is honoured natively.
+
+### The remaining hole, stated plainly
+
+`main.py` still calls `run_copilot_prompt` / `copilot_client` directly - Surface B, never ported.
+So the **sequential-agents** strategy is Copilot-only. Rather than let it fail with a confusing
+"SDK not installed", it now checks the selected backend and says which workflows *do* run
+everywhere. Porting `StockResearchSystem` to the agent port is the natural next step.
+
+| Strategy | Runs on `native`? |
+|---|---|
+| Swing / portfolio / watchlist / qtr-results | yes - go through the agent port |
+| Parallel agents | yes - via provider-aware `get_llm()` |
+| Sequential agents | **no** - `main.StockResearchSystem` still calls the SDK directly |
+
+534 tests pass, including six that pin the detection precedence (a reshuffle would silently move
+users onto a provider they did not pick) and three that prove a UI save cannot shred a hand-edited
+`.env`.

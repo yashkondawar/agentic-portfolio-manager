@@ -12,9 +12,9 @@ with only a Gemini key never has to install the Copilot CLI, and vice versa.
 from __future__ import annotations
 
 import logging
-import os
 from typing import Callable
 
+from core.agent.detect import BackendChoice, detect_backend
 from core.agent.mcp import SCRAPER_MCP_SERVER_NAME, scraper_mcp, scraper_server_path
 from core.agent.types import (
     AgentRequest,
@@ -32,6 +32,7 @@ __all__ = [
     "AgentRequest",
     "AgentResult",
     "AgentRunner",
+    "BackendChoice",
     "Capability",
     "McpServerSpec",
     "OutputSink",
@@ -39,6 +40,7 @@ __all__ = [
     "SCRAPER_MCP_SERVER_NAME",
     "scraper_mcp",
     "scraper_server_path",
+    "detect_backend",
     "get_agent_runner",
     "available_backends",
     "run_agent",
@@ -83,10 +85,19 @@ def get_agent_runner(name: str | None = None) -> AgentRunner:
     """Return the configured agent backend.
 
     Args:
-        name: Explicit backend name. Defaults to ``AI_AGENT_BACKEND``, then to
-            :data:`DEFAULT_BACKEND` so existing Copilot setups are unaffected.
+        name: Explicit backend name. Defaults to ``AI_AGENT_BACKEND``; when that
+            is unset the environment is inspected (see :mod:`core.agent.detect`)
+            so a user whose only credential is an API key gets a working default
+            instead of a Copilot error. Detection is announced, never silent.
     """
-    chosen = (name or os.getenv("AI_AGENT_BACKEND") or DEFAULT_BACKEND).strip()
+    if name:
+        chosen = name.strip()
+    else:
+        choice = detect_backend(DEFAULT_BACKEND)
+        chosen = choice.backend
+        if not choice.explicit:
+            _announce(choice)
+
     loader = _REGISTRY.get(chosen)
     if loader is None:
         raise ValueError(
@@ -94,6 +105,29 @@ def get_agent_runner(name: str | None = None) -> AgentRunner:
             f"Valid options: {', '.join(available_backends())}."
         )
     return loader()
+
+
+_announced = False
+
+
+def _announce(choice: BackendChoice) -> None:
+    """Log an auto-detected backend once per process.
+
+    Choosing a provider on the user's behalf is only acceptable if we say so:
+    an API key costs money, and a user who thinks they are on Copilot while
+    actually burning Gemini quota has been badly served.
+    """
+    global _announced
+    if _announced:
+        return
+    _announced = True
+    level = logging.INFO if choice.resolved else logging.WARNING
+    logger.log(
+        level,
+        "Agent backend auto-selected: %s. %s Set AI_AGENT_BACKEND to silence this.",
+        choice.backend,
+        choice.reason,
+    )
 
 
 def run_agent(
