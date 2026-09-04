@@ -348,6 +348,39 @@ class CopilotLLM:
         return CopilotResponse(content=content)
 
 
+class RunnerLLM:
+    """``llm.invoke`` adapter backed by the provider-neutral runner.
+
+    ``CopilotLLM`` talks to the Copilot SDK directly, so it is only correct for
+    the ``copilot_cli`` backend. Any other agentic backend - ``claude_code``
+    today, whatever comes next - needs the same tiny interface routed through
+    ``run_agent`` instead, otherwise a user with no Copilot is told to install
+    Copilot by a code path that has nothing to do with it.
+    """
+
+    def __init__(
+        self,
+        *,
+        backend: str,
+        model: str | None = None,
+        timeout: float | None = None,
+    ) -> None:
+        self.backend = backend
+        self.model = model
+        self.timeout = timeout
+
+    def invoke(self, messages: Any) -> CopilotResponse:
+        from core.agent import AgentRequest, run_agent
+
+        request = AgentRequest(
+            prompt=_format_messages(messages),
+            label="analyst",
+            model=self.model,
+            timeout=self.timeout,
+        )
+        return CopilotResponse(content=run_agent(request).text)
+
+
 def get_llm(temperature: float | None = None):
     """Return a chat model for the configured backend.
 
@@ -355,8 +388,8 @@ def get_llm(temperature: float | None = None):
     ``invoke(messages).content``, which is the entire interface the parallel
     analyst agents use — so this can switch provider without touching them.
 
-    Temperature is honoured on the native backend and ignored on Copilot,
-    whose model behaviour is host-managed.
+    Temperature is honoured on the native backend and ignored on the agentic
+    backends, whose model behaviour is host-managed.
     """
     from core.agent.detect import detect_backend
 
@@ -365,7 +398,17 @@ def get_llm(temperature: float | None = None):
         return _native_llm(temperature)
 
     if temperature is not None:
-        logger.debug("Copilot SDK ignores temperature; model behavior is host-managed.")
+        logger.debug(
+            "The %s backend ignores temperature; model behavior is host-managed.",
+            choice.backend,
+        )
+
+    # Only copilot_cli may use the Copilot SDK adapter. Routing anything else
+    # here would demand a Copilot login the user does not have, and would bill
+    # the wrong provider even where they do.
+    if choice.backend != "copilot_cli":
+        return RunnerLLM(backend=choice.backend, model=choice.model)
+
     return CopilotLLM()
 
 

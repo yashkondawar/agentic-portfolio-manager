@@ -2,7 +2,7 @@
 
 Wraps ``watchlist_curator`` — a two-stage funnel that mechanically screens a
 large universe (Nifty 500 by default) for swing-suitable momentum/trend/
-liquidity, then (optionally) uses the GitHub Copilot CLI + scraper MCP to
+liquidity, then (optionally) uses your configured AI provider + scraper MCP to
 deeply vet the shortlist and emit a final, ranked watchlist.
 """
 
@@ -34,7 +34,7 @@ class WatchlistCurationStrategy(BaseStrategy):
         "Stage 1 mechanically screens the universe (SMA stack, RSI, ATR%, "
         "returns, relative strength, liquidity) into an industry-diversified "
         "shortlist. Stage 2 (optional, LLM) deeply vets fundamentals, "
-        "financials and technicals via the Copilot CLI + scraper MCP and emits "
+        "financials and technicals via your AI provider + scraper MCP and emits "
         "the final ranked watchlist."
     )
     category = StrategyCategory.WATCHLIST

@@ -1409,3 +1409,67 @@ def test_an_api_key_still_outranks_a_mere_interactive_login(
     clean_env.setenv("GOOGLE_API_KEY", "x")
 
     assert detect_mod.detect_backend().backend == "native"
+
+
+# ---------------------------------------------------------------------------
+# get_llm must not send a non-Copilot user to the Copilot SDK
+# ---------------------------------------------------------------------------
+
+
+def test_a_claude_user_is_not_handed_the_copilot_adapter(
+    clean_env: pytest.MonkeyPatch, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """The parallel analysts must run on the backend that was actually chosen.
+
+    ``get_llm`` used to treat "not native" as "Copilot", so a claude_code user
+    running the persona agents was handed ``CopilotLLM`` and told to install the
+    Copilot CLI - the exact dependency the claude_code backend exists to avoid.
+    On this machine the bug hid behind a working Copilot install, so the guard
+    below simulates its absence explicitly.
+    """
+    import core.llm as llm_mod
+
+    def no_copilot() -> None:
+        raise llm_mod.CopilotConfigurationError("Copilot CLI not found.")
+
+    monkeypatch.setattr(llm_mod, "validate_copilot_configuration", no_copilot)
+    clean_env.setenv("AI_AGENT_BACKEND", "claude_code")
+
+    llm = llm_mod.get_llm()
+
+    assert type(llm).__name__ == "RunnerLLM"
+    assert llm.backend == "claude_code"
+
+
+def test_copilot_users_keep_the_copilot_adapter(
+    clean_env: pytest.MonkeyPatch, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """The owner's path is unchanged: copilot_cli alone may use the SDK."""
+    import core.llm as llm_mod
+
+    monkeypatch.setattr(llm_mod, "validate_copilot_configuration", lambda: None)
+    clean_env.setenv("AI_AGENT_BACKEND", "copilot_cli")
+
+    assert type(llm_mod.get_llm()).__name__ == "CopilotLLM"
+
+
+def test_the_runner_adapter_delegates_to_run_agent(
+    clean_env: pytest.MonkeyPatch, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """RunnerLLM must go through the neutral runner, not any vendor client."""
+    import core.agent as agent_mod
+    import core.llm as llm_mod
+
+    seen: dict[str, object] = {}
+
+    def fake_run_agent(request):  # type: ignore[no-untyped-def]
+        seen["prompt"] = request.prompt
+        return agent_mod.AgentResult(text="verdict", backend="claude_code")
+
+    monkeypatch.setattr(agent_mod, "run_agent", fake_run_agent)
+
+    llm = llm_mod.RunnerLLM(backend="claude_code")
+    reply = llm.invoke([{"role": "user", "content": "rate RELIANCE"}])
+
+    assert reply.content == "verdict"
+    assert "rate RELIANCE" in str(seen["prompt"])

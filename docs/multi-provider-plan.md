@@ -1178,6 +1178,10 @@ and any future one will now fail it.
 
 ## 26. Honest gaps (still open)
 
+> **Superseded — read §31.1 and §33 for the current state.** This list was
+> written after steps 1-2. Items 3 (`claude_code`) and 5 (`AI_MAX_CONCURRENCY`)
+> have since shipped; only Path A remains.
+
 - **`NativeRunner` has never been run against a real model.** No API key was available in this
   environment. The tool-calling loop is unit-tested with a stub and MCP loading is verified live,
   but the first real Gemini run may need streaming/retry tuning.
@@ -1527,3 +1531,99 @@ documentation.
 
 589 tests pass.
 
+
+---
+
+## 33. What is actually left, and the gap the plan never listed
+
+Asking "what remains?" produced a shorter answer than expected from the §19
+list, and one item that was never on it.
+
+### 33.1 The §19 list
+
+| # | Work | State |
+|---|------|-------|
+| 1 | `AgentRunner` port + `copilot_cli` extraction | Done (`8b6d0a9`) |
+| 2 | `native` runner (LangChain + MCP) | Done (`8b6d0a9`, `a413332`) |
+| 3 | `claude_code` runner | Done (`13d3499`) |
+| 4 | Path A: BYOK env vars + config hygiene | **Open** |
+| 5 | Concurrency throttle | Done (`512f64c`) |
+
+Only Path A is left, and it has lost most of its value. Its purpose was to let a
+Copilot-CLI user point the CLI at another vendor's key. Now that `native` and
+`claude_code` exist, anyone with a key already has a first-class path that needs
+no vendor CLI at all, so Path A is a convenience for one narrow case rather than
+something a user is blocked on. What survives from it is unrelated to BYOK:
+`validate_copilot_configuration()` still probes `~/.copilot`. (The plan's other
+Path A complaint - that `get_llm(temperature)` silently discards `temperature` -
+was fixed during the port; it is honoured on `native` and deliberately ignored
+on the agentic backends, whose model behaviour is host-managed.)
+
+### 33.2 The gap that was not on any list
+
+Every strategy runs through `run_agent` - verified by tracing all six entry
+points, including the three Copilot-named modules (`swing_trading_copilot`,
+`portfolio_copilot_analysis`, `watchlist_curator`), which are ported and keep
+only a deprecated `_resolve_copilot_bin` shim. Functionally the app is neutral.
+
+Its *description* was not. Six strategies still advertised "GitHub Copilot SDK
+with Claude Opus 4.7", "Copilot CLI + web grounding", and - worst - "no API keys
+required", which is now false for exactly the users this work was for. A Gemini
+user opening the strategy list read six claims that their setup was not what the
+app wanted, while the app ran fine on it.
+
+This survived because the port changed *call sites*, and prose has no call
+sites. Nothing imports a `long_description`, no test asserts one, and the suite
+went green throughout. It is the §31.4 lesson again in a new place: the failure
+was only visible from the seat of a user who does not have what the author has.
+
+The fix removes the vendor claim rather than replacing it with another. Where a
+capability genuinely varies the text now says so - quarterly-results discovery
+reads "needs an AI provider that can search the web", because on `native` with
+web grounding off it really is unavailable. Where the old text meant "no *paid
+market-data* feed", that meaning is now stated explicitly instead of being
+carried by an ambiguous "no API keys required".
+
+Left deliberately: two strategies are still *named* "... Copilot". That reads as
+the common noun, the descriptions now disambiguate, and renaming churns
+user-visible labels for no correctness gain.
+
+590 tests pass.
+### 33.3 A second gap, found by checking the first one
+
+Verifying the Path A claim above turned up something worse than the prose. Every
+*strategy* was ported, but `core/llm.py:get_llm()` - the helper the parallel
+analysts use for persona reasoning - branched on `native` and treated everything
+else as Copilot:
+
+```python
+if choice.backend == "native":
+    return _native_llm(temperature)
+return CopilotLLM()          # <- claude_code lands here
+```
+
+`CopilotLLM.__init__` calls `validate_copilot_configuration()`, so a claude_code
+user running the Parallel Agent System with persona agents enabled was told
+*"Copilot CLI not found. Install it and run `copilot login`"* - by a code path
+that exists precisely so they never have to. Even where a Copilot login happened
+to be present the run would have been billed to the wrong provider and answered
+by the wrong model, with nothing on screen saying so.
+
+Two things had hidden it. The bug is invisible on the author's machine, because
+a working Copilot install makes the wrong branch succeed - the probe returned
+`CopilotLLM` quite happily here, and only simulating Copilot's *absence*
+revealed the error. And `run_agent` was audited at the strategy layer, where
+every entry point did route correctly; this helper sits below that layer and was
+never on the list.
+
+The fix adds `RunnerLLM`, the same `invoke` interface routed through
+`run_agent`, and inverts the default: `copilot_cli` alone may use the Copilot
+SDK, and every other backend - claude_code today, whatever is added next - goes
+through the neutral runner. A backend added later now fails safe.
+
+Three tests cover it, the first of which stubs `validate_copilot_configuration`
+into failure so it asserts the *friend's* machine rather than this one.
+Reverting the branch reproduces the original `CopilotConfigurationError` and
+exactly one test catches it.
+
+593 tests pass.

@@ -1,7 +1,7 @@
 """Quarterly-results momentum strategy.
 
 Wraps the ``qtr_results`` engine — a hybrid system that discovers companies
-which have just declared quarterly results (Copilot CLI web-grounding),
+which have just declared quarterly results (AI web-grounding),
 verifies their QoQ/YoY numbers on screener.in, picks strong results with
 10-20% PE-rerating upside, assigns a trailing stop (target/2), and tracks every
 pick to exit via a persistent ledger and long-term memory.
@@ -33,7 +33,8 @@ class QuarterlyResultsStrategy(BaseStrategy):
     )
     long_description = (
         "Each run it discovers NSE companies that have just declared quarterly "
-        "results (GitHub Copilot CLI + web grounding), verifies the numbers on "
+        "results (needs an AI provider that can search the web), verifies the "
+        "numbers on "
         "screener.in (QoQ/YoY sales, net profit, EPS, margins), and selects the "
         "strong results. Positions are sized by the backtest's risk rule (risk % "
         "of equity / ATR-stop distance) against a persisted cash book, capped by a "
@@ -55,7 +56,8 @@ class QuarterlyResultsStrategy(BaseStrategy):
                 required=False,
                 default=True,
                 help=(
-                    "On = Copilot CLI finds the day's result-declarers; "
+                    "On = the AI finds the day's result-declarers (needs a "
+                    "provider that can search the web); "
                     "Off = use the watchlist as declarers."
                 ),
                 group="Discovery",
