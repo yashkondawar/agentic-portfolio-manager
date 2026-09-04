@@ -16,6 +16,7 @@ import logging
 from typing import Dict, Any
 
 from agents.models import AnalystSignal
+from core.model_output import extract_json_object
 
 logger = logging.getLogger(__name__)
 
@@ -360,21 +361,7 @@ def _call_llm_for_signal(llm, system_prompt: str, human_message: str, agent_name
 
     logger.info(f"[{agent_name}] LLM raw response: {content[:200]}")
 
-    # Parse JSON from response
-    json_str = content.strip()
-    if "```" in json_str:
-        json_str = json_str.split("```")[1].strip()
-        if json_str.startswith("json"):
-            json_str = json_str[4:].strip()
-
-    # Handle cases where LLM wraps in extra text
-    if not json_str.startswith("{"):
-        import re
-        match = re.search(r'\{[^{}]*"signal"[^{}]*\}', json_str)
-        if match:
-            json_str = match.group(0)
-
-    result = json.loads(json_str)
+    result = extract_json_object(content, must_contain="signal")
     signal = result.get("signal", "neutral")
     if signal not in ("bullish", "bearish", "neutral"):
         signal = "neutral"

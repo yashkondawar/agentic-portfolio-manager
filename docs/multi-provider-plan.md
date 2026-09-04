@@ -1627,3 +1627,120 @@ Reverting the branch reproduces the original `CopilotConfigurationError` and
 exactly one test catches it.
 
 593 tests pass.
+
+---
+
+## 34. Cross-backend parity audit
+
+The question this section answers: *do the three backends behave the same?*
+Not "do they all run", but do they produce the same shape of answer, from the
+same data, stored the same way. The honest headline is that **they did not**,
+and three defects had to be fixed before they did. Two of the three were
+invisible on the author's machine, for the reason 31.4 keeps rediscovering:
+a working Copilot install makes the wrong branch succeed.
+
+### 34.1 Sequential Agent System was dead on claude_code
+
+`main.py::_run_stage` dispatched two ways. `copilot_cli` went to the Copilot
+SDK; **everything else** went to `run_tool_loop`, which calls
+`model.bind_tools(...)` then `await bound.ainvoke(...)`. But `get_llm()` hands
+a non-native backend a `RunnerLLM`, which has neither method. So the strategy
+died on stage one with a bare `AttributeError` - not a helpful message, just a
+crash. It had been broken since before 33 too, because `CopilotLLM` has no
+`bind_tools` either; the fault was simply relabelled by that fix, not caused
+by it.
+
+The repair is a third arm, `_run_stage_via_runner`. Agentic backends drive
+their own tool loop and take tools as **MCP servers**, not in-process
+LangChain objects, so neither existing path fit. The per-stage allow-list is
+preserved by narrowing the MCP spec (`replace(spec, tools=allowed)`) rather
+than passing `tools=["*"]`, so a stage sees exactly the same tools it would
+natively - verified live: stage 2 fetched price data, stage 3 fetched news,
+stage 4 called nothing.
+
+`_stage_host` now yields `None` for such backends instead of a model, which is
+what used to smuggle the unusable object in.
+
+### 34.2 Streaming output crashed on Windows
+
+With that fixed the run got further and then died in the runner's default
+output callback: raw `sys.stdout.write` on a cp1252 console, killed by the
+first rupee sign the model emitted. Both new runners had it; the Copilot path
+did not, which is why it had never been seen. The repo already had
+`safe_print` for exactly this, but it appends a newline and so cannot be used
+for streaming chunks - hence `core.console.safe_write`.
+
+This is a plain crash on the default Windows console, so it would have hit the
+Claude friend on his first run.
+
+### 34.3 The analyst agents silently disagreed across backends
+
+`investor_agents` and `portfolio_manager` ask the model for JSON, and both
+extracted it with `split("```")[1]` plus a regex. A parse failure is caught and
+falls back to deterministic scoring - which is what makes this dangerous: it
+does not raise, it quietly returns a *different signal*. Two shapes that Claude
+and Gemini produce routinely both failed:
+
+| model reply | old result |
+| --- | --- |
+| valid JSON, then "Hope that helps!" | `JSONDecodeError` - fallback used |
+| prose, then JSON containing a nested object | regex cannot span braces - fallback used |
+
+`core/model_output.py::extract_json_object` replaces both with a brace-matching
+scan that respects string literals and escapes, prefers a fenced block when one
+exists (a model that restates the schema before answering would otherwise have
+its worked example picked), and raises `ValueError` so callers keep their
+existing fallback behaviour. All nine real-world reply shapes now parse.
+
+### 34.4 Runs now record which backend produced them
+
+The `runs` table had no provenance. Since SETUP encourages sharing the SQLite
+file, and the three backends are three different models, a stored report that
+does not say who wrote it is neither reproducible nor fairly comparable. The
+backend (and model, when pinned) is now recorded in `params_json` under
+`_ai_backend` / `_ai_model` - in the params blob rather than a new column, so
+existing databases keep working untouched. It is merged *after* sanitising and
+is best-effort: a detection failure loses the label, never the run.
+
+### 34.5 Differences that remain, by design
+
+These are real and will not be "fixed", but should be understood:
+
+| difference | copilot_cli | native | claude_code |
+| --- | --- | --- | --- |
+| parallel fan-out width | 12 | 4 | 2 |
+| built-in web search | yes | **no** | yes |
+| turn limit | vendor-managed | `AI_MAX_TURNS`, default 25 | vendor-managed |
+| tools in sequential run | 9, over MCP | 9, in-process | 9, over MCP |
+
+Fan-out width tracks the billing model, not capability. The web-search gap is
+genuine: `native` has no built-in browser, so quarterly-results *discovery* is
+unavailable there - every strategy description now says so rather than
+claiming "web grounding" for all.
+
+The tool counts are equal but reach the model differently. The MCP server
+exposes ten tools and the in-process set nine (`scrape_url` is MCP-only), but
+no sequential stage requests `scrape_url`, so the union of `_STAGE_TOOLS` is
+exactly the nine. There is no gap in practice.
+
+Above all the model differs, so verdicts differ. A live A/B on the same stock
+had both backends read the *same* live price from the *same* scraper and
+return the same report structure and the same `data` keys - then disagree on
+the call (HOLD vs BUY-on-breakout). That is judgment, not a defect, and no
+amount of plumbing will remove it.
+
+### 34.6 Evidence
+
+Both runnable backends were exercised live on this machine, end to end,
+through the real strategy registry and into SQLite: `claude_code` completed in
+65s and `copilot_cli` in 81s, both `status=completed`, both writing a row whose
+`params_json` carried the correct `_ai_backend`. Probe rows were then deleted.
+
+`native` cannot be run here - no API key - so its coverage is static analysis
+plus tests only. That gap is stated rather than papered over.
+
+Each fix is mutation-tested: reverting the dispatch arm, the spec narrowing,
+the string-literal tracking, the fence preference and the requested-key rule
+each fails exactly one test.
+
+614 tests pass.

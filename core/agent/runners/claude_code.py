@@ -39,10 +39,10 @@ from __future__ import annotations
 import asyncio
 import logging
 import os
-import sys
 from typing import Any
 
 from core.agent.loop import DEFAULT_MAX_TURNS
+from core.console import safe_write
 from core.agent.types import (
     AgentRequest,
     AgentResult,
@@ -237,9 +237,7 @@ class ClaudeCodeRunner:
                 list(request.extra_cli_args),
             )
 
-        emit = on_output or (
-            lambda chunk: (sys.stdout.write(chunk), sys.stdout.flush())
-        )
+        emit = on_output or safe_write
         requested_model = request.model or os.getenv("CLAUDE_MODEL", "").strip() or None
 
         try:

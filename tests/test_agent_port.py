@@ -1473,3 +1473,365 @@ def test_the_runner_adapter_delegates_to_run_agent(
 
     assert reply.content == "verdict"
     assert "rate RELIANCE" in str(seen["prompt"])
+
+
+# ---------------------------------------------------------------------------
+# The Sequential Agent System across backends (docs/multi-provider-plan.md 34)
+# ---------------------------------------------------------------------------
+#
+# `_run_stage` dispatches on the backend, and the two original arms make
+# incompatible demands: the Copilot arm wants an SDK client, the native arm
+# wants a chat model exposing `bind_tools`. An agentic backend such as
+# claude_code satisfies neither -- `get_llm()` hands it a `RunnerLLM`, which has
+# no `bind_tools` -- so before the third arm existed the whole strategy died on
+# stage one with a bare AttributeError. That was invisible here because this
+# machine has Copilot; only a friend without it would ever have seen it.
+
+
+def test_an_agentic_backend_does_not_enter_the_native_tool_loop(
+    clean_env: pytest.MonkeyPatch, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """claude_code must take the runner arm, never the bind_tools arm."""
+    import asyncio as _asyncio
+
+    import core.agent.loop as loop_mod
+    import main as main_mod
+
+    clean_env.setenv("AI_AGENT_BACKEND", "claude_code")
+    clean_env.setenv("USE_FREE_SCRAPER", "true")
+
+    def explode(**kwargs):  # type: ignore[no-untyped-def]
+        raise AssertionError("run_tool_loop requires bind_tools; wrong arm taken")
+
+    monkeypatch.setattr(loop_mod, "run_tool_loop", explode)
+
+    captured: dict[str, object] = {}
+
+    async def fake_runner(self, *, stage_name, prompt, tools):  # type: ignore[no-untyped-def]
+        captured["stage"] = stage_name
+        return "stage output"
+
+    monkeypatch.setattr(main_mod.StockResearchSystem, "_run_stage_via_runner", fake_runner)
+
+    system = main_mod.StockResearchSystem()
+    output = _asyncio.run(
+        system._run_stage(
+            stage_name="news_analyst_agent",
+            instructions="summarise",
+            user_query="RELIANCE",
+            context="",
+            client=None,
+        )
+    )
+
+    assert output == "stage output"
+    assert captured["stage"] == "news_analyst_agent"
+
+
+def test_the_runner_arm_keeps_each_stages_tool_allow_list(
+    clean_env: pytest.MonkeyPatch, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A stage must not silently gain tools just by changing backend.
+
+    The native arm passes a hand-picked tool list per stage. The runner arm
+    passes MCP servers instead, so the equivalent narrowing has to happen on
+    the spec -- otherwise every stage would see all ten scraper tools.
+    """
+    import asyncio as _asyncio
+
+    import core.agent as agent_mod
+    import main as main_mod
+    from core.agent.mcp import SCRAPER_MCP_SERVER_NAME
+
+    clean_env.setenv("AI_AGENT_BACKEND", "claude_code")
+    clean_env.setenv("USE_FREE_SCRAPER", "true")
+
+    seen: dict[str, object] = {}
+
+    def fake_run_agent(request):  # type: ignore[no-untyped-def]
+        seen["servers"] = request.mcp_servers
+        seen["requires"] = request.requires
+        return agent_mod.AgentResult(text="ok", backend="claude_code")
+
+    monkeypatch.setattr(agent_mod, "run_agent", fake_run_agent)
+
+    system = main_mod.StockResearchSystem()
+    _asyncio.run(
+        system._run_stage_via_runner(
+            stage_name="news_analyst_agent", prompt="p", tools=[]
+        )
+    )
+
+    spec = seen["servers"][SCRAPER_MCP_SERVER_NAME]  # type: ignore[index]
+    assert list(spec.tools) == ["fetch_stock_news"], (
+        "the news stage must be limited to its one tool, not given '*'"
+    )
+    assert agent_mod.Capability.MCP_TOOLS in seen["requires"]  # type: ignore[operator]
+
+
+def test_the_recommendation_stage_asks_for_no_tools_at_all(
+    clean_env: pytest.MonkeyPatch, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """The final stage reasons over prior output, so it needs no MCP server."""
+    import asyncio as _asyncio
+
+    import core.agent as agent_mod
+    import main as main_mod
+
+    clean_env.setenv("AI_AGENT_BACKEND", "claude_code")
+    clean_env.setenv("USE_FREE_SCRAPER", "true")
+
+    seen: dict[str, object] = {}
+
+    def fake_run_agent(request):  # type: ignore[no-untyped-def]
+        seen["servers"] = request.mcp_servers
+        return agent_mod.AgentResult(text="ok", backend="claude_code")
+
+    monkeypatch.setattr(agent_mod, "run_agent", fake_run_agent)
+
+    system = main_mod.StockResearchSystem()
+    _asyncio.run(
+        system._run_stage_via_runner(
+            stage_name="recommendation_agent", prompt="p", tools=[]
+        )
+    )
+
+    assert seen["servers"] == {}
+
+
+def test_the_stage_host_holds_nothing_open_for_an_agentic_backend(
+    clean_env: pytest.MonkeyPatch,
+) -> None:
+    """Only Copilot has a session to reuse; claude_code drives itself per call.
+
+    This also guarantees `_stage_host` never calls `get_llm()` for such a
+    backend, which is what used to smuggle an unusable object into the loop.
+    """
+    import asyncio as _asyncio
+
+    import main as main_mod
+
+    clean_env.setenv("AI_AGENT_BACKEND", "claude_code")
+
+    async def check() -> object:
+        system = main_mod.StockResearchSystem()
+        async with system._stage_host() as host:
+            return host
+
+    assert _asyncio.run(check()) is None
+
+
+# ---------------------------------------------------------------------------
+# Run provenance
+# ---------------------------------------------------------------------------
+#
+# The SETUP guide tells people to share the SQLite file. Three backends mean
+# three different models, so a stored report that does not say which one wrote
+# it cannot be reproduced or fairly compared against another machine's.
+
+
+def test_a_saved_run_records_which_backend_produced_it(
+    clean_env: pytest.MonkeyPatch, tmp_path
+) -> None:
+    import json as _json
+
+    from core.run_history import BACKEND_PARAM_KEY, list_runs, save_run
+    from core.storage import connection_scope
+    from core.strategy import StrategyResult
+
+    clean_env.setenv("AI_AGENT_BACKEND", "claude_code")
+    db = tmp_path / "runs.db"
+
+    run_id = save_run(
+        StrategyResult(
+            strategy_id="swing", status="completed", report="r", data={}, error=None
+        ),
+        {"symbol": "RELIANCE"},
+        duration_ms=10,
+        db_path=db,
+    )
+
+    assert list_runs(db_path=db)
+    with connection_scope(db) as conn:
+        row = conn.execute(
+            "SELECT params_json FROM runs WHERE id = ?", (run_id,)
+        ).fetchone()
+    params = _json.loads(row[0])
+
+    assert params[BACKEND_PARAM_KEY] == "claude_code"
+    assert params["symbol"] == "RELIANCE", "caller params must survive"
+
+
+def test_provenance_never_breaks_a_save(
+    clean_env: pytest.MonkeyPatch, monkeypatch: pytest.MonkeyPatch, tmp_path
+) -> None:
+    """A detection failure must lose the label, not the run."""
+    import core.agent.detect as detect_mod
+
+    from core.run_history import BACKEND_PARAM_KEY, save_run
+    from core.strategy import StrategyResult
+
+    def boom(*a, **k):  # type: ignore[no-untyped-def]
+        raise RuntimeError("no backend")
+
+    monkeypatch.setattr(detect_mod, "detect_backend", boom)
+
+    db = tmp_path / "runs.db"
+    run_id = save_run(
+        StrategyResult(
+            strategy_id="swing", status="completed", report="r", data={}, error=None
+        ),
+        {"symbol": "TCS"},
+        duration_ms=10,
+        db_path=db,
+    )
+
+    import json as _json
+
+    from core.storage import connection_scope
+
+    with connection_scope(db) as conn:
+        row = conn.execute(
+            "SELECT params_json FROM runs WHERE id = ?", (run_id,)
+        ).fetchone()
+    params = _json.loads(row[0])
+
+    assert params["symbol"] == "TCS"
+    assert BACKEND_PARAM_KEY not in params
+
+
+def test_provenance_cannot_leak_a_secret_through_params(
+    clean_env: pytest.MonkeyPatch, tmp_path
+) -> None:
+    """Provenance is merged after sanitising, so it must not reopen that hole."""
+    import json as _json
+
+    from core.run_history import save_run
+    from core.storage import connection_scope
+    from core.strategy import StrategyResult
+
+    clean_env.setenv("AI_AGENT_BACKEND", "claude_code")
+    db = tmp_path / "runs.db"
+
+    run_id = save_run(
+        StrategyResult(
+            strategy_id="swing", status="completed", report="r", data={}, error=None
+        ),
+        {"api_key": "sk-should-not-persist"},
+        duration_ms=10,
+        db_path=db,
+    )
+
+    with connection_scope(db) as conn:
+        row = conn.execute(
+            "SELECT params_json FROM runs WHERE id = ?", (run_id,)
+        ).fetchone()
+
+    assert "sk-should-not-persist" not in row[0]
+
+
+# ---------------------------------------------------------------------------
+# Recovering JSON from model prose (docs/multi-provider-plan.md 34.3)
+# ---------------------------------------------------------------------------
+#
+# A parse failure here is not a crash -- the analyst agents catch it and fall
+# back to deterministic scoring. That is precisely why it is dangerous: the
+# same stock quietly gets a different signal depending on how chatty the model
+# was. These cases are the real reply shapes that broke the old extractor.
+
+
+@pytest.mark.parametrize(
+    "label, text",
+    [
+        ("bare", '{"signal": "bullish", "confidence": 80}'),
+        ("fenced json", '```json\n{"signal": "bullish", "confidence": 80}\n```'),
+        ("fenced plain", '```\n{"signal": "bullish", "confidence": 80}\n```'),
+        ("prose first", 'Verdict:\n{"signal": "bullish", "confidence": 80}'),
+        ("prose after", '{"signal": "bullish", "confidence": 80}\nHope that helps!'),
+        (
+            "fence sandwiched in prose",
+            'Sure.\n```json\n{"signal": "bullish", "confidence": 80}\n```\nCheers.',
+        ),
+        (
+            "nested detail object",
+            '{"signal": "bullish", "confidence": 80, "detail": {"roe": 22}}',
+        ),
+        (
+            "prose then nested",
+            'Verdict:\n{"signal": "bullish", "confidence": 80, "d": {"roe": 22}}',
+        ),
+        (
+            "brace inside a string",
+            '{"signal": "bullish", "confidence": 80, "reasoning": "ROE {high}"}',
+        ),
+    ],
+)
+def test_json_survives_every_shape_a_model_wraps_it_in(label: str, text: str) -> None:
+    from core.model_output import extract_json_object
+
+    parsed = extract_json_object(text, must_contain="signal")
+
+    assert parsed["signal"] == "bullish", label
+    assert parsed["confidence"] == 80, label
+
+
+def test_the_requested_key_wins_when_a_model_shows_its_work() -> None:
+    """Models often restate the schema before answering; take the real answer."""
+    from core.model_output import extract_json_object
+
+    text = 'Format: {"example": true}\nAnswer: {"signal": "bearish", "confidence": 10}'
+
+    assert extract_json_object(text, must_contain="signal")["signal"] == "bearish"
+
+
+def test_unparseable_output_raises_so_the_caller_can_fall_back() -> None:
+    """The analyst agents rely on an exception to reach their scoring fallback."""
+    from core.model_output import extract_json_object
+
+    with pytest.raises(ValueError):
+        extract_json_object("I am afraid I cannot answer that.")
+
+
+def test_an_escaped_quote_does_not_unbalance_the_scan() -> None:
+    from core.model_output import extract_json_object
+
+    text = r'{"signal": "bullish", "reasoning": "he said \"buy\" {now}"}'
+
+    assert extract_json_object(text, must_contain="signal")["signal"] == "bullish"
+
+
+def test_an_unbalanced_brace_inside_a_string_does_not_swallow_the_object() -> None:
+    """The scan must respect string literals, not just count braces.
+
+    A balanced brace in prose survives naive counting, so this is the case that
+    actually proves the string tracking: a lone "{" inside the reasoning text
+    would otherwise leave the scanner open and lose the whole object.
+    """
+    from core.model_output import extract_json_object
+
+    text = '{"signal": "bearish", "confidence": 10, "reasoning": "margin { risk"}'
+
+    parsed = extract_json_object(text, must_contain="signal")
+
+    assert parsed["signal"] == "bearish"
+    assert parsed["confidence"] == 10
+
+
+def test_the_fenced_answer_beats_an_illustration_in_the_prose() -> None:
+    """When a model explains the format then answers, the fence is the answer.
+
+    Both objects carry the "signal" key, so the requested-key rule cannot
+    separate them; preferring the fenced block is what picks the real verdict
+    instead of the worked example above it.
+    """
+    from core.model_output import extract_json_object
+
+    text = (
+        'I will reply in this shape: {"signal": "neutral", "confidence": 0}\n'
+        '```json\n{"signal": "bullish", "confidence": 80}\n```'
+    )
+
+    parsed = extract_json_object(text, must_contain="signal")
+
+    assert parsed["signal"] == "bullish", "picked the illustration, not the answer"
+    assert parsed["confidence"] == 80

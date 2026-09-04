@@ -26,12 +26,12 @@ from __future__ import annotations
 import asyncio
 import logging
 import os
-import sys
 from typing import Any, Sequence
 
 from core.agent.loop import DEFAULT_MAX_TURNS
 from core.agent.loop import invoke_tool as _loop_invoke_tool
 from core.agent.loop import text_of as _loop_text_of
+from core.console import safe_write
 from core.agent.types import (
     AgentRequest,
     AgentResult,
@@ -107,7 +107,7 @@ class NativeRunner:
         on_output: OutputSink | None = None,
     ) -> AgentResult:
         model_id = request.model or _default_model()
-        emit = on_output or (lambda chunk: (sys.stdout.write(chunk), sys.stdout.flush()))
+        emit = on_output or safe_write
 
         try:
             text = asyncio.run(self._run_async(request, model_id, emit))

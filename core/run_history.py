@@ -14,6 +14,31 @@ from core.strategy import StrategyResult
 DEFAULT_DB_PATH = database_path()
 _SENSITIVE_MARKERS = ("token", "secret", "password", "api_key", "apikey")
 
+#: Reserved ``params_json`` keys recording which AI backend produced a run.
+#:
+#: Reports are portable -- the SETUP guide encourages sharing the SQLite file
+#: with friends -- and the three backends are different models, so a row with
+#: no provenance is not reproducible or comparable. These live in the params
+#: blob rather than a new column so existing databases keep working untouched.
+BACKEND_PARAM_KEY = "_ai_backend"
+MODEL_PARAM_KEY = "_ai_model"
+
+
+def _provenance() -> Dict[str, Any]:
+    """Best-effort record of the backend in force, never fatal to a save."""
+    try:
+        from core.agent.detect import detect_backend
+
+        choice = detect_backend()
+    except Exception:  # pragma: no cover - provenance must never break a save
+        return {}
+    if not choice.resolved:
+        return {}
+    record: Dict[str, Any] = {BACKEND_PARAM_KEY: choice.backend}
+    if choice.model:
+        record[MODEL_PARAM_KEY] = choice.model
+    return record
+
 
 def save_run(
     result: StrategyResult,
@@ -24,6 +49,7 @@ def save_run(
 ) -> str:
     run_id = uuid.uuid4().hex
     created_at = datetime.now(timezone.utc).isoformat()
+    recorded = {**sanitize(params), **_provenance()}
     with connection_scope(db_path) as connection:
         connection.execute(
             """
@@ -38,7 +64,7 @@ def save_run(
                 result.status,
                 created_at,
                 int(duration_ms),
-                json.dumps(sanitize(params), default=str),
+                json.dumps(recorded, default=str),
                 result.report,
                 json.dumps(result.data, default=str),
                 result.error,

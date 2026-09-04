@@ -7,7 +7,7 @@ import logging
 import os
 import uuid
 from contextlib import asynccontextmanager
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import datetime
 from enum import Enum
 from typing import Any, AsyncIterator, Dict, List, Optional
@@ -215,27 +215,80 @@ class StockResearchSystem:
 
         if backend == "copilot_cli":
             output = await run_copilot_prompt(prompt, client=client, tools=tools)
-        else:
+        elif backend == "native":
             # Same in-process LangChain tools, driven by the shared tool loop.
             # `client` is the unbound chat model; the loop binds the tools.
             from core.agent.loop import run_tool_loop
 
             output = await run_tool_loop(model=client, tools=tools, prompt=prompt)
+        else:
+            output = await self._run_stage_via_runner(
+                stage_name=stage_name, prompt=prompt, tools=tools
+            )
 
         logger.info("Completed sequential stage")
         return output
+
+    async def _run_stage_via_runner(
+        self, *, stage_name: str, prompt: str, tools: list[Any]
+    ) -> str:
+        """Run one stage on an agentic backend such as ``claude_code``.
+
+        Those backends drive their own tool loop and take tools as **MCP
+        servers**, not as in-process LangChain objects, so neither of the other
+        two paths fits: ``run_copilot_prompt`` speaks to the Copilot SDK, and
+        ``run_tool_loop`` needs a chat model with ``bind_tools``. Without this
+        branch the stage host handed such a backend an object with neither, and
+        the strategy died with a bare ``AttributeError``.
+
+        The per-stage tool allow-list is preserved by narrowing the MCP spec, so
+        a stage sees the same tools here as it does natively.
+        """
+        from core.agent import AgentRequest, Capability, run_agent, scraper_mcp
+        from core.agent.mcp import SCRAPER_MCP_SERVER_NAME
+
+        if not self.use_free_scraper:
+            raise RuntimeError(
+                f"The {self._resolve_backend()} backend cannot use the Bright "
+                "Data tools in this workflow, which are wired in-process. Set "
+                "USE_FREE_SCRAPER=true to use the built-in scraper instead."
+            )
+
+        servers: dict[str, Any] = {}
+        requires: frozenset[Capability] = frozenset()
+        allowed = sorted(_STAGE_TOOLS[stage_name])
+        if allowed:
+            spec = scraper_mcp()[SCRAPER_MCP_SERVER_NAME]
+            servers = {
+                SCRAPER_MCP_SERVER_NAME: replace(spec, tools=allowed),
+            }
+            requires = frozenset({Capability.MCP_TOOLS})
+
+        request = AgentRequest(
+            prompt=prompt,
+            label=stage_name,
+            mcp_servers=servers,
+            requires=requires,
+        )
+        return (await asyncio.to_thread(run_agent, request)).text
 
     @asynccontextmanager
     async def _stage_host(self) -> AsyncIterator[Any]:
         """Yield whatever the selected backend needs held open across stages.
 
         Copilot reuses one SDK client for all four stages; the native path has
-        no session to keep alive, so it yields a chat model instead. Both are
-        passed to ``_run_stage`` as ``client``.
+        no session to keep alive, so it yields a chat model instead. Other
+        agentic backends drive themselves per call and need no host at all.
+        Both are passed to ``_run_stage`` as ``client``.
         """
-        if self._resolve_backend() == "copilot_cli":
+        backend = self._resolve_backend()
+        if backend == "copilot_cli":
             async with copilot_client() as client:
                 yield client
+            return
+
+        if backend != "native":
+            yield None
             return
 
         from core.llm import get_llm
