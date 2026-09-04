@@ -1744,3 +1744,99 @@ the string-literal tracking, the fence preference and the requested-key rule
 each fails exactly one test.
 
 614 tests pass.
+
+---
+
+## 35. The lock file that made the repo unshareable
+
+The first real attempt to start the app after the parity work failed before a
+single line of application code ran:
+
+```
+error: Failed to fetch: `https://files.pythonhosted.org/.../claude_agent_sdk-0.2.152-py3-none-macosx_11_0_arm64.whl.metadata`
+  Caused by: received fatal alert: HandshakeFailure
+```
+
+Two things are wrong in that message, and only one of them is obvious.
+
+The obvious one: `uv` should not have been fetching anything. It was, because
+`uv.lock` did not know about the four optional extras added for the
+multi-provider work, so every `uv run` re-resolved the whole dependency graph
+and therefore needed the network. That is a self-inflicted regression from
+this plan's own work.
+
+The non-obvious one is that the URL is a macOS ARM wheel, on a Windows box.
+That is just resolution exploring the graph, but chasing it surfaced the
+actual problem.
+
+### The lock pinned URLs nobody else can reach
+
+Every one of the 1027 download URLs in `uv.lock` pointed at a private Azure
+DevOps package mirror, not at PyPI:
+
+```
+370  ms-feed-25.pkgs.visualstudio.com
+348  ms-feed-17.pkgs.visualstudio.com
+204  ms-feed-2.pkgs.visualstudio.com
+105  ms-feed-12.pkgs.visualstudio.com
+```
+
+Zero pointed at `files.pythonhosted.org`. Walking the file's history shows it
+was not always so - it was fully portable until commit 367a811, where a
+`uv lock` run on a machine sitting behind a corporate mirror rewrote all of
+them.
+
+This matters more than the staleness. `uv` downloads the exact URL recorded in
+the lock, so a friend cloning this repo from a normal network cannot install
+the project at all. The entire premise of sections 1-34 is that other people
+can run this thing; the lock file quietly made that impossible.
+
+### Why regenerating it does not help
+
+The obvious fix is to re-lock. That was tried, and it produced a lock that was
+100% private-mirror URLs again, just more of them. A machine that can only
+reach PyPI through an internal mirror will always record that mirror.
+
+So the choice is not "stale lock or fresh lock". It is:
+
+- a lock generated here, which works for the author and breaks everyone else, or
+- a portable lock, which cannot be produced or even installed from here,
+  because `uv` on this machine cannot reach `files.pythonhosted.org` at all.
+
+A lock that can be portable or usable by its author but never both is not
+worth committing. `uv.lock` is now ignored, and each user resolves against
+whatever index their own network gives them. Nothing depended on it being
+tracked: there is no CI, and no `uv sync --frozen` or `--locked` anywhere.
+
+The reproducibility loss is real but small, because reproducibility across
+machines was already fictional. Version floors in `pyproject.toml` - including
+the deliberate `mcp>=1.12,<2` ceiling from section 12 - still bound resolution.
+
+### The TLS half of it
+
+Worth recording, because the symptom is confusing. The failure was never a
+firewall: `pypi.org/simple/` returned 200 while `files.pythonhosted.org` failed
+the TLS handshake. The deciding factor was which trust store the tool uses.
+`pip` succeeded, `curl` (schannel), `Invoke-WebRequest` (.NET) and `uv`
+(rustls + webpki) all failed. A corporate root certificate trusted by some
+stores and not others. `uv --native-tls` switches it to the Windows store and
+gets past it; `pip` only worked because it was already pointed at an internal
+mirror via `global.index-url`.
+
+Both remedies are now in SETUP.md in that guide's plain-English register -
+`--native-tls`, and `UV_DEFAULT_INDEX` for networks that require a mirror -
+because this is exactly the class of problem a non-technical user cannot
+diagnose from the error text.
+
+### Verified
+
+`uv sync --extra claude` followed by `uv run streamlit run app.py`, from a
+clean shell in a worktree with no lock file present: the environment builds
+including `claude_agent_sdk` - the very package the original error was
+fetching - and the app serves HTTP 200.
+
+The suite reports 604 passed, 1 skipped there rather than the 614 of section
+34. That difference is not a regression: `tests/test_llm.py` is exactly ten
+tests and skips as a module when the Copilot SDK is absent, and this
+environment was built with `--extra claude`. Provider-specific tests skipping
+on a machine without that provider is the design working.
