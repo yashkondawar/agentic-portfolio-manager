@@ -626,7 +626,7 @@ interchangeable, and BYOK only covers one of them. Ask him this before writing a
 | He has | BYOK works? | Path | Cost model |
 |---|---|---|---|
 | **Anthropic API key** (`sk-ant-api...`) | ✅ Yes | Path A — 4 env vars, zero code | Pay-per-token |
-| **Claude Pro/Max subscription** (no key) | ❌ **No** | Needs `claude_code` adapter | Already paid; separate credit pool |
+| **Claude Pro/Max subscription** (no key) | ❌ Not via BYOK | `claude_code` adapter — **now implemented**, see §32 | Already paid; separate credit pool |
 
 ## Case 1 — He has an Anthropic API key
 
@@ -740,7 +740,7 @@ graph TD
 |---|---|---|---|
 | 1 | ~~Ask both friends which credential they hold~~ | done | Claude friend = **Pro/Max, no key** |
 | 2 | `AgentRequest`/`AgentRunner` contract + `copilot_cli` extraction | ~1 d | **Required** — prerequisite for #3 |
-| 3 | `claude_code` adapter (`claude-agent-sdk` + `CLAUDE_CODE_OAUTH_TOKEN`) | ~1 d | **Required** — only way the Claude friend can run this |
+| 3 | `claude_code` adapter (`claude-agent-sdk` + `CLAUDE_CODE_OAUTH_TOKEN`) | ~1 d | **Done** — see §32; the only way the Claude friend can run this |
 | 4 | Path A (BYOK env vars + config hygiene + docs) | ~1 d | **Required** for the Gemini friend |
 | 5 | `native` runner (LiteLLM + MCP) | 2–3 d | Later — CLI-free CI / containers |
 
@@ -1368,18 +1368,15 @@ what do they actually do?" - and the two defects that question exposed.
 |---|------|-------|
 | 1 | `AgentRunner` port + `copilot_cli` extraction | Done (`8b6d0a9`) |
 | 2 | `native` runner (LangChain + MCP) | Done (`8b6d0a9`, `a413332`) |
-| 3 | `claude_code` runner | **Not done** |
+| 3 | `claude_code` runner | Done (this change) |
 | 4 | Path A: BYOK env vars + config hygiene | **Not done** |
 | 5 | Concurrency throttle | Done (`512f64c`) |
 
 Shipped beyond the plan: provider auto-detection and Settings-page selection
 (`2c8b26a`), and the sequential workflow ported off the SDK (`5fc9b7e`).
 
-The gap that still matters is #3. A Gemini or OpenAI key works today. An
-Anthropic *API key* works today. A Claude **Pro/Max subscription** does not,
-because those plans sell a CLI seat and not API access, and `native` speaks
-only to APIs. That friend remains unserved, and the setup guide says so plainly
-rather than letting them discover it after installing.
+With #3 done, all four provider situations are served: a Copilot seat, a Claude
+Pro/Max subscription, any LLM API key, and a fully local Ollama model.
 
 ### 31.2 The database was not shareable, and that was not obvious
 
@@ -1439,3 +1436,94 @@ export's bytes against a secret the author seeded. Each converts "remember to
 consider the other machine" into something that fails loudly on this one.
 
 556 tests pass.
+
+---
+
+## 32. The Claude Code backend, and what running it for real exposed
+
+`claude_code` is now implemented, so a Claude Pro/Max subscriber with no API key
+can run the app. It is a thin adapter over `claude-agent-sdk`: the SDK spawns a
+CLI, hosts stdio MCP servers and ships `WebSearch`/`WebFetch`, so it is
+architecturally a near-twin of the Copilot runner and `McpServerSpec` renders
+into it directly. The ten scraper tools work unchanged.
+
+Two decisions are worth recording, and three findings could only have come from
+running it against a real subscription.
+
+### 32.1 Billing can change hands silently
+
+`ANTHROPIC_API_KEY` outranks a subscription credential inside the Claude CLI.
+The run still succeeds and the report is identical; only the invoice differs.
+This repo makes the collision likely rather than hypothetical, because its own
+`example.env` invites that key for the `native` backend — so a user who later
+adds a subscription would keep paying per token with nothing on screen to say
+so.
+
+`billing_env_overrides()` resolves only the unambiguous case: with both
+credentials present the user has explicitly chosen this backend, so the key is
+withheld from the child process and the decision is logged. With only a key it
+is left alone, because it may be the sole credential — but the log still names
+which pocket pays, since an on-disk `claude login` we cannot see would have been
+the other reasonable expectation. `CLAUDE_CODE_USE_API_KEY=1` opts out of all
+of it. Silence was never an option in either direction: the difference is money.
+
+### 32.2 Fan-out is narrower here than anywhere else
+
+`max_workers()` returns 2 for `claude_code`, against 12 for Copilot and 4 for an
+API key. Two effects compound: every call spawns a whole CLI process rather than
+issuing one HTTP request, and a subscription's *programmatic* allowance is a
+small monthly credit pool that an agentic loop drains far faster than a single
+completion would.
+
+### 32.3 The MCP server broke, on every backend, in silence
+
+Installing the new extra pulled `mcp` from 1.12.3 to 2.1.1, because
+`claude-agent-sdk` asks for `mcp>=1.23,<3` and nothing in this repo had ever
+pinned it. `mcp` 2.0 removed the low-level `Server.list_tools()` decorator that
+`mcp_server.py` is built on, so the server failed to start — for *all* backends,
+since that file is shared.
+
+The failure mode is the interesting part. Nothing errored. The Claude CLI
+reported the server as `failed` and simply carried on with its built-in tools,
+and the model answered: *"I don't have a `get_market_indices` tool available."*
+A research run would have completed, produced a confident report, and quietly
+omitted every piece of market data. The full suite passed throughout, because no
+test had ever imported `mcp_server`.
+
+Fixed by pinning `mcp>=1.23,<2` and adding the two cheapest possible guards: a
+test that imports `mcp_server`, and a test asserting the installed major version
+is 1. The general lesson is that a transitive dependency of an *optional* extra
+can break a *shared* component, and that a tool-calling agent degrades to
+plausible prose instead of failing when its tools disappear.
+
+### 32.4 Two things about the user's machine that the plan had wrong
+
+Both were found by running the backend, and neither is a fact about this repo's
+logic, which is why the faked tests could not have caught them.
+
+**The SDK bundles its own CLI.** It logged `Using bundled Claude Code CLI` and
+ignored the copy on PATH entirely. Detection originally required
+`shutil.which("claude")`, which would have rejected a working install and sent
+the user off to run an `npm install` they do not need.
+
+**`claude login` leaves nothing in the environment.** The first successful live
+run had neither `ANTHROPIC_API_KEY` nor `CLAUDE_CODE_OAUTH_TOKEN` set; the CLI
+had credentials on disk, stored outside the environment. Detection keyed solely
+on the token would have told that user "no model provider detected" while the
+backend was demonstrably working. There is now a last-resort branch that treats
+a populated `~/.claude` as evidence — consulted only after every unambiguous
+signal is ruled out, and always announced, so a wrong guess is visible rather
+than expensive.
+
+### 32.5 Verification
+
+The faked-SDK tests cover option building, tool scoping, `cwd` translation,
+error translation and all three billing branches; each was confirmed
+non-vacuous by mutation. Beyond that the backend was run for real: a plain
+prompt returned `OK`, and an MCP-backed prompt connected all ten scraper tools
+and returned a live NIFTY 50 value. Every field this adapter sets was also
+checked against the installed SDK's actual dataclasses rather than its
+documentation.
+
+589 tests pass.
+

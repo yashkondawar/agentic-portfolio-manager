@@ -51,6 +51,12 @@ def max_workers() -> int:
     metered per minute - Gemini's free tier allows only a handful - so the same
     fan-out returns a wall of 429s. Default accordingly, and let anyone on a
     paid tier raise it.
+
+    ``claude_code`` is narrower still, for two compounding reasons: every call
+    spawns a whole Claude CLI process rather than issuing one HTTP request, and
+    a subscription's programmatic allowance is a small monthly credit pool
+    (~$20 on Pro) that an agentic loop drains far faster than a single
+    completion would.
     """
     override = os.getenv("AI_MAX_CONCURRENCY", "").strip()
     if override:
@@ -64,7 +70,12 @@ def max_workers() -> int:
 
     from core.agent.detect import detect_backend
 
-    return 12 if detect_backend().backend == "copilot_cli" else 4
+    backend = detect_backend().backend
+    if backend == "copilot_cli":
+        return 12
+    if backend == "claude_code":
+        return 2
+    return 4
 
 
 def _get_current_price(symbol: str) -> float:

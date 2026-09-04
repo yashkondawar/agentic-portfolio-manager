@@ -19,6 +19,7 @@ import os
 import shutil
 from dataclasses import dataclass
 from importlib.util import find_spec
+from pathlib import Path
 
 __all__ = [
     "BackendChoice",
@@ -76,6 +77,60 @@ def _native_ready() -> bool:
     return find_spec("langchain") is not None
 
 
+def _claude_cli() -> str | None:
+    """A Claude Code CLI the SDK can spawn, if one is on PATH."""
+    for name in ("claude", "claude.cmd", "claude.exe"):
+        found = shutil.which(name)
+        if found:
+            return found
+    return None
+
+
+def _claude_bundled_cli() -> bool:
+    """True when the SDK ships its own CLI binary.
+
+    Recent ``claude-agent-sdk`` releases bundle a ``claude`` executable and
+    prefer it over anything on PATH. Requiring a separate ``npm install -g``
+    would therefore reject a perfectly working install - verified on a real run,
+    where the SDK logged "Using bundled Claude Code CLI" and ignored the PATH
+    copy entirely.
+    """
+    spec = find_spec("claude_agent_sdk")
+    if spec is None or not spec.origin:
+        return False
+    bundled = Path(spec.origin).parent / "_bundled"
+    return bundled.is_dir() and any(bundled.glob("claude*"))
+
+
+def _claude_code_ready() -> bool:
+    """True when both halves of the Claude backend are usable.
+
+    The SDK is required because we import it; a CLI is required because the SDK
+    only spawns one - but it may supply that itself.
+    """
+    if find_spec("claude_agent_sdk") is None:
+        return False
+    return _claude_bundled_cli() or _claude_cli() is not None
+
+
+def _claude_subscription_token() -> bool:
+    return bool(os.getenv("CLAUDE_CODE_OAUTH_TOKEN", "").strip())
+
+
+def _claude_signed_in() -> bool:
+    """Whether the Claude CLI looks interactively signed in.
+
+    ``claude login`` stores credentials outside the environment - in the OS
+    keychain on Windows - so there is nothing to read directly, and asking the
+    CLI would mean spawning a process during startup detection. The presence of
+    a populated ``~/.claude`` is the cheap proxy. It is only ever consulted as a
+    last resort, after every unambiguous signal has been ruled out, and the
+    choice is always announced, so a wrong guess is visible rather than costly.
+    """
+    home = Path.home() / ".claude"
+    return home.is_dir() and any(home.iterdir())
+
+
 def detect_backend(default: str = "copilot_cli") -> BackendChoice:
     """Choose a backend from the environment, explaining the choice.
 
@@ -84,9 +139,16 @@ def detect_backend(default: str = "copilot_cli") -> BackendChoice:
     1. ``AI_AGENT_BACKEND`` - always wins, never second-guessed.
     2. ``AI_MODEL`` set - an unambiguous request for the native backend.
     3. A working Copilot CLI *and* SDK - preserves the owner's setup exactly.
-    4. Any provider API key plus LangChain - serves the API-key-only user.
-    5. Otherwise fall back to ``default`` with ``resolved=False`` so callers
+    4. ``CLAUDE_CODE_OAUTH_TOKEN`` plus a working Claude CLI and SDK - the
+       subscription case no other backend can serve.
+    5. Any provider API key plus LangChain - serves the API-key-only user.
+    6. Otherwise fall back to ``default`` with ``resolved=False`` so callers
        can prompt for setup instead of failing with a confusing vendor error.
+
+    Note that step 4 keys on the *subscription token*, not merely on the Claude
+    CLI being installed. An ``ANTHROPIC_API_KEY`` user is served perfectly well
+    by ``native``, which is cheaper and needs no Node runtime, so having the
+    CLI lying around must not quietly re-route them.
     """
     explicit = os.getenv("AI_AGENT_BACKEND", "").strip()
     if explicit:
@@ -117,6 +179,33 @@ def detect_backend(default: str = "copilot_cli") -> BackendChoice:
             explicit=False,
         )
 
+    if _claude_subscription_token():
+        if _claude_code_ready():
+            return BackendChoice(
+                backend="claude_code",
+                model=None,
+                reason=(
+                    "CLAUDE_CODE_OAUTH_TOKEN is set - using your Claude "
+                    "subscription through the Claude Code backend."
+                ),
+                explicit=False,
+            )
+        missing = (
+            'the Agent SDK (pip install -e ".[claude]")'
+            if find_spec("claude_agent_sdk") is None
+            else "the Claude Code CLI (npm install -g @anthropic-ai/claude-code)"
+        )
+        return BackendChoice(
+            backend=default,
+            model=None,
+            reason=(
+                f"CLAUDE_CODE_OAUTH_TOKEN is set, but {missing} is missing, so "
+                "the claude_code backend cannot run."
+            ),
+            explicit=False,
+            resolved=False,
+        )
+
     key = provider_for_key()
     if key and _native_ready():
         env_var, model, label = key
@@ -144,13 +233,30 @@ def detect_backend(default: str = "copilot_cli") -> BackendChoice:
             resolved=False,
         )
 
+    # Last resort, before giving up entirely: the user has the Claude tooling
+    # installed and has signed in interactively at some point. There is no key
+    # and no Copilot, so this is the only thing left that could work.
+    if _claude_code_ready() and _claude_signed_in():
+        return BackendChoice(
+            backend="claude_code",
+            model=None,
+            reason=(
+                "No API key or Copilot CLI found, but the Claude Code SDK is "
+                "installed and you appear to be signed in - using your Claude "
+                "subscription. Run `claude setup-token` and set "
+                "CLAUDE_CODE_OAUTH_TOKEN to make this explicit."
+            ),
+            explicit=False,
+        )
+
     return BackendChoice(
         backend=default,
         model=None,
         reason=(
-            "No model provider detected. Install the Copilot CLI, or set an "
-            "API key (GOOGLE_API_KEY / OPENAI_API_KEY / ANTHROPIC_API_KEY) "
-            "and choose the native backend."
+            "No model provider detected. Install the Copilot CLI, run "
+            "`claude setup-token` if you have a Claude Pro/Max subscription, "
+            "or set an API key (GOOGLE_API_KEY / OPENAI_API_KEY / "
+            "ANTHROPIC_API_KEY) and choose the native backend."
         ),
         explicit=False,
         resolved=False,

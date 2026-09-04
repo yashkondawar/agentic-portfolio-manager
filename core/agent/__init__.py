@@ -63,11 +63,9 @@ def _load_native() -> AgentRunner:
 
 
 def _load_claude_code() -> AgentRunner:
-    raise RuntimeError(
-        "The 'claude_code' backend is not implemented yet.\n"
-        "Use AI_AGENT_BACKEND=native with an Anthropic API key, or "
-        "AI_AGENT_BACKEND=copilot_cli."
-    )
+    from core.agent.runners.claude_code import ClaudeCodeRunner
+
+    return ClaudeCodeRunner()
 
 
 _REGISTRY: dict[str, Callable[[], AgentRunner]] = {

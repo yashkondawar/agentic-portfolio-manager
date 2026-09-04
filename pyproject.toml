@@ -12,6 +12,14 @@ dependencies = [
     "kiteconnect>=5.2.1",
     "langchain>=0.3.27",
     "langchain-mcp-adapters>=0.1.9",
+    # mcp_server.py is written against the 1.x low-level `Server` API, whose
+    # decorators were removed in 2.0. Nothing pinned this before, so installing
+    # any package that wants mcp>=2 (claude-agent-sdk allows it) silently
+    # upgraded it and broke the ten scraper tools for EVERY backend, with no
+    # error until a tool call failed. Verified: 2.1.1 fails at import, 1.29.1
+    # works. The floor stays low so existing lockfiles are undisturbed; the
+    # ceiling is the part that matters.
+    "mcp>=1.12,<2",
     "openpyxl>=3.1.5",
     "pandas>=2.3.1",
     "plotly>=6.2.0",
@@ -41,12 +49,21 @@ gemini = ["langchain-google-genai>=2.0.0"]
 openai = ["langchain-openai>=0.2.0"]
 anthropic = ["langchain-anthropic>=0.3.0"]
 
+# AI_AGENT_BACKEND=claude_code — Anthropic's own harness. The only backend that
+# accepts a Claude Pro/Max *subscription* (via `claude setup-token`) rather than
+# an API key. Also needs the CLI binary the SDK spawns:
+#   npm install -g @anthropic-ai/claude-code
+claude = [
+    "claude-agent-sdk>=0.2,<1",
+]
+
 # Convenience aggregate for contributors who want every backend available.
 all = [
     "github-copilot-sdk>=1.0.8",
     "langchain-google-genai>=2.0.0",
     "langchain-openai>=0.2.0",
     "langchain-anthropic>=0.3.0",
+    "claude-agent-sdk>=0.2,<1",
 ]
 
 # Kronos price-forecasting integration (CPU-friendly, no GPU required).

@@ -194,9 +194,9 @@ completes the session without copying a request token into the UI.
 
 ### Prerequisites
 - Python 3.12+
-- **One** model provider — either a GitHub Copilot subscription, or any LLM API
-  key (Gemini / OpenAI / Anthropic), or a local Ollama install. See
-  [Choosing a model provider](#choosing-a-model-provider).
+- **One** model provider — a GitHub Copilot subscription, a Claude Pro/Max
+  subscription, any LLM API key (Gemini / OpenAI / Anthropic), or a local Ollama
+  install. See [Choosing a model provider](#choosing-a-model-provider).
 - Bright Data account only when the optional paid data source is enabled
 
 ### Installation
@@ -210,6 +210,7 @@ completes the session without copying a request token into the UI.
 2. **Install dependencies** — pick the extra matching your provider
    ```bash
    uv sync --extra copilot     # GitHub Copilot CLI (default)
+   uv sync --extra claude      # Claude Pro/Max subscription
    uv sync --extra gemini      # Gemini API key
    uv sync --extra openai      # OpenAI API key
    uv sync --extra anthropic   # Anthropic API key
@@ -226,6 +227,9 @@ completes the session without copying a request token into the UI.
    copilot --version           # only for AI_AGENT_BACKEND=copilot_cli
    ```
    For `copilot_cli`, run `copilot` once and complete sign-in if prompted.
+   For `claude_code`, an existing interactive `claude login` is detected
+   automatically; otherwise run `claude setup-token` and put the resulting
+   `sk-ant-oat...` value in `CLAUDE_CODE_OAUTH_TOKEN`.
    For `native`, nothing to verify — just make sure the API key is in `.env`.
 
 5. **Install Bright Data MCP (optional)**
@@ -271,9 +275,9 @@ provider it picked and why.
 | You have | `AI_AGENT_BACKEND` | Extra install | Needs a CLI? |
 |---|---|---|---|
 | GitHub Copilot subscription | `copilot_cli` | `--extra copilot` + `npm i -g @github/copilot` | yes |
+| Claude Pro/Max subscription | `claude_code` | `--extra claude` | no — the SDK bundles one |
 | Any LLM API key | `native` | `--extra gemini` / `openai` / `anthropic` | **no** |
 | Nothing, but a local GPU/CPU | `native` + Ollama | — | no |
-| Claude Pro/Max subscription | *not yet supported* — see [the plan](docs/multi-provider-plan.md) | — | — |
 
 **GitHub Copilot (default).** Uses your existing Copilot login; no model API
 key required.
@@ -308,10 +312,35 @@ WEB_GROUNDING=false
 > **Free API tiers and rate limits.** The parallel-analyst workflow fans out
 > concurrently. That is free on a Copilot seat but metered per minute on an API
 > key — Gemini's free tier allows only a handful of requests — so the fan-out
-> defaults to 12 on `copilot_cli` and 4 on `native`. Set `AI_MAX_CONCURRENCY` to
-> override. If a call is rate-limited the analyst returns no opinion and the
-> report is still produced from the remaining signals, so the run logs a loud
-> warning naming exactly which analysts were dropped.
+> defaults to 12 on `copilot_cli`, 4 on `native` and 2 on `claude_code`. Set
+> `AI_MAX_CONCURRENCY` to override. If a call is rate-limited the analyst
+> returns no opinion and the report is still produced from the remaining
+> signals, so the run logs a loud warning naming exactly which analysts were
+> dropped.
+
+**Claude Pro/Max subscription — no API key.** Anthropic's own harness, and the
+only backend that accepts a *subscription* rather than a key. It browses
+natively, so `WEB_GROUNDING` can stay on.
+
+```bash
+AI_AGENT_BACKEND=claude_code
+CLAUDE_CODE_OAUTH_TOKEN=sk-ant-oat...   # from `claude setup-token`
+# CLAUDE_MODEL=claude-sonnet-4-5        # optional; your plan picks one otherwise
+```
+
+The `claude` extra ships its own CLI binary, so no `npm install` is required.
+If you already use Claude Code on the machine, the existing sign-in is detected
+and `CLAUDE_CODE_OAUTH_TOKEN` is optional.
+
+> **Watch the billing.** `ANTHROPIC_API_KEY` silently outranks the subscription
+> token inside the Claude CLI — identical output, but charged pay-as-you-go
+> instead of to the plan you already pay for. Because this repo's own `.env`
+> invites that key for the `native` backend, the collision is likely rather than
+> hypothetical, so when both are present the key is withheld from the CLI and
+> the choice is logged. Set `CLAUDE_CODE_USE_API_KEY=1` to bill the key on
+> purpose. Note also that programmatic use draws on a separate monthly credit
+> pool from interactive Claude Code, which may need a one-time opt-in in your
+> Anthropic account.
 
 #### Bright Data API Token (optional)
 1. Sign up at [Bright Data](https://brightdata.com)

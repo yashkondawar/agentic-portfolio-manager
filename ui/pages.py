@@ -436,6 +436,50 @@ def _backend_readiness(choice) -> list[dict[str, str]]:
             },
         ]
 
+    if choice.backend == "claude_code":
+        from core.agent.detect import _claude_bundled_cli, _claude_cli
+
+        api_key = os.getenv("ANTHROPIC_API_KEY", "").strip()
+        token = os.getenv("CLAUDE_CODE_OAUTH_TOKEN", "").strip()
+        if api_key and token and os.getenv("CLAUDE_CODE_USE_API_KEY", "") not in (
+            "1",
+            "true",
+            "yes",
+            "on",
+        ):
+            billing = "Subscription (API key withheld)"
+        elif api_key:
+            billing = "API key - billed per token"
+        elif token:
+            billing = "Subscription (Pro/Max allowance)"
+        else:
+            # An interactive `claude login` stores credentials outside the
+            # environment, so this is "nothing visible here", not "broken".
+            billing = "Using your `claude login`, if you have one"
+
+        if _claude_bundled_cli():
+            cli_status = "Ready (bundled with the SDK)"
+        elif _claude_cli():
+            cli_status = "Ready"
+        else:
+            cli_status = "Not found"
+
+        return [
+            {"Capability": "Claude Code CLI", "Status": cli_status},
+            {
+                "Capability": "Agent SDK",
+                "Status": (
+                    "Ready" if find_spec("claude_agent_sdk") else "Not installed"
+                ),
+            },
+            {"Capability": "Billing", "Status": billing},
+            {
+                "Capability": "Model",
+                "Status": os.getenv("CLAUDE_MODEL", "").strip()
+                or "Chosen by your subscription",
+            },
+        ]
+
     return [{"Capability": choice.backend, "Status": "Not implemented yet"}]
 
 
@@ -449,7 +493,7 @@ def _render_backend_form(choice) -> None:
     labels = {
         "copilot_cli": "GitHub Copilot  ·  needs a subscription + the Copilot CLI",
         "native": "Direct API key  ·  Gemini / OpenAI / Anthropic / Ollama",
-        "claude_code": "Claude Code  ·  not implemented yet",
+        "claude_code": "Claude Code  ·  use a Claude Pro/Max subscription",
     }
 
     with st.form("agent_backend"):
@@ -476,6 +520,24 @@ def _render_backend_form(choice) -> None:
                 "openai:gpt-4o, anthropic:claude-sonnet-4-5, ollama:llama3.1"
             ),
         )
+        claude_token = st.text_input(
+            "Claude subscription token",
+            value=os.getenv("CLAUDE_CODE_OAUTH_TOKEN", ""),
+            type="password",
+            help=(
+                "For the Claude Code backend. Run `claude setup-token` in a "
+                "terminal and paste the sk-ant-oat... value here. This uses "
+                "your Pro/Max subscription instead of paying per token."
+            ),
+        )
+        claude_model = st.text_input(
+            "Claude model",
+            value=os.getenv("CLAUDE_MODEL", ""),
+            help=(
+                "Optional. Leave blank to let your subscription choose - "
+                "e.g. claude-sonnet-4-5."
+            ),
+        )
         key_values: dict[str, str] = {}
         for env_var, _model, label in API_KEY_MODELS:
             key_values[env_var] = st.text_input(
@@ -498,6 +560,8 @@ def _render_backend_form(choice) -> None:
         "AI_AGENT_BACKEND": selected,
         "USE_FREE_SCRAPER": "true" if free_scraper else "false",
         "COPILOT_MODEL": copilot_model,
+        "CLAUDE_CODE_OAUTH_TOKEN": claude_token,
+        "CLAUDE_MODEL": claude_model,
         **key_values,
     }
     if selected == "native":
@@ -509,6 +573,11 @@ def _render_backend_form(choice) -> None:
         updates["WEB_GROUNDING"] = "false"
     else:
         updates["AI_MODEL"] = None
+        # ...and switching back must undo it. Copilot and Claude Code both
+        # browse, and this form is the only thing that ever sets the flag, so
+        # leaving it off would silently degrade every later report to
+        # training-data recall with no sign on screen.
+        updates["WEB_GROUNDING"] = "true"
 
     try:
         path = persist_settings(updates)
@@ -523,6 +592,12 @@ def _render_backend_form(choice) -> None:
             "Web grounding was turned off automatically — the native backend "
             "has no built-in browsing. The scraper tools (live prices, "
             "fundamentals, technicals, news) still run."
+        )
+    if selected == "claude_code" and not claude_token.strip():
+        st.warning(
+            "No subscription token saved. Run `claude setup-token` in a "
+            "terminal and paste the result above, otherwise this backend "
+            "falls back to ANTHROPIC_API_KEY and bills you per token."
         )
     st.rerun()
 

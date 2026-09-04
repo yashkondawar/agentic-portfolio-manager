@@ -83,6 +83,7 @@ options below — whichever you already have. Do not buy anything new.
 | You have | What to use | Cost |
 |----------|-------------|------|
 | A GitHub Copilot subscription | Copilot | Already paid for |
+| A Claude Pro or Max subscription | Claude Code | Already paid for |
 | A Google Gemini API key | Gemini | Free tier available |
 | An OpenAI API key | OpenAI | Pay per use |
 | An Anthropic (Claude) API key | Claude | Pay per use |
@@ -92,10 +93,13 @@ options below — whichever you already have. Do not buy anything new.
 Google account, click **Create API key**, and copy the long string it shows you.
 Keep it somewhere safe for step 4 — treat it like a password.
 
-> **A note on Claude subscriptions:** a Claude Pro or Max *subscription* does
-> not currently work with this app. Those plans do not include API access. You
-> need an API key from [console.anthropic.com](https://console.anthropic.com),
-> which is billed separately, or you can use one of the other providers above.
+> **A note on Claude subscriptions:** a Claude Pro or Max plan *does* work,
+> through the **Claude Code** option. It is a different thing from an Anthropic
+> API key, and it is set up differently — see step 3 and step 4. Your plan
+> includes a monthly allowance for apps like this one, kept separate from the
+> allowance you use when chatting with Claude yourself. You may need to switch
+> it on once in your account settings at
+> [console.anthropic.com](https://console.anthropic.com).
 
 ---
 
@@ -116,6 +120,7 @@ Now install, using the line that matches the provider you chose in step 2c:
 
 ```
 uv sync --extra copilot      # GitHub Copilot
+uv sync --extra claude       # Claude Pro/Max subscription
 uv sync --extra gemini       # Google Gemini
 uv sync --extra openai       # OpenAI
 uv sync --extra anthropic    # Claude API key
@@ -140,6 +145,27 @@ copilot
 The second command opens a sign-in prompt in your browser. Complete it, then
 close it with `Ctrl + C`. You only ever do this once.
 
+### Only if you chose Claude Pro/Max
+
+**Already use Claude Code on this computer?** Then you are done — the app finds
+your existing sign-in by itself. Skip to step 4.
+
+Otherwise, install it and sign in once:
+
+```
+npm install -g @anthropic-ai/claude-code
+claude setup-token
+```
+
+The second command opens your browser to approve access, then prints a long
+code starting with `sk-ant-oat`. **Copy that code** — you will paste it into
+the app in step 4. It lasts about a year.
+
+> **If you also have an Anthropic API key:** having both can quietly send the
+> bill to your card instead of your subscription. This app watches for that and
+> uses your subscription, telling you when it does. If you would rather pay per
+> use, put `CLAUDE_CODE_USE_API_KEY=1` in your `.env` file.
+
 ---
 
 ## 4. Choose who powers the AI
@@ -150,8 +176,9 @@ here only if it asks you to.
 The app checks for a provider when it starts. If it finds exactly one, it uses
 it automatically and tells you which one it picked. If it finds none, open the
 **Settings & Catalog** page in the sidebar, choose your provider from the list,
-paste your API key into the box, and press Save. The app writes it down for
-you and remembers it next time.
+paste your API key — or, for Claude Pro/Max, the `sk-ant-oat` code from step 3 —
+into the box, and press Save. The app writes it down for you and remembers it
+next time.
 
 <details>
 <summary>Prefer to set it up by hand? Click here.</summary>
@@ -168,6 +195,13 @@ key for your provider, for example:
 
 ```
 GOOGLE_API_KEY=your-key-here
+```
+
+...or, for a Claude Pro/Max subscription:
+
+```
+AI_AGENT_BACKEND=claude_code
+CLAUDE_CODE_OAUTH_TOKEN=sk-ant-oat-your-code-here
 ```
 
 Save the file. The app picks the rest up on its own.
