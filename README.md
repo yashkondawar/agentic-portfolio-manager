@@ -299,6 +299,14 @@ WEB_GROUNDING=false
 > fundamentals, technicals, news and `scrape_url` — work on **every** backend,
 > because they are plain MCP.
 
+> **Free API tiers and rate limits.** The parallel-analyst workflow fans out
+> concurrently. That is free on a Copilot seat but metered per minute on an API
+> key — Gemini's free tier allows only a handful of requests — so the fan-out
+> defaults to 12 on `copilot_cli` and 4 on `native`. Set `AI_MAX_CONCURRENCY` to
+> override. If a call is rate-limited the analyst returns no opinion and the
+> report is still produced from the remaining signals, so the run logs a loud
+> warning naming exactly which analysts were dropped.
+
 #### Bright Data API Token (optional)
 1. Sign up at [Bright Data](https://brightdata.com)
 2. Navigate to your dashboard

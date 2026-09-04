@@ -706,3 +706,65 @@ def test_sequential_workflow_runs_on_a_non_copilot_backend(
 @contextlib.asynccontextmanager
 async def _null_host(model):
     yield model
+
+
+# ---------------------------------------------------------------------------
+# Fan-out concurrency
+#
+# A Copilot seat is billed per seat; an API key is billed per request and
+# metered per minute. Gemini's free tier allows a handful of requests, so the
+# fan-out that is free on Copilot is a wall of 429s on the backend we just
+# enabled for the API-key users.
+# ---------------------------------------------------------------------------
+
+
+def test_fanout_is_wider_on_copilot_than_on_a_metered_api_key(
+    clean_env: pytest.MonkeyPatch,
+) -> None:
+    from agents.workflow import max_workers
+
+    clean_env.setenv("AI_AGENT_BACKEND", "copilot_cli")
+    copilot = max_workers()
+
+    clean_env.setenv("AI_AGENT_BACKEND", "native")
+    native = max_workers()
+
+    assert copilot == 12, "the owner's existing fan-out must not change"
+    assert native < copilot
+
+
+def test_fanout_respects_an_explicit_override(clean_env: pytest.MonkeyPatch) -> None:
+    from agents.workflow import max_workers
+
+    clean_env.setenv("AI_AGENT_BACKEND", "native")
+    clean_env.setenv("AI_MAX_CONCURRENCY", "9")
+    assert max_workers() == 9
+
+
+def test_fanout_ignores_a_non_numeric_override(clean_env: pytest.MonkeyPatch) -> None:
+    """A typo must not crash a research run."""
+    from agents.workflow import max_workers
+
+    clean_env.setenv("AI_AGENT_BACKEND", "copilot_cli")
+    clean_env.setenv("AI_MAX_CONCURRENCY", "lots")
+    assert max_workers() == 12
+
+
+@pytest.mark.parametrize(
+    "message",
+    [
+        "Error: 429 Too Many Requests",
+        "RESOURCE_EXHAUSTED: quota exceeded",
+        "rate limit reached for gemini-2.5-pro",
+    ],
+)
+def test_rate_limit_errors_are_recognised(message: str) -> None:
+    from agents.workflow import looks_like_rate_limit
+
+    assert looks_like_rate_limit(message)
+
+
+def test_ordinary_failures_are_not_mistaken_for_rate_limits() -> None:
+    from agents.workflow import looks_like_rate_limit
+
+    assert not looks_like_rate_limit("Error: symbol NOTREAL not found")

@@ -13,6 +13,7 @@ Flow:
 """
 
 import logging
+import os
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Dict, Any, List, Optional
@@ -27,6 +28,43 @@ from agents.risk_manager import analyze_risk
 from agents.portfolio_manager import make_portfolio_decisions
 
 logger = logging.getLogger(__name__)
+
+_RATE_LIMIT_MARKERS = (
+    "429",
+    "rate limit",
+    "ratelimit",
+    "quota",
+    "resource_exhausted",
+    "too many requests",
+)
+
+
+def looks_like_rate_limit(error: str) -> bool:
+    return any(marker in error.lower() for marker in _RATE_LIMIT_MARKERS)
+
+
+def max_workers() -> int:
+    """Fan-out width for the analyst pool.
+
+    A Copilot subscription is billed per seat, so twelve concurrent analysts
+    cost nothing extra and finish sooner. An API key is billed per request and
+    metered per minute - Gemini's free tier allows only a handful - so the same
+    fan-out returns a wall of 429s. Default accordingly, and let anyone on a
+    paid tier raise it.
+    """
+    override = os.getenv("AI_MAX_CONCURRENCY", "").strip()
+    if override:
+        try:
+            return max(1, int(override))
+        except ValueError:
+            logger.warning(
+                "AI_MAX_CONCURRENCY=%r is not an integer; using the default.",
+                override,
+            )
+
+    from core.agent.detect import detect_backend
+
+    return 12 if detect_backend().backend == "copilot_cli" else 4
 
 
 def _get_current_price(symbol: str) -> float:
@@ -135,7 +173,9 @@ def run_parallel_analysis(
     all_signals: Dict[str, Dict[str, AnalystSignal]] = {s: {} for s in symbols}
     current_prices: Dict[str, float] = {}
 
-    with ThreadPoolExecutor(max_workers=12) as executor:
+    workers = max_workers()
+    logger.info(f"[STEP 1] Fan-out concurrency: {workers}")
+    with ThreadPoolExecutor(max_workers=workers) as executor:
         # Submit all analyst tasks
         futures = {}
         for symbol in symbols:
@@ -148,6 +188,7 @@ def run_parallel_analysis(
             futures[price_future] = (symbol, "__price__")
 
         # Collect results
+        rate_limited: list[str] = []
         for future in as_completed(futures):
             symbol, name = futures[future]
             try:
@@ -156,8 +197,26 @@ def run_parallel_analysis(
                 else:
                     agent_name, signal = future.result()
                     all_signals[symbol][agent_name] = signal
+                    if looks_like_rate_limit(signal.reasoning):
+                        rate_limited.append(f"{symbol}/{agent_name}")
             except Exception as e:
                 logger.error(f"[STEP 1] Future failed for {symbol}/{name}: {e}")
+                if looks_like_rate_limit(str(e)):
+                    rate_limited.append(f"{symbol}/{name}")
+
+    # A rate-limited analyst degrades to a zero-confidence neutral signal, so
+    # the report still renders and looks complete. Say so loudly, otherwise the
+    # user acts on an analysis whose LLM agents never actually ran.
+    if rate_limited:
+        logger.warning(
+            "[STEP 1] %d analyst call(s) were rate-limited by the model "
+            "provider and returned no opinion: %s. The report below is built "
+            "on the remaining signals. Lower AI_MAX_CONCURRENCY (currently "
+            "%d) or move to a paid API tier.",
+            len(rate_limited),
+            ", ".join(sorted(rate_limited)),
+            workers,
+        )
 
     # Log signal summary per stock
     logger.info("-" * 80)

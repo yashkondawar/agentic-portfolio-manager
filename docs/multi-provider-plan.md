@@ -1322,3 +1322,34 @@ can do that.
 
 Every strategy in the repo now runs on every backend.
 
+## 30. The fan-out was priced for a subscription
+
+One assumption survived the port because nothing in the code stated it:
+`agents/workflow.py` fanned out to `ThreadPoolExecutor(max_workers=12)`.
+
+That number is correct for the environment it was written in. A Copilot seat is
+billed **per seat**, so twelve concurrent analysts cost nothing extra and finish
+sooner. An API key is billed **per request and metered per minute** - Gemini's
+free tier allows roughly five - so the identical fan-out returns a wall of 429s
+for precisely the user this whole exercise set out to serve.
+
+Worse than the failure was its shape. A rate-limited analyst is caught and
+converted into a `confidence=0` neutral signal, so the pipeline continues and
+**the report still renders and still looks complete.** The user would have been
+reading a multi-analyst recommendation whose LLM agents never ran.
+
+Two changes:
+
+* `max_workers()` defaults to 12 on `copilot_cli` - the owner's behaviour is
+  unchanged, and a test pins that - and 4 on `native`, with `AI_MAX_CONCURRENCY`
+  as an override for anyone on a paid tier.
+* Rate-limit failures are detected and aggregated into one loud warning naming
+  the dropped analysts, so a degraded report announces itself.
+
+The general lesson matches §29: the defect was not in the code that was ported,
+but in a **constant chosen under the old cost model**. Porting an execution path
+to a new provider silently reinterprets every tuning decision made for the old
+one, and those decisions do not announce themselves - `12` is just an integer.
+
+546 tests pass.
+
