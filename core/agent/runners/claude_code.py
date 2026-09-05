@@ -59,6 +59,7 @@ __all__ = [
     "render_mcp_servers",
     "allowed_tools_for",
     "resolve_cwd",
+    "server_web_searches",
 ]
 
 _MISSING_DEPS_HINT = (
@@ -190,6 +191,42 @@ def allowed_tools_for(request: AgentRequest) -> list[str]:
     return allowed
 
 
+def server_web_searches(usage: Any) -> int | None:
+    """How many web searches the API actually ran, from a ``ResultMessage``.
+
+    ``WebSearch`` is a *server-side* tool: the model emits the call but the
+    search itself is executed upstream, and the harness reports the count in
+    ``usage.server_tool_use.web_search_requests``.
+
+    That distinction matters because an upstream that does not implement the
+    tool answers with a well-formed but empty result envelope rather than an
+    error, so the run succeeds and the report simply has no live sources
+    behind it.
+
+    Returns:
+        The number of searches, or ``None`` when the harness did not report
+        the counter at all -- which is not the same as reporting zero.
+    """
+    if not isinstance(usage, dict):
+        return None
+    server_tools = usage.get("server_tool_use")
+    if not isinstance(server_tools, dict):
+        return None
+    count = server_tools.get("web_search_requests")
+    return count if isinstance(count, int) else None
+
+
+_UNGROUNDED_WARNING = (
+    "This run asked for web grounding, but the API executed 0 web searches. "
+    "Any 'current' claim in the output therefore rests on the model's "
+    "training data or on pages it fetched directly, not on a search. "
+    "WebSearch is a server-side tool, so this usually means the harness is "
+    "pointed at a proxy or gateway that does not implement it -- check "
+    "ANTHROPIC_BASE_URL in ~/.claude/settings.json; talking to Anthropic "
+    "directly is what enables it."
+)
+
+
 def resolve_cwd(servers: dict[str, McpServerSpec]) -> str | None:
     """Pick the working directory for the CLI from the MCP specs.
 
@@ -302,6 +339,7 @@ class ClaudeCodeRunner:
         streamed: list[str] = []
         final: str | None = None
         reported_model: str | None = None
+        usage: Any = None
 
         try:
             async for message in query(prompt=request.prompt, options=options):
@@ -312,6 +350,7 @@ class ClaudeCodeRunner:
                             streamed.append(block.text)
                             emit(block.text)
                 elif isinstance(message, ResultMessage):
+                    usage = getattr(message, "usage", None)
                     if getattr(message, "result", None):
                         final = message.result
         except CLINotFoundError as exc:
@@ -333,6 +372,14 @@ class ClaudeCodeRunner:
                 "Claude Code returned an empty response. Check the CLI is "
                 "authenticated (`claude setup-token`, or ANTHROPIC_API_KEY)."
             )
+        # A grounded request that ran no searches still returns a confident,
+        # well-formatted report. Saying so is the whole point: silence here
+        # reads as corroboration that never happened.
+        if (
+            Capability.WEB_SEARCH in request.requires
+            and server_web_searches(usage) == 0
+        ):
+            logger.warning("%s - %s", request.label, _UNGROUNDED_WARNING)
         return text, reported_model
 
     @staticmethod

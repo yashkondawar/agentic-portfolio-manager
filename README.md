@@ -528,20 +528,34 @@ For support and questions:
    - The provider SDKs are optional extras. Install the one matching your
      backend: `uv sync --extra copilot` or `uv sync --extra gemini`.
 
-4. **MCP Installation Issues**
+4. **Log warning: "the API executed 0 web searches"** (`claude_code`)
+   - The report was produced without a single web search, so its "current"
+     claims come from the model's training data or from pages it fetched
+     directly — not from a search. The run still succeeds, which is why this
+     is worth reading.
+   - `WebSearch` is a *server-side* tool: Anthropic runs the search, not the
+     CLI. If `~/.claude/settings.json` sets `ANTHROPIC_BASE_URL` to a local
+     proxy or a third-party gateway, that gateway usually does not implement
+     it and returns an empty result set instead of an error.
+   - Fix by pointing Claude Code at Anthropic directly (unset
+     `ANTHROPIC_BASE_URL`). `WebFetch` and the scraper MCP tools run
+     client-side and keep working either way, so data collection is
+     unaffected — only search-based discovery is lost.
+
+5. **MCP Installation Issues**
    ```bash
    # Reinstall MCP globally
    npm uninstall -g @brightdata/mcp
    npm install -g @brightdata/mcp
    ```
 
-5. **Streamlit Issues**
+6. **Streamlit Issues**
    ```bash
    # Clear Streamlit cache
    streamlit cache clear
    ```
 
-6. **Import Errors**
+7. **Import Errors**
    ```bash
    # Reinstall dependencies
    pip install -r requirements.txt --force-reinstall

@@ -1704,8 +1704,6 @@ def test_provenance_cannot_leak_a_secret_through_params(
     clean_env: pytest.MonkeyPatch, tmp_path
 ) -> None:
     """Provenance is merged after sanitising, so it must not reopen that hole."""
-    import json as _json
-
     from core.run_history import save_run
     from core.storage import connection_scope
     from core.strategy import StrategyResult
@@ -1835,3 +1833,91 @@ def test_the_fenced_answer_beats_an_illustration_in_the_prose() -> None:
 
     assert parsed["signal"] == "bullish", "picked the illustration, not the answer"
     assert parsed["confidence"] == 80
+
+
+# --------------------------------------------------------------------------
+# Web grounding that silently did not happen
+#
+# `WebSearch` is executed upstream, not by the CLI. A gateway that does not
+# implement it answers with a well-formed but EMPTY result envelope, so the
+# run succeeds and the report reads as though it were sourced. The usage
+# counter is the only evidence, so it is worth trusting precisely.
+# --------------------------------------------------------------------------
+
+
+def test_server_web_searches_reads_the_real_sdk_payload() -> None:
+    """Shape copied from an actual ResultMessage observed in the wild."""
+    from core.agent.runners.claude_code import server_web_searches
+
+    usage = {
+        "input_tokens": 10594,
+        "output_tokens": 224,
+        "server_tool_use": {"web_search_requests": 0, "web_fetch_requests": 0},
+        "service_tier": "standard",
+    }
+
+    assert server_web_searches(usage) == 0
+
+
+def test_server_web_searches_counts_real_searches() -> None:
+    from core.agent.runners.claude_code import server_web_searches
+
+    usage = {"server_tool_use": {"web_search_requests": 3}}
+
+    assert server_web_searches(usage) == 3
+
+
+@pytest.mark.parametrize(
+    "usage",
+    [
+        None,
+        {},
+        {"server_tool_use": None},
+        {"server_tool_use": {}},
+        {"server_tool_use": {"web_search_requests": "many"}},
+        "not-a-mapping",
+    ],
+)
+def test_server_web_searches_distinguishes_absent_from_zero(usage: object) -> None:
+    """`None` means "not reported"; only a real integer may mean zero.
+
+    Conflating the two would fire the warning on every harness that simply
+    does not publish the counter.
+    """
+    from core.agent.runners.claude_code import server_web_searches
+
+    assert server_web_searches(usage) is None
+
+
+def test_grounded_run_warns_when_no_search_ran(
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    """The failure mode that prompted this: a confident, unsourced report."""
+    from core.agent.runners.claude_code import (
+        _UNGROUNDED_WARNING,
+        server_web_searches,
+    )
+
+    request = _claude_request(requires=frozenset({Capability.WEB_SEARCH}))
+    usage = {"server_tool_use": {"web_search_requests": 0}}
+
+    should_warn = (
+        Capability.WEB_SEARCH in request.requires and server_web_searches(usage) == 0
+    )
+
+    assert should_warn
+    assert "ANTHROPIC_BASE_URL" in _UNGROUNDED_WARNING, "must name the likely cause"
+
+
+def test_ungrounded_warning_stays_quiet_when_not_asked_for_grounding() -> None:
+    """An offline run that never wanted search must not be nagged."""
+    from core.agent.runners.claude_code import server_web_searches
+
+    request = _claude_request(requires=frozenset())
+    usage = {"server_tool_use": {"web_search_requests": 0}}
+
+    should_warn = (
+        Capability.WEB_SEARCH in request.requires and server_web_searches(usage) == 0
+    )
+
+    assert not should_warn
