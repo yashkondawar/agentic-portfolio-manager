@@ -97,10 +97,13 @@ ipython_config.py
 #Pipfile.lock
 
 # UV
-#   Similar to Pipfile.lock, it is generally recommended to include uv.lock in version control.
-#   This is especially recommended for binary packages to ensure reproducibility, and is more
-#   commonly ignored for libraries.
-#uv.lock
+#   uv.lock is deliberately NOT committed here. `uv lock` records the exact
+#   download URL of every package, so a lock generated behind a corporate
+#   package mirror pins private URLs that nobody outside that network can
+#   reach -- which defeats the point of sharing this repo. Each user resolves
+#   against their own index instead. See docs/SETUP.md if `uv sync` fails on
+#   a work network.
+uv.lock
 
 # poetry
 #   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
@@ -216,6 +219,11 @@ backtesting/swing_trading/results/
 backtesting/qtr_results/data_cache/
 backtesting/qtr_results/fundamentals_cache/
 backtesting/qtr_results/results/
+backtesting/breakout_ath/data_cache/
+backtesting/breakout_ath/results/
+
+# Generated dossier workbooks (regenerate with backtesting.gfs.run_dossier)
+reports/
 
 # Quarterly-results strategy persistent state (ledger + long-term memory)
 qtr_results/state/

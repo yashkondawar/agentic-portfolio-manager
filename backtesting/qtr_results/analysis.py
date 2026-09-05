@@ -296,12 +296,22 @@ def analyze_event(
         else None
     )
 
-    score = _strength_score(yoy_profit, qoq_profit, yoy_eps, yoy_sales, margin_delta)
+    # As-filed EPS is quoted on the share count of the day, so a split or bonus
+    # shows up as an earnings collapse that never happened. Grading on net profit
+    # instead measures the business rather than the share register.
+    if getattr(cfg, "growth_metric", "eps") == "net_profit":
+        growth = yoy_profit
+        growth_floor = cfg.min_yoy_profit_growth
+    else:
+        growth = yoy_eps
+        growth_floor = cfg.min_yoy_eps_growth
+
+    score = _strength_score(yoy_profit, qoq_profit, growth, yoy_sales, margin_delta)
 
     is_strong = (
         yoy_profit is not None
         and yoy_profit >= cfg.min_yoy_profit_growth
-        and (yoy_eps is None or yoy_eps >= cfg.min_yoy_eps_growth)
+        and (growth is None or growth >= growth_floor)
         and (qoq_profit is None or qoq_profit >= cfg.min_qoq_profit_growth)
     )
 

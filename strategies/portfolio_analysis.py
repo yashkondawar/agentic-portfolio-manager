@@ -2,8 +2,8 @@
 
 Wraps ``portfolio_copilot_analysis`` — a holistic portfolio review that
 produces per-stock theses, concentration/sector/risk diagnostics and concrete
-restructuring instructions (BUY MORE / TRIM / EXIT / HOLD) via the GitHub
-Copilot CLI + scraper MCP.
+restructuring instructions (BUY MORE / TRIM / EXIT / HOLD) via your
+configured AI provider + scraper MCP.
 """
 
 from __future__ import annotations
@@ -37,8 +37,8 @@ class PortfolioAnalysisStrategy(BaseStrategy):
     long_description = (
         "Analyzes a whole book: per-stock fundamentals/momentum/risk thesis, "
         "concentration and sector diagnostics, and a concrete restructuring "
-        "plan with target weights. Runs through the GitHub Copilot CLI + "
-        "scraper MCP (no API keys required)."
+        "plan with target weights. Uses your configured AI provider plus the "
+        "free scraper tools, so no paid market-data feed is needed."
     )
     category = StrategyCategory.PORTFOLIO
 

@@ -12,6 +12,7 @@ from ui.pages import (
     market_temperature_page,
     portfolio_page,
     research_page,
+    schedules_page,
     settings_page,
     swing_page,
 )
@@ -85,6 +86,11 @@ navigation = st.navigation(
                 broker_page,
                 title="Broker & Holdings",
                 icon=":material/account_balance:",
+            ),
+            st.Page(
+                schedules_page,
+                title="Automation & Schedules",
+                icon=":material/schedule:",
             ),
             st.Page(
                 settings_page, title="Settings & Catalog", icon=":material/settings:"

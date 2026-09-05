@@ -58,11 +58,22 @@ python -m backtesting.gfs.run_backtest --stability g_rsi_min
 
 # Size the survivorship / index-inclusion bias
 python -m backtesting.gfs.run_backtest --universe nse_all
+
+# The full results workbook, net of brokerage AND capital-gains tax
+python -m backtesting.gfs.run_dossier --start 2016-01-01 --capital 10000000 \
+    --out reports\gfs_dossier.xlsx
 ```
 
 Artifacts (`summary.txt`, `trades.csv`, `equity_curve.csv`, `signals.csv`,
 `ablations.json`, `sweep.json`) are written through `core.storage.save_artifacts`
 unless you pass `--no-artifacts`.
+
+The dossier is a separate, self-contained deliverable — a nine-sheet Excel
+workbook covering the equity curve, every fill, per-year and rolling returns, and
+a capital-gains ledger, with every headline metric reported three times (raw,
+after costs, after costs **and** tax). It reads the live configuration straight
+out of `gfs/config.py`, so it always describes the strategy actually being
+traded. See [DOSSIER.md](DOSSIER.md).
 
 ---
 

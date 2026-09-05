@@ -94,6 +94,7 @@ class PointInTimeData:
         warmup_days: int,
         use_cache: bool = True,
         chunk_size: int = 40,
+        forward_days: int = 2,
     ) -> None:
         """Populate `frames` and `benchmark` for [start - warmup, end].
 
@@ -102,7 +103,7 @@ class PointInTimeData:
         (and migrated into the store) so existing caches are not wasted.
         """
         dl_start = start - timedelta(days=warmup_days)
-        dl_end = end + timedelta(days=2)
+        dl_end = end + timedelta(days=forward_days)
         requested_symbols = sorted({_cache_symbol(symbol) for symbol in symbols})
         wanted = [_plain_symbol(s) for s in symbols]
 

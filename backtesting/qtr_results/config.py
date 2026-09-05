@@ -90,6 +90,19 @@ class BacktestConfig:
     min_qoq_profit_growth: float = live_config.MIN_QOQ_PROFIT_GROWTH   # 5%
     min_yoy_eps_growth: float = live_config.MIN_YOY_EPS_GROWTH         # 15%
 
+    # Which line grades the result: "eps" (screener's split-adjusted EPS) or
+    # "net_profit". As-filed NSE data quotes EPS on the share count of the day,
+    # so a split reads as an earnings collapse — grade on net profit there.
+    growth_metric: str = "eps"
+
+    # Where quarterly fundamentals come from:
+    #   "screener" — the ~3-year retro-restated screener.in cache, fetched live.
+    #   "store"    — the durable point-in-time store, which unions as-filed NSE
+    #                filings (Dec-2011 to Dec-2024) with screener's recent tail
+    #                into one continuous series. See scraper/NSE_FUNDAMENTALS.md.
+    # "nse" is accepted as a legacy alias for "store".
+    fundamentals_source: str = "screener"
+
     # ── Target band + trailing stop + holding window ─────────────────────────
     # Targets mirror the live playbook (10-20% PE-rerating band). The holding
     # window and trailing-stop mechanics are the backtest's own — see below.
@@ -299,3 +312,59 @@ class BacktestConfig:
 
     def goal_capital(self) -> float:
         return self.starting_capital * (1 + self.goal_return_pct / 100.0)
+
+
+def live_mirror_config(**overrides) -> BacktestConfig:
+    """A :class:`BacktestConfig` pinned to what the LIVE ``qtr_results`` runs today.
+
+    Several backtest defaults have drifted away from the live strategy (the
+    backtest halved the static target tiers and still sizes at the pre-validation
+    2% risk budget). A dossier that claims to describe the live setup must not
+    inherit that drift, so every value the live strategy owns is read straight
+    from ``qtr_results.config`` rather than restated here.
+
+    Deliberately left at backtest defaults: the sector concentration cap and the
+    OHLC-aware fills, which are risk controls the live engine simply lacks. Left
+    OFF: regime filter, PE-percentile cap, anticipation mode, SUE and
+    cross-sectional ranking — all backtest-only research switches. The live
+    Tier-2 LLM conviction gate has no point-in-time equivalent and therefore
+    cannot be represented at all.
+    """
+    cfg = BacktestConfig(
+        risk_per_trade_pct=live_config.RISK_PER_TRADE_PCT,
+        max_positions=live_config.MAX_POSITIONS,
+        max_position_pct=live_config.MAX_POSITION_PCT,
+        commission_pct=live_config.COMMISSION_PCT,
+        max_holding_days=live_config.MAX_HOLDING_DAYS,
+        atr_period=live_config.ATR_PERIOD,
+        atr_stop_multiplier=live_config.ATR_STOP_MULTIPLIER,
+        fallback_stop_pct=live_config.FALLBACK_STOP_PCT,
+        target_min_pct=live_config.TARGET_MIN_PCT,
+        target_max_pct=live_config.TARGET_MAX_PCT,
+        static_target_tiers=tuple(live_config.STATIC_TARGET_TIERS),
+        min_yoy_profit_growth=live_config.MIN_YOY_PROFIT_GROWTH,
+        min_qoq_profit_growth=live_config.MIN_QOQ_PROFIT_GROWTH,
+        min_yoy_eps_growth=live_config.MIN_YOY_EPS_GROWTH,
+        disable_profit_target=True,
+        require_uptrend=True,
+        debt_gate_mode="sector_relative",
+        regime_filter=False,
+        anticipation_mode=False,
+        use_sue=False,
+        cross_sectional=False,
+    )
+    for key, value in overrides.items():
+        if not hasattr(cfg, key):
+            raise AttributeError(f"BacktestConfig has no field '{key}'")
+        setattr(cfg, key, value)
+    return cfg
+
+
+#: Accepted values for ``QtrBacktestConfig.fundamentals_source``. "nse" predates
+#: the store holding more than one source and is kept working as an alias.
+FUNDAMENTALS_SOURCES = ("screener", "store", "nse")
+
+
+def normalize_fundamentals_source(value: str) -> str:
+    """Fold the legacy "nse" alias onto "store"."""
+    return "store" if value == "nse" else value

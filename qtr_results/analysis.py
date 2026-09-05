@@ -62,7 +62,15 @@ def _norm_label(label: str) -> str:
     s = re.sub(r"[^a-z% ]", "", (label or "").lower()).strip()
     if "sales" in s or "revenue" in s or "income" in s and "other" not in s:
         return "sales"
-    if "net profit" in s or (s.startswith("profit") and "operating" not in s):
+    if "net profit" in s:
+        return "net_profit"
+    # Must be tested before the generic "profit…" catch-all below: screener puts
+    # "Profit before tax" ABOVE "Net Profit+", so without this the pre-tax line
+    # would claim the net_profit slot and every "profit growth" number in the
+    # system would silently be measuring PBT.
+    if "before tax" in s or s == "pbt":
+        return "profit_before_tax"
+    if s.startswith("profit") and "operating" not in s:
         return "net_profit"
     if "operating profit" in s:
         return "operating_profit"

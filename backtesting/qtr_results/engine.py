@@ -46,12 +46,22 @@ class BacktestEngine:
         funds: FundamentalsStore,
         sectors: Optional[SectorStore] = None,
         calendar: Optional[ResultsCalendarStore] = None,
+        universe: Optional[object] = None,
+        dividends: Optional[Dict[str, Dict[date, float]]] = None,
     ):
         self.cfg = cfg
         self.prices = prices
         self.funds = funds
         self.sectors = sectors
         self.calendar = calendar
+        # Point-in-time index membership. When absent every name with data is
+        # tradable on every day, which is the survivorship-biased behaviour the
+        # backtest had before: today's index members, back-applied to history.
+        self.universe = universe
+        # symbol -> ex_date -> rupees per share. Only meaningful against a
+        # price (unadjusted) series; see _credit_dividends.
+        self.dividends = dividends or {}
+        self.dividend_cash = 0.0
         self.pf = Portfolio(cash=cfg.starting_capital, commission_pct=cfg.commission_pct)
         # symbol -> (raw, quarters, metrics)
         self.parsed: Dict[str, Tuple[dict, list, dict]] = {}
@@ -152,7 +162,7 @@ class BacktestEngine:
         if not calendar:
             return
         first, last = calendar[0], calendar[-1]
-        n_real = n_est = 0
+        n_real = n_est = n_off_index = 0
         use_real = self.cfg.use_real_decl_dates and self.calendar is not None
         for sym in self.funds.symbols():
             if not self.prices.has(sym):
@@ -180,6 +190,17 @@ class BacktestEngine:
                 # Clean-regime option: trade only events with a REAL NSE date.
                 if self.cfg.real_dates_only and not ev.decl_date_real:
                     continue
+                # Point-in-time membership. The name has to have been in the
+                # index ON the day the result landed, not merely be in it now.
+                # Without this a 2015 signal is screened against the 2026
+                # constituent list, which only contains companies that went on
+                # to survive and stay big -- the strategy gets credit for a
+                # selection no one could have made at the time.
+                if self.universe is not None and not self.universe.contains(
+                    ev.symbol, ev.decl_date
+                ):
+                    n_off_index += 1
+                    continue
                 # First trading session on/after the declaration date. When the
                 # real announcement was after market close (the norm), the fill
                 # happens the NEXT session's open — handled by _fill_pending.
@@ -202,9 +223,10 @@ class BacktestEngine:
                         self.anticip_by_day.setdefault(entry_day, []).append((ev, signal_day))
         logger.info(
             "Prepared %d result events across %d signal days "
-            "(%d real NSE dates, %d estimated-lag fallbacks).",
+            "(%d real NSE dates, %d estimated-lag fallbacks, "
+            "%d dropped as not-in-index on the day).",
             sum(len(v) for v in self.events_by_day.values()), len(self.events_by_day),
-            n_real, n_est,
+            n_real, n_est, n_off_index,
         )
 
     # ── main loop ─────────────────────────────────────────────────────────────
@@ -219,6 +241,7 @@ class BacktestEngine:
 
         for d in calendar:
             opened_today: set = set()
+            self._credit_dividends(d)       # ex-date cash for names held overnight
             self._process_result_exits(d)   # B10: dump weak-result positions at open
             if self.cfg.anticipation_mode:
                 self._fill_anticipation(d, opened_today)
@@ -237,6 +260,28 @@ class BacktestEngine:
                 self._discover_and_queue(d)
 
     # ── 1) fills ──────────────────────────────────────────────────────────────
+    def _credit_dividends(self, day: date) -> None:
+        """Pay cash dividends to positions held into the ex-date.
+
+        Called at the very top of the day, before any of today's exits or
+        fills, which is exactly the entitlement rule: you receive the dividend
+        if you held the shares at the previous close. A name bought today does
+        not qualify, and a name sold today still does.
+
+        This only makes sense on an unadjusted price series. Feeding it a
+        vendor "adjusted" series would double-count, since there the payout is
+        already baked into the quote.
+        """
+        if not self.dividends:
+            return
+        for pos in self.pf.positions.values():
+            per_share = self.dividends.get(pos.symbol, {}).get(day)
+            if not per_share:
+                continue
+            cash = per_share * pos.quantity
+            self.pf.cash += cash
+            self.dividend_cash += cash
+
     def _fill_pending(self, day: date, opened_today: set) -> None:
         if not self.pending:
             return

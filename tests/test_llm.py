@@ -3,12 +3,22 @@ from contextlib import asynccontextmanager
 from types import SimpleNamespace
 
 import pytest
-from copilot.session_events import AssistantMessageData
-from copilot.tools import ToolInvocation
 
-import core.llm as llm_module
-import main
-from core.llm import (
+# The Copilot SDK is an optional dependency now that the agent backend is
+# pluggable (AI_AGENT_BACKEND). Skip this whole module rather than failing the
+# suite for users running the `native` or `claude_code` backends, who have no
+# reason to install it.
+pytest.importorskip(
+    "copilot",
+    reason="github-copilot-sdk not installed; install with `pip install -e '.[copilot]'`",
+)
+
+from copilot.session_events import AssistantMessageData  # noqa: E402
+from copilot.tools import ToolInvocation  # noqa: E402
+
+import core.llm as llm_module  # noqa: E402
+import main  # noqa: E402
+from core.llm import (  # noqa: E402
     CopilotConfigurationError,
     CopilotLLM,
     copilot_tools,
@@ -17,7 +27,7 @@ from core.llm import (
     run_copilot_prompt,
     validate_copilot_configuration,
 )
-from strategies.parallel_agents import ParallelAgentsStrategy
+from strategies.parallel_agents import ParallelAgentsStrategy  # noqa: E402
 
 
 def test_copilot_defaults(monkeypatch):
@@ -153,6 +163,9 @@ def test_sequential_research_runs_four_copilot_stages(monkeypatch):
         )
         return outputs[len(calls) - 1]
 
+    # The workflow now runs on any provider, so pin the backend rather than
+    # relying on whatever this machine happens to have configured.
+    monkeypatch.setenv("AI_AGENT_BACKEND", "copilot_cli")
     monkeypatch.setattr(main, "copilot_client", fake_client)
     monkeypatch.setattr(main, "run_copilot_prompt", fake_run)
 

@@ -107,11 +107,72 @@ class FundamentalsStore:
         )
         logger.info("Cached fundamentals to SQLite (%s)", tag)
 
+    def _load_any_screener_cache(self, preferred_size: int) -> Dict[str, dict]:
+        """Find a screener snapshot to borrow annual sections from.
+
+        Caches are tagged by universe size ("500sym"), but an NSE run is often
+        scoped to a different number of symbols, so an exact-tag lookup usually
+        misses. Try the exact tag first, then merge every snapshot on disk —
+        we only want the annual sections, and more coverage is strictly better.
+        """
+        entry = get_cache("qtr_backtest_fundamentals", f"{preferred_size}sym")
+        if entry is not None:
+            return pickle.loads(entry.payload)
+
+        merged: Dict[str, dict] = {}
+        for path in sorted(self.cache_dir.glob("fundamentals_*.pkl")):
+            try:
+                with open(path, "rb") as fh:
+                    merged.update(pickle.load(fh))
+            except Exception as e:  # noqa: BLE001 - a stale cache must not stop a run
+                logger.warning("Ignoring unreadable cache %s (%s)", path.name, e)
+        return merged
+
     def get(self, symbol: str) -> Optional[dict]:
         return self.raw.get(_plain_symbol(symbol))
 
     def symbols(self) -> List[str]:
         return list(self.raw.keys())
+
+    def load_from_nse(
+        self, symbols: List[str], *, borrow_annuals: bool = True
+    ) -> Dict[str, Dict]:
+        """Populate from as-filed NSE filings instead of screener.
+
+        Screener only serves ~3 years of quarterly history and retro-restates it
+        after demergers and splits, which caps the backtest window and quietly
+        leaks hindsight into it. The NSE store holds the filings as they were
+        broadcast, back to 2012.
+
+        Quarterly filings carry no balance sheet, so the annual sections (debt,
+        ROCE) are borrowed from the screener cache when it is present; symbols it
+        doesn't cover simply skip those filters.
+
+        Returns the real declaration calendar that came with the filings.
+        """
+        from . import nse_source
+
+        screener_raw = None
+        if borrow_annuals:
+            screener_raw = self._load_any_screener_cache(len(symbols))
+            if screener_raw:
+                logger.info(
+                    "Borrowing annual sections from the screener cache (%d symbols).",
+                    len(screener_raw),
+                )
+            else:
+                logger.warning(
+                    "No screener cache found — the debt and ROCE filters will "
+                    "have nothing to read and will not reject anything."
+                )
+
+        wanted = [_plain_symbol(s) for s in symbols]
+        self.raw, calendar = nse_source.build(wanted, screener_raw=screener_raw)
+        logger.info(
+            "NSE fundamentals: %d of %d universe symbols have usable history.",
+            len(self.raw), len(wanted),
+        )
+        return calendar
 
 
 class ResultsCalendarStore:
@@ -246,6 +307,15 @@ class ResultsCalendarStore:
     def dates_for(self, symbol: str) -> Dict:
         """Return ``{quarter_end -> declaration date}`` for a symbol (may be empty)."""
         return self.calendar.get(_plain_symbol(symbol), {})
+
+    def load_from_mapping(self, calendar: Dict[str, Dict]) -> None:
+        """Adopt a pre-built calendar (e.g. the timestamps on the NSE filings).
+
+        Every as-filed row already carries the exact moment NSE broadcast it, so
+        when the fundamentals come from that store the declaration dates come
+        free — no separate per-symbol fetch, and no gaps to fall back on.
+        """
+        self.calendar = {_plain_symbol(k): v for k, v in calendar.items()}
 
     def coverage(self) -> tuple:
         """(#symbols with >=1 real date, #total symbols) — for logging/diagnostics."""

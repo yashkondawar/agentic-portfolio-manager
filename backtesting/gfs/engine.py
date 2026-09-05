@@ -48,6 +48,7 @@ class GFSBacktestEngine:
         regime_panel: RegimePanel,
         qualify: pd.DataFrame,
         calendar: pd.DatetimeIndex,
+        tax_config=None,
     ):
         self.cfg = cfg
         self.panels = panels
@@ -69,6 +70,12 @@ class GFSBacktestEngine:
         self.daily_log: List[dict] = self.pf.equity_curve
         self.signal_log: List[dict] = []
         self.rejections: Dict[str, int] = {}
+        # Off by default. The live runner and every existing study must keep the
+        # pre-tax behaviour they were validated against; only the dossier export
+        # turns this on, and it does so in a run of its own.
+        self.tax_config = tax_config
+        self._tax_paid_total = 0.0
+        self._tax_settled_fy: Optional[str] = None
 
     # ── helpers ──────────────────────────────────────────────────────────────
 
@@ -105,6 +112,64 @@ class GFSBacktestEngine:
 
         return lookup
 
+    # ── optional annual tax settlement ───────────────────────────────────────
+
+    def _settle_tax_if_due(self, day: date, *, final: bool = False) -> None:
+        """Pay the previous financial year's capital-gains bill, once, in April.
+
+        Indian capital-gains tax on a financial year ending 31 March is settled
+        in the following year. Modelling it as a single April debit is a
+        simplification of advance-tax instalments, but it puts the cash outflow
+        in the right year, which is what compounding cares about.
+
+        The whole ledger is recomputed at each boundary rather than kept
+        incrementally: loss set-off carries forward eight years, so a year's
+        bill is not a function of that year alone. Recomputing is deterministic
+        and forward-only, so the per-year numbers never change retroactively -
+        we simply pay whatever has newly become due.
+
+        ``final`` settles everything still outstanding on the last session.
+        Without it the closing financial year's gains - whose bill only falls due
+        the following April - would be reported untaxed, which flatters the final
+        equity and therefore the CAGR by however good the last year happened to
+        be. Tax on *unrealised* gains is correctly still not charged: nothing is
+        owed until a position is sold.
+        """
+        if self.tax_config is None:
+            return
+        from . import taxes
+
+        if final:
+            fy = None
+            due_trades = list(self.pf.closed)
+        else:
+            if day.month < 4:
+                return
+            fy = taxes.financial_year(day)
+            if fy == self._tax_settled_fy:
+                return
+            # Only trades closed *before* this financial year are assessable now.
+            due_trades = [
+                t for t in self.pf.closed if taxes.financial_year(t.exit_date) != fy
+            ]
+            self._tax_settled_fy = fy
+        if not due_trades:
+            return
+        table = taxes.apply_to_trades(
+            due_trades, self.tax_config, use_recorded_costs=True
+        )
+        if table.empty:
+            return
+        by_year = taxes.capital_gains_by_year(table, self.tax_config)
+        if by_year.empty:
+            return
+        owed = float(by_year["tax"].sum()) - self._tax_paid_total
+        if owed <= 0:
+            return
+        self._tax_paid_total += self.pf.settle_tax(
+            day, owed, fy or f"{taxes.financial_year(day)} (final settlement)"
+        )
+
     # ── main loop ────────────────────────────────────────────────────────────
 
     def run(self, start: date, end: date) -> None:
@@ -126,9 +191,14 @@ class GFSBacktestEngine:
         for ts in days:
             day = ts.date()
             self.pf.accrue_cash_yield()
+            self._settle_tax_if_due(day)
             self._fill_pending_exits(ts, day)
             opened = self._fill_pending_entries(ts, day)
             self._manage(ts, day)
+            # Everything realised is assessed before the last mark, so the final
+            # equity is genuinely net of tax rather than net of tax-so-far.
+            if ts is days[-1]:
+                self._settle_tax_if_due(day, final=True)
             regime_row = self.regime_panel.row(ts)
             self.pf.record_equity(
                 day,

@@ -1,4 +1,14 @@
-"""GitHub Copilot SDK integration used by all model-backed workflows."""
+"""GitHub Copilot SDK integration used by all model-backed workflows.
+
+The Copilot SDK is an *optional* dependency: the agent backend is selectable
+via ``AI_AGENT_BACKEND`` (see :mod:`core.agent`), and users on the ``native``
+backend have no reason to install it. Importing this module must therefore
+succeed without it — otherwise ``main``/``app`` would fail to start for anyone
+who is not a Copilot subscriber. The import is guarded and every entry point
+that genuinely needs the SDK calls :func:`_require_sdk` first, so a missing
+install surfaces as an actionable error at the point of use instead of a bare
+``ModuleNotFoundError`` at startup.
+"""
 
 from __future__ import annotations
 
@@ -13,11 +23,22 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, AsyncIterator, Iterable, Sequence
 
-from copilot import CopilotClient, RuntimeConnection
-from copilot.client import StopError
-from copilot.session import PermissionDecisionUserNotAvailable
-from copilot.session_events import AssistantMessageData
-from copilot.tools import Tool, ToolInvocation, ToolResult
+try:
+    from copilot import CopilotClient, RuntimeConnection
+    from copilot.client import StopError
+    from copilot.session import PermissionDecisionUserNotAvailable
+    from copilot.session_events import AssistantMessageData
+    from copilot.tools import Tool, ToolInvocation, ToolResult
+
+    SDK_AVAILABLE = True
+    _SDK_IMPORT_ERROR: ImportError | None = None
+except ImportError as exc:  # pragma: no cover - exercised via import-blocking test
+    CopilotClient = RuntimeConnection = None  # type: ignore[assignment]
+    StopError = PermissionDecisionUserNotAvailable = None  # type: ignore[assignment]
+    AssistantMessageData = Tool = ToolInvocation = ToolResult = None  # type: ignore[assignment]
+
+    SDK_AVAILABLE = False
+    _SDK_IMPORT_ERROR = exc
 
 logger = logging.getLogger(__name__)
 
@@ -42,6 +63,20 @@ logging.getLogger("copilot._jsonrpc").addFilter(_IgnoreUnsupportedShutdown())
 
 class CopilotConfigurationError(RuntimeError):
     """Raised when the local Copilot SDK runtime cannot be used."""
+
+
+def _require_sdk() -> None:
+    """Fail with an actionable message when the optional SDK is missing."""
+    if SDK_AVAILABLE:
+        return
+    raise CopilotConfigurationError(
+        "The GitHub Copilot SDK is not installed, so the 'copilot_cli' backend "
+        "is unavailable. Either install it with `pip install -e \".[copilot]\"` "
+        "(needs a Copilot subscription), or switch to a backend that only needs "
+        "an API key by setting AI_AGENT_BACKEND=native and one of "
+        "GOOGLE_API_KEY / OPENAI_API_KEY / ANTHROPIC_API_KEY in your "
+        f".env. See README.md 'Choosing a model provider'. ({_SDK_IMPORT_ERROR})"
+    )
 
 
 @dataclass(frozen=True)
@@ -74,6 +109,8 @@ def get_copilot_timeout() -> float:
 
 def validate_copilot_configuration() -> None:
     """Fail early when neither the CLI nor an explicit SDK runtime exists."""
+    _require_sdk()
+
     explicit_path = os.getenv("COPILOT_CLI_PATH", "").strip()
     if explicit_path and not Path(explicit_path).is_file():
         raise CopilotConfigurationError(
@@ -97,6 +134,7 @@ def validate_copilot_configuration() -> None:
 
 
 def _runtime_connection() -> RuntimeConnection:
+    _require_sdk()
     explicit_path = os.getenv("COPILOT_CLI_PATH", "").strip()
     if explicit_path:
         return RuntimeConnection.for_stdio(path=explicit_path)
@@ -174,6 +212,7 @@ def _tool_result_text(result: Any) -> str:
 
 def copilot_tools(langchain_tools: Iterable[Any]) -> list[Tool]:
     """Adapt LangChain tools to read-only Copilot SDK custom tools."""
+    _require_sdk()
     sdk_tools: list[Tool] = []
     for langchain_tool in langchain_tools:
         name = getattr(langchain_tool, "name", "")
@@ -309,11 +348,94 @@ class CopilotLLM:
         return CopilotResponse(content=content)
 
 
-def get_llm(temperature: float | None = None) -> CopilotLLM:
-    """Return the repository's GitHub Copilot SDK model adapter."""
+class RunnerLLM:
+    """``llm.invoke`` adapter backed by the provider-neutral runner.
+
+    ``CopilotLLM`` talks to the Copilot SDK directly, so it is only correct for
+    the ``copilot_cli`` backend. Any other agentic backend - ``claude_code``
+    today, whatever comes next - needs the same tiny interface routed through
+    ``run_agent`` instead, otherwise a user with no Copilot is told to install
+    Copilot by a code path that has nothing to do with it.
+    """
+
+    def __init__(
+        self,
+        *,
+        backend: str,
+        model: str | None = None,
+        timeout: float | None = None,
+    ) -> None:
+        self.backend = backend
+        self.model = model
+        self.timeout = timeout
+
+    def invoke(self, messages: Any) -> CopilotResponse:
+        from core.agent import AgentRequest, run_agent
+
+        request = AgentRequest(
+            prompt=_format_messages(messages),
+            label="analyst",
+            model=self.model,
+            timeout=self.timeout,
+        )
+        return CopilotResponse(content=run_agent(request).text)
+
+
+def get_llm(temperature: float | None = None):
+    """Return a chat model for the configured backend.
+
+    Both the Copilot adapter and LangChain chat models expose
+    ``invoke(messages).content``, which is the entire interface the parallel
+    analyst agents use — so this can switch provider without touching them.
+
+    Temperature is honoured on the native backend and ignored on the agentic
+    backends, whose model behaviour is host-managed.
+    """
+    from core.agent.detect import detect_backend
+
+    choice = detect_backend()
+    if choice.backend == "native":
+        return _native_llm(temperature)
+
     if temperature is not None:
-        logger.debug("Copilot SDK ignores temperature; model behavior is host-managed.")
+        logger.debug(
+            "The %s backend ignores temperature; model behavior is host-managed.",
+            choice.backend,
+        )
+
+    # Only copilot_cli may use the Copilot SDK adapter. Routing anything else
+    # here would demand a Copilot login the user does not have, and would bill
+    # the wrong provider even where they do.
+    if choice.backend != "copilot_cli":
+        return RunnerLLM(backend=choice.backend, model=choice.model)
+
     return CopilotLLM()
+
+
+def _native_llm(temperature: float | None):
+    """Build a LangChain chat model from ``AI_MODEL``."""
+    try:
+        from langchain.chat_models import init_chat_model
+    except ImportError as exc:  # pragma: no cover - depends on optional extra
+        raise CopilotConfigurationError(
+            "The native backend needs LangChain. Install it with "
+            '`pip install -e ".[gemini]"` (or [openai] / [anthropic]).'
+        ) from exc
+
+    from core.agent.runners.native import _default_model
+
+    model = _default_model()
+    kwargs = {} if temperature is None else {"temperature": temperature}
+    try:
+        return init_chat_model(model, **kwargs)
+    except ImportError as exc:
+        # LangChain loads the provider package lazily, so a model string can
+        # name a provider whose package was never installed. Name the model so
+        # the user can see which half of the pair is wrong.
+        raise CopilotConfigurationError(
+            f"AI_MODEL={model} needs a provider package that is not installed. "
+            f"{exc}"
+        ) from exc
 
 
 __all__ = [

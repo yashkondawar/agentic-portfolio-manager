@@ -36,7 +36,13 @@ from datetime import date, timedelta
 from pathlib import Path
 
 from core.storage import save_artifacts
-from .config import FUND_CACHE_DIR, PRICE_CACHE_DIR, BacktestConfig
+from .config import (
+    FUND_CACHE_DIR,
+    FUNDAMENTALS_SOURCES,
+    PRICE_CACHE_DIR,
+    BacktestConfig,
+    normalize_fundamentals_source,
+)
 from .data import FundamentalsStore, PointInTimeData, ResultsCalendarStore, SectorStore
 from .engine import BacktestEngine
 from .hedge import HedgeConfig, apply_beta_hedge, hedged_equity_series, realized_book_beta
@@ -64,6 +70,21 @@ def _parse_args() -> argparse.Namespace:
     p.add_argument("--universe-file", help="Custom universe file (one NSE symbol/line)")
     p.add_argument("--max-symbols", type=int, default=None,
                    help="Cap universe size (quick runs / lighter scraping)")
+    p.add_argument("--point-in-time", action="store_true",
+                   help="Survivorship-free mode. Universe and prices come from "
+                        "the local NSE tape and historical index membership "
+                        "instead of today's constituent list and yfinance, so "
+                        "delisted companies are traded and then die on "
+                        "schedule. Needs the bhavcopy/membership stores.")
+    p.add_argument("--pit-prices", action="store_true",
+                   help="Diagnostic: take PRICES from the tape but leave the "
+                        "universe as today's list. Paired with --pit-universe "
+                        "this splits the point-in-time effect into its two "
+                        "causes, since the tape is price-return and yfinance "
+                        "is total-return (dividends folded in).")
+    p.add_argument("--pit-universe", action="store_true",
+                   help="Diagnostic: apply the historical membership gate but "
+                        "keep yfinance prices. See --pit-prices.")
     p.add_argument("--reporting-lag-min", type=int, default=15,
                    help="Min days from quarter-end to result declaration (stagger low)")
     p.add_argument("--reporting-lag-max", type=int, default=45,
@@ -151,6 +172,18 @@ def _parse_args() -> argparse.Namespace:
                    help="Real declaration-date source: 'financial-results' (per-symbol "
                         "NSE archive) or 'event-calendar' (bulk board-meeting calendar; "
                         "freshest quarters, use for a real past-N-months backtest).")
+    p.add_argument("--fundamentals", choices=list(FUNDAMENTALS_SOURCES),
+                   default="screener",
+                   help="Quarterly data source: 'store' is the durable "
+                        "point-in-time store (as-filed NSE back to 2012 spliced "
+                        "with screener's recent tail — see "
+                        "scraper/NSE_FUNDAMENTALS.md); 'screener' is the "
+                        "~3-year restated cache. 'nse' is a legacy alias for "
+                        "'store'.")
+    p.add_argument("--growth-metric", choices=["eps", "net_profit"], default=None,
+                   help="Line the result is graded on. Defaults to net_profit "
+                        "with --fundamentals=store, since as-filed EPS is quoted "
+                        "on the share count of the day and breaks across splits.")
     # ── Ideal-state redesign (opt-in; defaults preserve legacy behavior) ──────
     p.add_argument("--use-sue", action="store_true",
                    help="Compute Standardized Unexpected Earnings (surprise vs the "
@@ -408,20 +441,71 @@ def main() -> int:
 
     # Universe (reuses the live curator's loaders — same as the swing backtest).
     from backtesting.swing_trading.watchlist import load_universe
+    cfg.fundamentals_source = normalize_fundamentals_source(args.fundamentals)
+    cfg.growth_metric = args.growth_metric or (
+        "net_profit" if cfg.fundamentals_source == "store" else "eps"
+    )
+    logger.info(
+        "Fundamentals: %s. Grading on %s growth.",
+        cfg.fundamentals_source, cfg.growth_metric,
+    )
     universe = load_universe(cfg)
     symbols = [u.symbol for u in universe]
+    pit_gate = None
+    pit_connection = None
+    # --point-in-time is the real switch; the two narrow flags exist so a
+    # difference can be attributed to the universe or the price basis
+    # separately instead of being reported as one lump.
+    want_pit_universe = args.point_in_time or args.pit_universe
+    want_pit_prices = args.point_in_time or args.pit_prices
+    if want_pit_universe or want_pit_prices:
+        from core.storage import connect as _connect
+        from scraper.index_membership import (
+            membership_intervals, resolve_index_name,
+        )
+        from scraper.pit_universe import PitUniverse
+
+        pit_connection = _connect()
+    if want_pit_universe:
+        pit_index = resolve_index_name(pit_connection, cfg.universe_index)
+        intervals = membership_intervals(
+            pit_connection, index_name=pit_index
+        )
+        if not intervals:
+            raise SystemExit(
+                "--point-in-time needs the membership store. Run: "
+                "python -m scraper.index_membership --import"
+            )
+        # Every company that was EVER in the index, not just today's list.
+        # The per-day gate below decides which of them was tradable when.
+        symbols = sorted({row["symbol"] for row in intervals})
+        pit_gate = PitUniverse(pit_connection)
+        logger.info(
+            "Point-in-time universe: %d symbols ever in '%s' "
+            "(today's list has %d).",
+            len(symbols), pit_index, len(universe),
+        )
     if cfg.max_symbols:
         symbols = symbols[: cfg.max_symbols]
     logger.info("Universe '%s': %d symbols", cfg.universe_index, len(symbols))
 
-    # Fundamentals (screener.in, cached once).
+    # Fundamentals: screener's restated cache, or the point-in-time store.
     funds = FundamentalsStore(FUND_CACHE_DIR)
-    funds.load_or_download(symbols, use_cache=cfg.use_cache)
+    nse_calendar = None
+    if getattr(cfg, "fundamentals_source", "screener") == "store":
+        nse_calendar = funds.load_from_nse(symbols)
+    else:
+        funds.load_or_download(symbols, use_cache=cfg.use_cache)
     if not funds.raw:
         raise SystemExit("No fundamentals scraped — aborting.")
 
-    # Prices (yfinance, cached once). Only names we actually have fundamentals for.
-    prices = PointInTimeData(PRICE_CACHE_DIR)
+    # Prices: the whole-market NSE tape in point-in-time mode (it still holds
+    # the companies that later delisted), otherwise yfinance for live names.
+    if want_pit_prices:
+        from .pit_prices import MarketBarsPrices
+        prices = MarketBarsPrices(PRICE_CACHE_DIR, pit_connection)
+    else:
+        prices = PointInTimeData(PRICE_CACHE_DIR)
     prices.load_or_download(
         symbols=funds.symbols(), benchmark=cfg.benchmark,
         start=start, end=end, warmup_days=cfg.warmup_days, use_cache=cfg.use_cache,
@@ -439,7 +523,10 @@ def main() -> int:
     calendar = None
     if cfg.use_real_decl_dates:
         calendar = ResultsCalendarStore(FUND_CACHE_DIR)
-        if args.decl_source == "event-calendar":
+        if nse_calendar is not None:
+            # Every as-filed row already carries NSE's broadcast timestamp.
+            calendar.load_from_mapping(nse_calendar)
+        elif args.decl_source == "event-calendar":
             # Bulk source: the whole market's board-meeting calendar over the
             # backtest window (freshest quarters; a few month-chunked requests).
             calendar.load_from_event_calendar(
@@ -450,8 +537,30 @@ def main() -> int:
         have, tot = calendar.coverage()
         logger.info("Real result dates resolved for %d / %d symbols.", have, tot)
 
-    engine = BacktestEngine(cfg, prices, funds, sectors=sectors, calendar=calendar)
+    # Cash dividends belong with the tape, which is a PRICE series: the
+    # ex-date drop is in the quote, so the payout has to be credited
+    # separately or the holder is charged for it and never paid. yfinance
+    # already folds dividends into its adjusted closes, so crediting them
+    # there as well would count the same rupee twice.
+    pit_dividends = None
+    if want_pit_prices:
+        from scraper.corporate_actions import load_dividends
+        pit_dividends = load_dividends(pit_connection, funds.symbols())
+        logger.info(
+            "Dividends: %d symbols with cash payouts credited on ex-date.",
+            len(pit_dividends),
+        )
+
+    engine = BacktestEngine(
+        cfg, prices, funds, sectors=sectors, calendar=calendar,
+        universe=pit_gate, dividends=pit_dividends,
+    )
     engine.run(start, end)
+    if engine.dividend_cash:
+        logger.info(
+            "Dividend cash credited over the run: Rs %.0f",
+            engine.dividend_cash,
+        )
 
     metrics = compute_metrics(
         engine.daily_log, engine.pf.closed, cfg.starting_capital, cfg.goal_capital()

@@ -28,6 +28,8 @@ _STRATEGY_MODULES = (
     "qtr_results",
     "gfs_live",
     "swing_backtest",
+    "breakout_ath",
+    "breakout_ath_daily",
 )
 
 # Maps strategy module name -> the exception that stopped it importing. Empty
