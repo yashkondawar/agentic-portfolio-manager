@@ -154,6 +154,13 @@ class NativeRunner:
         }
         client = MultiServerMCPClient(connections)
         tools = await client.get_tools()
+
+        # Enforce per-server tool allow-lists. MultiServerMCPClient returns every tool.
+        wildcard = any("*" in spec.tools for spec in request.mcp_servers.values())
+        if not wildcard:
+            allowed = {name for spec in request.mcp_servers.values() for name in spec.tools}
+            tools = [t for t in tools if getattr(t, "name", "") in allowed]
+
         logger.info(
             "Loaded %d MCP tool(s) from %s",
             len(tools),
