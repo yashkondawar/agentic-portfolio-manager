@@ -3,7 +3,7 @@
 This is the behaviour-preserving extraction of the ``subprocess.Popen`` block
 that was previously copy-pasted into four strategy modules. The generated
 argv, flag order, streaming semantics and temp-file cleanup are unchanged; see
-``tests/test_agent_copilot_cli.py`` for the golden assertion that pins it.
+``tests/test_agent_port.py`` for the golden assertion that pins it.
 
 Two deliberate consistency fixes came along with the move, both strict
 improvements:
