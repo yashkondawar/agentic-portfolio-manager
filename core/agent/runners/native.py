@@ -45,7 +45,7 @@ __all__ = ["NativeRunner", "DEFAULT_MAX_TURNS"]
 
 _MISSING_DEPS_HINT = (
     "The 'native' agent backend needs LangChain plus a provider package.\n"
-    "  pip install -e '.[native]'          # core deps\n"
+    "  pip install -e '.'                 # core deps\n"
     "then ONE provider package, matching AI_MODEL:\n"
     "  pip install langchain-google-genai  # AI_MODEL=google_genai:gemini-2.5-pro\n"
     "  pip install langchain-openai        # AI_MODEL=openai:gpt-4o\n"
