@@ -220,14 +220,19 @@ def detect_backend(default: str = "copilot_cli") -> BackendChoice:
         )
 
     if key and not _native_ready():
-        env_var, _model, label = key
+        env_var, _model, _label = key
+        extra = {
+            "GOOGLE_API_KEY": "gemini",
+            "OPENAI_API_KEY": "openai",
+            "ANTHROPIC_API_KEY": "anthropic",
+        }.get(env_var, "gemini")
         return BackendChoice(
             backend=default,
             model=None,
             reason=(
                 f"{env_var} is set, but LangChain is not installed, so the "
                 f"native backend cannot run. Install it with "
-                f'`pip install -e ".[{label.split()[0].lower()}]"`.'
+                f"`uv sync --extra {extra}` (or `pip install -e \".[{extra}]\"`)."
             ),
             explicit=False,
             resolved=False,
