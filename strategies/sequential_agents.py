@@ -1,4 +1,4 @@
-"""Sequential multi-agent research strategy powered by GitHub Copilot SDK."""
+"""Sequential multi-agent research strategy."""
 
 from __future__ import annotations
 
@@ -27,12 +27,12 @@ class SequentialAgentsStrategy(BaseStrategy):
     id = "sequential_agents"
     name = "Sequential Agent System"
     description = (
-        "Copilot SDK agents that run in sequence "
+        "AI agents that run in sequence "
         "(stock finder -> market data -> news -> recommendation)."
     )
     long_description = (
-        "Uses authenticated GitHub Copilot SDK sessions with Claude Opus 4.7 "
-        "by default. Specialized agents run one after another and synthesize "
+        "Runs on whichever AI provider you have configured. Specialized "
+        "agents run one after another and synthesize "
         "their outputs into BUY/SELL/HOLD recommendations. Works with the "
         "free scraper tools by default, or Bright Data MCP when configured."
     )
@@ -63,8 +63,12 @@ class SequentialAgentsStrategy(BaseStrategy):
 
     def run(self, params: Dict[str, Any]) -> StrategyResult:
         from core.llm import validate_copilot_configuration
+        from core.agent.detect import detect_backend
 
-        validate_copilot_configuration()
+        # main.StockResearchSystem now runs on any provider, so only validate
+        # the Copilot toolchain when Copilot is actually the selected backend.
+        if detect_backend().backend == "copilot_cli":
+            validate_copilot_configuration()
 
         from main import StockResearchSystem, extract_recommendations
 

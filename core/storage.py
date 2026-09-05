@@ -519,6 +519,178 @@ def export_artifact_group(
     return written
 
 
+MARKET_DATA_TABLES: tuple[str, ...] = (
+    "market_bars",
+    "bhavcopy_days",
+    "corporate_actions",
+    "corporate_action_symbols",
+    "corporate_action_windows",
+    "index_membership",
+    "quarterly_results",
+    "nse_backfill_windows",
+    "nse_filing_attempts",
+)
+"""Tables that hold *public market history* and nothing personal.
+
+This is deliberately an **allow-list**, not a block-list of private tables.
+Everything in the database that is not named here is excluded from a shared
+copy. Forgetting to add a new market table means a friend gets less data;
+forgetting to add a new private table to a block-list would leak it. Only one
+of those two mistakes is recoverable.
+
+Explicitly *not* here: ``documents`` (holds the Zerodha access token and your
+portfolio), ``runs`` and ``artifacts`` (your reports), ``schedules`` (whose
+parameters can contain holdings), ``application_logs``, and ``cache_entries``
+(mixed, and rebuilds itself for free).
+"""
+
+
+def export_market_data(
+    destination: Path,
+    *,
+    db_path: Optional[Path] = None,
+) -> dict[str, int]:
+    """Write a shareable copy containing only public market history.
+
+    Scraping years of NSE bars and filings takes hours and hammers a public
+    server, so sharing that work is genuinely worth doing. Sharing the whole
+    database file is not: it also carries a live broker token and your
+    holdings. This copies only :data:`MARKET_DATA_TABLES`.
+
+    Returns:
+        Row count per exported table, so the caller can show what was shared.
+    """
+    destination = Path(destination).expanduser()
+    if destination.exists():
+        raise FileExistsError(
+            f"{destination} already exists. Delete it or choose another name."
+        )
+    destination.parent.mkdir(parents=True, exist_ok=True)
+
+    counts: dict[str, int] = {}
+    with connection_scope(db_path) as source:
+        present = {
+            row["name"]
+            for row in source.execute(
+                "SELECT name FROM sqlite_master WHERE type = 'table'"
+            )
+        }
+        source.execute("ATTACH DATABASE ? AS shared", (str(destination),))
+        try:
+            for table in MARKET_DATA_TABLES:
+                if table not in present:
+                    continue
+                for kind in ("table", "index"):
+                    for row in source.execute(
+                        "SELECT sql FROM sqlite_master "
+                        "WHERE type = ? AND tbl_name = ? AND sql IS NOT NULL",
+                        (kind, table),
+                    ).fetchall():
+                        source.execute(_qualify_for_shared(row["sql"]))
+                source.execute(
+                    f"INSERT INTO shared.{table} SELECT * FROM main.{table}"
+                )
+                counts[table] = source.execute(
+                    f"SELECT COUNT(*) FROM shared.{table}"
+                ).fetchone()[0]
+            source.commit()
+        finally:
+            source.execute("DETACH DATABASE shared")
+    return counts
+
+
+def _qualify_for_shared(sql: str) -> str:
+    """Rewrite a CREATE statement to target the attached ``shared`` database.
+
+    SQLite stores the statement exactly as it was written, so the name may or
+    may not be preceded by ``IF NOT EXISTS``; a naive prefix would produce
+    ``CREATE TABLE shared.IF NOT EXISTS ...``.
+    """
+    return _qualify_for(sql, "shared")
+
+
+def _qualify_for_main(sql: str) -> str:
+    return _qualify_for(sql, "main")
+
+
+def _qualify_for(sql: str, schema: str) -> str:
+    return re.sub(
+        r"^\s*CREATE\s+(UNIQUE\s+)?(TABLE|INDEX)\s+(IF\s+NOT\s+EXISTS\s+)?",
+        lambda m: (
+            f"CREATE {m.group(1) or ''}{m.group(2)} "
+            f"{m.group(3) or ''}{schema}."
+        ),
+        sql,
+        count=1,
+        flags=re.IGNORECASE,
+    )
+
+
+def import_market_data(
+    source_file: Path,
+    *,
+    db_path: Optional[Path] = None,
+) -> dict[str, int]:
+    """Merge a shared market-history file into this machine's database.
+
+    Rows that already exist are left alone, so this is safe to re-run and safe
+    to apply on top of data you scraped yourself. Only
+    :data:`MARKET_DATA_TABLES` are read, so a file that turns out to contain
+    more than market history still cannot write anything else here.
+
+    Returns:
+        Rows actually added per table.
+    """
+    source_file = Path(source_file).expanduser()
+    if not source_file.exists():
+        raise FileNotFoundError(f"No such file: {source_file}")
+
+    added: dict[str, int] = {}
+    with connection_scope(db_path) as target:
+        target.execute("ATTACH DATABASE ? AS incoming", (str(source_file),))
+        try:
+            incoming = {
+                row["name"]
+                for row in target.execute(
+                    "SELECT name FROM incoming.sqlite_master WHERE type = 'table'"
+                )
+            }
+            existing = {
+                row["name"]
+                for row in target.execute(
+                    "SELECT name FROM main.sqlite_master WHERE type = 'table'"
+                )
+            }
+            for table in MARKET_DATA_TABLES:
+                if table not in incoming:
+                    continue
+                if table not in existing:
+                    # A fresh machine has never run a backfill, so the table
+                    # does not exist yet. Create it from the sender's schema.
+                    for kind in ("table", "index"):
+                        for row in target.execute(
+                            "SELECT sql FROM incoming.sqlite_master "
+                            "WHERE type = ? AND tbl_name = ? AND sql IS NOT NULL",
+                            (kind, table),
+                        ).fetchall():
+                            target.execute(_qualify_for_main(row["sql"]))
+                before = target.execute(
+                    f"SELECT COUNT(*) FROM main.{table}"
+                ).fetchone()[0]
+                target.execute(
+                    f"INSERT OR IGNORE INTO main.{table} "
+                    f"SELECT * FROM incoming.{table}"
+                )
+                after = target.execute(
+                    f"SELECT COUNT(*) FROM main.{table}"
+                ).fetchone()[0]
+                added[table] = after - before
+            target.commit()
+        finally:
+            target.execute("DETACH DATABASE incoming")
+    return added
+
+
 def database_summary(*, db_path: Optional[Path] = None) -> dict[str, Any]:
     with connection_scope(db_path) as connection:
         counts = {
@@ -856,6 +1028,16 @@ def _parse_args() -> argparse.Namespace:
         action="store_true",
         help="Replace changed mutable documents and caches with the source state",
     )
+    share_parser = subparsers.add_parser(
+        "share",
+        help="Write a shareable copy with only market history (no personal data)",
+    )
+    share_parser.add_argument("output", type=Path, help="File to create")
+    import_parser = subparsers.add_parser(
+        "import-shared",
+        help="Merge a shared market-history file from someone else",
+    )
+    import_parser.add_argument("source", type=Path, help="Shared file to read")
     return parser.parse_args()
 
 
@@ -897,6 +1079,22 @@ def main() -> int:
                 indent=2,
             )
         )
+    elif args.command == "share":
+        counts = export_market_data(args.output, db_path=args.db)
+        total = sum(counts.values())
+        for table, count in sorted(counts.items()):
+            print(f"  {table:28s} {count:>12,}")
+        print(f"\nWrote {total:,} rows of market history to {args.output}")
+        print(
+            "This file contains no API keys, broker tokens, holdings or "
+            "reports - it is safe to send to someone else."
+        )
+    elif args.command == "import-shared":
+        added = import_market_data(args.source, db_path=args.db)
+        total = sum(added.values())
+        for table, count in sorted(added.items()):
+            print(f"  {table:28s} +{count:>11,}")
+        print(f"\nAdded {total:,} new rows. Existing rows were left unchanged.")
     return 0
 
 

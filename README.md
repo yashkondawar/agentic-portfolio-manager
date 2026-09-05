@@ -2,6 +2,12 @@
 
 A sophisticated multi-agent AI system for analyzing Indian NSE-listed stocks using real-time data, technical indicators, news sentiment, and advanced AI reasoning.
 
+> **New here, or setting this up on a fresh machine?** Follow
+> **[docs/SETUP.md](docs/SETUP.md)** instead — a plain-English, step-by-step
+> walkthrough covering installation, picking a model provider, the database,
+> downloading historical data, safely sharing that data with a friend, and
+> turning on the background scheduler. This README is the technical reference.
+
 ## 🧭 Unified Strategy Architecture
 
 Every "system" in this project pursues the same goal — turning market data into
@@ -11,7 +17,7 @@ and run them uniformly.
 
 | Strategy id | System | Category |
 |-------------|--------|----------|
-| `sequential_agents` | Copilot SDK agents run in four research stages | research |
+| `sequential_agents` | Four research stages run in sequence, on any provider | research |
 | `parallel_agents`   | Concurrent multi-analyst fan-out + risk/portfolio managers | research |
 | `swing_trading`     | Daily swing-trading copilot | swing |
 | `breakout_ath_daily`| Daily all-time-high breakout sleeve + paper portfolio | swing |
@@ -220,34 +226,43 @@ completes the session without copying a request token into the UI.
 
 ### Prerequisites
 - Python 3.12+
-- GitHub Copilot subscription with Copilot CLI installed and signed in
+- **One** model provider — a GitHub Copilot subscription, a Claude Pro/Max
+  subscription, any LLM API key (Gemini / OpenAI / Anthropic), or a local Ollama
+  install. See [Choosing a model provider](#choosing-a-model-provider).
 - Bright Data account only when the optional paid data source is enabled
 
 ### Installation
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/rooneyrulz/agentic-stock-research-system
-   cd nse-stock-research-system
+   git clone https://github.com/yashkondawar/agentic-portfolio-manager.git
+   cd agentic-portfolio-manager
    ```
 
-2. **Install dependencies**
+2. **Install dependencies** — pick the extra matching your provider
    ```bash
-   uv sync
+   uv sync --extra copilot     # GitHub Copilot CLI (default)
+   uv sync --extra claude      # Claude Pro/Max subscription
+   uv sync --extra gemini      # Gemini API key
+   uv sync --extra openai      # OpenAI API key
+   uv sync --extra anthropic   # Anthropic API key
    ```
 
 3. **Set up environment variables**
    ```bash
    cp example.env .env
-   # Edit optional data-source and broker settings
+   # Edit the AGENT BACKEND block at the top, plus data-source/broker settings
    ```
 
-4. **Verify GitHub Copilot CLI**
+4. **Verify your provider**
    ```bash
-   copilot --version
+   copilot --version           # only for AI_AGENT_BACKEND=copilot_cli
    ```
-   Run `copilot` once and complete sign-in if prompted. The application uses
-   this existing login through the GitHub Copilot SDK.
+   For `copilot_cli`, run `copilot` once and complete sign-in if prompted.
+   For `claude_code`, an existing interactive `claude login` is detected
+   automatically; otherwise run `claude setup-token` and put the resulting
+   `sk-ant-oat...` value in `CLAUDE_CODE_OAUTH_TOKEN`.
+   For `native`, nothing to verify — just make sure the API key is in `.env`.
 
 5. **Install Bright Data MCP (optional)**
    ```bash
@@ -269,15 +284,95 @@ completes the session without copying a request token into the UI.
 
 ## 🔧 Configuration
 
-### Model Setup
+### Choosing a model provider
 
-GitHub Copilot is the only model provider. No separate model API key is
-required. The default model is `claude-opus-4.7`; override it in `.env`:
+The research agents run on a pluggable harness selected by `AI_AGENT_BACKEND`.
+Strategy logic, prompts and the ten scraper MCP tools are identical across all
+of them — only the harness changes, so **every workflow runs on every backend**.
+
+**You usually don't need to set anything.** On first run the app detects what
+your machine can actually do and says so in the logs:
+
+```
+No Copilot CLI found, but GOOGLE_API_KEY is set — using the native backend
+with Google Gemini (google_genai:gemini-2.5-pro).
+```
+
+To change or confirm the choice, open **Settings & Catalog** in the sidebar. It
+shows which backends are ready on this machine, lets you pick one and paste an
+API key, and **saves to `.env`** so the choice survives a restart. Detection is
+never silent — an API key costs money, so the app always tells you which
+provider it picked and why.
+
+| You have | `AI_AGENT_BACKEND` | Extra install | Needs a CLI? |
+|---|---|---|---|
+| GitHub Copilot subscription | `copilot_cli` | `--extra copilot` + `npm i -g @github/copilot` | yes |
+| Claude Pro/Max subscription | `claude_code` | `--extra claude` | no — the SDK bundles one |
+| Any LLM API key | `native` | `--extra gemini` / `openai` / `anthropic` | **no** |
+| Nothing, but a local GPU/CPU | `native` + Ollama | — | no |
+
+**GitHub Copilot (default).** Uses your existing Copilot login; no model API
+key required.
 
 ```bash
+AI_AGENT_BACKEND=copilot_cli
 COPILOT_MODEL=claude-opus-4.7
 COPILOT_TIMEOUT=300
 ```
+
+**Any API key — no CLI, no subscription, no GitHub account.** This is also the
+only backend that runs in a container or in CI. `AI_MODEL` is **optional**: with
+a single API key set, the matching model is inferred.
+
+```bash
+AI_AGENT_BACKEND=native
+GOOGLE_API_KEY=...                     # that's enough — model is inferred
+# AI_MODEL=google_genai:gemini-2.5-pro # set only to override the inference
+# AI_MODEL=openai:gpt-4o               # + OPENAI_API_KEY
+# AI_MODEL=anthropic:claude-sonnet-4-5 # + ANTHROPIC_API_KEY
+# AI_MODEL=ollama:llama3.1             # fully local, no API key at all
+WEB_GROUNDING=false
+```
+
+> **Why `WEB_GROUNDING=false` for `native`:** unlike the vendor CLIs there is no
+> built-in web-browsing tool, so a run that requires live browsing is rejected
+> up front rather than quietly returning a report that looks complete but was
+> written without current information. The scraper MCP tools — live prices,
+> fundamentals, technicals, news and `scrape_url` — work on **every** backend,
+> because they are plain MCP.
+
+> **Free API tiers and rate limits.** The parallel-analyst workflow fans out
+> concurrently. That is free on a Copilot seat but metered per minute on an API
+> key — Gemini's free tier allows only a handful of requests — so the fan-out
+> defaults to 12 on `copilot_cli`, 4 on `native` and 2 on `claude_code`. Set
+> `AI_MAX_CONCURRENCY` to override. If a call is rate-limited the analyst
+> returns no opinion and the report is still produced from the remaining
+> signals, so the run logs a loud warning naming exactly which analysts were
+> dropped.
+
+**Claude Pro/Max subscription — no API key.** Anthropic's own harness, and the
+only backend that accepts a *subscription* rather than a key. It browses
+natively, so `WEB_GROUNDING` can stay on.
+
+```bash
+AI_AGENT_BACKEND=claude_code
+CLAUDE_CODE_OAUTH_TOKEN=sk-ant-oat...   # from `claude setup-token`
+# CLAUDE_MODEL=claude-sonnet-4-5        # optional; your plan picks one otherwise
+```
+
+The `claude` extra ships its own CLI binary, so no `npm install` is required.
+If you already use Claude Code on the machine, the existing sign-in is detected
+and `CLAUDE_CODE_OAUTH_TOKEN` is optional.
+
+> **Watch the billing.** `ANTHROPIC_API_KEY` silently outranks the subscription
+> token inside the Claude CLI — identical output, but charged pay-as-you-go
+> instead of to the plan you already pay for. Because this repo's own `.env`
+> invites that key for the `native` backend, the collision is likely rather than
+> hypothetical, so when both are present the key is withheld from the CLI and
+> the choice is logged. Set `CLAUDE_CODE_USE_API_KEY=1` to bill the key on
+> purpose. Note also that programmatic use draws on a separate monthly credit
+> pool from interactive Claude Code, which may need a one-time opt-in in your
+> Anthropic account.
 
 #### Bright Data API Token (optional)
 1. Sign up at [Bright Data](https://brightdata.com)
@@ -290,6 +385,41 @@ COPILOT_TIMEOUT=300
 - **Short-term Trading (1-7 days)**: Focus on momentum, technical breakouts, and news catalysts
 - **Medium-term Investment (1-4 weeks)**: Emphasis on earnings, sector trends, and technical setups  
 - **General Market Analysis**: Broad market overview with top stock picks across sectors
+
+## 🗄️ Local data store
+
+All persistence is one SQLite file, created on first run in the per-user data
+directory (`%LOCALAPPDATA%\AgenticPortfolioManager\portfolio.sqlite3` on
+Windows, `~/Library/Application Support/...` on macOS) — deliberately outside
+the repo, so re-cloning never destroys data. Override with `PORTFOLIO_DB_PATH`.
+
+```bash
+python -m core.storage path       # where is it
+python -m core.storage summary    # what is in it
+```
+
+### Sharing market history
+
+That single file mixes two very different classes of data: market history,
+which is identical for every user and expensive to rebuild, and private state —
+API keys, the Zerodha access token, holdings and saved reports. **Copying the
+raw file to share data therefore leaks credentials.**
+
+Use the export instead, which copies an explicit allow-list of market-data
+tables into a fresh database and nothing else:
+
+```bash
+python -m core.storage share market-history.sqlite3          # sender
+python -m core.storage import-shared market-history.sqlite3  # receiver
+```
+
+The import creates any tables the receiver lacks (so it works on a fresh
+machine) and uses `INSERT OR IGNORE`, making it idempotent and non-destructive.
+
+The allow-list in `MARKET_DATA_TABLES` is deliberately an allow-list rather
+than a block-list of private tables: forgetting to list a market table costs
+the recipient some data, whereas forgetting to block a private table leaks a
+broker token, and only one of those is recoverable.
 
 ## 📈 Sample Output
 
@@ -412,31 +542,56 @@ For support and questions:
 
 **Common Issues:**
 
-1. **Copilot Authentication or Model Errors**
+1. **Copilot Authentication or Model Errors** (`AI_AGENT_BACKEND=copilot_cli`)
    - Run `copilot` and complete sign-in with a Copilot-enabled account
    - Verify `COPILOT_MODEL` is available to your Copilot subscription
    - On restricted Windows machines, set `COPILOT_CLI_PATH` to the signed
      `copilot.exe` installation
+   - No Copilot subscription? Switch to `AI_AGENT_BACKEND=native` — see
+     [Choosing a model provider](#choosing-a-model-provider)
 
-2. **MCP Installation Issues**
+2. **`UnsupportedCapability: backend 'native' cannot satisfy web_search`**
+   - The `native` backend has no built-in web browsing. Set
+     `WEB_GROUNDING=false` in `.env`, or pass `--no-web-grounding` on the CLI.
+   - The scraper MCP tools still supply live prices, fundamentals, technicals
+     and news, so reports stay grounded in current data.
+
+3. **`ModuleNotFoundError: copilot` / `langchain`**
+   - The provider SDKs are optional extras. Install the one matching your
+     backend: `uv sync --extra copilot` or `uv sync --extra gemini`.
+
+4. **Log warning: "the API executed 0 web searches"** (`claude_code`)
+   - The report was produced without a single web search, so its "current"
+     claims come from the model's training data or from pages it fetched
+     directly — not from a search. The run still succeeds, which is why this
+     is worth reading.
+   - `WebSearch` is a *server-side* tool: Anthropic runs the search, not the
+     CLI. If `~/.claude/settings.json` sets `ANTHROPIC_BASE_URL` to a local
+     proxy or a third-party gateway, that gateway usually does not implement
+     it and returns an empty result set instead of an error.
+   - Fix by pointing Claude Code at Anthropic directly (unset
+     `ANTHROPIC_BASE_URL`). `WebFetch` and the scraper MCP tools run
+     client-side and keep working either way, so data collection is
+     unaffected — only search-based discovery is lost.
+
+5. **MCP Installation Issues**
    ```bash
    # Reinstall MCP globally
    npm uninstall -g @brightdata/mcp
    npm install -g @brightdata/mcp
    ```
 
-3. **Streamlit Issues**
+6. **Streamlit Issues**
    ```bash
    # Clear Streamlit cache
    streamlit cache clear
    ```
 
-4. **Import Errors**
+7. **Import Errors**
    ```bash
    # Reinstall dependencies
    pip install -r requirements.txt --force-reinstall
    ```
-
 ## 🔄 Version History
 
 - **v1.0.0** - Initial release with multi-agent architecture

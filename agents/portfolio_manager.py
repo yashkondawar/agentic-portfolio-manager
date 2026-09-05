@@ -12,10 +12,10 @@ The LLM prompt is deliberately minimal — all heavy computation is done before 
 
 import json
 import logging
-import re
 from typing import Dict, Any, List, Optional
 
 from agents.models import AnalystSignal, PortfolioDecision, RiskMetrics
+from core.model_output import extract_json_object
 
 logger = logging.getLogger(__name__)
 
@@ -236,20 +236,7 @@ def make_portfolio_decisions(
         content = response.content if hasattr(response, "content") else str(response)
         logger.info(f"[PORTFOLIO_MGR] LLM response: {content[:300]}")
 
-        # Parse JSON response
-        json_str = content.strip()
-        if "```" in json_str:
-            json_str = json_str.split("```")[1].strip()
-            if json_str.startswith("json"):
-                json_str = json_str[4:].strip()
-
-        # Try to find JSON object if LLM wrapped it in text
-        if not json_str.startswith("{"):
-            match = re.search(r'\{[\s\S]*"decisions"[\s\S]*\}', json_str)
-            if match:
-                json_str = match.group(0)
-
-        result = json.loads(json_str)
+        result = extract_json_object(content, must_contain="decisions")
         decisions_raw = result.get("decisions", result)
 
         decisions = {}

@@ -2,6 +2,8 @@ import json
 import logging
 from pathlib import Path
 
+import pytest
+
 from core.storage import (
     database_summary,
     export_artifact_group,
@@ -121,3 +123,103 @@ def test_sqlite_log_handler_persists_structured_logs(monkeypatch, tmp_path: Path
     rows = list_logs(level="ERROR")
     assert rows[0]["message"] == "failed cleanly"
     assert rows[0]["session_id"] == "session-1"
+
+
+# ---------------------------------------------------------------------------
+# Sharing market history
+#
+# The whole application - bars, bhavcopy, filings, reports, schedules, the
+# Zerodha token - lives in ONE SQLite file. Scraping years of history takes
+# hours, so sharing it is genuinely useful; sharing the file itself would hand
+# over a live broker token and the owner's holdings.
+# ---------------------------------------------------------------------------
+
+
+def _seed_shareable_and_private(db_path: Path) -> None:
+    import scraper.bhavcopy as bhavcopy
+    from core.storage import connect
+
+    bhavcopy.open_store(db_path).close()
+    with connect(db_path) as conn:
+        conn.execute(
+            "INSERT INTO bhavcopy_days(trade_date, rows, source, fetched_at) "
+            "VALUES ('2024-01-01', 42, 'udiff', '2024-01-02T00:00:00Z')"
+        )
+        conn.commit()
+
+    # Exactly what zerodha/client.py and qtr_results/portfolio.py write.
+    set_document("credentials", "zerodha_access_token", {"access_token": "SECRET"}, db_path=db_path)
+    set_document("qtr_results", "portfolio", {"TCS": {"qty": 100}}, db_path=db_path)
+
+
+def test_shared_copy_carries_market_history(tmp_path: Path):
+    from core.storage import export_market_data
+
+    db_path = tmp_path / "portfolio.sqlite3"
+    _seed_shareable_and_private(db_path)
+
+    counts = export_market_data(tmp_path / "share.sqlite3", db_path=db_path)
+    assert counts["bhavcopy_days"] == 1
+
+
+def test_shared_copy_cannot_leak_the_broker_token_or_holdings(tmp_path: Path):
+    """The point of the allow-list. If this fails, do not ship."""
+    import sqlite3
+
+    from core.storage import export_market_data
+
+    db_path = tmp_path / "portfolio.sqlite3"
+    shared = tmp_path / "share.sqlite3"
+    _seed_shareable_and_private(db_path)
+    export_market_data(shared, db_path=db_path)
+
+    conn = sqlite3.connect(shared)
+    tables = {r[0] for r in conn.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+    assert "documents" not in tables
+    assert "runs" not in tables
+    assert "application_logs" not in tables
+    conn.close()
+
+    # Belt and braces: the secret must not appear anywhere in the bytes.
+    assert b"SECRET" not in shared.read_bytes()
+
+
+def test_shared_copy_refuses_to_overwrite(tmp_path: Path):
+    from core.storage import export_market_data
+
+    db_path = tmp_path / "portfolio.sqlite3"
+    _seed_shareable_and_private(db_path)
+    target = tmp_path / "share.sqlite3"
+    target.write_bytes(b"precious")
+
+    with pytest.raises(FileExistsError):
+        export_market_data(target, db_path=db_path)
+    assert target.read_bytes() == b"precious"
+
+
+def test_importing_shared_history_onto_a_fresh_machine(tmp_path: Path):
+    """The recipient has never scraped, so the tables do not exist yet."""
+    from core.storage import export_market_data, import_market_data
+
+    sender = tmp_path / "sender.sqlite3"
+    shared = tmp_path / "share.sqlite3"
+    receiver = tmp_path / "receiver.sqlite3"
+    _seed_shareable_and_private(sender)
+    export_market_data(shared, db_path=sender)
+
+    added = import_market_data(shared, db_path=receiver)
+    assert added["bhavcopy_days"] == 1
+
+
+def test_importing_twice_adds_nothing_the_second_time(tmp_path: Path):
+    from core.storage import export_market_data, import_market_data
+
+    sender = tmp_path / "sender.sqlite3"
+    shared = tmp_path / "share.sqlite3"
+    receiver = tmp_path / "receiver.sqlite3"
+    _seed_shareable_and_private(sender)
+    export_market_data(shared, db_path=sender)
+
+    import_market_data(shared, db_path=receiver)
+    again = import_market_data(shared, db_path=receiver)
+    assert sum(again.values()) == 0

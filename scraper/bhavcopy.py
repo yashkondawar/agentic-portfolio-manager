@@ -15,11 +15,11 @@ last session.
 
 Two formats, transparently handled:
 
-* **Legacy** (2000 → mid-2024) ``cm<DDMONYYYY>bhav.csv.zip`` under
+* **Legacy** (2000 to mid-2024) ``cm<DDMONYYYY>bhav.csv.zip`` under
   ``/content/historical/EQUITIES/<YYYY>/<MON>/``.
-* **UDiFF** (2024 →) ``BhavCopy_NSE_CM_0_0_0_<YYYYMMDD>_F_0000.csv.zip``.
+* **UDiFF** (2024 onwards) ``BhavCopy_NSE_CM_0_0_0_<YYYYMMDD>_F_0000.csv.zip``.
 
-Both are normalised onto one row shape, so the seam is invisible to callers —
+Both are normalised onto one row shape, so the seam is invisible to callers -
 the same principle the fundamentals store uses for NSE vs screener.
 
 Caveat worth stating loudly: **these prices are not adjusted for corporate
@@ -478,7 +478,7 @@ def run(
                 holidays += 1
             if index % progress_every == 0 or index == len(pending):
                 logger.info(
-                    "  %d/%d sessions — %s (%d rows, %s). %d bars stored.",
+                    "  %d/%d sessions - %s (%d rows, %s). %d bars stored.",
                     index, len(pending), day, len(rows), source, stored,
                 )
         return {"sessions": len(pending), "bars": stored, "empty": holidays}

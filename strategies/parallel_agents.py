@@ -34,8 +34,8 @@ class ParallelAgentsStrategy(BaseStrategy):
         "valuation, sentiment, Buffett and Jhunjhunwala analysts in parallel "
         "for each ticker. Signals are aggregated by a risk manager (position "
         "sizing) and a portfolio manager into BUY/SELL/HOLD calls with "
-        "targets and stop losses. GitHub Copilot SDK with Claude Opus 4.7 "
-        "provides persona and portfolio reasoning by default."
+        "targets and stop losses. Persona and portfolio reasoning runs on "
+        "whichever AI provider you have configured."
     )
     category = StrategyCategory.RESEARCH
 
@@ -61,12 +61,12 @@ class ParallelAgentsStrategy(BaseStrategy):
             ),
             ParamSpec(
                 name="use_llm",
-                label="Use GitHub Copilot for persona agents",
+                label="Use AI for persona agents",
                 type=ParamType.BOOL,
                 required=False,
                 default=True,
                 help=(
-                    "Use Copilot SDK reasoning for Buffett/Jhunjhunwala and "
+                    "Use AI reasoning for Buffett/Jhunjhunwala and "
                     "the portfolio manager. Disable for quantitative-only mode."
                 ),
                 group="Advanced",

@@ -2,7 +2,7 @@
 
 Wraps ``swing_trading_copilot`` — a daily swing-trading copilot that reviews
 open positions, screens a watchlist for new entries and gives capital-rotation
-guidance by shelling out to the GitHub Copilot CLI with the scraper MCP tools.
+guidance, using your configured AI provider with the scraper MCP tools.
 """
 
 from __future__ import annotations
@@ -32,8 +32,9 @@ class SwingTradingStrategy(BaseStrategy):
         "Purpose-built for short-term swing trading. Triages every open "
         "position (exit / trim / hold / trail / add) with concrete levels, "
         "screens a watchlist for fresh 20%-in-a-month setups, and gives "
-        "portfolio-level risk and capital-rotation guidance. Runs through the "
-        "GitHub Copilot CLI + scraper MCP (no API keys required)."
+        "portfolio-level risk and capital-rotation guidance. Uses your "
+        "configured AI provider plus the free scraper tools, so no paid "
+        "market-data feed is needed."
     )
     category = StrategyCategory.SWING
 
