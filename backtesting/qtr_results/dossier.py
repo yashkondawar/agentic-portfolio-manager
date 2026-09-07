@@ -50,12 +50,18 @@ SHEETS = (
     "Equity_Curve",
     "Positions",
     "Trades",
+    "Days_To_Profit",
+    "Days_To_Profit_Detail",
     "Yearly_Returns",
     "Rolling_3Y",
     "Rolling_5Y",
     "Daily_Returns_Portfolio",
     "Tax_Ledger",
 )
+
+#: Consecutive profitable closes required before a trade counts as having
+#: turned profitable. One green close is noise; a run is a state change.
+PROFIT_STREAK_SESSIONS = 5
 
 
 # ── Small numeric helpers ────────────────────────────────────────────────────
@@ -339,6 +345,203 @@ def equal_weight_universe(
     return [float(v) for v in curve.tolist()]
 
 
+# ── Days to profitability ────────────────────────────────────────────────────
+
+
+def _close_series(frame: Optional[pd.DataFrame]) -> Optional[pd.Series]:
+    """A clean, date-indexed close series, or ``None`` if unusable."""
+    if frame is None or getattr(frame, "empty", True):
+        return None
+    if "Close" not in frame.columns:
+        return None
+    s = frame["Close"].copy()
+    s.index = pd.to_datetime(s.index).normalize()
+    return s[~s.index.duplicated(keep="last")].sort_index()
+
+
+def days_to_profitability(
+    closed: Sequence[Any],
+    frames: Dict[str, pd.DataFrame],
+    *,
+    streak: int = 5,
+    round_trip_cost_pct: float = 0.0,
+) -> List[Dict[str, Any]]:
+    """How long each trade took to go — and STAY — profitable.
+
+    A trade counts as having "turned profitable" on the first session that
+    opens a run of ``streak`` consecutive sessions closing above the entry
+    price. Requiring the run is the whole point: a single green close is noise,
+    and without the run this collapses into "highest close so far", which every
+    trade trivially achieves on day one.
+
+    Two thresholds are reported because they answer different questions:
+
+    * gross — close above the entry price; measures the strategy's ENTRY TIMING.
+    * net — close above entry plus the round-trip cost; measures when the
+      position became genuinely worth more than it cost to open and close.
+
+    The clock is only ever run over a trade's OWN holding period, so a name
+    exited on day 3 cannot post a 5-session run. That is a real limitation of
+    the question rather than a defect, so those trades are reported separately
+    as ``too_short`` instead of being silently averaged in or dropped. Averaging
+    only over the trades that DID make it would be a survivorship claim; the
+    achiever rate is therefore reported next to every average.
+    """
+    if streak < 1:
+        raise ValueError("streak must be at least 1 session")
+    breakeven_mult = 1.0 + round_trip_cost_pct / 100.0
+    rows: List[Dict[str, Any]] = []
+
+    for t in closed:
+        series = _close_series(frames.get(t.symbol))
+        row: Dict[str, Any] = {
+            "symbol": t.symbol,
+            "entry_date": t.entry_date,
+            "exit_date": t.exit_date,
+            "entry_price": t.entry_price,
+            "hold_days": t.holding_days,
+            "pnl_pct": t.pnl_pct,
+            "exit_reason": t.exit_reason,
+            "sessions_held": None,
+            "sessions_to_profit_gross": None,
+            "days_to_profit_gross": None,
+            "sessions_to_profit_net": None,
+            "days_to_profit_net": None,
+            "outcome": "no_price_data",
+        }
+        if series is None:
+            rows.append(row)
+            continue
+
+        window = series.loc[
+            pd.Timestamp(t.entry_date): pd.Timestamp(t.exit_date)
+        ]
+        if window.empty:
+            rows.append(row)
+            continue
+
+        dates = [d.date() for d in window.index]
+        closes = [float(v) for v in window.to_numpy()]
+        row["sessions_held"] = len(closes)
+
+        for tag, threshold in (
+            ("gross", t.entry_price),
+            ("net", t.entry_price * breakeven_mult),
+        ):
+            flags = [c > threshold for c in closes]
+            hit = None
+            for i in range(len(flags) - streak + 1):
+                if all(flags[i:i + streak]):
+                    hit = i
+                    break
+            if hit is not None:
+                row[f"sessions_to_profit_{tag}"] = hit + 1
+                row[f"days_to_profit_{tag}"] = (dates[hit] - t.entry_date).days
+
+        if row["sessions_to_profit_gross"] is not None:
+            row["outcome"] = "reached"
+        elif len(closes) < streak:
+            row["outcome"] = "too_short"
+        else:
+            row["outcome"] = "never_sustained"
+        rows.append(row)
+
+    return rows
+
+
+def _dtp_stats(rows: Sequence[Dict[str, Any]], key: str) -> Dict[str, Any]:
+    """Achiever rate plus the distribution over the trades that achieved it."""
+    total = len(rows)
+    hits = [r[key] for r in rows if r.get(key) is not None]
+    if not total:
+        return {"n": 0, "reached": 0, "reached_pct": None}
+    out: Dict[str, Any] = {
+        "n": total,
+        "reached": len(hits),
+        "reached_pct": len(hits) / total * 100.0,
+    }
+    if hits:
+        arr = np.array(hits, dtype=float)
+        out.update({
+            "mean": float(arr.mean()),
+            "median": float(np.median(arr)),
+            "p25": float(np.percentile(arr, 25)),
+            "p75": float(np.percentile(arr, 75)),
+            "min": float(arr.min()),
+            "max": float(arr.max()),
+        })
+    return out
+
+
+def _days_to_profit_sheet(rows: Sequence[Dict[str, Any]]) -> pd.DataFrame:
+    """Per-trade detail, soonest-to-profit first."""
+    detail = pd.DataFrame(rows, columns=[
+        "symbol", "entry_date", "exit_date", "entry_price", "hold_days",
+        "sessions_held", "sessions_to_profit_gross", "days_to_profit_gross",
+        "sessions_to_profit_net", "days_to_profit_net", "pnl_pct",
+        "exit_reason", "outcome",
+    ])
+    return detail.sort_values(
+        ["sessions_to_profit_gross", "symbol"], na_position="last"
+    ).reset_index(drop=True)
+
+
+def _dtp_summary_sheet(
+    rows: Sequence[Dict[str, Any]], streak: int, cost_pct: float
+) -> pd.DataFrame:
+    """The cohort table: overall, winners vs losers, and by exit reason."""
+    winners = [r for r in rows if (r.get("pnl_pct") or 0) > 0]
+    losers = [r for r in rows if (r.get("pnl_pct") or 0) <= 0]
+    outcomes = [r["outcome"] for r in rows]
+
+    def block(label: str, subset: Sequence[Dict[str, Any]]) -> List[Any]:
+        g = _dtp_stats(subset, "sessions_to_profit_gross")
+        n = _dtp_stats(subset, "sessions_to_profit_net")
+        gd = _dtp_stats(subset, "days_to_profit_gross")
+        return [
+            label, g["n"], g.get("reached"), g.get("reached_pct"),
+            g.get("mean"), g.get("median"), g.get("p25"), g.get("p75"),
+            gd.get("mean"), gd.get("median"),
+            n.get("reached_pct"), n.get("mean"), n.get("median"),
+        ]
+
+    data = [
+        block("All trades", rows),
+        block("Winners (net P&L > 0)", winners),
+        block("Losers (net P&L <= 0)", losers),
+    ]
+    by_reason: Dict[str, List[Dict[str, Any]]] = {}
+    for r in rows:
+        by_reason.setdefault(r.get("exit_reason") or "(none)", []).append(r)
+    for reason in sorted(by_reason):
+        data.append(block(f"Exit: {reason}", by_reason[reason]))
+
+    columns = [
+        "cohort", "trades", "reached sustained profit",
+        "reached (%)", "mean sessions", "median sessions",
+        "p25 sessions", "p75 sessions",
+        "mean calendar days", "median calendar days",
+        "net of costs: reached (%)", "net: mean sessions", "net: median sessions",
+    ]
+
+    def note(text: str) -> List[Any]:
+        return [text, *([None] * (len(columns) - 1))]
+
+    data += [
+        note(""),
+        note(f"Definition: first session opening a run of {streak} consecutive "
+             f"closes above the entry price."),
+        note(f"'net of costs' uses a {cost_pct:.2f}% round-trip cost as the "
+             f"break-even threshold."),
+        note("Averages cover only trades that REACHED it — read them next to "
+             "'reached (%)', never alone."),
+        note(f"Not reached: {outcomes.count('never_sustained')} never sustained, "
+             f"{outcomes.count('too_short')} exited in under {streak} sessions, "
+             f"{outcomes.count('no_price_data')} had no usable price history."),
+    ]
+    return pd.DataFrame(data, columns=columns)
+
+
 # ── Assembling the workbook payload ──────────────────────────────────────────
 
 
@@ -470,6 +673,13 @@ def build_dossier(
 
     closed = list(pf.closed)
     wins = [t for t in closed if t.pnl > 0]
+    round_trip_cost_pct = float(getattr(cfg, "commission_pct", 0.0)) * 2.0
+    dtp_rows = days_to_profitability(
+        closed,
+        getattr(prices, "frames", {}) or {},
+        streak=PROFIT_STREAK_SESSIONS,
+        round_trip_cost_pct=round_trip_cost_pct,
+    )
     summary_rows = _summary_rows(
         cfg=cfg, metrics=metrics or {}, columns=columns, metric_order=metric_order,
         calendar=calendar, total_costs=total_costs, total_tax=total_tax,
@@ -477,6 +687,7 @@ def build_dossier(
         gross_cagr=gross_cagr, net_cagr=net_cagr, fills=len(pf.fills),
         closed=closed, wins=wins, open_positions=open_positions,
         cash=cash, before_tax=before_tax, tax_cfg=tax_cfg, notes=notes,
+        dtp_rows=dtp_rows,
     )
 
     # ── Sheets ───────────────────────────────────────────────────────────────
@@ -497,8 +708,12 @@ def build_dossier(
         "universe equal-wt rebased": universe_ew,
         "portfolio rebased": [v / net[0] * base if net[0] else None for v in net],
     })
-    sheets["Positions"] = _positions_sheet(closed, classified)
+    sheets["Positions"] = _positions_sheet(closed, classified, dtp_rows)
     sheets["Trades"] = _trades_sheet(pf.fills, classified)
+    sheets["Days_To_Profit"] = _dtp_summary_sheet(
+        dtp_rows, PROFIT_STREAK_SESSIONS, round_trip_cost_pct
+    )
+    sheets["Days_To_Profit_Detail"] = _days_to_profit_sheet(dtp_rows)
     sheets["Yearly_Returns"] = _yearly_sheet(calendar, net, n50_c, n500_c, ew_c)
     sheets["Rolling_3Y"] = _rolling_sheet(calendar, net, n50_c, n500_c, years=3)
     sheets["Rolling_5Y"] = _rolling_sheet(calendar, net, n50_c, n500_c, years=5)
@@ -558,6 +773,28 @@ def _summary_rows(**kw) -> List[List[Any]]:
             sum(c / e * 100.0 for c, e in zip(kw["cash"], kw["before_tax"]) if e > 0)
             / max(1, len([e for e in kw["before_tax"] if e > 0]))),
         row(""),
+        row("Days to profitability"),
+    ]
+
+    dtp_rows = kw.get("dtp_rows") or []
+    g = _dtp_stats(dtp_rows, "sessions_to_profit_gross")
+    gd = _dtp_stats(dtp_rows, "days_to_profit_gross")
+    n = _dtp_stats(dtp_rows, "sessions_to_profit_net")
+    outcomes = [r["outcome"] for r in dtp_rows]
+    rows += [
+        row(f"Definition: first of {PROFIT_STREAK_SESSIONS} consecutive closes "
+            f"above the entry price"),
+        row("Trades reaching sustained profit (%)", g.get("reached_pct")),
+        row("Mean sessions to profit", g.get("mean")),
+        row("Median sessions to profit", g.get("median")),
+        row("Mean calendar days to profit", gd.get("mean")),
+        row("Median calendar days to profit", gd.get("median")),
+        row("Net of costs — reaching sustained profit (%)", n.get("reached_pct")),
+        row("Net of costs — median sessions to profit", n.get("median")),
+        row("Never sustained", outcomes.count("never_sustained")),
+        row(f"Exited in under {PROFIT_STREAK_SESSIONS} sessions",
+            outcomes.count("too_short")),
+        row(""),
         row("Configuration"),
     ]
     for key, value in sorted(asdict(cfg).items()):
@@ -587,13 +824,21 @@ def _summary_rows(**kw) -> List[List[Any]]:
     return rows
 
 
-def _positions_sheet(closed: Sequence[Any], classified: Sequence[Dict]) -> pd.DataFrame:
+def _positions_sheet(
+    closed: Sequence[Any],
+    classified: Sequence[Dict],
+    dtp_rows: Sequence[Dict[str, Any]] = (),
+) -> pd.DataFrame:
     gains = {
         (c["symbol"], c["entry_date"], c["exit_date"]): c for c in classified
+    }
+    dtp = {
+        (r["symbol"], r["entry_date"], r["exit_date"]): r for r in dtp_rows
     }
     rows = []
     for t in closed:
         tag = gains.get((t.symbol, t.entry_date, t.exit_date), {})
+        timing = dtp.get((t.symbol, t.entry_date, t.exit_date), {})
         invested = t.entry_price * t.quantity
         rows.append({
             "ticker": t.symbol,
@@ -611,13 +856,17 @@ def _positions_sheet(closed: Sequence[Any], classified: Sequence[Dict]) -> pd.Da
             "net_pnl": t.pnl,
             "st_gain": tag.get("st_gain", 0.0),
             "lt_gain": tag.get("lt_gain", 0.0),
+            "sessions_to_profit": timing.get("sessions_to_profit_gross"),
+            "days_to_profit": timing.get("days_to_profit_gross"),
+            "profit_timing": timing.get("outcome"),
             "exit_reason": t.exit_reason,
             "status": "closed",
         })
     return pd.DataFrame(rows, columns=[
         "ticker", "industry", "entry_date", "exit_date", "hold_days", "entry_px",
         "exit_px", "return_pct", "qty", "invested", "gross_pnl", "costs",
-        "net_pnl", "st_gain", "lt_gain", "exit_reason", "status",
+        "net_pnl", "st_gain", "lt_gain", "sessions_to_profit", "days_to_profit",
+        "profit_timing", "exit_reason", "status",
     ])
 
 
@@ -727,9 +976,16 @@ def _rolling_sheet(calendar, port, n50, n500, *, years: int) -> pd.DataFrame:
 # ── Excel output ─────────────────────────────────────────────────────────────
 
 #: Sheets whose data starts below a title block, matching the reference layout.
-TITLE_OFFSET = {"Positions": 2, "Yearly_Returns": 3}
+TITLE_OFFSET = {"Positions": 2, "Yearly_Returns": 3, "Days_To_Profit": 2}
 
 _EMPTY_SHEET_NOTE = {
+    "Days_To_Profit": (
+        "No closed trades, so there is nothing to time. This sheet measures how "
+        "long a trade took to go and STAY profitable."
+    ),
+    "Days_To_Profit_Detail": (
+        "No closed trades, so there is nothing to time."
+    ),
     "Rolling_3Y": (
         "No 3-year window fits this backtest. See Rolling_5Y for the reason: the "
         "strategy's first tradeable signal is capped by how far back point-in-time "
@@ -827,6 +1083,11 @@ def _number_format(sheet: str, column: str) -> str:
     if sheet == "Daily_Returns_Portfolio":
         return "#,##0.00" if "equity" in name else "0.0000"
     if sheet in ("Yearly_Returns", "Rolling_3Y", "Rolling_5Y"):
+        return "0.00"
+    if sheet in ("Days_To_Profit", "Days_To_Profit_Detail"):
+        # Session and day counts are integers; rates and averages get one dp.
+        if any(k in name for k in ("sessions", "days", "trades", "reached ")):
+            return "0.0"
         return "0.00"
     if any(k in name for k in ("sharpe", "sortino", "beta", "correlation",
                                "ratio", "drawdown", "return_pct")):

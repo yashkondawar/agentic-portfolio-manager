@@ -412,6 +412,10 @@ def main(argv=None) -> int:
         titles={
             "Positions": "Closed round trips — one row per position",
             "Yearly_Returns": "Calendar-year returns (* marks a partial year)",
+            "Days_To_Profit": (
+                "Days to profitability — sessions from entry to the first of "
+                "5 consecutive closes above the entry price"
+            ),
         },
     )
 
