@@ -290,3 +290,138 @@ def test_install_falls_back_to_a_startup_entry_when_tasks_are_denied(
     entry = scheduler.startup_entry_path()
     assert entry.exists()
     assert "scheduler_supervise.py" in entry.read_text(encoding="utf-8")
+
+
+# ---------------------------------------------------------------------------
+# Source-change detection
+#
+# A long-lived daemon imports strategies once. Without these, adding a strategy
+# leaves every running daemon failing "Unknown strategy" until a human restarts
+# it by hand -- which is exactly the bug this guards against.
+# ---------------------------------------------------------------------------
+def _tree(root, package="strategies"):
+    directory = root / package
+    directory.mkdir(parents=True, exist_ok=True)
+    module = directory / "alpha.py"
+    module.write_text("VALUE = 1\n", encoding="utf-8")
+    return module
+
+
+def test_fingerprint_changes_when_a_strategy_is_edited(tmp_path):
+    module = _tree(tmp_path)
+    before = scheduler.code_fingerprint(tmp_path)
+    import os
+
+    stamp = module.stat().st_mtime + 10
+    module.write_text("VALUE = 2\n", encoding="utf-8")
+    os.utime(module, (stamp, stamp))
+    assert scheduler.code_fingerprint(tmp_path) != before
+
+
+def test_fingerprint_changes_when_a_strategy_is_added(tmp_path):
+    _tree(tmp_path)
+    before = scheduler.code_fingerprint(tmp_path)
+    (tmp_path / "strategies" / "beta.py").write_text("VALUE = 3\n", encoding="utf-8")
+    assert scheduler.code_fingerprint(tmp_path) != before
+
+
+def test_fingerprint_changes_when_a_strategy_is_deleted(tmp_path):
+    module = _tree(tmp_path)
+    (tmp_path / "strategies" / "beta.py").write_text("VALUE = 3\n", encoding="utf-8")
+    before = scheduler.code_fingerprint(tmp_path)
+    module.unlink()
+    assert scheduler.code_fingerprint(tmp_path) != before
+
+
+def test_fingerprint_ignores_bytecode_caches(tmp_path):
+    """Otherwise every run would rewrite .pyc files and trigger a restart loop."""
+    _tree(tmp_path)
+    before = scheduler.code_fingerprint(tmp_path)
+    cache = tmp_path / "strategies" / "__pycache__"
+    cache.mkdir()
+    (cache / "alpha.cpython-312.py").write_text("x\n", encoding="utf-8")
+    assert scheduler.code_fingerprint(tmp_path) == before
+
+
+def test_fingerprint_ignores_unwatched_directories(tmp_path):
+    """Editing the UI cannot change a scheduled outcome, so it must not restart."""
+    _tree(tmp_path)
+    before = scheduler.code_fingerprint(tmp_path)
+    ui = tmp_path / "ui"
+    ui.mkdir()
+    (ui / "pages.py").write_text("x\n", encoding="utf-8")
+    assert scheduler.code_fingerprint(tmp_path) == before
+
+
+def test_serve_exits_with_reload_code_when_source_changes(db, monkeypatch):
+    monkeypatch.setattr(scheduler, "fire_due", lambda **kwargs: [])
+    monkeypatch.setattr(scheduler, "write_heartbeat", lambda **kwargs: None)
+    seen = iter(["1:100", "2:200"])
+    monkeypatch.setattr(scheduler, "code_fingerprint", lambda *a: next(seen))
+    assert scheduler.serve(max_cycles=5, db_path=db) == scheduler.RELOAD_EXIT_CODE
+
+
+def test_serve_stays_put_when_source_is_unchanged(db, monkeypatch):
+    monkeypatch.setattr(scheduler, "fire_due", lambda **kwargs: [])
+    monkeypatch.setattr(scheduler, "write_heartbeat", lambda **kwargs: None)
+    monkeypatch.setattr(scheduler, "code_fingerprint", lambda *a: "1:100")
+    assert scheduler.serve(max_cycles=2, db_path=db) == 0
+
+
+def test_serve_honours_the_no_auto_reload_escape_hatch(db, monkeypatch):
+    monkeypatch.setattr(scheduler, "fire_due", lambda **kwargs: [])
+    monkeypatch.setattr(scheduler, "write_heartbeat", lambda **kwargs: None)
+    calls = []
+
+    def _fingerprint(*args):
+        calls.append(args)
+        return f"{len(calls)}:0"
+
+    monkeypatch.setattr(scheduler, "code_fingerprint", _fingerprint)
+    assert scheduler.serve(max_cycles=2, db_path=db, auto_reload=False) == 0
+    assert calls == []
+
+
+def _supervise_once(monkeypatch, tmp_path, returncode):
+    import subprocess as _subprocess
+
+    slept = []
+    monkeypatch.setattr(scheduler, "log_path", lambda: tmp_path / "scheduler.log")
+    monkeypatch.setattr(scheduler, "_interpreter", lambda: "python")
+    monkeypatch.setattr(scheduler.time, "sleep", lambda seconds: slept.append(seconds))
+    monkeypatch.setattr(
+        scheduler.subprocess,
+        "run",
+        lambda *a, **k: _subprocess.CompletedProcess(a[0], returncode),
+    )
+    code = scheduler.supervise(max_restarts=2)
+    return code, slept
+
+
+def test_supervise_restarts_immediately_after_a_reload(monkeypatch, tmp_path):
+    code, slept = _supervise_once(monkeypatch, tmp_path, scheduler.RELOAD_EXIT_CODE)
+    assert code == scheduler.RELOAD_EXIT_CODE
+    assert slept == []
+
+
+def test_supervise_still_backs_off_after_a_crash(monkeypatch, tmp_path):
+    code, slept = _supervise_once(monkeypatch, tmp_path, 1)
+    assert code == 1
+    assert slept == [15]
+
+
+def test_supervise_backs_off_when_reloads_will_not_settle(monkeypatch, tmp_path):
+    """A checkout that rewrites files for a while must not cause a spin."""
+    import subprocess as _subprocess
+
+    slept = []
+    monkeypatch.setattr(scheduler, "log_path", lambda: tmp_path / "scheduler.log")
+    monkeypatch.setattr(scheduler, "_interpreter", lambda: "python")
+    monkeypatch.setattr(scheduler.time, "sleep", lambda seconds: slept.append(seconds))
+    monkeypatch.setattr(
+        scheduler.subprocess,
+        "run",
+        lambda *a, **k: _subprocess.CompletedProcess(a[0], scheduler.RELOAD_EXIT_CODE),
+    )
+    scheduler.supervise(max_restarts=scheduler.MAX_RELOADS_PER_WINDOW + 2)
+    assert slept == [15]

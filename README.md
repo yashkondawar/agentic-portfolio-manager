@@ -141,8 +141,17 @@ Every scheduled run is written to the run history, so opening the app in the
 morning shows last night's report without re-running anything. A run button on
 every page still forces a fresh run at any time.
 
-Full details — timing rationale, catch-up behaviour, crash recovery, log
-locations and troubleshooting — are in [`core/SCHEDULER.md`](core/SCHEDULER.md).
+**Adding a strategy needs no restart.** A running daemon watches `strategies/`,
+`core/`, `backtesting/` and `scraper/`; when the source changes it exits with a
+dedicated code and its supervisor immediately restarts it on a fresh
+interpreter, so a `git pull` deploys new strategies within one poll (≤30s). New
+*schedule rows* were always picked up live — it was new *code* that used to sit
+stale until somebody restarted by hand, which is how `breakout_ath_daily` failed
+with `Unknown strategy` for several days. `serve --no-auto-reload` opts out.
+
+Full details — timing rationale, catch-up behaviour, crash recovery, auto-reload
+limits, log locations and troubleshooting — are in
+[`core/SCHEDULER.md`](core/SCHEDULER.md).
 
 ### Backtest dossier
 
@@ -592,6 +601,29 @@ For support and questions:
    # Reinstall dependencies
    pip install -r requirements.txt --force-reinstall
    ```
+
+8. **`uv run` fails with `HandshakeFailure` fetching a `.whl.metadata`**
+   ```
+   error: Failed to fetch: `https://files.pythonhosted.org/.../openpyxl-3.1.5-...whl.metadata`
+     Caused by: received fatal alert: HandshakeFailure
+   ```
+   - Nothing is missing — the package is already installed. `uv run` re-resolves
+     the dependency tree on every launch, and on some corporate networks
+     `files.pythonhosted.org` is blocked even though `pypi.org` is reachable.
+   - It is a **network block, not a certificate problem**: `curl` fails the same
+     way using the Windows certificate store, so `UV_NATIVE_TLS=1` does not help.
+   - The package named in the error changes between runs; it is simply whichever
+     one the resolver reached first.
+   - Fix by telling `uv` to use the existing virtualenv instead of re-syncing:
+     ```powershell
+     [Environment]::SetEnvironmentVariable("UV_NO_SYNC", "1", "User")
+     ```
+     Open a **new** terminal afterwards — an already-open one keeps the old
+     environment.
+   - **Trade-off:** with `UV_NO_SYNC=1`, `uv run` no longer installs newly added
+     dependencies. After anyone edits `pyproject.toml`, run `uv sync` once from
+     a network that can reach `files.pythonhosted.org`.
+
 ## 🔄 Version History
 
 - **v1.0.0** - Initial release with multi-agent architecture

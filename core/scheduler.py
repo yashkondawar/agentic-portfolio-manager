@@ -49,6 +49,22 @@ DEFAULT_POLL_SECONDS = 30
 DEFAULT_WATCHDOG_MINUTES = 30
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
+#: ``serve`` returns this when it notices the source tree changed underneath it.
+#: The supervisor treats it as "restart me now" rather than as a crash.
+RELOAD_EXIT_CODE = 3
+
+#: Packages whose contents decide what a scheduled run actually does. A strategy
+#: module lives in ``strategies``; everything it imports to do real work lives in
+#: the other three. Editing the UI cannot change a scheduled outcome, so it is
+#: deliberately not watched -- restarting for it would be noise.
+WATCHED_PACKAGES = ("strategies", "core", "backtesting", "scraper")
+
+_FINGERPRINT_SKIP = {"__pycache__", ".venv", ".git", "node_modules"}
+
+#: Guard against restart churn while a long checkout rewrites files.
+RELOAD_WINDOW_SECONDS = 120
+MAX_RELOADS_PER_WINDOW = 3
+
 
 # ---------------------------------------------------------------------------
 # Execution
@@ -162,6 +178,49 @@ def heartbeat_age_seconds(*, db_path: Optional[Path] = None) -> Optional[float]:
 
 
 # ---------------------------------------------------------------------------
+# Source-change detection
+# ---------------------------------------------------------------------------
+# A daemon imports every strategy once and then keeps that registry in memory
+# for as long as it lives. Add a strategy, fix a bug, pull a branch -- the
+# running process knows nothing about any of it, and a schedule pointing at a
+# newly added strategy fails with "Unknown strategy" until somebody remembers to
+# restart by hand. That is not automation.
+#
+# Reloading modules in place is the obvious fix and the wrong one: this registry
+# has been repeatedly broken by torn import state, so the safe move is to let
+# the process die and come back. `supervise` already restarts a dead daemon, so
+# detecting the change and exiting is all that is actually needed -- a fresh
+# interpreter re-imports everything with no partial-reload failure mode.
+def code_fingerprint(root: Optional[Path] = None) -> str:
+    """Cheap signature of the importable source tree.
+
+    Counts watched ``.py`` files and takes the newest mtime among them. Both
+    halves matter: mtime alone misses a deletion, and the count alone misses an
+    edit. ~107 files and ~12ms on this repo, so it is free at a 30s poll.
+    """
+    base = root or REPO_ROOT
+    newest = 0.0
+    count = 0
+    for package in WATCHED_PACKAGES:
+        directory = base / package
+        if not directory.is_dir():
+            continue
+        for path in directory.rglob("*.py"):
+            if _FINGERPRINT_SKIP.intersection(path.parts):
+                continue
+            try:
+                stamp = path.stat().st_mtime
+            except OSError:
+                # A file vanishing mid-scan is itself a change; skipping it
+                # lowers the count, which the next poll will notice.
+                continue
+            count += 1
+            if stamp > newest:
+                newest = stamp
+    return f"{count}:{newest:.0f}"
+
+
+# ---------------------------------------------------------------------------
 # Daemon loop
 # ---------------------------------------------------------------------------
 def serve(
@@ -169,9 +228,11 @@ def serve(
     poll_seconds: int = DEFAULT_POLL_SECONDS,
     max_cycles: Optional[int] = None,
     db_path: Optional[Path] = None,
+    auto_reload: bool = True,
 ) -> int:
     schedules_mod.ensure_defaults(db_path=db_path)
     logger.info("Scheduler started; polling every %ss", poll_seconds)
+    baseline = code_fingerprint() if auto_reload else None
     cycles = 0
     try:
         while max_cycles is None or cycles < max_cycles:
@@ -181,6 +242,18 @@ def serve(
             except Exception:
                 logger.exception("Scheduler cycle failed; continuing")
             cycles += 1
+            # Checked only between cycles, so a run in flight is never
+            # interrupted -- `fire_due` has already returned by this point.
+            if baseline is not None:
+                current = code_fingerprint()
+                if current != baseline:
+                    logger.info(
+                        "Source change detected (%s -> %s); exiting so the "
+                        "supervisor restarts me on the new code",
+                        baseline,
+                        current,
+                    )
+                    return RELOAD_EXIT_CODE
             if max_cycles is not None and cycles >= max_cycles:
                 break
             time.sleep(max(1, poll_seconds))
@@ -200,11 +273,17 @@ def supervise(
     `serve` already swallows per-cycle exceptions, so this only matters when the
     process itself goes away — killed, out of memory, an interpreter fault. That
     is exactly the case a Startup-folder entry cannot recover from on its own.
+
+    It is also how code changes go live: `serve` exits with `RELOAD_EXIT_CODE`
+    when it sees the source tree change, and the fresh child started here picks
+    up the new strategies. A deliberate reload skips the crash backoff — there
+    is nothing to back off from.
     """
     interpreter = _interpreter()
     log = log_path()
     log.parent.mkdir(parents=True, exist_ok=True)
     restarts = 0
+    recent_reloads: list[float] = []
     while True:
         with open(log, "a", encoding="utf-8", errors="replace", buffering=1) as fh:
             completed = subprocess.run(
@@ -220,15 +299,39 @@ def supervise(
                 stdout=fh,
                 stderr=fh,
             )
-        logger.warning(
-            "Scheduler process exited with %s; restarting in %ss",
-            completed.returncode,
-            backoff_seconds,
-        )
+        reloading = completed.returncode == RELOAD_EXIT_CODE
+        if reloading:
+            # A `git pull` rewrites files for several seconds, and each rewrite
+            # looks like a fresh change. Restarting instantly is right for the
+            # normal case but would spin during a long checkout, so fall back to
+            # the ordinary backoff once reloads stop looking like a one-off.
+            now = time.monotonic()
+            recent_reloads = [
+                t for t in recent_reloads if now - t < RELOAD_WINDOW_SECONDS
+            ]
+            recent_reloads.append(now)
+            if len(recent_reloads) > MAX_RELOADS_PER_WINDOW:
+                logger.warning(
+                    "Source kept changing across %s reloads in %ss; waiting %ss "
+                    "for it to settle",
+                    len(recent_reloads),
+                    RELOAD_WINDOW_SECONDS,
+                    backoff_seconds,
+                )
+                reloading = False
+            else:
+                logger.info("Scheduler reloading onto changed code; restarting now")
+        if not reloading:
+            logger.warning(
+                "Scheduler process exited with %s; restarting in %ss",
+                completed.returncode,
+                backoff_seconds,
+            )
         restarts += 1
         if max_restarts is not None and restarts >= max_restarts:
             return completed.returncode
-        time.sleep(max(1, backoff_seconds))
+        if not reloading:
+            time.sleep(max(1, backoff_seconds))
 
 
 # ---------------------------------------------------------------------------
@@ -504,6 +607,11 @@ def _build_parser() -> argparse.ArgumentParser:
         default=None,
         help="Stop after N polls (testing).",
     )
+    serve_cmd.add_argument(
+        "--no-auto-reload",
+        action="store_true",
+        help="Keep running on stale code after the source tree changes.",
+    )
 
     sub.add_parser("once", help="Fire whatever is due right now, then exit.")
     sub.add_parser("list", help="Show configured schedules.")
@@ -592,6 +700,7 @@ def main(argv: list[str] | None = None) -> int:
     return serve(
         poll_seconds=getattr(args, "poll", DEFAULT_POLL_SECONDS),
         max_cycles=getattr(args, "cycles", None),
+        auto_reload=not getattr(args, "no_auto_reload", False),
     )
 
 

@@ -136,6 +136,56 @@ behaviour — an unmerged strategy should never trade — but it means:
 Re-point the daemon at a different checkout by re-running `install-task` from
 there.
 
+### Picking up new code without a restart
+
+A daemon imports every strategy **once**, at startup, and then holds that
+registry in memory for as long as it lives. Before auto-reload existed this was
+a real trap: `breakout_ath_daily` was added on 1 Sep to daemons that had been
+running since 26 Aug, so it failed with `Unknown strategy 'breakout_ath_daily'`
+every evening for days. Nothing was broken except that the process had never
+been restarted — and nothing in the system told anyone.
+
+`serve` now fingerprints the importable source tree — `strategies/`, `core/`,
+`backtesting/`, `scraper/` — and re-checks it after every poll. If the count of
+`.py` files or the newest mtime changes, it logs the change and exits with
+`RELOAD_EXIT_CODE` (3). `supervise` treats that exit code as "restart me now"
+rather than as a crash, so it skips the 15s failure backoff and a **fresh
+interpreter** re-imports everything.
+
+So merging to main is still the deploy step, but it is now the *only* step:
+
+```
+git pull            ->  fingerprint changes
+                    ->  serve exits 3 (within one poll, <=30s)
+                    ->  supervise restarts instantly
+                    ->  new strategies are registered
+```
+
+New *schedules* never needed this — `fire_due` re-reads the schedules table on
+every poll, so a row added from the UI is picked up within 30s regardless. It is
+only new *code* that required a restart.
+
+Details worth knowing:
+
+- **Reload happens between cycles, never mid-run.** The check sits after
+  `fire_due` has returned, so a strategy in flight is never interrupted.
+- **`__pycache__` is excluded.** Watching it would make every run rewrite a
+  `.pyc`, trip the fingerprint, and restart forever.
+- **`ui/` is deliberately not watched.** Editing a Streamlit page cannot change
+  what a scheduled run produces, so restarting for it is pure noise.
+- **Churn is bounded.** A long checkout rewrites files for several seconds and
+  each rewrite looks like a fresh change, so more than `MAX_RELOADS_PER_WINDOW`
+  reloads inside `RELOAD_WINDOW_SECONDS` falls back to the ordinary backoff and
+  lets the tree settle.
+- **`serve --no-auto-reload`** pins a daemon to the code it started with.
+
+**Known limitation:** the `supervise` parent does *not* reload itself — only the
+`serve` child it spawns. Changing `supervise`'s own loop, `_interpreter()`, or
+the launcher still needs a manual restart (stop the process, re-run the Startup
+`.cmd`). That loop is deliberately about twenty lines and rarely changes; the
+alternative was a supervisor that restarts itself, which has no supervisor of
+its own to catch it if the new code fails to start.
+
 ## Timing semantics
 
 Schedules are time-of-day, not cron expressions: `HH:MM` + a set of weekdays +
