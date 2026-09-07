@@ -136,8 +136,12 @@ def deflated_sharpe_ratio(
     skew = m3 / std**3
     kurt = m4 / std**4  # non-excess kurtosis
 
-    # Expected maximum Sharpe of `num_trials` independent null strategies (SR ~ N(0,1)
-    # in "trials" space): E[max] ≈ sqrt(2 ln T) approx via the Gumbel expectation.
+    # Expected maximum Sharpe of `num_trials` independent null strategies. This is
+    # a STANDARDISED quantity: it is expressed in units of the Sharpe estimator's
+    # own standard error, not in per-period return units. It has to be scaled by
+    # `se` below before it can be compared against `sr`, which is a per-period
+    # Sharpe (~0.07 daily for an annualised 1.2). Subtracting the two directly
+    # compares ~0.07 against ~1.8 and drives the DSR to zero for ANY T > 1.
     T = max(int(num_trials), 1)
     if T > 1:
         euler = 0.5772156649
@@ -154,7 +158,10 @@ def deflated_sharpe_ratio(
     se = math.sqrt(denom / (n - 1))
     if se <= 0:
         return None
-    dsr = _norm_cdf((sr - e_max) / se)
+    # SR* — the Sharpe the best of T null configs would be expected to post —
+    # in the same per-period units as `sr`.
+    sr_benchmark = e_max * se
+    dsr = _norm_cdf((sr - sr_benchmark) / se)
     return dsr
 
 

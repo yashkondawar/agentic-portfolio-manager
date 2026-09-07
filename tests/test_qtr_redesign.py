@@ -7,6 +7,8 @@ test suite.
 
 from datetime import date
 
+import random
+
 import pandas as pd
 
 from backtesting.qtr_results import ranking, signals
@@ -163,3 +165,30 @@ def test_deflated_sharpe_penalizes_more_trials():
     dsr50 = deflated_sharpe_ratio(rets, num_trials=50)
     assert dsr1 is not None and dsr50 is not None
     assert dsr50 < dsr1  # more trials tried → more deflation
+
+
+def test_deflated_sharpe_survives_a_modest_trial_count():
+    """A strong, long track record must not be deflated to zero by a small grid.
+
+    Regression: ``e_max`` is standardised (units of the Sharpe estimator's
+    standard error) while ``sr`` is a per-period Sharpe. Subtracting them
+    directly compared ~0.07 against ~1.8 and pinned the DSR at 0.000 for every
+    ``num_trials > 1``, which reads as "no edge" regardless of the evidence.
+    """
+    # ~12 years of daily returns with a realistic annualised Sharpe (~1.2).
+    rng = random.Random(42)
+    rets = [rng.gauss(0.0006, 0.008) for _ in range(3000)]
+    dsr16 = deflated_sharpe_ratio(rets, num_trials=16)
+    assert dsr16 is not None
+    assert dsr16 > 0.90, f"strong long series deflated to {dsr16:.3f}"
+    # Still strictly ordered, and still bounded by the single-trial value.
+    dsr1 = deflated_sharpe_ratio(rets, num_trials=1)
+    assert dsr16 < dsr1
+
+
+def test_deflated_sharpe_rejects_a_weak_series_under_many_trials():
+    """The penalty must still bite: a barely-positive series over a big grid."""
+    rets = [0.0004 if i % 2 else -0.00035 for i in range(300)]
+    dsr = deflated_sharpe_ratio(rets, num_trials=500)
+    assert dsr is not None and dsr < 0.95
+
