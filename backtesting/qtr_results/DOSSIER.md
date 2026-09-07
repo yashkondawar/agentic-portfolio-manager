@@ -48,12 +48,19 @@ Two supporting changes make this possible:
 - **`portfolio.py` journals every fill.** `Portfolio.fills` is an ordered list
   of `Fill` records; `ClosedTrade` also carries `gross_pnl` and `costs`. The
   `Trades` sheet is a direct rendering of that journal.
-- **`config.py` exposes `live_mirror_config()`.** The backtest defaults had
-  drifted from the live strategy (risk per trade 2% vs 4%, different target
-  tiers). This preset reads the tunables straight from the live
-  `qtr_results.config` so the dossier describes the system actually in
-  production, not a stale copy of it. Pass overrides as keyword arguments; an
-  unknown name raises rather than being silently ignored.
+- **`config.py` exposes `live_mirror_config()`.** This preset reads the tunables
+  straight from the live `qtr_results.config` so the dossier describes the
+  system actually in production, not a stale copy of it. Pass overrides as
+  keyword arguments; an unknown name raises rather than being silently ignored.
+
+  The two sides are now held *identical* by
+  `test_qtr_dossier.py::test_live_mirror_diverges_from_backtest_only_where_it_cannot_matter`,
+  which diffs every field and fails on any divergence outside a documented
+  inert allow-list. That guard exists because live had quietly drifted to
+  `risk_per_trade_pct` 4% against the backtest's 2% — worth 0.33pp of CAGR,
+  0.18 of Sharpe and 1.09pp of drawdown — and no test compared the two.
+  Today the only permitted divergence is `static_target_tiers`, which is dead
+  code on both sides since both set `disable_profit_target = True`.
 
 ## Costs and taxes
 

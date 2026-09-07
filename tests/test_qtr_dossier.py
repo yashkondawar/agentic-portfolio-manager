@@ -29,7 +29,7 @@ def _trade(symbol, entry, exit_, pnl, held):
 
 def test_live_mirror_tracks_live_config_not_backtest_defaults():
     cfg = live_mirror_config()
-    assert cfg.risk_per_trade_pct == live_config.RISK_PER_TRADE_PCT == 4.0
+    assert cfg.risk_per_trade_pct == live_config.RISK_PER_TRADE_PCT == 2.0
     assert cfg.static_target_tiers == tuple(live_config.STATIC_TARGET_TIERS)
     assert cfg.static_target_tiers[0][1] == 20.0  # not the backtest's halved 10%
     assert cfg.max_holding_days == live_config.MAX_HOLDING_DAYS
@@ -37,6 +37,43 @@ def test_live_mirror_tracks_live_config_not_backtest_defaults():
     assert cfg.disable_profit_target is True
     # Research-only switches must stay off or the dossier stops describing live.
     assert not cfg.regime_filter and not cfg.use_sue and not cfg.anticipation_mode
+
+
+# Fields where live may differ from the backtest defaults WITHOUT changing a
+# single fill. Anything not listed here must match, because a live/backtest
+# divergence that does change behaviour means the dossier stops describing the
+# strategy we actually run.
+#
+# static_target_tiers: dead code on both sides. disable_profit_target is True
+# for live and for BacktestConfig, and both engines read the tiers only inside
+# the `not disable_profit_target` branch (strategy.py, ledger.py). Measured
+# over 2014-01 → 2026-08 point-in-time: swapping live's 20/15/10 tiers for the
+# backtest's 10/8/5 reproduces CAGR/Sharpe/MaxDD/trades to the last digit.
+INERT_LIVE_BACKTEST_DIVERGENCES = {"static_target_tiers"}
+
+
+def test_live_mirror_diverges_from_backtest_only_where_it_cannot_matter():
+    """Catches a live tunable drifting away from the validated backtest.
+
+    This is the guard that was missing when live ran risk_per_trade_pct 4.0
+    against the backtest's 2.0 -- a real 0.33pp CAGR / 0.18 Sharpe gap that no
+    test noticed because nothing compared the two configs field by field.
+    """
+    import dataclasses
+
+    from backtesting.qtr_results.config import BacktestConfig
+
+    base, mirror = BacktestConfig(), live_mirror_config()
+    differing = {
+        f.name for f in dataclasses.fields(base)
+        if getattr(base, f.name) != getattr(mirror, f.name)
+    }
+    assert differing <= INERT_LIVE_BACKTEST_DIVERGENCES, (
+        "live_mirror_config now differs from the backtest defaults on "
+        f"{sorted(differing - INERT_LIVE_BACKTEST_DIVERGENCES)}. Either bring "
+        "live back in line, or measure the change and add the field to "
+        "INERT_LIVE_BACKTEST_DIVERGENCES with the evidence."
+    )
 
 
 def test_live_mirror_rejects_unknown_override():

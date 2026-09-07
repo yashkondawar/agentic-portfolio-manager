@@ -75,9 +75,12 @@ FIRST_TRADEABLE_PIT = date(2014, 1, 1)
 
 #: Carried into the workbook so nobody reads these numbers without the caveats.
 LEAD_NOTES = (
-    "Mirrors the LIVE qtr_results configuration, not the backtest defaults: risk "
-    "per trade 4%, static target tiers 20/15/10%, 90-day time stop, ATR(14)x6 "
-    "trailing stop, 0.20% per-side cost.",
+    "Mirrors the LIVE qtr_results configuration: risk per trade 2%, 12 "
+    "positions, 16% per-name cap, season-staggered deployment (floor 0.5), "
+    "90-day time stop, ATR(14)x6 trailing stop, 0.20% per-side cost. Live and "
+    "the backtest defaults are now held identical by test_qtr_dossier.py; the "
+    "only field they differ on is static_target_tiers, which is dead code "
+    "because both disable the profit target.",
     "The live Tier-2 LLM conviction gate has no point-in-time equivalent and is "
     "NOT represented here. These results reflect the mechanical screen only, so "
     "they neither credit nor penalise that layer.",

@@ -162,7 +162,15 @@ MAX_HOLDING_DAYS = 90
 # distance, capped by a per-name concentration limit, a max open-position count
 # and available cash. Every value is overridable from the strategy params.
 STARTING_CAPITAL = 500_000.0   # ₹5,00,000 sizing base (matches the backtest)
-RISK_PER_TRADE_PCT = 4.0       # validated free-lunch sweet spot (2% base → 4%)
+# 4% was validated under the OLD portfolio shape (10 positions, 20% per-name
+# cap, no season staggering). Re-measured under the config actually shipped
+# below, it is strictly dominated on every axis: over 2014-01 → 2026-08,
+# point-in-time, NIFTY 500, 4% returns CAGR 16.43% / Sharpe 1.01 / MaxDD
+# -21.16% / PF 1.65 / 499 trades against 2%'s 16.76% / 1.19 / -20.07% / 1.76 /
+# 524. Bigger per-trade risk hits the 16% per-name cap sooner, which spends the
+# season budget on fewer names and re-concentrates exactly what the staggering
+# exists to spread. Keep this equal to BacktestConfig.risk_per_trade_pct.
+RISK_PER_TRADE_PCT = 2.0       # matches the validated backtest configuration
 MAX_POSITIONS = 12             # max concurrent open positions (portfolio cap)
 MAX_POSITION_PCT = 16.0        # per-name concentration cap (% of equity)
 COMMISSION_PCT = 0.20          # per-side all-in cost proxy (STT+charges+slippage)
