@@ -98,8 +98,6 @@ def sector_debt_cap(sector: Optional[str]) -> float:
 # mechanical numbers (largely priced-in) cannot capture.
 #   * Gate:  drop verdict == "skip" or conviction < MIN_CONVICTION.
 #   * Rank:  order the shortlist by conviction × strength.
-#   * Shape exit: high-conviction names ride toward TARGET_MAX with a longer hold;
-#                 low-conviction names use the tighter TARGET_MIN with a shorter hold.
 # Disable the whole layer with USE_CONVICTION_LLM = False (falls back to the
 # mechanical-only behaviour, unchanged). Any LLM/parse failure degrades gracefully
 # to a neutral verdict so a run is never broken by the qualitative step.
@@ -107,10 +105,28 @@ USE_CONVICTION_LLM = True
 MIN_CONVICTION = 0.45          # gate: drop shortlisted names scoring below this
 MAX_CONVICTION_EVALS = 15      # cap LLM calls per run (cost / latency guard)
 CONVICTION_MODEL = None        # None → Copilot CLI default model
-CONVICTION_SHAPES_EXIT = True  # map conviction → target band + holding window
-# Holding-window multipliers applied to MAX_HOLDING_DAYS across the conviction
-# range [0,1] (linear): a low-conviction pick is cut sooner, a high-conviction one
-# is allowed to ride the move longer.
+
+# Conviction used to also SHAPE THE EXIT, mapping the score onto a target cap and
+# a holding-window multiplier. It is off because it was silently overriding the
+# one exit parameter the backtest actually validated.
+#
+# The mapping was `hold = MAX_HOLDING_DAYS x (0.7 + conviction x 0.9)`. The LLM
+# anchors its score just inside whichever bucket the prompt names, so live scores
+# clustered in a narrow band around 0.66 and the multiplier sat near 1.3 for
+# essentially every position. Measured on the live book on 2026-09-08, all ten
+# open positions carried a 110-129 day stop against the backtest's flat 90 --
+# i.e. the strategy in production was holding roughly 28% longer than the
+# strategy that was measured, losers included. That is an unvalidated deviation,
+# not a feature, and it is the most likely reason live losers were sitting at
+# -15% without exiting.
+#
+# With this False, `_conviction_band` returns (TARGET_MAX_PCT, None), so the hold
+# falls back to MAX_HOLDING_DAYS and the target cap to TARGET_MAX_PCT -- both
+# exactly what the backtest uses. Re-enabling it needs a backtest that models the
+# conviction layer point-in-time, which does not exist yet.
+CONVICTION_SHAPES_EXIT = False
+# Retained only so the shaping can be re-tested if a point-in-time conviction
+# backtest is ever built; inert while CONVICTION_SHAPES_EXIT is False.
 HOLD_DAYS_MIN_FACTOR = 0.7
 HOLD_DAYS_MAX_FACTOR = 1.6
 
