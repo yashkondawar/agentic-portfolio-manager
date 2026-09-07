@@ -1,14 +1,14 @@
-"""Tests for earnings-season staggering and weakest-holding replacement.
+"""Tests for earnings-season capital staggering.
 
 A quarter's declarers arrive in a ~6-week burst. With a flat slot/cash cap the
-book fills on whoever reports FIRST, and later — often stronger — declarers are
-dropped for want of a slot. These tests pin the two mechanisms that fix that:
+book fills on whoever reports FIRST, and later -- often stronger -- declarers
+are dropped for want of a slot. The schedule in ``qtr_results.season`` rations
+slots and capital across the whole declaration window instead.
 
-  * ``_stagger_factor`` / ``_slot_cap`` ration slots and capital across the
-    declaration window using only the quarter-end date and the configured
-    reporting lags, so the schedule is knowable on the day.
-  * ``_apply_upgrades`` displaces the weakest holding when a materially
-    stronger name declares into a full book.
+The maths lives in the LIVE package and is imported by the backtest, so these
+tests cover both engines at once. The parity tests at the bottom pin that
+shared wiring: if someone re-implements the schedule inside the backtest, live
+and backtest can silently diverge and the dossier stops describing live.
 """
 
 from __future__ import annotations
@@ -17,9 +17,10 @@ from datetime import date
 
 import pytest
 
-from backtesting.qtr_results.config import BacktestConfig
+from backtesting.qtr_results.config import BacktestConfig, live_mirror_config
 from backtesting.qtr_results.engine import BacktestEngine
-from backtesting.qtr_results.portfolio import Portfolio, Position
+from qtr_results import config as live_config
+from qtr_results import season
 
 
 class _Ev:
@@ -30,206 +31,132 @@ class _Ev:
         self.quarter_end = quarter_end
 
 
-class _Prices:
-    """Fake tape: {symbol: {day: (open, close)}}."""
-
-    def __init__(self, bars):
-        self.bars = bars
-
-    def bar_on(self, symbol, day):
-        row = self.bars.get(symbol, {}).get(day)
-        if row is None:
-            return None
-        op, close = row
-        return {"Open": op, "High": close, "Low": op, "Close": close}
-
-
-def _engine(cfg, pf=None, prices=None, pending=None, scores=None):
+def _engine(cfg, pending=None):
     eng = object.__new__(BacktestEngine)
     eng.cfg = cfg
-    eng.pf = pf
-    eng.prices = prices
     eng.pending = pending or []
-    eng.pending_scores = scores or {}
     eng.filter_stats = {}
     return eng
 
 
-def _pos(symbol, strength, entry_price=100.0):
-    return Position(
-        symbol=symbol,
-        quantity=10,
-        entry_price=entry_price,
-        entry_date=date(2025, 7, 20),
-        target_price=entry_price * 1.2,
-        target_pct=20.0,
-        trailing_stop_pct=20.0,
-        stop_distance=20.0,
-        stop_price=entry_price * 0.8,
-        highest_price=entry_price,
-        strength_score=strength,
-    )
+# -- quarter-label parsing ---------------------------------------------------
+
+def test_quarter_end_from_label_returns_the_month_end():
+    assert season.quarter_end_from_label("Jun 2025") == date(2025, 6, 30)
+    assert season.quarter_end_from_label("Mar 2025") == date(2025, 3, 31)
+    assert season.quarter_end_from_label("Sep 2025") == date(2025, 9, 30)
 
 
-# ── season schedule ──────────────────────────────────────────────────────────
-
-def test_stagger_off_never_throttles():
-    cfg = BacktestConfig(season_stagger=False, max_positions=10)
-    eng = _engine(cfg)
-    ev = _Ev("A", date(2025, 6, 30))
-    # Even on day one of the window the legacy path gets the whole book.
-    assert eng._stagger_factor([ev], date(2025, 7, 15)) == 1.0
-    assert eng._slot_cap(1.0) == 10
+def test_quarter_end_from_label_handles_december_year_rollover():
+    """December must not roll into month 13."""
+    assert season.quarter_end_from_label("Dec 2025") == date(2025, 12, 31)
 
 
-def test_factor_ramps_from_floor_to_one_across_the_window():
+def test_quarter_end_from_label_returns_none_when_unparseable():
+    for bad in ("", "   ", "Jun", "Smarch 2025", "Jun twenty", "Jun 2025 Q1"):
+        assert season.quarter_end_from_label(bad) is None
+
+
+# -- the season ramp ---------------------------------------------------------
+
+def test_floor_of_one_disables_staggering_entirely():
+    """1.0 is the documented off switch and must never throttle."""
+    q = date(2025, 6, 30)
+    assert season.deploy_factor([q], date(2025, 7, 15), 1.0, 15, 45) == 1.0
+    assert season.slot_cap(10, 1.0) == 10
+
+
+def test_factor_ramps_linearly_across_the_declaration_window():
+    q = date(2025, 6, 30)
+    start, mid, end = date(2025, 7, 15), date(2025, 7, 30), date(2025, 8, 14)
+    assert season.deploy_factor([q], start, 0.5, 15, 45) == pytest.approx(0.5)
+    assert season.deploy_factor([q], mid, 0.5, 15, 45) == pytest.approx(0.75)
+    assert season.deploy_factor([q], end, 0.5, 15, 45) == pytest.approx(1.0)
+
+
+def test_factor_clamps_outside_the_window():
+    """Before the window opens we sit at the floor; long after it, wide open."""
+    q = date(2025, 6, 30)
+    early = season.deploy_factor([q], date(2025, 7, 2), 0.4, 15, 45)
+    late = season.deploy_factor([q], date(2025, 9, 30), 0.4, 15, 45)
+    assert early == pytest.approx(0.4)
+    assert late == pytest.approx(1.0)
+
+
+def test_most_advanced_quarter_wins():
+    """A straggler filing for an OLD quarter must not be throttled by a new one."""
+    fresh, stale = date(2025, 6, 30), date(2025, 3, 31)
+    day = date(2025, 7, 15)
+    assert season.deploy_factor([fresh], day, 0.5, 15, 45) == pytest.approx(0.5)
+    # The March quarter's window closed on 15 May, so it is fully mature.
+    both = season.deploy_factor([fresh, stale], day, 0.5, 15, 45)
+    assert both == pytest.approx(1.0)
+
+
+def test_no_quarters_in_play_means_no_throttle():
+    assert season.deploy_factor([], date(2025, 7, 15), 0.5, 15, 45) == 1.0
+    assert season.deploy_factor([None], date(2025, 7, 15), 0.5, 15, 45) == 1.0
+
+
+def test_degenerate_lag_window_does_not_divide_by_zero():
+    q = date(2025, 6, 30)
+    assert season.deploy_factor([q], date(2025, 7, 15), 0.5, 45, 45) == 1.0
+    assert season.deploy_factor([q], date(2025, 7, 15), 0.5, 45, 15) == 1.0
+
+
+def test_floor_is_clamped_into_range():
+    q, day = date(2025, 6, 30), date(2025, 7, 15)
+    assert season.deploy_factor([q], day, -1.0, 15, 45) == pytest.approx(0.0)
+    assert season.deploy_factor([q], day, 5.0, 15, 45) == 1.0
+
+
+# -- slot rationing ----------------------------------------------------------
+
+def test_slot_cap_rounds_up_and_keeps_at_least_one_slot():
+    assert season.slot_cap(10, 0.5) == 5
+    assert season.slot_cap(10, 0.51) == 6      # rounds UP, never strands capital
+    assert season.slot_cap(10, 0.0) == 1       # always at least one slot
+    assert season.slot_cap(10, 1.0) == 10
+
+
+# -- backtest engine wiring --------------------------------------------------
+
+def test_engine_delegates_to_the_shared_schedule():
     cfg = BacktestConfig(
-        season_stagger=True, season_deploy_floor=0.5,
+        season_deploy_floor=0.5, max_positions=10,
         reporting_lag_min=15, reporting_lag_max=45,
     )
     eng = _engine(cfg)
     ev = _Ev("A", date(2025, 6, 30))
-    start, end = date(2025, 7, 15), date(2025, 8, 14)
-    assert eng._stagger_factor([ev], start) == pytest.approx(0.5)
-    assert eng._stagger_factor([ev], date(2025, 7, 30)) == pytest.approx(0.75)
-    assert eng._stagger_factor([ev], end) == pytest.approx(1.0)
+    assert eng._stagger_factor([ev], date(2025, 7, 15)) == pytest.approx(0.5)
+    assert eng._stagger_factor([ev], date(2025, 8, 14)) == pytest.approx(1.0)
+    assert eng._slot_cap(0.5) == 5
 
 
-def test_factor_is_clamped_outside_the_window():
-    cfg = BacktestConfig(season_stagger=True, season_deploy_floor=0.4)
+def test_engine_honours_the_off_switch():
+    cfg = BacktestConfig(season_deploy_floor=1.0, max_positions=10)
     eng = _engine(cfg)
     ev = _Ev("A", date(2025, 6, 30))
-    # An early filer cannot unlock more than the floor...
-    assert eng._stagger_factor([ev], date(2025, 7, 2)) == pytest.approx(0.4)
-    # ...and a late one is never penalised beyond full allowance.
-    assert eng._stagger_factor([ev], date(2025, 9, 30)) == pytest.approx(1.0)
-
-
-def test_most_advanced_event_sets_the_allowance():
-    """A straggler from an older quarter must not be throttled by a fresh one."""
-    cfg = BacktestConfig(season_stagger=True, season_deploy_floor=0.5)
-    eng = _engine(cfg)
-    fresh = _Ev("FRESH", date(2025, 6, 30))     # window opens 2025-07-15
-    stale = _Ev("STALE", date(2025, 3, 31))     # window closed 2025-05-15
-    assert eng._stagger_factor([fresh], date(2025, 7, 15)) == pytest.approx(0.5)
-    assert eng._stagger_factor(
-        [fresh, stale], date(2025, 7, 15)
-    ) == pytest.approx(1.0)
-
-
-def test_slot_cap_rounds_up_and_keeps_at_least_one_slot():
-    cfg = BacktestConfig(season_stagger=True, max_positions=10)
-    eng = _engine(cfg)
-    assert eng._slot_cap(0.5) == 5
-    assert eng._slot_cap(0.51) == 6      # rounds UP, never strands capital
-    assert eng._slot_cap(0.0) == 1       # always at least one slot
+    assert eng._stagger_factor([ev], date(2025, 7, 15)) == 1.0
     assert eng._slot_cap(1.0) == 10
 
 
-# ── upgrade / replacement ────────────────────────────────────────────────────
+# -- live/backtest parity ----------------------------------------------------
 
-DAY = date(2025, 8, 12)
+def test_live_and_backtest_share_one_schedule():
+    """Guards against the dossier silently ceasing to describe live.
 
-
-def _upgrade_fixture(cfg, holdings, cand_score=90.0):
-    pf = Portfolio(cash=0.0, commission_pct=0.0)
-    for sym, strength, entry, today_open in holdings:
-        pf.positions[sym] = _pos(sym, strength, entry)
-    bars = {sym: {DAY: (today_open, today_open)}
-            for sym, _, _, today_open in holdings}
-    bars["NEW"] = {DAY: (50.0, 50.0)}
-    ev = _Ev("NEW", date(2025, 6, 30))
-    return _engine(cfg, pf=pf, prices=_Prices(bars), pending=[ev],
-                   scores={"NEW": cand_score})
+    The live mirror must inherit live's floor, and the backtest's lags must
+    match live's, or the two engines ration capital on different clocks.
+    """
+    mirror = live_mirror_config()
+    assert mirror.season_deploy_floor == live_config.SEASON_DEPLOY_FLOOR
+    assert mirror.reporting_lag_min == live_config.REPORTING_LAG_MIN_DAYS
+    assert mirror.reporting_lag_max == live_config.REPORTING_LAG_MAX_DAYS
 
 
-def test_upgrade_disabled_by_default():
+def test_backtest_defaults_match_the_live_portfolio_caps():
     cfg = BacktestConfig()
-    assert cfg.upgrade_margin == 0.0
-    eng = _upgrade_fixture(cfg, [("WEAK", 10.0, 100.0, 90.0)])
-    eng._apply_upgrades(DAY, slot_cap=1)
-    assert "WEAK" in eng.pf.positions
-    assert eng.filter_stats == {}
-
-
-def test_strong_declarer_displaces_the_weakest_loser():
-    cfg = BacktestConfig(upgrade_margin=20.0, max_upgrades_per_day=1)
-    eng = _upgrade_fixture(cfg, [
-        ("WEAK", 10.0, 100.0, 90.0),    # losing, weakest -> displaced
-        ("MID", 40.0, 100.0, 90.0),     # losing but stronger
-    ])
-    eng._apply_upgrades(DAY, slot_cap=2)
-    assert "WEAK" not in eng.pf.positions
-    assert "MID" in eng.pf.positions
-    assert eng.filter_stats["upgrade_swap"] == 1
-    assert eng.pf.closed[0].exit_reason == "upgrade_swap"
-
-
-def test_margin_is_hysteresis_not_a_tiebreak():
-    cfg = BacktestConfig(upgrade_margin=20.0)
-    # Candidate 90 vs incumbent 75 -> excess 15 < 20, so no churn.
-    eng = _upgrade_fixture(cfg, [("HELD", 75.0, 100.0, 90.0)])
-    eng._apply_upgrades(DAY, slot_cap=1)
-    assert "HELD" in eng.pf.positions
-    assert "upgrade_swap" not in eng.filter_stats
-
-
-def test_winners_are_not_displaced_by_default():
-    cfg = BacktestConfig(upgrade_margin=20.0)
-    # Only holding is up on the day -> protected, nothing to swap.
-    eng = _upgrade_fixture(cfg, [("WINNER", 10.0, 100.0, 130.0)])
-    eng._apply_upgrades(DAY, slot_cap=1)
-    assert "WINNER" in eng.pf.positions
-
-    cfg_any = BacktestConfig(upgrade_margin=20.0, upgrade_only_losers=False)
-    eng2 = _upgrade_fixture(cfg_any, [("WINNER", 10.0, 100.0, 130.0)])
-    eng2._apply_upgrades(DAY, slot_cap=1)
-    assert "WINNER" not in eng2.pf.positions
-
-
-def test_no_swap_when_a_slot_is_already_free():
-    cfg = BacktestConfig(upgrade_margin=20.0)
-    eng = _upgrade_fixture(cfg, [("WEAK", 10.0, 100.0, 90.0)])
-    eng._apply_upgrades(DAY, slot_cap=5)   # room for 5, holding 1
-    assert "WEAK" in eng.pf.positions
-
-
-def test_never_sells_when_the_candidate_cannot_be_filled_today():
-    """Selling an incumbent to buy nothing would be a pure cost."""
-    cfg = BacktestConfig(upgrade_margin=20.0)
-    eng = _upgrade_fixture(cfg, [("WEAK", 10.0, 100.0, 90.0)])
-    eng.prices.bars["NEW"] = {}            # candidate has no session today
-    eng._apply_upgrades(DAY, slot_cap=1)
-    assert "WEAK" in eng.pf.positions
-
-
-def test_swaps_are_capped_per_day():
-    cfg = BacktestConfig(upgrade_margin=5.0, max_upgrades_per_day=1)
-    eng = _upgrade_fixture(cfg, [
-        ("W1", 10.0, 100.0, 90.0),
-        ("W2", 11.0, 100.0, 90.0),
-    ])
-    eng.pending.append(_Ev("NEW2", date(2025, 6, 30)))
-    eng.pending_scores["NEW2"] = 88.0
-    eng.prices.bars["NEW2"] = {DAY: (50.0, 50.0)}
-    eng._apply_upgrades(DAY, slot_cap=2)
-    assert eng.filter_stats["upgrade_swap"] == 1
-    assert len(eng.pf.positions) == 1
-
-
-def test_exit_uses_todays_open_not_todays_close():
-    """The swap transacts at the open; marking to the close is look-ahead."""
-    cfg = BacktestConfig(upgrade_margin=20.0)
-    pf = Portfolio(cash=0.0, commission_pct=0.0)
-    pf.positions["WEAK"] = _pos("WEAK", 10.0, 100.0)
-    bars = {
-        "WEAK": {DAY: (90.0, 120.0)},   # open 90 (a loss), close 120 (a gain)
-        "NEW": {DAY: (50.0, 50.0)},
-    }
-    eng = _engine(cfg, pf=pf, prices=_Prices(bars),
-                  pending=[_Ev("NEW", date(2025, 6, 30))],
-                  scores={"NEW": 90.0})
-    eng._apply_upgrades(DAY, slot_cap=1)
-    # Judged AND sold on the open: a loser at 90, exited at 90.
-    assert "WEAK" not in pf.positions
-    assert pf.closed[0].exit_price == pytest.approx(90.0)
+    assert cfg.max_positions == live_config.MAX_POSITIONS
+    assert cfg.max_position_pct == live_config.MAX_POSITION_PCT
+    assert cfg.season_deploy_floor == live_config.SEASON_DEPLOY_FLOOR

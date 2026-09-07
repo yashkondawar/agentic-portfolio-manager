@@ -163,10 +163,28 @@ MAX_HOLDING_DAYS = 90
 # and available cash. Every value is overridable from the strategy params.
 STARTING_CAPITAL = 500_000.0   # ₹5,00,000 sizing base (matches the backtest)
 RISK_PER_TRADE_PCT = 4.0       # validated free-lunch sweet spot (2% base → 4%)
-MAX_POSITIONS = 10             # max concurrent open positions (portfolio cap)
-MAX_POSITION_PCT = 20.0        # per-name concentration cap (% of equity)
+MAX_POSITIONS = 12             # max concurrent open positions (portfolio cap)
+MAX_POSITION_PCT = 16.0        # per-name concentration cap (% of equity)
 COMMISSION_PCT = 0.20          # per-side all-in cost proxy (STT+charges+slippage)
 PORTFOLIO_PATH = STATE_DIR / "portfolio.json"
+
+# ── Earnings-season capital staggering (declarer coverage) ──────────────────
+# SEBI allows 45 days from quarter end to declare, and almost nobody files
+# before day 15, so a quarter's whole opportunity set arrives in one ~6-week
+# burst. With a flat cap the book filled on the EARLIEST declarers and the rest
+# of the season was unreachable no matter how strong it was -- in the Jun-2026
+# season the live book was full by 28 Jul and took a single position after it.
+#
+# Slots and deployable notional therefore ramp linearly from
+# SEASON_DEPLOY_FLOOR at quarter_end + REPORTING_LAG_MIN_DAYS to 1.0 at
+# quarter_end + REPORTING_LAG_MAX_DAYS. See ``qtr_results/season.py``, which the
+# backtest imports too so the two can never drift.
+#
+# 0.5 is an interior optimum measured over 2014-2026 (0.33 and 0.67 both score
+# worse). Set to 1.0 to disable staggering entirely.
+SEASON_DEPLOY_FLOOR = 0.5
+REPORTING_LAG_MIN_DAYS = 15    # earliest realistic declaration, days after Q end
+REPORTING_LAG_MAX_DAYS = 45    # SEBI statutory deadline
 
 # ── Entry-quality filters (validated in the backtest; data-gap-safe) ────────
 # These strip the pathological trades the backtest showed repeatedly stopped

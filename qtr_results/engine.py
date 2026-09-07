@@ -16,6 +16,7 @@ from qtr_results import config
 from qtr_results import ledger as ledger_mod
 from qtr_results import memory as memory_mod
 from qtr_results import portfolio as portfolio_mod
+from qtr_results import season as season_mod
 from qtr_results import technicals as technicals_mod
 from qtr_results.analysis import AnalysisResult, analyze_symbol
 from qtr_results.conviction import evaluate_conviction
@@ -277,16 +278,51 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
 
     # 4) Build targets + size + add new picks under the portfolio caps.
     equity = portfolio_mod.marked_equity(pf, ledger_mod.open_positions(picks))
-    open_count = len(ledger_mod.open_positions(picks))
+    open_book = ledger_mod.open_positions(picks)
+    open_count = len(open_book)
+
+    # Earnings-season staggering: ration slots and capital across the whole
+    # declaration window instead of spending them on the earliest declarers.
+    # Uses the quarters actually in play today, so a straggler filing for an
+    # older quarter is never throttled by a fresher quarter's clock.
+    season_factor = season_mod.deploy_factor(
+        (
+            season_mod.quarter_end_from_label(a.latest_quarter)
+            for a in strong
+        ),
+        today,
+        config.SEASON_DEPLOY_FLOOR,
+        config.REPORTING_LAG_MIN_DAYS,
+        config.REPORTING_LAG_MAX_DAYS,
+    )
+    season_slots = season_mod.slot_cap(max_positions, season_factor)
+    deployed_now = sum(
+        (p.get("quantity") or 0) * (p.get("last_price") or p.get("entry_price") or 0.0)
+        for p in open_book
+    )
+    season_room = max(equity * season_factor - deployed_now, 0.0)
+    if season_factor < 1.0:
+        logger.info(
+            "Season stagger: %.0f%% deployed (%d/%d slots, ~%.0f free notional).",
+            season_factor * 100, season_slots, max_positions, season_room,
+        )
+
     new_picks: List[Dict[str, Any]] = []
     skipped_nocash = 0
     n_conviction_pass = len(strong)
     for analysis in strong:
         rec = outcomes.get(analysis.symbol)
-        if len(new_picks) >= max_new or open_count >= max_positions:
+        if len(new_picks) >= max_new or open_count >= season_slots:
             if rec and rec.get("status") not in ("already_held",):
                 rec["status"] = "deferred_cap"
-                rec["reason"] = "max positions / new-pick cap reached this run"
+                if open_count >= season_slots and season_slots < max_positions:
+                    rec["reason"] = (
+                        f"season stagger: {season_slots}/{max_positions} slots open "
+                        f"this early in the declaration window; capital reserved "
+                        f"for later declarers"
+                    )
+                else:
+                    rec["reason"] = "max positions / new-pick cap reached this run"
             continue
         if ledger_mod.has_open(picks, analysis.symbol):
             if rec:
@@ -331,8 +367,27 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
                 rec["reason"] = "insufficient cash to size a position"
             continue
 
+        # Season reserve: hold back part of the corpus so capital survives to
+        # the late declarers instead of being spent on the earliest ones.
+        if season_factor < 1.0:
+            max_by_season = int(season_room // entry_price) if entry_price > 0 else 0
+            if max_by_season <= 0:
+                logger.info(
+                    "Skip %s: season reserve exhausted for this stage of the "
+                    "declaration window.", analysis.symbol,
+                )
+                if rec:
+                    rec["status"] = "season_reserve"
+                    rec["reason"] = (
+                        f"capital reserved for later declarers "
+                        f"({season_factor * 100:.0f}% of corpus deployable today)"
+                    )
+                continue
+            qty = min(qty, max_by_season)
+
         result_date = getattr(analysis, "_result_date", today.isoformat())
         invested = portfolio_mod.apply_buy(pf, entry_price, qty)
+        season_room = max(season_room - qty * entry_price, 0.0)
         pick = ledger_mod.add_pick(
             picks, analysis, plan, result_date=result_date,
             quantity=qty, invested=invested,
