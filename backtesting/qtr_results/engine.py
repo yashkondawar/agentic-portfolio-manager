@@ -23,7 +23,8 @@ from __future__ import annotations
 
 import bisect
 import logging
-from datetime import date
+import math
+from datetime import date, timedelta
 from typing import Dict, List, Optional, Tuple
 
 from qtr_results.targets import build_target_plan
@@ -67,6 +68,9 @@ class BacktestEngine:
         self.parsed: Dict[str, Tuple[dict, list, dict]] = {}
         self.events_by_day: Dict[date, List[an.ResultEvent]] = {}
         self.pending: List[an.ResultEvent] = []
+        # Discovery-time strength per queued symbol, so the upgrade check can
+        # rank candidates against incumbents without re-analysing.
+        self.pending_scores: Dict[str, float] = {}
         # B10 anticipation: entry_day -> [(event, its result signal_day)]
         self.anticip_by_day: Dict[date, List[Tuple[an.ResultEvent, date]]] = {}
         self.pending_anticip: List[Tuple[an.ResultEvent, date]] = []
@@ -77,8 +81,8 @@ class BacktestEngine:
         # B8b: sector -> structural median point-in-time D/E (sector_relative mode).
         self._sector_de_median: Dict[str, float] = {}
 
-    def _bump(self, reason: str) -> None:
-        self.filter_stats[reason] = self.filter_stats.get(reason, 0) + 1
+    def _bump(self, reason: str, n: int = 1) -> None:
+        self.filter_stats[reason] = self.filter_stats.get(reason, 0) + n
 
     def _sector_of(self, sym: str) -> str:
         return self.sectors.get(sym) if self.sectors else "UNKNOWN"
@@ -282,13 +286,107 @@ class BacktestEngine:
             self.pf.cash += cash
             self.dividend_cash += cash
 
+    def _stagger_factor(self, events, day: date) -> float:
+        """Fraction of slots/corpus usable at this point in the season.
+
+        Ramps linearly from ``season_deploy_floor`` at the start of the
+        declaration window (quarter_end + reporting_lag_min) to 1.0 at its end
+        (quarter_end + reporting_lag_max). Both bounds come from the quarter-end
+        date and configured lags, so the schedule is knowable on the day — it
+        never consults a future declaration.
+
+        Uses the MOST advanced event on the day so a straggler filing from an
+        older quarter is not throttled by a fresher one.
+        """
+        if not self.cfg.season_stagger or not events:
+            return 1.0
+        floor = min(max(self.cfg.season_deploy_floor, 0.0), 1.0)
+        best = 0.0
+        for ev in events:
+            start = ev.quarter_end + timedelta(days=self.cfg.reporting_lag_min)
+            end = ev.quarter_end + timedelta(days=self.cfg.reporting_lag_max)
+            span = (end - start).days
+            if span <= 0:
+                progress = 1.0
+            else:
+                progress = min(max((day - start).days / span, 0.0), 1.0)
+            best = max(best, progress)
+        return floor + (1.0 - floor) * best
+
+    def _slot_cap(self, factor: float) -> int:
+        """Concurrent-position ceiling for today, after season staggering."""
+        if factor >= 1.0:
+            return self.cfg.max_positions
+        return max(1, math.ceil(self.cfg.max_positions * factor))
+
+    def _apply_upgrades(self, day: date, slot_cap: int) -> None:
+        """Displace the weakest holding when a much stronger name declares.
+
+        Only runs when the book is genuinely full — otherwise the candidate can
+        simply be added. ``upgrade_margin`` is hysteresis: a candidate has to
+        beat the incumbent by that many strength points to justify paying two
+        commissions and resetting the holding clock.
+
+        Every price used here is today's OPEN — the price this swap actually
+        transacts at. Marking the incumbent to today's CLOSE (as ``lookup``
+        does) would decide at the open using a price that has not happened yet.
+        """
+        if self.cfg.upgrade_margin <= 0 or self.cfg.max_upgrades_per_day <= 0:
+            return
+        swaps = 0
+        candidates = sorted(
+            (
+                (self.pending_scores.get(ev.symbol, 0.0), ev)
+                for ev in self.pending
+                if not self.pf.has_open(ev.symbol)
+            ),
+            key=lambda t: t[0],
+            reverse=True,
+        )
+        for cand_score, ev in candidates:
+            if swaps >= self.cfg.max_upgrades_per_day:
+                return
+            if len(self.pf.positions) < slot_cap:
+                return  # a slot is free; no need to displace anyone
+            # The candidate must itself be fillable today, or we would sell an
+            # incumbent and buy nothing.
+            cand_bar = self.prices.bar_on(ev.symbol, day)
+            if cand_bar is None or float(cand_bar["Open"]) <= 0:
+                continue
+            weakest = None
+            weakest_open = 0.0
+            for pos in self.pf.positions.values():
+                bar = self.prices.bar_on(pos.symbol, day)
+                if bar is None:
+                    continue  # no session today — can't sell it honestly
+                px = float(bar["Open"])
+                if px <= 0:
+                    continue
+                if self.cfg.upgrade_only_losers and px >= pos.entry_price:
+                    continue
+                if weakest is None or pos.strength_score < weakest.strength_score:
+                    weakest, weakest_open = pos, px
+            if weakest is None:
+                return
+            if cand_score - weakest.strength_score < self.cfg.upgrade_margin:
+                return  # ranked descending: nothing behind it can clear the bar
+            self.pf.close_position(
+                weakest.symbol, weakest_open, day, "upgrade_swap"
+            )
+            self._bump("upgrade_swap")
+            swaps += 1
+
     def _fill_pending(self, day: date, opened_today: set) -> None:
         if not self.pending:
             return
         lookup = self._price_lookup(day)
+        factor = self._stagger_factor(self.pending, day)
+        slot_cap = self._slot_cap(factor)
+        self._apply_upgrades(day, slot_cap)
         for ev in self.pending:
-            if len(self.pf.positions) >= self.cfg.max_positions:
-                break
+            if len(self.pf.positions) >= slot_cap:
+                self._bump("book_full")
+                continue
             if self.pf.has_open(ev.symbol):
                 continue
             bar = self.prices.bar_on(ev.symbol, day)
@@ -397,6 +495,18 @@ class BacktestEngine:
                     self._bump("sector_cap")
                     continue
                 shares = max_by_sector
+
+            # Season stagger: hold back part of the corpus so capital survives
+            # to the late declarers instead of being spent on the earliest ones.
+            if factor < 1.0:
+                allowed_notional = equity * factor
+                deployed = self.pf.deployed_value(lookup)
+                room = max(allowed_notional - deployed, 0.0)
+                max_by_stagger = int(room // fill) if fill > 0 else 0
+                if max_by_stagger <= 0:
+                    self._bump("season_reserve")
+                    continue
+                shares = min(shares, max_by_stagger)
 
             pos = strategy.make_position(
                 ev.symbol, fill, day, shares, plan, analysis, ev.decl_date.isoformat(),
@@ -587,11 +697,23 @@ class BacktestEngine:
         events = self.events_by_day.get(day, [])
         if not events:
             self.pending = []
+            self.pending_scores = {}
             return
-        capacity = self.cfg.max_positions - len(self.pf.positions)
+        # Tomorrow's slot ceiling: today's events set the season progress, and
+        # they are the ones that would fill against it.
+        slot_cap = self._slot_cap(self._stagger_factor(events, day))
+        capacity = slot_cap - len(self.pf.positions)
         if capacity <= 0:
-            self.pending = []
-            return
+            # A full book silently swallowed the WHOLE day's field in the legacy
+            # path — the single largest source of missed late declarers, and it
+            # was never counted. Count it. When upgrades are enabled the field
+            # is still queued so the best of it can displace a weak incumbent.
+            self._bump("book_full_at_discovery", len(events))
+            if self.cfg.upgrade_margin <= 0:
+                self.pending = []
+                self.pending_scores = {}
+                return
+            capacity = self.cfg.max_upgrades_per_day
 
         # B9 — market-regime throttle: don't open fresh earnings-momentum longs
         # while the benchmark is below its trend SMA (correlated-drawdown guard).
@@ -599,6 +721,7 @@ class BacktestEngine:
         if not strategy.market_regime_ok(self.prices.benchmark_as_of(day), self.cfg):
             self._bump("market_regime_off")
             self.pending = []
+            self.pending_scores = {}
             return
 
         scored: List[Tuple[float, an.ResultEvent, object]] = []
@@ -732,7 +855,15 @@ class BacktestEngine:
             if picks:
                 self._bump("xsection_selected")
             self.pending = [p.payload for p in picks]
+            self.pending_scores = {
+                p.payload.symbol: getattr(p, "score", 0.0) for p in picks
+            }
             return
 
         scored.sort(key=lambda t: t[0], reverse=True)
+        # Everything past ``take`` is a qualified name we simply had no room
+        # for today. Count it so coverage loss is visible rather than silent.
+        if len(scored) > take:
+            self._bump("day_cap_truncated", len(scored) - take)
         self.pending = [ev for _, ev, _ in scored[:take]]
+        self.pending_scores = {ev.symbol: s for s, ev, _ in scored[:take]}

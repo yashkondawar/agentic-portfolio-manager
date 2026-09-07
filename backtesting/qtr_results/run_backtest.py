@@ -103,6 +103,24 @@ def _parse_args() -> argparse.Namespace:
     p.add_argument("--max-position-pct", type=float, default=None,
                    help="Per-name concentration cap %% of equity (default 20). Raising it "
                         "deploys more of the idle cash into the few concurrent picks.")
+    p.add_argument("--season-stagger", action="store_true",
+                   help="Ration slots and capital across the declaration window "
+                        "instead of spending them on the earliest declarers. "
+                        "Both ramp from --season-deploy-floor to 1.0 between "
+                        "quarter_end+reporting_lag_min and +reporting_lag_max.")
+    p.add_argument("--season-deploy-floor", type=float, default=None,
+                   help="Fraction of slots/corpus usable at the START of a "
+                        "declaration window (default 0.5). Only used with "
+                        "--season-stagger.")
+    p.add_argument("--upgrade-margin", type=float, default=None,
+                   help="Strength-score excess a new declarer must have over the "
+                        "weakest holding to displace it when the book is full. "
+                        "0 (default) disables replacement entirely.")
+    p.add_argument("--max-upgrades-per-day", type=int, default=None,
+                   help="Cap on replacement swaps per day (default 1).")
+    p.add_argument("--upgrade-any", action="store_true",
+                   help="Allow displacing a position that is in profit. By "
+                        "default only losing positions can be replaced.")
     p.add_argument("--min-yoy-profit-growth", type=float, default=None)
     p.add_argument("--target-max-pct", type=float, default=None,
                    help="Upper bound of the PE-rerating target band %% (default 20). "
@@ -389,6 +407,16 @@ def main() -> int:
         cfg.sector_debt_factor = args.sector_debt_factor
     if args.max_position_pct is not None:
         cfg.max_position_pct = args.max_position_pct
+    if args.season_stagger:
+        cfg.season_stagger = True
+    if args.season_deploy_floor is not None:
+        cfg.season_deploy_floor = args.season_deploy_floor
+    if args.upgrade_margin is not None:
+        cfg.upgrade_margin = args.upgrade_margin
+    if args.max_upgrades_per_day is not None:
+        cfg.max_upgrades_per_day = args.max_upgrades_per_day
+    if args.upgrade_any:
+        cfg.upgrade_only_losers = False
     if args.regime_filter:
         cfg.regime_filter = True
     if args.regime_ma_period is not None:

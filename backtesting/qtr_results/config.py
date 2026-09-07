@@ -300,6 +300,31 @@ class BacktestConfig:
     max_positions: int = 10                    # max concurrent open positions
     max_position_pct: float = 20.0             # per-name concentration cap (%)
 
+    # ── Earnings-season staggering (declarer coverage) ───────────────────────
+    # A quarter's entire opportunity set lands in a ~6-week burst (quarter_end +
+    # reporting_lag_min .. +reporting_lag_max). With a flat slot/cash cap the
+    # book fills on whoever declares FIRST and every later declarer — however
+    # much stronger — is dropped with no slot and no cash. That is a calendar
+    # artefact, not a selection decision.
+    #
+    # With staggering ON, both the slot count and the deployable notional ramp
+    # linearly from ``season_deploy_floor`` at the START of the declaration
+    # window to 1.0 at its END, so capital is rationed across the whole season
+    # instead of being spent in its first three days. The window is derived
+    # purely from the quarter-end date and the configured reporting lags, so it
+    # is known ex-ante — no look-ahead.
+    season_stagger: bool = False               # opt-in; off = legacy behaviour
+    season_deploy_floor: float = 0.5           # usable fraction at window start
+
+    # ── Upgrade / replacement ("bet on winners, cut losers") ─────────────────
+    # When the book is full and a materially stronger name declares, displace
+    # the weakest holding instead of dropping the candidate. The margin is in
+    # strength-score points and exists as hysteresis: without it the book
+    # churns on noise and pays two commissions each time.
+    upgrade_margin: float = 0.0                # 0 disables; else required excess
+    max_upgrades_per_day: int = 1              # churn guard
+    upgrade_only_losers: bool = True           # never displace a winning position
+
     # ── Costs ─────────────────────────────────────────────────────────────────
     # Realistic Indian retail all-in cost per side: STT (0.1% on delivery sells),
     # exchange charges, GST, SEBI/stamp, brokerage, plus a slippage proxy for the
@@ -352,6 +377,11 @@ def live_mirror_config(**overrides) -> BacktestConfig:
         anticipation_mode=False,
         use_sue=False,
         cross_sectional=False,
+        # Live rations neither slots nor capital across the declaration window,
+        # and never displaces a holding. Pinned explicitly so that flipping the
+        # backtest defaults can never silently un-mirror the live strategy.
+        season_stagger=False,
+        upgrade_margin=0.0,
     )
     for key, value in overrides.items():
         if not hasattr(cfg, key):
