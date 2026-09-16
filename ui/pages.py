@@ -95,7 +95,7 @@ def dashboard_page() -> None:
     )
     st.dataframe(
         table[["strategy_id", "status", "created_at", "duration_ms"]],
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
     )
     labels = {
@@ -186,7 +186,7 @@ def research_page() -> None:
             defaults=defaults,
         )
         submitted = st.form_submit_button(
-            "Run stock research", type="primary", use_container_width=True
+            "Run stock research", type="primary", width="stretch"
         )
     if submitted:
         result = run_strategy(strategy_id, params)
@@ -221,14 +221,14 @@ def swing_page() -> None:
         edited = st.data_editor(
             pd.DataFrame(positions),
             num_rows="dynamic",
-            use_container_width=True,
+            width="stretch",
             key="swing_position_editor",
         )
         positions = clean_editor_rows(edited, ("quantity", "buy_price"))
         if source == "Manual editor":
             st.session_state["manual_positions"] = positions
     elif positions:
-        st.dataframe(pd.DataFrame(positions), use_container_width=True, hide_index=True)
+        st.dataframe(pd.DataFrame(positions), width="stretch", hide_index=True)
 
     strategy = registry.get_strategy("swing_trading")
     defaults = {"watchlist": st.session_state.get("symbol_basket", [])}
@@ -240,7 +240,7 @@ def swing_page() -> None:
             defaults=defaults,
         )
         submitted = st.form_submit_button(
-            "Run swing review", type="primary", use_container_width=True
+            "Run swing review", type="primary", width="stretch"
         )
     if submitted:
         params["positions"] = positions
@@ -266,14 +266,14 @@ def portfolio_page() -> None:
         edited = st.data_editor(
             pd.DataFrame(holdings),
             num_rows="dynamic",
-            use_container_width=True,
+            width="stretch",
             key="portfolio_holding_editor",
         )
         holdings = clean_editor_rows(edited, ("quantity", "buy_price"))
         if source == "Manual editor":
             st.session_state["manual_holdings"] = holdings
     elif holdings:
-        st.dataframe(pd.DataFrame(holdings), use_container_width=True, hide_index=True)
+        st.dataframe(pd.DataFrame(holdings), width="stretch", hide_index=True)
 
     if holdings:
         total_cost = sum(
@@ -296,7 +296,7 @@ def portfolio_page() -> None:
             exclude={"holdings"},
         )
         submitted = st.form_submit_button(
-            "Run portfolio review", type="primary", use_container_width=True
+            "Run portfolio review", type="primary", width="stretch"
         )
     if submitted:
         params["holdings"] = holdings
@@ -407,7 +407,7 @@ def broker_page() -> None:
     ):
         if rows:
             st.subheader(title)
-            st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+            st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
 
 
 def _backend_readiness(choice) -> list[dict[str, str]]:
@@ -684,7 +684,7 @@ def settings_page() -> None:
             ),
         },
     ]
-    st.dataframe(pd.DataFrame(readiness), use_container_width=True, hide_index=True)
+    st.dataframe(pd.DataFrame(readiness), width="stretch", hide_index=True)
 
     _render_backend_form(choice)
     _render_connection_test()
@@ -717,7 +717,7 @@ def settings_page() -> None:
                 }
                 for spec in strategy_class.param_specs()
             ]
-            st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+            st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
 
 
 def _registry_runner(strategy_id: str, key_prefix: str) -> None:
@@ -735,7 +735,7 @@ def _registry_runner(strategy_id: str, key_prefix: str) -> None:
             ),
         )
         submitted = st.form_submit_button(
-            f"Run {strategy.name}", type="primary", use_container_width=True
+            f"Run {strategy.name}", type="primary", width="stretch"
         )
     if submitted:
         result = run_strategy(strategy_id, params)
@@ -801,7 +801,7 @@ def _render_proposed_orders(result: StrategyResult, portfolio_value: float) -> N
     if rows:
         st.subheader("Proposed orders")
         st.warning("These proposals are not sent to Zerodha.")
-        st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+        st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
 
 
 def _holding_source(source: str) -> list[dict]:
@@ -961,7 +961,7 @@ def _render_kronos_forecast(fc) -> None:
     row[3].metric(f"Target ({fc.pred_len}d)", f"₹{sig.suggested_target:,.2f}")
     row[4].metric("Reward:Risk", f"{sig.reward_risk:.2f}:1")
 
-    st.plotly_chart(_kronos_chart(fc), use_container_width=True)
+    st.plotly_chart(_kronos_chart(fc), width="stretch")
     st.caption(sig.rationale)
     st.divider()
 
@@ -1125,7 +1125,7 @@ def _schedule_card(schedule) -> None:
             if st.button(
                 "Run now",
                 key=f"sched_run_{schedule.id}",
-                use_container_width=True,
+                width="stretch",
                 type="primary",
             ):
                 _run_schedule_now(schedule)
@@ -1155,7 +1155,7 @@ def _schedule_card(schedule) -> None:
                 schedules_mod.set_enabled(schedule.id, wanted)
                 st.rerun()
         with remove:
-            with st.popover("Delete", use_container_width=True):
+            with st.popover("Delete", width="stretch"):
                 st.write(f"Delete **{schedule.name}**?")
                 if st.button(
                     "Yes, delete", key=f"sched_del_{schedule.id}", type="primary"
@@ -1262,7 +1262,7 @@ def _schedule_editor(rows: list) -> None:
             defaults=dict(current.params) if current else None,
         )
         saved = st.form_submit_button(
-            "Save schedule", type="primary", use_container_width=True
+            "Save schedule", type="primary", width="stretch"
         )
 
     if not saved:

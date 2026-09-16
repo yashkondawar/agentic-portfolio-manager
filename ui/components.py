@@ -182,14 +182,14 @@ def clean_editor_rows(rows: Any, required: Iterable[str]) -> list[dict]:
 def _render_decisions(decisions: dict) -> None:
     rows = [{"symbol": symbol, **values} for symbol, values in decisions.items()]
     if rows:
-        st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+        st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
 
 
 def _render_watchlist(data: dict) -> None:
     st.metric("Screening stage", data.get("stage", "-"))
     rows = data.get("picks") or data.get("shortlist") or []
     if rows:
-        st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+        st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
 
 
 def _fmt_inr(value: Any) -> str:
@@ -231,7 +231,7 @@ def _holdings_table(holdings: list) -> None:
     ]
     frame = pd.DataFrame(holdings)
     frame = frame[[c for c in cols if c in frame.columns]]
-    st.dataframe(frame, use_container_width=True, hide_index=True)
+    st.dataframe(frame, width="stretch", hide_index=True)
 
 
 def _tradebook_table(tradebook: list) -> None:
@@ -254,7 +254,7 @@ def _tradebook_table(tradebook: list) -> None:
     ]
     frame = pd.DataFrame(tradebook)
     frame = frame[[c for c in cols if c in frame.columns]]
-    st.dataframe(frame, use_container_width=True, hide_index=True)
+    st.dataframe(frame, width="stretch", hide_index=True)
     wins = [t for t in tradebook if (t.get("realized_pnl") or 0) > 0]
     total = sum(t.get("realized_pnl") or 0 for t in tradebook)
     cols = st.columns(3)
@@ -346,7 +346,7 @@ def _render_quarterly_results(data: dict) -> None:
                 ]
                 if c in frame.columns
             ]
-            st.dataframe(frame[cols], use_container_width=True, hide_index=True)
+            st.dataframe(frame[cols], width="stretch", hide_index=True)
 
     # 3) Filtering funnel — how the day's declarers narrowed to the buys.
     funnel = data.get("funnel") or []
@@ -385,7 +385,7 @@ def _render_quarterly_results(data: dict) -> None:
                 ]
                 if c in frame.columns
             ]
-            st.dataframe(frame[cols], use_container_width=True, hide_index=True)
+            st.dataframe(frame[cols], width="stretch", hide_index=True)
 
     # 4) Tradebook (closed trades) + upcoming heads-up.
     with st.expander(
@@ -397,7 +397,7 @@ def _render_quarterly_results(data: dict) -> None:
     if upcoming:
         with st.expander(f"📅 Upcoming results ({len(upcoming)})", expanded=False):
             st.dataframe(
-                pd.DataFrame(upcoming), use_container_width=True, hide_index=True
+                pd.DataFrame(upcoming), width="stretch", hide_index=True
             )
 
 
@@ -467,7 +467,7 @@ def _gfs_holdings_table(holdings: list, shadow: dict | None = None) -> None:
     ]
     frame = pd.DataFrame(holdings)
     frame = frame[[c for c in cols if c in frame.columns]]
-    st.dataframe(frame, use_container_width=True, hide_index=True)
+    st.dataframe(frame, width="stretch", hide_index=True)
     if shadow and shadow.get("exit_rsi"):
         would = shadow.get("would_exit") or []
         threshold = shadow["exit_rsi"]
@@ -505,7 +505,7 @@ def _gfs_tradebook_table(tradebook: list) -> None:
     ]
     frame = pd.DataFrame(tradebook)
     frame = frame[[c for c in cols if c in frame.columns]]
-    st.dataframe(frame, use_container_width=True, hide_index=True)
+    st.dataframe(frame, width="stretch", hide_index=True)
     wins = [t for t in tradebook if (t.get("pnl") or 0) > 0]
     stats = st.columns(3)
     stats[0].metric("Closed trades", len(tradebook))
@@ -620,7 +620,7 @@ def _ath_holdings_table(holdings: list) -> None:
     frame = pd.DataFrame(holdings)
     st.dataframe(
         frame[[c for c in cols if c in frame.columns]],
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
     )
     st.caption(
@@ -663,7 +663,7 @@ def _ath_pending_entries(snap: dict) -> None:
     )
     edited = st.data_editor(
         frame,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
         disabled=["symbol", "industry", "budget", "suggested_price"],
         key="ath_confirm_fills_editor",
@@ -773,7 +773,7 @@ def _render_ath_daily(data: dict) -> None:
         ]
         st.dataframe(
             frame[[c for c in cols_e if c in frame.columns]],
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
         st.caption(
@@ -800,7 +800,7 @@ def _render_ath_daily(data: dict) -> None:
         ]
         st.dataframe(
             frame[[c for c in cols_b if c in frame.columns]],
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
         st.info(
@@ -814,9 +814,9 @@ def _render_ath_daily(data: dict) -> None:
         tight = [h for h in holds if h.get("headroom_pct", 1) < 0.05]
         if tight:
             st.markdown("### ⚠️ Close to their stops")
-            st.dataframe(pd.DataFrame(tight), use_container_width=True, hide_index=True)
+            st.dataframe(pd.DataFrame(tight), width="stretch", hide_index=True)
         with st.expander(f"📊 All {len(holds)} holdings", expanded=False):
-            st.dataframe(pd.DataFrame(holds), use_container_width=True, hide_index=True)
+            st.dataframe(pd.DataFrame(holds), width="stretch", hide_index=True)
 
 
 def render_gfs_ledger_snapshot() -> None:
@@ -908,7 +908,7 @@ def _gfs_orders_tables(orders: list) -> None:
         frame = pd.DataFrame(rows)
         st.dataframe(
             frame[[c for c in columns if c in frame.columns]],
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
     if any(o.get("action") == "BUY" for o in orders):
@@ -987,7 +987,7 @@ def _render_gfs_live(data: dict) -> None:
             cols = ["date", "action", "symbol", "quantity", "price", "detail"]
             st.dataframe(
                 frame[[c for c in cols if c in frame.columns]],
-                use_container_width=True,
+                width="stretch",
                 hide_index=True,
             )
 
@@ -1035,7 +1035,7 @@ def _render_gfs_live(data: dict) -> None:
             ]
             st.dataframe(
                 frame[[c for c in cols if c in frame.columns]],
-                use_container_width=True,
+                width="stretch",
                 hide_index=True,
             )
 
@@ -1078,7 +1078,7 @@ def _render_gfs_live(data: dict) -> None:
             margin=dict(l=10, r=10, t=30, b=10),
             title="Book equity",
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
 
     with st.expander(
         f"📒 Tradebook — {len(data.get('tradebook') or [])} closed trades"
@@ -1096,7 +1096,7 @@ def _render_gfs_live(data: dict) -> None:
                     pd.DataFrame(
                         [{"reason": k, "count": v} for k, v in rejections.items()]
                     ),
-                    use_container_width=True,
+                    width="stretch",
                     hide_index=True,
                 )
             if config:
@@ -1105,7 +1105,7 @@ def _render_gfs_live(data: dict) -> None:
                     pd.DataFrame(
                         [{"setting": k, "value": str(v)} for k, v in config.items()]
                     ),
-                    use_container_width=True,
+                    width="stretch",
                     hide_index=True,
                 )
             note = diag.get("universe_note")
@@ -1152,16 +1152,16 @@ def _render_backtest(data: dict) -> None:
             margin={"l": 10, "r": 10, "t": 30, "b": 10},
             yaxis_title="Portfolio value (₹)",
         )
-        st.plotly_chart(figure, use_container_width=True)
+        st.plotly_chart(figure, width="stretch")
 
     trades = data.get("trades") or []
     if trades:
         st.markdown("#### Closed trades")
-        st.dataframe(pd.DataFrame(trades), use_container_width=True, hide_index=True)
+        st.dataframe(pd.DataFrame(trades), width="stretch", hide_index=True)
     positions = data.get("open_positions") or []
     if positions:
         st.markdown("#### Open at end date")
-        st.dataframe(pd.DataFrame(positions), use_container_width=True, hide_index=True)
+        st.dataframe(pd.DataFrame(positions), width="stretch", hide_index=True)
 
 
 def _render_summary_data(data: dict) -> None:
@@ -1183,14 +1183,14 @@ def _render_downloads(result: StrategyResult) -> None:
         data=result.report,
         file_name=f"{result.strategy_id}_report.md",
         mime="text/markdown",
-        use_container_width=True,
+        width="stretch",
     )
     col2.download_button(
         "Download structured data",
         data=json.dumps(result.to_dict(), indent=2, default=str),
         file_name=f"{result.strategy_id}_result.json",
         mime="application/json",
-        use_container_width=True,
+        width="stretch",
     )
 
 
