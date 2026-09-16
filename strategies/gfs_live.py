@@ -287,6 +287,7 @@ class GFSLiveStrategy(BaseStrategy):
                 label="Run as of date",
                 type=ParamType.DATE,
                 default=None,
+                tracks_today=True,
                 help="Pretend today is this date. Leave blank for today.",
                 group="Advanced",
                 advanced=True,

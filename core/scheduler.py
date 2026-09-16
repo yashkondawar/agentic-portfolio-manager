@@ -26,9 +26,9 @@ import os
 import subprocess
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from pathlib import Path
-from typing import Optional
+from typing import Any, Dict, Optional
 
 from core import registry, schedules as schedules_mod
 from core.run_history import save_run
@@ -69,6 +69,48 @@ MAX_RELOADS_PER_WINDOW = 3
 # ---------------------------------------------------------------------------
 # Execution
 # ---------------------------------------------------------------------------
+def resolve_run_params(
+    strategy_id: str, params: Dict[str, Any], *, today: Optional[date] = None
+) -> Dict[str, Any]:
+    """Refresh any stored parameter that is meant to track the run date.
+
+    A schedule stores the form exactly as it was when someone created it. If
+    that form carried a "run through date" defaulted to that day, the value is
+    frozen and every later run recomputes the same stale session forever, while
+    still reporting success. The ATH sleeve drifted four days this way before
+    anyone noticed, because a stale run looks identical to a fresh one.
+
+    Only specs that declare ``tracks_today`` are touched, and only when the
+    schedule actually carries a value: a blank one already means "today" to the
+    strategy, so injecting a date there would change behaviour rather than
+    preserve it. A recurring schedule pinned to a fixed past date is always a
+    bug, so the stale value is overridden and the override is logged loudly.
+    """
+    resolved = dict(params)
+    try:
+        specs = registry.get_strategy(strategy_id).param_specs()
+    except Exception:  # a broken spec must never stop the run
+        logger.exception("Could not read param specs for %s", strategy_id)
+        return resolved
+
+    stamp = (today or date.today()).isoformat()
+    for spec in specs:
+        if not getattr(spec, "tracks_today", False):
+            continue
+        previous = resolved.get(spec.name)
+        if not previous or previous == stamp:
+            continue
+        resolved[spec.name] = stamp
+        logger.warning(
+            "Schedule for %s had %s pinned to %s; running for %s instead",
+            strategy_id,
+            spec.name,
+            previous,
+            stamp,
+        )
+    return resolved
+
+
 def run_schedule(
     schedule: Schedule,
     *,
@@ -81,15 +123,16 @@ def run_schedule(
         schedule.name,
         schedule.strategy_id,
     )
+    params = resolve_run_params(schedule.strategy_id, dict(schedule.params))
     started = time.perf_counter()
-    result = registry.run_strategy(schedule.strategy_id, dict(schedule.params))
+    result = registry.run_strategy(schedule.strategy_id, dict(params))
     duration_ms = int((time.perf_counter() - started) * 1000)
 
     run_id: Optional[str] = None
     try:
         run_id = save_run(
             result,
-            dict(schedule.params),
+            dict(params),
             duration_ms=duration_ms,
             db_path=db_path,
         )

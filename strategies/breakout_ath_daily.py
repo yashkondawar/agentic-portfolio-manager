@@ -45,8 +45,12 @@ class BreakoutAthDailyStrategy(BaseStrategy):
                 "as_of",
                 "Run through date",
                 ParamType.DATE,
-                default=date.today().isoformat(),
-                help="Run after the close. Weekends resolve to the latest session.",
+                default=None,
+                tracks_today=True,
+                help=(
+                    "Run after the close. Leave blank for today. Weekends "
+                    "resolve to the latest session."
+                ),
                 group="Daily run",
             ),
             ParamSpec(
@@ -153,10 +157,11 @@ class BreakoutAthDailyStrategy(BaseStrategy):
             slot_reset_freq=params["slot_reset_freq"],
             cost_bps=float(params["cost_bps"]),
         )
+        raw_as_of = params.get("as_of")
         output = run_daily(
             cfg,
             portfolio_state=params.get("portfolio_state") or None,
-            as_of=date.fromisoformat(params["as_of"]),
+            as_of=date.fromisoformat(raw_as_of) if raw_as_of else None,
             download=bool(params["download"]),
             persist=bool(params["persist_state"]),
         )

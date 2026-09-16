@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 
 import pytest
 
@@ -425,3 +425,48 @@ def test_supervise_backs_off_when_reloads_will_not_settle(monkeypatch, tmp_path)
     )
     scheduler.supervise(max_restarts=scheduler.MAX_RELOADS_PER_WINDOW + 2)
     assert slept == [15]
+
+
+def test_a_schedule_pinned_to_a_stale_run_date_is_refreshed():
+    """A frozen "run through" date silently recomputes the same day forever.
+
+    The ATH schedule was created with the date form pre-filled to that day, so
+    every later scheduled run recomputed 2026-09-04 and still reported success.
+    A stale run is indistinguishable from a fresh one, which is why it drifted
+    unnoticed.
+    """
+    import strategies  # noqa: F401  (populate the registry)
+
+    stale = {"as_of": "2026-09-04", "capital": 100_000.0}
+    out = scheduler.resolve_run_params(
+        "breakout_ath_daily", stale, today=date(2026, 9, 8)
+    )
+    assert out["as_of"] == "2026-09-08"
+    assert out["capital"] == 100_000.0
+    # The stored schedule must not be mutated as a side effect.
+    assert stale["as_of"] == "2026-09-04"
+
+
+def test_a_blank_run_date_is_left_alone():
+    """Blank already means today to the strategy; filling it in changes meaning."""
+    import strategies  # noqa: F401
+
+    out = scheduler.resolve_run_params(
+        "breakout_ath_daily", {"capital": 100_000.0}, today=date(2026, 9, 8)
+    )
+    assert "as_of" not in out
+
+
+def test_parameters_that_do_not_track_today_are_never_rewritten():
+    import strategies  # noqa: F401
+
+    params = {"as_of": "2026-09-04", "start": "2020-01-01", "end": "2024-01-01"}
+    out = scheduler.resolve_run_params(
+        "swing_backtest", params, today=date(2026, 9, 8)
+    )
+    assert out == params
+
+
+def test_an_unknown_strategy_does_not_stop_the_run():
+    params = {"as_of": "2026-09-04"}
+    assert scheduler.resolve_run_params("no_such_strategy", params) == params

@@ -68,6 +68,12 @@ class ParamSpec:
     max: Optional[float] = None
     group: str = "Basic"
     advanced: bool = False
+    #: True when this date means "the date the run happens", not a fixed day.
+    #: A schedule stores whatever the form held when it was created, so a date
+    #: that was "today" at 9am on the day someone set the schedule up gets
+    #: frozen into it and every later run silently recomputes that same stale
+    #: day. Marking the spec lets the scheduler refresh it at run time.
+    tracks_today: bool = False
 
     def to_dict(self) -> Dict[str, Any]:
         d = asdict(self)
