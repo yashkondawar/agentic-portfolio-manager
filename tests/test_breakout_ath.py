@@ -13,6 +13,7 @@ import pandas as pd
 import pytest
 
 from backtesting.breakout_ath import signals
+from backtesting.breakout_ath import dossier as ath_dossier
 from backtesting.breakout_ath.config import AthBreakoutConfig
 from backtesting.breakout_ath.daily import (
     _exit_actions,
@@ -130,8 +131,11 @@ class TestTrailingStop:
 
 
 class TestSizing:
-    """Commission comes out of the slot budget, and cash falls by the whole
-    budget — the reference book's day one reproduces to the rupee.
+    """Shares are whole, and both commissions are charged.
+
+    Indian exchanges do not trade fractional equity, so the sleeve buys the
+    largest whole share count whose value plus brokerage fits the slot budget
+    and leaves the remainder in cash.
 
     The reference workbook was run at ₹1cr, so these pin that capital
     explicitly instead of tracking the config default.
@@ -150,12 +154,19 @@ class TestSizing:
             price=41.740585,
             budget=budget,
         )
+        qty = 8534  # floor(357142.857 / (41.740585 * 1.0025))
+        value = qty * 41.740585
+        cost = value * cfg.cost_rate
         fill = pf.fills[-1]
-        assert fill.cost == pytest.approx(892.857143, rel=1e-6)
-        assert fill.value == pytest.approx(356_250.0, rel=1e-9)
-        assert pf.cash == pytest.approx(9_642_857.142857, rel=1e-9)
+        assert fill.quantity == qty
+        assert fill.value == pytest.approx(value)
+        assert fill.cost == pytest.approx(cost)
+        # Cash falls by exactly what the trade cost, not by the whole budget:
+        # the unspendable remainder stays available for the next slot.
+        assert pf.cash == pytest.approx(cfg.start_capital - value - cost)
+        assert pf.cash > cfg.start_capital - budget
 
-    def test_quantity_is_fractional(self):
+    def test_quantity_is_a_whole_number(self):
         cfg = AthBreakoutConfig(start_capital=10_000_000.0)
         pf = Portfolio(cash=cfg.start_capital, cost_rate=cfg.cost_rate)
         pf.open_position(
@@ -165,7 +176,78 @@ class TestSizing:
             price=41.740585,
             budget=cfg.start_capital / cfg.max_positions,
         )
-        assert pf.positions["AAA"].quantity == pytest.approx(8534.858752, rel=1e-6)
+        qty = pf.positions["AAA"].quantity
+        assert isinstance(qty, int)
+        assert qty == 8534
+
+    def test_a_share_priced_above_the_slot_budget_cannot_be_bought(self):
+        """The constraint the live book was hiding.
+
+        At ₹1L over 28 slots the budget is ~₹3,571, so a name printing ₹23,830
+        yields zero shares. The old code booked 0.149 of a share instead.
+        """
+        pf = Portfolio(cash=100_000.0, cost_rate=0.0025)
+        pos = pf.open_position(
+            symbol="PTCIL", industry="Test", day=date(2026, 9, 4),
+            price=23_830.0, budget=100_000.0 / 28,
+        )
+        assert pos is None
+        assert pf.cash == 100_000.0
+        assert pf.unaffordable == 1
+        assert pf.cash_blocked == 0
+
+    def test_a_book_out_of_cash_is_not_counted_as_a_capital_limit(self):
+        """The two refusals must not share a counter.
+
+        A slot budget too small for one share is a capital-adequacy limit and
+        says raise capital or cut slots. A book already deployed down to loose
+        change is the ordinary tail of a full book and says nothing at all.
+        Summing them makes the count rise with capital, which reads as though
+        more money bought less access -- the exact opposite of the truth.
+        """
+        pf = Portfolio(cash=50.0, cost_rate=0.0025)
+        pos = pf.open_position(
+            symbol="AAA", industry="Test", day=date(2026, 9, 4),
+            price=500.0, budget=35_714.0,
+        )
+        assert pos is None
+        assert pf.unaffordable == 0
+        assert pf.cash_blocked == 1
+
+    def test_more_capital_never_locks_the_book_out_of_more_names(self):
+        """Raising capital must weakly shrink the capital-adequacy count."""
+        counts = []
+        for capital in (100_000.0, 1_000_000.0):
+            pf = Portfolio(cash=capital, cost_rate=0.0025)
+            budget = capital / 28
+            for price in (500.0, 3_000.0, 12_000.0, 23_830.0):
+                pf.open_position(
+                    symbol=f"S{price}", industry="Test",
+                    day=date(2026, 9, 4), price=price, budget=budget,
+                )
+            counts.append(pf.unaffordable)
+        assert counts == [2, 0]
+
+    def test_the_whole_round_trip_charges_both_commissions(self):
+        pf = Portfolio(cash=100_000.0, cost_rate=0.0025)
+        pf.open_position(symbol="AAA", industry="Test", day=date(2026, 1, 1),
+                         price=100.0, budget=50_000.0)
+        trade = pf.close_position("AAA", price=100.0, day=date(2026, 2, 1),
+                                  reason="TRAIL_SL")
+        assert trade is not None
+        # Flat price in, flat price out: the only outcome is two commissions.
+        assert trade.gross_pnl == pytest.approx(0.0)
+        assert trade.pnl == pytest.approx(-trade.costs)
+        assert trade.costs > 0
+        # And the book agrees with the trade record.
+        assert pf.cash == pytest.approx(100_000.0 + trade.pnl)
+
+    def test_cash_never_goes_negative(self):
+        pf = Portfolio(cash=1_000.0, cost_rate=0.0025)
+        pf.open_position(symbol="AAA", industry="Test", day=date(2026, 1, 1),
+                         price=10.0, budget=5_000.0)
+        assert pf.cash >= 0.0
+        assert pf.positions["AAA"].quantity == 99
 
 
 class TestBudgetCadence:
@@ -315,9 +397,12 @@ class TestConfirmFills:
         )
         pos = state["positions"][0]
         assert pos["entry_price"] == pytest.approx(125.0)
-        assert pos["quantity"] == pytest.approx((125_000.0 * 0.9975) / 125.0)
-        # Cash falls by the budget, never by more.
-        assert state["cash"] == pytest.approx(375_000.0)
+        # floor(125000 / (125 * 1.0025)) = 997 whole shares.
+        assert pos["quantity"] == 997
+        spent = 997 * 125.0 * 1.0025
+        assert state["cash"] == pytest.approx(500_000.0 - spent)
+        # Never more than the budget, whatever the rounding.
+        assert state["cash"] >= 375_000.0
 
     def test_a_fill_can_never_overdraw_the_book(self):
         state = empty_state(1_000.0)
@@ -326,7 +411,37 @@ class TestConfirmFills:
             [{"symbol": "AAA", "budget": 5_000.0, "price": 10.0}],
             date(2026, 9, 2),
         )
-        assert state["cash"] == pytest.approx(0.0)
+        # 99 shares at 10.00 plus brokerage; the change stays in cash because a
+        # 100th share cannot be part-bought.
+        assert state["positions"][0]["quantity"] == 99
+        assert state["cash"] >= 0.0
+        assert state["cash"] < 10.0 * 1.0025
+
+    def test_a_fill_priced_above_the_budget_is_dropped_not_fractionalised(self):
+        state = empty_state(100_000.0)
+        apply_entries(
+            state,
+            [{"symbol": "PTCIL", "budget": 3_571.43, "price": 23_830.0}],
+            date(2026, 9, 2),
+        )
+        assert state["positions"] == []
+        assert state["cash"] == pytest.approx(100_000.0)
+
+    def test_every_booked_quantity_is_a_whole_number(self):
+        state = empty_state(100_000.0)
+        apply_entries(
+            state,
+            [
+                {"symbol": "AAA", "budget": 3_571.43, "price": 964.15},
+                {"symbol": "BBB", "budget": 3_571.43, "price": 208.51},
+                {"symbol": "CCC", "budget": 3_571.43, "price": 101.38},
+            ],
+            date(2026, 9, 2),
+        )
+        assert state["positions"]
+        for pos in state["positions"]:
+            assert isinstance(pos["quantity"], int)
+            assert pos["quantity"] >= 1
 
 
 class TestLedgerSnapshot:
@@ -529,6 +644,65 @@ class TestUnrealizedReport:
             }
         )
         assert "unrealised" not in text
+
+
+class TestDossierEndToEnd:
+    """The dossier must build from a finished run, open book included.
+
+    The ATH dossier appends its open positions onto the *shared* Positions
+    sheet owned by ``backtesting.qtr_results.dossier``. When that shared sheet
+    gained days-to-profitability columns, this concat started raising KeyError
+    and nothing caught it, because no test built an ATH dossier end to end.
+    """
+
+    @staticmethod
+    def _finished_engine():
+        # A rally that both names ride, then a crash deep enough to trip the
+        # trailing stop, then a second rally so the book is open at the end.
+        days = pd.bdate_range("2020-01-01", periods=320)
+        path = (
+            list(range(100, 300))          # rally: breakouts and entries
+            + list(range(300, 200, -1))    # crash: trailing stop fires
+            + [200 + i for i in range(20)]  # recovery: re-entry, still open
+        )
+        path = (path + [path[-1]] * len(days))[: len(days)]
+        rising = pd.Series(path, index=days, dtype=float)
+        closes = pd.DataFrame({"AAA.NS": rising, "BBB.NS": rising * 1.5})
+        cfg = AthBreakoutConfig(
+            max_positions=2, lookback=20, ath_band=0.99, start_capital=100_000.0
+        )
+        return cfg, AthBreakoutEngine(cfg, PriceBundle(closes=closes)).run()
+
+    def test_the_dossier_builds_with_both_closed_and_open_trades(self):
+        cfg, engine = self._finished_engine()
+        assert engine.pf.closed, "test needs at least one round trip"
+        assert engine.open_positions, "test needs at least one open position"
+
+        sheets = ath_dossier.build(cfg, engine)
+
+        positions = sheets["Positions"]
+        assert len(positions) == len(engine.pf.closed) + len(engine.open_positions)
+        # Every column the shared sheet defines survives the concat.
+        for column in ("sessions_to_profit", "days_to_profit", "profit_timing"):
+            assert column in positions.columns
+
+    def test_an_open_position_leaves_the_shared_columns_blank(self):
+        """Days-to-profitability is undefined until a trade is closed."""
+        cfg, engine = self._finished_engine()
+        sheets = ath_dossier.build(cfg, engine)
+        open_rows = sheets["Positions"].tail(len(engine.open_positions))
+        assert open_rows["days_to_profit"].isna().all()
+
+    def test_the_config_reports_its_friction_to_the_shared_dossier(self):
+        """cost_bps and commission_pct must describe the same friction.
+
+        The shared days-to-profitability sheet reads ``commission_pct`` to work
+        out the net-of-cost break-even. If the config does not expose it the
+        round-trip cost silently defaults to zero.
+        """
+        cfg = AthBreakoutConfig(cost_bps=25)
+        assert cfg.commission_pct == pytest.approx(cfg.cost_rate * 100.0)
+        assert cfg.commission_pct == pytest.approx(0.25)
 
 
 class TestPitMembership:

@@ -23,6 +23,7 @@ from . import signals
 from .config import STATE_PATH, AthBreakoutConfig
 from .data import load_prices
 from .engine import _reset_key
+from .portfolio import whole_share_quantity
 from .universe import industry_map
 
 logger = logging.getLogger(__name__)
@@ -103,7 +104,7 @@ def _normalize_position(item: Any) -> dict:
         "industry": item.get("industry", "Unknown"),
         "entry_date": str(item.get("entry_date", "")),
         "entry_price": float(item.get("entry_price", 0.0)),
-        "quantity": float(item.get("quantity", 0.0)),
+        "quantity": int(float(item.get("quantity", 0) or 0)),
         "anchor": float(item.get("anchor", item.get("entry_price", 0.0))),
     }
 
@@ -311,7 +312,11 @@ def _apply_exits(cfg: AthBreakoutConfig, state: dict, exits: List[dict]) -> None
         e["cost"] = cost
         state["cash"] += e["proceeds"] - cost
         entry_value = e["entry_price"] * e["quantity"]
-        pnl = e["proceeds"] - cost - entry_value
+        # Charge BOTH legs. The entry brokerage is paid on top of the cost basis
+        # when the position is opened, so a round trip that ignored it would
+        # report a profit the cash balance never saw.
+        entry_cost = entry_value * cfg.cost_rate
+        pnl = e["proceeds"] - cost - entry_value - entry_cost
         e["pnl"] = pnl
         state["closed"].append(
             {
@@ -326,7 +331,7 @@ def _apply_exits(cfg: AthBreakoutConfig, state: dict, exits: List[dict]) -> None
                 "pnl": pnl,
                 "pnl_pct": e["return_pct"] * 100.0,
                 "proceeds": e["proceeds"],
-                "cost": cost,
+                "cost": cost + entry_cost,
             }
         )
     state["positions"] = [p for p in state["positions"] if p["symbol"] not in sold]
@@ -383,10 +388,15 @@ def _entry_actions(
         if spend <= 0.0:
             break
         price = float(live[symbol])
-        cost = spend * cfg.cost_rate
-        value = spend - cost
-        qty = value / price
-        cash -= spend
+        # Whole shares only -- NSE/BSE do not trade fractional equity. A name
+        # priced above the slot budget yields zero shares; skip it and let the
+        # slot go to the next affordable breakout instead of retiring it.
+        qty = whole_share_quantity(spend, price, cfg.cost_rate)
+        if qty < 1:
+            continue
+        value = qty * price
+        cost = value * cfg.cost_rate
+        cash -= value + cost
         out.append(
             {
                 "action": "ENTER",
@@ -444,6 +454,10 @@ def apply_entries(
     filled at a different price than the close the suggestion was priced off,
     pass that price as ``fill_price``: the budget is what was spent either way,
     so the quantity is re-derived rather than the risk silently changing.
+
+    Shares are whole. If a re-priced fill leaves the budget short of even one
+    share, the entry is dropped rather than booked as a fraction that could
+    never have been bought.
     """
     for e in entries:
         symbol = _canonical(e.get("symbol", ""))
@@ -452,11 +466,16 @@ def apply_entries(
         if not symbol or budget <= 0.0 or price <= 0.0:
             continue
         budget = min(budget, state["cash"])
-        if budget <= 0.0:
+        quantity = whole_share_quantity(budget, price, cost_rate)
+        if quantity < 1:
+            logger.info(
+                "Skipping %s: one share at %.2f exceeds the %.2f slot budget",
+                symbol, price, budget,
+            )
             continue
-        cost = budget * cost_rate
-        quantity = (budget - cost) / price
-        state["cash"] -= budget
+        value = quantity * price
+        cost = value * cost_rate
+        state["cash"] -= value + cost
         state["positions"].append(
             {
                 "symbol": symbol,

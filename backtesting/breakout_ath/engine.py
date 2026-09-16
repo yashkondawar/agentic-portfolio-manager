@@ -11,9 +11,13 @@ One pass over the trading calendar. On each session, in order:
 
 Sizing is budgeted rather than share-based: the slot budget is recomputed from
 equity at each reset boundary and then held fixed, so within a quarter every
-new position is the same rupee size regardless of what the market did. When
-cash has run short the budget is trimmed to what is actually available, which
-is why a handful of positions each quarter come in smaller than the rest.
+new position is the same rupee size regardless of what the market did. Shares
+are WHOLE, since Indian exchanges do not trade fractional equity, so a name
+priced above the slot budget cannot be bought at all — the slot rolls down to
+the next affordable breakout rather than going unused, and the decline is
+counted on the portfolio. When cash has run short the budget is trimmed to what
+is actually available, which is why a handful of positions each quarter come in
+smaller than the rest.
 """
 
 from __future__ import annotations
@@ -183,17 +187,25 @@ class AthBreakoutEngine:
         scores = self.ranks.loc[stamp]
         candidates.sort(key=lambda s: (-_score(scores.get(s)), s))
 
+        # Walk the whole ranked list rather than just the top `free` names.
+        # With whole-share sizing a candidate priced above the slot budget cannot
+        # be bought at all, and truncating first would silently retire the slot
+        # for the day. A real desk moves down the list instead, so the slot goes
+        # to the next affordable breakout.
         industries = self.prices.industries
-        for symbol in candidates[:free]:
-            if self.pf.cash <= 0.0:
+        opened = 0
+        for symbol in candidates:
+            if opened >= free or self.pf.cash <= 0.0:
                 break
-            self.pf.open_position(
+            pos = self.pf.open_position(
                 symbol=symbol,
                 industry=industries.get(symbol, "Unknown"),
                 price=prices[symbol],
                 day=day,
                 budget=self._budget,
             )
+            if pos is not None:
+                opened += 1
 
     # ── Main loop ────────────────────────────────────────────────────────────
     def run(self) -> "AthBreakoutEngine":
@@ -228,10 +240,14 @@ class AthBreakoutEngine:
 
         self.pf.equity_curve = list(self.daily_log)
         logger.info(
-            "ATH breakout: %d fills, %d round trips, %d still open",
+            "ATH breakout: %d fills, %d round trips, %d still open, "
+            "%d entries priced above the slot budget, "
+            "%d declined on exhausted cash",
             len(self.pf.fills),
             len(self.pf.closed),
             len(self.pf.positions),
+            self.pf.unaffordable,
+            self.pf.cash_blocked,
         )
         return self
 
@@ -260,9 +276,9 @@ class AthBreakoutEngine:
                     "return_pct": (price / pos.entry_price - 1.0) * 100.0,
                     "qty": pos.quantity,
                     "invested": pos.entry_value,
-                    "gross_pnl": exit_value - (pos.entry_value + pos.entry_cost),
+                    "gross_pnl": exit_value - pos.entry_value,
                     "costs": pos.entry_cost,
-                    "net_pnl": exit_value - pos.entry_value,
+                    "net_pnl": exit_value - pos.entry_value - pos.entry_cost,
                     "st_gain": 0.0,
                     "lt_gain": 0.0,
                     "exit_reason": "OPEN",

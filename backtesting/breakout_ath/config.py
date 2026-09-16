@@ -58,6 +58,16 @@ class AthBreakoutConfig:
         return self.cost_bps / 10_000.0
 
     @property
+    def commission_pct(self) -> float:
+        """Same friction as a percent, which is what the shared dossier reads.
+
+        Without this the shared days-to-profitability sheet defaults the
+        round-trip cost to zero and its "net of cost" threshold collapses onto
+        the gross one, silently reporting the two as identical.
+        """
+        return self.cost_rate * 100.0
+
+    @property
     def stop_multiple(self) -> float:
         """Fraction of the anchor the trailing stop sits at."""
         return 1.0 - self.sl_pct

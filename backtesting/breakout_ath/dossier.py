@@ -248,7 +248,13 @@ def build(
         positions = sheets["Positions"]
         if "status" not in positions.columns:
             positions = positions.assign(status="closed")
-        extra = pd.DataFrame(open_rows)[list(positions.columns)]
+        # Align to the shared sheet's schema rather than selecting from it. The
+        # shared Positions sheet grows columns over time (days-to-profitability
+        # was added for the qtr_results sleeve), and a strict selection turns any
+        # such addition into a KeyError here for every sleeve that appends its
+        # open book. Reindexing leaves unknown columns blank, which is the honest
+        # representation: those measures are not defined for an open position.
+        extra = pd.DataFrame(open_rows).reindex(columns=list(positions.columns))
         sheets["Positions"] = pd.concat([positions, extra], ignore_index=True)
 
     return {name: sheets[name] for name in SHEET_ORDER if name in sheets}

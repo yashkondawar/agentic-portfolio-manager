@@ -4,19 +4,36 @@ Pure accounting — every trading decision lives in :mod:`engine`. Two details
 are specific to this sleeve and are worth stating plainly, because they change
 the arithmetic:
 
-* Sizing is *budgeted*, not share-based. A slot is handed a rupee budget, the
-  brokerage is taken **out of** that budget, and whatever is left buys
-  fractional shares. Cash therefore falls by the whole budget on entry.
-* Because the entry commission was already deducted from the budget, it is not
-  part of the cost basis. Net PnL on the way out is
-  ``exit_value - exit_cost - entry_value``.
+* Sizing is *budgeted*, but shares are WHOLE. A slot is handed a rupee budget
+  and buys the largest whole number of shares whose cost plus brokerage fits
+  inside it. Indian exchanges do not trade fractional equity, so a backtest that
+  buys 0.149 shares is measuring a portfolio nobody could have held. Whatever
+  the budget cannot cover stays in cash rather than being spent.
+* Cost basis is ``quantity x entry price`` and the brokerage is paid on top, so
+  net PnL on a round trip is
+  ``exit_value - exit_cost - entry_value - entry_cost``. Both commissions are
+  charged, and cash moves by exactly the same amount the trade did.
 """
 
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass, field
 from datetime import date
 from typing import Dict, List, Optional
+
+
+def whole_share_quantity(budget: float, price: float, cost_rate: float) -> int:
+    """Largest whole share count whose value plus brokerage fits in ``budget``.
+
+    Returns 0 when even one share is unaffordable, which is a real constraint
+    rather than an edge case: at a 100k book across 28 slots the budget is about
+    3,571 rupees, and a name printing 23,830 simply cannot be bought. The caller
+    decides what to do about that -- here it is reported honestly as zero.
+    """
+    if budget <= 0.0 or price <= 0.0:
+        return 0
+    return int(math.floor(budget / (price * (1.0 + cost_rate))))
 
 
 @dataclass
@@ -25,7 +42,7 @@ class Position:
 
     symbol: str
     industry: str
-    quantity: float
+    quantity: int
     entry_price: float
     entry_date: date
     entry_value: float
@@ -47,7 +64,7 @@ class Position:
 class ClosedTrade:
     symbol: str
     industry: str
-    quantity: float
+    quantity: int
     entry_price: float
     exit_price: float
     entry_date: date
@@ -77,7 +94,7 @@ class Fill:
     industry: str
     side: str
     reason: str
-    quantity: float
+    quantity: int
     price: float
     value: float
     cost: float
@@ -103,6 +120,16 @@ class Portfolio:
     closed: List[ClosedTrade] = field(default_factory=list)
     fills: List[Fill] = field(default_factory=list)
     equity_curve: List[dict] = field(default_factory=list)
+    #: Entries declined because one share cost more than the slot budget. Kept
+    #: so the run can report how much of the universe its capital locked it out
+    #: of, instead of the constraint disappearing into a lower trade count.
+    unaffordable: int = 0
+
+    #: Entries declined because the book was already deployed down to loose
+    #: change, even though the slot budget itself would have covered a share.
+    #: This is the ordinary tail of a full book, not a capital-adequacy limit,
+    #: so it is counted apart from ``unaffordable``.
+    cash_blocked: int = 0
 
     # ── Valuation ────────────────────────────────────────────────────────────
     def deployed(self, prices: Dict[str, float]) -> float:
@@ -131,19 +158,30 @@ class Portfolio:
         budget: float,
         reason: str = "ENTRY",
     ) -> Optional[Position]:
-        """Spend ``budget`` on ``symbol``; the commission comes out of it."""
+        """Buy whole shares of ``symbol`` within ``budget``, brokerage included.
+
+        Returns ``None`` when not even one share fits, so the caller can offer
+        the slot to the next candidate rather than leaving it idle.
+        """
         if symbol in self.positions or price <= 0.0:
             return None
-        budget = min(budget, self.cash)
-        if budget <= 0.0:
-            return None
-        cost = budget * self.cost_rate
-        value = budget - cost
-        quantity = value / price
-        if quantity <= 0.0:
+        affordable = min(budget, self.cash)
+        quantity = whole_share_quantity(affordable, price, self.cost_rate)
+        if quantity < 1:
+            # Two very different refusals hide behind "could not buy a share",
+            # and conflating them makes the count useless for sizing capital.
+            # A slot budget too small for one share is a real capital-adequacy
+            # limit; a book already deployed down to loose change is just the
+            # normal tail of a full book. Count them apart.
+            if whole_share_quantity(budget, price, self.cost_rate) < 1:
+                self.unaffordable += 1
+            elif affordable > 0.0:
+                self.cash_blocked += 1
             return None
 
-        self.cash -= budget
+        value = quantity * price
+        cost = value * self.cost_rate
+        self.cash -= value + cost
         pos = Position(
             symbol=symbol,
             industry=industry,
@@ -185,8 +223,9 @@ class Portfolio:
         exit_cost = exit_value * self.cost_rate
         self.cash += exit_value - exit_cost
 
-        net_pnl = exit_value - exit_cost - pos.entry_value
-        gross_pnl = exit_value - (pos.entry_value + pos.entry_cost)
+        gross_pnl = exit_value - pos.entry_value
+        costs = pos.entry_cost + exit_cost
+        net_pnl = gross_pnl - costs
         holding_days = (day - pos.entry_date).days
         trade = ClosedTrade(
             symbol=symbol,
@@ -201,7 +240,7 @@ class Portfolio:
             exit_reason=reason,
             holding_days=holding_days,
             gross_pnl=gross_pnl,
-            costs=pos.entry_cost + exit_cost,
+            costs=costs,
             entry_value=pos.entry_value,
             exit_value=exit_value,
         )
@@ -224,3 +263,4 @@ class Portfolio:
             holding_days=holding_days,
         )
         return trade
+
