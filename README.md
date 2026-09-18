@@ -614,15 +614,54 @@ For support and questions:
      way using the Windows certificate store, so `UV_NATIVE_TLS=1` does not help.
    - The package named in the error changes between runs; it is simply whichever
      one the resolver reached first.
-   - Fix by telling `uv` to use the existing virtualenv instead of re-syncing:
+   - **Preferred fix — give `uv` an index it can actually reach.** `uv` does
+     **not** read `pip.ini`, so a mirror already configured for `pip` (often at
+     `C:\ProgramData\pip\pip.ini` on a managed machine) is invisible to it. Copy
+     that same index into `uv`'s own user config at `%APPDATA%\uv\uv.toml`:
+     ```toml
+     index-url = "https://your-internal-mirror/pypi/simple/"
+     ```
+     This fixes installs as well as launches, so optional extras keep working.
+     Note that `uv sync` then rewrites the registry URLs recorded in `uv.lock`;
+     keep an internal hostname out of commits by installing one-off packages
+     with `uv pip install <name>`, which leaves the lockfile alone.
+   - **Fallback — stop `uv run` from re-resolving at all:**
      ```powershell
      [Environment]::SetEnvironmentVariable("UV_NO_SYNC", "1", "User")
      ```
      Open a **new** terminal afterwards — an already-open one keeps the old
      environment.
-   - **Trade-off:** with `UV_NO_SYNC=1`, `uv run` no longer installs newly added
-     dependencies. After anyone edits `pyproject.toml`, run `uv sync` once from
-     a network that can reach `files.pythonhosted.org`.
+   - **Trade-off, and it is a sharp one:** `UV_NO_SYNC=1` freezes the
+     environment. `uv run` stops installing newly added dependencies *and* stops
+     filling in optional extras, so a missing backend SDK can never self-heal and
+     surfaces later as an unrelated-looking `ModuleNotFoundError` (see item 9).
+     After anyone edits `pyproject.toml`, run `uv sync` once from a network that
+     can reach the index.
+
+9. **A strategy fails with `The GitHub Copilot SDK is not installed`**
+   ```
+   core.llm.CopilotConfigurationError: The GitHub Copilot SDK is not installed ...
+   (No module named 'copilot')
+   ```
+   - This is the Python package `github-copilot-sdk`. It is **not** the Copilot
+     CLI: installing the CLI and running `copilot login` authenticates the
+     binary and does nothing for this import.
+   - It is an opt-in extra, so a default install never includes it:
+     ```powershell
+     uv sync --extra copilot
+     ```
+   - Avoid `pip install -e ".[copilot]"` unless you are certain that `pip`
+     belongs to this project's `.venv`. From an Anaconda prompt it usually
+     belongs to `(base)`, so the install "succeeds" and the error is unchanged.
+   - If the install itself fails to download, fix the index first (item 8).
+   - Check where it actually landed:
+     ```powershell
+     uv run python -c "import copilot; print(copilot.__file__)"
+     ```
+     The path must sit inside this repo's `.venv`.
+   - The scheduler daemon may run under a **different interpreter** than the
+     dashboard. If a scheduled run fails while the UI works, install the extra
+     into that interpreter too.
 
 ## 🔄 Version History
 

@@ -71,9 +71,15 @@ def _require_sdk() -> None:
         return
     raise CopilotConfigurationError(
         "The GitHub Copilot SDK is not installed, so the 'copilot_cli' backend "
-        "is unavailable. Either install it with `pip install -e \".[copilot]\"` "
-        "(needs a Copilot subscription), or switch to a backend that only needs "
-        "an API key by setting AI_AGENT_BACKEND=native and one of "
+        "is unavailable. This is the Python package `github-copilot-sdk`, which "
+        "is a different thing from the Copilot CLI binary: installing the CLI or "
+        "running `copilot login` does not provide it. Install it into this "
+        "project's environment with `uv sync --extra copilot` (needs a Copilot "
+        "subscription). Prefer that over a bare `pip install`, which installs "
+        "into whichever interpreter owns the `pip` on PATH -- often a global or "
+        "conda environment rather than this project's .venv, leaving the error "
+        "unchanged. Alternatively, switch to a backend that only needs an API "
+        "key by setting AI_AGENT_BACKEND=native and one of "
         "GOOGLE_API_KEY / OPENAI_API_KEY / ANTHROPIC_API_KEY in your "
         f".env. See README.md 'Choosing a model provider'. ({_SDK_IMPORT_ERROR})"
     )
