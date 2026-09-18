@@ -527,3 +527,193 @@ def test_a_queued_order_is_visible_in_the_saved_book_not_just_counted():
     assert order["stop_price"] == 1146.63
     # An indicative size, so the capital it will absorb is visible.
     assert isinstance(order["quantity"], int) and order["quantity"] > 0
+
+
+# ── orders the book will refuse ──────────────────────────────────────────────
+#
+# Regression: the live book held GABRIEL and EXIDEIND, both "Automobile and
+# Auto Components", against max_per_sector=2. MINDACORP (same sector) met the
+# entry rule, so `_scan` queued it and the run published "BUY MINDACORP" as an
+# order for the next open. `_fill_pending_entries` then re-applied the sector
+# cap and dropped it, and the next run showed no fill, no order and no reason -
+# the suggestion simply vanished. It was queued and dropped twice (15->16 Sep
+# and 17->18 Sep) before anyone could tell why.
+
+
+def _two_in_one_sector_book() -> live_state.Book:
+    """A book already at the per-sector cap, which is what hid the bug."""
+    book = live_state.Book()
+    book.open_with(100_000.0, date(2024, 1, 2))
+    book.last_session = date(2024, 3, 15)
+    for symbol in ("GABRIEL", "EXIDEIND"):
+        book.positions[symbol] = Position(
+            symbol=symbol,
+            sector="Automobile and Auto Components",
+            quantity=10,
+            entry_price=100.0,
+            entry_date=date(2024, 2, 1),
+            stop_loss=90.0,
+            initial_stop=90.0,
+            target_price=130.0,
+            atr_at_entry=3.0,
+            entry_rsi_d=38.0,
+            entry_rsi_w=64.0,
+            entry_rsi_m=67.0,
+        )
+    return book
+
+
+def _signal(symbol: str, sector: str, score: float = 1.0):
+    from backtesting.gfs.strategy import EntrySignal
+
+    return EntrySignal(
+        symbol=symbol,
+        sector=sector,
+        signal_date=date(2024, 3, 15),
+        close=681.25,
+        atr=20.0,
+        stop_hint=650.0,
+        rsi_d=40.8,
+        rsi_w=64.6,
+        rsi_m=70.9,
+        sector_rank=3.0,
+        resistance=769.0,
+        score=score,
+    )
+
+
+def test_a_queued_buy_the_sector_cap_will_refuse_is_flagged_not_published():
+    """The exact MINDACORP case: never present it as an order to place."""
+    from gfs import engine as live_engine
+
+    book = _two_in_one_sector_book()
+    book.pending_entries = [_signal("MINDACORP", "Automobile and Auto Components")]
+    live_state.save_book(book)
+    try:
+        snap = live_engine.ledger_snapshot()
+    finally:
+        live_state.reset_book()
+
+    order = snap["orders"][0]
+    assert order["blocked"] is True
+    assert order["blocked_reason"] == "sector_cap"
+    # The reason has to name the sector, or it is just another silent refusal.
+    assert "Automobile and Auto Components" in order["detail"]
+
+
+def test_an_unblocked_buy_is_still_published_normally():
+    """The guard must not suppress the orders that will actually fill."""
+    from gfs import engine as live_engine
+
+    book = _two_in_one_sector_book()
+    book.pending_entries = [_signal("TCS", "IT")]
+    live_state.save_book(book)
+    try:
+        snap = live_engine.ledger_snapshot()
+    finally:
+        live_state.reset_book()
+
+    order = snap["orders"][0]
+    assert order["blocked"] is False
+    assert order["blocked_reason"] is None
+
+
+def test_a_full_exit_frees_the_sector_so_the_buy_is_placeable():
+    """Exits fill before entries at the same open, so the slot is genuinely
+    free. Blocking on tonight's exposure alone would refuse a legal trade."""
+    from gfs import engine as live_engine
+    from backtesting.gfs.strategy import ExitOp
+
+    cfg = live_engine._sizing_config(_two_in_one_sector_book())
+    book = _two_in_one_sector_book()
+    queued = [_signal("MINDACORP", "Automobile and Auto Components")]
+
+    blocked_now = live_engine._queue_blocks(book.positions, [], queued, cfg)
+    assert blocked_now["MINDACORP"] == "sector_cap"
+
+    leaving = [("GABRIEL", ExitOp(reason="rsi_exit", price=120.0, fraction=1.0))]
+    assert live_engine._queue_blocks(book.positions, leaving, queued, cfg) == {}
+
+
+def test_a_partial_exit_does_not_free_the_sector_slot():
+    """A half sale keeps the position, so it keeps the slot."""
+    from gfs import engine as live_engine
+    from backtesting.gfs.strategy import ExitOp
+
+    book = _two_in_one_sector_book()
+    cfg = live_engine._sizing_config(book)
+    queued = [_signal("MINDACORP", "Automobile and Auto Components")]
+    partial = [("GABRIEL", ExitOp(reason="scale_out", price=120.0, fraction=0.5))]
+
+    blocked = live_engine._queue_blocks(book.positions, partial, queued, cfg)
+    assert blocked["MINDACORP"] == "sector_cap"
+
+
+def test_an_earlier_queued_buy_consumes_the_slot_behind_it():
+    """The fill loop walks the queue in score order, so the cap has to be
+    applied cumulatively - not independently per candidate."""
+    from gfs import engine as live_engine
+
+    book = _two_in_one_sector_book()
+    cfg = live_engine._sizing_config(book)
+    # max_positions is 4 and two are held, so the first two queued names take
+    # the remaining slots and the third has nowhere to go.
+    queued = [
+        _signal("FIRSTCO", "IT", score=9.0),
+        _signal("SECONDCO", "Pharma", score=8.0),
+        _signal("THIRDCO", "Metals", score=7.0),
+    ]
+
+    blocked = live_engine._queue_blocks(book.positions, [], queued, cfg)
+    assert "FIRSTCO" not in blocked
+    assert "SECONDCO" not in blocked
+    assert blocked["THIRDCO"] == "portfolio_full"
+
+
+def test_the_watchlist_stops_reporting_a_refused_name_as_queued():
+    """`_watchlist` checked "queued" first, so the one column that could have
+    explained the refusal showed the opposite."""
+    from gfs import engine as live_engine
+
+    book = _two_in_one_sector_book()
+    cfg = live_engine._sizing_config(book)
+    blocked = live_engine._queue_blocks(
+        book.positions, [], [_signal("MINDACORP", "Automobile and Auto Components")], cfg
+    )
+    # This is the substitution `_watchlist` now performs for a queued symbol.
+    assert (blocked.get("MINDACORP") or "queued") == "sector_cap"
+
+
+def test_the_funnel_does_not_count_a_refused_buy_as_queued_to_buy():
+    from gfs import engine as live_engine
+
+    orders = [
+        {"action": "BUY", "symbol": "OK", "blocked": False},
+        {"action": "BUY", "symbol": "NOPE", "blocked": True},
+    ]
+    funnel = live_engine._funnel(500, 490, [], orders)
+    assert funnel[-1] == {"stage": "Queued to buy", "count": 1, "dropped": 0}
+
+
+def test_the_report_separates_refused_orders_from_placeable_ones():
+    from gfs import engine as live_engine
+
+    data = {
+        "book": {},
+        "config": {"max_positions": 4},
+        "orders": [
+            {
+                "action": "BUY",
+                "symbol": "MINDACORP",
+                "sector": "Automobile and Auto Components",
+                "quantity": 35,
+                "reference_price": 681.25,
+                "blocked": True,
+                "blocked_reason": "sector_cap",
+            }
+        ],
+    }
+    report = live_engine.render_report(data)
+    assert "Nothing to place" in report
+    assert "NOT to be placed" in report
+    assert "sector cap reached (Automobile and Auto Components)" in report

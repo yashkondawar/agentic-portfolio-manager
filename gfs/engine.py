@@ -36,8 +36,9 @@ the thing that was measured.
 from __future__ import annotations
 
 import logging
+from collections import Counter
 from datetime import date, timedelta
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 import pandas as pd
 
@@ -466,6 +467,83 @@ def _holdings(
     return rows
 
 
+#: Why the next open will refuse a queued buy, in words the operator can act on.
+BLOCK_REASONS: Dict[str, str] = {
+    "sector_cap": "sector cap reached ({sector})",
+    "portfolio_full": "no free slot ({max_positions} positions already open)",
+    "already_held": "already held",
+}
+
+
+def describe_block(order: Dict[str, Any], cfg_max_positions: int) -> str:
+    """Render a block reason for a buy order, for the report and the UI."""
+    reason = order.get("blocked_reason") or ""
+    template = BLOCK_REASONS.get(reason, reason or "blocked")
+    return template.format(
+        sector=order.get("sector") or "unknown sector",
+        max_positions=cfg_max_positions,
+    )
+
+
+def _queue_blocks(
+    positions: Dict[str, Any],
+    pending_exits: List[Tuple[str, Any]],
+    queued: List[Any],
+    cfg: GFSConfig,
+) -> Dict[str, str]:
+    """Which queued buys the next open is already certain to refuse, and why.
+
+    ``_scan`` deliberately queues past the number of free slots: it cannot know
+    which orders will lapse overnight, so it over-queues and lets the fill step
+    decide. ``_fill_pending_entries`` then re-applies capacity and the
+    per-sector cap and drops whatever no longer fits.
+
+    That split is sound for the engine but it was invisible to the operator. An
+    order the book could never accept was still published as "place this at the
+    next open", and the next run reported neither a fill nor a reason - the
+    suggestion simply vanished. This replays the deterministic half of the fill
+    decision so such an order can be labelled *before* it is shown.
+
+    Only rules that are already settled tonight are evaluated. Whether a name
+    trades at all and what it opens at are unknowable until the print, so
+    ``no_session``, ``bad_price``, ``invalid_stop`` and ``insufficient_cash``
+    are left to the fill itself.
+    """
+    # Exits fill before entries at the same open, so a full exit frees both a
+    # slot and its sector before any of these buys is considered. A partial
+    # exit keeps the position, and with it the slot.
+    leaving = {
+        symbol
+        for symbol, op in pending_exits
+        if symbol in positions and float(getattr(op, "fraction", 1.0) or 1.0) >= 1.0
+    }
+    held: Dict[str, Any] = {
+        sym: pos for sym, pos in positions.items() if sym not in leaving
+    }
+    exposure: Counter = Counter(
+        getattr(pos, "sector", None) for pos in held.values()
+    )
+
+    blocked: Dict[str, str] = {}
+    for sig in queued:
+        symbol = getattr(sig, "symbol", None)
+        sector = getattr(sig, "sector", None)
+        if symbol in held:
+            blocked[symbol] = "already_held"
+            continue
+        if len(held) >= cfg.max_positions:
+            blocked[symbol] = "portfolio_full"
+            continue
+        if not gfs_strategy.can_open_sector(sector, exposure, cfg):
+            blocked[symbol] = "sector_cap"
+            continue
+        # Accepted, so it consumes a slot for everything queued behind it -
+        # exactly as the fill loop does when it walks the queue in score order.
+        held[symbol] = sig
+        exposure[sector] += 1
+    return blocked
+
+
 def _orders(
     engine: GFSBacktestEngine,
     panels: Dict[str, Any],
@@ -495,9 +573,13 @@ def _orders(
             }
         )
     equity = engine.pf.total_equity(lambda s: _close_on(panels[s], ts) if s in panels else None)
+    blocked = _queue_blocks(
+        engine.pf.positions, engine.pending_exits, engine.pending_entries, cfg
+    )
     for sig in engine.pending_entries:
         stop = sig.stop_hint
         qty = gfs_strategy.size_position(sig.close, stop, equity, cfg)
+        reason = blocked.get(sig.symbol)
         orders.append(
             {
                 "action": "BUY",
@@ -511,10 +593,16 @@ def _orders(
                 "rsi_m": _round(sig.rsi_m, 1),
                 "resistance": _round(sig.resistance),
                 "reason": "gfs_entry",
+                "blocked": bool(reason),
+                "blocked_reason": reason,
                 "detail": (
-                    "Queued from "
-                    f"{ts.date().isoformat()} close; fills at the next open, "
-                    "capacity and sector cap permitting."
+                    f"Queued from {ts.date().isoformat()} close, but the next "
+                    f"open will refuse it: {describe_block({'blocked_reason': reason, 'sector': sig.sector}, cfg.max_positions)}."
+                    if reason
+                    else (
+                        "Queued from "
+                        f"{ts.date().isoformat()} close; fills at the next open."
+                    )
                 ),
             }
         )
@@ -547,6 +635,11 @@ def _pending_orders_from_book(
                 "detail": "Carried over from the last run.",
             }
         )
+    blocked = (
+        _queue_blocks(book.positions, book.pending_exits, book.pending_entries, cfg)
+        if cfg is not None
+        else {}
+    )
     for sig in book.pending_entries:
         qty = None
         if equity is not None and cfg is not None:
@@ -556,6 +649,7 @@ def _pending_orders_from_book(
                 )
             except Exception:  # noqa: BLE001 - sizing must never break the view
                 qty = None
+        reason = blocked.get(sig.symbol)
         orders.append(
             {
                 "action": "BUY",
@@ -569,7 +663,19 @@ def _pending_orders_from_book(
                 "rsi_m": _round(sig.rsi_m, 1),
                 "resistance": _round(getattr(sig, "resistance", None)),
                 "reason": "gfs_entry",
-                "detail": "Carried over from the last run.",
+                "blocked": bool(reason),
+                "blocked_reason": reason,
+                "detail": (
+                    "Carried over from the last run, but the next open will "
+                    "refuse it: "
+                    + describe_block(
+                        {"blocked_reason": reason, "sector": sig.sector},
+                        cfg.max_positions if cfg is not None else 0,
+                    )
+                    + "."
+                )
+                if reason
+                else "Carried over from the last run.",
             }
         )
     return orders
@@ -632,6 +738,11 @@ def _watchlist(
         return []
 
     queued = {sig.symbol for sig in engine.pending_entries}
+    # A queued name can still be one the next open will refuse. Reporting it as
+    # "queued" hid exactly that case, so resolve the real reason first.
+    queue_blocked = _queue_blocks(
+        engine.pf.positions, engine.pending_exits, engine.pending_entries, cfg
+    )
     regime_ok = regime_panel.ok_on(ts)
     capacity = cfg.max_positions - len(engine.pf.positions)
     exposure = engine.pf.sector_exposure()
@@ -646,7 +757,7 @@ def _watchlist(
             continue
         rank = sector_panel.rank_of(panel.sector, ts)
         if symbol in queued:
-            status = "queued"
+            status = queue_blocked.get(symbol) or "queued"
         elif symbol in engine.pf.positions:
             status = "already_held"
         elif cfg.use_regime_filter and not regime_ok:
@@ -686,7 +797,11 @@ def _funnel(
 ) -> List[Dict[str, Any]]:
     tradable = [w for w in watchlist if w["status"] != "regime_closed"]
     in_sector = [w for w in tradable if w["status"] != "sector_weak"]
-    buys = [o for o in orders if o["action"] == "BUY"]
+    # Only orders the next open can actually accept. A queued-but-blocked name
+    # reaching this stage is what made the funnel claim a buy that never landed.
+    buys = [
+        o for o in orders if o["action"] == "BUY" and not o.get("blocked")
+    ]
     stages = [
         ("Universe", universe_size),
         ("With history", panels_built),
@@ -764,6 +879,10 @@ def _config_summary(cfg: GFSConfig, params: Dict[str, Any]) -> Dict[str, Any]:
         "regime": f"{cfg.regime_mode} (breadth >= {cfg.min_breadth_pct:.0f}%)",
         "sector_gate": f"top {cfg.sector_top_n}, max {cfg.max_per_sector} per sector",
         "sizing": f"{cfg.max_positions} positions x {cfg.max_position_pct:.0f}% max",
+        # Machine-readable duplicates of the two caps above: the report and the
+        # dashboard both need to explain a refused order in numbers, not prose.
+        "max_positions": cfg.max_positions,
+        "max_per_sector": cfg.max_per_sector,
         "htf_mode": cfg.htf_mode,
         "cash_yield_pct": cfg.cash_yield_pct,
         "costs": f"{cfg.commission_pct}% commission, {cfg.slippage_bps:g} bps slippage",
@@ -868,6 +987,10 @@ def ledger_snapshot() -> Dict[str, Any]:
         "orders": _pending_orders_from_book(
             book, equity=equity, cfg=_sizing_config(book)
         ),
+        "config": {
+            "max_positions": getattr(_sizing_config(book), "max_positions", None),
+            "max_per_sector": getattr(_sizing_config(book), "max_per_sector", None),
+        },
         "last_run": last_run,
         "equity_curve": book.equity_curve[-500:],
     }
@@ -955,12 +1078,15 @@ def render_report(data: Dict[str, Any]) -> str:
         lines.append("")
 
     orders = data.get("orders") or []
+    actionable = [o for o in orders if not o.get("blocked")]
+    refused = [o for o in orders if o.get("blocked")]
+    max_positions = (data.get("config") or {}).get("max_positions") or 0
     lines.append("-" * 72)
     lines.append(" ORDERS FOR THE NEXT OPEN")
     lines.append("-" * 72)
-    if not orders:
+    if not actionable:
         lines.append(" Nothing to place. Hold what you have.")
-    for o in orders:
+    for o in actionable:
         if o["action"] == "BUY":
             lines.append(
                 f" BUY   {o['symbol']:<14} qty {o.get('quantity')}  ref "
@@ -971,6 +1097,13 @@ def render_report(data: Dict[str, Any]) -> str:
             lines.append(
                 f" SELL  {o['symbol']:<14} qty {o.get('quantity')}  ref "
                 f"{o.get('reference_price')}  ({o.get('reason')})"
+            )
+    if refused:
+        lines.append("")
+        lines.append(" Signalled but NOT to be placed - the book will refuse these:")
+        for o in refused:
+            lines.append(
+                f"   {o['symbol']:<14} {describe_block(o, max_positions)}"
             )
     lines.append("")
 

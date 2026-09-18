@@ -853,15 +853,25 @@ def render_gfs_ledger_snapshot() -> None:
     _gfs_book_metrics(snap.get("book") or {}, snap.get("holdings") or [])
     pending_orders = snap.get("orders") or []
     if pending_orders:
+        placeable = [o for o in pending_orders if not o.get("blocked")]
         st.markdown("#### 🎯 Orders waiting for the next open")
-        st.warning(
-            f"**{len(pending_orders)} order(s) queued.** Place these at the next "
-            "session's open, then run the strategy after that close so the book "
-            "records the fill. GFS never fills on the bar that produced the "
-            "signal, so waiting for these to appear in Holdings before buying "
-            "would put you a session late."
+        if placeable:
+            st.warning(
+                f"**{len(placeable)} order(s) queued.** Place these at the next "
+                "session's open, then run the strategy after that close so the book "
+                "records the fill. GFS never fills on the bar that produced the "
+                "signal, so waiting for these to appear in Holdings before buying "
+                "would put you a session late."
+            )
+        else:
+            st.info(
+                "Nothing to place. Every queued signal is refused by the book's "
+                "own risk caps — see below."
+            )
+        _gfs_orders_tables(
+            pending_orders,
+            max_positions=(snap.get("config") or {}).get("max_positions") or 0,
         )
-        _gfs_orders_tables(pending_orders)
     elif snap.get("pending"):
         st.warning(
             f"{snap['pending']} order(s) are queued for the next open. Run the "
@@ -875,10 +885,18 @@ def render_gfs_ledger_snapshot() -> None:
         _gfs_tradebook_table(snap.get("tradebook") or [])
 
 
-def _gfs_orders_tables(orders: list) -> None:
+def _gfs_orders_tables(orders: list, *, max_positions: int = 0) -> None:
     """The only actionable section, rendered identically whether it comes from a
     fresh run or from the queue persisted in the saved book. A count alone is
-    useless: you cannot place an order you cannot see."""
+    useless: you cannot place an order you cannot see.
+
+    Orders the next open is already certain to refuse are split out below rather
+    than listed as things to place. Showing them together is what let a buy the
+    book could never accept read as a normal instruction, and then disappear
+    overnight with nothing to explain it.
+    """
+    placeable = [o for o in orders if not o.get("blocked")]
+    refused = [o for o in orders if o.get("blocked")]
     for label, kind, columns in (
         (
             "🟢 Buy",
@@ -901,7 +919,7 @@ def _gfs_orders_tables(orders: list) -> None:
             ["symbol", "sector", "quantity", "reference_price", "reason"],
         ),
     ):
-        rows = [o for o in orders if o.get("action") == kind]
+        rows = [o for o in placeable if o.get("action") == kind]
         if not rows:
             continue
         st.markdown(f"**{label}** ({len(rows)})")
@@ -911,12 +929,34 @@ def _gfs_orders_tables(orders: list) -> None:
             width="stretch",
             hide_index=True,
         )
-    if any(o.get("action") == "BUY" for o in orders):
+    if any(o.get("action") == "BUY" for o in placeable):
         st.caption(
             "Quantities are indicative. The engine re-derives the stop and the "
             "size from the actual opening print, so an overnight gap changes the "
             "size rather than silently changing the risk."
         )
+    if refused:
+        from gfs.engine import describe_block
+
+        st.markdown(f"**⛔ Signalled but not placeable** ({len(refused)})")
+        st.caption(
+            "These met the entry rule, but the book's own risk caps refuse them "
+            "at the next open, so the strategy will not buy them and they will "
+            "not appear as fills. They are shown because silently dropping them "
+            "is what made earlier suggestions look like they vanished."
+        )
+        frame = pd.DataFrame(
+            [
+                {
+                    "symbol": o.get("symbol"),
+                    "sector": o.get("sector"),
+                    "reference_price": o.get("reference_price"),
+                    "why the book refuses it": describe_block(o, max_positions),
+                }
+                for o in refused
+            ]
+        )
+        st.dataframe(frame, width="stretch", hide_index=True)
 
 
 def _render_gfs_live(data: dict) -> None:
@@ -977,7 +1017,10 @@ def _render_gfs_live(data: dict) -> None:
     if not orders:
         st.caption("Nothing to place. Hold what you have.")
     else:
-        _gfs_orders_tables(orders)
+        _gfs_orders_tables(
+            orders,
+            max_positions=(data.get("config") or {}).get("max_positions") or 0,
+        )
 
     # 4) What the replay already executed since the previous run.
     fills = data.get("fills") or []
