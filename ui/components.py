@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import sqlite3
 import time
 from datetime import datetime, timezone
 from typing import Any, Iterable
@@ -108,6 +109,10 @@ def render_result(result: StrategyResult, *, heading: bool = True) -> None:
         _render_gfs_live(result.data)
     elif result.strategy_id == "breakout_ath_daily":
         _render_ath_daily(result.data)
+    elif result.strategy_id == "s18_daily":
+        _render_s18_daily_run(result.data)
+    elif result.strategy_id in {"s18_backtest", "s18_replay"}:
+        _render_s18(result.data)
     else:
         _render_summary_data(result.data)
 
@@ -121,6 +126,9 @@ def render_result(result: StrategyResult, *, heading: bool = True) -> None:
             "qtr_results",
             "gfs_live",
             "breakout_ath_daily",
+            "s18_daily",
+            "s18_backtest",
+            "s18_replay",
         },
     ):
         st.markdown(result.report or "_No report returned._")
@@ -182,14 +190,14 @@ def clean_editor_rows(rows: Any, required: Iterable[str]) -> list[dict]:
 def _render_decisions(decisions: dict) -> None:
     rows = [{"symbol": symbol, **values} for symbol, values in decisions.items()]
     if rows:
-        st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
+        st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
 
 
 def _render_watchlist(data: dict) -> None:
     st.metric("Screening stage", data.get("stage", "-"))
     rows = data.get("picks") or data.get("shortlist") or []
     if rows:
-        st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
+        st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
 
 
 def _fmt_inr(value: Any) -> str:
@@ -231,7 +239,7 @@ def _holdings_table(holdings: list) -> None:
     ]
     frame = pd.DataFrame(holdings)
     frame = frame[[c for c in cols if c in frame.columns]]
-    st.dataframe(frame, width="stretch", hide_index=True)
+    st.dataframe(frame, use_container_width=True, hide_index=True)
 
 
 def _tradebook_table(tradebook: list) -> None:
@@ -254,7 +262,7 @@ def _tradebook_table(tradebook: list) -> None:
     ]
     frame = pd.DataFrame(tradebook)
     frame = frame[[c for c in cols if c in frame.columns]]
-    st.dataframe(frame, width="stretch", hide_index=True)
+    st.dataframe(frame, use_container_width=True, hide_index=True)
     wins = [t for t in tradebook if (t.get("realized_pnl") or 0) > 0]
     total = sum(t.get("realized_pnl") or 0 for t in tradebook)
     cols = st.columns(3)
@@ -346,7 +354,7 @@ def _render_quarterly_results(data: dict) -> None:
                 ]
                 if c in frame.columns
             ]
-            st.dataframe(frame[cols], width="stretch", hide_index=True)
+            st.dataframe(frame[cols], use_container_width=True, hide_index=True)
 
     # 3) Filtering funnel — how the day's declarers narrowed to the buys.
     funnel = data.get("funnel") or []
@@ -385,7 +393,7 @@ def _render_quarterly_results(data: dict) -> None:
                 ]
                 if c in frame.columns
             ]
-            st.dataframe(frame[cols], width="stretch", hide_index=True)
+            st.dataframe(frame[cols], use_container_width=True, hide_index=True)
 
     # 4) Tradebook (closed trades) + upcoming heads-up.
     with st.expander(
@@ -397,7 +405,7 @@ def _render_quarterly_results(data: dict) -> None:
     if upcoming:
         with st.expander(f"📅 Upcoming results ({len(upcoming)})", expanded=False):
             st.dataframe(
-                pd.DataFrame(upcoming), width="stretch", hide_index=True
+                pd.DataFrame(upcoming), use_container_width=True, hide_index=True
             )
 
 
@@ -467,7 +475,7 @@ def _gfs_holdings_table(holdings: list, shadow: dict | None = None) -> None:
     ]
     frame = pd.DataFrame(holdings)
     frame = frame[[c for c in cols if c in frame.columns]]
-    st.dataframe(frame, width="stretch", hide_index=True)
+    st.dataframe(frame, use_container_width=True, hide_index=True)
     if shadow and shadow.get("exit_rsi"):
         would = shadow.get("would_exit") or []
         threshold = shadow["exit_rsi"]
@@ -505,7 +513,7 @@ def _gfs_tradebook_table(tradebook: list) -> None:
     ]
     frame = pd.DataFrame(tradebook)
     frame = frame[[c for c in cols if c in frame.columns]]
-    st.dataframe(frame, width="stretch", hide_index=True)
+    st.dataframe(frame, use_container_width=True, hide_index=True)
     wins = [t for t in tradebook if (t.get("pnl") or 0) > 0]
     stats = st.columns(3)
     stats[0].metric("Closed trades", len(tradebook))
@@ -620,7 +628,7 @@ def _ath_holdings_table(holdings: list) -> None:
     frame = pd.DataFrame(holdings)
     st.dataframe(
         frame[[c for c in cols if c in frame.columns]],
-        width="stretch",
+        use_container_width=True,
         hide_index=True,
     )
     st.caption(
@@ -663,7 +671,7 @@ def _ath_pending_entries(snap: dict) -> None:
     )
     edited = st.data_editor(
         frame,
-        width="stretch",
+        use_container_width=True,
         hide_index=True,
         disabled=["symbol", "industry", "budget", "suggested_price"],
         key="ath_confirm_fills_editor",
@@ -773,7 +781,7 @@ def _render_ath_daily(data: dict) -> None:
         ]
         st.dataframe(
             frame[[c for c in cols_e if c in frame.columns]],
-            width="stretch",
+            use_container_width=True,
             hide_index=True,
         )
         st.caption(
@@ -800,7 +808,7 @@ def _render_ath_daily(data: dict) -> None:
         ]
         st.dataframe(
             frame[[c for c in cols_b if c in frame.columns]],
-            width="stretch",
+            use_container_width=True,
             hide_index=True,
         )
         st.info(
@@ -814,9 +822,9 @@ def _render_ath_daily(data: dict) -> None:
         tight = [h for h in holds if h.get("headroom_pct", 1) < 0.05]
         if tight:
             st.markdown("### ⚠️ Close to their stops")
-            st.dataframe(pd.DataFrame(tight), width="stretch", hide_index=True)
+            st.dataframe(pd.DataFrame(tight), use_container_width=True, hide_index=True)
         with st.expander(f"📊 All {len(holds)} holdings", expanded=False):
-            st.dataframe(pd.DataFrame(holds), width="stretch", hide_index=True)
+            st.dataframe(pd.DataFrame(holds), use_container_width=True, hide_index=True)
 
 
 def render_gfs_ledger_snapshot() -> None:
@@ -926,7 +934,7 @@ def _gfs_orders_tables(orders: list, *, max_positions: int = 0) -> None:
         frame = pd.DataFrame(rows)
         st.dataframe(
             frame[[c for c in columns if c in frame.columns]],
-            width="stretch",
+            use_container_width=True,
             hide_index=True,
         )
     if any(o.get("action") == "BUY" for o in placeable):
@@ -956,7 +964,7 @@ def _gfs_orders_tables(orders: list, *, max_positions: int = 0) -> None:
                 for o in refused
             ]
         )
-        st.dataframe(frame, width="stretch", hide_index=True)
+        st.dataframe(frame, use_container_width=True, hide_index=True)
 
 
 def _render_gfs_live(data: dict) -> None:
@@ -1030,7 +1038,7 @@ def _render_gfs_live(data: dict) -> None:
             cols = ["date", "action", "symbol", "quantity", "price", "detail"]
             st.dataframe(
                 frame[[c for c in cols if c in frame.columns]],
-                width="stretch",
+                use_container_width=True,
                 hide_index=True,
             )
 
@@ -1078,7 +1086,7 @@ def _render_gfs_live(data: dict) -> None:
             ]
             st.dataframe(
                 frame[[c for c in cols if c in frame.columns]],
-                width="stretch",
+                use_container_width=True,
                 hide_index=True,
             )
 
@@ -1121,7 +1129,7 @@ def _render_gfs_live(data: dict) -> None:
             margin=dict(l=10, r=10, t=30, b=10),
             title="Book equity",
         )
-        st.plotly_chart(fig, width="stretch")
+        st.plotly_chart(fig, use_container_width=True)
 
     with st.expander(
         f"📒 Tradebook — {len(data.get('tradebook') or [])} closed trades"
@@ -1139,7 +1147,7 @@ def _render_gfs_live(data: dict) -> None:
                     pd.DataFrame(
                         [{"reason": k, "count": v} for k, v in rejections.items()]
                     ),
-                    width="stretch",
+                    use_container_width=True,
                     hide_index=True,
                 )
             if config:
@@ -1148,7 +1156,7 @@ def _render_gfs_live(data: dict) -> None:
                     pd.DataFrame(
                         [{"setting": k, "value": str(v)} for k, v in config.items()]
                     ),
-                    width="stretch",
+                    use_container_width=True,
                     hide_index=True,
                 )
             note = diag.get("universe_note")
@@ -1195,16 +1203,16 @@ def _render_backtest(data: dict) -> None:
             margin={"l": 10, "r": 10, "t": 30, "b": 10},
             yaxis_title="Portfolio value (₹)",
         )
-        st.plotly_chart(figure, width="stretch")
+        st.plotly_chart(figure, use_container_width=True)
 
     trades = data.get("trades") or []
     if trades:
         st.markdown("#### Closed trades")
-        st.dataframe(pd.DataFrame(trades), width="stretch", hide_index=True)
+        st.dataframe(pd.DataFrame(trades), use_container_width=True, hide_index=True)
     positions = data.get("open_positions") or []
     if positions:
         st.markdown("#### Open at end date")
-        st.dataframe(pd.DataFrame(positions), width="stretch", hide_index=True)
+        st.dataframe(pd.DataFrame(positions), use_container_width=True, hide_index=True)
 
 
 def _render_summary_data(data: dict) -> None:
@@ -1219,21 +1227,418 @@ def _render_summary_data(data: dict) -> None:
             cols[index % len(cols)].metric(key.replace("_", " ").title(), value)
 
 
+def _s18_portfolio_metrics(book: dict) -> None:
+    cards = st.columns(6)
+    cards[0].metric("Portfolio value", _fmt_inr(book.get("equity")))
+    cards[1].metric("Cash", _fmt_inr(book.get("cash")))
+    cards[2].metric("Invested value", _fmt_inr(book.get("deployed")))
+    cards[3].metric("Unrealised P&L", _fmt_inr(book.get("unrealized_pnl")))
+    cards[4].metric("Realised P&L", _fmt_inr(book.get("realized_pnl")))
+    cards[5].metric("Positions (A + B)", book.get("open_positions", 0))
+    st.caption(
+        f"Total return **{book.get('total_return_pct', 0):+.2f}%** on "
+        f"{_fmt_inr(book.get('starting_capital'))} initial capital · "
+        f"Net P&L **{_fmt_inr(book.get('total_pnl'))}** · "
+        f"Tax paid {_fmt_inr(book.get('tax_paid'))} · "
+        f"{book.get('free_slots', 0)} slots available across both tranches."
+    )
+
+
+def _s18_holdings_table(holdings: list) -> None:
+    if not holdings:
+        st.caption("No holdings yet. Capital remains in cash until entries fill.")
+        return
+    columns = {
+        "symbol": "Symbol",
+        "tranche": "Tranche",
+        "sleeve": "Sleeve",
+        "qty": "Quantity",
+        "average_cost": "Average cost",
+        "close": "Last close",
+        "value": "Value",
+        "unrealised_pnl": "Unrealised P&L",
+        "return_pct": "Return (%)",
+        "armed": "Stop active",
+        "stop": "Active stop",
+        "entry_date": "Entry date",
+        "queued_sell_reason": "Pending exit",
+    }
+    frame = pd.DataFrame(holdings)
+    st.dataframe(
+        frame[[c for c in columns if c in frame]].rename(columns=columns),
+        use_container_width=True,
+        hide_index=True,
+    )
+    st.caption(
+        "A and B are separate halves of the portfolio; the same stock can appear "
+        "in both. S1 is the main sleeve and S2 uses idle capacity. Stops are shown "
+        "only when active."
+    )
+
+
+def _s18_orders_table(orders: list) -> None:
+    if not orders:
+        st.caption("No instructions queued for the next trading session.")
+        return
+    columns = {
+        "symbol": "Symbol",
+        "tranche": "Tranche",
+        "side": "Action",
+        "sleeve": "Sleeve",
+        "qty": "Quantity",
+        "target_amount_estimate": "Estimated buy allocation",
+        "execution_date": "Next session",
+        "reason": "Reason",
+    }
+    frame = pd.DataFrame(orders)
+    st.dataframe(
+        frame[[c for c in columns if c in frame]].rename(columns=columns),
+        use_container_width=True,
+        hide_index=True,
+    )
+    st.caption(
+        "Buy allocations are resized at the next open. Instructions are strategy "
+        "outputs, not submitted broker orders."
+    )
+
+
+def render_s18_ledger_snapshot(
+    *, book_id="default", combo="P15", metal_mode="both_priority"
+) -> None:
+    from backtesting.s18.portfolio import ledger_snapshot
+
+    st.markdown("### S18 portfolio")
+    try:
+        snapshot = ledger_snapshot(book_id=book_id, combo=combo, metal_mode=metal_mode)
+    except (ValueError, KeyError, TypeError, OSError, sqlite3.Error) as exc:
+        st.error(f"Could not read the saved S18 portfolio: {exc}")
+        return
+    st.caption(
+        f"Portfolio **{book_id}** · **{combo}** · {metal_mode.replace('_', ' ')}. "
+        "Strategy-modelled fills; not synced to broker holdings."
+    )
+    if not snapshot["exists"]:
+        st.info(
+            "This portfolio has not been started. Run S18 Daily below with "
+            "'Save portfolio updates' enabled to start tracking from cash."
+        )
+        return
+    st.caption(
+        f"Saved through the **{snapshot['as_of']}** close · "
+        f"Tracking since **{snapshot['opened_on']}**. Values are saved closing "
+        "marks, not live quotes."
+    )
+    _s18_portfolio_metrics(snapshot["book"])
+    st.markdown("#### Holdings")
+    _s18_holdings_table(snapshot["holdings"])
+    st.markdown(f"#### Next-session instructions — {snapshot['next_session']}")
+    _s18_orders_table(snapshot["orders"])
+    with st.expander(
+        f"Tradebook — {len(snapshot['tradebook'])} exit records", expanded=False
+    ):
+        if snapshot["tradebook"]:
+            st.dataframe(
+                pd.DataFrame(snapshot["tradebook"]),
+                use_container_width=True,
+                hide_index=True,
+            )
+        else:
+            st.caption("No exits recorded yet.")
+    with st.expander("Portfolio history", expanded=False):
+        curve = pd.DataFrame(snapshot["equity_curve"])
+        figure = go.Figure(
+            go.Scatter(x=curve["date"], y=curve["nav"], name="Portfolio value")
+        )
+        figure.update_layout(height=320, margin={"l": 10, "r": 10, "t": 20, "b": 10})
+        st.plotly_chart(
+            figure,
+            use_container_width=True,
+            key=f"s18_history_{book_id}_{combo}_{metal_mode}",
+        )
+
+
+def _render_s18_daily_run(data: dict) -> None:
+    readiness = data.get("readiness") or {}
+    as_of = data.get("as_of") or (data.get("portfolio_state") or {}).get("as_of")
+    if readiness and readiness.get("status") != "ready":
+        st.info(
+            readiness.get(
+                "message",
+                "Waiting for complete market inputs. The saved portfolio is unchanged.",
+            )
+        )
+    elif data.get("state_persisted"):
+        st.success(
+            f"Portfolio updated through {as_of or 'the latest available session'}."
+        )
+    else:
+        st.info("Preview only — the saved portfolio has not changed.")
+    if as_of:
+        st.caption(f"Session: {as_of}. Activity below belongs to this session.")
+    fills = [f for f in data.get("fills") or [] if not as_of or f.get("date") == as_of]
+    cards = st.columns(3)
+    cards[0].metric("Buy fills", sum(f.get("side") == "BUY" for f in fills))
+    cards[1].metric("Sell fills", sum(f.get("side") == "SELL" for f in fills))
+    cards[2].metric("Next-session instructions", len(data.get("orders") or []))
+    if fills:
+        columns = {
+            "fill_id": "Fill ID",
+            "date": "Date",
+            "tranche": "Tranche",
+            "symbol": "Symbol",
+            "side": "Action",
+            "qty": "Quantity",
+            "price": "Fill price",
+            "reason": "Reason",
+        }
+        frame = pd.DataFrame(fills)
+        st.dataframe(
+            frame[[c for c in columns if c in frame]].rename(columns=columns),
+            use_container_width=True,
+            hide_index=True,
+        )
+        st.caption(
+            "Recorded strategy fills use model units; no broker execution is implied."
+        )
+    else:
+        st.caption("No fills recorded for this session.")
+    if not data.get("state_persisted") and readiness.get("status") == "ready":
+        with st.expander("Preview instructions — not saved", expanded=False):
+            _s18_orders_table(data.get("orders") or [])
+    with st.expander("Portfolio from this run", expanded=False):
+        _s18_holdings_table(data.get("holdings") or [])
+    with st.expander("Diagnostics and assumptions", expanded=False):
+        st.markdown("**Data status**")
+        st.json(readiness)
+        st.markdown("**Reference replay validation**")
+        st.json(data.get("validation") or {})
+        st.markdown("**Dataset and metrics**")
+        st.json({"dataset": data.get("dataset"), "metrics": data.get("metrics")})
+        for warning in data.get("warnings") or []:
+            st.caption(str(warning))
+        st.markdown("**Recorded portfolio state**")
+        st.json(data.get("portfolio_state") or {})
+
+
+def _s18_armed(holding: dict) -> bool:
+    value = holding.get("armed")
+    return value is True or value == 1 or (
+        isinstance(value, str) and value.lower() in {"true", "yes", "armed"}
+    )
+
+
+def _s18_tables(data: dict) -> dict[str, list]:
+    holdings = data.get("holdings") or []
+    armed = [holding for holding in holdings if _s18_armed(holding)]
+    return {
+        "Holdings": holdings,
+        "Armed names and stops": data.get("armed") or armed,
+        "Stops": data.get("stops")
+        or [
+            holding
+            for holding in armed
+            if any(
+                key in holding
+                for key in ("stop", "stop_price", "trailing_stop")
+            )
+        ],
+        "Next-open model orders": data.get("orders") or [],
+        "Model fills and shadow charges": data.get("fills") or [],
+        "Model trades": data.get("trades") or [],
+    }
+
+
+def _render_s18(data: dict) -> None:
+    st.info(
+        "Theoretical S18 book only · A/B 50:50 · no broker execution or manual "
+        "fill confirmations. Close decisions fill at the next available open; "
+        "armed stops use intraday lows and gap-aware model fills. Real "
+        "contract-note charges are shadow-only; slippage remains untested. "
+        "Never import real stop fills into the theoretical book."
+    )
+    for warning in data.get("warnings") or []:
+        st.warning(str(warning))
+
+    if data.get("dataset"):
+        st.caption("Historical inputs and golden references are managed in the application database.")
+        with st.expander("Managed historical dataset"):
+            st.json(data["dataset"])
+    if data.get("results_dir"):
+        st.caption(f"Project artifacts: `{data['results_dir']}`")
+
+    readiness = data.get("readiness")
+    if readiness:
+        st.markdown("#### Daily data ingestion")
+        if readiness.get("status") == "ready":
+            st.success("Market inputs are ready for paper decisions.")
+        else:
+            st.info(readiness.get("message", "Waiting for a completed forward session."))
+        st.json(readiness)
+
+    metrics = data.get("metrics") or {}
+    if metrics:
+        st.markdown("#### Model metrics")
+        _render_summary_data(metrics)
+        with st.expander("All metric fields and units"):
+            st.json(metrics)
+
+    curve = pd.DataFrame(data.get("equity_curve") or [])
+    if not curve.empty:
+        st.markdown("#### Model equity curve")
+        value_columns = [
+            name
+            for name in curve.columns
+            if name in {"equity", "nav", "total_nav", "nav_a", "nav_b"}
+            or name.endswith("_nav")
+        ]
+        if "date" in curve and value_columns:
+            figure = go.Figure()
+            group_columns = [
+                name
+                for name in ("combo", "metal_mode", "tranche")
+                if name in curve
+            ]
+            groups = (
+                curve.groupby(group_columns, sort=False, dropna=False)
+                if group_columns
+                else [("", curve)]
+            )
+            for group, values in groups:
+                label = (
+                    " · ".join(map(str, group))
+                    if isinstance(group, tuple)
+                    else str(group)
+                )
+                for name in value_columns:
+                    figure.add_trace(
+                        go.Scatter(
+                            x=pd.to_datetime(values["date"]),
+                            y=values[name],
+                            name=f"{label} {name}".strip(),
+                            mode="lines",
+                        )
+                    )
+            figure.update_layout(
+                height=420,
+                margin={"l": 10, "r": 10, "t": 30, "b": 10},
+                yaxis_title="Model portfolio value (₹)",
+            )
+            st.plotly_chart(figure, use_container_width=True)
+        else:
+            st.dataframe(curve, use_container_width=True, hide_index=True)
+
+    for title, rows in _s18_tables(data).items():
+        st.markdown(f"#### {title}")
+        if rows:
+            st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+        else:
+            st.caption("No rows returned for this run.")
+    st.caption(
+        "An unarmed S1 trailing-stop level is not active. S2 has no trailing "
+        "stop or floor. Pending orders are model instructions, not broker orders."
+    )
+
+    st.markdown("#### Golden validation evidence")
+    validation = data.get("validation") or {}
+    if validation:
+        st.json(validation)
+    else:
+        st.caption(
+            "No golden evidence was returned for this run. A completed "
+            "backtest alone does not certify the engine or unlock paper daily."
+        )
+    with st.expander("Paper portfolio state (read-only)"):
+        st.json(data.get("portfolio_state") or {})
+
+
+def _render_s18_downloads(result: StrategyResult) -> None:
+    from core import storage
+
+    data = result.data
+    with st.expander("S18 CSVs, state and stored dossier"):
+        for field in ("holdings", "orders", "fills", "trades", "equity_curve"):
+            if field not in data:
+                continue
+            st.download_button(
+                f"Download {field.replace('_', ' ')} CSV",
+                data=pd.DataFrame(data[field] or []).to_csv(index=False),
+                file_name=f"{result.strategy_id}_{field}.csv",
+                mime="text/csv",
+                key=f"{result.strategy_id}_{field}_csv",
+            )
+        for field in ("portfolio_state", "validation"):
+            if field not in data:
+                continue
+            st.download_button(
+                f"Download {field.replace('_', ' ')} JSON",
+                data=json.dumps(data[field], indent=2, default=str),
+                file_name=f"{result.strategy_id}_{field}.json",
+                mime="application/json",
+                key=f"{result.strategy_id}_{field}_json",
+            )
+        group_id = data.get("artifact_group_id")
+        if not group_id:
+            st.caption(
+                "No stored artifact group was returned (for example, a dry run)."
+            )
+            return
+        st.caption(f"Stored artifact group: {group_id}")
+        names = data.get("artifact_names") or list(data.get("artifacts") or {})
+        if not names:
+            names = [
+                "holdings.csv",
+                "orders.csv",
+                "fills.csv",
+                "trades.csv",
+                "equity_curve.csv",
+                "portfolio_state.json",
+                "validation.json",
+                "dossier.xlsx",
+                "s18_dossier.xlsx",
+                "dossier.zip",
+                "report.md",
+            ]
+        found = False
+        try:
+            for name in dict.fromkeys(names):
+                artifact = storage.get_artifact(str(group_id), name)
+                if artifact is None:
+                    continue
+                found = True
+                st.download_button(
+                    f"Download stored {name}",
+                    data=artifact.payload,
+                    file_name=name,
+                    mime=artifact.content_type,
+                    key=f"{result.strategy_id}_{group_id}_{name}",
+                )
+        except Exception as exc:
+            st.warning(f"Stored artifacts could not be loaded: {exc}")
+        if not found:
+            st.caption(
+                "Stored files are not available in this database. To export a "
+                "group from its original database, use the storage CLI:"
+            )
+            st.code(f'python -m core.storage export "{group_id}" ".\\s18-export"')
+
+
 def _render_downloads(result: StrategyResult) -> None:
+    if result.strategy_id in {"s18_daily", "s18_backtest", "s18_replay"}:
+        _render_s18_downloads(result)
     col1, col2 = st.columns(2)
     col1.download_button(
         "Download report",
         data=result.report,
         file_name=f"{result.strategy_id}_report.md",
         mime="text/markdown",
-        width="stretch",
+        use_container_width=True,
     )
     col2.download_button(
         "Download structured data",
         data=json.dumps(result.to_dict(), indent=2, default=str),
         file_name=f"{result.strategy_id}_result.json",
         mime="application/json",
-        width="stretch",
+        use_container_width=True,
     )
 
 

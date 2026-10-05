@@ -6,6 +6,7 @@ import io
 import json
 import os
 import shutil
+import sqlite3
 from datetime import datetime, time as dt_time, timezone
 from importlib.util import find_spec
 
@@ -27,6 +28,7 @@ from ui.components import (
     render_ath_ledger_snapshot,
     render_gfs_ledger_snapshot,
     render_qtr_ledger_snapshot,
+    render_s18_ledger_snapshot,
     render_result,
     result_from_record,
     result_symbols,
@@ -95,7 +97,7 @@ def dashboard_page() -> None:
     )
     st.dataframe(
         table[["strategy_id", "status", "created_at", "duration_ms"]],
-        width="stretch",
+        use_container_width=True,
         hide_index=True,
     )
     labels = {
@@ -121,14 +123,15 @@ def discover_page() -> None:
     page_header(
         "Discover Ideas",
         "Screen broad universes, monitor fresh quarterly-result catalysts, and "
-        "track the GFS and ATH breakout books.",
+        "track the GFS, ATH breakout and S18 portfolios.",
     )
-    watchlist_tab, results_tab, gfs_tab, ath_tab = st.tabs(
+    watchlist_tab, results_tab, gfs_tab, ath_tab, s18_tab = st.tabs(
         [
             "Watchlist builder",
             "Quarterly results",
             "GFS multi-timeframe",
             "ATH breakout",
+            "S18 Portfolio",
         ]
     )
     with watchlist_tab:
@@ -162,6 +165,8 @@ def discover_page() -> None:
         st.divider()
         _registry_runner("breakout_ath_daily", "discover_ath")
         _basket_action(latest_result("breakout_ath_daily"), "ath")
+    with s18_tab:
+        _s18_portfolio_desk()
 
 
 def research_page() -> None:
@@ -186,7 +191,7 @@ def research_page() -> None:
             defaults=defaults,
         )
         submitted = st.form_submit_button(
-            "Run stock research", type="primary", width="stretch"
+            "Run stock research", type="primary", use_container_width=True
         )
     if submitted:
         result = run_strategy(strategy_id, params)
@@ -221,14 +226,14 @@ def swing_page() -> None:
         edited = st.data_editor(
             pd.DataFrame(positions),
             num_rows="dynamic",
-            width="stretch",
+            use_container_width=True,
             key="swing_position_editor",
         )
         positions = clean_editor_rows(edited, ("quantity", "buy_price"))
         if source == "Manual editor":
             st.session_state["manual_positions"] = positions
     elif positions:
-        st.dataframe(pd.DataFrame(positions), width="stretch", hide_index=True)
+        st.dataframe(pd.DataFrame(positions), use_container_width=True, hide_index=True)
 
     strategy = registry.get_strategy("swing_trading")
     defaults = {"watchlist": st.session_state.get("symbol_basket", [])}
@@ -240,7 +245,7 @@ def swing_page() -> None:
             defaults=defaults,
         )
         submitted = st.form_submit_button(
-            "Run swing review", type="primary", width="stretch"
+            "Run swing review", type="primary", use_container_width=True
         )
     if submitted:
         params["positions"] = positions
@@ -266,14 +271,14 @@ def portfolio_page() -> None:
         edited = st.data_editor(
             pd.DataFrame(holdings),
             num_rows="dynamic",
-            width="stretch",
+            use_container_width=True,
             key="portfolio_holding_editor",
         )
         holdings = clean_editor_rows(edited, ("quantity", "buy_price"))
         if source == "Manual editor":
             st.session_state["manual_holdings"] = holdings
     elif holdings:
-        st.dataframe(pd.DataFrame(holdings), width="stretch", hide_index=True)
+        st.dataframe(pd.DataFrame(holdings), use_container_width=True, hide_index=True)
 
     if holdings:
         total_cost = sum(
@@ -296,7 +301,7 @@ def portfolio_page() -> None:
             exclude={"holdings"},
         )
         submitted = st.form_submit_button(
-            "Run portfolio review", type="primary", width="stretch"
+            "Run portfolio review", type="primary", use_container_width=True
         )
     if submitted:
         params["holdings"] = holdings
@@ -317,7 +322,7 @@ def backtest_page() -> None:
     )
     strategy_id = st.selectbox(
         "Strategy",
-        ["swing_backtest", "breakout_ath_backtest"],
+        ["swing_backtest", "breakout_ath_backtest", "s18_backtest", "s18_replay"],
         format_func=lambda item: registry.get_strategy(item).name,
     )
     _registry_runner(strategy_id, f"backtest_{strategy_id}")
@@ -407,7 +412,7 @@ def broker_page() -> None:
     ):
         if rows:
             st.subheader(title)
-            st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
+            st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
 
 
 def _backend_readiness(choice) -> list[dict[str, str]]:
@@ -684,7 +689,7 @@ def settings_page() -> None:
             ),
         },
     ]
-    st.dataframe(pd.DataFrame(readiness), width="stretch", hide_index=True)
+    st.dataframe(pd.DataFrame(readiness), use_container_width=True, hide_index=True)
 
     _render_backend_form(choice)
     _render_connection_test()
@@ -717,25 +722,73 @@ def settings_page() -> None:
                 }
                 for spec in strategy_class.param_specs()
             ]
-            st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
+            st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+
+
+def _s18_portfolio_desk() -> None:
+    from backtesting.s18.portfolio import latest_portfolio_run
+    from core.storage import get_document
+
+    snapshot_slot = st.empty()
+    st.divider()
+    strategy = registry.get_strategy("s18_daily")
+    st.subheader("Run S18 Daily")
+    st.caption(
+        "Run after the close to update the saved portfolio and prepare the next "
+        "session's instructions. Turn off saving only to preview a run."
+    )
+    with st.form("discover_s18_form"):
+        params = render_strategy_params(
+            strategy.param_specs(),
+            key_prefix="discover_s18",
+            defaults=get_document("strategy_defaults", "s18_daily", {}),
+        )
+        submitted = st.form_submit_button(
+            "Run S18 Daily",
+            type="primary",
+            use_container_width=True,
+        )
+    result = run_strategy("s18_daily", params) if submitted else None
+    selection = {key: params[key] for key in ("book_id", "combo", "metal_mode")}
+    # Reserve the top slot, then fill it after execution so this same render
+    # reflects newly committed state, never a preview or stale run envelope.
+    with snapshot_slot.container():
+        render_s18_ledger_snapshot(**selection)
+    st.divider()
+    st.subheader("Latest run")
+    if not submitted:
+        try:
+            record = latest_portfolio_run(**selection)
+        except (ValueError, sqlite3.Error) as exc:
+            st.error(f"Could not read the latest S18 run: {exc}")
+            return
+        if record:
+            result = result_from_record(record)
+            st.caption(f"Recorded {format_run_timestamp(record['created_at'])}.")
+    if result:
+        render_result(result, heading=False)
+    else:
+        st.caption("No run recorded for this portfolio selection yet.")
 
 
 def _registry_runner(strategy_id: str, key_prefix: str) -> None:
     strategy = registry.get_strategy(strategy_id)
     st.subheader(strategy.name)
     st.write(strategy.description)
+    defaults = None
+    if strategy_id == "swing_backtest":
+        defaults = {"symbols": st.session_state.get("symbol_basket", [])}
+    elif strategy_id == "s18_daily":
+        from core.storage import get_document
+        defaults = get_document("strategy_defaults", "s18_daily", {})
     with st.form(f"{key_prefix}_form"):
         params = render_strategy_params(
             strategy.param_specs(),
             key_prefix=key_prefix,
-            defaults=(
-                {"symbols": st.session_state.get("symbol_basket", [])}
-                if strategy_id == "swing_backtest"
-                else None
-            ),
+            defaults=defaults,
         )
         submitted = st.form_submit_button(
-            f"Run {strategy.name}", type="primary", width="stretch"
+            f"Run {strategy.name}", type="primary", use_container_width=True
         )
     if submitted:
         result = run_strategy(strategy_id, params)
@@ -801,7 +854,7 @@ def _render_proposed_orders(result: StrategyResult, portfolio_value: float) -> N
     if rows:
         st.subheader("Proposed orders")
         st.warning("These proposals are not sent to Zerodha.")
-        st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
+        st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
 
 
 def _holding_source(source: str) -> list[dict]:
@@ -961,7 +1014,7 @@ def _render_kronos_forecast(fc) -> None:
     row[3].metric(f"Target ({fc.pred_len}d)", f"₹{sig.suggested_target:,.2f}")
     row[4].metric("Reward:Risk", f"{sig.reward_risk:.2f}:1")
 
-    st.plotly_chart(_kronos_chart(fc), width="stretch")
+    st.plotly_chart(_kronos_chart(fc), use_container_width=True)
     st.caption(sig.rationale)
     st.divider()
 
@@ -1125,7 +1178,7 @@ def _schedule_card(schedule) -> None:
             if st.button(
                 "Run now",
                 key=f"sched_run_{schedule.id}",
-                width="stretch",
+                use_container_width=True,
                 type="primary",
             ):
                 _run_schedule_now(schedule)
@@ -1155,7 +1208,7 @@ def _schedule_card(schedule) -> None:
                 schedules_mod.set_enabled(schedule.id, wanted)
                 st.rerun()
         with remove:
-            with st.popover("Delete", width="stretch"):
+            with st.popover("Delete", use_container_width=True):
                 st.write(f"Delete **{schedule.name}**?")
                 if st.button(
                     "Yes, delete", key=f"sched_del_{schedule.id}", type="primary"
@@ -1262,7 +1315,7 @@ def _schedule_editor(rows: list) -> None:
             defaults=dict(current.params) if current else None,
         )
         saved = st.form_submit_button(
-            "Save schedule", type="primary", width="stretch"
+            "Save schedule", type="primary", use_container_width=True
         )
 
     if not saved:

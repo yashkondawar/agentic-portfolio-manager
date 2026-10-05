@@ -21,11 +21,14 @@ and run them uniformly.
 | `parallel_agents`   | Concurrent multi-analyst fan-out + risk/portfolio managers | research |
 | `swing_trading`     | Daily swing-trading copilot | swing |
 | `breakout_ath_daily`| Daily all-time-high breakout sleeve + paper portfolio | swing |
+| `s18_daily`        | Certificate-gated S18 paper book, both A/B tranches | swing |
 | `portfolio_analysis`| Holistic portfolio review + rebalancing | portfolio |
 | `watchlist_curation`| Universe screening + LLM curation | watchlist |
 | `qtr_results`       | Quarterly-results momentum + tracked exits | swing |
 | `swing_backtest`    | Point-in-time validation of the swing playbook | backtest |
 | `breakout_ath_backtest` | Trail-only all-time-high breakout sleeve | backtest |
+| `s18_backtest`     | One fixed S18 combo and metal mode over a selected period | backtest |
+| `s18_replay`       | S18 golden replay: all 15 combo/mode combinations × A/B | backtest |
 
 **Layout**
 
@@ -77,6 +80,65 @@ win rate across 729 round trips. See `docs/ath-breakout-strategy.md` for the
 full write-up, including the known gaps -- these are validation results, not a
 return guarantee.
 
+### S18 strategy portfolio
+
+**Discover → S18 Portfolio** shows the saved portfolio at the top: value,
+cash, holdings, P&L, next-session instructions and expandable trade/history views.
+Run **S18 Daily** below it; the current/latest run appears at the bottom.
+Successful saved runs refresh the portfolio immediately. Previews and failures
+never replace committed holdings. Fills remain strategy-modelled, not broker-synced.
+**Backtest Lab → S18 Backtest** runs one selected combo over a period;
+**S18 Golden Replay** validates all five fixed combos (`P5`, `P10`, `P15`,
+`P20`, `A20`) and three metal modes (`none`, `both`, `both_priority`) against
+the golden references stored in the app's SQLite database, covering all
+**30 tranches**. Defaults are **P15 / both_priority**;
+both A/B tranches always receive 50:50 initial capital.
+
+S18 is repo-native and **DB-owned**: historical inputs, full warm-up history
+and golden references are imported once into immutable, SHA256-manifested
+versions in the shared local SQLite store. Normal runs need no external
+reference or forward folder. A fresh machine needs a database backup or the
+one-time administrator import described in [the S18 guide](docs/s18-strategy.md);
+the large panels and database are not committed to Git.
+Daily uses DB history and automatically collects official NSE data, saving raw
+evidence and dated constituent observations. Live collection still requires NSE
+network access. Post-reference prices before paper inception are warm-up only:
+today's membership is never backdated. Missing/stale required coverage blocks
+the book.
+
+```powershell
+python run.py s18_replay
+python run.py s18_backtest --param combo=P15 --param metal_mode=both_priority
+python run.py s18_daily --param book_id=s18-p15-forward --param capital=500000
+```
+
+Daily updates refuse to advance without a passing golden certificate for the
+current engine/data. It starts from cash, never automatically imports reference
+positions, and catches up sequentially. Dry runs do not update the saved book.
+Technical ingestion status, dataset metadata and validation evidence are
+collapsed under **Diagnostics and assumptions** in the latest run. CSV, state
+JSON and stored-dossier downloads remain available.
+Every replay and backtest, plus each persisted daily run with ready data,
+automatically exports its DB-saved artifacts into
+`reports\s18\<artifact_group_id>` and returns `results_dir`; no path form is
+needed. These generated project files are Git-ignored supporting copies,
+while SQLite remains the authoritative, durable store.
+`python -m backtesting.s18.dataset export-reference` also copies the original
+spec/README, all 33 golden-output assets and the dataset manifest from SQLite
+to `reports\s18\reference\<dataset_id>` for inspection. These Git-ignored
+reference copies are not runtime inputs; the original Downloads folder is
+not needed.
+There are **no manual fill confirmations, broker orders or default S18 schedules**.
+The prepared P15 / priority-metals INR 500,000 book schedule stays **disabled**
+until merge/deployment into the running scheduler's checkout and validation.
+Its configured time is **19:00 IST, all seven days**; it does not switch or
+disrupt existing jobs. REIT/RR instruments remain excluded as approved;
+voluntary rights offers and buybacks remain non-participating.
+Advanced `shadow_charges` accepts nonnegative contract-note charge breakdowns
+keyed by model fill ID, without changing cash, basis or NAV. Real stop fills
+must never replace model fills; slippage is untested.
+See [the S18 guide](docs/s18-strategy.md) for model quirks, inputs and limits.
+
 **Integrate a UI** — everything a front end needs comes from the registry:
 
 ```python
@@ -105,12 +167,12 @@ scripts:
 | Page | Purpose |
 |------|---------|
 | Dashboard | Shared idea basket, readiness, and recent persisted runs |
-| Discover Ideas | Watchlist screening and quarterly-results catalysts |
+| Discover Ideas | Watchlist screening, quarterly catalysts, GFS/ATH books and S18 Portfolio |
 | Stock Research | Parallel specialist agents or sequential supervisor |
 | Market Temperature | Long-horizon read on whether an index is unusually cheap or expensive, used to pace new-money deployment |
 | Swing Desk | Manage open swing positions and evaluate new entries |
 | Portfolio Review | Concentration, risk, conviction, and rebalancing review |
-| Backtest Lab | Historical return/risk metrics, equity curve, and trade log |
+| Backtest Lab | Historical metrics, equity curves and trade logs; S18 backtest and golden replay |
 | Broker & Holdings | Read-only Zerodha holdings, positions, margins, and orders |
 | Automation & Schedules | Daily unattended runs, their parameters, and scheduler health |
 | Settings & Catalog | Integration setup and every strategy parameter |
@@ -136,6 +198,8 @@ uv run python -m core.scheduler once           # fire whatever is due, then exit
 Defaults, seeded on first use and editable on the **Automation & Schedules**
 page: `gfs_live` at 17:30 IST Mon-Fri, `qtr_results` at 19:30 IST daily, plus an
 optional 08:15 pre-open pass that ships disabled.
+S18 adds no default schedule; paper runs remain explicitly requested unless
+you separately create a schedule after validation.
 
 Every scheduled run is written to the run history, so opening the app in the
 morning shows last night's report without re-running anything. A run button on

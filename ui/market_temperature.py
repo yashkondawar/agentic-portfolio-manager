@@ -49,7 +49,7 @@ def market_temperature_page() -> None:
     horizon = controls[1].selectbox(
         "Evidence horizon", [12, 36, 60], format_func=lambda m: f"Next {m // 12} year(s)"
     )
-    refresh = controls[2].button("Refresh data", width="stretch")
+    refresh = controls[2].button("Refresh data", use_container_width=True)
 
     try:
         with st.spinner(f"Loading {MARKETS[market_key].label}..."):
@@ -183,7 +183,7 @@ def _render_action(temp: MarketTemperature) -> None:
             schedule["Amount"] = schedule["Amount"].map(
                 lambda v: f"{temp.market.currency} {v:,.0f}"
             )
-            st.dataframe(schedule, width="stretch", hide_index=True)
+            st.dataframe(schedule, use_container_width=True, hide_index=True)
             st.caption(
                 "A schedule, not an instruction. Spreading purchases reduces the "
                 "damage from being wrong about timing, which is the realistic "
@@ -231,7 +231,7 @@ def _render_rules(temp: MarketTemperature) -> None:
                 "What it means": reading.detail,
             }
         )
-    st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
+    st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
 
     st.metric(
         "Composite score",
@@ -305,7 +305,7 @@ def _render_evidence(temp: MarketTemperature, horizon: int) -> None:
                 "% beat cash": "{:.0f}%",
             }
         ),
-        width="stretch",
+        use_container_width=True,
         hide_index=True,
     )
     st.caption(
@@ -337,7 +337,7 @@ def _render_evidence(temp: MarketTemperature, horizon: int) -> None:
         yaxis_title=f"Median annualised return over next {horizon // 12}y (%)",
         showlegend=False,
     )
-    st.plotly_chart(fig, width="stretch")
+    st.plotly_chart(fig, use_container_width=True)
 
     worst = frame.loc[frame["Band"] == temp.band.label, "Worst"]
     if not worst.empty:
@@ -416,7 +416,7 @@ def _render_history(temp: MarketTemperature) -> None:
         showlegend=False,
         hovermode="x unified",
     )
-    st.plotly_chart(fig, width="stretch")
+    st.plotly_chart(fig, use_container_width=True)
 
     legend = " ".join(
         f"<span style='background:{TEMPERATURE_BANDS[k].colour}2e;"
@@ -440,7 +440,7 @@ def _render_history(temp: MarketTemperature) -> None:
     summary["Share of history"] = (
         summary["Months"] / summary["Months"].sum() * 100
     ).map("{:.0f}%".format)
-    st.dataframe(summary, width="stretch", hide_index=True)
+    st.dataframe(summary, use_container_width=True, hide_index=True)
 
 
 def _contiguous_bands(series: pd.Series) -> list[tuple[str, pd.Timestamp, pd.Timestamp]]:
