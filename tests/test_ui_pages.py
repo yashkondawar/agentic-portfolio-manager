@@ -1,3 +1,6 @@
+import ast
+from pathlib import Path
+
 import pytest
 from streamlit.testing.v1 import AppTest
 
@@ -15,6 +18,7 @@ from streamlit.testing.v1 import AppTest
         "settings_page",
         "kronos_page",
         "market_temperature_page",
+        "schedules_page",
     ],
 )
 def test_page_renders_without_exception(page_name):
@@ -26,6 +30,43 @@ def test_page_renders_without_exception(page_name):
     )
     app = AppTest.from_string(script).run(timeout=120)
     assert not app.exception
+
+
+def test_full_width_layout_remains_compatible_with_streamlit_137():
+    for path in (Path(__file__).resolve().parents[1] / "ui").glob("*.py"):
+        tree = ast.parse(path.read_text(encoding="utf-8"))
+        for node in ast.walk(tree):
+            if not isinstance(node, ast.Call):
+                continue
+            for keyword in node.keywords:
+                assert not (
+                    keyword.arg == "width"
+                    and isinstance(keyword.value, ast.Constant)
+                    and keyword.value.value == "stretch"
+                ), f"{path.name}:{node.lineno}: use use_container_width=True"
+
+
+def test_discover_form_can_submit_and_render_downloads():
+    script = (
+        "from unittest.mock import patch\n"
+        "from core.strategy import StrategyResult\n"
+        "from ui.state import initialize_state\n"
+        "from ui.pages import discover_page\n"
+        "initialize_state()\n"
+        "result = StrategyResult('watchlist_curation', 'completed', "
+        "'Layout submission fixture', data={'picks': [{'symbol': 'ACME'}]})\n"
+        "with patch('ui.pages.run_strategy', return_value=result):\n"
+        "    discover_page()\n"
+    )
+    app = AppTest.from_string(script).run(timeout=120)
+    assert not app.exception
+    from core import registry
+
+    label = f"Run {registry.get_strategy('watchlist_curation').name}"
+    next(button for button in app.button if button.label == label).click().run(timeout=120)
+    assert not app.exception
+    assert app.get("download_button")
+    assert any("Layout submission fixture" in item.value for item in app.markdown)
 
 
 def test_discover_page_renders_a_populated_gfs_book():

@@ -237,6 +237,14 @@ open that address yourself.
 
 To stop the app, come back to the terminal and press `Ctrl + C`.
 
+If you run from an existing Anaconda environment, use
+`python -m streamlit run app.py` so the app uses that interpreter's packages.
+Check its version with `python -c "import streamlit; print(streamlit.__version__)"`.
+Workbench full-width controls use `use_container_width=True`, which also works
+with Streamlit 1.37.1; the newer `width="stretch"` spelling is not compatible
+with that release. After updating the app code, refresh the page or restart
+the same command if the browser still shows the old error.
+
 **First thing to do:** open **Settings & Catalog** from the sidebar. It shows a
 checklist of everything that is working and everything that still needs
 attention. Green means ready.
