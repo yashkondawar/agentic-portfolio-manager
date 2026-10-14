@@ -184,3 +184,76 @@ def test_empty_portfolio_does_not_replay_old_run_into_saved_state(daily_setup):
     _saved_run("default", preview)
     assert not portfolio.ledger_snapshot(combo="P5", metal_mode="none")["exists"]
     assert portfolio.latest_portfolio_run(combo="P5", metal_mode="none") is not None
+
+
+def test_saved_refresh_picks_up_scheduled_run_without_running_strategy(daily_setup):
+    m = daily_setup
+    defaults = {
+        "book_id": "scheduled",
+        "combo": "P5",
+        "metal_mode": "none",
+        "capital": 100000.0,
+        "persist": True,
+        "as_of": str(m.dates[0]),
+    }
+    storage.set_document("strategy_defaults", "s18_daily", defaults)
+    first = service.run_daily(**defaults)
+    _saved_run("scheduled", first)
+    app = AppTest.from_string(
+        "from ui.state import initialize_state\n"
+        "from ui.pages import _s18_portfolio_desk\n"
+        "initialize_state()\n"
+        "_s18_portfolio_desk()\n"
+    ).run(timeout=120)
+    assert not app.exception
+    assert any("2025-01-01" in c.value and "Saved through" in c.value for c in app.caption)
+    assert any("every 30 seconds" in c.value for c in app.caption)
+    app.session_state["latest_results"] = {
+        "s18_daily": StrategyResult("s18_daily", "completed", data=first).to_dict()
+    }
+    updated = service.run_daily(**{**defaults, "as_of": str(m.dates[1])})
+    latest_id = _saved_run("scheduled", updated)
+    original = storage.get_document("s18", "book:scheduled:P5:none")
+    with (
+        patch("ui.pages.run_strategy", side_effect=AssertionError("Ran strategy")),
+        patch(
+            "backtesting.s18.live_data.collect_market",
+            side_effect=AssertionError("Fetched prices"),
+        ),
+    ):
+        app.button(key="discover_s18_refresh").click().run(timeout=120)
+        assert not app.exception
+        assert any(
+            "2025-01-02" in c.value and "Saved through" in c.value for c in app.caption
+        )
+        assert any("2025-01-02" in s.value for s in app.success)
+        app.run(timeout=120)
+        assert not app.exception
+    assert storage.get_document("s18", "book:scheduled:P5:none") == original
+    assert portfolio.latest_portfolio_run(
+        book_id="scheduled", combo="P5", metal_mode="none"
+    )["id"] == latest_id
+    assert app.date_input(key="discover_s18_as_of").value == pd.Timestamp(m.dates[0]).date()
+
+
+def test_risk_off_report_is_visible_without_opening_an_expander(daily_setup):
+    m = daily_setup
+    m.risk_off[:] = True
+    output = service.run_daily(
+        as_of=str(m.dates[0]), combo="P5", metal_mode="none", persist=False
+    )
+    run_id = save_run(
+        StrategyResult("s18_daily", "completed", report=output["report"], data=output),
+        {"book_id": "default", "combo": "P5", "metal_mode": "none"},
+        duration_ms=1,
+    )
+    app = AppTest.from_string(
+        "from core.run_history import get_run\n"
+        "from ui.components import render_result, result_from_record\n"
+        f"render_result(result_from_record(get_run('{run_id}')))\n"
+    ).run(timeout=120)
+    assert not app.exception
+    assert any("SMA100 overlay: **risk-off**" in v.value for v in app.markdown)
+    assert not any(v.label == "Full report" for v in app.expander)
+    assert any("not a buy-the-dip strategy" in c.value for c in app.caption)
+    assert any("five-session startup" in c.value for c in app.caption)

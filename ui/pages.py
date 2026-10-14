@@ -725,11 +725,18 @@ def settings_page() -> None:
             st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
 
 
+@st.fragment(run_every="30s")
 def _s18_portfolio_desk() -> None:
     from backtesting.s18.portfolio import latest_portfolio_run
     from core.storage import get_document
 
     snapshot_slot = st.empty()
+    st.button("Refresh saved portfolio", key="discover_s18_refresh")
+    st.caption(
+        "Saved portfolio and latest run refresh every 30 seconds while this page "
+        "is open. Refresh only reads saved data; it does not run S18 or fetch prices. "
+        "The run timestamp and the processed market-close date can differ."
+    )
     st.divider()
     strategy = registry.get_strategy("s18_daily")
     st.subheader("Run S18 Daily")

@@ -116,22 +116,30 @@ def render_result(result: StrategyResult, *, heading: bool = True) -> None:
     else:
         _render_summary_data(result.data)
 
-    with st.expander(
-        "Full report",
-        expanded=result.strategy_id
-        not in {
-            "swing_backtest",
-            "parallel_agents",
-            "watchlist_curation",
-            "qtr_results",
-            "gfs_live",
-            "breakout_ath_daily",
-            "s18_daily",
-            "s18_backtest",
-            "s18_replay",
-        },
-    ):
+    if result.strategy_id == "s18_daily":
         st.markdown(result.report or "_No report returned._")
+        st.caption(
+            "S18 is a momentum strategy, not a buy-the-dip strategy. A risk-off "
+            "SMA100 overlay blocks new S1 buys, including metals. S2 ignores that "
+            "overlay but buys only at tranche review dates and is subject to its "
+            "five-session startup capacity delay."
+        )
+    else:
+        with st.expander(
+            "Full report",
+            expanded=result.strategy_id
+            not in {
+                "swing_backtest",
+                "parallel_agents",
+                "watchlist_curation",
+                "qtr_results",
+                "gfs_live",
+                "breakout_ath_daily",
+                "s18_backtest",
+                "s18_replay",
+            },
+        ):
+            st.markdown(result.report or "_No report returned._")
     _render_downloads(result)
 
 

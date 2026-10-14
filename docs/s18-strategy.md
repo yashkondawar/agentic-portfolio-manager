@@ -36,6 +36,13 @@ invested value, realised/unrealised P&L, holdings and next-session instructions.
 Active stops are included in the holdings table rather than duplicated across
 separate stop tables. Tradebook and portfolio history are expandable.
 
+While the page is open, the S18 section rereads saved results every 30 seconds.
+**Refresh saved portfolio** also rereads them immediately, without running the
+strategy, fetching market data or changing either book. A scheduler update is
+therefore visible without submitting the daily form. The run's recorded time
+and its processed market-close date are different: a weekend or pre-close run
+can legitimately report the preceding session.
+
 The **Run S18 Daily** form follows the portfolio. Keep **Save portfolio updates**
 on for normal tracking. A successful saved run refreshes the top view in the
 same page response; no second refresh is needed. Turning saving off makes a
@@ -45,7 +52,15 @@ preview, which appears only in the lower run section.
 metal mode. Failed runs or previews remain visible there but cannot replace
 the authoritative portfolio. Daily data-readiness JSON, replay evidence, dataset
 details and assumptions are collapsed under **Diagnostics and assumptions**.
-Backtest Lab retains the detailed research/validation output.
+The saved daily report, including its SMA100 risk-on/risk-off status, is visible
+without opening an expander. Backtest Lab retains the detailed
+research/validation output.
+
+An empty portfolio is not necessarily a failed run. S18 follows momentum; a
+market correction is not itself a buy signal. Risk-off blocks S1 entries,
+including priority metals. S2 can buy during risk-off, but only on its tranche's
+review date and subject to the startup capacity lag and ranking rules. The
+five-session delay alone does not trigger an S2 purchase on the following day.
 
 ### Fixed combinations
 
