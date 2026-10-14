@@ -1,5 +1,6 @@
 from datetime import date, datetime, timedelta
 from types import SimpleNamespace
+from unittest.mock import Mock
 from zoneinfo import ZoneInfo
 
 import numpy as np
@@ -181,6 +182,30 @@ def test_existing_book_requires_every_dated_snapshot(raw_setup):
     today = date(2026, 9, 3)
     with pytest.raises(SourceUnavailable, match="2026-09-02"):
         collect(raw_setup, today, {date(2026, 9, 1), today}, inception="2026-09-01")
+
+
+@pytest.mark.parametrize("blocker", ["warmup", "index", "calendar"])
+def test_membership_is_captured_before_other_collection_failures(
+    raw_setup, monkeypatch, blocker
+):
+    today = date(2026, 9, 3)
+    source = Sources(today, {today})
+    source.constituents = Mock(wraps=source.constituents)
+    failure = Mock(side_effect=ValueError(f"{blocker} unavailable"))
+    if blocker == "warmup":
+        monkeypatch.setattr(live_data, "load_raw_market", failure)
+    elif blocker == "index":
+        source.index_close = failure
+    else:
+        source.calendar = failure
+    with pytest.raises(ValueError, match=f"{blocker} unavailable"):
+        live_data.collect_market(
+            as_of=str(today),
+            metals=False,
+            source=source,
+            now=datetime(2026, 9, 3, 19, tzinfo=ZoneInfo("Asia/Kolkata")),
+        )
+    source.constituents.assert_called_once_with(today)
 
 
 def test_live_split_rebases_prices_without_changing_prior_raw_hash(raw_setup):

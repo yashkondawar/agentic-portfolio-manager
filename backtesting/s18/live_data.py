@@ -305,6 +305,9 @@ def collect_market(
         raise ValueError(
             "Live NSE collection requires a completed date from 2026-09-01 onwards"
         )
+    # Preserve the time-sensitive observation even if warm-up or price collection fails.
+    # Holidays and intraday observations still cannot fill an earlier closing gap.
+    observed = source.constituents(today)
     raw = load_raw_market(source=dataset, metals=metals)
     index_anchor = source.index_close(raw.dates[-1].astype(object))
     if (
@@ -348,9 +351,6 @@ def collect_market(
     if next_session is None:
         raise ValueError("NSE calendar does not include the next exchange session")
 
-    # Capture today's snapshot even on holidays, but never use it for an
-    # earlier decision date. This is the bootstrap for genuinely forward PIT data.
-    observed = source.constituents(today)
     snapshots = {}
     decision_start = date.fromisoformat(inception) if inception else last
     pending = False

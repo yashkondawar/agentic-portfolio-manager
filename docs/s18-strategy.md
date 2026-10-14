@@ -278,6 +278,24 @@ observation so a subsequent genuine forward session can start the book.
 After inception, every consumed decision session needs its own saved snapshot;
 missed snapshots require verified recovery, not interpolation from today's list.
 
+Live daily runs save today's constituent observation **before** loading the
+historical dataset, checking the replay certificate, or fetching other market
+inputs. Those later failures still fail the run and leave the portfolio
+unchanged, but no longer lose an otherwise available membership observation.
+The collector also captures membership before warm-up, index and calendar
+checks when called directly. Historical reference-period runs remain offline.
+Pre-18:00 IST captures are informational; the after-close run must fetch a
+fresh same-date snapshot. A morning capture alone does not cover that close.
+
+If an existing book is missing an earlier session's snapshot, rerunning Golden
+Replay cannot recreate it. Resume only with independently dated official
+evidence, or explicitly choose a **new portfolio ID** starting from cash on a
+new observed session. Preserve the old book and its history; do not backdate
+today's list, silently carry membership forward, or skip the missing sessions.
+When choosing a new book, update both the daily-form defaults and the existing
+schedule's portfolio ID so the scheduler does not keep targeting the blocked
+book.
+
 Older stocks newly entering the universe use the existing raw NSE bar store
 and verified actions for a 315-session warm-up (enough for the 252-session
 high throughout the x63 window). Missing established-stock history blocks
@@ -323,7 +341,9 @@ entry/exit dates and reasons; rounding-tolerant prices, basis and gains;
 open-book agreement; daily NAV agreement; and Sharpe difference **below 0.001**.
 The service stores certificates tied to the current engine/data/runtime.
 UI and scheduler Python environments retain separate certificates rather than
-overwriting each other's approval. A mismatch
+overwriting each other's approval. Run replay using the same interpreter and
+dependencies as each daily runner; a UI replay does not certify a different
+scheduler environment. A mismatch
 is a failed run, not a warning to dismiss. A normal one-combo backtest does
 not replace certification.
 

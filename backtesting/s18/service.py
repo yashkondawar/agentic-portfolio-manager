@@ -72,7 +72,8 @@ def _certificate(dataset: AssetReader, *, required: bool):
     if required:
         raise ValueError(
             "S18 paper run blocked: no passing golden replay for the current code "
-            "and database dataset. Run S18 Golden Replay in Backtest Lab first."
+            "and database dataset. Run S18 Golden Replay in the same Python "
+            "environment as this run (including the scheduler)."
         )
     return {"status": "not validated", "results": []}
 
@@ -452,15 +453,22 @@ def run_daily(
         raise ValueError(
             "Book ID must use 1-64 letters, digits, underscores or hyphens"
         )
-    dataset = get_dataset()
-    validation = _certificate(dataset, required=True)
-    key = f"book:{book_id}:{combo}:{metal_mode}"
-    saved = storage.get_document(NAMESPACE, key)
     today_ist = datetime.now(ZoneInfo("Asia/Kolkata")).date()
     requested = date.fromisoformat(as_of) if as_of else today_ist
     if requested > today_ist:
         raise ValueError("S18 paper runs cannot consume future-dated sessions")
     data_source = "nse" if requested > date(2026, 8, 31) else "database"
+    source = None
+    if data_source == "nse":
+        from .nse_sources import NseSources
+
+        # Unlike prices, a missed membership observation cannot be downloaded later.
+        source = NseSources()
+        source.constituents(today_ist)
+    dataset = get_dataset()
+    validation = _certificate(dataset, required=True)
+    key = f"book:{book_id}:{combo}:{metal_mode}"
+    saved = storage.get_document(NAMESPACE, key)
     if saved and saved.get("data_source", data_source) != data_source:
         raise ValueError(
             "Use a separate book ID when moving from historical simulation to live data"
@@ -471,6 +479,7 @@ def run_daily(
 
         collected = collect_market(
             dataset=dataset,
+            source=source,
             as_of=requested.isoformat(),
             metals=metal_mode != "none",
             inception=saved.get("inception_date") if saved else None,

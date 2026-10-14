@@ -4,6 +4,7 @@ import json
 import zipfile
 from datetime import date, datetime, timedelta
 from urllib.parse import parse_qs, urlparse
+from unittest.mock import Mock
 
 import pytest
 import requests
@@ -291,6 +292,61 @@ def test_membership_is_observed_today_never_backdated(client):
 def test_membership_duplicate_isin_is_rejected(client):
     with pytest.raises(ValueError, match="Duplicate"):
         client(Response(members(duplicate=True))).constituents(NOW.date())
+
+
+@pytest.mark.parametrize("blocker", ["dataset", "replay", "market"])
+@pytest.mark.parametrize("persist", [True, False])
+def test_daily_preserves_membership_before_other_failures(
+    client, monkeypatch, blocker, persist
+):
+    from backtesting.s18 import live_data, service
+
+    now = NOW.replace(day=6)
+    source = client(Response(members()), now=now)
+    monkeypatch.setenv("PORTFOLIO_DB_PATH", str(source.db_path))
+    monkeypatch.setattr(nse, "NseSources", lambda: source)
+    monkeypatch.setattr(service, "datetime", Mock(wraps=datetime))
+    service.datetime.now.return_value = now
+    dataset = Mock()
+    monkeypatch.setattr(service, "get_dataset", Mock(return_value=dataset))
+    monkeypatch.setattr(service, "_certificate", Mock(return_value={"status": "passed"}))
+    collect = Mock(side_effect=ValueError("market blocked"))
+    monkeypatch.setattr(live_data, "collect_market", collect)
+    if blocker == "dataset":
+        service.get_dataset.side_effect = ValueError("dataset blocked")
+    elif blocker == "replay":
+        service._certificate.side_effect = ValueError("replay blocked")
+    book_key = "book:default:P15:both_priority"
+    saved = {
+        "data_source": "nse",
+        "inception_date": "2026-10-05",
+        "identities": [],
+        "books": [],
+    }
+    storage.set_document("s18", book_key, saved)
+
+    with pytest.raises(ValueError, match=f"{blocker} blocked"):
+        service.run_daily(as_of="2026-10-06", persist=persist)
+
+    assert storage.get_document("s18", book_key) == saved
+    assert not storage.list_artifact_groups(category="s18_daily")
+    if blocker != "market":
+        collect.assert_not_called()
+    else:
+        assert collect.call_args.kwargs["source"] is source
+    if blocker == "dataset":
+        service._certificate.assert_not_called()
+    elif blocker == "replay":
+        service._certificate.assert_called_once_with(dataset, required=True)
+    assert source._get("result:constituents:2026-10-06") is not None
+    source.now += timedelta(days=1)
+    snapshot = source.constituents(date(2026, 10, 6))
+    assert snapshot.metadata["observed_after_close_cutoff"]
+    assert snapshot.fetched_at == now.isoformat()
+    assert len(snapshot.records) == 500
+    assert len(source.session.calls) == 1
+    with pytest.raises(nse.SourceUnavailable, match="cannot be backdated"):
+        source.constituents(date(2026, 10, 5))
 
 
 def test_intraday_membership_is_refetched_after_close_then_reused(client):

@@ -2,6 +2,7 @@ from io import BytesIO
 import os
 from pathlib import Path
 from types import SimpleNamespace
+from unittest.mock import Mock
 
 from openpyxl import load_workbook
 import pytest
@@ -17,9 +18,10 @@ from test_s18_book import market
 
 @pytest.fixture
 def daily_setup(monkeypatch, tmp_path):
-    from backtesting.s18 import data
+    from backtesting.s18 import data, nse_sources
 
     monkeypatch.setenv("PORTFOLIO_DB_PATH", str(tmp_path / "test.sqlite3"))
+    monkeypatch.setattr(nse_sources, "NseSources", Mock())
     monkeypatch.setattr(service, "REPORTS_ROOT", tmp_path / "reports")
     m = market(rows=150)
     m.provenance = {
@@ -80,6 +82,21 @@ def test_daily_dryrun_never_persists_book(daily_setup):
     result = service.run_daily(as_of="2025-01-01", persist=False)
     assert not result["state_persisted"]
     assert storage.get_document("s18", "book:default:P15:both_priority") is None
+
+
+def test_historical_daily_does_not_collect_live_membership(daily_setup):
+    from backtesting.s18 import nse_sources
+
+    service.run_daily(as_of="2025-01-01", persist=False)
+    nse_sources.NseSources.assert_not_called()
+
+
+def test_future_daily_rejected_before_collecting_membership(daily_setup):
+    from backtesting.s18 import nse_sources
+
+    with pytest.raises(ValueError, match="future-dated"):
+        service.run_daily(as_of="9999-12-31")
+    nse_sources.NseSources.assert_not_called()
 
 
 def test_native_pending_session_never_creates_paper_positions(daily_setup, monkeypatch):
