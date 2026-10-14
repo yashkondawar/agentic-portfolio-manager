@@ -229,6 +229,9 @@ which strong-looking quarter is not what it appears to be.
 hindsight about how the stock subsequently moved).
 
 # Mechanical figures already verified
+Reporting basis: {getattr(analysis, 'reporting_basis', '') or 'not recorded'}.
+Source: {getattr(analysis, 'source_url', '') or 'Screener.in'}.
+Keep comparisons on this reporting basis; do not mix standalone and consolidated figures.
 {metrics}
 {de_line}
 # Evidence to gather (use web search + the scraper tools; cite what you used)
@@ -383,4 +386,3 @@ def evaluate_conviction(
             result_date=str(candidate.get("result_date") or ""),
         )
     return verdict
-

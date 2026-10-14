@@ -152,9 +152,10 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
     if len(candidates) > 150:
         logger.warning(
             "Verifying %d declarers on screener.in (~%d min at the 2s/req "
-            "throttle); set max_analyze to cap this for a faster run.",
+            "throttle, comparing both reporting bases); set max_analyze "
+            "to cap this for a faster run.",
             len(candidates),
-            round(len(candidates) * 2.5 / 60),
+            round(len(candidates) * 4.5 / 60),
         )
 
     # 3) Verify + select strong results.
@@ -173,6 +174,9 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
             "symbol": analysis.symbol,
             "company": analysis.company_name or d["symbol"],
             "result_date": analysis._result_date,
+            "latest_quarter": analysis.latest_quarter,
+            "reporting_basis": analysis.reporting_basis,
+            "source_url": analysis.source_url,
             "strength": round(analysis.strength_score, 1),
             "stage": "analysed",
             "status": "",

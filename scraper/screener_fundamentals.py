@@ -105,6 +105,9 @@ def rows_for_symbol(
     table = payload.get("quarterly_results") or []
     if not isinstance(table, list) or not table:
         return []
+    basis = payload.get("reporting_basis", "consolidated")
+    if basis not in {"consolidated", "standalone"}:
+        raise ValueError(f"Unknown Screener reporting basis: {basis!r}")
 
     # Screener gives row-per-metric with quarter columns; pivot to quarter-major.
     by_quarter: Dict[date, Dict[str, float]] = {}
@@ -136,16 +139,15 @@ def rows_for_symbol(
                 company=str(payload.get("company_name") or symbol),
                 period_end=period_end,
                 period_start=_quarter_start(period_end),
-                # Screener serves the consolidated statement when a company
-                # files one, which is the same preference the NSE path applies.
-                consolidated=True,
+                # Old cache payloads predate explicit basis metadata.
+                consolidated=basis == "consolidated",
                 broadcast_at=(
                     datetime(declared.year, declared.month, declared.day)
                     if declared
                     else None
                 ),
                 source=SOURCE,
-                url=str(payload.get("source") or ""),
+                url=str(payload.get("source_url") or payload.get("source") or ""),
                 **{k: metrics.get(k) for k in _VALUE_FIELDS},
             )
         )

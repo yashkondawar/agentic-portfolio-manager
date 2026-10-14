@@ -105,6 +105,18 @@ def test_prompt_asks_for_disconfirming_evidence_and_allows_unknown():
     assert "not_applicable" in prompt
 
 
+def test_prompt_preserves_the_selected_financial_reporting_basis():
+    analysis = _analysis()
+    analysis.reporting_basis = "standalone"
+    analysis.source_url = "https://www.screener.in/company/TEST/"
+    prompt = conv._build_conviction_prompt(
+        {"symbol": "TEST"}, analysis, date(2026, 10, 14)
+    )
+    assert "Reporting basis: standalone" in prompt
+    assert analysis.source_url in prompt
+    assert "do not mix standalone and consolidated" in prompt
+
+
 def _derive(**kw):
     components = {"beat_quality": "unknown", "order_book": "unknown",
                   "guidance": "unknown", "sector_backdrop": "unknown",

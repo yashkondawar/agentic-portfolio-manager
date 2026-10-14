@@ -136,6 +136,27 @@ def test_rows_carry_declaration_date_when_known():
     assert rows[0].broadcast_at == datetime(2025, 4, 18)
 
 
+@pytest.mark.parametrize("basis", ["consolidated", "standalone"])
+def test_explicit_reporting_basis_and_page_url_survive_import(conn, basis):
+    raw = payload(np={"Mar 2025": "100"})
+    raw["reporting_basis"] = basis
+    raw["source_url"] = (
+        "https://www.screener.in/company/ACME/"
+        + ("consolidated/" if basis == "consolidated" else "")
+    )
+    assert sf.import_screener(conn, {"ACME": raw}) == 1
+    (row,) = store.load_results(conn)
+    assert row.consolidated is (basis == "consolidated")
+    assert row.url == raw["source_url"]
+
+
+def test_unknown_reporting_basis_is_not_silently_mislabeled():
+    raw = payload(np={"Mar 2025": "100"})
+    raw["reporting_basis"] = "mixed"
+    with pytest.raises(ValueError, match="Unknown Screener reporting basis"):
+        sf.rows_for_symbol("ACME", raw)
+
+
 def test_rows_without_a_declaration_date_are_left_undated():
     rows = sf.rows_for_symbol("ACME", payload(np={"Mar 2025": "100"}))
     assert rows[0].broadcast_at is None

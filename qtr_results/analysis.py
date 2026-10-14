@@ -49,6 +49,8 @@ class AnalysisResult:
     conviction_verdict: str = ""
     conviction_summary: str = ""
     conviction_risks: List[str] = field(default_factory=list)
+    reporting_basis: str = ""
+    source_url: str = ""
     raw_top_ratios: Dict[str, str] = field(default_factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -223,6 +225,8 @@ def analyze_symbol(symbol: str) -> AnalysisResult:
             symbol=symbol,
             company_name=data.get("company_name", ""),
             raw_top_ratios=top,
+            reporting_basis=data.get("reporting_basis", ""),
+            source_url=data.get("source_url", ""),
             error="insufficient quarterly history",
         )
 
@@ -307,6 +311,8 @@ def analyze_symbol(symbol: str) -> AnalysisResult:
         strength_score=score,
         is_strong=bool(is_strong),
         raw_top_ratios=top,
+        reporting_basis=data.get("reporting_basis", ""),
+        source_url=data.get("source_url", ""),
     )
     result.rationale = _build_rationale(result)
     return result

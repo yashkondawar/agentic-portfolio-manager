@@ -727,6 +727,31 @@ For support and questions:
      dashboard. If a scheduled run fails while the UI works, install the extra
      into that interpreter too.
 
+10. **All quarterly declarers report `insufficient quarterly history`**
+    - This can be a scraper failure, not genuinely missing company history.
+      Older code advertised Brotli (`br`) compression even when Python lacked
+      its decoder. HTTP 200 responses then contained compressed bytes instead
+      of readable company tables, producing empty quarterly histories.
+    - The scraper now keeps Requests' supported compression defaults and rejects
+      unreadable/non-company pages with an explicit source error. Installing an
+      extra compression package is not required.
+    - Both consolidated and standalone pages are checked. Consolidated remains
+      preferred when their latest reported net-profit quarters match; standalone
+      is used when its history is newer or the consolidated history is empty.
+      All statements and growth comparisons come from the selected page, never
+      a mixture. The analysed-stock table shows the selected quarter, reporting
+      basis and source URL; store imports preserve that basis too.
+    - Freshest available does not mean freshly declared: Screener may not yet
+      have updated either page for today's announcement. Check the displayed
+      quarter before interpreting the analysis as today's result.
+    - Restart the Streamlit app after updating the scraper so its reusable HTTP
+      session picks up the corrected headers. The supervised scheduler reloads
+      changed scraper code automatically.
+    - Old run reports are historical records and are not rewritten. Recheck
+      affected symbols explicitly via the watchlist if needed: NSE delta
+      discovery may already have marked their filings as seen. A normal strategy
+      rerun can change the live portfolio; a fundamentals-only check does not.
+
 ## 🔄 Version History
 
 - **v1.0.0** - Initial release with multi-agent architecture

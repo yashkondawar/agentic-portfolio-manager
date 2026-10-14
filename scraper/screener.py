@@ -7,8 +7,10 @@ import random
 import logging
 import requests
 from bs4 import BeautifulSoup
+from dataclasses import dataclass
+from datetime import date
 from typing import Dict, Any, Optional, List
-from urllib.parse import quote
+from urllib.parse import quote, urlparse
 
 logger = logging.getLogger(__name__)
 
@@ -20,12 +22,11 @@ HEADERS = {
     ),
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     "Accept-Language": "en-US,en;q=0.5",
-    "Accept-Encoding": "gzip, deflate, br",
     "Connection": "keep-alive",
     "Upgrade-Insecure-Requests": "1",
 }
 
-# Reusable session for connection pooling
+# Keep Requests' default Accept-Encoding: it advertises only installed decoders.
 _session = requests.Session()
 _session.headers.update(HEADERS)
 
@@ -112,29 +113,85 @@ def resolve_screener_slug(symbol: str) -> Optional[str]:
     return symbol
 
 
-def get_company_page(symbol: str) -> Optional[BeautifulSoup]:
-    """Fetch and parse screener.in company page."""
-    # Try consolidated first, then standalone
-    urls = [
-        f"https://www.screener.in/company/{quote(symbol, safe='')}/consolidated/",
-        f"https://www.screener.in/company/{quote(symbol, safe='')}/",
-    ]
+def _parse_company_page(response: requests.Response) -> BeautifulSoup:
+    soup = BeautifulSoup(response.text, "html.parser")
+    if not soup.find("h1") or not soup.select_one(
+        "#quarters table, #profit-loss table, #balance-sheet table"
+    ):
+        raise ValueError(
+            "Invalid Screener company page: missing company heading or financial "
+            "tables. The response may be unreadable or the site layout may have changed "
+            f"(URL: {response.url}; Content-Encoding: "
+            f"{response.headers.get('Content-Encoding', 'identity')})."
+        )
+    return soup
 
-    for url in urls:
+
+@dataclass
+class _CompanyPage:
+    soup: BeautifulSoup
+    url: str
+    reporting_basis: str
+    latest_quarter: Optional[date]
+
+
+def _latest_reported_quarter(soup: BeautifulSoup) -> Optional[date]:
+    from scraper.screener_fundamentals import _parse_number, _parse_quarter
+
+    quarters = []
+    for row in get_quarterly_results(soup):
+        if not row.get("", "").lower().startswith("net profit"):
+            continue
+        for column, value in row.items():
+            period = _parse_quarter(column)
+            if period is not None and _parse_number(value) is not None:
+                quarters.append(period)
+    return max(quarters) if quarters else None
+
+
+def _fetch_company_page(
+    symbol: str, *, resolve: bool = True
+) -> Optional[_CompanyPage]:
+    pages = []
+    for suffix in ("/consolidated/", "/"):
+        url = f"https://www.screener.in/company/{quote(symbol, safe='')}{suffix}"
         response = _rate_limited_get(url)
         if response and response.status_code == 200:
-            return BeautifulSoup(response.text, "html.parser")
-
-    # Try resolving the slug if direct access fails
-    slug = resolve_screener_slug(symbol)
-    if slug and slug != symbol:
-        for suffix in ["/consolidated/", "/"]:
-            url = f"https://www.screener.in/company/{quote(slug, safe='')}{suffix}"
-            response = _rate_limited_get(url)
-            if response and response.status_code == 200:
-                return BeautifulSoup(response.text, "html.parser")
-
+            soup = _parse_company_page(response)
+            basis = (
+                "consolidated"
+                if urlparse(response.url).path.rstrip("/").endswith("/consolidated")
+                else "standalone"
+            )
+            pages.append(
+                _CompanyPage(soup, response.url, basis, _latest_reported_quarter(soup))
+            )
+    if pages:
+        selected = max(
+            pages,
+            key=lambda page: (
+                page.latest_quarter or date.min,
+                page.reporting_basis == "consolidated",
+            ),
+        )
+        if selected.reporting_basis == "standalone":
+            logger.info(
+                "%s: using standalone Screener history through %s; consolidated "
+                "history is unavailable, empty or older. All statements use %s",
+                symbol, selected.latest_quarter, selected.url,
+            )
+        return selected
+    if resolve:
+        slug = resolve_screener_slug(symbol)
+        if slug and slug != symbol:
+            return _fetch_company_page(slug, resolve=False)
     return None
+
+
+def get_company_page(symbol: str) -> Optional[BeautifulSoup]:
+    """Choose the freshest quarterly page; prefer consolidated when dates tie."""
+    page = _fetch_company_page(symbol)
+    return page.soup if page else None
 
 
 def get_top_ratios(soup: BeautifulSoup) -> Dict[str, str]:
@@ -227,9 +284,14 @@ def scrape_fundamentals(symbol: str) -> Dict[str, Any]:
     """
     logger.info(f"Scraping screener.in fundamentals for {symbol}")
 
-    soup = get_company_page(symbol)
-    if not soup:
+    try:
+        page = _fetch_company_page(symbol)
+    except ValueError as exc:
+        logger.error("Could not parse Screener fundamentals for %s: %s", symbol, exc)
+        return {"error": f"Could not parse Screener fundamentals for {symbol}: {exc}"}
+    if not page:
         return {"error": f"Could not fetch data for {symbol} from screener.in"}
+    soup = page.soup
 
     # Extract company name
     company_name = ""
@@ -241,6 +303,8 @@ def scrape_fundamentals(symbol: str) -> Dict[str, Any]:
         "symbol": symbol,
         "company_name": company_name,
         "source": "screener.in",
+        "source_url": page.url,
+        "reporting_basis": page.reporting_basis,
         "top_ratios": get_top_ratios(soup),
         "quarterly_results": get_quarterly_results(soup),
         "profit_loss": get_profit_loss(soup),
