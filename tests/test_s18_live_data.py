@@ -208,6 +208,60 @@ def test_membership_is_captured_before_other_collection_failures(
     source.constituents.assert_called_once_with(today)
 
 
+@pytest.mark.parametrize("missing_anchor", [False, True])
+def test_bridge_quotes_require_verified_anchor_even_if_absent_from_current_master(
+    raw_setup, missing_anchor
+):
+    raw, _ = raw_setup
+    today = date(2026, 9, 3)
+    source = Sources(today, {today})
+    for field in live_data.PRICE_FIELDS:
+        raw.prices[field][:, 1] = 200.0
+        raw.prices[field][-1, 1] = np.nan
+    original_members = source.constituents
+    original_master = source.securities
+    original_bars = source.bhavcopy
+
+    def members(day):
+        result = original_members(day)
+        result.records = result.records[:1]
+        return result
+
+    def master():
+        result = original_master()
+        result.records = result.records[:1]
+        return result
+
+    def bars(day):
+        result = original_bars(day)
+        if missing_anchor and day < live_data.START:
+            result.records = result.records[:1]
+        return result
+
+    source.constituents = members
+    source.securities = master
+    source.bhavcopy = bars
+    if missing_anchor:
+        with storage.connection_scope() as connection:
+            connection.execute("DELETE FROM market_bars WHERE isin=?", (ISINS[1],))
+    kwargs = {
+        "as_of": str(today),
+        "metals": False,
+        "source": source,
+        "now": datetime(2026, 9, 3, 19, tzinfo=ZoneInfo("Asia/Kolkata")),
+    }
+    if missing_anchor:
+        with pytest.raises(ValueError, match="Cannot establish raw-price seam"):
+            live_data.collect_market(**kwargs)
+        return
+    result = live_data.collect_market(**kwargs)
+    identity = "ISIN:" + ISINS[1]
+    assert result.market.provenance["anchor_evidence"][identity]["source"] == "market_bars"
+    assert result.market.provenance["raw_to_book"][identity] == 2.0
+    assert result.market.close[-1, 1] == 200.0
+    assert result.market.sell_rank[-1, 1] == 32767
+
+
 def test_live_split_rebases_prices_without_changing_prior_raw_hash(raw_setup):
     first_day = date(2026, 9, 1)
     before = collect(raw_setup, first_day, {first_day})

@@ -400,7 +400,15 @@ def collect_market(
     prices = {f: np.full((len(dates), len(entries)), np.nan) for f in PRICE_FIELDS}
     universe = np.zeros((len(dates), len(entries)), dtype=bool)
     new_history_hashes = {}
-    continuing_isins = {r["isin"] for r in masters.records} | set(all_members)
+    source_days = {
+        day: (source.bhavcopy(day), source.index_close(day)) for day in sessions
+    }
+    # Today's master can omit a former security that traded during the bridge.
+    continuing_isins = (
+        {r["isin"] for r in masters.records}
+        | set(all_members)
+        | {r["isin"] for bars, _ in source_days.values() for r in bars.records}
+    )
     required_anchors = (
         {
             entry["identity"]
@@ -437,11 +445,10 @@ def collect_market(
     benchmark = np.concatenate((raw.benchmark, np.zeros(len(sessions))))
     scales = dict(anchors)
     adjustments = {identity: 1.0 for identity in identities}
-    day_bars, source_days = {}, {}
+    day_bars = {}
     current_symbols = dict(zip(raw.identities, raw.symbols))
     for day in sessions:
-        bars = source.bhavcopy(day)
-        index = source.index_close(day)
+        bars, index = source_days[day]
         if len(index.records) != 1 or index.records[0]["date"] != str(day):
             raise ValueError(f"Unverified Nifty500 close on {day}")
         selected = {}
@@ -464,7 +471,6 @@ def collect_market(
             selected[g] = record
             current_symbols[identities[g]] = record["symbol"]
         day_bars[day] = selected
-        source_days[day] = (bars, index)
     master_isins = {r["isin"] for r in masters.records}
     for identity in tracked_identities:
         entry = next((e for e in entries if e["identity"] == identity), None)

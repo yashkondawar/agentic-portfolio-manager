@@ -182,7 +182,11 @@ The post-reference daily period starts **2026-09-01**. A declared non-session
 coverage fails instead of inventing a holiday.
 
 Verified raw-close anchors establish the imported-to-live price-unit seam;
-its multiplier is not assumed to be one. The entire returned OHLC history is
+its multiplier is not assumed to be one. Securities observed in any collected
+bridge-session bhavcopy require a verified anchor even if they are absent from
+today's security master or current index membership. Absence today must not
+erase their earlier trading evidence or assign an unverified price scale.
+The entire returned OHLC history is
 back-adjusted into the share units at `as_of`. Cumulative
 `provenance.price_scales[identity]` reflects split/bonus/demerger factors.
 Before consuming new sessions, persisted quantities, peaks and historical
