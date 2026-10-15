@@ -11,10 +11,14 @@ from copy import deepcopy
 from dataclasses import asdict, dataclass, field
 from typing import TYPE_CHECKING
 import math
+import logging
 
 import numpy as np
 
 from .config import COST, SCHEMA_VERSION, S18Config, validate_capital
+from .sizing import ExecutionDataError, quote_factor, size_buy, whole_quantity
+
+logger = logging.getLogger(__name__)
 
 if TYPE_CHECKING:
     from .data import PreparedMarket
@@ -76,6 +80,17 @@ class Position:
 
 
 @dataclass
+class CashEntitlement:
+    gid: int
+    qty: float
+    basis: float
+    entry_row: int
+    ex_date: str
+    action: str
+    original_share_qty: float
+
+
+@dataclass
 class Book:
     config: S18Config
     tranche: str
@@ -96,19 +111,33 @@ class Book:
     fills: list[dict] = field(default_factory=list)
     tax_ledger: list[dict] = field(default_factory=list)
     equity: list[dict] = field(default_factory=list)
+    whole_shares: bool = False
+    skipped_buys: list[dict] = field(default_factory=list)
+    pending_cash_in_lieu: list[CashEntitlement] = field(default_factory=list)
+    cash_in_lieu: list[dict] = field(default_factory=list)
 
     def __post_init__(self):
         if self.tranche not in ("A", "B"):
             raise ValueError("Tranche must be A or B")
         if not math.isfinite(self.cash):
             raise ValueError("Book cash must be finite")
+        if not isinstance(self.whole_shares, bool):
+            raise ValueError("S18 whole_shares must be a boolean")
 
     @classmethod
-    def from_cash(cls, config: S18Config, tranche: str, capital: float):
-        return cls(config, tranche, validate_capital(capital))
+    def from_cash(
+        cls, config: S18Config, tranche: str, capital: float, *, whole_shares=False
+    ):
+        return cls(
+            config, tranche, validate_capital(capital), whole_shares=whole_shares
+        )
 
     def to_dict(self) -> dict:
-        return {"schema_version": SCHEMA_VERSION, **asdict(self)}
+        state = {"schema_version": SCHEMA_VERSION, **asdict(self)}
+        for name in ("pending_cash_in_lieu", "cash_in_lieu"):
+            if not state[name]:
+                state.pop(name)
+        return state
 
     @classmethod
     def from_dict(cls, state: dict):
@@ -117,9 +146,12 @@ class Book:
             raise ValueError("Unsupported S18 book schema; replay is required")
         values["config"] = S18Config(**values["config"])
         values["positions"] = [Position(**p) for p in values["positions"]]
+        values["pending_cash_in_lieu"] = [
+            CashEntitlement(**p) for p in values.get("pending_cash_in_lieu", [])
+        ]
         return cls(**values)
 
-    def _gain(self, p: Position, gain: float, market: PreparedMarket, row: int):
+    def _gain(self, p: Position | CashEntitlement, gain: float, market: PreparedMarket, row: int):
         days = int(
             (market.dates[row] - market.dates[p.entry_row]) / np.timedelta64(1, "D")
         )
@@ -127,6 +159,81 @@ class Book:
             self.realised_lt += gain
         else:
             self.realised_st += gain
+
+    def _separate_entitlements(self, market: PreparedMarket, row: int, events: dict):
+        j = 0
+        while j < len(self.positions):
+            p = self.positions[j]
+            identity = market.identities[p.gid]
+            factor = quote_factor(market, identity, row)
+            shares = p.qty * factor
+            try:
+                whole_quantity(shares, identity)
+            except ExecutionDataError:
+                kind = events.get(identity)
+                if kind not in {"split", "bonus", "split_bonus"}:
+                    raise
+                whole = math.floor(shares)
+                fraction = shares - whole
+                basis = p.basis * (fraction / shares)
+                self.pending_cash_in_lieu.append(CashEntitlement(
+                    p.gid, fraction / factor, basis, p.entry_row,
+                    str(market.dates[row]), kind, fraction,
+                ))
+                logger.info(
+                    "S18 %s recorded modeled cash-in-lieu entitlement: %s %.8f shares",
+                    self.tranche, market.symbols[p.gid], fraction,
+                )
+                if not whole:
+                    self.positions[j] = self.positions[-1]
+                    self.positions.pop()
+                    continue
+                p.qty = whole / factor
+                p.basis -= basis
+            j += 1
+
+    def _settle_entitlements(self, market: PreparedMarket, row: int):
+        remaining = []
+        for p in self.pending_cash_in_lieu:
+            if not market.tradable[row, p.gid]:
+                remaining.append(p)
+                continue
+            px = float(market.open[row, p.gid])
+            if not math.isfinite(px) or px <= 0:
+                raise ValueError("Invalid opening price for modeled cash-in-lieu")
+            identity = market.identities[p.gid]
+            factor = quote_factor(market, identity, row)
+            amount = p.qty * px
+            gain = amount - p.basis
+            self._gain(p, gain, market, row)
+            self.cash += amount
+            self.cash_in_lieu.append({
+                "date": str(market.dates[row]), "ex_date": p.ex_date,
+                "identity": identity, "symbol": market.symbols[p.gid],
+                "tranche": self.tranche, "action": p.action,
+                "original_share_qty": p.original_share_qty,
+                "share_qty": p.qty * factor, "share_price": px / factor,
+                "amount": amount, "cost_basis": p.basis, "gain": gain,
+                "model_cost": 0.0, "modeled": True,
+                "policy": "first available ex-date-or-later open; not verified cash payment",
+            })
+        self.pending_cash_in_lieu = remaining
+
+    def entitlement_rows(self, market: PreparedMarket) -> list[dict]:
+        return [
+            {
+                "identity": market.identities[p.gid], "symbol": market.symbols[p.gid],
+                "tranche": self.tranche, "ex_date": p.ex_date, "action": p.action,
+                "original_share_qty": p.original_share_qty,
+                "entitlement_shares": p.qty * quote_factor(
+                    market, market.identities[p.gid], self.last_row
+                ),
+                "basis": p.basis,
+                "value": p.qty * float(market.close[self.last_row, p.gid]),
+                "status": "pending modeled settlement; not tradable shares",
+            }
+            for p in self.pending_cash_in_lieu
+        ]
 
     def _trade(self, p, market, row, px, basis, gain, reason):
         entry_basis_px = p.basis / p.qty
@@ -167,10 +274,24 @@ class Book:
                 "actual_charges": None,
             }
         )
+        if self.whole_shares:
+            identity = market.identities[p.gid]
+            factor = quote_factor(market, identity, row)
+            self.fills[-1].update(
+                share_qty=whole_quantity(qty * factor, identity),
+                share_price=float(px) / factor,
+            )
 
     def _sell(self, index, market, row, px, reason, fraction=1.0):
         p = self.positions[index]
         q, b = p.qty * fraction, p.basis * fraction
+        if self.whole_shares:
+            identity = market.identities[p.gid]
+            factor = quote_factor(market, identity, row)
+            available = whole_quantity(p.qty * factor, identity)
+            shares = min(available, math.ceil(available * fraction))
+            q = p.qty if shares == available else shares / factor
+            b = p.basis * (q / p.qty)
         proceeds = q * px * (1 - COST)
         cost = q * px * COST
         gain = proceeds - b
@@ -180,7 +301,7 @@ class Book:
         self.trades.append(self._trade(p, market, row, px, b, gain, reason))
         self.trade_identities.append(market.identities[p.gid])
         self._fill(p, market, row, "SELL", px, q, proceeds, reason, cost)
-        if reason == "tax sale":
+        if reason == "tax sale" and (not self.whole_shares or q < p.qty):
             p.qty -= q
             p.basis -= b
         else:
@@ -188,9 +309,13 @@ class Book:
             self.positions[index] = self.positions[-1]
             self.positions.pop()
 
-    def _open(self, market: PreparedMarket, row: int):
+    def _open(
+        self, market: PreparedMarket, row: int, *, at_close=False, execution_date=None
+    ):
+        prices = market.close[row] if at_close else market.open[row]
         first_april = (
-            self.last_date[5:7] == "03" and str(market.dates[row])[5:7] == "04"
+            self.last_date[5:7] == "03"
+            and (execution_date or str(market.dates[row]))[5:7] == "04"
         )
         due = 0.0
         if first_april:
@@ -213,6 +338,10 @@ class Book:
             )
             self.carry_st, self.carry_lt = cf_st, cf_lt
             self.realised_st = self.realised_lt = 0.0
+        # Settlement gains belong to today's tax year, after rollover. Order
+        # previews must not credit a payment using yesterday's closing quote.
+        if not at_close:
+            self._settle_entitlements(market, row)
         j = 0
         while j < len(self.positions):
             p = self.positions[j]
@@ -220,7 +349,7 @@ class Book:
                 self._sell(j, market, row, market.close[row, p.gid], "delisted")
             elif p.queued_sell_reason and market.tradable[row, p.gid]:
                 self._sell(
-                    j, market, row, market.open[row, p.gid], p.queued_sell_reason
+                    j, market, row, prices[p.gid], p.queued_sell_reason
                 )
             else:
                 j += 1
@@ -229,32 +358,40 @@ class Book:
             self.tax_paid += due
             if self.cash < 0:
                 val = sum(
-                    p.qty * market.open[row, p.gid]
+                    p.qty * prices[p.gid]
                     for p in self.positions
                     if market.tradable[row, p.gid]
                 )
                 if val > 0:
                     fraction = min(1.0, -self.cash / (val * (1 - COST)))
-                    for j, p in enumerate(self.positions):
+                    for p in list(self.positions):
                         if market.tradable[row, p.gid]:
                             self._sell(
-                                j,
+                                self.positions.index(p),
                                 market,
                                 row,
-                                market.open[row, p.gid],
+                                prices[p.gid],
                                 "tax sale",
                                 fraction,
                             )
+            if self.whole_shares and self.cash < -1e-7:
+                raise ValueError(
+                    "S18 cash cannot cover annual tax after available whole-share sales"
+                )
         if self.queued_buys:
             nav_open = self.cash + sum(
-                p.qty * market.open[row, p.gid] for p in self.positions
+                p.qty * prices[p.gid] for p in self.positions
+            ) + sum(
+                p.qty * prices[p.gid] for p in self.pending_cash_in_lieu
             )
             target = nav_open / self.config.n
             for sleeve in ("S1", "S2"):
-                self._buy_sleeve(market, row, sleeve, target)
+                self._buy_sleeve(market, row, sleeve, target, prices=prices)
         self.queued_buys = []
 
-    def _buy_sleeve(self, market, row, sleeve, target):
+    def _buy_sleeve(self, market, row, sleeve, target, *, prices=None):
+        if prices is None:
+            prices = market.open[row]
         weight = lambda g: self.config.weight(g, market.n_stocks)
         slots = self.config.n - sum(
             weight(p.gid) for p in self.positions if p.sleeve == "S1"
@@ -276,15 +413,39 @@ class Book:
             total_weight += w
         done = 0.0
         for g, w in selected:
-            if self.cash <= 1e-12:
+            if self.cash <= 1e-12 and not self.whole_shares:
                 break
             amount = min(target * w, self.cash * w / (total_weight - done))
-            px = market.open[row, g]
+            px = prices[g]
             if px <= 0 or not math.isfinite(px):
                 raise ValueError(f"Invalid fill price for {market.symbols[g]}")
+            qty = amount * (1 - COST) / px
+            if self.whole_shares:
+                factor = quote_factor(market, market.identities[g], row)
+                shares, spent = size_buy(max(0.0, amount), float(px) / factor)
+                if shares == 0:
+                    self.skipped_buys.append(
+                        {
+                            "date": str(market.dates[row]),
+                            "symbol": market.symbols[g],
+                            "identity": market.identities[g],
+                            "tranche": self.tranche,
+                            "sleeve": sleeve,
+                            "budget": amount,
+                            "reference_price": float(px) / factor,
+                            "reason": "Budget cannot cover one whole share including costs",
+                        }
+                    )
+                    logger.info(
+                        "S18 %s skipped %s: budget %.2f cannot cover one share",
+                        self.tranche, market.symbols[g], amount,
+                    )
+                    done += w
+                    continue
+                qty, amount = shares / factor, spent
             p = Position(
                 g,
-                amount * (1 - COST) / px,
+                qty,
                 amount,
                 float(px),
                 row,
@@ -412,12 +573,38 @@ class Book:
             raise ValueError("S18 row is outside the supplied session panel")
         if self.last_row >= 0 and row != self.last_row + 1:
             raise ValueError("S18 sessions must be processed once, in order")
-        if initial and (self.last_row >= 0 or self.positions or self.queued_buys):
+        if initial and (
+            self.last_row >= 0 or self.positions or self.queued_buys or self.pending_cash_in_lieu
+        ):
             raise ValueError("Initial session requires a new cash book")
+        if self.whole_shares:
+            held = {
+                market.identities[p.gid]
+                for p in [*self.positions, *self.pending_cash_in_lieu]
+            }
+            events = {}
+            for event in market.provenance.get("raw_to_book_events", []):
+                if event["date"] == str(market.dates[row]):
+                    events[event["identity"]] = event["kind"]
+                if (
+                    event["date"] == str(market.dates[row])
+                    and event["identity"] in held
+                    and event["kind"] in {"demerger", "unverified"}
+                ):
+                    raise ExecutionDataError(
+                        f"S18 live {event['kind']} requires holdings reconciliation "
+                        f"for {event['identity']} on {event['date']}; "
+                        "synthetic price normalization is not a share allotment",
+                        identity=event["identity"],
+                    )
+            self._separate_entitlements(market, row, events)
         if not initial:
             self._open(market, row)
             self._stops_and_floors(market, row)
-        nav = self.cash
+        pending_value = sum(
+            p.qty * market.close[row, p.gid] for p in self.pending_cash_in_lieu
+        )
+        nav = self.cash + pending_value
         s2_value = 0.0
         for p in self.positions:
             value = p.qty * market.close[row, p.gid]
@@ -433,6 +620,8 @@ class Book:
                 "s2_value": s2_value,
             }
         )
+        if pending_value:
+            self.equity[-1]["pending_cash_in_lieu"] = pending_value
         if decisions:
             self.decide(market, row, review, order)
         self.last_row, self.last_date = row, str(market.dates[row])

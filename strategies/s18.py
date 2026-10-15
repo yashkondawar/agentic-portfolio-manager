@@ -69,6 +69,11 @@ def _book_specs() -> list[ParamSpec]:
 def _result(strategy_id: str, output: dict[str, Any]) -> StrategyResult:
     data = dict(output)
     report = data.pop("report", "")
+    if data.get("blocked"):
+        return StrategyResult(
+            strategy_id, "failed", report=report, data=data,
+            error=f"Backtest stopped on {data['blocked']['date']}: {data['blocked']['reason']}",
+        )
     return StrategyResult(strategy_id, "completed", report=report, data=data)
 
 
@@ -107,7 +112,7 @@ class S18BacktestStrategy(BaseStrategy):
     id = "s18_backtest"
     name = "S18 Backtest"
     description = (
-        "Backtest one fixed S18 stacked S1/S2 combo with both A/B tranches, "
+        "Backtest whole-share S18 with live execution rules and both A/B tranches, "
         "modeled tax and costs, and an optional stored dossier."
     )
     long_description = (
@@ -117,7 +122,11 @@ class S18BacktestStrategy(BaseStrategy):
         "backtest is not a golden certificate: use S18 Golden Replay to "
         "validate all 15 combo/mode combinations before paper operation. "
         "Historical inputs and golden references come from the app's SQLite "
-        "dataset; no external reference folder is needed. " + _SAFETY
+        "dataset; raw NSE bars supply actual share prices. Uses the same startup "
+        "delay and complete-calendar reviews as live, excludes ETF proxy periods, "
+        "models split/bonus fractional cash-in-lieu at the first available opening "
+        "price, and stops at other unresolved corporate actions. A stopped run reports only its "
+        "valid prefix, never full-period performance. " + _SAFETY
     )
     category = StrategyCategory.BACKTEST
 

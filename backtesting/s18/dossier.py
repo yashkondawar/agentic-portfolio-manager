@@ -9,7 +9,8 @@ from .book import TRADE_COLUMNS
 
 
 def build_workbook(
-    *, config, metrics, curve, trades, holdings, books, validation, warnings
+    *, config, metrics, curve, trades, holdings, books, validation, warnings,
+    fills=None, comparison=None, pending_cash_in_lieu=None,
 ):
     equity = pd.DataFrame(curve)
     indexed = equity.set_index(pd.to_datetime(equity["date"]))
@@ -59,9 +60,15 @@ def build_workbook(
         "Rolling_5Y": rolling[5],
         "Daily_Returns_Portfolio": daily.reset_index(),
         "Tax_Ledger": pd.DataFrame([r for b in books for r in b.tax_ledger]),
-        "Fills_and_Shadow_Costs": pd.DataFrame([r for b in books for r in b.fills]),
+        "Modeled_Cash_In_Lieu": pd.DataFrame([r for b in books for r in b.cash_in_lieu]),
+        "Pending_Entitlements": pd.DataFrame(pending_cash_in_lieu or []),
+        "Fills_and_Shadow_Costs": pd.DataFrame(
+            fills if fills is not None else [r for b in books for r in b.fills]
+        ),
         "Replay_Validation": pd.DataFrame(validation.get("results", [])),
     }
+    if comparison is not None:
+        sheets["Sizing_Comparison"] = pd.DataFrame(comparison)
     stream = BytesIO()
     with pd.ExcelWriter(stream, engine="openpyxl") as writer:
         for name, frame in sheets.items():

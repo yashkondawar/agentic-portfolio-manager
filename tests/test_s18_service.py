@@ -18,7 +18,7 @@ from test_s18_book import market
 
 @pytest.fixture
 def daily_setup(monkeypatch, tmp_path):
-    from backtesting.s18 import data, nse_sources
+    from backtesting.s18 import data, historical, nse_sources
 
     monkeypatch.setenv("PORTFOLIO_DB_PATH", str(tmp_path / "test.sqlite3"))
     monkeypatch.setattr(nse_sources, "NseSources", Mock())
@@ -28,6 +28,7 @@ def daily_setup(monkeypatch, tmp_path):
         "session_calendar": [str(d) for d in m.dates],
         "price_scales": {},
         "history_fingerprints": {},
+        "raw_to_book": {identity: 1.0 for identity in m.identities},
     }
     monkeypatch.setattr(
         service,
@@ -45,6 +46,7 @@ def daily_setup(monkeypatch, tmp_path):
         },
     )
     monkeypatch.setattr(data, "load_market", lambda *a, **kw: m)
+    monkeypatch.setattr(historical, "load_execution_market", lambda **kw: m)
     return m
 
 
@@ -133,6 +135,7 @@ def test_native_ready_book_starts_from_cash_and_fills_next_session(
         "as_of": "2026-09-03",
         "price_scales": {},
         "history_fingerprints": {},
+        "raw_to_book": {identity: 1.0 for identity in m.identities},
     }
     calls = []
 
@@ -162,7 +165,10 @@ def test_native_ready_book_starts_from_cash_and_fills_next_session(
     assert calls[-1]["inception"] == "2026-09-03"
     assert len(continued["holdings"]) == 30
     assert len(continued["fills"]) == 30
-    assert continued["metrics"]["final_value"] == pytest.approx(499900)
+    assert continued["metrics"]["final_value"] == pytest.approx(
+        500000 - sum(f["model_cost"] for f in continued["fills"])
+    )
+    assert all(isinstance(f["qty"], int) for f in continued["fills"])
     assert continued["portfolio_state"]["inception_date"] == "2026-09-03"
 
 
@@ -305,7 +311,9 @@ def test_backtest_persists_dossier(daily_setup):
     workbook = load_workbook(BytesIO(artifact.payload), read_only=True)
     assert "Tax_Ledger" in workbook.sheetnames
     assert "Replay_Validation" in workbook.sheetnames
-    assert workbook["Equity_Curve"].max_row == len(m.dates) + 1
+    assert workbook["Equity_Curve"].max_row == len(m.dates)
+    assert result["equity_curve"][0]["date"] == str(m.dates[1])
+    assert "Sizing_Comparison" in workbook.sheetnames
     assert workbook["Trades"].max_row == len(result["trades"]) + 1
     assert workbook["Positions"].max_row == len(result["holdings"]) + 1
 

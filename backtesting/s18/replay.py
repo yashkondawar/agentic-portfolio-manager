@@ -38,6 +38,7 @@ def book_fingerprint() -> str:
         "signals.py",
         "data.py",
         "service.py",
+        "sizing.py",
     ):
         digest.update(name.encode())
         digest.update(

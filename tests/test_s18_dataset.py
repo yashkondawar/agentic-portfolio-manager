@@ -9,7 +9,7 @@ import pandas as pd
 import pytest
 
 from core import schedules, storage
-from backtesting.s18 import data, dataset, replay, service
+from backtesting.s18 import data, dataset, historical, replay, service
 from backtesting.s18.config import COMBOS, METAL_MODES, S18Config
 from test_s18_data import small_kit
 
@@ -84,6 +84,23 @@ def test_import_is_atomic_idempotent_and_independent_of_source(
     validation = service.run_replay()
     assert validation["validation"]["tranches_checked"] == 30
     assert validation["dataset"]["dataset_id"] == current.id
+    with pytest.raises(ValueError, match="needs raw NSE bars"):
+        service.run_backtest(combo="P15", capital=500000, write_dossier=False)
+    raw = data.load_raw_market(source=current, metals=True)
+    isins = [chain[0] for chain in raw.isin_chains[:raw.n_stocks]]
+    isins += [historical.GOLD_ISINS[0], historical.SILVER_ISINS[0]]
+    quotes = pd.DataFrame({
+        "trade_date": np.repeat(raw.dates.astype(str), len(isins)),
+        "isin": np.tile(isins, len(raw.dates)),
+        **{field: raw.prices[field].ravel() for field in data.PRICE_FIELDS},
+        "source": "synthetic test fixture",
+    }).dropna()
+    with storage.connection_scope() as connection:
+        quotes.to_sql("market_bars", connection, index=False)
+        connection.execute(
+            "CREATE TABLE corporate_actions "
+            "(isin TEXT,ex_date TEXT,kind TEXT,factor REAL,subject TEXT)"
+        )
     backtest = service.run_backtest(combo="P15", capital=500000, write_dossier=False)
     assert backtest["metrics"]["starting_capital"] == 500000
     assert backtest["validation"]["status"] == "passed"

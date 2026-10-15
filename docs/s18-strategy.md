@@ -217,6 +217,24 @@ demerged company's shares** or a broker execution adapter.
 
 **Displayed quantities and prices versus model units**
 
+Live NSE books and normal S18 backtests use **whole exchange shares**.
+Golden Replay and the legacy reference-period daily simulation retain the original
+fractional model for compatibility; they are not the investable backtest. A live buy
+uses the actual opening quote, not the adjusted research price, and rounds quantity
+down after costs. Share value is quantity times price; cash debited includes the
+model cost. S18's existing buy-cost convention is retained: 0.02% of cash outlay,
+so cash required is share value divided by 0.9998. Unused money stays in cash.
+A budget that cannot cover one share produces a recorded skipped buy, not a
+fractional position. Tranche allocations, ranks, review dates and S1/S2 priority
+are unchanged.
+
+Next-session BUY instructions show **estimated integer quantity**, reference close,
+share value, model cost and cash required. These estimates run the same allocation
+logic at closing prices, including queued exits and annual tax funding; actual
+orders are resized at the next open. Reference quotes cannot anticipate overnight
+price changes or unobserved corporate actions. SELL instructions show the held
+whole-share count. None of these instructions submits a broker order.
+
 When `provenance.raw_to_book[identity]` is available, daily results convert
 displayed `qty`, `close`, `peak` and `stop` into current-share/raw-quote
 equivalents. With that conversion factor, `model_price = raw_price * factor`
@@ -225,18 +243,85 @@ divide their model values by the factor. The result retains `model_qty`,
 `model_close`, `model_peak` and `model_stop` alongside the converted fields.
 This is a display/export conversion, not a mutation of the internal book.
 
-Exported SELL quantities use the same conversion. Orders explicitly carry
-`paper_only=true` and a `quantity_units` label identifying **fractional
-current-share equivalents**. Historical reference-only results without a
+Live fills retain their integer executed share quantity and raw execution price
+alongside model quantities/prices. Dated conversions ensure that catch-up runs
+round in the share units actually traded on each session, not today's split-adjusted
+units. Full exits and partial tax-funded sales also use whole shares; tax sales
+round up, release proportional cost basis and retain any excess proceeds as cash.
+Verified split/bonus fractions are separated from tradable whole shares and
+**modeled as cash-in-lieu at the first available opening quote on or after the
+ex-date**, in both backtest and live paper books. For example, a 112.5-share
+entitlement leaves 112 tradable shares and a modeled cash payment for 0.5 shares.
+This is an explicit approximation, not a verified payment amount or payment date.
+No market fill or trading fee is created. Proportional existing model cost basis
+is released into the usual gain/tax pools; actual bonus-share tax treatment can
+differ. April settlement gains belong to the new tax year.
+
+Until an opening quote is available, the fraction is a separate non-tradable
+receivable marked in NAV, not spendable cash. Pending entitlements persist across
+runs and rebases; order previews do not credit them using yesterday's close.
+The UI, CSVs and dossier show pending entitlements and modeled settlements apart
+from whole-share holdings and fills. Unexplained fractional quantities and held
+demergers still require reconciliation rather than silent rounding or fictitious
+child-share delivery.
+
+Exported orders carry `paper_only=true` and label live quantities as **whole
+exchange shares**. Older fractional books retain their original labels.
+Historical reference-only results without a
 conversion factor instead label their quantities **adjusted model units**; they are not
 silently presented as current exchange shares.
 
-Internal books and replay logs remain exact in model units. Fill tables also
-label `quantity_units` as **adjusted model units**, so their quantities must not
-be compared directly with converted daily holdings without checking units.
+Internal books and replay logs remain in model units, which can be fractional
+even when the equivalent exchange-share count is an integer. Reference fill tables
+retain the **adjusted model units** label; live fill tables use **whole shares at
+execution**. Do not compare quantities across different share bases.
 None of these outputs is a broker order or execution confirmation. In
 particular, the demerger synthetic-price convention does not represent actual
 delivery of child-company shares.
+
+Changing live sizing is an explicit book migration, not a display-only rounding.
+The guarded `run_daily(..., migrate_cash_only=True)` path accepts only the known
+pre-whole-share engine fingerprint, at the book's saved date, with both tranches
+still entirely in initial cash and no positions, fills, realised gains or taxes.
+It preserves the inception, cash, equity history, capacity history and queued
+selections; saves the former artifact-group reference; and regenerates instructions
+without advancing a session. Preview with `persist=False` before saving. A filled
+legacy book or an unrecognized engine version requires separate review/new book,
+never silent conversion. Replay validation is still required in each runner's
+Python environment.
+
+**Strict historical backtest and sizing comparison**
+
+The normal S18 Backtest reads raw NSE OHLC from `market_bars`, joined by dated
+ISIN chains, alongside the imported adjusted panel. It verifies a common price
+scale across OHLC, then uses one scale per corporate-action interval to prevent
+rounding noise in the imported panel from creating false fractional entitlements.
+Raw quote and action hashes are retained in the result provenance. On a non-trading
+day only the known share-unit scale is carried forward, not a tradable price.
+Separate same-day split and bonus factors are multiplied once, matching live
+ingestion. Historical combined-action labels are normalized; duplicate or
+overlapping actions are not accepted as extra share allotments.
+
+The same `Book.step` handles the historical and forward books: whole-share sizing,
+costs, tax-funded integer sales, S1/S2 priority, five-zero startup capacity history
+and complete-calendar reviews. A requested backtest starts in cash at its first
+session's close, with no forced initial review or preceding-session purchase.
+Final-session decisions remain queued, not executed outside the window.
+Historical ETFs use actual exchange availability; the pre-listing silver proxy
+is removed from both executable prices and indicator warm-up. Historical
+constituent membership remains inherited from the imported PIT dataset.
+
+Unresolved demergers, unexplained fractional quantities and unexplained changes
+in price units stop the run. Verified split/bonus cash-in-lieu uses the disclosed
+opening-price approximation above; no child-company shares are invented.
+The run is marked **failed/incomplete**, with the blocking date, identity and
+reason. The failed session is excluded from all published state. A matched
+fractional diagnostic and the whole-share result are then compared only over the
+successfully processed prefix. `metrics` stays empty for a stopped request;
+`partial_metrics`, comparison dates, CSVs and dossier disclosures label the
+limited period. A small prefix difference is not evidence that the full requested
+history would be unaffected. The sizing comparison also reports modeled settlement
+counts, cash credited and any still-pending entitlement value.
 
 The input layer supplies `session_calendar`, `calendar_complete_through` and
 `history_fingerprints` for complete-calendar and historical-consistency checks.

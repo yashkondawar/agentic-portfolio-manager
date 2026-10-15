@@ -95,6 +95,12 @@ def render_result(result: StrategyResult, *, heading: bool = True) -> None:
         st.subheader("Results")
     if not result.ok:
         st.error(result.error or result.report or "Strategy failed")
+        if result.strategy_id == "s18_backtest" and result.data.get("blocked"):
+            st.markdown(result.report)
+            st.caption("Partial-period comparison only; the requested backtest did not complete.")
+            st.dataframe(pd.DataFrame(result.data.get("comparison") or []), width="stretch")
+            _s18_entitlements(result.data)
+            _render_downloads(result)
         return
 
     if result.strategy_id == "swing_backtest":
@@ -1275,6 +1281,8 @@ def _s18_holdings_table(holdings: list) -> None:
         "queued_sell_reason": "Pending exit",
     }
     frame = pd.DataFrame(holdings)
+    if all(h.get("quantity_units") == "whole exchange shares" for h in holdings):
+        frame["qty"] = frame["qty"].astype("Int64")
     st.dataframe(
         frame[[c for c in columns if c in frame]].rename(columns=columns),
         use_container_width=True,
@@ -1297,19 +1305,44 @@ def _s18_orders_table(orders: list) -> None:
         "side": "Action",
         "sleeve": "Sleeve",
         "qty": "Quantity",
-        "target_amount_estimate": "Estimated buy allocation",
+        "reference_price": "Reference close",
+        "estimated_value": "Estimated share value",
+        "estimated_cost": "Estimated model cost",
+        "estimated_amount": "Estimated cash required",
+        "target_amount_estimate": "Target slot budget",
+        "sizing_status": "Sizing status",
         "execution_date": "Next session",
         "reason": "Reason",
     }
     frame = pd.DataFrame(orders)
+    whole_shares = all(o.get("quantity_units") == "whole exchange shares" for o in orders)
+    if whole_shares:
+        columns["qty"] = "Quantity (buy estimate)"
+        frame["qty"] = frame["qty"].astype("Int64")
     st.dataframe(
         frame[[c for c in columns if c in frame]].rename(columns=columns),
         use_container_width=True,
         hide_index=True,
+        column_config={
+            columns[key]: st.column_config.NumberColumn(format="%.2f")
+            for key in (
+                "reference_price", "estimated_value", "estimated_cost",
+                "estimated_amount", "target_amount_estimate",
+            )
+            if key in frame
+        },
     )
     st.caption(
-        "Buy allocations are resized at the next open. Instructions are strategy "
-        "outputs, not submitted broker orders."
+        (
+            "Buy quantity is rounded down using the last close, available cash "
+            "and model costs. Share value = quantity x reference close; cash required "
+            "also includes model costs. Zero means no affordable/fillable buy. "
+            "Final quantities and amounts are recalculated at the next open; "
+            "unused money remains in cash. These are not submitted broker orders."
+            if whole_shares else
+            "This is a fractional reference-model allocation, not a whole-share order. "
+            "Buy allocations are resized at the next open; no broker orders are submitted."
+        )
     )
 
 
@@ -1335,6 +1368,11 @@ def render_s18_ledger_snapshot(
         )
         return
     st.caption(
+        "Execution sizing: whole exchange shares."
+        if snapshot["execution_mode"] == "whole_shares"
+        else "Execution sizing: fractional reference-model units."
+    )
+    st.caption(
         f"Saved through the **{snapshot['as_of']}** close · "
         f"Tracking since **{snapshot['opened_on']}**. Values are saved closing "
         "marks, not live quotes."
@@ -1342,6 +1380,7 @@ def render_s18_ledger_snapshot(
     _s18_portfolio_metrics(snapshot["book"])
     st.markdown("#### Holdings")
     _s18_holdings_table(snapshot["holdings"])
+    _s18_entitlements(snapshot)
     st.markdown(f"#### Next-session instructions — {snapshot['next_session']}")
     _s18_orders_table(snapshot["orders"])
     with st.expander(
@@ -1366,6 +1405,22 @@ def render_s18_ledger_snapshot(
             use_container_width=True,
             key=f"s18_history_{book_id}_{combo}_{metal_mode}",
         )
+
+
+def _s18_entitlements(data: dict) -> None:
+    for key, title in (
+        ("pending_cash_in_lieu", "Pending fractional entitlements"),
+        ("cash_in_lieu", "Modeled cash-in-lieu settlements"),
+    ):
+        rows = data.get(key) or []
+        if rows:
+            with st.expander(title, expanded=key == "pending_cash_in_lieu"):
+                st.caption(
+                    "Split/bonus fractions are modeled as cash at the first available "
+                    "ex-date-or-later open, not as fractional market trades. Pending "
+                    "values are non-cash NAV marks; payments and tax basis are approximations."
+                )
+                st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
 
 
 def _render_s18_daily_run(data: dict) -> None:
@@ -1403,21 +1458,39 @@ def _render_s18_daily_run(data: dict) -> None:
             "reason": "Reason",
         }
         frame = pd.DataFrame(fills)
+        whole_shares = all(
+            f.get("quantity_units") == "whole shares at execution" for f in fills
+        )
+        if whole_shares:
+            frame["qty"] = frame["qty"].astype("Int64")
         st.dataframe(
             frame[[c for c in columns if c in frame]].rename(columns=columns),
             use_container_width=True,
             hide_index=True,
         )
         st.caption(
+            "Recorded fills use whole shares and the exchange price at execution; "
+            "no broker execution is implied."
+            if whole_shares else
             "Recorded strategy fills use model units; no broker execution is implied."
         )
     else:
         st.caption("No fills recorded for this session.")
+    skipped = [
+        s for s in data.get("skipped_buys") or [] if not as_of or s.get("date") == as_of
+    ]
+    if skipped:
+        st.warning(f"{len(skipped)} buy(s) skipped because the budget could not cover a share.")
+        st.dataframe(
+            pd.DataFrame(skipped)[["symbol", "tranche", "budget", "reference_price", "reason"]],
+            width="stretch", hide_index=True,
+        )
     if not data.get("state_persisted") and readiness.get("status") == "ready":
         with st.expander("Preview instructions — not saved", expanded=False):
             _s18_orders_table(data.get("orders") or [])
     with st.expander("Portfolio from this run", expanded=False):
         _s18_holdings_table(data.get("holdings") or [])
+    _s18_entitlements(data)
     with st.expander("Diagnostics and assumptions", expanded=False):
         st.markdown("**Data status**")
         st.json(readiness)
@@ -1492,6 +1565,12 @@ def _render_s18(data: dict) -> None:
         _render_summary_data(metrics)
         with st.expander("All metric fields and units"):
             st.json(metrics)
+
+    if data.get("comparison"):
+        st.markdown("#### Whole-share sizing comparison")
+        st.caption("Same inputs, dates and live rules; only share sizing differs.")
+        st.dataframe(pd.DataFrame(data["comparison"]), width="stretch", hide_index=True)
+    _s18_entitlements(data)
 
     curve = pd.DataFrame(data.get("equity_curve") or [])
     if not curve.empty:

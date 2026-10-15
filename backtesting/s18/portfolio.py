@@ -12,6 +12,8 @@ import pandas as pd
 from core import storage
 from .config import S18Config
 from .data import METAL_IDENTITIES
+from .book import Book
+from .service import _display_fills
 
 
 def _selection(book_id, combo, metal_mode):
@@ -69,13 +71,20 @@ def ledger_snapshot(*, book_id="default", combo="P15", metal_mode="both_priority
     nav = sum(float(b["equity"][-1]["nav"]) for b in books)
     cash = sum(float(b["cash"]) for b in books)
     deployed = sum(float(h["value"]) for h in holdings)
-    if not math.isclose(nav, cash + deployed, rel_tol=1e-9, abs_tol=1e-6):
+    pending_count = sum(len(b.get("pending_cash_in_lieu", [])) for b in books)
+    pending = _artifact_rows(group, "pending_cash_in_lieu.csv") if pending_count else []
+    if len(pending) != pending_count:
+        raise ValueError("Saved cash-in-lieu entitlements do not match the S18 book")
+    pending_value = sum(float(p["value"]) for p in pending)
+    pending_basis = sum(float(p["basis"]) for p in pending)
+    if not math.isclose(nav, cash + deployed + pending_value, rel_tol=1e-9, abs_tol=1e-6):
         raise ValueError(
             "Saved S18 holdings and cash do not reconcile to portfolio value"
         )
-    invested = sum(float(h["basis"]) for h in holdings)
+    invested = sum(float(h["basis"]) for h in holdings) + pending_basis
     trades = [r for b in books for r in b["trades"]]
-    fills = [f for b in books for f in b["fills"]]
+    fills = _display_fills([Book.from_dict(b) for b in books])
+    settlements = [s for b in books for s in b.get("cash_in_lieu", [])]
     tax = sum(float(b["tax_paid"]) for b in books)
     capital = float(state["capital"])
     curve = [
@@ -111,19 +120,26 @@ def ledger_snapshot(*, book_id="default", combo="P15", metal_mode="both_priority
         "as_of": state["as_of"],
         "opened_on": state.get("inception_date", dates[0][0]),
         "next_session": order_files[0][7:-4],
+        "execution_mode": state.get("execution_mode", "fractional_model"),
         "holdings": holdings,
         "orders": orders,
         "tradebook": trades,
         "fills": fills,
+        "cash_in_lieu": settlements,
+        "pending_cash_in_lieu": pending,
         "equity_curve": curve,
         "book": {
             "equity": nav,
             "cash": cash,
             "deployed": deployed,
+            "pending_entitlement_value": pending_value,
             "invested": invested,
             "starting_capital": capital,
-            "unrealized_pnl": deployed - invested,
-            "realized_pnl": sum(float(t["gain"]) for t in trades),
+            "unrealized_pnl": deployed + pending_value - invested,
+            "realized_pnl": (
+                sum(float(t["gain"]) for t in trades)
+                + sum(float(s["gain"]) for s in settlements)
+            ),
             "tax_paid": tax,
             "total_pnl": nav - capital,
             "total_return_pct": 100 * (nav / capital - 1),

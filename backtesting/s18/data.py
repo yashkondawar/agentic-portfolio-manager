@@ -104,11 +104,18 @@ class PreparedMarket:
     identities: tuple[str, ...]
     n_stocks: int
     provenance: dict
+    execution_factors: np.ndarray | None = field(default=None, repr=False)
     _orders: dict = field(default_factory=dict, init=False, repr=False)
 
     def __post_init__(self):
         validate_dates(self.dates)
         shape = (len(self.dates), len(self.symbols))
+        if self.execution_factors is not None and (
+            self.execution_factors.shape != shape
+            or np.isinf(self.execution_factors).any()
+            or np.any(self.execution_factors[np.isfinite(self.execution_factors)] <= 0)
+        ):
+            raise ValueError("Invalid historical exchange-quote conversion panel")
         if len(set(self.identities)) != shape[1] or len(self.identities) != shape[1]:
             raise ValueError("Company identities must be unique and match the columns")
         if not 0 < self.n_stocks <= shape[1]:
