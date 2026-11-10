@@ -618,21 +618,48 @@ class NseSources:
         return self._daily("etfs", ETF_URL, parse)
 
     def securities(self) -> SourceResult:
+        deduplication = {}
+
         def parse(payload):
             rows = _csv(payload, {"SYMBOL", "ISIN NUMBER", "DATE OF LISTING"})
-            return _unique(
-                [
-                    {
-                        **_identity(r["SYMBOL"], r["ISIN NUMBER"]),
-                        "listed_on": str(_date(r["DATE OF LISTING"], "%d-%b-%Y")),
-                        **({"series": r["SERIES"]} if r.get("SERIES") else {}),
-                    }
-                    for r in rows
-                ]
+            records, details, series = {}, {}, {}
+            for row in rows:
+                identity = _identity(row["SYMBOL"], row["ISIN NUMBER"])
+                symbol = identity["symbol"]
+                listed_on = str(_date(row["DATE OF LISTING"], "%d-%b-%Y"))
+                listing = {
+                    **{k: v for k, v in row.items() if k != "SERIES"},
+                    "SYMBOL": symbol, "ISIN NUMBER": identity["isin"],
+                    "DATE OF LISTING": listed_on,
+                }
+                if symbol in details and details[symbol] != listing:
+                    raise ValueError(f"Conflicting security listing details for {symbol}")
+                details[symbol] = listing
+                records[symbol] = {**identity, "listed_on": listed_on}
+                series.setdefault(symbol, set()).add(row.get("SERIES", "").upper())
+            multiple = {}
+            for symbol, record in records.items():
+                reported = sorted(series[symbol])
+                if len(reported) > 1:
+                    if "" in reported:
+                        raise ValueError(f"Missing security series in repeated listing for {symbol}")
+                    # The master is listing evidence, not today's executable
+                    # series. Preserve alternatives instead of preferring EQ.
+                    record["series_options"] = reported
+                    multiple[symbol] = reported
+                elif reported[0]:
+                    record["series"] = reported[0]
+            deduplication.update(
+                payload_record_count=len(rows),
+                retained_record_count=len(records),
+                duplicate_count=len(rows) - len(records),
+                multiple_series=multiple,
             )
+            return _unique(list(records.values()))
 
         equities = self._daily(
-            "equities", SECURITIES_URL, parse, parser_version="equity-series-v2"
+            "equities", SECURITIES_URL, parse,
+            parser_version="equity-master-series-v3", deduplication=deduplication,
         )
         etfs = self.etfs()
         records = _unique(equities.records + etfs.records)
@@ -640,7 +667,10 @@ class NseSources:
             "securities",
             [equities, etfs],
             records,
-            {"observed_on": str(self._now().date())},
+            {
+                "observed_on": str(self._now().date()),
+                "equity_master": equities.metadata,
+            },
         )
 
     def symbol_changes(self) -> SourceResult:
@@ -921,6 +951,14 @@ class NseSources:
         ):
             day = _date(match.group(1), "%B %d, %Y")
             published_special[day] = notes.source
+        for match in re.finditer(
+            r"Muhurat Trading (?:will|shall) be conducted on "
+            r"(?:(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),?\s+)?"
+            r"([A-Z][a-z]+ \d{1,2}, \d{4})",
+            note_text,
+            re.I,
+        ):
+            published_special[_date(match.group(1), "%B %d, %Y")] = notes.source
         for year in range(start.year, end.year + 1):
 
             def parse(payload, expected=year):

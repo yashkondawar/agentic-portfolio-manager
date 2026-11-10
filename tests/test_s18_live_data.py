@@ -184,6 +184,30 @@ def test_existing_book_requires_every_dated_snapshot(raw_setup):
         collect(raw_setup, today, {date(2026, 9, 1), today}, inception="2026-09-01")
 
 
+def test_approved_gap_is_price_only_and_resumes_dated_decisions(raw_setup):
+    today = date(2026, 9, 3)
+    result = live_data.collect_market(
+        as_of=str(today), metals=False, inception="2026-09-01",
+        source=Sources(today, {date(2026, 9, 1), today}),
+        membership_gap_dates=["2026-09-02"],
+        now=datetime(2026, 9, 3, 19, tzinfo=ZoneInfo("Asia/Kolkata")),
+    )
+    assert result.market.provenance["decision_gaps"] == ["2026-09-02"]
+    row = list(map(str, result.market.dates)).index("2026-09-02")
+    assert (result.market.sell_rank[row] == 32767).all()
+    assert (result.market.sell_rank[row + 1] < 32767).any()
+
+
+def test_gap_recovery_still_requires_latest_membership(raw_setup):
+    with pytest.raises(ValueError, match="end on a session"):
+        live_data.collect_market(
+            as_of="2026-09-03", metals=False, inception="2026-09-01",
+            source=Sources(date(2026, 9, 3), {date(2026, 9, 1), date(2026, 9, 3)}),
+            membership_gap_dates=["2026-09-02", "2026-09-03"],
+            now=datetime(2026, 9, 3, 19, tzinfo=ZoneInfo("Asia/Kolkata")),
+        )
+
+
 @pytest.mark.parametrize("blocker", ["warmup", "index", "calendar"])
 def test_membership_is_captured_before_other_collection_failures(
     raw_setup, monkeypatch, blocker

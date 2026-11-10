@@ -366,6 +366,17 @@ wrong payload dates, inconsistent identities and unresolved price adjustments
 stop the run. Calendar exceptions need official evidence; an HTTP failure
 cannot declare a market holiday.
 
+The official equity security master can report the same symbol/ISIN in multiple
+series (for example EQ/BZ or BE/BZ). Matching listing rows are consolidated only
+when every non-series field agrees, preserving all reported series in
+`series_options` without choosing an executable series. Single-series records
+retain `series`; duplicate counts and multi-series identities are disclosed in
+the source metadata, and the raw CSV remains immutable. Conflicting listing
+details or reused ISINs still fail validation. This does not relax the unique
+identity checks on bhavcopies or index membership; dated tape and membership
+remain the execution and scope evidence. Cached masters are re-parsed from
+their original payload when the parser version changes.
+
 Forward testing deliberately retains the original **EQ/BE/BZ equity scope plus
 the selected metal ETFs**, with the user-approved REIT/RR exclusion retained.
 Official index members in RR (REIT) or other excluded series are listed in
@@ -399,6 +410,16 @@ today's list, silently carry membership forward, or skip the missing sessions.
 When choosing a new book, update both the daily-form defaults and the existing
 schedule's portfolio ID so the scheduler does not keep targeting the blocked
 book.
+
+An explicit maintenance call may instead supply a finite
+`membership_gap_dates` list for an existing book. On those approved sessions
+only, verified prices process existing holdings, stops, floors, taxes and orders
+queued from a supported prior decision. `Book.step(decisions=False)` suppresses
+new scouting, promotions and rank-based reviews; today's constituents are
+never substituted. Recovery must finish on a session with dated membership.
+The exact gaps persist on the book, in provenance and in the report. Future
+unapproved gaps still block. This management-only recovery is **not** a full
+historical strategy replay.
 
 Older stocks newly entering the universe use the existing raw NSE bar store
 and verified actions for a 315-session warm-up (enough for the 252-session

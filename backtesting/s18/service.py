@@ -648,6 +648,7 @@ def run_daily(
     persist=True,
     shadow_charges=None,
     migrate_cash_only=False,
+    membership_gap_dates=(),
 ):
     from .data import load_market
 
@@ -690,6 +691,11 @@ def run_daily(
             as_of=requested.isoformat(),
             metals=metal_mode != "none",
             inception=saved.get("inception_date") if saved else None,
+            membership_gap_dates=(
+                sorted(set(membership_gap_dates) | set(saved.get("membership_gap_dates", [])))
+                if saved
+                else membership_gap_dates
+            ),
             tracked_identities=(
                 {
                     saved["identities"][p["gid"]]
@@ -833,6 +839,7 @@ def run_daily(
                 review=bool(flags[ci]),
                 order=order[row],
                 initial=book.last_row < 0,
+                decisions=str(market.dates[row]) not in market.provenance.get("decision_gaps", []),
             )
     if shadow_charges is not None:
         _apply_shadow_charges(books, shadow_charges)
@@ -867,6 +874,7 @@ def run_daily(
         ),
         "as_of": str(session),
         "execution_mode": "whole_shares" if books[0].whole_shares else "fractional_model",
+        "membership_gap_dates": market.provenance.get("decision_gaps", []),
     }
     if saved and saved.get("sizing_migration"):
         state["sizing_migration"] = saved["sizing_migration"]
@@ -878,6 +886,15 @@ def run_daily(
             "\n\nLive sizing: **whole exchange shares**. Buy quantities are rounded "
             "down after model costs; unused allocation stays in cash. Next-session "
             "quantities and amounts are estimates at the last close, resized at the open."
+        )
+    if state["membership_gap_dates"]:
+        report += (
+            "\n\n**Approved outage recovery:** verified prices, existing holdings "
+            "and previously queued orders were processed on "
+            + ", ".join(state["membership_gap_dates"])
+            + ". New scouting and rank-based decisions were skipped on these dates "
+            "because independently dated membership evidence is missing. "
+            "This is not a full historical strategy replay."
         )
     result = {
         "report": report,

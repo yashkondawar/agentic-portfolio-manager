@@ -459,6 +459,119 @@ def test_equity_and_etf_master_preserve_official_listing_dates(client):
     assert len(source.session.calls) == 2
 
 
+MASTER_FIELDS = [
+    "SYMBOL", "NAME OF COMPANY", "SERIES", "DATE OF LISTING",
+    "PAID UP VALUE", "MARKET LOT", "ISIN NUMBER", "FACE VALUE",
+]
+HAMPTON = [
+    "HAMPTON", "Hampton Sky Realty Limited", "BZ", "17-AUG-2026",
+    "1", "1", "INE299D01022", "1",
+]
+PARSVNATH = [
+    "PARSVNATH", "Parsvnath Developers Limited", "BE", "30-NOV-2006",
+    "5", "1", "INE561H01026", "5",
+]
+
+
+def master_payload(*rows):
+    return csv_bytes(MASTER_FIELDS, rows)
+
+
+def etf_master():
+    return csv_bytes(
+        ["Symbol", "ISINNumber", "DateofListing"],
+        [["GOLD", "INF000000001", "19-Mar-07"]],
+    )
+
+
+def test_master_multiple_series_are_one_identity_not_an_arbitrary_series(client):
+    hampton_eq = [*HAMPTON[:2], "EQ", *HAMPTON[3:]]
+    parsvnath_bz = [*PARSVNATH[:2], "BZ", *PARSVNATH[3:]]
+    payload = master_payload(HAMPTON, hampton_eq, PARSVNATH, parsvnath_bz, HAMPTON)
+    source = client(Response(payload), Response(etf_master()))
+    result = source.securities()
+    assert result.records[:2] == [
+        {
+            "symbol": "HAMPTON", "isin": "INE299D01022",
+            "listed_on": "2026-08-17", "series_options": ["BZ", "EQ"],
+        },
+        {
+            "symbol": "PARSVNATH", "isin": "INE561H01026",
+            "listed_on": "2006-11-30", "series_options": ["BE", "BZ"],
+        },
+    ]
+    metadata = result.metadata["equity_master"]
+    assert metadata["deduplication"] == {
+        "payload_record_count": 5, "retained_record_count": 2, "duplicate_count": 3,
+        "multiple_series": {"HAMPTON": ["BZ", "EQ"], "PARSVNATH": ["BE", "BZ"]},
+    }
+    assert source._payload(metadata["snapshot"]) == payload
+    assert source.securities().records == result.records
+    assert source.securities().metadata["equity_master"] == metadata
+    assert len(source.session.calls) == 2
+
+
+def test_master_exact_repeated_row_retains_its_single_series(client):
+    result = client(Response(master_payload(HAMPTON, HAMPTON)), Response(etf_master())).securities()
+    assert result.records[0]["series"] == "BZ"
+    assert "series_options" not in result.records[0]
+    assert result.metadata["equity_master"]["deduplication"]["duplicate_count"] == 1
+
+
+@pytest.mark.parametrize("field,value", [
+    ("ISIN NUMBER", "INE299D01030"),
+    ("DATE OF LISTING", "18-AUG-2026"),
+    ("NAME OF COMPANY", "Different Company"),
+    ("PAID UP VALUE", "2"),
+    ("MARKET LOT", "10"),
+    ("FACE VALUE", "2"),
+])
+def test_master_conflicting_listing_details_still_fail(client, field, value):
+    conflict = HAMPTON.copy()
+    conflict[MASTER_FIELDS.index(field)] = value
+    source = client(Response(master_payload(HAMPTON, conflict)))
+    with pytest.raises(ValueError, match="Conflicting security listing details for HAMPTON"):
+        source.securities()
+    assert source._get(f"result:equities:{NOW.date()}") is None
+
+
+def test_master_reused_isin_under_different_symbol_still_fails(client):
+    conflict = HAMPTON.copy()
+    conflict[0] = "OTHER"
+    with pytest.raises(ValueError, match="Duplicate security isin"):
+        client(Response(master_payload(HAMPTON, conflict))).securities()
+
+
+def test_master_equity_etf_identity_collision_still_fails(client):
+    etf = csv_bytes(
+        ["Symbol", "ISINNumber", "DateofListing"],
+        [["HAMPTON", "INF000000001", "19-Mar-07"]],
+    )
+    with pytest.raises(ValueError, match="Duplicate security symbol"):
+        client(Response(master_payload(HAMPTON)), Response(etf)).securities()
+
+
+@pytest.mark.parametrize("previous_result", [False, True])
+def test_master_reparses_failed_download_or_old_result_without_network(client, previous_result):
+    payload = master_payload(HAMPTON, [*HAMPTON[:2], "EQ", *HAMPTON[3:]])
+    source = client(Response(payload), Response(etf_master()))
+    if previous_result:
+        source._daily(
+            "equities", nse.SECURITIES_URL,
+            lambda p: [{"symbol": "HAMPTON", "isin": "INE299D01022", "series": "BZ"}],
+            parser_version="equity-series-v2",
+        )
+    else:
+        source._download(nse.SECURITIES_URL)
+    source.etfs()
+    assert not source.session.responses
+    result = source.securities()
+    assert result.records[0]["series_options"] == ["BZ", "EQ"]
+    assert result.metadata["equity_master"]["parser_version"] == "equity-master-series-v3"
+    assert source._payload(result.metadata["equity_master"]["snapshot"]) == payload
+    assert len(source.session.calls) == 2
+
+
 def test_symbol_changes_are_headerless_and_dated(client):
     result = client(Response(b"Company,OLD,NEW,01-OCT-2026\n")).symbol_changes()
     assert result.records == [
@@ -776,12 +889,15 @@ def test_future_muhurat_requires_explicit_official_evidence(client):
         source.calendar(date(2026, 11, 8), date(2026, 11, 8))
 
 
-def test_official_muhurat_note_overrides_holiday_without_inventing_hours(client):
+@pytest.mark.parametrize("note", [
+    "November 08, 2026, shall be a trading holiday on account of Diwali Laxmi Pujan. "
+    "Muhurat Trading will be conducted on that day. Timings shall be notified subsequently.",
+    "Muhurat Trading will be conducted on Sunday, November 08, 2026 on account "
+    "of Diwali Laxmi Pujan. Timings shall be notified subsequently.",
+])
+def test_official_muhurat_note_overrides_holiday_without_inventing_hours(client, note):
     responses = calendar_responses(
-        note=(
-            "November 08, 2026, shall be a trading holiday on account of Diwali Laxmi Pujan. "
-            "Muhurat Trading will be conducted on that day. Timings shall be notified subsequently."
-        )
+        note=note
     )
     rows = json.loads(responses[-1].payload)["CM"]
     rows.append({"tradingDate": "08-Nov-2026", "description": "Diwali Laxmi Pujan*"})

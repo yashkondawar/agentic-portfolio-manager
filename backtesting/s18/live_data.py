@@ -293,6 +293,7 @@ def collect_market(
     now=None,
     tracked_identities=(),
     dataset=None,
+    membership_gap_dates=(),
 ) -> LiveData:
     if source is None:
         from .nse_sources import NseSources
@@ -351,7 +352,12 @@ def collect_market(
     if next_session is None:
         raise ValueError("NSE calendar does not include the next exchange session")
 
-    snapshots = {}
+    approved_gaps = {date.fromisoformat(str(day)) for day in membership_gap_dates}
+    if approved_gaps and not inception:
+        raise ValueError("Membership gap recovery requires an existing dated book")
+    if last in approved_gaps:
+        raise ValueError("Recovery must end on a session with dated membership evidence")
+    snapshots, decision_gaps = {}, []
     decision_start = date.fromisoformat(inception) if inception else last
     pending = False
     from .nse_sources import SourceUnavailable
@@ -362,6 +368,9 @@ def collect_market(
         try:
             snapshots[day] = source.constituents(day)
         except SourceUnavailable:
+            if day in approved_gaps:
+                decision_gaps.append(str(day))
+                continue
             if inception or requested != today or day != last:
                 raise
             pending = True
@@ -670,6 +679,7 @@ def collect_market(
         "history_fingerprints": fingerprints,
         "history_fingerprint_version": "s18-nse-day-v2",
         "decision_start": str(decision_start) if not pending else None,
+        "decision_gaps": decision_gaps,
         "membership_policy": "dated observations only; pre-inception bridge is price-only",
         "instrument_scope": "EQ/BE/BZ stocks plus enabled metal ETFs; RR REITs excluded",
         "excluded_constituents": _member_scope(membership_inputs[-1])[1],
@@ -708,6 +718,7 @@ def collect_market(
         "price_bridge_sessions": len(sessions),
         "decision_start": provenance["decision_start"],
         "excluded_constituents": provenance["excluded_constituents"],
+        "decision_gaps": decision_gaps,
         "voluntary_offers": voluntary_offers,
         "message": (
             "Warm-up collected. No retrospective paper trades or constituent assumptions; "
