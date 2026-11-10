@@ -41,7 +41,7 @@ Prerequisites
   Verify with:    copilot --version
   If missing:     npm install -g @github/copilot   (then run `copilot` once to auth)
 - Optional: set COPILOT_BIN to the absolute path of the CLI if it isn't on PATH.
-- Optional: set COPILOT_MODEL to choose a model (e.g. claude-sonnet-4.5).
+- Optional: set COPILOT_MODEL to choose a model (default: gpt-6.1-sol).
 
 Portfolio JSON schema
 ---------------------

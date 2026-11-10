@@ -42,7 +42,7 @@ except ImportError as exc:  # pragma: no cover - exercised via import-blocking t
 
 logger = logging.getLogger(__name__)
 
-DEFAULT_COPILOT_MODEL = "claude-opus-4.7"
+DEFAULT_COPILOT_MODEL = "gpt-6.1-sol"
 DEFAULT_COPILOT_TIMEOUT = 300.0
 
 
@@ -148,9 +148,10 @@ def _runtime_connection() -> RuntimeConnection:
     # On Windows, prefer the signed system installation. Some application
     # control policies block the SDK's downloaded executable.
     if sys.platform == "win32":
-        installed_exe = shutil.which("copilot.exe")
-        if installed_exe:
-            return RuntimeConnection.for_stdio(path=installed_exe)
+        from core.agent.runners.copilot_cli import resolve_copilot_bin
+
+        if shutil.which("copilot") or shutil.which("copilot.exe") or os.getenv("COPILOT_BIN"):
+            return RuntimeConnection.for_stdio(path=resolve_copilot_bin())
 
     return RuntimeConnection.for_stdio()
 

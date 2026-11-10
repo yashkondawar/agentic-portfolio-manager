@@ -20,12 +20,19 @@ from __future__ import annotations
 
 import json
 import logging
+import math
 import os
+import platform
+import re
 import shutil
+import signal
 import subprocess
 import sys
 import threading
+import time
 import uuid
+from collections import deque
+from dataclasses import replace
 from datetime import datetime
 from pathlib import Path
 from typing import IO, Optional
@@ -41,7 +48,42 @@ from core.storage import runtime_dir
 
 logger = logging.getLogger("core.agent.copilot_cli")
 
-__all__ = ["CopilotCliRunner", "resolve_copilot_bin", "safe_write", "build_cli_args"]
+__all__ = [
+    "CopilotCliRunner", "CopilotCliError", "resolve_copilot_bin",
+    "safe_write", "build_cli_args",
+]
+
+
+class CopilotCliError(RuntimeError):
+    """A CLI failure with retained diagnostics and an explicit retry policy."""
+
+    def __init__(self, message: str, *, retryable: bool = False) -> None:
+        super().__init__(message)
+        self.retryable = retryable
+
+
+def _installed_native_cli(path: str) -> str:
+    """Use the native payload of this npm installation, not its Node shim."""
+    shim = Path(path)
+    if sys.platform != "win32" or shim.name.lower() not in {
+        "copilot", "copilot.cmd", "copilot.ps1",
+    }:
+        return path
+    architecture = platform.machine().lower()
+    arch = {"amd64": "x64", "x86_64": "x64", "arm64": "arm64", "aarch64": "arm64"}.get(
+        architecture
+    )
+    if arch is None:
+        return path
+    modules = shim.parent / "node_modules" / "@github"
+    package = f"copilot-win32-{arch}"
+    for candidate in (
+        modules / "copilot" / "node_modules" / "@github" / package / "copilot.exe",
+        modules / package / "copilot.exe",
+    ):
+        if candidate.is_file():
+            return str(candidate)
+    return path
 
 
 def safe_write(stream: IO[str], text: str) -> None:
@@ -70,13 +112,13 @@ def resolve_copilot_bin() -> str:
     if explicit:
         if not Path(explicit).exists():
             raise RuntimeError(f"COPILOT_BIN points to non-existent path: {explicit}")
-        return explicit
+        return _installed_native_cli(explicit)
 
     # On Windows the global npm bin is usually `copilot.cmd`.
     for name in ("copilot", "copilot.cmd", "copilot.exe"):
         path = shutil.which(name)
         if path:
-            return path
+            return _installed_native_cli(path)
 
     raise RuntimeError(
         "GitHub Copilot CLI not found on PATH.\n"
@@ -161,6 +203,41 @@ class CopilotCliRunner:
         *,
         on_output: OutputSink | None = None,
     ) -> AgentResult:
+        from core.llm import get_copilot_timeout
+
+        timeout = request.timeout if request.timeout is not None else get_copilot_timeout()
+        if not math.isfinite(timeout) or timeout <= 0:
+            raise ValueError("Copilot CLI timeout must be finite and positive")
+        deadline = time.monotonic() + timeout
+        for attempt in range(1, 4):
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                raise TimeoutError(f"Copilot CLI {request.label} exhausted its {timeout:g}s budget")
+            try:
+                return self._run_once(
+                    replace(request, timeout=remaining), on_output=on_output,
+                )
+            except CopilotCliError as exc:
+                delay = 2 ** attempt
+                if not exc.retryable or attempt == 3 or deadline - time.monotonic() <= delay:
+                    raise
+                logger.warning(
+                    "Transient Copilot CLI failure (%s); retrying attempt %s/3 in %ss",
+                    exc, attempt + 1, delay,
+                )
+                time.sleep(delay)
+        raise AssertionError("Unreachable Copilot retry state")
+
+    def _run_once(
+        self, request: AgentRequest, *, on_output: OutputSink | None = None,
+    ) -> AgentResult:
+        from core.llm import get_copilot_model, get_copilot_timeout
+
+        started = time.monotonic()
+        chosen_model = (request.model or "").strip() or get_copilot_model()
+        timeout = request.timeout if request.timeout is not None else get_copilot_timeout()
+        if not math.isfinite(timeout) or timeout <= 0:
+            raise ValueError("Copilot CLI timeout must be finite and positive")
         copilot_bin = resolve_copilot_bin()
 
         tmp_dir = runtime_dir() / "copilot"
@@ -191,12 +268,11 @@ class CopilotCliRunner:
                     ", ".join(request.mcp_servers),
                 )
             except OSError as exc:
-                logger.warning("Skipping MCP tools: %s", exc)
+                prompt_file.unlink(missing_ok=True)
+                raise CopilotCliError(f"Could not configure required Copilot MCP tools: {exc}") from exc
 
         if request.log_file is not None:
             request.log_file.parent.mkdir(parents=True, exist_ok=True)
-
-        chosen_model = request.model or os.getenv("COPILOT_MODEL")
 
         cmd = build_cli_args(
             copilot_bin,
@@ -218,14 +294,16 @@ class CopilotCliRunner:
             prompt_file.stat().st_size,
             Capability.WEB_SEARCH in request.requires,
             bool(request.mcp_servers),
-            request.log_file if request.log_file else "—",
+            request.log_file or prompt_file.with_suffix(".log"),
             f", model={chosen_model}" if chosen_model else "",
         )
 
+        diagnostics = request.log_file or prompt_file.with_suffix(".log")
+        succeeded = False
         log_handle: Optional[IO[str]] = None
-        if request.log_file is not None:
+        if diagnostics is not None:
             # Append mode so multiple runs in one session don't overwrite.
-            log_handle = open(request.log_file, "a", encoding="utf-8", errors="replace")
+            log_handle = open(diagnostics, "a", encoding="utf-8", errors="replace")
             log_handle.write(
                 f"\n{'='*72}\n"
                 f"{request.label} run @ {datetime.now().isoformat(timespec='seconds')}\n"
@@ -236,6 +314,7 @@ class CopilotCliRunner:
             log_handle.flush()
 
         emit = on_output or (lambda chunk: safe_write(sys.stdout, chunk))
+        stderr_tail: deque[str] = deque(maxlen=40)
 
         def _pump_stderr(pipe: IO[str], sink: Optional[IO[str]]) -> None:
             """Tee Copilot stderr to the console (prefixed) and optional log."""
@@ -243,6 +322,7 @@ class CopilotCliRunner:
                 for raw in iter(pipe.readline, ""):
                     if not raw:
                         break
+                    stderr_tail.append(raw[-4096:])
                     safe_write(sys.stderr, f"[copilot] {raw}")
                     if sink is not None:
                         sink.write(raw)
@@ -254,6 +334,8 @@ class CopilotCliRunner:
                     pass
 
         try:
+            if time.monotonic() - started >= timeout:
+                raise TimeoutError(f"Copilot CLI {request.label} exhausted its startup budget")
             proc = subprocess.Popen(
                 cmd,
                 stdout=subprocess.PIPE,
@@ -262,6 +344,8 @@ class CopilotCliRunner:
                 encoding="utf-8",
                 errors="replace",
                 bufsize=1,
+                start_new_session=os.name != "nt",
+                creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0,
             )
 
             # Consume stderr on a thread; a chatty MCP/log stream can otherwise
@@ -274,20 +358,98 @@ class CopilotCliRunner:
             stderr_thread.start()
 
             captured: list[str] = []
-            assert proc.stdout is not None
-            for line in proc.stdout:
-                captured.append(line)
-                emit(line)
+            timed_out = threading.Event()
+            finished = threading.Event()
 
-            return_code = proc.wait()
+            def expire() -> None:
+                if finished.is_set():
+                    return
+                timed_out.set()
+                logger.error("Copilot CLI %s exceeded its %.0fs deadline", request.label, timeout)
+                if os.name == "nt":
+                    # Kill only this invocation's captured descendants, including
+                    # MCP servers; killing cmd.exe alone leaves their pipes open.
+                    script = f"""
+$all = Get-CimInstance Win32_Process | Select-Object ProcessId, ParentProcessId
+$ids = [System.Collections.Generic.List[int]]::new()
+$ids.Add({proc.pid})
+for ($i = 0; $i -lt $ids.Count; $i++) {{
+    foreach ($child in $all) {{
+        if ($child.ParentProcessId -eq $ids[$i] -and -not $ids.Contains([int]$child.ProcessId)) {{
+            $ids.Add([int]$child.ProcessId)
+        }}
+    }}
+}}
+$ids.Reverse()
+foreach ($id in $ids) {{ Stop-Process -Id $id -Force -ErrorAction SilentlyContinue }}
+"""
+                    try:
+                        subprocess.run(
+                            ["powershell", "-NoProfile", "-NonInteractive", "-Command", script],
+                            capture_output=True, timeout=20, check=True,
+                        )
+                    except (OSError, subprocess.SubprocessError):
+                        logger.exception("Could not terminate the timed-out Copilot process tree")
+                        proc.kill()
+                else:
+                    os.killpg(proc.pid, signal.SIGKILL)
+
+            timer = threading.Timer(max(0, timeout - (time.monotonic() - started)), expire)
+            timer.daemon = True
+            timer.start()
+            assert proc.stdout is not None
+            try:
+                for line in proc.stdout:
+                    captured.append(line)
+                    emit(line)
+                return_code = proc.wait()
+            finally:
+                finished.set()
+                timer.cancel()
+                timer.join()
             stderr_thread.join(timeout=5.0)
+            if timed_out.is_set():
+                message = (
+                    f"Copilot CLI {request.label} timed out after {timeout:.3g}s. "
+                    f"See log: {diagnostics}"
+                )
+                if log_handle is not None:
+                    log_handle.write(message + "\n")
+                raise TimeoutError(message)
 
             if return_code != 0:
-                detail = f" See log: {request.log_file}" if request.log_file else ""
-                raise RuntimeError(
-                    f"Copilot CLI exited with code {return_code}.{detail}"
+                diagnostic = ("".join(stderr_tail).strip() or "".join(captured).strip())[-4000:]
+                lower = diagnostic.lower()
+                permanent = any(marker in lower for marker in (
+                    "not recognized", "not found", "unknown model", "unsupported model",
+                    "model is not available", "unauthorized", "authentication",
+                    "sign in", "login required", "invalid argument", "unknown option",
+                ))
+                transient = return_code in (3221225786, -1073741510) or any(
+                    marker in lower for marker in (
+                        "rate limit", "internal server error", "bad gateway", "gateway timeout",
+                        "temporarily unavailable", "connection reset", "econnreset",
+                        "etimedout", "fetch failed", "socket hang up", "network error",
+                        "overloaded", "service unavailable",
+                    )
+                ) or bool(re.search(
+                    r"\b(?:http(?: error)?(?: status)?|status(?: code)?)[:=\s]+"
+                    r"(?:429|500|502|503|504)\b",
+                    lower,
+                ))
+                message = (
+                    f"Copilot CLI exited with code {return_code} (model={chosen_model}). "
+                    f"{diagnostic or 'No stdout/stderr diagnostic returned.'} "
+                    f"See log: {diagnostics}"
+                )
+                logger.error("%s", message)
+                if log_handle is not None:
+                    log_handle.write(message + "\n")
+                raise CopilotCliError(
+                    message, retryable=transient and not permanent,
                 )
 
+            succeeded = True
             return AgentResult(
                 text="".join(captured),
                 backend=self.name,
@@ -309,3 +471,8 @@ class CopilotCliRunner:
                     scraper_cfg_file.unlink(missing_ok=True)
                 except OSError:
                     pass
+            if succeeded and request.log_file is None:
+                try:
+                    diagnostics.unlink(missing_ok=True)
+                except OSError as exc:
+                    logger.warning("Could not remove successful CLI diagnostic log %s: %s", diagnostics, exc)

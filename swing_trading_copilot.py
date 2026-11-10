@@ -91,7 +91,7 @@ Prerequisites
 - GitHub Copilot CLI installed and signed in:  copilot --version
   If missing:  npm install -g @github/copilot   (then run `copilot` once to auth)
 - Optional: COPILOT_BIN  → absolute path to the CLI if not on PATH.
-- Optional: COPILOT_MODEL → model name (e.g. claude-sonnet-4.5).
+- Optional: COPILOT_MODEL → model name (default: gpt-6.1-sol).
 
 DISCLAIMER: Output is for educational/analytical purposes only and is NOT
 investment advice. Swing trading carries real risk of capital loss. A target

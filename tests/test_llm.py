@@ -34,7 +34,7 @@ def test_copilot_defaults(monkeypatch):
     monkeypatch.setenv("COPILOT_MODEL", "")
     monkeypatch.setenv("COPILOT_TIMEOUT", "")
 
-    assert get_copilot_model() == "claude-opus-4.7"
+    assert get_copilot_model() == "gpt-6.1-sol"
     assert get_copilot_timeout() == 300.0
 
 
@@ -52,6 +52,25 @@ def test_invalid_explicit_cli_path(monkeypatch, tmp_path):
 
     with pytest.raises(CopilotConfigurationError, match="does not exist"):
         validate_copilot_configuration()
+
+
+def test_windows_sdk_uses_the_same_native_cli_resolver(monkeypatch):
+    from core import llm
+    from core.agent.runners import copilot_cli
+
+    monkeypatch.delenv("COPILOT_CLI_PATH", raising=False)
+    monkeypatch.setattr(llm.sys, "platform", "win32")
+    monkeypatch.setattr(llm.shutil, "which", lambda name: "copilot.cmd")
+    monkeypatch.setattr(copilot_cli, "resolve_copilot_bin", lambda: "native-copilot.exe")
+    captured = {}
+
+    def connection(**kwargs):
+        captured.update(kwargs)
+        return "connection"
+
+    monkeypatch.setattr(llm.RuntimeConnection, "for_stdio", connection)
+    assert llm._runtime_connection() == "connection"
+    assert captured == {"path": "native-copilot.exe"}
 
 
 def test_langchain_tool_is_adapted_for_copilot():
