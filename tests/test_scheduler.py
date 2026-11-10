@@ -68,6 +68,21 @@ def test_disabled_schedules_never_come_due(db):
     assert schedule.is_due(_at(WEDNESDAY, 18, 0)) is False
 
 
+def test_warning_outcome_remains_visible_in_schedule_and_run_history(db, monkeypatch):
+    schedule = _weekday_schedule(db)
+    warning = StrategyResult(
+        strategy_id=schedule.strategy_id,
+        status="completed_with_warnings",
+        report="Holdings saved; pending research retained",
+        data={"execution_warnings": ["Conviction deferred: network down"]},
+    )
+    monkeypatch.setattr(scheduler.registry, "run_strategy", lambda *a, **k: warning)
+    result = scheduler.run_schedule(schedule, db_path=db)
+    assert result.ok
+    assert schedules.get_schedule(schedule.id, db_path=db).last_status == "completed_with_warnings"
+    assert list_runs(strategy_id=schedule.strategy_id, db_path=db)[0]["status"] == "completed_with_warnings"
+
+
 def test_claiming_an_occurrence_is_single_shot(db):
     schedule = _weekday_schedule(db)
     key = schedules.occurrence_key(schedule.due_occurrence(_at(WEDNESDAY, 18, 0)))
@@ -322,6 +337,21 @@ def test_fingerprint_changes_when_a_strategy_is_added(tmp_path):
     _tree(tmp_path)
     before = scheduler.code_fingerprint(tmp_path)
     (tmp_path / "strategies" / "beta.py").write_text("VALUE = 3\n", encoding="utf-8")
+    assert scheduler.code_fingerprint(tmp_path) != before
+
+
+@pytest.mark.parametrize("package", ["qtr_results", "gfs", "agents"])
+def test_fingerprint_watches_every_live_strategy_package(tmp_path, package):
+    directory = tmp_path / package
+    directory.mkdir()
+    before = scheduler.code_fingerprint(tmp_path)
+    (directory / "engine.py").write_text("CHANGED = True")
+    assert scheduler.code_fingerprint(tmp_path) != before
+
+
+def test_fingerprint_watches_model_environment_without_reading_secrets(tmp_path):
+    before = scheduler.code_fingerprint(tmp_path)
+    (tmp_path / ".env").write_text("COPILOT_MODEL=gpt-6.1-sol")
     assert scheduler.code_fingerprint(tmp_path) != before
 
 

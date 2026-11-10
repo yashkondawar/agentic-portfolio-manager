@@ -77,11 +77,40 @@ Two mechanisms, tried in order.
 
 **1. Windows Task Scheduler** (`--method task`) creates two tasks:
 
-- `AgenticPortfolioManager Scheduler` — the daemon, trigger `ONLOGON`
+- `AgenticPortfolioManager Scheduler` — the supervisor, trigger at this user's logon
 - `AgenticPortfolioManager Scheduler Watchdog` — `once` every 30 minutes
 
 The watchdog exists because a daemon that crashed, or was never started, would
 otherwise silently swallow a day's runs. The two race safely (see *Claiming*).
+
+The installer uses least-privilege per-user task registration rather than an
+all-users `schtasks /Create /SC ONLOGON` request. Tasks start when available,
+may run on battery, and ignore overlapping instances. The supervisor's child
+reloads repository `.env` settings on each launch, so changing the Copilot model
+cannot leave an inherited obsolete model active.
+
+Copilot CLI calls now enforce `AgentRequest.timeout`, falling back to
+`COPILOT_TIMEOUT` (300 seconds). Quarterly discovery and filing-based conviction
+have a 900-second budget for grounded web research. A deadline stops that invocation and its child
+processes and reports a failure instead of blocking every later scheduled job.
+Pending quarterly declarers remain available for the next run.
+
+On Windows the runner uses the native executable bundled in the selected npm
+Copilot installation when available. It does not depend on that installation's
+Node launcher, and CLI children have no console to inherit accidental Ctrl+C
+interruptions. Nonzero exits retain bounded stderr details in the saved error
+and a per-invocation diagnostic log under `<runtime>/copilot`.
+Known transient network/service errors and Windows process interruptions get
+at most three attempts (2s/4s backoff) within the original total deadline.
+Authentication, missing runtime, invalid model/flags, and unknown errors are not
+blindly retried.
+
+Quarterly runs use `completed_with_warnings` when a secondary discovery source
+or an individual conviction check is unavailable: holdings management remains
+saved, warnings are visible, and affected candidates stay pending without buy
+authorization. A missing holdings-price history, or an all-source discovery
+outage with no durable pending work, still fails explicitly. Names beyond the
+conviction evaluation limit are deferred, not allowed through unreviewed.
 
 **2. Startup folder** (`--method startup`) — the fallback. Creating scheduled
 tasks needs administrator rights on many managed machines; `schtasks /Create`
@@ -93,8 +122,10 @@ returns `Access is denied` and `auto` falls back here automatically. It writes
 ```
 
 which launches `supervise` — a thin parent process that relaunches the daemon
-whenever the child dies. Same crash protection as the watchdog task, no
-elevation required.
+whenever the child dies. It cannot recover the supervisor itself and is not
+equivalent to an independent watchdog. Opening the app checks the installed
+daemon and repairs it if absent, verifying a fresh heartbeat.
+Bare imports and command-line checks do not start the app's scheduler.
 
 Both paths launch through `pythonw.exe`, so nothing ever flashes a console
 window. Neither depends on Streamlit.

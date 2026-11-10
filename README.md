@@ -186,8 +186,9 @@ history is stored in the local SQLite database described below.
 
 Both daily strategies are *post-close* jobs whose output is meant to be read
 before the **next** open, so they run unattended overnight rather than by hand
-at 09:15. Install once and the scheduler starts with every logon, restarts
-itself if it dies, and keeps running whether or not the app is open:
+at 09:15. Install once and the supervisor starts at your logon, restarts a
+crashed daemon, and an independent Windows watchdog checks for due jobs.
+The machine must remain powered on and your user session logged in:
 
 ```bash
 uv run python -m core.scheduler install-task   # set it up (once)
@@ -206,12 +207,26 @@ morning shows last night's report without re-running anything. A run button on
 every page still forces a fresh run at any time.
 
 **Adding a strategy needs no restart.** A running daemon watches `strategies/`,
-`core/`, `backtesting/` and `scraper/`; when the source changes it exits with a
+`core/`, `backtesting/`, `scraper/`, `qtr_results/`, `gfs/`, `agents/` and `.env`;
+when source or model settings change it exits with a
 dedicated code and its supervisor immediately restarts it on a fresh
 interpreter, so a `git pull` deploys new strategies within one poll (≤30s). New
 *schedule rows* were always picked up live — it was new *code* that used to sit
 stale until somebody restarted by hand, which is how `breakout_ath_daily` failed
 with `Unknown strategy` for several days. `serve --no-auto-reload` opts out.
+
+The scheduler claims the latest due occurrence, not every missed occurrence.
+GFS replays its saved session cursor; ATH now replays each missed close for
+existing positions but never invents historical manual buys. Quarterly results
+replays verified raw NSE closes (not retrospectively adjusted Yahoo prices),
+expands discovery back to its last saved scan, and
+keeps failed/capped candidates in a durable retry inbox. Its ledger and cash
+commit together. Failed AI evaluations cannot authorize new buys and are
+reported as failed runs rather than silently passing the conviction gate.
+
+If Windows rejects task registration, the Startup-folder fallback starts the
+supervisor at logon and opening the app repairs a missing daemon. This fallback
+has no independent OS watchdog and cannot run while the machine is off.
 
 Full details — timing rationale, catch-up behaviour, crash recovery, auto-reload
 limits, log locations and troubleshooting — are in
@@ -389,7 +404,7 @@ key required.
 
 ```bash
 AI_AGENT_BACKEND=copilot_cli
-COPILOT_MODEL=claude-opus-4.7
+COPILOT_MODEL=gpt-6.1-sol
 COPILOT_TIMEOUT=300
 ```
 

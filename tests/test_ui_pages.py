@@ -95,3 +95,27 @@ def test_discover_page_renders_a_populated_gfs_book():
     )
     app = AppTest.from_string(script).run(timeout=30)
     assert not app.exception
+
+
+@pytest.mark.parametrize("status", ["completed", "completed_with_warnings", "failed"])
+def test_saved_run_notice_distinguishes_warnings_from_failed_runs(status):
+    record = {
+        "strategy_id": "qtr_results",
+        "status": status,
+        "report": "",
+        "data": {},
+        "error": None,
+        "created_at": "2026-11-10T02:00:00+00:00",
+    }
+    app = AppTest.from_string(
+        "from unittest.mock import patch\n"
+        "from ui.pages import _render_saved_run_notice\n"
+        f"with patch('ui.pages.latest_run_record', return_value={record!r}):\n"
+        "    _render_saved_run_notice('qtr_results')\n"
+    ).run(timeout=30)
+    assert not app.exception
+    if status == "failed":
+        assert "did not complete" in app.warning[0].value
+    else:
+        assert not app.warning
+        assert "Showing the saved run" in app.caption[0].value

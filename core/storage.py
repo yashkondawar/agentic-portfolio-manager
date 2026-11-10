@@ -227,9 +227,27 @@ def set_document(
     *,
     db_path: Optional[Path] = None,
 ) -> None:
+    set_documents([(namespace, key, value)], db_path=db_path)
+
+
+def set_documents(
+    documents: list[tuple[str, str, Any]], *, db_path: Optional[Path] = None,
+    expected: Optional[Mapping[tuple[str, str], Any]] = None,
+) -> None:
+    """Commit related documents together, never a half-updated cash/position book."""
     now = _utc_now()
     with connection_scope(db_path) as connection:
-        connection.execute(
+        if expected is not None:
+            connection.execute("BEGIN IMMEDIATE")
+            for (namespace, key), value in expected.items():
+                row = connection.execute(
+                    "SELECT value_json FROM documents WHERE namespace=? AND key=?",
+                    (namespace, key),
+                ).fetchone()
+                current = json.loads(row[0]) if row else None
+                if current != value:
+                    raise RuntimeError(f"{namespace}/{key} changed during the run; rerun before saving")
+        connection.executemany(
             """
             INSERT INTO documents (
                 namespace, key, value_json, created_at, updated_at
@@ -238,7 +256,7 @@ def set_document(
                 value_json = excluded.value_json,
                 updated_at = excluded.updated_at
             """,
-            (namespace, key, _json(value), now, now),
+            [(namespace, key, _json(value), now, now) for namespace, key, value in documents],
         )
 
 

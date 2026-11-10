@@ -9,7 +9,9 @@ with a trailing stop, update the ledger, render a report and persist memory.
 from __future__ import annotations
 
 import logging
-from datetime import date
+from copy import deepcopy
+from datetime import date, datetime, timedelta
+from zoneinfo import ZoneInfo
 from typing import Any, Callable, Dict, List, Optional
 
 from qtr_results import config
@@ -24,6 +26,7 @@ from qtr_results.discovery import discover_result_declarers
 from qtr_results.targets import build_target_plan
 from qtr_results.universe import is_liquid
 from qtr_results.util import fmt_pct, fmt_price
+from core.storage import get_document, set_documents
 
 logger = logging.getLogger("qtr_results.engine")
 
@@ -62,6 +65,54 @@ def _default_price_fn(symbol: str) -> Optional[float]:
     return None
 
 
+def _recover_holdings(picks, since: date, today: date):
+    import pandas as pd
+    from backtesting.s18.nse_sources import NseSources
+
+    active = ledger_mod.open_positions(picks)
+    if not active:
+        return {"closed": [], "sessions_replayed": [], "gaps": []}
+    now = datetime.now(ZoneInfo("Asia/Kolkata"))
+    through = today if now.hour >= 18 else today - timedelta(days=1)
+    start = min(
+        [since, *[
+            date.fromisoformat(p["last_history_session"])
+            for p in active if p.get("last_history_session")
+        ]]
+    )
+    if start >= through:
+        return {"closed": [], "sessions_replayed": [], "gaps": []}
+    source = NseSources()
+    calendar = source.calendar(start + timedelta(days=1), through)
+    sessions = [
+        date.fromisoformat(r["date"]) for r in calendar.records if r["is_session"]
+    ]
+    wanted = {p["symbol"] for p in active}
+    rows = {symbol: [] for symbol in wanted}
+    for session in sessions:
+        for record in source.bhavcopy(session).records:
+            if record["symbol"] in wanted:
+                rows[record["symbol"]].append({
+                    "date": pd.Timestamp(session), "Close": record["close"],
+                })
+    history = {
+        symbol: pd.DataFrame(values).set_index("date")
+        for symbol, values in rows.items() if values
+    }
+    return ledger_mod.replay_open_positions(picks, history, sessions, since=since)
+
+
+def _save_book(picks, pf, mem, *, extra=(), expected=None):
+    documents = [
+        ("qtr_results", "ledger", picks),
+        ("qtr_results", "portfolio", pf.to_dict()),
+        ("qtr_results", "memory", mem),
+        *extra,
+    ]
+    set_documents(documents, expected=expected)
+    return {(namespace, key): deepcopy(value) for namespace, key, value in documents[:3]}
+
+
 def _entry_filter_reason(
     tech, *, require_uptrend: bool, min_liquidity: float
 ) -> Optional[str]:
@@ -86,6 +137,7 @@ def _entry_filter_reason(
 def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = None) -> Dict[str, Any]:
     """Execute one strategy run and return ``{"report": str, "data": dict}``."""
     params = dict(params or {})
+    live_prices = price_fn is None
     price_fn = price_fn or _default_price_fn
     _apply_overrides(params)
 
@@ -114,20 +166,50 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
         params.get("min_liquidity") or config.MIN_LIQUIDITY_MEDIAN_20D
     )
     today = date.today()
+    technicals_mod.clear_cache()
 
+    checkpoint = {
+        ("qtr_results", key): get_document("qtr_results", key)
+        for key in ("ledger", "portfolio", "memory")
+    }
     mem = memory_mod.load_memory()
     picks = ledger_mod.load_ledger()
     pf = portfolio_mod.load_portfolio(capital)
+    # Legacy loaders may initialize an absent document. Accept only that exact
+    # loaded value, never a concurrent edit made while the book was being read.
+    for key, value in (("ledger", picks), ("portfolio", pf.to_dict()), ("memory", mem)):
+        document_key = ("qtr_results", key)
+        if checkpoint[document_key] is None:
+            current = get_document(*document_key)
+            if current == value:
+                checkpoint[document_key] = deepcopy(current)
+    recovery = get_document("qtr_results", "recovery", {}) or {}
+    previous = params.get("recovery_since") or recovery.get("last_discovery_date") or mem["updated_at"][:10]
+    since = date.fromisoformat(previous)
+    if since > today:
+        raise ValueError("Quarterly recovery date cannot be in the future")
+    lookback_days = max(lookback_days, (today - since).days)
+    replay = _recover_holdings(picks, since, today) if live_prices else {
+        "closed": [], "sessions_replayed": [], "gaps": [],
+    }
+    execution_errors = [
+        f"Missing historical close: {g['symbol']} on {g['date']}" for g in replay["gaps"]
+    ]
+    execution_warnings: List[str] = []
 
     # 1) Manage existing open positions, crediting cash back on every close.
-    closed_now = ledger_mod.update_open_positions(picks, price_fn, as_of=today)
+    closed_now = [*replay["closed"], *ledger_mod.update_open_positions(picks, price_fn, as_of=today)]
     for c in closed_now:
         qty = c.get("quantity") or 0
         if qty and c.get("exit_price"):
             portfolio_mod.apply_close(pf, c["exit_price"], qty)
             portfolio_mod.record_realized(pf, c["entry_price"], c["exit_price"], qty)
+    if not dry_run:
+        checkpoint = _save_book(picks, pf, mem, expected=checkpoint)
 
     # 2) Discover result-declarers (assured NSE feed + web search + watchlist).
+    discovery_errors: List[str] = []
+    discovery_sources: Dict[str, bool] = {}
     declarers = discover_result_declarers(
         as_of=today,
         lookback_days=lookback_days,
@@ -136,7 +218,39 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
         use_nse=use_nse,
         nse_delta=nse_delta,
         model=model,
+        commit_seen=False,
+        errors=discovery_errors,
+        source_status=discovery_sources,
     )
+    inbox = {
+        f"{d['symbol']}|{d['result_date']}": d
+        for d in get_document("qtr_results", "pending_declarers", []) or []
+    }
+    for d in declarers:
+        inbox[f"{d['symbol']}|{d['result_date']}"] = d
+    if discovery_errors:
+        # A healthy source can legitimately return zero new names. An all-source
+        # outage with no durable work must not look like a successful empty scan.
+        if any(discovery_sources.values()) or inbox:
+            execution_warnings.extend(discovery_errors)
+        else:
+            execution_errors.extend(discovery_errors)
+    if not dry_run:
+        from scraper.nse_events import _load_seen
+
+        seen = _load_seen(config.NSE_SEEN_PATH)
+        for d in declarers:
+            for key in d.get("seen_keys", []):
+                seen.setdefault(key, today.isoformat())
+        if not discovery_errors:
+            recovery["last_discovery_date"] = today.isoformat()
+        set_documents([
+            ("qtr_results", "pending_declarers", list(inbox.values())),
+            ("qtr_results", "recovery", recovery),
+            ("nse_events_seen", config.NSE_SEEN_PATH.stem,
+             {"updated_at": datetime.now().isoformat(), "keys": seen}),
+        ])
+    declarers = list(inbox.values())
 
     # Forward-looking heads-up: companies scheduled to declare soon (NSE).
     upcoming = _fetch_upcoming(upcoming_days) if (use_nse and upcoming_days > 0) else []
@@ -235,6 +349,16 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
     conviction_rejected = 0
     conviction_evaluated = 0
     if use_conviction and strong:
+        deferred_count = max(0, len(strong) - config.MAX_CONVICTION_EVALS)
+        if deferred_count:
+            execution_warnings.append(
+                f"Conviction budget reached: {deferred_count} candidate(s) retained for retry"
+            )
+        for analysis in strong:
+            analysis._conviction_gate = False  # type: ignore[attr-defined]
+        for analysis in strong[config.MAX_CONVICTION_EVALS:]:
+            outcomes[analysis.symbol]["status"] = "deferred_llm"
+            outcomes[analysis.symbol]["reason"] = "Conviction evaluation budget reached; retained for retry"
         for analysis in strong[: config.MAX_CONVICTION_EVALS]:
             verdict = evaluate_conviction(
                 {
@@ -245,18 +369,24 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
                 analysis,
                 as_of=today,
                 model=model,
+                journal=not dry_run,
             )
             conviction_evaluated += 1
             analysis.conviction = verdict.conviction
             analysis.conviction_verdict = verdict.verdict
             analysis.conviction_summary = verdict.summary
             analysis.conviction_risks = verdict.risks
-            analysis._conviction_gate = verdict.passes_gate  # type: ignore[attr-defined]
-        # Gate: drop shortlisted names the qualitative read rejects. Names beyond
-        # the eval cap were never scored (gate defaults to pass) so they still
-        # rank below any positively-scored name via the conviction-weighted key.
-        kept = [a for a in strong if getattr(a, "_conviction_gate", True)]
-        conviction_rejected = len(strong) - len(kept)
+            analysis._conviction_gate = verdict.passes_gate and not verdict.error  # type: ignore[attr-defined]
+            if verdict.error:
+                execution_warnings.append(f"Conviction deferred for {analysis.symbol}: {verdict.error}")
+                outcomes[analysis.symbol]["status"] = "llm_error"
+                outcomes[analysis.symbol]["reason"] = verdict.error
+        # Every new buy needs a completed conviction check when the layer is on.
+        kept = [a for a in strong if getattr(a, "_conviction_gate", False)]
+        conviction_rejected = sum(
+            not getattr(a, "_conviction_gate", False) and outcomes[a.symbol]["status"] != "llm_error"
+            for a in strong[: config.MAX_CONVICTION_EVALS]
+        )
         kept_syms = {a.symbol for a in kept}
         for a in strong:
             rec = outcomes.get(a.symbol)
@@ -271,8 +401,9 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
                 if conv is not None:
                     rec["reason"] = f"LLM '{verdict}'{conv_txt}"
             else:
-                rec["status"] = "llm_rejected"
-                rec["reason"] = f"LLM '{verdict}'{conv_txt}"
+                if rec["status"] not in ("llm_error", "deferred_llm"):
+                    rec["status"] = "llm_rejected"
+                    rec["reason"] = f"LLM '{verdict}'{conv_txt}"
         strong = kept
         # Re-rank by conviction × strength (unscored names use a neutral 0.5).
         strong.sort(
@@ -316,6 +447,11 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
     n_conviction_pass = len(strong)
     for analysis in strong:
         rec = outcomes.get(analysis.symbol)
+        if replay["gaps"]:
+            if rec:
+                rec["status"] = "recovery_blocked"
+                rec["reason"] = "Historical holdings recovery is incomplete; no new buys authorized"
+            continue
         if len(new_picks) >= max_new or open_count >= season_slots:
             if rec and rec.get("status") not in ("already_held",):
                 rec["status"] = "deferred_cap"
@@ -412,9 +548,15 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
             mem, picks=picks, new_picks=new_picks, closed_picks=closed_now,
             note=f"discovered {len(declarers)}, strong {len(strong)}",
         )
-        ledger_mod.save_ledger(picks)
-        memory_mod.save_memory(mem)
-        portfolio_mod.save_portfolio(pf)
+        mem["last_run_date"] = today.isoformat()
+        terminal = {"BUY", "already_held", "weak_fundamentals", "filtered_pre_llm", "llm_rejected"}
+        pending = [
+            d for d in declarers
+            if outcomes.get(d["symbol"], {}).get("status") not in terminal
+        ]
+        _save_book(picks, pf, mem, expected=checkpoint, extra=[
+            ("qtr_results", "pending_declarers", pending),
+        ])
 
     equity_after = portfolio_mod.marked_equity(pf, ledger_mod.open_positions(picks))
     open_after = ledger_mod.open_positions(picks)
@@ -429,7 +571,7 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
         {"stage": "Passed mechanical gate (liquidity + uptrend)", "count": n_qualified,
          "dropped": skipped_filter},
         {"stage": "Passed LLM conviction", "count": n_conviction_pass,
-         "dropped": conviction_rejected},
+         "dropped": max(0, n_qualified - n_conviction_pass)},
         {"stage": "Bought (new positions)", "count": len(new_picks),
          "dropped": skipped_nocash},
     ]
@@ -451,7 +593,29 @@ def run(params: Optional[Dict[str, Any]] = None, price_fn: Optional[Callable] = 
         portfolio=pf,
         equity=equity_after,
     )
+    if execution_errors:
+        report += "\n\n**Execution incomplete:**\n" + "\n".join(
+            f"- {error}" for error in execution_errors
+        )
+    if execution_warnings:
+        heading = "Research warnings" if execution_errors else "Completed with warnings"
+        persistence_note = "Dry run; no portfolio changes saved." if dry_run else "Holdings management was saved."
+        report += (
+            f"\n\n**{heading}:** {persistence_note} "
+            "Discovery coverage may be incomplete and failed AI checks are deferred, "
+            "never approved for buying. Pending work will be retried on the next run.\n"
+            + "\n".join(f"- {warning}" for warning in execution_warnings)
+        )
     data = {
+        "sessions_replayed": replay["sessions_replayed"],
+        "recovery_gaps": replay["gaps"],
+        "discovery_lookback_days": lookback_days,
+        "execution_errors": execution_errors,
+        "execution_warnings": execution_warnings,
+        "discovery_sources": discovery_sources,
+        "num_conviction_deferred": sum(
+            rec["status"] in ("llm_error", "deferred_llm") for rec in outcomes.values()
+        ),
         "num_declarers": len(declarers),
         "num_strong": len(strong),
         "num_new_picks": len(new_picks),

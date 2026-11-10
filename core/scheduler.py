@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import json
 import subprocess
 import sys
 import time
@@ -57,7 +58,7 @@ RELOAD_EXIT_CODE = 3
 #: module lives in ``strategies``; everything it imports to do real work lives in
 #: the other three. Editing the UI cannot change a scheduled outcome, so it is
 #: deliberately not watched -- restarting for it would be noise.
-WATCHED_PACKAGES = ("strategies", "core", "backtesting", "scraper")
+WATCHED_PACKAGES = ("strategies", "core", "backtesting", "scraper", "qtr_results", "gfs", "agents")
 
 _FINGERPRINT_SKIP = {"__pycache__", ".venv", ".git", "node_modules"}
 
@@ -220,6 +221,52 @@ def heartbeat_age_seconds(*, db_path: Optional[Path] = None) -> Optional[float]:
     return (datetime.now(timezone.utc) - seen).total_seconds()
 
 
+def ensure_running() -> bool:
+    """Repair a missing installed Windows daemon when the app is opened."""
+    if os.name != "nt" or installed_mechanism() == "none":
+        return False
+    import msvcrt
+
+    with open(runtime_dir() / "scheduler-start.lock", "a+b") as lock:
+        lock.seek(0)
+        if not lock.read(1):
+            lock.write(b"0")
+            lock.flush()
+        lock.seek(0)
+        try:
+            msvcrt.locking(lock.fileno(), msvcrt.LK_NBLCK, 1)
+        except OSError:
+            return False
+        try:
+            pid = read_heartbeat().get("pid")
+            if isinstance(pid, int) and pid > 0:
+                probe = subprocess.run(
+                    ["powershell", "-NoProfile", "-Command",
+                     f"(Get-CimInstance Win32_Process -Filter 'ProcessId={pid}').CommandLine"],
+                    capture_output=True, text=True, check=True,
+                )
+                if "core.scheduler" in probe.stdout and "serve" in probe.stdout:
+                    return True
+            script = write_bootstrap(
+                "scheduler_supervise.py", ["supervise", "--poll", str(DEFAULT_POLL_SECONDS)]
+            )
+            subprocess.Popen(
+                [str(_interpreter()), str(script)], cwd=str(REPO_ROOT),
+                creationflags=subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP,
+            )
+            logger.warning("Installed scheduler was absent; relaunched its supervisor")
+            for _ in range(20):
+                beat = read_heartbeat()
+                age = heartbeat_age_seconds()
+                if age is not None and age < 120 and beat.get("pid") != pid:
+                    return True
+                time.sleep(0.25)
+            raise RuntimeError("Scheduler launch did not produce a fresh heartbeat")
+        finally:
+            lock.seek(0)
+            msvcrt.locking(lock.fileno(), msvcrt.LK_UNLCK, 1)
+
+
 # ---------------------------------------------------------------------------
 # Source-change detection
 # ---------------------------------------------------------------------------
@@ -260,7 +307,9 @@ def code_fingerprint(root: Optional[Path] = None) -> str:
             count += 1
             if stamp > newest:
                 newest = stamp
-    return f"{count}:{newest:.0f}"
+    environment = base / ".env"
+    env_stamp = environment.stat().st_mtime_ns if environment.exists() else 0
+    return f"{count}:{newest:.6f}:{env_stamp}"
 
 
 # ---------------------------------------------------------------------------
@@ -438,19 +487,31 @@ def write_bootstrap(filename: str, args: list[str]) -> Path:
 def _create_task(
     task_name: str, script: Path, schedule: list[str], *, quiet: bool = False
 ) -> int:
-    command = [
-        "schtasks",
-        "/Create",
-        "/TN",
-        task_name,
-        "/TR",
-        f'"{_interpreter()}" "{script}"',
-        *schedule,
-        "/RL",
-        "LIMITED",
-        "/F",
-    ]
-    completed = subprocess.run(command, capture_output=True, text=True)
+    # Bind the logon trigger to this user instead of requesting all-user rights.
+    options = {
+        "name": task_name, "python": str(_interpreter()), "script": str(script),
+        "logon": "ONLOGON" in schedule,
+        "minutes": int(schedule[schedule.index("/MO") + 1]) if "/MO" in schedule else 30,
+    }
+    encoded = json.dumps(options).replace("'", "''")
+    powershell = f"""
+$ErrorActionPreference = 'Stop'
+$c = ConvertFrom-Json '{encoded}'
+$user = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
+$action = New-ScheduledTaskAction -Execute $c.python -Argument ('"' + $c.script + '"')
+if ($c.logon) {{
+    $trigger = New-ScheduledTaskTrigger -AtLogOn -User $user
+}} else {{
+    $trigger = New-ScheduledTaskTrigger -Once -At (Get-Date).AddMinutes(1) -RepetitionInterval (New-TimeSpan -Minutes $c.minutes)
+}}
+$principal = New-ScheduledTaskPrincipal -UserId $user -LogonType Interactive -RunLevel Limited
+$settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -MultipleInstances IgnoreNew -ExecutionTimeLimit ([TimeSpan]::Zero) -RestartCount 5 -RestartInterval (New-TimeSpan -Minutes 1)
+Register-ScheduledTask -TaskName $c.name -Action $action -Trigger $trigger -Principal $principal -Settings $settings -Force | Out-Null
+"""
+    completed = subprocess.run(
+        ["powershell", "-NoProfile", "-NonInteractive", "-Command", powershell],
+        capture_output=True, text=True,
+    )
     if not quiet:
         sys.stdout.write(completed.stdout)
         sys.stderr.write(completed.stderr)
@@ -478,7 +539,7 @@ def install_startup_entry() -> int:
 
     Creating a scheduled task requires administrator rights on locked-down
     machines. A Startup-folder shortcut does not, and the supervisor it launches
-    gives us the same crash recovery the watchdog task would have provided.
+    restarts its child daemon. It cannot restart itself or run while logged out.
     """
     entry = startup_entry_path()
     if entry is None:
@@ -496,8 +557,9 @@ def install_startup_entry() -> int:
     print(f"Launcher:      {script}")
     print(f"Log:           {log_path()}")
     print(
-        "\nInstalled. It starts at every logon and restarts itself if it ever "
-        "dies. Start it now without logging out:"
+        "\nInstalled. It starts at logon and restarts a crashed child daemon. "
+        "The app also repairs a missing daemon when opened. This fallback "
+        "does not provide an independent Windows watchdog. Start it now:"
     )
     print(f'  Start-Process -WindowStyle Hidden "{entry}"')
     return 0
@@ -524,7 +586,7 @@ def install_task(
         return install_startup_entry()
 
     daemon_script = write_bootstrap(
-        "scheduler_serve.py", ["serve", "--poll", str(DEFAULT_POLL_SECONDS)]
+        "scheduler_supervise.py", ["supervise", "--poll", str(DEFAULT_POLL_SECONDS)]
     )
     code = _create_task(
         task_name, daemon_script, ["/SC", "ONLOGON"], quiet=method == "auto"
@@ -541,6 +603,10 @@ def install_task(
     print(f"Launcher: {daemon_script}")
     print(f"Log:      {log_path()}")
     print(f"Installed '{task_name}' (starts at every logon).")
+    entry = startup_entry_path()
+    if entry is not None and entry.exists() and str(daemon_script) in entry.read_text(encoding="utf-8"):
+        entry.unlink()
+        print("Removed the redundant generated Startup-folder launcher.")
 
     if watchdog:
         watchdog_script = write_bootstrap("scheduler_once.py", ["once"])
@@ -705,6 +771,9 @@ def _build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
+    from dotenv import load_dotenv
+
+    load_dotenv(REPO_ROOT / ".env", override=True)
     setup_logging()
     parser = _build_parser()
     args = parser.parse_args(argv)

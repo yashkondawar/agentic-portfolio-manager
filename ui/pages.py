@@ -435,7 +435,7 @@ def _backend_readiness(choice) -> list[dict[str, str]]:
             },
             {
                 "Capability": "Model",
-                "Status": os.getenv("COPILOT_MODEL", "").strip() or "claude-opus-4.7",
+                "Status": os.getenv("COPILOT_MODEL", "").strip() or "gpt-6.1-sol",
             },
         ]
 
@@ -538,7 +538,7 @@ def _render_backend_form(choice) -> None:
 
         copilot_model = st.text_input(
             "Copilot model",
-            value=os.getenv("COPILOT_MODEL", "").strip() or "claude-opus-4.7",
+            value=os.getenv("COPILOT_MODEL", "").strip() or "gpt-6.1-sol",
             help="Model ID available to your Copilot subscription.",
         )
         ai_model = st.text_input(
@@ -812,12 +812,13 @@ def _render_saved_run_notice(strategy_id: str) -> StrategyResult | None:
     record = latest_run_record(strategy_id)
     if not record:
         return None
+    result = result_from_record(record)
     when = format_run_timestamp(record.get("created_at"))
-    if record.get("status") == "completed":
+    if result.ok:
         st.caption(f"Showing the saved run from {when}. Use the form to re-run it.")
     else:
         st.warning(f"The last run ({when}) did not complete. Re-run it below.")
-    return result_from_record(record)
+    return result
 
 
 def _basket_action(result: StrategyResult | None, key: str) -> None:
@@ -1229,13 +1230,19 @@ def _run_schedule_now(schedule) -> None:
         st.write(f"Executing `{schedule.strategy_id}` with the saved parameters.")
         result = scheduler_mod.run_schedule(schedule)
         if result.ok:
-            status.update(label="Run completed", state="complete", expanded=False)
+            label = "Run completed with warnings" if result.status == "completed_with_warnings" else "Run completed"
+            status.update(label=label, state="complete", expanded=False)
         else:
             status.update(label="Run failed", state="error", expanded=True)
     st.session_state.setdefault("latest_results", {})
     st.session_state["latest_results"][schedule.strategy_id] = result.to_dict()
     if result.ok:
-        st.success("Saved to run history — the strategy page now shows this run.")
+        if result.status == "completed_with_warnings":
+            st.warning("Saved with warnings — some work is deferred; see the strategy page for details.")
+            for warning in result.data.get("execution_warnings") or []:
+                st.warning(warning)
+        else:
+            st.success("Saved to run history — the strategy page now shows this run.")
     else:
         st.error(result.error or "The strategy failed.")
 

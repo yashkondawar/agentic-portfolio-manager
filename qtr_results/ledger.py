@@ -9,7 +9,7 @@ closes anything past the max holding window.
 from __future__ import annotations
 
 import logging
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from typing import Any, Callable, Dict, List, Optional
 
 from qtr_results import config
@@ -88,6 +88,7 @@ def add_pick(
         "result_quarter": analysis.latest_quarter,
         "result_date": result_date,
         "entry_date": entry_date,
+        "last_history_session": (date.fromisoformat(entry_date) - timedelta(days=1)).isoformat(),
         "entry_price": plan.entry_price,
         "quantity": quantity,
         "invested": round(invested, 2),
@@ -140,6 +141,9 @@ def update_open_positions(
     newly_closed: List[Dict[str, Any]] = []
 
     for p in open_positions(picks):
+        entry_dt = _parse_date(p.get("entry_date"))
+        if entry_dt and as_of < entry_dt:
+            continue
         price = price_fn(p["symbol"])
         if price is None or price <= 0:
             logger.warning("No price for open position %s; leaving unchanged.", p["symbol"])
@@ -159,7 +163,6 @@ def update_open_positions(
             )
         p["last_price"] = round(price, 2)
 
-        entry_dt = _parse_date(p.get("entry_date"))
         days_held = (as_of - entry_dt).days if entry_dt else 0
         max_hold = p.get("max_holding_days") or config.MAX_HOLDING_DAYS
 
@@ -191,3 +194,37 @@ def update_open_positions(
             )
 
     return newly_closed
+
+
+def replay_open_positions(picks, history, sessions, *, since: date):
+    """Replay completed closes without inventing prices or pre-entry fills."""
+    import pandas as pd
+
+    closed, replayed, gaps = [], [], []
+    blocked = set()
+    for day in sorted(set(sessions)):
+        active = []
+        quotes = {}
+        for pick in open_positions(picks):
+            symbol = pick["symbol"]
+            entry = _parse_date(pick.get("entry_date"))
+            previous = _parse_date(pick.get("last_history_session")) or since
+            if symbol in blocked or day <= previous or (entry and day < entry):
+                continue
+            frame = history.get(symbol)
+            stamp = pd.Timestamp(day)
+            if frame is None or stamp not in frame.index or pd.isna(frame.loc[stamp, "Close"]):
+                gaps.append({"symbol": symbol, "date": day.isoformat()})
+                blocked.add(symbol)
+                logger.error("Missing historical close for %s on %s; recovery not advanced", symbol, day)
+                continue
+            quotes[symbol] = float(frame.loc[stamp, "Close"])
+            if quotes[symbol] <= 0:
+                raise ValueError(f"Invalid historical close for {symbol} on {day}")
+            active.append(pick)
+        if active:
+            closed.extend(update_open_positions(active, quotes.get, as_of=day))
+            for pick in active:
+                pick["last_history_session"] = day.isoformat()
+            replayed.append(day.isoformat())
+    return {"closed": closed, "sessions_replayed": replayed, "gaps": gaps}

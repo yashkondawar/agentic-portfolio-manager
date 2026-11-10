@@ -197,6 +197,7 @@ def new_declared_results(
     period: str = "Quarterly",
     max_age_days: int = 7,
     prune_after_days: int = 400,
+    persist: bool = True,
 ) -> List[Dict[str, Any]]:
     """Return only results filed since the last run (the daily *delta*).
 
@@ -255,6 +256,7 @@ def new_declared_results(
                 "relating_to": row.get("relatingTo", ""),
                 "source": "nse_filings",
                 "_bcast": bcast,
+                **({"seen_key": key} if not persist else {}),
             }
 
     # Prune stale cache keys (embedded date older than the retention window).
@@ -264,7 +266,8 @@ def new_declared_results(
         parsed = _parse_nse_date(key.rsplit("|", 1)[-1])
         if parsed is None or parsed >= prune_before:
             kept[key] = first_seen
-    _save_seen(cache_path, kept)
+    if persist:
+        _save_seen(cache_path, kept)
 
     out = sorted(new_rows.values(), key=lambda r: r["_bcast"], reverse=True)
     for r in out:
@@ -355,6 +358,7 @@ def new_declared_from_calendar(
     as_of: Optional[date] = None,
     max_age_days: int = 7,
     prune_after_days: int = 400,
+    persist: bool = True,
 ) -> List[Dict[str, Any]]:
     """Event-calendar declared results filed since the last run (the daily delta).
 
@@ -379,7 +383,7 @@ def new_declared_from_calendar(
         already = key in seen
         seen.setdefault(key, today_iso)  # always absorb into cache
         if not already:
-            out.append(r)
+            out.append({**r, **({"seen_key": key} if not persist else {})})
 
     # Prune stale cache keys (trailing date older than the retention window).
     prune_before = as_of - timedelta(days=max(1, prune_after_days))
@@ -388,7 +392,8 @@ def new_declared_from_calendar(
         parsed = _parse_nse_date(key.rsplit("|", 1)[-1])
         if parsed is None or parsed >= prune_before:
             kept[key] = first_seen
-    _save_seen(cache_path, kept)
+    if persist:
+        _save_seen(cache_path, kept)
 
     logger.info(
         "NSE calendar delta: %d new declarer(s) (cache now %d keys).",

@@ -34,7 +34,8 @@ def run_strategy(strategy_id: str, params: dict) -> StrategyResult:
         st.session_state["latest_results"][strategy_id] = result.to_dict()
         st.session_state["latest_run_id"] = run_id
         if result.ok:
-            status.update(label="Run completed", state="complete", expanded=False)
+            label = "Run completed with warnings" if result.status == "completed_with_warnings" else "Run completed"
+            status.update(label=label, state="complete", expanded=False)
         else:
             status.update(label="Run failed", state="error", expanded=True)
     return result
@@ -320,6 +321,9 @@ _FUNNEL_STATUS_LABELS = {
     "BUY": "✅ BUY (new position)",
     "already_held": "Held (already open)",
     "deferred_cap": "Deferred — portfolio full",
+    "deferred_llm": "Deferred — conviction check pending",
+    "llm_error": "Deferred — AI check unavailable",
+    "recovery_blocked": "Blocked — holdings recovery incomplete",
     "no_cash": "Skipped — no cash",
     "no_price": "Skipped — no price",
     "no_plan": "Skipped — no plan",
@@ -333,6 +337,14 @@ _FUNNEL_STATUS_LABELS = {
 
 
 def _render_quarterly_results(data: dict) -> None:
+    for warning in data.get("execution_warnings") or []:
+        st.warning(warning)
+    deferred = data.get("num_conviction_deferred", 0)
+    if deferred:
+        st.info(
+            f"{deferred} candidate(s) retained for a later conviction check. "
+            "No buy is authorized for an incomplete AI check."
+        )
     # 1) Portfolio snapshot (post-run state of the ledger / holdings).
     st.markdown("### 📁 Portfolio after this run")
     _portfolio_metrics(data)

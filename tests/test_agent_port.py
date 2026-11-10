@@ -385,6 +385,12 @@ class _Block(importlib.abc.MetaPathFinder):
 sys.meta_path.insert(0, _Block())
 
 import main  # noqa: F401
+import core.scheduler as scheduler
+
+def refuse_scheduler_launch():
+    raise AssertionError("A bare app import must not launch a live scheduler")
+
+scheduler.ensure_running = refuse_scheduler_launch
 import app  # noqa: F401
 
 import core.llm as llm

@@ -88,7 +88,7 @@ def record_run(
         })
     for p in closed_picks:
         mem["events"].append({
-            "date": today, "type": "exit", "symbol": p["symbol"],
+            "date": p.get("exit_date") or today, "type": "exit", "symbol": p["symbol"],
             "detail": f"{p.get('exit_reason')} → {p.get('realized_pct')}%",
         })
 

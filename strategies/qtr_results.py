@@ -338,9 +338,12 @@ class QuarterlyResultsStrategy(BaseStrategy):
         from qtr_results import engine
 
         out = engine.run(params)
+        errors = out["data"].get("execution_errors", [])
+        warnings = out["data"].get("execution_warnings", [])
         return StrategyResult(
             strategy_id=self.id,
-            status="completed",
+            status="failed" if errors else ("completed_with_warnings" if warnings else "completed"),
             report=out["report"],
             data=out["data"],
+            error="; ".join(errors) if errors else None,
         )

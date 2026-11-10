@@ -31,8 +31,9 @@ def run_copilot(
     web_grounding: bool = True,
     scraper_tools: bool = True,
     model: Optional[str] = None,
+    timeout: Optional[float] = 900,
 ) -> str:
-    """Run the quarterly-results prompt on the configured backend."""
+    """Run filing-grounded research with a bounded 15-minute response budget."""
     mcp_servers: dict = {}
     if scraper_tools:
         try:
@@ -47,6 +48,7 @@ def run_copilot(
         mcp_servers=mcp_servers,
         requires=frozenset({Capability.WEB_SEARCH}) if web_grounding else frozenset(),
         model=model,
+        timeout=timeout,
     )
     logger.info("Quarterly-results run — %d prompt bytes", len(prompt_text))
     return run_agent(request).text

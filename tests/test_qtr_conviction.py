@@ -225,13 +225,21 @@ def test_parse_drops_out_of_vocabulary_values():
     assert v.components["red_flags"] == ["margin_pressure"]
 
 
-def test_unparseable_output_degrades_to_a_passing_neutral_verdict():
+def test_unparseable_output_blocks_the_conviction_gate():
     v = conv._parse_verdict("no json here at all")
     assert v.conviction is None
-    assert v.passes_gate
+    assert not v.passes_gate
+    assert v.error == "unparseable LLM output"
 
 
-def test_llm_failure_degrades_to_a_passing_neutral_verdict():
+@pytest.mark.parametrize("payload", [{}, {"conviction": 0.99, "verdict": "buy"}])
+def test_missing_observations_carry_an_error_that_blocks_live_buys(payload):
+    v = conv._parse_verdict(_wrap(payload))
+    assert v.conviction is None
+    assert v.error == "LLM output contains no conviction observations"
+
+
+def test_llm_failure_blocks_the_conviction_gate():
     def boom(_prompt):
         raise RuntimeError("network down")
 
@@ -240,7 +248,7 @@ def test_llm_failure_degrades_to_a_passing_neutral_verdict():
         verdict_fn=boom, journal=False,
     )
     assert v.conviction is None
-    assert v.passes_gate
+    assert not v.passes_gate
     assert "network down" in (v.error or "")
 
 

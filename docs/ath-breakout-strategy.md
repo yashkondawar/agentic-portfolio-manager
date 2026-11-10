@@ -152,6 +152,13 @@ The daily runner keeps its book in
 `backtesting/breakout_ath/data_cache/daily_portfolio.json`, or accepts a
 caller-supplied `portfolio_state` dict.
 
+After an outage, the live runner processes every close after `last_session`,
+ratchets peaks and applies paper exits on their historical signal dates before
+generating today's suggestions. It does not invent historical manual buys.
+Confirmed fills are never stop-checked before their entry dates. Held names
+remain managed even if they leave today's constituent list. Saves are atomic,
+and a concurrent manual confirmation makes the run refuse to overwrite the book.
+
 **The live and backtest paths call the same functions in `signals.py`**, so
 the two cannot drift apart. That is the whole reason entry logic is factored
 into pure matrix functions rather than duplicated.
@@ -315,4 +322,3 @@ NIFTY 50 by roughly 12 points of CAGR with a Sharpe around twice the index.
 The losing years (2018, 2022, 2025) are the same ones, and they track the
 equal-weight universe rather than the cap-weighted index — which is what a
 breadth-driven momentum sleeve should do.
-

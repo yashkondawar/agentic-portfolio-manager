@@ -15,8 +15,8 @@ point-in-time evidence itself.
 The output is a structured :class:`ConvictionVerdict` (conviction 0-1 + a buy/
 watch/skip call + the qualitative reasons). The engine uses it to *gate*, *rank*
 and *shape the exit plan* of the already-mechanically-qualified shortlist — it can
-only remove or size picks, never add un-vetted names. Every failure path degrades
-to a neutral verdict so a run is never broken by the qualitative step.
+only remove or size picks, never add un-vetted names. Failed checks defer the
+affected candidate without interrupting holdings management.
 
 The core :func:`evaluate_conviction` takes an injectable ``verdict_fn`` so a
 point-in-time-safe evidence provider can be substituted for backtesting later; by
@@ -113,12 +113,10 @@ class ConvictionVerdict:
     def passes_gate(self) -> bool:
         """Whether this candidate survives the conviction gate.
 
-        A neutral verdict (no score, e.g. the layer is disabled or the call
-        failed) always passes so the pipeline falls back to mechanical-only
-        behaviour. When a score IS present it must clear MIN_CONVICTION and not
-        be an explicit "skip".
+        Errors never pass. Valid unknown observations may have no score; scored
+        observations must clear MIN_CONVICTION and not be an explicit "skip".
         """
-        if self.verdict == "skip":
+        if self.error or self.verdict == "skip":
             return False
         if self.conviction is None:
             return True
@@ -286,9 +284,13 @@ def _choice(parsed: Dict[str, Any], key: str, allowed: Tuple[str, ...]) -> str:
 
 
 def _parse_verdict(output: str) -> ConvictionVerdict:
-    parsed = extract_json_block(output) or {}
+    parsed = extract_json_block(output)
     if not isinstance(parsed, dict):
         return ConvictionVerdict(error="unparseable LLM output")
+    if not any(key in parsed for key in (
+        "beat_quality", "order_book", "guidance", "sector_backdrop", "red_flags",
+    )):
+        return ConvictionVerdict(error="LLM output contains no conviction observations")
 
     def _as_list(key: str) -> List[str]:
         val = parsed.get(key)
@@ -341,9 +343,9 @@ def evaluate_conviction(
 
     ``verdict_fn`` maps a prompt to raw LLM output; it defaults to the live
     Copilot-CLI runner (web grounding + scraper MCP). A point-in-time-safe
-    provider can be injected for backtesting. Any failure returns a neutral
-    verdict (``conviction=None``) which passes the gate, so the run degrades to
-    mechanical-only behaviour.
+    provider can be injected for backtesting. Failures retain the legacy neutral
+    verdict (``conviction=None``) with an explicit error; the live engine blocks
+    that candidate and reports a warning rather than authorizing a buy.
 
     Every evaluation is journalled to :mod:`qtr_results.verdict_log` (including
     failures) so the gate can actually be evaluated later; set ``journal=False``
@@ -361,7 +363,7 @@ def evaluate_conviction(
     try:
         output = fn(prompt)
     except Exception as e:  # noqa: BLE001 - never let the qualitative step break a run
-        logger.warning("Conviction LLM run failed for %s (%s); neutral verdict.", sym, e)
+        logger.warning("Conviction LLM run failed for %s (%s); candidate deferred.", sym, e)
         verdict = ConvictionVerdict(error=str(e))
     else:
         verdict = _parse_verdict(output)

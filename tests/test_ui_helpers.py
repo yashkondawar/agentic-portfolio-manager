@@ -50,3 +50,22 @@ def test_quarterly_funnel_displays_financial_source_without_breaking_old_runs(
         assert frame.iloc[0]["source_url"] == row["source_url"]
     else:
         assert "reporting_basis" not in frame.columns
+
+
+@pytest.mark.parametrize("status", ["llm_error", "deferred_llm", "recovery_blocked"])
+def test_quarterly_funnel_explains_deferred_checks(status):
+    data = {
+        "analysed": [{"symbol": "ACME", "status": status}],
+        "execution_warnings": ["Conviction check deferred"],
+        "num_conviction_deferred": 1,
+    }
+    app = AppTest.from_string(
+        "from ui.components import _render_quarterly_results\n"
+        f"_render_quarterly_results({data!r})\n"
+    ).run(timeout=30)
+    assert not app.exception
+    outcome = app.dataframe[0].value.iloc[0]["outcome"]
+    assert outcome != status
+    assert outcome.startswith(("Deferred", "Blocked"))
+    assert app.warning[0].value == "Conviction check deferred"
+    assert "No buy is authorized" in app.info[0].value

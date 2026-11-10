@@ -75,6 +75,9 @@ def discover_result_declarers(
     use_nse: bool = True,
     nse_delta: bool = True,
     model: Optional[str] = None,
+    commit_seen: bool = True,
+    errors: Optional[List[str]] = None,
+    source_status: Optional[Dict[str, bool]] = None,
 ) -> List[Dict[str, Any]]:
     """Discover companies that have just declared quarterly results.
 
@@ -117,13 +120,24 @@ def discover_result_declarers(
 
     # 1) Assured NSE declared-results feed.
     if use_nse:
-        for r in _from_nse(lookback_days=lookback_days, as_of=as_of, delta=nse_delta):
+        for r in _from_nse(
+            lookback_days=lookback_days, as_of=as_of, delta=nse_delta,
+            commit_seen=commit_seen, errors=errors,
+            source_status=source_status,
+        ):
             _add(r["symbol"], r.get("company", ""), r.get("result_date", ""), "nse_filings")
+            if r.get("seen_keys"):
+                merged[r["symbol"]].setdefault("seen_keys", []).extend(r["seen_keys"])
 
     # 2) LLM web-grounded search.
     if use_llm:
-        for r in _from_llm(as_of=as_of, lookback_days=lookback_days, watchlist=watchlist, model=model):
+        llm_errors: List[str] = []
+        for r in _from_llm(as_of=as_of, lookback_days=lookback_days, watchlist=watchlist, model=model, errors=llm_errors):
             _add(r["symbol"], r.get("company", ""), r.get("result_date", ""), "web_search")
+        if source_status is not None:
+            source_status["web_search"] = not llm_errors
+        if errors is not None:
+            errors.extend(llm_errors)
 
     # 3) Watchlist acts as an explicit scope / seed.
     if watchlist:
@@ -139,7 +153,11 @@ def discover_result_declarers(
     return result
 
 
-def _from_nse(*, lookback_days: int, as_of: date, delta: bool = True) -> List[Dict[str, Any]]:
+def _from_nse(
+    *, lookback_days: int, as_of: date, delta: bool = True, commit_seen: bool = True,
+    errors: Optional[List[str]] = None,
+    source_status: Optional[Dict[str, bool]] = None,
+) -> List[Dict[str, Any]]:
     """Assured NSE declared-results, unioning two feeds (each degrades to []).
 
     * **event-calendar** (primary) -- fresh: carries result board meetings for
@@ -157,9 +175,13 @@ def _from_nse(*, lookback_days: int, as_of: date, delta: bool = True) -> List[Di
         for r in rows:
             sym = str(r.get("symbol", "")).strip().upper()
             if sym and sym not in merged:
-                merged[sym] = r
+                merged[sym] = {**r, "seen_keys": [r["seen_key"]] if r.get("seen_key") else []}
+            elif sym and r.get("seen_key"):
+                merged[sym]["seen_keys"].append(r["seen_key"])
 
     # Primary: fresh event-calendar.
+    if source_status is not None:
+        source_status["nse_calendar"] = False
     try:
         if delta:
             _merge(
@@ -167,14 +189,21 @@ def _from_nse(*, lookback_days: int, as_of: date, delta: bool = True) -> List[Di
                     cache_path=config.NSE_SEEN_PATH,
                     as_of=as_of,
                     max_age_days=max(7, lookback_days),
+                    persist=commit_seen,
                 )
             )
         else:
             _merge(recent_declared_from_calendar(lookback_days=lookback_days, as_of=as_of))
+        if source_status is not None:
+            source_status["nse_calendar"] = True
     except Exception as e:  # noqa: BLE001 - never let NSE break discovery
         logger.warning("NSE event-calendar discovery failed (%s).", e)
+        if errors is not None:
+            errors.append(f"NSE event-calendar discovery failed: {e}")
 
     # Secondary: financial-results feed (confirmed filings).
+    if source_status is not None:
+        source_status["nse_filings"] = False
     try:
         if delta:
             _merge(
@@ -182,28 +211,43 @@ def _from_nse(*, lookback_days: int, as_of: date, delta: bool = True) -> List[Di
                     cache_path=config.NSE_SEEN_PATH,
                     as_of=as_of,
                     max_age_days=max(7, lookback_days),
+                    persist=commit_seen,
                 )
             )
         else:
             _merge(recent_declared_results(lookback_days=lookback_days, as_of=as_of))
+        if source_status is not None:
+            source_status["nse_filings"] = True
     except Exception as e:  # noqa: BLE001 - never let NSE break discovery
         logger.warning("NSE financial-results discovery failed (%s).", e)
+        if errors is not None:
+            errors.append(f"NSE financial-results discovery failed: {e}")
 
     return list(merged.values())
 
 
 def _from_llm(
-    *, as_of: date, lookback_days: int, watchlist: List[str], model: Optional[str]
+    *, as_of: date, lookback_days: int, watchlist: List[str], model: Optional[str],
+    errors: Optional[List[str]] = None,
 ) -> List[Dict[str, Any]]:
     prompt = _build_discovery_prompt(as_of, lookback_days, watchlist)
     try:
-        output = run_copilot(prompt, web_grounding=True, scraper_tools=True, model=model)
+        output = run_copilot(
+            prompt, web_grounding=True, scraper_tools=True, model=model,
+        )
     except Exception as e:  # noqa: BLE001
         logger.warning("Discovery LLM run failed (%s).", e)
+        if errors is not None:
+            errors.append(f"Discovery LLM failed: {e}")
         return []
 
     parsed = extract_json_block(output) or {}
     declarers = parsed.get("declarers") if isinstance(parsed, dict) else None
+    if not isinstance(declarers, list):
+        logger.error("Discovery LLM returned no valid declarers array")
+        if errors is not None:
+            errors.append("Discovery LLM returned no valid declarers array")
+        return []
     out: List[Dict[str, Any]] = []
     for item in declarers or []:
         if not isinstance(item, dict):
@@ -217,4 +261,3 @@ def _from_llm(
             "result_date": str(item.get("result_date", "")).strip() or as_of.isoformat(),
         })
     return out
-

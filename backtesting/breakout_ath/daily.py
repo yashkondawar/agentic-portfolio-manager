@@ -12,6 +12,8 @@ from __future__ import annotations
 
 import json
 import logging
+import os
+import tempfile
 from dataclasses import replace
 from datetime import date, timedelta
 from pathlib import Path
@@ -79,7 +81,17 @@ def normalize_state(payload: Any, capital: float) -> dict:
 def save_state(path: Path, state: dict) -> None:
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(state, indent=2, default=str), encoding="utf-8")
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w", encoding="utf-8", dir=path.parent, delete=False
+        ) as stream:
+            temporary = Path(stream.name)
+            stream.write(json.dumps(state, indent=2, default=str))
+        os.replace(temporary, path)
+    finally:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
 
 
 def _canonical(symbol: str) -> str:
@@ -136,6 +148,7 @@ def run_daily(
     cfg = replace(cfg, end_date=through)
 
     path = Path(state_path or STATE_PATH)
+    original = path.read_bytes() if path.exists() else None
     state = (
         normalize_state(portfolio_state, cfg.start_capital)
         if portfolio_state is not None
@@ -148,6 +161,23 @@ def run_daily(
         closes = closes.loc[: pd.Timestamp(as_of)]
     if closes.empty:
         raise RuntimeError("no price history available for the daily run")
+    candidate_symbols = list(closes.columns)
+    missing = sorted({p["symbol"] for p in state["positions"]} - set(candidate_symbols))
+    if missing:
+        from core import bars
+
+        if download:
+            start = min(
+                date.fromisoformat(p["entry_date"])
+                for p in state["positions"] if p["symbol"] in missing
+            )
+            bars.sync(missing, start - timedelta(days=15), through)
+        history = bars.read_bars(missing, end=through)
+        for symbol in missing:
+            frame = history.get(bars.plain_symbol(symbol))
+            if frame is None or frame.empty:
+                raise RuntimeError(f"No history for held ATH security {symbol}; cannot recover its stops")
+            closes = closes.assign(**{symbol: frame["Close"].reindex(closes.index)})
 
     session = closes.index[-1]
     today = session.date()
@@ -161,10 +191,37 @@ def run_daily(
     def industry_of(symbol: str, fallback: str = "Unknown") -> str:
         return industries.get(symbol) or industries.get(f"{symbol}.NS", fallback)
 
-    exits = _exit_actions(cfg, state, filled, today, industry_of)
-    for item in exits:
-        item["exit_date"] = today.isoformat()
-    _apply_exits(cfg, state, exits)
+    previous = state.get("last_session")
+    if previous and date.fromisoformat(previous) > today:
+        raise ValueError("Cannot run ATH before the saved portfolio's last session")
+    replay = (
+        closes.index[closes.index > pd.Timestamp(previous)]
+        if previous
+        else closes.index[-1:]
+    )
+    exits = []
+    filled_closes = closes.ffill()
+    for stamp in replay if len(replay) else closes.index[-1:]:
+        day = stamp.date()
+        historical = filled_closes.loc[stamp]
+        session_exits = _exit_actions(cfg, state, historical, day, industry_of)
+        for item in session_exits:
+            item["exit_date"] = day.isoformat()
+        _apply_exits(cfg, state, session_exits)
+        exits.extend(session_exits)
+        value = state["cash"] + sum(
+            p["quantity"] * _mark(historical, p)
+            for p in state["positions"]
+            if not p["entry_date"] or date.fromisoformat(p["entry_date"]) <= day
+        )
+        # Later confirmed buys have already debited today's cash; restore their
+        # notional and costs when valuing the book before those entry dates.
+        value += sum(
+            p["quantity"] * p["entry_price"] * (1 + cfg.cost_rate)
+            for p in state["positions"]
+            if p["entry_date"] and date.fromisoformat(p["entry_date"]) > day
+        )
+        _refresh_budget(cfg, state, day, value)
 
     marks = {p["symbol"]: _mark(filled, p) for p in state["positions"]}
     deployed = sum(
@@ -173,7 +230,9 @@ def run_daily(
     equity = state["cash"] + deployed
 
     _refresh_budget(cfg, state, today, equity)
-    entries = _entry_actions(cfg, state, closes, live, industry_of)
+    entries = _entry_actions(
+        cfg, state, closes[candidate_symbols], live[candidate_symbols], industry_of
+    )
 
     # The suggestions are parked on the book rather than committed: nothing has
     # actually been bought yet. They are committed by confirm_fills once the
@@ -187,6 +246,9 @@ def run_daily(
     if state.get("opened_on") is None:
         state["opened_on"] = today.isoformat()
     if persist and portfolio_state is None:
+        current = path.read_bytes() if path.exists() else None
+        if current != original:
+            raise RuntimeError("ATH portfolio changed during the run; rerun to preserve confirmed fills")
         save_state(path, state)
 
     holds = _hold_actions(cfg, state, filled)
@@ -202,6 +264,7 @@ def run_daily(
         "free_slots": max(0, cfg.max_positions - len(state["positions"])),
         "budget_per_slot": state["budget"],
         "exits": exits,
+        "sessions_replayed": [stamp.date().isoformat() for stamp in replay],
         "entries": entries,
         "holds": holds,
         "freshness": _freshness(today.isoformat(), date.today()),
@@ -270,6 +333,8 @@ def _exit_actions(
     """Positions whose close has broken the trailing stop."""
     out: List[dict] = []
     for pos in state["positions"]:
+        if pos.get("entry_date") and date.fromisoformat(pos["entry_date"]) > today:
+            continue
         price = float(live.get(pos["symbol"], float("nan")))
         if not price or pd.isna(price):
             continue

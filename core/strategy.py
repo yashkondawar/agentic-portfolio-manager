@@ -86,14 +86,14 @@ class StrategyResult:
     """Uniform result envelope returned by every strategy."""
 
     strategy_id: str
-    status: str  # "completed" | "failed"
+    status: str  # "completed" | "completed_with_warnings" | "failed"
     report: str = ""  # markdown/text for display
     data: Dict[str, Any] = field(default_factory=dict)  # structured extras
     error: Optional[str] = None
 
     @property
     def ok(self) -> bool:
-        return self.status == "completed"
+        return self.status in ("completed", "completed_with_warnings")
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)

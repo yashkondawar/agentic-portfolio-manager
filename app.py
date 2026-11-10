@@ -2,6 +2,7 @@
 
 import streamlit as st
 from dotenv import load_dotenv
+from streamlit.runtime.scriptrunner import get_script_run_ctx
 
 from ui.pages import (
     backtest_page,
@@ -18,7 +19,7 @@ from ui.pages import (
 )
 from ui.state import initialize_state
 
-load_dotenv()
+load_dotenv(override=True)
 
 st.set_page_config(
     page_title="NSE Trader Workbench",
@@ -43,6 +44,20 @@ st.markdown(
 )
 
 initialize_state()
+
+
+@st.cache_resource
+def _start_installed_scheduler() -> None:
+    from core.scheduler import ensure_running
+
+    ensure_running()
+
+
+try:
+    if get_script_run_ctx(suppress_warning=True) is not None:
+        _start_installed_scheduler()
+except (OSError, RuntimeError) as error:
+    st.warning(f"Could not recover the installed strategy scheduler: {error}")
 
 navigation = st.navigation(
     {
