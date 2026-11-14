@@ -1,4 +1,5 @@
 from datetime import date
+from pathlib import Path
 from unittest.mock import patch
 
 import pandas as pd
@@ -18,6 +19,128 @@ def _saved_run(book_id, output, **params):
         {"book_id": book_id, "combo": "P5", "metal_mode": "none", **params},
         duration_ms=1,
     )
+
+
+@pytest.mark.parametrize("path_setting", ["PORTFOLIO_DB_PATH", "TRADER_WORKBENCH_DB"])
+def test_workbench_reuses_existing_storage_without_changing_saved_data(
+    daily_setup, tmp_path, monkeypatch, path_setting
+):
+    from backtesting.breakout_ath import config as ath_config
+    from backtesting.breakout_ath.daily import empty_state, save_state
+    from core.bars import write_bars
+    from core.schedules import Schedule, save_schedule
+    from gfs.state import Book, save_book
+    from ui.overview_data import load_books
+
+    database = storage.database_path()
+    monkeypatch.delenv("PORTFOLIO_DB_PATH")
+    monkeypatch.setenv(path_setting, str(database))
+    monkeypatch.setattr("core.scheduler.ensure_running", lambda: False)
+    ath_path = tmp_path / "existing_ath.json"
+    monkeypatch.setattr(ath_config, "STATE_PATH", ath_path)
+    ath = empty_state(20000)
+    ath.update(cash=19000, last_session="2025-01-02", opened_on="2025-01-01")
+    save_state(ath_path, ath)
+    ath_before = ath_path.read_bytes()
+
+    book = Book()
+    book.open_with(1000, date(2025, 1, 1))
+    book.cash = 945.23
+    book.last_session = date(2025, 1, 2)
+    save_book(book)
+    storage.set_document(
+        "qtr_results",
+        "portfolio",
+        {"starting_capital": 2000, "cash": 2123.45, "realized_pnl": 123.45},
+    )
+    storage.set_document("qtr_results", "ledger", [])
+    output = service.run_daily(
+        as_of=str(daily_setup.dates[1]),
+        book_id="existing",
+        combo="P5",
+        metal_mode="none",
+    )
+    _saved_run("existing", output)
+    defaults = {
+        "book_id": "existing",
+        "combo": "P5",
+        "metal_mode": "none",
+        "capital": 100000,
+    }
+    storage.set_document("strategy_defaults", "s18_daily", defaults)
+    storage.set_document("watchlists", "default", ["TCS", "INFY"])
+    save_schedule(
+        Schedule(
+            id="existing-schedule",
+            name="Existing daily update",
+            strategy_id="s18_daily",
+            run_at="18:00",
+            params=defaults,
+        )
+    )
+    today = date.today()
+    write_bars(
+        "^NSEI",
+        pd.DataFrame(
+            {
+                "Open": [100],
+                "High": [102],
+                "Low": [99],
+                "Close": [101],
+                "Volume": [1000],
+            },
+            index=pd.to_datetime([today]),
+        ),
+        today,
+        today,
+    )
+
+    def saved_data():
+        with storage.connection_scope() as connection:
+            tables = [
+                row[0]
+                for row in connection.execute(
+                    "SELECT name FROM sqlite_master WHERE type='table' "
+                    "AND name NOT IN ('application_logs', 'sqlite_sequence')"
+                )
+            ]
+            return {
+                table: sorted(
+                    (
+                        tuple(row)
+                        for row in connection.execute(f'SELECT * FROM "{table}"')
+                    ),
+                    key=repr,
+                )
+                for table in tables
+            }
+
+    before = saved_data()
+    with (
+        patch("core.registry.run_strategy") as execute,
+        patch("yfinance.download", side_effect=AssertionError("Unexpected network")),
+        patch("dotenv.load_dotenv", return_value=False),
+    ):
+        books = load_books()
+        assert all(book.exists and not book.error for book in books)
+        assert [book.value for book in books[:3]] == [945.23, 19000, 2123.45]
+        app = AppTest.from_file(
+            str(Path(__file__).resolve().parents[1] / "app.py")
+        ).run(timeout=30)
+        assert not app.exception
+        app.radio(key="_section_tab").set_value("Invest").run(timeout=30)
+        assert not app.exception
+        app.button(key="open_book_book:existing:P5:none").click().run(timeout=30)
+        assert not app.exception
+        assert app.number_input(key="discover_s18_capital").value == 100000
+        app.radio(key="_section_tab").set_value("Manage").run(timeout=30)
+        assert not app.exception
+        app.sidebar.radio(key="_page_tab").set_value("history").run(timeout=30)
+        assert not app.exception
+        execute.assert_not_called()
+    assert storage.database_path() == database
+    assert saved_data() == before
+    assert ath_path.read_bytes() == ath_before
 
 
 def test_snapshot_uses_saved_portfolio_not_preview_or_network(daily_setup):
@@ -206,7 +329,9 @@ def test_saved_refresh_picks_up_scheduled_run_without_running_strategy(daily_set
         "_s18_portfolio_desk()\n"
     ).run(timeout=120)
     assert not app.exception
-    assert any("2025-01-01" in c.value and "Saved through" in c.value for c in app.caption)
+    assert any(
+        "2025-01-01" in c.value and "Saved through" in c.value for c in app.caption
+    )
     assert any("every 30 seconds" in c.value for c in app.caption)
     app.session_state["latest_results"] = {
         "s18_daily": StrategyResult("s18_daily", "completed", data=first).to_dict()
@@ -230,10 +355,16 @@ def test_saved_refresh_picks_up_scheduled_run_without_running_strategy(daily_set
         app.run(timeout=120)
         assert not app.exception
     assert storage.get_document("s18", "book:scheduled:P5:none") == original
-    assert portfolio.latest_portfolio_run(
-        book_id="scheduled", combo="P5", metal_mode="none"
-    )["id"] == latest_id
-    assert app.date_input(key="discover_s18_as_of").value == pd.Timestamp(m.dates[0]).date()
+    assert (
+        portfolio.latest_portfolio_run(
+            book_id="scheduled", combo="P5", metal_mode="none"
+        )["id"]
+        == latest_id
+    )
+    assert (
+        app.date_input(key="discover_s18_as_of").value
+        == pd.Timestamp(m.dates[0]).date()
+    )
 
 
 def test_risk_off_report_is_visible_without_opening_an_expander(daily_setup):
@@ -257,3 +388,27 @@ def test_risk_off_report_is_visible_without_opening_an_expander(daily_setup):
     assert not any(v.label == "Full report" for v in app.expander)
     assert any("not a buy-the-dip strategy" in c.value for c in app.caption)
     assert any("five-session startup" in c.value for c in app.caption)
+
+
+def test_workbench_links_preserve_capital_when_switching_s18_books(daily_setup):
+    for book_id, capital in (("small", 250000.0), ("large", 500000.0)):
+        service.run_daily(
+            as_of="2025-01-01",
+            book_id=book_id,
+            combo="P5",
+            metal_mode="none",
+            capital=capital,
+        )
+    with patch("core.scheduler.ensure_running"):
+        app = AppTest.from_file(
+            str(Path(__file__).resolve().parents[1] / "app.py")
+        ).run(timeout=30)
+        app.radio(key="_section_tab").set_value("Invest").run(timeout=30)
+        for book_id, capital in (("small", 250000.0), ("large", 500000.0)):
+            app.button(key=f"open_book_book:{book_id}:P5:none").click().run(timeout=30)
+            assert not app.exception
+            assert app.text_input(key="discover_s18_book_id").value == book_id
+            assert app.selectbox(key="discover_s18_combo").value == "P5"
+            assert app.selectbox(key="discover_s18_metal_mode").value == "none"
+            assert app.number_input(key="discover_s18_capital").value == capital
+            app.radio(key="_page_tab").set_value("invest").run(timeout=30)

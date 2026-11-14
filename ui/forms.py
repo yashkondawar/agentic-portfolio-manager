@@ -37,13 +37,39 @@ def render_strategy_params(
             for group, group_specs in grouped.items():
                 if len(grouped) > 1 or group != "Basic":
                     st.caption(group.upper())
+                compact = []
                 for spec in group_specs:
-                    params[spec.name] = _render_param(
-                        spec,
-                        key=f"{key_prefix}_{spec.name}",
-                        value=overrides.get(spec.name, spec.default),
-                    )
+                    if spec.type in (
+                        ParamType.ENUM,
+                        ParamType.INT,
+                        ParamType.FLOAT,
+                        ParamType.DATE,
+                    ):
+                        compact.append(spec)
+                    else:
+                        _render_compact_params(compact, params, key_prefix, overrides)
+                        compact = []
+                        params[spec.name] = _render_param(
+                            spec,
+                            key=f"{key_prefix}_{spec.name}",
+                            value=overrides.get(spec.name, spec.default),
+                        )
+                _render_compact_params(compact, params, key_prefix, overrides)
     return params
+
+
+def _render_compact_params(
+    specs: list[ParamSpec], params: dict, key_prefix: str, overrides: Mapping[str, Any]
+) -> None:
+    for offset in range(0, len(specs), 2):
+        pair = specs[offset : offset + 2]
+        for column, spec in zip(st.columns(len(pair)), pair):
+            with column:
+                params[spec.name] = _render_param(
+                    spec,
+                    key=f"{key_prefix}_{spec.name}",
+                    value=overrides.get(spec.name, spec.default),
+                )
 
 
 def _render_param(spec: ParamSpec, *, key: str, value: Any) -> Any:
@@ -65,7 +91,8 @@ def _render_param(spec: ParamSpec, *, key: str, value: Any) -> Any:
             placeholder="Select an option",
         )
     if spec.type in (ParamType.INT, ParamType.FLOAT):
-        number_value = value
+        numeric_type = int if spec.type == ParamType.INT else float
+        number_value = numeric_type(value) if value is not None else None
         kwargs: dict[str, Any] = {
             "label": label,
             "value": number_value,
@@ -73,13 +100,9 @@ def _render_param(spec: ParamSpec, *, key: str, value: Any) -> Any:
             "key": key,
         }
         if spec.min is not None:
-            kwargs["min_value"] = (
-                int(spec.min) if spec.type == ParamType.INT else float(spec.min)
-            )
+            kwargs["min_value"] = numeric_type(spec.min)
         if spec.max is not None:
-            kwargs["max_value"] = (
-                int(spec.max) if spec.type == ParamType.INT else float(spec.max)
-            )
+            kwargs["max_value"] = numeric_type(spec.max)
         kwargs["step"] = 1 if spec.type == ParamType.INT else 0.1
         return st.number_input(**kwargs)
     if spec.type == ParamType.DATE:

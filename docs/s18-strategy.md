@@ -18,10 +18,11 @@ check as a permanent authorization.
 
 | Location | Strategy ID | Purpose |
 |---|---|---|
-| Discover → S18 Portfolio | `s18_daily` | Saved portfolio above daily controls; current/latest run below |
-| Backtest Lab → S18 Backtest | `s18_backtest` | One fixed combo/mode, selected period and initial capital |
-| Backtest Lab → S18 Golden Replay | `s18_replay` | All 15 combo/modes × A/B against DB-owned golden records |
-| Settings & Strategy Catalog | All three | Automatically generated parameter reference |
+| Invest → All portfolios | `s18_daily` | Every saved S18 selection alongside other strategy books; holdings and next-session instructions visible at a glance |
+| Invest → Daily strategies → S18 portfolios | `s18_daily` | Selected saved portfolio above daily controls; current/latest run below |
+| Manage → Backtests → S18 Backtest | `s18_backtest` | One fixed combo/mode, selected period and initial capital |
+| Manage → Backtests → S18 Golden Replay | `s18_replay` | All 15 combo/modes × A/B against DB-owned golden records |
+| Manage → Settings & integrations | All three | Automatically generated parameter reference |
 
 Default selection is **P15 / both_priority**. There is no optimization grid,
 custom slot-count control, validation bypass, single-tranche mode or
@@ -29,7 +30,20 @@ reference-position seeding toggle.
 
 ### Daily portfolio layout
 
-The top section reads the committed portfolio directly from SQLite. Merely
+The Invest overview enumerates every committed S18 portfolio rather than using
+the latest run to choose one. Each card links to the matching book ID, combo,
+metal mode and saved initial capital in the detailed desk. Initial capital
+cannot change for an existing book. Portfolio labels include all three identity
+fields, including in the summary table and history selector. Failed/preview runs
+never supply card balances.
+
+The overview preserves whole-share versus fractional-model quantity labels,
+last-close buy estimates, estimated model costs and required cash. A zero-share
+buy estimate is not counted as actionable; final sizing is still recalculated
+by the engine at the next open. Pending fractional entitlements and modeled
+cash-in-lieu settlements remain available alongside the portfolio.
+
+The detailed desk's top section reads the committed portfolio directly from SQLite. Merely
 opening the page does not fetch prices, recalculate signals, run validation,
 or update holdings. It shows the saved close date, portfolio value, cash,
 invested value, realised/unrealised P&L, holdings and next-session instructions.

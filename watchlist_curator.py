@@ -37,6 +37,10 @@ Two-stage funnel (why it's both fast and accurate)
     machine-readable block this script parses into `swing_watchlist.txt`.
 
 Use `--no-llm` to stop after Stage 1 (instant, free, purely mechanical).
+Unavailable or incomplete Yahoo histories are logged and skipped without
+discarding the other symbols. Confirmed synthetic NSE index components (DUMMY
+symbol and DUM ISIN) are excluded; real constituents are not blacklisted just
+because Yahoo currently has no prices for them.
 
 Prerequisites
 -------------
@@ -135,6 +139,14 @@ def load_universe_from_index(index_name: str) -> List[UniverseStock]:
     for r in rows:
         sym = (r.get("Symbol") or "").strip().upper()
         if not sym:
+            continue
+        isin = (r.get("ISIN Code") or "").strip().upper()
+        if sym.startswith("DUMMY") and isin.startswith("DUM"):
+            logger.warning(
+                "Skipping synthetic NSE index component %s (%s): no executable share history.",
+                sym,
+                isin,
+            )
             continue
         out.append(
             UniverseStock(
@@ -236,9 +248,25 @@ class StockMetrics:
 
 def _compute_metrics_for(symbol: str, industry: str, df, nifty_ret_3m: Optional[float]) -> Optional[StockMetrics]:
     if df is None or df.empty:
+        logger.warning("Skipping %s: no price history available.", symbol)
+        return None
+    required = ("Close", "High", "Low", "Volume")
+    missing = [name for name in required if name not in df.columns]
+    if missing:
+        logger.warning(
+            "Skipping %s: price history missing columns %s.",
+            symbol,
+            ", ".join(missing),
+        )
+        return None
+    if not df.columns.is_unique:
+        logger.warning("Skipping %s: price history has duplicate columns.", symbol)
         return None
     df = df.dropna(subset=["Close"])
     if len(df) < 60:  # need a reasonable history
+        logger.info(
+            "Skipping %s: only %d usable closes (need at least 60).", symbol, len(df)
+        )
         return None
     close = df["Close"]
     high = df["High"]
@@ -260,8 +288,8 @@ def _compute_metrics_for(symbol: str, industry: str, df, nifty_ret_3m: Optional[
         high_52w = float(close.tail(252).max())
         dist_from_high = (high_52w - last) / high_52w * 100 if high_52w else float("nan")
         sma50_rising = bool(close.rolling(50).mean().iloc[-1] > close.rolling(50).mean().iloc[-6]) if len(close) >= 56 else False
-    except Exception as e:  # noqa: BLE001
-        logger.debug("metric calc failed for %s: %s", symbol, e)
+    except (ArithmeticError, TypeError, ValueError) as e:
+        logger.warning("Skipping %s: metric calculation failed: %s", symbol, e)
         return None
 
     if any(math.isnan(x) for x in (last, sma20, sma50, rsi, atrp)):
@@ -292,12 +320,55 @@ def _compute_metrics_for(symbol: str, industry: str, df, nifty_ret_3m: Optional[
     )
 
 
+def _download_history(data, ticker: str, *, allow_flat: bool):
+    """Select the requested ticker before normalizing Yahoo's OHLCV columns."""
+    import pandas as pd
+    from core.bars import normalise_frame
+
+    if not isinstance(data, pd.DataFrame) or data.empty:
+        logger.warning("Skipping %s: Yahoo returned no price history.", ticker)
+        return None
+    if isinstance(data.columns, pd.MultiIndex):
+        if data.columns.nlevels != 2:
+            logger.warning("Skipping %s: unsupported Yahoo column structure.", ticker)
+            return None
+        ticker_level = next(
+            (
+                level
+                for level in range(2)
+                if ticker in data.columns.get_level_values(level)
+            ),
+            None,
+        )
+        if ticker_level is None:
+            logger.warning("Skipping %s: ticker absent from Yahoo response.", ticker)
+            return None
+        data = data.xs(ticker, axis=1, level=ticker_level)
+    elif not allow_flat:
+        logger.warning(
+            "Skipping %s: flat multi-symbol response cannot be assigned to a ticker.",
+            ticker,
+        )
+        return None
+    if not data.columns.is_unique:
+        logger.warning("Skipping %s: Yahoo returned duplicate price columns.", ticker)
+        return None
+    try:
+        frame = normalise_frame(data)
+    except (TypeError, ValueError) as exc:
+        logger.warning("Skipping %s: invalid Yahoo price history: %s", ticker, exc)
+        return None
+    if frame is None:
+        logger.warning("Skipping %s: Yahoo returned no usable Close prices.", ticker)
+    return frame
+
+
 def download_and_compute(
     universe: List[UniverseStock],
     period: str = "1y",
     chunk_size: int = 50,
 ) -> List[StockMetrics]:
-    """Batch-download history via yfinance and compute swing metrics."""
+    """Compute metrics from flat or ticker-/price-major Yahoo histories."""
     import yfinance as yf
 
     industry_by_sym = {u.symbol: u.industry for u in universe}
@@ -307,16 +378,11 @@ def download_and_compute(
     # Benchmark return for relative strength.
     nifty_ret_3m: Optional[float] = None
     try:
-        import pandas as pd
         bench = yf.download(NIFTY_BENCHMARK, period=period, interval="1d",
                             auto_adjust=True, progress=False, threads=True)
-        if bench is not None and not bench.empty:
-            bclose = bench["Close"]
-            # Newer yfinance returns MultiIndex columns even for a single ticker.
-            if isinstance(bclose, pd.DataFrame):
-                bclose = bclose.iloc[:, 0]
-            bclose = bclose.dropna()
-            nifty_ret_3m = _ret(bclose, 63)
+        bench = _download_history(bench, NIFTY_BENCHMARK, allow_flat=True)
+        if bench is not None:
+            nifty_ret_3m = _ret(bench["Close"], 63)
             logger.info("Nifty 3m return: %s", f"{nifty_ret_3m:.2f}%" if nifty_ret_3m is not None else "n/a")
     except Exception as e:  # noqa: BLE001
         logger.warning("Could not fetch Nifty benchmark: %s", e)
@@ -335,9 +401,8 @@ def download_and_compute(
 
         for yfs in chunk:
             plain = yf_to_plain[yfs]
-            try:
-                sub = data[yfs] if len(chunk) > 1 else data
-            except (KeyError, TypeError):
+            sub = _download_history(data, yfs, allow_flat=len(chunk) == 1)
+            if sub is None:
                 continue
             m = _compute_metrics_for(plain, industry_by_sym.get(plain, "Unknown"), sub, nifty_ret_3m)
             if m is not None:
