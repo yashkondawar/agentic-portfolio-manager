@@ -1,48 +1,22 @@
-"""Unified Streamlit entry point for the trader workbench."""
+"""Meridian workbench: Research, Invest and Manage."""
 
-import streamlit as st
 from dotenv import load_dotenv
+import streamlit as st
 from streamlit.runtime.scriptrunner import get_script_run_ctx
 
-from ui.pages import (
-    backtest_page,
-    broker_page,
-    dashboard_page,
-    discover_page,
-    kronos_page,
-    market_temperature_page,
-    portfolio_page,
-    research_page,
-    schedules_page,
-    settings_page,
-    swing_page,
-)
+from ui.navigation import render_navigation, routes
 from ui.state import initialize_state
+from ui.theme import apply_theme
 
 load_dotenv(override=True)
 
 st.set_page_config(
-    page_title="NSE Trader Workbench",
-    page_icon="📈",
+    page_title="Portfolio | Research, Invest, Manage",
+    page_icon=":material/finance:",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="auto",
 )
-
-st.markdown(
-    """
-    <style>
-    .block-container {padding-top: 2rem; padding-bottom: 3rem; max-width: 1500px;}
-    [data-testid="stMetric"] {
-        border: 1px solid rgba(128, 128, 128, .2);
-        border-radius: .75rem;
-        padding: .85rem 1rem;
-    }
-    [data-testid="stSidebar"] {border-right: 1px solid rgba(128, 128, 128, .18);}
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
-
+apply_theme()
 initialize_state()
 
 
@@ -59,58 +33,31 @@ try:
 except (OSError, RuntimeError) as error:
     st.warning(f"Could not recover the installed strategy scheduler: {error}")
 
-navigation = st.navigation(
-    {
-        "Overview": [
-            st.Page(
-                dashboard_page,
-                title="Dashboard",
-                icon=":material/dashboard:",
-                default=True,
-            )
-        ],
-        "Ideas & research": [
-            st.Page(
-                discover_page, title="Discover Ideas", icon=":material/travel_explore:"
-            ),
-            st.Page(
-                research_page, title="Stock Research", icon=":material/query_stats:"
-            ),
-            st.Page(
-                market_temperature_page,
-                title="Market Temperature",
-                icon=":material/thermostat:",
-            ),
-            st.Page(
-                kronos_page, title="Kronos Forecast Lab", icon=":material/insights:"
-            ),
-        ],
-        "Portfolio": [
-            st.Page(
-                swing_page, title="Swing Desk", icon=":material/candlestick_chart:"
-            ),
-            st.Page(
-                portfolio_page, title="Portfolio Review", icon=":material/pie_chart:"
-            ),
-        ],
-        "Validation": [
-            st.Page(backtest_page, title="Backtest Lab", icon=":material/history:")
-        ],
-        "Account": [
-            st.Page(
-                broker_page,
-                title="Broker & Holdings",
-                icon=":material/account_balance:",
-            ),
-            st.Page(
-                schedules_page,
-                title="Automation & Schedules",
-                icon=":material/schedule:",
-            ),
-            st.Page(
-                settings_page, title="Settings & Catalog", icon=":material/settings:"
-            ),
-        ],
-    }
+route_list = routes()
+pages = {
+    route.key: st.Page(
+        route.function,
+        title=f"{route.section} / {route.label}",
+        icon=f":material/{route.icon}:",
+        url_path=route.path,
+        default=route.key == "research",
+    )
+    for route in route_list
+}
+st.session_state["_workbench_pages"] = pages
+navigation = st.navigation(list(pages.values()), position="hidden")
+requested = st.session_state.pop("_requested_page", None)
+if requested is not None:
+    st.switch_page(pages[requested])
+current = next(
+    route for route in route_list if pages[route.key].url_path == navigation.url_path
 )
+render_navigation(current, route_list)
 navigation.run()
+
+st.markdown(
+    '<div class="meridian-footer">Private workspace &nbsp; / &nbsp; '
+    "Saved data is timestamped, not live. Research and modelled portfolios are "
+    "decision support only. This application never places broker orders.</div>",
+    unsafe_allow_html=True,
+)

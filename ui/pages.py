@@ -17,7 +17,6 @@ import streamlit as st
 from core import registry
 from core import scheduler as scheduler_mod
 from core import schedules as schedules_mod
-from core.run_history import get_run, list_runs
 from core.strategy import StrategyResult
 from ui.components import (
     clean_editor_rows,
@@ -36,7 +35,8 @@ from ui.components import (
 )
 from ui.forms import render_strategy_params
 from ui.market_temperature import market_temperature_page
-from ui.state import add_symbols, clear_symbols
+from ui.state import add_symbols
+from ui.theme import card, empty_state
 
 __all__ = [
     "backtest_page",
@@ -54,125 +54,83 @@ __all__ = [
 
 
 def dashboard_page() -> None:
-    page_header(
-        "Trader Workbench",
-        "Discover, research, manage, and validate Indian-equity ideas from one place.",
-    )
-    st.info(
-        "Decision-support mode is active. This application never places broker orders."
-    )
+    from ui.dashboards import research_overview
 
-    broker_holdings = st.session_state.get("broker_holdings", [])
-    recent = list_runs(limit=10)
-    basket = st.session_state.get("symbol_basket", [])
-    cards = st.columns(4)
-    cards[0].metric("Strategies", len(registry.list_specs()))
-    cards[1].metric("Idea basket", len(basket))
-    cards[2].metric("Broker holdings", len(broker_holdings))
-    cards[3].metric("Recent runs", len(recent))
-
-    st.subheader("Daily workflow")
-    workflow = st.columns(4)
-    workflow[0].markdown("**1. Discover**\n\nBuild a watchlist or scan fresh results.")
-    workflow[1].markdown("**2. Research**\n\nRun multi-agent conviction checks.")
-    workflow[2].markdown("**3. Review risk**\n\nManage swing and portfolio exposure.")
-    workflow[3].markdown("**4. Validate**\n\nBacktest the deterministic playbook.")
-
-    st.subheader("Shared idea basket")
-    if basket:
-        st.write(" · ".join(basket))
-        if st.button("Clear basket"):
-            clear_symbols()
-            st.rerun()
-    else:
-        st.caption("Ideas selected on Discover or Research pages appear here.")
-
-    st.subheader("Recent runs")
-    if not recent:
-        st.caption("No workbench runs have been recorded yet.")
-        return
-    table = pd.DataFrame(recent)
-    table["created_at"] = pd.to_datetime(table["created_at"]).dt.strftime(
-        "%Y-%m-%d %H:%M"
-    )
-    st.dataframe(
-        table[["strategy_id", "status", "created_at", "duration_ms"]],
-        use_container_width=True,
-        hide_index=True,
-    )
-    labels = {
-        f"{row['strategy_id']} · {row['created_at'][:19]} · {row['status']}": row["id"]
-        for row in recent
-    }
-    selected = st.selectbox("Reopen a run", [""] + list(labels), index=0)
-    if selected:
-        record = get_run(labels[selected])
-        if record:
-            render_result(
-                StrategyResult(
-                    strategy_id=record["strategy_id"],
-                    status=record["status"],
-                    report=record["report"],
-                    data=record["data"],
-                    error=record["error"],
-                )
-            )
+    research_overview()
 
 
 def discover_page() -> None:
+    """Compatibility entry point for the former discovery page."""
+    strategies_page()
+
+
+def watchlist_page() -> None:
     page_header(
-        "Discover Ideas",
-        "Screen broad universes, monitor fresh quarterly-result catalysts, and "
-        "track the GFS, ATH breakout and S18 portfolios.",
+        "Find the ideas worth your time.",
+        "Screen a broad universe, then add promising companies to your research shortlist.",
     )
-    watchlist_tab, results_tab, gfs_tab, ath_tab, s18_tab = st.tabs(
-        [
-            "Watchlist builder",
-            "Quarterly results",
-            "GFS multi-timeframe",
-            "ATH breakout",
-            "S18 Portfolio",
-        ]
+    _registry_runner("watchlist_curation", "discover_watchlist")
+    _basket_action(latest_result("watchlist_curation"), "watchlist")
+
+
+def strategies_page() -> None:
+    from ui.navigation import page_button
+
+    page_header(
+        "Your daily investment routines.",
+        "Review the saved book, then run an update. All portfolios remain visible together in Invest.",
     )
-    with watchlist_tab:
-        _registry_runner("watchlist_curation", "discover_watchlist")
-        _basket_action(latest_result("watchlist_curation"), "watchlist")
-    with results_tab:
-        render_qtr_ledger_snapshot()
-        st.divider()
-        _registry_runner("qtr_results", "discover_results")
-        _basket_action(latest_result("qtr_results"), "quarterly")
-    with gfs_tab:
+    choices = {
+        "GFS multi-timeframe": "gfs_live",
+        "ATH breakout": "breakout_ath_daily",
+        "Quarterly results": "qtr_results",
+        "S18 portfolios": "s18_daily",
+    }
+    selected = st.radio(
+        "Strategy desk", list(choices), horizontal=True, key="daily_strategy"
+    )
+    strategy_id = choices[selected]
+    if strategy_id == "s18_daily":
+        _s18_portfolio_desk()
+        return
+    if strategy_id == "gfs_live":
         st.caption(
             "Grandfather (monthly RSI) and Father (weekly RSI) confirm the trend "
-            "while the Son (daily RSI) pulls back. Run it **after the market "
-            "closes**: it replays every session since the last run and tells you "
-            "what to place at the next open."
+            "while the Son (daily RSI) pulls back. Run after the market closes: "
+            "it replays every session since the last run and prepares the next-open queue."
         )
-        render_gfs_ledger_snapshot()
-        st.divider()
-        _registry_runner("gfs_live", "discover_gfs")
-        _basket_action(latest_result("gfs_live"), "gfs")
-    with ath_tab:
+    elif strategy_id == "breakout_ath_daily":
         st.caption(
-            "A trail-only momentum sleeve: buy stocks closing at a 52-week high "
-            "while still within 15% of their lifetime high, and hold until the "
-            "close falls 16% below the peak close since entry. Run it **after "
-            "the close**. Exits apply to the book straight away; buys are "
-            "suggestions you confirm once the orders actually fill."
+            "Buy stocks closing at a 52-week high while within 15% of their lifetime "
+            "high; hold until the close falls 16% below the peak close since entry. "
+            "Run after the close. Exits apply to the book immediately; buys are "
+            "suggestions you confirm only once orders actually fill."
         )
-        render_ath_ledger_snapshot()
-        st.divider()
-        _registry_runner("breakout_ath_daily", "discover_ath")
-        _basket_action(latest_result("breakout_ath_daily"), "ath")
-    with s18_tab:
-        _s18_portfolio_desk()
+    # Populate after execution, so a saved run refreshes the portfolio on the
+    # same render. A preview still cannot replace committed holdings.
+    snapshot = st.empty()
+    if st.toggle("Configure and run a daily update", key=f"configure_{strategy_id}"):
+        prefix = {
+            "gfs_live": "discover_gfs",
+            "breakout_ath_daily": "discover_ath",
+            "qtr_results": "discover_results",
+        }[strategy_id]
+        _registry_runner(strategy_id, prefix)
+        _basket_action(latest_result(strategy_id), prefix)
+    with snapshot.container():
+        if strategy_id == "qtr_results":
+            render_qtr_ledger_snapshot()
+        elif strategy_id == "gfs_live":
+            render_gfs_ledger_snapshot()
+        else:
+            render_ath_ledger_snapshot()
+    page_button("See all strategy portfolios", "invest", key="daily_all_portfolios")
 
 
 def research_page() -> None:
     page_header(
-        "Stock Research",
-        "Choose parallel specialist coverage or the classic sequential supervisor.",
+        "From company to conviction.",
+        "Build a research brief, inspect the evidence, and decide what deserves a place in your portfolio.",
     )
     strategy_id = st.radio(
         "Research system",
@@ -184,15 +142,43 @@ def research_page() -> None:
     defaults = {}
     if strategy_id == "parallel_agents":
         defaults["symbols"] = st.session_state.get("symbol_basket", [])
-    with st.form(f"research_form_{strategy_id}"):
-        params = render_strategy_params(
-            strategy.param_specs(),
-            key_prefix=f"research_{strategy_id}",
-            defaults=defaults,
+        st.caption(
+            "Enter at least one NSE symbol, such as TCS or INFY. "
+            "Your research shortlist prefills this field; you can edit it before running."
         )
-        submitted = st.form_submit_button(
-            "Run stock research", type="primary", use_container_width=True
-        )
+    brief, guidance = st.columns([1.65, 1])
+    with brief:
+        with st.form(f"research_form_{strategy_id}"):
+            st.subheader("Your research brief")
+            st.caption(
+                "Set the scope and risk assumptions. Advanced controls remain optional."
+            )
+            params = render_strategy_params(
+                strategy.param_specs(),
+                key_prefix=f"research_{strategy_id}",
+                defaults=defaults,
+            )
+            submitted = st.form_submit_button(
+                "Run stock research", type="primary", use_container_width=True
+            )
+    with guidance:
+        with card(key="research_guide"):
+            st.markdown(
+                '<span class="eyebrow">Before you begin</span>'
+                "<h3>Better questions.<br>Better decisions.</h3>",
+                unsafe_allow_html=True,
+            )
+            st.caption(strategy.description)
+            st.markdown(
+                '<div class="research-steps">'
+                "<strong>01 / Define the question</strong><p>Choose your companies and "
+                "investment context. Existing shortlist symbols prefill parallel research.</p>"
+                "<strong>02 / Inspect the evidence</strong><p>Read the specialists' findings, "
+                "assumptions and disagreements. A recommendation is not a guarantee.</p>"
+                "<strong>03 / Keep your judgement</strong><p>Review position sizing and risk "
+                "before acting. Proposed orders are for review, never broker execution.</p></div>",
+                unsafe_allow_html=True,
+            )
     if submitted:
         result = run_strategy(strategy_id, params)
     else:
@@ -205,6 +191,11 @@ def research_page() -> None:
                 result,
                 float(params.get("portfolio_value") or 1_000_000),
             )
+    else:
+        empty_state(
+            "Your evidence belongs here",
+            "Submit a research brief to create a report. Saved research is reopened automatically; opening this page never launches an agent.",
+        )
 
 
 def swing_page() -> None:
@@ -213,7 +204,7 @@ def swing_page() -> None:
         "Review open trades, evaluate the shared watchlist, and rotate capital.",
     )
     st.caption(
-        "The ATH breakout sleeve moved to **Discover → ATH breakout**, where it "
+        "The ATH breakout sleeve lives in **Invest → Daily strategies → ATH breakout**, where it "
         "keeps its own book."
     )
     source = st.radio(
@@ -869,7 +860,9 @@ def _holding_source(source: str) -> list[dict]:
     if source == "Zerodha snapshot":
         rows = st.session_state.get("broker_holdings", [])
         if not rows:
-            st.warning("Refresh the Broker page before using a Zerodha snapshot.")
+            st.warning(
+                "Refresh Invest → Broker holdings before using a Zerodha snapshot."
+            )
         return rows
     if source == "Upload JSON/CSV":
         return _uploaded_rows("portfolio_upload")
@@ -886,7 +879,9 @@ def _position_source(source: str) -> list[dict]:
             "broker_positions", []
         )
         if not rows:
-            st.warning("Refresh the Broker page before using a Zerodha snapshot.")
+            st.warning(
+                "Refresh Invest → Broker holdings before using a Zerodha snapshot."
+            )
         return rows
     if source == "Upload JSON/CSV":
         return _uploaded_rows("positions_upload")
@@ -1022,7 +1017,7 @@ def _render_kronos_forecast(fc) -> None:
     row[3].metric(f"Target ({fc.pred_len}d)", f"₹{sig.suggested_target:,.2f}")
     row[4].metric("Reward:Risk", f"{sig.reward_risk:.2f}:1")
 
-    st.plotly_chart(_kronos_chart(fc), use_container_width=True)
+    st.plotly_chart(_kronos_chart(fc), use_container_width=True, theme=None)
     st.caption(sig.rationale)
     st.divider()
 
@@ -1179,7 +1174,7 @@ def _schedule_card(schedule) -> None:
     with st.container(border=True):
         head, actions = st.columns([3, 1])
         with head:
-            mark = ":green[Enabled]" if schedule.enabled else ":gray[Paused]"
+            mark = ":green[Enabled]" if schedule.enabled else "**Paused**"
             st.markdown(f"**{schedule.name}** · {mark}")
             st.caption(f"`{schedule.strategy_id}` — {schedule.describe()}")
         with actions:
@@ -1356,7 +1351,7 @@ def _schedule_editor(rows: list) -> None:
                 last_error=current.last_error if current else None,
             )
         )
-    except schedules_mod.ScheduleError as exc:
+    except (TypeError, ValueError) as exc:
         st.error(str(exc))
         return
     st.success("Schedule saved.")

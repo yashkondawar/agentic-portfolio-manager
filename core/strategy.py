@@ -172,6 +172,10 @@ def _coerce_value(spec: ParamSpec, value: Any) -> Any:
         else:
             items = [s for s in str(value).replace(",", " ").split()]
         coerced = [str(s).strip().upper() for s in items if str(s).strip()]
+        if spec.required and not coerced:
+            raise ValueError(
+                f"Parameter '{spec.name}' ({spec.label}) requires at least one symbol."
+            )
     elif t == ParamType.INT:
         coerced = int(value)
     elif t == ParamType.FLOAT:

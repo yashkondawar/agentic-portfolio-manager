@@ -43,6 +43,20 @@ def test_parameter_coercion_and_validation():
         strategy.coerce_params({"count": 1, "mode": "unsafe"})
 
 
+@pytest.mark.parametrize("symbols", [None, "", "   ", ", ,\n", [], [" ", ""]])
+def test_parallel_research_requires_nonempty_symbols(symbols):
+    strategy = registry.get_strategy("parallel_agents")
+    with pytest.raises(ValueError, match="symbols"):
+        strategy.coerce_params({"symbols": symbols})
+
+
+def test_optional_symbols_can_still_be_empty():
+    params = registry.get_strategy("watchlist_curation").coerce_params(
+        {"universe": "  , "}
+    )
+    assert params["universe"] == []
+
+
 def test_registry_exposes_every_workbench_strategy():
     strategy_ids = {spec["id"] for spec in registry.list_specs()}
     assert strategy_ids == {

@@ -41,6 +41,7 @@ def service(monkeypatch):
     }
     for name in ("run_backtest", "run_replay", "run_daily"):
         setattr(module, name, Mock(return_value=output))
+    module._display_fills = Mock(return_value=[])
     monkeypatch.setitem(sys.modules, module.__name__, module)
     monkeypatch.delenv("S18_KIT_PATH", raising=False)
     monkeypatch.delenv("S18_FORWARD_PATH", raising=False)
@@ -269,15 +270,20 @@ def test_invalid_parameters_fail_before_service(service, params):
     service.run_backtest.assert_not_called()
 
 
-def test_discover_contains_separate_s18_portfolio_tab(service):
+@pytest.mark.parametrize("page", ["discover_page", "strategies_page"])
+def test_s18_portfolio_remains_available_from_invest_desks(
+    service, page, tmp_path, monkeypatch
+):
+    monkeypatch.setenv("PORTFOLIO_DB_PATH", str(tmp_path / "s18-ui.sqlite3"))
     app = AppTest.from_string(
         "from ui.state import initialize_state\n"
-        "from ui.pages import discover_page\n"
+        f"from ui.pages import {page}\n"
         "initialize_state()\n"
-        "discover_page()\n"
+        f"{page}()\n"
     ).run(timeout=120)
     assert not app.exception
-    assert "S18 Portfolio" in [tab.label for tab in app.tabs]
+    app.radio(key="daily_strategy").set_value("S18 portfolios").run(timeout=120)
+    assert not app.exception
     assert app.selectbox(key="discover_s18_combo").value == "P15"
     assert app.selectbox(key="discover_s18_metal_mode").options == list(METAL_MODES)
     assert app.checkbox(key="discover_s18_persist").value is True

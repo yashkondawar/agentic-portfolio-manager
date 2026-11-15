@@ -18,11 +18,20 @@ from core.strategy import StrategyResult
 
 
 def page_header(title: str, description: str) -> None:
-    st.title(title)
-    st.caption(description)
+    with st.container(key="page_heading"):
+        st.title(title)
+        st.caption(description)
 
 
-def run_strategy(strategy_id: str, params: dict) -> StrategyResult:
+def run_strategy(strategy_id: str, params: dict) -> StrategyResult | None:
+    """Validate form inputs before starting or recording an execution."""
+    strategy = registry.get_strategy(strategy_id)
+    try:
+        params = strategy.coerce_params(params)
+    except (TypeError, ValueError) as exc:
+        st.error(f"Check the run inputs: {exc}")
+        return None
+
     started = time.perf_counter()
     with st.status(
         f"Running {strategy_id.replace('_', ' ')}...", expanded=True
@@ -99,7 +108,10 @@ def render_result(result: StrategyResult, *, heading: bool = True) -> None:
         if result.strategy_id == "s18_backtest" and result.data.get("blocked"):
             st.markdown(result.report)
             st.caption("Partial-period comparison only; the requested backtest did not complete.")
-            st.dataframe(pd.DataFrame(result.data.get("comparison") or []), width="stretch")
+            st.dataframe(
+                pd.DataFrame(result.data.get("comparison") or []),
+                use_container_width=True,
+            )
             _s18_entitlements(result.data)
             _render_downloads(result)
         return
@@ -1158,7 +1170,7 @@ def _render_gfs_live(data: dict) -> None:
             margin=dict(l=10, r=10, t=30, b=10),
             title="Book equity",
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True, theme=None)
 
     with st.expander(
         f"📒 Tradebook — {len(data.get('tradebook') or [])} closed trades"
@@ -1232,7 +1244,7 @@ def _render_backtest(data: dict) -> None:
             margin={"l": 10, "r": 10, "t": 30, "b": 10},
             yaxis_title="Portfolio value (₹)",
         )
-        st.plotly_chart(figure, use_container_width=True)
+        st.plotly_chart(figure, use_container_width=True, theme=None)
 
     trades = data.get("trades") or []
     if trades:
@@ -1415,6 +1427,7 @@ def render_s18_ledger_snapshot(
         st.plotly_chart(
             figure,
             use_container_width=True,
+            theme=None,
             key=f"s18_history_{book_id}_{combo}_{metal_mode}",
         )
 
@@ -1432,7 +1445,9 @@ def _s18_entitlements(data: dict) -> None:
                     "ex-date-or-later open, not as fractional market trades. Pending "
                     "values are non-cash NAV marks; payments and tax basis are approximations."
                 )
-                st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
+                st.dataframe(
+                    pd.DataFrame(rows), use_container_width=True, hide_index=True
+                )
 
 
 def _render_s18_daily_run(data: dict) -> None:
@@ -1494,8 +1509,11 @@ def _render_s18_daily_run(data: dict) -> None:
     if skipped:
         st.warning(f"{len(skipped)} buy(s) skipped because the budget could not cover a share.")
         st.dataframe(
-            pd.DataFrame(skipped)[["symbol", "tranche", "budget", "reference_price", "reason"]],
-            width="stretch", hide_index=True,
+            pd.DataFrame(skipped)[
+                ["symbol", "tranche", "budget", "reference_price", "reason"]
+            ],
+            use_container_width=True,
+            hide_index=True,
         )
     if not data.get("state_persisted") and readiness.get("status") == "ready":
         with st.expander("Preview instructions — not saved", expanded=False):
@@ -1581,7 +1599,9 @@ def _render_s18(data: dict) -> None:
     if data.get("comparison"):
         st.markdown("#### Whole-share sizing comparison")
         st.caption("Same inputs, dates and live rules; only share sizing differs.")
-        st.dataframe(pd.DataFrame(data["comparison"]), width="stretch", hide_index=True)
+        st.dataframe(
+            pd.DataFrame(data["comparison"]), use_container_width=True, hide_index=True
+        )
     _s18_entitlements(data)
 
     curve = pd.DataFrame(data.get("equity_curve") or [])
@@ -1625,7 +1645,7 @@ def _render_s18(data: dict) -> None:
                 margin={"l": 10, "r": 10, "t": 30, "b": 10},
                 yaxis_title="Model portfolio value (₹)",
             )
-            st.plotly_chart(figure, use_container_width=True)
+            st.plotly_chart(figure, use_container_width=True, theme=None)
         else:
             st.dataframe(curve, use_container_width=True, hide_index=True)
 

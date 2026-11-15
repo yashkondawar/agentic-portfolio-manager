@@ -97,19 +97,19 @@ def market_temperature_page() -> None:
 def _render_verdict(temp: MarketTemperature) -> None:
     st.markdown(
         f"""
-        <div style="
+        <div class="temperature-verdict" style="
             border-left: .5rem solid {temp.band.colour};
             background: {temp.band.colour}14;
             border-radius: .6rem;
             padding: 1.1rem 1.4rem;
             margin-bottom: .75rem;">
-          <div style="font-size:.8rem;letter-spacing:.09em;text-transform:uppercase;opacity:.7;">
+          <div class="temperature-context">
             {temp.market.label} &middot; as of {temp.asof.strftime('%d %b %Y')}
           </div>
-          <div style="font-size:2.3rem;font-weight:700;color:{temp.band.colour};line-height:1.15;">
+          <strong>
             {temp.band.label}
-          </div>
-          <div style="font-size:1.05rem;opacity:.85;">{temp.band.headline}</div>
+          </strong>
+          <div class="temperature-headline">{temp.band.headline}</div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -337,7 +337,7 @@ def _render_evidence(temp: MarketTemperature, horizon: int) -> None:
         yaxis_title=f"Median annualised return over next {horizon // 12}y (%)",
         showlegend=False,
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True, theme=None)
 
     worst = frame.loc[frame["Band"] == temp.band.label, "Worst"]
     if not worst.empty:
@@ -416,7 +416,7 @@ def _render_history(temp: MarketTemperature) -> None:
         showlegend=False,
         hovermode="x unified",
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True, theme=None)
 
     legend = " ".join(
         f"<span style='background:{TEMPERATURE_BANDS[k].colour}2e;"
@@ -426,7 +426,8 @@ def _render_history(temp: MarketTemperature) -> None:
         for k in ("cold", "cool", "warm", "hot")
     )
     st.markdown(
-        legend + "<span style='opacity:.6;margin-left:.4rem;'>unshaded = neutral</span>",
+        legend
+        + "<span class='temperature-legend' style='margin-left:.4rem;'>unshaded = neutral</span>",
         unsafe_allow_html=True,
     )
 

@@ -25,6 +25,7 @@ and run them uniformly.
 | `portfolio_analysis`| Holistic portfolio review + rebalancing | portfolio |
 | `watchlist_curation`| Universe screening + LLM curation | watchlist |
 | `qtr_results`       | Quarterly-results momentum + tracked exits | swing |
+| `gfs_live`         | GFS multi-timeframe daily paper book and next-open queue | swing |
 | `swing_backtest`    | Point-in-time validation of the swing playbook | backtest |
 | `breakout_ath_backtest` | Trail-only all-time-high breakout sleeve | backtest |
 | `s18_backtest`     | One fixed S18 combo and metal mode over a selected period | backtest |
@@ -82,12 +83,23 @@ return guarantee.
 
 ### S18 strategy portfolio
 
-**Discover → S18 Portfolio** shows the saved portfolio at the top: value,
+**Invest → All portfolios** shows every saved strategy book, including every S18
+portfolio ID/combo/metal-mode selection, with value, cash, P&L, holdings and
+order actions visible without expanding a panel. **Invest → Daily strategies → S18 portfolios**
+opens the selected saved portfolio at the top: value,
 cash, holdings, P&L, next-session instructions and expandable trade/history views.
 Run **S18 Daily** below it; the current/latest run appears at the bottom.
 Successful saved runs refresh the portfolio immediately. Previews and failures
 never replace committed holdings. Fills remain strategy-modelled, not broker-synced.
-**Backtest Lab → S18 Backtest** runs one selected combo over a period;
+Book links carry the saved initial capital as well as portfolio ID, combo and
+metal mode; capital is immutable after a book starts. Whole-share S18 books show
+quantity units, last-close sizing estimates, cash requirements and fractional
+cash-in-lieu entitlements. Zero-quantity buys are excluded from actionable counts.
+The detailed S18 desk retains automatic 30-second and manual read-only refresh,
+risk-off explanations, recorded fills, diagnostics and artifact downloads.
+Completed-with-warnings runs count as completed in workspace activity but retain
+their warnings and deferred-work explanations in the strategy report.
+**Manage → Backtests → S18 Backtest** runs one selected combo over a period;
 **S18 Golden Replay** validates all five fixed combos (`P5`, `P10`, `P15`,
 `P20`, `A20`) and three metal modes (`none`, `both`, `both_priority`) against
 the golden references stored in the app's SQLite database, covering all
@@ -153,7 +165,7 @@ The concrete implementation modules (`agents/`, `scraper/`, `zerodha/`,
 `backtesting/`, `main.py`, `swing_trading_copilot.py`, …) remain separate and are
 wrapped — not replaced — by the strategy layer.
 
-## Trader Workbench
+## Portfolio workbench
 
 Run the complete local interface with:
 
@@ -161,26 +173,75 @@ Run the complete local interface with:
 uv run streamlit run app.py
 ```
 
-The workbench is organized around a trader's workflow rather than individual
-scripts:
+The Meridian interface uses a prominent, full-width Research / Invest / Manage
+switch and a focused navigation rail for the selected workspace. Switching sections
+changes the tools in the rail, which collapses into a drawer on small screens:
 
-| Page | Purpose |
-|------|---------|
-| Dashboard | Shared idea basket, readiness, and recent persisted runs |
-| Discover Ideas | Watchlist screening, quarterly catalysts, GFS/ATH books and S18 Portfolio |
-| Stock Research | Parallel specialist agents or sequential supervisor |
-| Market Temperature | Long-horizon read on whether an index is unusually cheap or expensive, used to pace new-money deployment |
-| Swing Desk | Manage open swing positions and evaluate new entries |
-| Portfolio Review | Concentration, risk, conviction, and rebalancing review |
-| Backtest Lab | Historical metrics, equity curves and trade logs; S18 backtest and golden replay |
-| Broker & Holdings | Read-only Zerodha holdings, positions, margins, and orders |
-| Automation & Schedules | Daily unattended runs, their parameters, and scheduler health |
-| Settings & Catalog | Integration setup and every strategy parameter |
+| Main tab | Workspaces |
+|----------|------------|
+| **Research** | Overview and session shortlist, stock research agents, Market Temperature, Kronos Forecast Lab, watchlist screening |
+| **Invest** | All strategy portfolios, daily GFS/ATH/quarterly-results/S18 runs, swing desk, rebalancing, read-only broker holdings |
+| **Manage** | Scheduler health and run activity, backtests and golden replays, schedules, saved run history, settings and integrations |
+
+Research opens with task cards, stored market context, a session shortlist and a
+report library. The shortlist lasts for the current browser session; it is not
+a saved portfolio or a list shared between users. Research forms separate the
+editable brief from strategy guidance, with compact fields paired where space
+permits.
+
+**Invest opens on all portfolios**, not a single-book selector. A summary table
+and expanded portfolio cards show each book's amount, net P&L, cash, holdings,
+and order actions. GFS blocked signals remain visible but are excluded from
+action counts. ATH buys remain suggestions awaiting manual fill confirmation;
+S18 instructions remain model outputs. Quarterly-results activity is labeled
+as historical, already applied to the ledger, not a pending order queue.
+Broker holdings and discretionary reviews are separate from strategy capital.
+
+Overview pages read saved data without running agents, fetching quotes, advancing
+a portfolio or seeding schedules. Missing portfolios show **Not started**, and
+read failures show **Unavailable**, never invented balances. Saved close dates,
+stale-book warnings, and price limitations stay visible. Failed or preview runs
+cannot replace committed holdings. Quarterly-ledger save timestamps are not
+represented as quote timestamps.
+ATH still uses its existing checkout-local state file: an empty worktree shows
+**No local snapshot**, not a claim that a sleeve running in another checkout
+has no portfolio. No replacement book is created automatically.
+
+Charts use available stored index prices, per-book NAV/drawdowns and actual
+30-day run counts; there is no simulated fallback or invented benchmark.
+Drawdown is calculated from the peak in available saved history before applying
+the selected viewing window. All run forms, advanced parameters, tradebooks,
+reports and downloads remain available in their focused desks. The theme is
+configured in `.streamlit/config.toml` with shared UI styles in `ui/meridian.css`.
+Typography uses a local system-font stack, 16px body text and 14px supporting
+text, with darker secondary colours and no caption-opacity reduction. Chart
+labels and financial tables use the same readable supporting-text scale.
+This is a presentation-layer redesign, not a database migration or a change to
+investment execution. It does not add subscription billing, authentication or
+tenant isolation; those remain separate requirements for a hosted product.
+
+**Hosted-product direction:** authenticated users should have the same
+Research / Invest / Manage navigation and components, populated with their own
+portfolios, watchlists, reports, run history, schedules, preferences and broker
+connections. The rail's workspace identity area is the intended home for account
+identity and account controls. Empty states should guide each new user through
+their own setup rather than assume that another user's portfolios exist.
+
+The future cloud backend must enforce user/workspace ownership on every read,
+write, artifact download and background job, including account-scoped caches and
+integration credentials. Browser session state and UI filters are not access
+controls. Shared market datasets must be distinguished from private account data.
+These are requirements for the hosted implementation, not capabilities of the
+current local SQLite application; switching databases alone does not provide
+multi-user isolation.
 
 Forms are generated from each strategy's `ParamSpec`, so new registered
 strategies and parameters become discoverable without adding another CLI-only
-workflow. Reports and structured data can be downloaded, and sanitized run
-history is stored in the local SQLite database described below.
+workflow. Parallel stock research requires at least one NSE symbol; the session
+shortlist prefills the editable symbol field. Invalid run inputs are shown on
+the page before execution, without starting agents or saving a failed run.
+Reports and structured data can be downloaded, and sanitized run history is
+stored in the local SQLite database described below.
 
 ### Automation & Schedules
 
@@ -196,15 +257,16 @@ uv run python -m core.scheduler list           # inspect the configured jobs
 uv run python -m core.scheduler once           # fire whatever is due, then exit
 ```
 
-Defaults, seeded on first use and editable on the **Automation & Schedules**
+Defaults, seeded on first use and editable on the **Manage → Schedules**
 page: `gfs_live` at 17:30 IST Mon-Fri, `qtr_results` at 19:30 IST daily, plus an
 optional 08:15 pre-open pass that ships disabled.
 S18 adds no default schedule; paper runs remain explicitly requested unless
 you separately create a schedule after validation.
 
 Every scheduled run is written to the run history, so opening the app in the
-morning shows last night's report without re-running anything. A run button on
-every page still forces a fresh run at any time.
+morning shows last night's report without re-running anything. Open the focused
+strategy desk and enable **Configure and run a daily update** for a fresh run;
+S18 retains its own daily form below the saved portfolio.
 
 **Adding a strategy needs no restart.** A running daemon watches `strategies/`,
 `core/`, `backtesting/`, `scraper/`, `qtr_results/`, `gfs/`, `agents/` and `.env`;
@@ -274,6 +336,28 @@ authoritative mutable state; run and artifact history is still only appended.
 Inspect or edit the database directly with `sqlite3` or a desktop
 tool such as DB Browser for SQLite. Explicit CLI output paths remain available
 as exports; they are no longer the primary store.
+
+### Updating an existing installation
+
+This UI redesign uses the existing database schema and storage paths. **No
+database migration, import, reset, or re-seeding is required.** In particular,
+do not run `migrate --replace-state` as part of this update.
+
+Before deploying, take a consistent SQLite backup (using SQLite's online backup
+facility, or with all app/scheduler processes stopped). Preserve the production
+checkout's `.env`, database, and checkout-local ATH JSON state. Pull the merged
+code into that same checkout, then restart the app and installed scheduler using
+their existing environment and launch commands.
+
+The existing `PORTFOLIO_DB_PATH` override takes precedence over
+`TRADER_WORKBENCH_DB`; otherwise the same OS-user default is used. Relative
+overrides remain relative to the working directory. Running under a different
+user, checkout, or environment can therefore open a different database rather
+than the production one. Run `python -m core.storage path` with the production
+interpreter before and after the update to confirm the same resolved file.
+Saved books, run reports, artifacts, defaults, and schedules remain in place.
+Opening the dashboards does not run strategies; an enabled scheduler retains
+its existing automatic execution behavior.
 
 **Trading safety:** the UI is decision-support only. Zerodha integration can
 authenticate and read account data, and research can show proposed orders, but
@@ -735,9 +819,19 @@ For support and questions:
    - If the install itself fails to download, fix the index first (item 8).
    - Check where it actually landed:
      ```powershell
-     uv run python -c "import copilot; print(copilot.__file__)"
+     uv run --extra copilot python -c "import sys, copilot; print(sys.executable); print(copilot.__file__)"
      ```
-     The path must sit inside this repo's `.venv`.
+     Both paths must sit inside this repo's `.venv`.
+   - **Restart the app using that same environment.** Installing the extra
+     does not update an already-running Streamlit process or change the
+     interpreter selected by a bare `python` / `streamlit` command:
+     ```powershell
+     uv run --extra copilot python -m streamlit run app.py
+     ```
+     On Windows, you can also launch the installed environment directly with
+     `.\.venv\Scripts\python.exe -m streamlit run app.py`. This is particularly
+     important from an Anaconda prompt, where a bare `python` can still point
+     to `(base)` even after `uv sync` succeeds.
    - The scheduler daemon may run under a **different interpreter** than the
      dashboard. If a scheduled run fails while the UI works, install the extra
      into that interpreter too.

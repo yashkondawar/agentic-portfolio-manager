@@ -1,0 +1,7 @@
+[theme]
+base = "light"
+primaryColor = "#087f5b"
+backgroundColor = "#f5f7f6"
+secondaryBackgroundColor = "#ffffff"
+textColor = "#08120f"
+font = "Segoe UI, system-ui, sans-serif"

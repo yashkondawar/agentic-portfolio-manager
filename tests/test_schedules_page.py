@@ -52,3 +52,23 @@ def test_a_new_schedule_can_be_created_from_the_form(app):
     assert created[0].strategy_id == "qtr_results"
     # Strategy defaults are baked in, so the daemon runs it the same way the UI would.
     assert created[0].params
+
+
+@pytest.mark.parametrize("symbols", ["", "  , "])
+def test_research_schedule_rejects_empty_symbols_without_crashing(app, symbols):
+    before = {item.id for item in schedules.list_schedules()}
+    app.selectbox(key="sched_strategy_new").set_value("parallel_agents").run()
+    app.text_input(key="sched_form_new_parallel_agents_symbols").set_value(symbols)
+    next(b for b in app.button if b.label == "Save schedule").click().run()
+
+    assert not app.exception
+    assert any("symbols" in error.value.lower() for error in app.error)
+    assert {item.id for item in schedules.list_schedules()} == before
+
+    app.text_input(key="sched_form_new_parallel_agents_symbols").set_value("tcs, infy")
+    next(b for b in app.button if b.label == "Save schedule").click().run()
+    assert not app.exception
+    assert not app.error
+    created = [item for item in schedules.list_schedules() if item.id not in before]
+    assert len(created) == 1
+    assert created[0].params["symbols"] == ["TCS", "INFY"]
